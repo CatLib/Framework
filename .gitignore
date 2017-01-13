@@ -1,0 +1,6 @@
+/Library/*
+/obj/*
+/Temp/*
+/*.csproj
+/*.sln
+/Assets/Release/*
