@@ -99,7 +99,7 @@ namespace CatLib.Tool{
 			}
 
 			AssetImporter assetImporter = AssetImporter.GetAtPath("Assets/" + CCreateAssetBundles.RESOURCES_BUILD_PATH + assetName + "/" + baseFileName + extension);
-			assetImporter.assetBundleName = assetName;
+			assetImporter.assetBundleName = assetName + ".hot";
 			if(variantName != string.Empty){
 
 				assetImporter.assetBundleVariant = variantName;
