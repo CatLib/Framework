@@ -4,6 +4,7 @@ using UnityEngine;
 using CatLib.Exception;
 using CatLib.FileSystem;
 using System.IO;
+using CatLib.UpdateSystem;
 
 namespace CatLib.Tool{
 
@@ -31,10 +32,13 @@ namespace CatLib.Tool{
 			CCreateAssetBundles.ClearAssetBundle();
 			CCreateAssetBundles.BuildAssetBundleName(CEnv.DataPath + CCreateAssetBundles.RESOURCES_BUILD_PATH);
 
-			CDirectory.CreateDir(CEnv.DataPath + CCreateAssetBundles.RELEASE_PATH + platform , CDirectory.Operations.EXISTS_TO_DELETE);
+			string releasePath = CEnv.DataPath + CCreateAssetBundles.RELEASE_PATH + platform;
+			CDirectory.CreateDir(releasePath , CDirectory.Operations.EXISTS_TO_DELETE);
 			BuildPipeline.BuildAssetBundles("Assets/" + CCreateAssetBundles.RELEASE_PATH + platform, 
 												BuildAssetBundleOptions.None , 
 												CCreateAssetBundles.PlatformToBuildTarget(switchPlatform));
+
+			CCreateAssetBundles.BuildListFile(releasePath);
 
 			AssetDatabase.Refresh();
 		}
@@ -70,6 +74,12 @@ namespace CatLib.Tool{
 
 		}
 
+		/// <summary>
+		/// 编译文件AssetBundle名字
+		/// </summary>
+		/// <param name="file">文件信息</param>
+		/// <param name="basePath">基础路径</param>
+
 		protected static void BuildFileBundleName(FileSystemInfo file , string basePath){
 
 			string extension = file.Extension;
@@ -96,6 +106,24 @@ namespace CatLib.Tool{
 
 			}
 
+		}
+
+		/// <summary>
+		/// 编译列表文件
+		/// </summary>
+		/// <param name="path">路径</param>
+		protected static void BuildListFile(string path){
+
+			CUpdateList lst = new CUpdateList(path);
+			path.Walk((file)=>{
+
+				string fullName = file.Standard();
+				string assetName = fullName.Substring(path.Length);
+				lst.Append(assetName , CMD5.ParseFile(file) , file.Length);
+
+			});
+			lst.Close();
+			
 		}
 
 		/// <summary>

@@ -53,7 +53,7 @@ namespace CatLib.FileSystem{
 		/// <summary>
 		/// 遍历文件夹中的所有文件
 		/// </summary>
-		public static void Walk(this string path , Action<FileSystemInfo> callBack){
+		public static void Walk(this string path , Action<FileInfo> callBack){
 
 			DirectoryInfo folder = new DirectoryInfo(path);
 			FileSystemInfo[] files = folder.GetFileSystemInfos();
@@ -66,7 +66,7 @@ namespace CatLib.FileSystem{
 
 				}else{
 
-					callBack(files[i]);
+					callBack(new FileInfo(files[i].FullName));
 
 				}
 
