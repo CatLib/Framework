@@ -14,7 +14,7 @@ namespace CatLib.Support
 		/// </summary>
 		public static string StreamingAssetsPath{
 
-			get{ return Application.streamingAssetsPath + "/"; }
+			get{ return Application.streamingAssetsPath; }
 
 		}
 
@@ -23,7 +23,7 @@ namespace CatLib.Support
 		/// </summary>
 		public static string DataPath{
 
-			get{ return Application.dataPath + "/"; }
+			get{ return Application.dataPath; }
 
 		}
 
@@ -34,11 +34,25 @@ namespace CatLib.Support
 
 			get{
 
-				return Application.persistentDataPath + "/";
+				return Application.persistentDataPath;
 
 			}
 			
 		}
+
+        /// <summary>
+        /// 热更新系统资源的下载路径
+        /// </summary>
+        public static string AssetPath
+        {
+
+            get
+            {
+                return CEnv.PersistentDataPath + "/" + "Asset";
+
+            }
+
+        }
 
 		/// <summary>
 		/// 当前运行的平台(和编辑器所在平台有关)

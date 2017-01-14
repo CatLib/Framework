@@ -55,7 +55,7 @@ namespace CatLib.FileSystem{
 		/// </summary>
 		public static void Walk(this string path , Action<FileInfo> callBack){
 
-			DirectoryInfo folder = new DirectoryInfo(path);
+            DirectoryInfo folder = new DirectoryInfo(path);
 			FileSystemInfo[] files = folder.GetFileSystemInfos();
 			int length = files.Length;
 			for (int i = 0; i < length; i++) {

@@ -7,6 +7,27 @@ namespace CatLib.FileSystem{
 	/// </summary>
 	public static class CFile{
 
+        public static void Delete(this string path)
+        {
+            File.Delete(path);
+        }
+
+        public static bool Exists(this string path)
+        {
+
+            return File.Exists(path);
+
+        }
+
+        public static void Cover(this string path , byte[] array, int offset, int count)
+        {
+            using (FileStream fs = File.Create(path))
+            {
+                fs.Write(array, offset, count);
+                fs.Close();
+            }
+        }
+
 		/// <summary>
 		/// 标准化路径
 		/// </summary>

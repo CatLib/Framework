@@ -6,19 +6,19 @@ using CatLib.FileSystem;
 using System.IO;
 using CatLib.UpdateSystem;
 
-namespace CatLib.Tool{
+namespace CatLib.UpdateSystem{
 
 	public class CCreateAssetBundles{
 
 		/// <summary>
 		/// 编译完成后发布AssetBundle的路径
 		/// </summary>
-		protected const string RELEASE_PATH = "Release/";
+		protected const string RELEASE_PATH = "/Release";
 
 		/// <summary>
 		/// 需要编译成AssetBundle的资源包路径
 		/// </summary>
-		protected const string RESOURCES_BUILD_PATH =  "ResourcesBuild/";
+		protected const string RESOURCES_BUILD_PATH =  "/ResourcesBuild";
 
 		/// <summary>
 		/// 编译Asset Bundle
@@ -32,9 +32,9 @@ namespace CatLib.Tool{
 			CCreateAssetBundles.ClearAssetBundle();
 			CCreateAssetBundles.BuildAssetBundleName(CEnv.DataPath + CCreateAssetBundles.RESOURCES_BUILD_PATH);
 
-			string releasePath = CEnv.DataPath + CCreateAssetBundles.RELEASE_PATH + platform;
+			string releasePath = CEnv.DataPath + CCreateAssetBundles.RELEASE_PATH + "/" + platform;
 			CDirectory.CreateDir(releasePath , CDirectory.Operations.EXISTS_TO_DELETE);
-			BuildPipeline.BuildAssetBundles("Assets/" + CCreateAssetBundles.RELEASE_PATH + platform, 
+			BuildPipeline.BuildAssetBundles("Assets" + CCreateAssetBundles.RELEASE_PATH + "/" + platform, 
 												BuildAssetBundleOptions.None , 
 												CCreateAssetBundles.PlatformToBuildTarget(switchPlatform));
 
@@ -98,8 +98,8 @@ namespace CatLib.Tool{
 
 			}
 
-			AssetImporter assetImporter = AssetImporter.GetAtPath("Assets/" + CCreateAssetBundles.RESOURCES_BUILD_PATH + assetName + "/" + baseFileName + extension);
-			assetImporter.assetBundleName = assetName;
+			AssetImporter assetImporter = AssetImporter.GetAtPath("Assets" + CCreateAssetBundles.RESOURCES_BUILD_PATH + assetName + "/" + baseFileName + extension);
+			assetImporter.assetBundleName = assetName.TrimStart('/');
 			if(variantName != string.Empty){
 
 				assetImporter.assetBundleVariant = variantName;
@@ -117,12 +117,15 @@ namespace CatLib.Tool{
 			CUpdateList lst = new CUpdateList(path);
 			path.Walk((file)=>{
 
-				string fullName = file.Standard();
-				string assetName = fullName.Substring(path.Length);
-				lst.Append(assetName , CMD5.ParseFile(file) , file.Length);
+                if (!file.Standard().EndsWith(".meta"))
+                {
+                    string fullName = file.Standard();
+                    string assetName = fullName.Substring(path.Length);
+                    lst.Append(assetName, CMD5.ParseFile(file), file.Length);
+                }
 
 			});
-			lst.Close();
+			lst.Save();
 			
 		}
 
