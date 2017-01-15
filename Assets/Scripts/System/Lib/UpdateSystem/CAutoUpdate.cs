@@ -3,16 +3,17 @@ using System.Collections;
 using CatLib.Base;
 using CatLib.Support;
 using CatLib.FileSystem;
+using CatLib.ResourcesSystem;
 
 namespace CatLib.UpdateSystem
 {
 
-    public class CUpdateManager : CManagerBase
+    public class CAutoUpdate : CManagerBase
     {
 
-        protected static CUpdateManager instance;
+        protected static CAutoUpdate instance;
 
-        public static CUpdateManager Instance
+        public static CAutoUpdate Instance
         {
             get
             {
@@ -46,6 +47,8 @@ namespace CatLib.UpdateSystem
 
             ON_UPDATE_FILE_FAILD = 10,
 
+            ON_UPDATE_COMPLETE = 11,
+
         }
 
         protected bool isUpdate;
@@ -55,7 +58,21 @@ namespace CatLib.UpdateSystem
             instance = this;
             base.Awake();
 
+            #region this is test code
+
+            base.Event.RegEvent(this, Events.ON_UPDATE_COMPLETE, () =>
+            {
+                CResources.Instance.Load<GameObject>("haha");
+            });
+
+            #endregion
+        }
+
+        public void Start()
+        {
+            #region this is test code
             this.UpdateAsset("http://pvp.oss-cn-shanghai.aliyuncs.com");
+            #endregion
         }
 
         /// <summary>
@@ -116,6 +133,8 @@ namespace CatLib.UpdateSystem
             yield return this.UpdateAssetFromUrl(needUpdateLst, resUrl);
 
             newLst.Save();
+
+            base.Event.CallEvent(Events.ON_UPDATE_COMPLETE);
 
         }
 

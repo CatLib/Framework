@@ -105,7 +105,7 @@ namespace CatLib.UpdateSystem{
 
             foreach(CUpdateListField old in this)
             {
-                if(newLst.FindPk(old.Path) == null)
+                if(newLst.FindPk(old.Path) == null && old.Path != "/" + CUpdateList.FILE_NAME)
                 {
                     needDelete.Append(old);
                 }
