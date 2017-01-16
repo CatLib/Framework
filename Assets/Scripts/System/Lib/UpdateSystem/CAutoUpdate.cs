@@ -62,10 +62,22 @@ namespace CatLib.UpdateSystem
 
             base.Event.RegEvent(this, Events.ON_UPDATE_COMPLETE, () =>
             {
-                CResources.Instance.Load<GameObject>("haha");
+                base.StartCoroutine(this.test());
             });
 
             #endregion
+        }
+
+        protected IEnumerator test()
+        {
+            yield return CResources.Instance.LoadAsyn<GameObject>("prefab/asset5/dep-prefab", (data) => {
+
+                GameObject.Instantiate(data);
+                Debug.Log("hello");
+            });
+
+            Debug.Log("world");
+
         }
 
         public void Start()

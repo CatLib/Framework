@@ -70,10 +70,7 @@ namespace CatLib.Base
         public static TV[] ToArray<TK, TV>(this System.Collections.Generic.Dictionary<TK, TV> datas)
         {
             List<TV> returnList = new List<TV>();
-            foreach (KeyValuePair<TK, TV> data in datas)
-            {
-                returnList.Add(data.Value);
-            }
+            returnList.AddRange(datas.Values);
             return returnList.ToArray();
         }
 
