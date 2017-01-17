@@ -19,7 +19,7 @@ public class CProgram : CComponentBase {
     }
 
     /// <summary>
-    /// 程序的服务提供商
+    /// 引导程序
     /// </summary>
     protected Type[] BootStrap
     {
