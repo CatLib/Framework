@@ -4,7 +4,7 @@ using System;
 namespace CatLib.Base
 {
     /// <summary>类型转换拓展方法</summary>
-    public static class CTypeConversionExpand
+    public static class TypeConversionExpand
     {
 
         /// <summary>字符串转Byte</summary>

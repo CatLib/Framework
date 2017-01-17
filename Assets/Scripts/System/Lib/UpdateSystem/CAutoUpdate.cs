@@ -4,6 +4,7 @@ using CatLib.Base;
 using CatLib.Support;
 using CatLib.FileSystem;
 using CatLib.ResourcesSystem;
+using CatLib.Container;
 
 namespace CatLib.UpdateSystem
 {
@@ -11,19 +12,8 @@ namespace CatLib.UpdateSystem
     public class CAutoUpdate : CManagerBase
     {
 
-        protected static CAutoUpdate instance;
-
-        public static CAutoUpdate Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    throw new CNullReferenceException("update manager not instance");
-                }
-                return instance;
-            }
-        }
+        [CDependency]
+        public CApplication Application { get; set; }
 
         public enum Events {
 
@@ -53,40 +43,13 @@ namespace CatLib.UpdateSystem
 
         protected bool isUpdate;
 
-        public override void Awake()
-        {
-            instance = this;
-            base.Awake();
-
-            #region this is test code
-
-            base.Event.RegEvent(this, Events.ON_UPDATE_COMPLETE, () =>
-            {
-                base.StartCoroutine(this.test());
-            });
-
-            #endregion
-        }
-
-        protected IEnumerator test()
-        {
-            yield return CResources.Instance.LoadAsyn<GameObject>("prefab/asset5/dep-prefab", (data) => {
-
-                GameObject.Instantiate(data);
-                Debug.Log("hello");
-            });
-
-            Debug.Log("world");
-
-        }
-
         public void Start()
         {
             #region this is test code
             this.UpdateAsset("http://pvp.oss-cn-shanghai.aliyuncs.com");
             #endregion
         }
-
+        
         /// <summary>
         /// 请求更新资源文件
         /// </summary>
@@ -94,7 +57,7 @@ namespace CatLib.UpdateSystem
         {
             if (this.isUpdate) { return false; }
             this.isUpdate = true;
-            base.StartCoroutine(this.UpdateList(resUrl));
+            Application.StartCoroutine(this.UpdateList(resUrl));
             return true;
 
         }
@@ -112,11 +75,11 @@ namespace CatLib.UpdateSystem
             if (www.text == string.Empty || !string.IsNullOrEmpty(www.error))
             {
                 this.isUpdate = false;
-                base.Event.CallEvent(Events.ON_UPDATE_LIST_FAILED);
+                base.Event.Trigger(Events.ON_UPDATE_LIST_FAILED);
                 yield break;
             }
 
-            base.Event.CallEvent(Events.ON_SCANNING_DISK_FILE_HASH_START);
+            base.Event.Trigger(Events.ON_SCANNING_DISK_FILE_HASH_START);
 
             var newLst = new CUpdateList(www).SetPath(CEnv.AssetPath);
 
@@ -135,7 +98,7 @@ namespace CatLib.UpdateSystem
 
             });
 
-            base.Event.CallEvent(Events.ON_SCANNING_DISK_FILE_HASH_END);
+            base.Event.Trigger(Events.ON_SCANNING_DISK_FILE_HASH_END);
 
             CUpdateList needUpdateLst, needDeleteLst;
             oldLst.Comparison(newLst, out needUpdateLst, out needDeleteLst);
@@ -146,13 +109,13 @@ namespace CatLib.UpdateSystem
 
             newLst.Save();
 
-            base.Event.CallEvent(Events.ON_UPDATE_COMPLETE);
+            base.Event.Trigger(Events.ON_UPDATE_COMPLETE);
 
         }
 
         protected IEnumerator DeleteOldAsset(CUpdateList needDeleteLst)
         {
-            base.Event.CallEvent(Events.ON_DELETE_DISK_OLD_FILE_START);
+            base.Event.Trigger(Events.ON_DELETE_DISK_OLD_FILE_START);
 
             string filePath;
             foreach (CUpdateListField field in needDeleteLst)
@@ -160,7 +123,7 @@ namespace CatLib.UpdateSystem
                 filePath = CEnv.AssetPath + field.Path;
                 if (filePath.Exists())
                 {
-                    base.Event.CallEvent(Events.ON_DELETE_DISK_OLD_FIELD_ACTION);
+                    base.Event.Trigger(Events.ON_DELETE_DISK_OLD_FIELD_ACTION);
                     filePath.Delete();
                 }
 
@@ -168,7 +131,7 @@ namespace CatLib.UpdateSystem
 
             yield return null;
 
-            base.Event.CallEvent(Events.ON_DELETE_DISK_OLD_FILE_END);
+            base.Event.Trigger(Events.ON_DELETE_DISK_OLD_FILE_END);
 
         }
 
@@ -176,7 +139,7 @@ namespace CatLib.UpdateSystem
         {
 
             string savePath, downloadPath, saveDir;
-            base.Event.CallEvent(Events.ON_UPDATE_FILE_START);
+            base.Event.Trigger(Events.ON_UPDATE_FILE_START);
             foreach (CUpdateListField field in needUpdateLst)
             {
                 downloadPath = downloadUrl + field.Path;
@@ -184,13 +147,13 @@ namespace CatLib.UpdateSystem
 
                 saveDir = savePath.Substring(0, savePath.LastIndexOf('/'));
 
-                base.Event.CallEvent(Events.ON_UPDATE_FILE_ACTION);
+                base.Event.Trigger(Events.ON_UPDATE_FILE_ACTION);
                 using (WWW www = new WWW(downloadPath))
                 {
                     yield return www;
                     if (!string.IsNullOrEmpty(www.error))
                     {
-                        base.Event.CallEvent(Events.ON_UPDATE_FILE_FAILD);
+                        base.Event.Trigger(Events.ON_UPDATE_FILE_FAILD);
                         yield break;
                     }
                     CDirectory.CreateDir(saveDir);
@@ -199,7 +162,7 @@ namespace CatLib.UpdateSystem
 
             }
 
-            base.Event.CallEvent(Events.ON_UPDATE_FILE_END);
+            base.Event.Trigger(Events.ON_UPDATE_FILE_END);
 
         }
     }

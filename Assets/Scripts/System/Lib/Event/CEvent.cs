@@ -12,7 +12,7 @@ namespace CatLib.Event
     /// <summary>事件机制</summary>
     public class CEvent
     {
-
+ 
         #region 基础事件机制
 
         /// <summary>事件</summary>
@@ -20,30 +20,30 @@ namespace CatLib.Event
 
         /// <summary>调用事件</summary>
         /// <param name="id">事件ID</param>
-        public void CallEvent(int id)
+        public void Trigger(int id)
         {
-            this.CallEvent(id, null);
+            this.Trigger(id, null);
         }
 
         /// <summary>调用事件</summary>
         /// <param name="id">事件ID</param>
-        public void CallEvent(System.Enum id)
+        public void Trigger(System.Enum id)
         {
-            this.CallEvent(id.ToInt(), null);
-        }
-
-        /// <summary>调用事件</summary>
-        /// <param name="id">事件ID</param>
-        /// <param name="dData">参数</param>
-        public void CallEvent(System.Enum id, object dData)
-        {
-            this.CallEvent(id.ToInt(), dData);
+            this.Trigger(id.ToInt(), null);
         }
 
         /// <summary>调用事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="dData">参数</param>
-        public void CallEvent(int id, object dData)
+        public void Trigger(System.Enum id, object dData)
+        {
+            this.Trigger(id.ToInt(), dData);
+        }
+
+        /// <summary>调用事件</summary>
+        /// <param name="id">事件ID</param>
+        /// <param name="dData">参数</param>
+        public void Trigger(int id, object dData)
         {
             foreach (CEventData data in this._events.ToArray())
             {
@@ -54,7 +54,7 @@ namespace CatLib.Event
         /// <summary>注册事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">方法</param>
-        public void RegEvent(int id, System.Action func)
+        public void On(int id, System.Action func)
         {
             this._events.Add(new CEventData(id, func));
         }
@@ -62,7 +62,7 @@ namespace CatLib.Event
         /// <summary>注册事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">方法</param>
-        public void RegEvent(System.Enum id, System.Action func)
+        public void On(System.Enum id, System.Action func)
         {
             this._events.Add(new CEventData(id.ToInt(), func));
         }
@@ -70,7 +70,7 @@ namespace CatLib.Event
         /// <summary>注册事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">方法</param>
-        public void RegEvent(int id, System.Action<object> func)
+        public void On(int id, System.Action<object> func)
         {
             this._events.Add(new CEventData(id, func));
         }
@@ -78,7 +78,7 @@ namespace CatLib.Event
         /// <summary>注册事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">方法</param>
-        public void RegEvent(System.Enum id, System.Action<object> func)
+        public void On(System.Enum id, System.Action<object> func)
         {
             this._events.Add(new CEventData(id.ToInt(), func));
         }
@@ -86,15 +86,15 @@ namespace CatLib.Event
         /// <summary>移除事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">事件</param>
-        public void RemoveEvent(System.Enum id, System.Action func)
+        public void Off(System.Enum id, System.Action func)
         {
-            this.RemoveEvent(id.ToInt(), func);
+            this.Off(id.ToInt(), func);
         }
 
         /// <summary>移除事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">事件</param>
-        public void RemoveEvent(int id, System.Action func)
+        public void Off(int id, System.Action func)
         {
             if (func == null) { return; }
             foreach (CEventData data in this._events.ToArray())
@@ -108,7 +108,7 @@ namespace CatLib.Event
 
         /// <summary>移除事件</summary>
         /// <param name="id">事件ID</param>
-        public void RemoveEvent(int id)
+        public void Off(int id)
         {
             foreach (CEventData data in this._events.ToArray())
             {
@@ -122,15 +122,15 @@ namespace CatLib.Event
         /// <summary>移除事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">事件</param>
-        public void RemoveEvent(System.Enum id, System.Action<object> func)
+        public void Off(System.Enum id, System.Action<object> func)
         {
-            this.RemoveEvent(id.ToInt(), func);
+            this.Off(id.ToInt(), func);
         }
 
         /// <summary>移除事件</summary>
         /// <param name="id">事件ID</param>
         /// <param name="func">事件</param>
-        public void RemoveEvent(int id, System.Action<object> func)
+        public void Off(int id, System.Action<object> func)
         {
             if (func == null) { return; }
             foreach (CEventData data in this._events.ToArray())
@@ -142,30 +142,8 @@ namespace CatLib.Event
             }
         }
 
-        /// <summary>获取事件响应数量</summary>
-        /// <param name="id">事件ID</param>
-        public int GetEventNum(System.Enum id)
-        {
-            return this.GetEventNum(id.ToInt());
-        }
-
-        /// <summary>获取事件响应数量</summary>
-        /// <param name="id">事件ID</param>
-        public int GetEventNum(int id)
-        {
-            int num = 0;
-            foreach (CEventData data in this._events.ToArray())
-            {
-                if (data.ID == id && (data.Event != null || data.EventObject != null))
-                {
-                    num++;
-                }
-            }
-            return num;
-        }
-
         /// <summary>移除全部注册到当前组件的事件</summary>
-        public void RemoveAllEvent()
+        public void Off()
         {
             this._events.Clear();
         }
@@ -226,19 +204,19 @@ namespace CatLib.Event
         /// <param name="cls">需要注册的接口</param>
         /// <param name="actionID">枚举</param>
         /// <param name="action">事件函数</param>
-        public void RegEvent(IEvent cls, System.Enum actionID, System.Action action)
+        public void On(IEvent cls, System.Enum actionID, System.Action action)
         {
-            this.RegEvent(cls, actionID.ToInt(), action);
+            this.On(cls, actionID.ToInt(), action);
         }
 
         /// <summary>注册事件</summary>
         /// <param name="cls">需要注册的接口</param>
         /// <param name="actionID">动作ID</param>
         /// <param name="action">事件函数</param>
-        public void RegEvent(IEvent cls, int actionID, System.Action action)
+        public void On(IEvent cls, int actionID, System.Action action)
         {
             RegEventData data = new RegEventData(cls, actionID, action);
-            data.Event.Event.RegEvent(data.ActionID, data.Action);
+            data.Event.Event.On(data.ActionID, data.Action);
             this._regEventData.Add(data);
         }
 
@@ -246,19 +224,19 @@ namespace CatLib.Event
         /// <param name="cls">需要注册的接口</param>
         /// <param name="actionID">枚举</param>
         /// <param name="action">事件函数</param>
-        public void RegEvent(IEvent cls, System.Enum actionID, System.Action<object> action)
+        public void On(IEvent cls, System.Enum actionID, System.Action<object> action)
         {
-            this.RegEvent(cls, actionID.ToInt(), action);
+            this.On(cls, actionID.ToInt(), action);
         }
 
         /// <summary>注册事件</summary>
         /// <param name="cls">需要注册的接口</param>
         /// <param name="actionID">动作ID</param>
         /// <param name="action">事件函数</param>
-        public void RegEvent(IEvent cls, int actionID, System.Action<object> action)
+        public void On(IEvent cls, int actionID, System.Action<object> action)
         {
             RegEventData data = new RegEventData(cls, actionID, action);
-            data.Event.Event.RegEvent(data.ActionID, data.ActionObject);
+            data.Event.Event.On(data.ActionID, data.ActionObject);
             this._regEventData.Add(data);
         }
 
@@ -266,22 +244,22 @@ namespace CatLib.Event
         /// <param name="cls">需要移除注册的接口</param>
         /// <param name="actionID">枚举</param>
         /// <param name="action">事件函数</param>
-        public void RemoveEvent(IEvent cls, System.Enum actionID, System.Action action)
+        public void Off(IEvent cls, System.Enum actionID, System.Action action)
         {
-            this.RemoveEvent(cls, actionID.ToInt(), action);
+            this.Off(cls, actionID.ToInt(), action);
         }
 
         /// <summary>移除事件</summary>
         /// <param name="cls">需要移除注册的接口</param>
         /// <param name="actionID">动作ID</param>
         /// <param name="action">事件函数</param>
-        public void RemoveEvent(IEvent cls, int actionID, System.Action action)
+        public void Off(IEvent cls, int actionID, System.Action action)
         {
             foreach (RegEventData data in this._regEventData.ToArray())
             {
                 if (data.Event == cls && data.ActionID == actionID && data.Action == action)
                 {
-                    data.Event.Event.RemoveEvent(data.ActionID, data.Action);
+                    data.Event.Event.Off(data.ActionID, data.Action);
                 }
             }
         }
@@ -290,33 +268,33 @@ namespace CatLib.Event
         /// <param name="cls">需要移除注册的接口</param>
         /// <param name="actionID">枚举</param>
         /// <param name="action">事件函数</param>
-        public void RemoveEvent(IEvent cls, System.Enum actionID, System.Action<object> action)
+        public void Off(IEvent cls, System.Enum actionID, System.Action<object> action)
         {
-            this.RemoveEvent(cls, actionID.ToInt(), action);
+            this.Off(cls, actionID.ToInt(), action);
         }
 
         /// <summary>移除事件</summary>
         /// <param name="cls">需要移除注册的接口</param>
         /// <param name="actionID">动作ID</param>
         /// <param name="action">事件函数</param>
-        public void RemoveEvent(IEvent cls, int actionID, System.Action<object> action)
+        public void Off(IEvent cls, int actionID, System.Action<object> action)
         {
             foreach (RegEventData data in this._regEventData.ToArray())
             {
                 if (data.Event == cls && data.ActionID == actionID && data.ActionObject == action)
                 {
-                    data.Event.Event.RemoveEvent(data.ActionID, data.ActionObject);
+                    data.Event.Event.Off(data.ActionID, data.ActionObject);
                 }
             }
         }
 
-        /// <summary>清除事件</summary>
+        /// <summary>清除我注册到别人的事件</summary>
         public void ClearEvent()
         {
             foreach (RegEventData data in this._regEventData) //不要ToArray()保证在遍历时不允许有其他的更改
             {
-                data.Event.Event.RemoveEvent(data.ActionID, data.Action);
-                data.Event.Event.RemoveEvent(data.ActionID, data.ActionObject);
+                data.Event.Event.Off(data.ActionID, data.Action);
+                data.Event.Event.Off(data.ActionID, data.ActionObject);
             }
             this._regEventData.Clear();
         }

@@ -3,25 +3,15 @@ using System.Collections;
 using CatLib.Base;
 using CatLib.Support;
 using System.Collections.Generic;
+using CatLib.Container;
 
 namespace CatLib.ResourcesSystem {
 
     public class CResources : CManagerBase
     {
 
-        protected static CResources instance;
-
-        public static CResources Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    throw new CNullReferenceException("resources manager not instance");
-                }
-                return instance;
-            }
-        }
+        [CDependency]
+        public CApplication Application { get; set; }
 
         /// <summary>
         /// 主依赖文件
@@ -48,15 +38,67 @@ namespace CatLib.ResourcesSystem {
         }
 
 
-        public override void Awake()
+        /// <summary>
+        /// 加载资源
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public T Load<T>(string path) where T : Object
         {
-            instance = this;
+            this.LoadManifest();
+            return this.LoadAsset<T>(path);
         }
 
+        /// <summary>
+        /// 加载资源
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        protected T LoadAsset<T>(string path) where T : Object
+        {
+            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
+            string objName = NameWithTypeToSuffix<T>(path.Substring(path.LastIndexOf('/') + 1), variant);
+            string relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
+
+            foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
+            {
+                if (!loadAssetBundle.ContainsKey(dependencies))
+                {
+                    AssetBundle assetBundle = AssetBundle.LoadFromFile(CEnv.AssetPath + "/" + dependencies);
+                    loadAssetBundle.Add(dependencies, assetBundle);
+                }
+            }
+
+            AssetBundle assetTarget;
+            if (!loadAssetBundle.ContainsKey(relPath))
+            {
+                assetTarget = AssetBundle.LoadFromFile(CEnv.AssetPath + "/" + relPath);
+                loadAssetBundle.Add(relPath, assetTarget);
+            }
+            else
+            {
+                assetTarget = loadAssetBundle[relPath];
+            }
+
+            T targetAsset = assetTarget.LoadAsset<T>(objName);
+
+            return targetAsset;
+
+        }
+
+        /// <summary>
+        /// 加载资源（异步）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
         public Coroutine LoadAsyn<T>(string path , System.Action<T> callback) where T : Object
         {
             this.LoadManifest();
-            return base.StartCoroutine(this.LoadAssetAsyn<T>(path , callback));
+            return Application.StartCoroutine(this.LoadAssetAsyn<T>(path , callback));
 
         }
 
@@ -101,7 +143,7 @@ namespace CatLib.ResourcesSystem {
                 AssetBundleCreateRequest assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(CEnv.AssetPath + "/" + relPath);
                 yield return assetTargetBundleRequest;
                 assetTarget = assetTargetBundleRequest.assetBundle;
-                loadAssetBundle.Add(relPath, assetTargetBundleRequest.assetBundle);
+                loadAssetBundle.Add(relPath, assetTarget);
             }else
             {
                 assetTarget = loadAssetBundle[relPath];
