@@ -61,7 +61,7 @@ public class CApplication : CContainer {
     public CApplication Bootstrap(Type[] bootstraps)
     {
         instance = this;
-        base.ForceAddInstances(typeof(CApplication) , null , this);
+        AddInstances(typeof(CApplication) , null , this);
 
         IBootstrap bootstrap;
         foreach (Type t in bootstraps)

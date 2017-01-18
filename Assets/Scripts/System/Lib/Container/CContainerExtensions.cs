@@ -22,7 +22,7 @@ namespace CatLib.Container
         ///<summary>绑定服务</summary>
         ///<typeparam name="T1">接口</typeparam>
         ///<typeparam name="T2">类</typeparam>
-        public static IContainer Bind<TFrom, TTo>(this IContainer container) where TTo : class, TFrom, new()
+        public static IContainer Bind<TFrom, TTo>(this IContainer container) where TTo : class, TFrom
         {
 			return container.Bind<TFrom , TTo>(null);
         }
@@ -31,18 +31,18 @@ namespace CatLib.Container
         ///<param name="alias">名字</param>
         ///<typeparam name="T1">接口</typeparam>
         ///<typeparam name="T2">实例的类</typeparam>
-        public static IContainer Bind<TFrom, TTo>(this IContainer container , string alias) where TTo : class, TFrom, new()
+        public static IContainer Bind<TFrom, TTo>(this IContainer container , string alias) where TTo : class, TFrom
         {
-			return container.Bind<TFrom>((c , p)=> { return new TTo(); } , alias);
+			return container.Bind<TFrom>((c , p)=> { return container.MakeWithOutConcrete(typeof(TTo), alias); } , alias);
         }
 
         /// <summary>绑定服务</summary>
         /// <typeparam name="TFrom">接口</typeparam>
         /// <param name="container">容器</param>
         /// <param name="to">实例的类</param>
-        public static IContainer Bind<TFrom>(this IContainer container) where TFrom : new()
+        public static IContainer Bind<TFrom>(this IContainer container) where TFrom : class
         {
-            return container.Bind<TFrom>((c , p)=> { return new TFrom(); }, null, false);
+            return container.Bind<TFrom>((c , p)=> { return container.MakeWithOutConcrete(typeof(TFrom) , null); }, null, false);
         }
 
         /// <summary>绑定服务</summary>
@@ -67,7 +67,7 @@ namespace CatLib.Container
         ///<summary>绑定服务</summary>
         ///<typeparam name="T1">接口</typeparam>
         ///<typeparam name="T2">类</typeparam>
-        public static IContainer Singleton<TFrom, TTo>(this IContainer container) where TTo : class, TFrom, new()
+        public static IContainer Singleton<TFrom, TTo>(this IContainer container) where TTo : class, TFrom
         {
             return container.Singleton<TFrom, TTo>(null);
         }
@@ -76,18 +76,18 @@ namespace CatLib.Container
         ///<param name="alias">名字</param>
         ///<typeparam name="T1">接口</typeparam>
         ///<typeparam name="T2">实例的类</typeparam>
-        public static IContainer Singleton<TFrom, TTo>(this IContainer container, string alias) where TTo : class , TFrom , new()
+        public static IContainer Singleton<TFrom, TTo>(this IContainer container, string alias) where TTo : class , TFrom
         {
-            return container.Singleton<TFrom>((c , p) => { return new TTo(); }, alias);
+            return container.Singleton<TFrom>((c , p) => { return container.MakeWithOutConcrete(typeof(TTo) , alias); }, alias);
         }
 
         /// <summary>绑定服务</summary>
         /// <typeparam name="TFrom">接口</typeparam>
         /// <param name="container">容器</param>
         /// <param name="to">实例的类</param>
-        public static IContainer Singleton<TFrom>(this IContainer container) where TFrom : new()
+        public static IContainer Singleton<TFrom>(this IContainer container) where TFrom : class
         {
-            return container.Bind<TFrom>((c , p) => { return new TFrom(); }, null, true);
+            return container.Bind<TFrom>((c , p) => { return container.MakeWithOutConcrete(typeof(TFrom) , null); }, null, true);
         }
 
         /// <summary>绑定服务</summary>

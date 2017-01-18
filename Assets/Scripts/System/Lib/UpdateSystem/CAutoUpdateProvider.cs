@@ -1,28 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
-using CatLib.Base;
+using CatLib.Container;
 
 namespace CatLib.UpdateSystem
 {
+    /// <summary>
+    /// 自动更新服务提供商
+    /// </summary>
     public class CAutoUpdateProvider : CServiceProvider
     {
 
         public CAutoUpdateProvider(CApplication app) : base(app)
         {
-            
-        }
+            base.Event.On(app, CApplication.Events.ON_INITED_CALLBACK , ()=> {
 
-        public override void Init()
-        {
-            base.Init();
+                app.Make<CAutoUpdate>().UpdateAsset();
 
-            Debug.Log(application);
-            Debug.Log("CAutoUpdateProvider 初始化了");
+            });
         }
 
         public override void Register()
         {
-            Debug.Log("CAutoUpdateProvider 注册了一个内容");
+            application.Singleton<CAutoUpdate , CAutoUpdate>();
         }
 
     }

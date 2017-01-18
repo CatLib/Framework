@@ -15,6 +15,9 @@ namespace CatLib.UpdateSystem
         [CDependency]
         public CApplication Application { get; set; }
 
+        [CDependency]
+        public CConfig Config { get; set; }
+
         public enum Events {
 
             ON_UPDATE_LIST_FAILED = 1,
@@ -43,13 +46,12 @@ namespace CatLib.UpdateSystem
 
         protected bool isUpdate;
 
-        public void Start()
+        public bool UpdateAsset()
         {
-            #region this is test code
-            this.UpdateAsset("http://pvp.oss-cn-shanghai.aliyuncs.com");
-            #endregion
+            string[] assetUrl = Config.Get<string[]>("update.url");
+            return UpdateAsset(assetUrl[Random.Range(0, assetUrl.Length)]);
         }
-        
+
         /// <summary>
         /// 请求更新资源文件
         /// </summary>

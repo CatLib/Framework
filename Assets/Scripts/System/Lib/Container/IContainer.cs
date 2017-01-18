@@ -11,6 +11,9 @@ namespace CatLib.Container
         IContainer Bind(Type from, Func<IContainer, object[], object> to, string name, bool isStatic);
 
         object Make(Type from, string alias, params object[] param);
-        
+
+        object MakeWithOutConcrete(Type from, string alias, params object[] param);
+
+
     }
 }

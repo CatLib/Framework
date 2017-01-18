@@ -34,6 +34,9 @@ namespace CatLib.Container
         ///<summary>服务实例的内容</summary>
         protected Dictionary<Type, Dictionary<string, object>> instances = new Dictionary<Type, Dictionary<string, object>>();
 
+        /// <summary>配置信息</summary>
+        protected Dictionary<Type, CConfig> config = null;
+
         ///<summary>会触发每帧更新的服务实例</summary>
         protected IUpdate[] updates;
 
@@ -80,14 +83,44 @@ namespace CatLib.Container
             if (concrete == null) {
 
                 objectData = Build(from, param);
-                DIAttr(objectData);
-                this.AddInstances(from , alias, objectData);
 
             }else
             {
-                objectData = this.Build(concrete, param);
-                this.DIAttr(objectData);
-                this.AddInstances(from, alias, objectData);
+                objectData = Build(concrete, param);
+            }
+
+            DIAttr(objectData);
+
+            if (binds.ContainsKey(from) && binds[from].ContainsKey(alias) && binds[from][alias].IsStatic) {
+
+                AddInstances(from, alias, objectData);
+
+            }
+
+            return objectData;
+        }
+
+        /// <summary>
+        /// 基于原型创建
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="alias"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public object MakeWithOutConcrete(Type from, string alias, params object[] param)
+        {
+            if (alias == null) { alias = string.Empty; }
+            if (instances.ContainsKey(from) && instances[from].ContainsKey(alias)) { return instances[from][alias]; }
+
+            object objectData = Build(from, param);
+
+            DIAttr(objectData);
+
+            if (binds.ContainsKey(from) && binds[from].ContainsKey(alias) && binds[from][alias].IsStatic)
+            {
+
+                AddInstances(from, alias, objectData);
+
             }
 
             return objectData;
@@ -105,7 +138,7 @@ namespace CatLib.Container
             List<ParameterInfo> parameter = new List<ParameterInfo>(constructor[constructor.Length - 1].GetParameters());
             parameter.RemoveRange(0, param.Length);
 
-            if (parameter.Count > 0) { param = GetDependencies(parameter, param); }
+            if (parameter.Count > 0) { param = GetDependencies(type , parameter, param); }
 
             return Activator.CreateInstance(type, param);
         }
@@ -114,7 +147,7 @@ namespace CatLib.Container
         /// <param name="paramInfo">参数信息</param>
         /// <param name="param">手动输入的参数</param>
         /// <returns></returns>
-        protected object[] GetDependencies(List<ParameterInfo> paramInfo, object[] param)
+        protected object[] GetDependencies(Type parent , List<ParameterInfo> paramInfo, object[] param)
         {
             List<object> myParam = new List<object>(param);
 
@@ -122,7 +155,7 @@ namespace CatLib.Container
             {
                 if (info.ParameterType.IsClass)
                 {
-                    myParam.Add(ResloveClass(info));
+                    myParam.Add(ResloveClass(parent , info));
                 }
                 else
                 {
@@ -145,11 +178,41 @@ namespace CatLib.Container
         /// <summary>解决类类型</summary>
         /// <param name="info">参数信息</param>
         /// <returns></returns>
-        protected object ResloveClass(ParameterInfo info)
+        protected object ResloveClass(Type parent, ParameterInfo info)
         {
-            object obj = this.Make(info.ParameterType, null);
+
+            object obj = null;
+
+            if (info.ParameterType == typeof(CConfig))
+            {
+                if(config == null){ this.InitConfig(); }
+                if (config.ContainsKey(parent))
+                {
+                    obj = config[parent];
+                }
+            }
+            else
+            {
+                obj = this.Make(info.ParameterType, null);
+            }
+
             if (obj == null) { return info.DefaultValue; }
             return obj;
+        }
+
+        protected void InitConfig()
+        {
+            config = new Dictionary<Type, CConfig>();
+            Type[] types = typeof(CConfig).GetChildTypes();
+            foreach (Type t in types)
+            {
+                CConfig conf = Make(t, null) as CConfig;
+                if (conf == null) { continue; }
+                if (!config.ContainsKey(conf.Class))
+                {
+                    config.Add(conf.Class, conf);
+                }
+            }
         }
 
 
@@ -162,18 +225,6 @@ namespace CatLib.Container
             return func(this, param);
         }
 
-        protected void ForceAddInstances(Type from , string alias , object objectData)
-        {
-            if (alias == null) { alias = string.Empty; }
-            if (objectData == null) { return; }
-            if (instances.ContainsKey(from))
-            {
-                instances[from].Remove(alias);
-            }
-            else { instances.Add(from, new Dictionary<string, object>()); }
-            instances[from].Add(alias, objectData);
-        }
-
         /// <summary>添加到实例内容</summary>
         /// <param name="type">类型</param>
         /// <param name="alias">别名</param>
@@ -182,7 +233,7 @@ namespace CatLib.Container
         {
             if (alias == null) { alias = string.Empty; }
             if (objectData == null) { return; }
-            if (!binds.ContainsKey(from) || !binds[from].ContainsKey(alias) || !binds[from][alias].IsStatic) { return; }
+           
             if (instances.ContainsKey(from))
             {
                 instances[from].Remove(alias);
@@ -197,7 +248,7 @@ namespace CatLib.Container
         /// <returns></returns>
 	    protected Func<IContainer, object[], object> GetConcrete(Type from, string alias)
         {
-            if (!binds.ContainsKey(from) || !binds[from].ContainsKey(alias)) return null;
+            if (!binds.ContainsKey(from) || !binds[from].ContainsKey(alias)) { return null; }
             return binds[from][alias].Func;
         }
 
@@ -216,11 +267,11 @@ namespace CatLib.Container
                
                 if (property.PropertyType.IsClass)
                 {
-                    property.SetValue(cls, ResloveClassAttr(property.PropertyType , dependency.Alias), null);
+                    property.SetValue(cls, ResloveClassAttr(cls.GetType(), property.PropertyType , dependency.Alias), null);
                 }
                 else
                 {
-                    property.SetValue(cls, ResolveNonClassAttr(property.PropertyType, dependency.Alias), null);
+                    property.SetValue(cls, ResolveNonClassAttr(cls.GetType(), property.PropertyType, dependency.Alias), null);
                 }
             }
 
@@ -230,7 +281,7 @@ namespace CatLib.Container
         /// <param name="type">参数类型</param>
         /// <param name="alias">别名</param>
         /// <returns></returns>
-        protected object ResolveNonClassAttr(Type type, string alias)
+        protected object ResolveNonClassAttr(Type parent, Type type, string alias)
         {
             return null;
         }
@@ -239,9 +290,23 @@ namespace CatLib.Container
         /// <param name="type">参数类型</param>
         /// <param name="alias">别名</param>
         /// <returns></returns>
-        protected object ResloveClassAttr(Type type, string alias)
+        protected object ResloveClassAttr(Type parent,  Type type, string alias)
         {
-            object obj = this.Make(type , alias);
+            object obj = null;
+
+            if (type == typeof(CConfig))
+            {
+                if (config == null) { this.InitConfig(); }
+                if (config.ContainsKey(parent))
+                {
+                    obj = config[parent];
+                }
+            }
+            else
+            {
+                obj = this.Make(type, alias);
+            }
+
             return obj;
         }
 
