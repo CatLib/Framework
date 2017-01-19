@@ -17,10 +17,11 @@ public class CApplication : CContainer {
     /// <summary>
     /// 事件
     /// </summary>
-    public enum Events
+    public class Events
     {
-        ON_INITING_CALLBACK = 1,
-        ON_INITED_CALLBACK = 2,
+        public static readonly string ON_INITING_CALLBACK = "application.initing.callback";
+
+        public static readonly string ON_INITED_CALLBACK = "application.inited.callback";
     }
 
 

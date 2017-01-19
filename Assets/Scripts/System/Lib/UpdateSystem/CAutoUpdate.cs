@@ -9,7 +9,7 @@ using CatLib.Container;
 namespace CatLib.UpdateSystem
 {
 
-    public class CAutoUpdate : CManagerBase
+    public class CAutoUpdate : CComponent
     {
 
         [CDependency]
@@ -18,29 +18,29 @@ namespace CatLib.UpdateSystem
         [CDependency]
         public CConfig Config { get; set; }
 
-        public enum Events {
+        public class Events {
 
-            ON_UPDATE_LIST_FAILED = 1,
+            public static string ON_UPDATE_LIST_FAILED = "autoupdate.update.list.falid";
 
-            ON_SCANNING_DISK_FILE_HASH_START = 2,
+            public static string ON_SCANNING_DISK_FILE_HASH_START = "autoupdate.disk.file.hash.start";
 
-            ON_SCANNING_DISK_FILE_HASH_END = 3,
+            public static string ON_SCANNING_DISK_FILE_HASH_END = "autoupdate.disk.file.hash.end";
 
-            ON_DELETE_DISK_OLD_FILE_START = 4,
+            public static string ON_DELETE_DISK_OLD_FILE_START = "autoupdate.disk.delete.old.file.start";
 
-            ON_DELETE_DISK_OLD_FIELD_ACTION = 5,
+            public static string ON_DELETE_DISK_OLD_FIELD_ACTION = "autoupdate.disk.delete.old.file.action";
 
-            ON_DELETE_DISK_OLD_FILE_END = 6,
+            public static string ON_DELETE_DISK_OLD_FILE_END = "autoupdate.disk.delete.file.end";
 
-            ON_UPDATE_FILE_START = 7,
+            public static string ON_UPDATE_FILE_START = "autoupdate.update.file.start";
 
-            ON_UPDATE_FILE_ACTION = 8,
+            public static string ON_UPDATE_FILE_ACTION = "autoupdate.update.file.action";
 
-            ON_UPDATE_FILE_END = 9,
+            public static string ON_UPDATE_FILE_END = "autoupdate.update.file.end";
 
-            ON_UPDATE_FILE_FAILD = 10,
+            public static string ON_UPDATE_FILE_FAILD = "autoupdate.update.file.faild";
 
-            ON_UPDATE_COMPLETE = 11,
+            public static string ON_UPDATE_COMPLETE = "autoupdate.uupdate.complete";
 
         }
 

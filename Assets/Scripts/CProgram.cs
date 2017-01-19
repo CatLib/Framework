@@ -4,18 +4,15 @@ using CatLib.Base;
 using System;
 using CatLib;
 
-public class CProgram : CComponentBase {
+public class CProgram : MonoBehaviour {
 
     /// <summary>
     /// 初始化程序
     /// </summary>
-    public override void Awake()
+    public void Awake()
     {
-
-        base.Awake();
-        CApplication application = base.GameObject.AddComponent<CApplication>();
+        CApplication application = gameObject.AddComponent<CApplication>();
         application.Bootstrap(BootStrap).Init();
-
     }
 
     /// <summary>

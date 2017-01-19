@@ -7,7 +7,7 @@ using CatLib.Container;
 
 namespace CatLib.ResourcesSystem {
 
-    public class CResources : CManagerBase
+    public class CResources : CComponent
     {
 
         [CDependency]

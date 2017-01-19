@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using CatLib.Container;
+using CatLib.Base;
 
 namespace CatLib.UpdateSystem
 {
@@ -11,7 +12,8 @@ namespace CatLib.UpdateSystem
 
         public CAutoUpdateProvider(CApplication app) : base(app)
         {
-            base.Event.On(app, CApplication.Events.ON_INITED_CALLBACK , ()=> {
+            app.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
+            {
 
                 app.Make<CAutoUpdate>().UpdateAsset();
 

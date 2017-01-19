@@ -9,7 +9,7 @@ using CatLib.Base;
 namespace CatLib.Container
 {
     ///<summary>容器</summary>
-    public class CContainer : CComponentBase, IContainer
+    public class CContainer : CMonoComponent, IContainer
     {
 
         /// <summary>绑定数据</summary>

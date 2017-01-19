@@ -1,34 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CatLib.Event;
+using CatLib.Base;
 
-/// <summary>
-/// 服务提供者
-/// </summary>
-public abstract class CServiceProvider : IEvent{
+namespace CatLib.Base
+{
 
-    protected CApplication application;
-
-    public CServiceProvider(CApplication app)
-    {
-        application = app;
-    }
-
-    public virtual void Init() { }
-
-    abstract public void Register();
-
-    private CEvent cevent = null;
     /// <summary>
-    /// 事件系统
+    /// 服务提供者
     /// </summary>
-    public CEvent Event
+    public abstract class CServiceProvider : CComponent
     {
-        get
+
+        protected CApplication application;
+
+        public CServiceProvider(CApplication app)
         {
-            if (this.cevent == null) { this.cevent = new CEvent(); }
-            return this.cevent;
+            application = app;
         }
+
+        public virtual void Init() { }
+
+        abstract public void Register();
+
     }
 
 }

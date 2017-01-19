@@ -2,6 +2,7 @@
 using System.Collections;
 using CatLib.UpdateSystem;
 using CatLib.Container;
+using CatLib.Base;
 
 namespace App
 {
@@ -16,8 +17,7 @@ namespace App
         public override void Init()
         {
             //todo:
-            base.Event.On(application.Make<CAutoUpdate>(), CAutoUpdate.Events.ON_UPDATE_COMPLETE, () =>
-            {
+            application.Make<CAutoUpdate>().Event.One(CAutoUpdate.Events.ON_UPDATE_COMPLETE.ToString(), (sender, e) => {
 
                 Debug.Log("update complete");
 

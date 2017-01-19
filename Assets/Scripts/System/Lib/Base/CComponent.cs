@@ -5,7 +5,7 @@ using CatLib.Event;
 namespace CatLib.Base
 {
 
-    public class CManagerBase : IEvent
+    public class CComponent : IEvent
     {
 
         private CEvent cevent = null;

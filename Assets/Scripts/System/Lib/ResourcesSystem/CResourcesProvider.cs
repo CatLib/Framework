@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CatLib.Container;
+using CatLib.Base;
 
 namespace CatLib.ResourcesSystem
 {
