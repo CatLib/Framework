@@ -5,6 +5,7 @@ using CatLib.Lua;
 using CatLib.Container;
 using XLua;
 using System;
+using CatLib.ResourcesSystem;
 
 namespace CatLib.Base {
 
@@ -14,7 +15,7 @@ namespace CatLib.Base {
     public class CLuaMonoComponent : CMonoComponent
     {
 
-        public TextAsset luaScript;
+        public string luaPath;
 
         /// <summary>
         /// 注入内容
@@ -53,7 +54,9 @@ namespace CatLib.Base {
                 scriptEnv.Set(injection.name, injection.value);
             }
 
-            LuaEnv.DoString(luaScript.text, "LuaBehaviour", scriptEnv);
+            TextAsset text = Application.Make<CResources>().Load<TextAsset>("scripts/" + luaPath);
+
+            LuaEnv.DoString(text.text, "LuaBehaviour", scriptEnv);
 
             Action luaAwake = scriptEnv.Get<Action>("awake");
             scriptEnv.Get("start", out luaStart);
