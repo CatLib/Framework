@@ -4,6 +4,8 @@ using System;
 using CatLib.UpdateSystem;
 using CatLib.ResourcesSystem;
 using App;
+using CatLib.Event;
+using CatLib.Lua;
 
 public class CProviders{
 
@@ -18,6 +20,8 @@ public class CProviders{
 
                 typeof(CAutoUpdateProvider),
                 typeof(CResourcesProvider),
+                typeof(CDispatcherProvider),
+                typeof(CLuaProvider),
                 typeof(CBootstrapProvider),
 
             };

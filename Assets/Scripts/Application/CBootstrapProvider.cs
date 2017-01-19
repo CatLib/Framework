@@ -17,7 +17,7 @@ namespace App
         public override void Init()
         {
             //todo:
-            application.Make<CAutoUpdate>().Event.One(CAutoUpdate.Events.ON_UPDATE_COMPLETE.ToString(), (sender, e) => {
+            application.Make<CAutoUpdate>().Event.One(CAutoUpdate.Events.ON_UPDATE_COMPLETE, (sender, e) => {
 
                 Debug.Log("update complete");
 

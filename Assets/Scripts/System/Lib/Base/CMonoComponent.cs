@@ -27,6 +27,14 @@ namespace CatLib.Base
         }
 
         /// <summary>
+        /// 应用程序
+        /// </summary>
+        public CApplication Application
+        {
+            get { return CApplication.Instance; }
+        }
+
+        /// <summary>
         /// 注册到消息中心的句柄
         /// </summary>
         private Dictionary<IEvent, Dictionary<string, EventHandler>> handlers;
@@ -109,7 +117,7 @@ namespace CatLib.Base
         /// <summary>
         /// 当释放时
         /// </summary>
-        public void OnDestroy()
+        public virtual void OnDestroy()
         {
             this.ClearHandlers();
         }

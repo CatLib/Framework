@@ -95,7 +95,7 @@ namespace CatLib.ResourcesSystem {
         /// <param name="path"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public Coroutine LoadAsyn<T>(string path , System.Action<T> callback) where T : Object
+        public UnityEngine.Coroutine LoadAsyn<T>(string path , System.Action<T> callback) where T : Object
         {
             this.LoadManifest();
             return Application.StartCoroutine(this.LoadAssetAsyn<T>(path , callback));
