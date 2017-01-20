@@ -4,6 +4,7 @@ using CatLib.Base;
 using CatLib.Support;
 using System.Collections.Generic;
 using CatLib.Container;
+using CatLib.FileSystem;
 
 namespace CatLib.ResourcesSystem {
 
@@ -50,6 +51,16 @@ namespace CatLib.ResourcesSystem {
             return this.LoadAsset<T>(path);
         }
 
+        public T[] LoadAll<T>(string path ) where T : Object
+        {
+            this.LoadManifest();
+            string relPath, objName;
+            LoadPath<T>(path, out relPath, out objName);
+            AssetBundle assetTarget = LoadAssetBundle(relPath + "/" + objName);
+            T[] targetAssets = assetTarget.LoadAllAssets<T>();
+            return targetAssets;
+        }
+
         /// <summary>
         /// 加载资源
         /// </summary>
@@ -58,10 +69,29 @@ namespace CatLib.ResourcesSystem {
         /// <returns></returns>
         protected T LoadAsset<T>(string path) where T : Object
         {
-            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
-            string objName = NameWithTypeToSuffix<T>(path.Substring(path.LastIndexOf('/') + 1), variant);
-            string relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
+            string relPath, objName;
+            LoadPath<T>(path, out relPath, out objName);
+            AssetBundle assetTarget = LoadAssetBundle(relPath);
+            T targetAsset = assetTarget.LoadAsset<T>(objName);
+            return targetAsset;
 
+        }
+
+        protected void LoadPath<T>(string path , out string relPath , out string objName) where T : Object
+        {
+            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
+            objName = NameWithTypeToSuffix<T>(path.Substring(path.LastIndexOf('/') + 1), variant);
+            relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
+
+            if (!(CEnv.AssetPath + "/" + relPath).Exists())
+            {
+                objName = NameWithTypeToSuffix<T>(path.Substring(path.LastIndexOf('/') + 1), string.Empty);
+                relPath = path.Substring(0, path.LastIndexOf('/'));
+            }
+        }
+
+        protected AssetBundle LoadAssetBundle(string relPath)
+        {
             foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
                 if (!loadAssetBundle.ContainsKey(dependencies))
@@ -82,9 +112,7 @@ namespace CatLib.ResourcesSystem {
                 assetTarget = loadAssetBundle[relPath];
             }
 
-            T targetAsset = assetTarget.LoadAsset<T>(objName);
-
-            return targetAsset;
+            return assetTarget;
 
         }
 
@@ -100,6 +128,12 @@ namespace CatLib.ResourcesSystem {
             this.LoadManifest();
             return Application.StartCoroutine(this.LoadAssetAsyn<T>(path , callback));
 
+        }
+
+        public UnityEngine.Coroutine LoadAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object
+        {
+            this.LoadManifest();
+            return Application.StartCoroutine(this.LoadAssetAllAsyn<T>(path, callback));
         }
 
         /// <summary>
@@ -123,9 +157,52 @@ namespace CatLib.ResourcesSystem {
         protected IEnumerator LoadAssetAsyn<T>(string path , System.Action<T> callback) where T : Object
         {
 
-            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
-            string objName = NameWithTypeToSuffix<T>(path.Substring(path.LastIndexOf('/') + 1), variant);
-            string relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
+            string relPath, objName;
+            LoadPath<T>(path, out relPath, out objName);
+
+            AssetBundle assetTarget = null;
+
+            yield return LoadAssetBundleAsyn(relPath, (ab) =>
+            {
+                assetTarget = ab;
+            });
+
+            AssetBundleRequest targetAssetRequest = assetTarget.LoadAssetAsync<T>(objName);
+            yield return targetAssetRequest;
+            T targetAsset = targetAssetRequest.asset as T;
+
+            callback.Invoke(targetAsset);
+
+        }
+
+        protected IEnumerator LoadAssetAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object
+        {
+
+            string relPath, objName;
+            LoadPath<T>(path, out relPath, out objName);
+
+            AssetBundle assetTarget = null;
+
+            yield return LoadAssetBundleAsyn(relPath + "/" + objName, (ab) =>
+            {
+                assetTarget = ab;
+            });
+
+            AssetBundleRequest targetAssetRequest = assetTarget.LoadAllAssetsAsync<T>();
+            yield return targetAssetRequest;
+            T[] targetAsset = targetAssetRequest.allAssets.To<T>();
+
+            callback.Invoke(targetAsset);
+
+        }
+
+        /// <summary>
+        /// 异步加载资源
+        /// </summary>
+        /// <param name="relPath"></param>
+        /// <returns></returns>
+        protected IEnumerator LoadAssetBundleAsyn(string relPath , System.Action<AssetBundle> assetBundle) 
+        {
 
             foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
@@ -144,19 +221,16 @@ namespace CatLib.ResourcesSystem {
                 yield return assetTargetBundleRequest;
                 assetTarget = assetTargetBundleRequest.assetBundle;
                 loadAssetBundle.Add(relPath, assetTarget);
-            }else
+            }
+            else
             {
                 assetTarget = loadAssetBundle[relPath];
             }
 
-            AssetBundleRequest targetAssetRequest = assetTarget.LoadAssetAsync<T>(objName);
-            yield return targetAssetRequest;
-
-            T targetAsset = targetAssetRequest.asset as T;
-
-            callback.Invoke(targetAsset);
+            assetBundle(assetTarget);
 
         }
+
 
         /// <summary>
         /// 类型对应的后缀

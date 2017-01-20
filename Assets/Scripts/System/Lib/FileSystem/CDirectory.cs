@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace CatLib.FileSystem{
@@ -49,6 +50,32 @@ namespace CatLib.FileSystem{
 			return dir.Exists;
 
 		}
+
+        public static FileInfo[] RWalk(this string path)
+        {
+            DirectoryInfo folder = new DirectoryInfo(path);
+            FileSystemInfo[] files = folder.GetFileSystemInfos();
+            int length = files.Length;
+            List<FileInfo> returnList = new List<FileInfo>();
+            for (int i = 0; i < length; i++)
+            {
+
+                if (files[i] is DirectoryInfo)
+                {
+
+                    returnList.AddRange(files[i].FullName.RWalk());
+
+                }
+                else
+                {
+
+                    returnList.Add(new FileInfo(files[i].FullName));
+
+                }
+
+            }
+            return returnList.ToArray();
+        }
 
 		/// <summary>
 		/// 遍历文件夹中的所有文件

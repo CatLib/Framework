@@ -4,6 +4,7 @@ using CatLib.UpdateSystem;
 using CatLib.Container;
 using CatLib.Base;
 using CatLib.ResourcesSystem;
+using CatLib.Lua;
 
 namespace App
 {
@@ -18,13 +19,13 @@ namespace App
         public override void Init()
         {
             //todo:
-            application.Make<CAutoUpdate>().Event.One(CAutoUpdate.Events.ON_UPDATE_COMPLETE, (sender, e) => {
+            application.Make<CLua>().Event.One(CLua.Events.ON_HOT_FIXED_COMPLETE, (sender, e) => {
 
                 GameObject obj = application.Make<CResources>().Load<GameObject>("prefab/asset6/test-prefab");
 
                 GameObject.Instantiate(obj);
 
-                Debug.Log("update complete");
+                Debug.Log("hot fixed complete");
 
             });
         }

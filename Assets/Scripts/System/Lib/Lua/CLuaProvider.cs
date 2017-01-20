@@ -11,11 +11,17 @@ namespace CatLib.Lua
 
         public CLuaProvider(CApplication app) : base(app)
         {
+            app.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
+            {
+
+                app.Make<CLua>().LoadHotFix();
+
+            });
         }
 
         public override void Register()
         {
-            application.Singleton<ILua, CLua>();
+            application.Singleton<CLua, CLua>();
         }
     }
 }
