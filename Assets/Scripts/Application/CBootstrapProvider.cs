@@ -21,11 +21,11 @@ namespace App
             //todo:
             application.Make<CLua>().Event.One(CLua.Events.ON_HOT_FIXED_COMPLETE, (sender, e) => {
 
+                Debug.Log("hot fixed complete");
+
                 GameObject obj = application.Make<CResources>().Load<GameObject>("prefab/asset6/test-prefab");
 
                 GameObject.Instantiate(obj);
-
-                Debug.Log("hot fixed complete");
 
             });
         }
