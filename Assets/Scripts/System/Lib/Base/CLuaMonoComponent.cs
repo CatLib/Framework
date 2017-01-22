@@ -6,6 +6,8 @@ using CatLib.Container;
 using XLua;
 using System;
 using CatLib.ResourcesSystem;
+using CatLib.Contracts.Lua;
+using CatLib.Contracts.ResourcesSystem;
 
 namespace CatLib.Base {
 
@@ -35,7 +37,7 @@ namespace CatLib.Base {
 
         protected LuaEnv LuaEnv
         {
-            get { return Application.Make<CLua>().LuaEnv; }
+            get { return Application.Make<ILua>().LuaEnv; }
         }
 
         void Awake()
@@ -54,7 +56,7 @@ namespace CatLib.Base {
                 scriptEnv.Set(injection.name, injection.value);
             }
 
-            TextAsset text = Application.Make<CResources>().Load<TextAsset>(luaPath);
+            TextAsset text = Application.Make<IResources>().Load<TextAsset>(luaPath);
 
             LuaEnv.DoString(text.text, "LuaBehaviour", scriptEnv);
 

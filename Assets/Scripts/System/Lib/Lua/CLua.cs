@@ -7,13 +7,15 @@ using CatLib.Support;
 using CatLib.FileSystem;
 using CatLib.ResourcesSystem;
 using System.IO;
+using CatLib.Contracts.Lua;
+using CatLib.Contracts.ResourcesSystem;
 
 namespace CatLib.Lua
 {
     /// <summary>
     /// Lua 虚拟机
     /// </summary>
-    public class CLua : CComponent , IUpdate
+    public class CLua : CComponent , IUpdate , ILua
     {
 
         [CDependency]
@@ -74,7 +76,7 @@ namespace CatLib.Lua
 
             string[] filePath = Config.Get<string[]>("lua.hotfix");
 
-            CResources resources = Application.Make<CResources>();
+            IResources resources = Application.Make<IResources>();
 
             foreach (string file in filePath)
             {

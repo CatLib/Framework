@@ -5,11 +5,12 @@ using CatLib.Support;
 using CatLib.FileSystem;
 using CatLib.ResourcesSystem;
 using CatLib.Container;
+using CatLib.Contracts.UpdateSystem;
 
 namespace CatLib.UpdateSystem
 {
 
-    public class CAutoUpdate : CComponent
+    public class CAutoUpdate : CComponent , IAutoUpdate
     {
 
         [CDependency]

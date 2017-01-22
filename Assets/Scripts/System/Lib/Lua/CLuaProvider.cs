@@ -2,6 +2,7 @@
 using System.Collections;
 using CatLib.Base;
 using CatLib.Container;
+using CatLib.Contracts.Lua;
 
 namespace CatLib.Lua
 {
@@ -14,14 +15,14 @@ namespace CatLib.Lua
             app.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
             {
 
-                app.Make<CLua>().LoadHotFix();
+                (app.Make<ILua>() as CLua).LoadHotFix();
 
             });
         }
 
         public override void Register()
         {
-            application.Singleton<CLua, CLua>();
+            application.Singleton<ILua, CLua>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using CatLib.Container;
 using CatLib.Base;
+using CatLib.Contracts.ResourcesSystem;
 
 namespace CatLib.ResourcesSystem
 {
@@ -18,7 +19,7 @@ namespace CatLib.ResourcesSystem
 
         public override void Register()
         {
-            application.Singleton<CResources, CResources>();
+            application.Singleton<IResources, CResources>();
         }
 
     }

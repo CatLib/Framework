@@ -5,10 +5,11 @@ using CatLib.Support;
 using System.Collections.Generic;
 using CatLib.Container;
 using CatLib.FileSystem;
+using CatLib.Contracts.ResourcesSystem;
 
 namespace CatLib.ResourcesSystem {
 
-    public class CResources : CComponent
+    public class CResources : CComponent , IResources
     {
 
         [CDependency]
