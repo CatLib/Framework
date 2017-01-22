@@ -8,12 +8,39 @@ namespace CatLib.Container
     public interface IContainer
     {
 
-        IContainer Bind(Type from, Func<IContainer, object[], object> to, string name, bool isStatic);
+        /// <summary>
+        /// 绑定一个服务
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <param name="concrete">服务实体</param>
+        /// <param name="isStatic">服务是否是静态的</param>
+        /// <returns></returns>
+        CBindData Bind(string service, Func<IContainer, object[], object> concrete, bool isStatic);
 
-        object Make(Type from, string alias, params object[] param);
+        /// <summary>
+        /// 绑定一个服务
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <param name="concrete">服务实体</param>
+        /// <param name="isStatic">服务是否是静态的</param>
+        /// <returns></returns>
+        CBindData Bind(string service, string concrete, bool isStatic);
 
-        object MakeWithOutConcrete(Type from, string alias, params object[] param);
+        /// <summary>
+        /// 生成一个绑定服务
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <param name="param">参数</param>
+        /// <returns></returns>
+        object Make(string service, params object[] param);
 
+        /// <summary>
+        /// 别名
+        /// </summary>
+        /// <param name="alias">别名</param>
+        /// <param name="service">提供的服务名</param>
+        /// <returns></returns>
+        IContainer Alias(string alias, string service);
 
     }
 }

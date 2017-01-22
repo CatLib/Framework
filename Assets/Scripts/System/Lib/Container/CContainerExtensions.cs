@@ -8,122 +8,44 @@ namespace CatLib.Container
     public static class CContainerExtensions
     {
 
-        /// <summary>绑定服务</summary>
-        /// <typeparam name="TFrom">接口</typeparam>
-        /// <param name="container">容器</param>
-        /// <param name="func">实例的类</param>
-        /// <param name="alias">别名</param>
-        /// <param name="isStatic">是否是静态的</param>
-        public static IContainer Bind<TFrom>(this IContainer container, Func<IContainer, object[], object> to, string alias, bool isStatic)
+        public static CBindData Singleton<Service, Concrete>(this IContainer container) where Concrete : class
         {
-            return container.Bind(typeof(TFrom), to, alias, isStatic);
+            return container.Bind(typeof(Service).ToString(), typeof(Concrete).ToString(), true);
         }
 
-        ///<summary>绑定服务</summary>
-        ///<typeparam name="T1">接口</typeparam>
-        ///<typeparam name="T2">类</typeparam>
-        public static IContainer Bind<TFrom, TTo>(this IContainer container) where TTo : class, TFrom
+        public static CBindData Singleton<Service>(this IContainer container) where Service : class
         {
-			return container.Bind<TFrom , TTo>(null);
+            return container.Bind(typeof(Service).ToString(), typeof(Service).ToString() , true);
         }
 
-        ///<summary>绑定服务</summary>
-        ///<param name="alias">名字</param>
-        ///<typeparam name="T1">接口</typeparam>
-        ///<typeparam name="T2">实例的类</typeparam>
-        public static IContainer Bind<TFrom, TTo>(this IContainer container , string alias) where TTo : class, TFrom
+        public static CBindData Bind<Service , Concrete>(this IContainer container) where Concrete : class
         {
-			return container.Bind<TFrom>((c , p)=> { return container.MakeWithOutConcrete(typeof(TTo), alias); } , alias);
+            return container.Bind(typeof(Service).ToString(), typeof(Concrete).ToString(), false);
         }
 
-        /// <summary>绑定服务</summary>
-        /// <typeparam name="TFrom">接口</typeparam>
-        /// <param name="container">容器</param>
-        /// <param name="to">实例的类</param>
-        public static IContainer Bind<TFrom>(this IContainer container) where TFrom : class
+        public static CBindData Bind<Service>(this IContainer container) where Service : class
         {
-            return container.Bind<TFrom>((c , p)=> { return container.MakeWithOutConcrete(typeof(TFrom) , null); }, null, false);
+            return container.Bind(typeof(Service).ToString(), typeof(Service).ToString(), false);
         }
 
-        /// <summary>绑定服务</summary>
-        /// <typeparam name="TFrom">接口</typeparam>
-        /// <param name="container">容器</param>
-        /// <param name="to">实例的类</param>
-        public static IContainer Bind<TFrom>(this IContainer container, Func<IContainer, object[], object> to)
+        public static T Make<T>(this IContainer container , object[] param = null) where T : class
         {
-            return container.Bind<TFrom>(to, null, false);
+            return container.Make(typeof(T).ToString(), param) as T;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
         }
 
-        /// <summary>绑定服务</summary>
-        /// <typeparam name="TFrom">接口</typeparam>
-        /// <param name="container">容器</param>
-        /// <param name="to">实例的类</param>
-        /// <param name="alias">别名</param>
-        public static IContainer Bind<TFrom>(this IContainer container, Func<IContainer, object[], object> to, string alias)
+        public static T Make<T>(this IContainer container , Type service , object[] param = null) where T : class
         {
-            return container.Bind<TFrom>(to, alias, false);
+            return container.Make(service.ToString(), param) as T;
         }
 
-        ///<summary>绑定服务</summary>
-        ///<typeparam name="T1">接口</typeparam>
-        ///<typeparam name="T2">类</typeparam>
-        public static IContainer Singleton<TFrom, TTo>(this IContainer container) where TTo : class, TFrom
+        public static T Make<T>(this IContainer container, string service, object[] param = null) where T : class
         {
-            return container.Singleton<TFrom, TTo>(null);
+            return container.Make(service, param) as T;
         }
 
-        ///<summary>绑定服务</summary>
-        ///<param name="alias">名字</param>
-        ///<typeparam name="T1">接口</typeparam>
-        ///<typeparam name="T2">实例的类</typeparam>
-        public static IContainer Singleton<TFrom, TTo>(this IContainer container, string alias) where TTo : class , TFrom
+        public static IContainer Alias<Alias, Service>(this IContainer container) where Service : class
         {
-            return container.Singleton<TFrom>((c , p) => { return container.MakeWithOutConcrete(typeof(TTo) , alias); }, alias);
+            return container.Alias(typeof(Alias).ToString(), typeof(Service).ToString());
         }
-
-        /// <summary>绑定服务</summary>
-        /// <typeparam name="TFrom">接口</typeparam>
-        /// <param name="container">容器</param>
-        /// <param name="to">实例的类</param>
-        public static IContainer Singleton<TFrom>(this IContainer container) where TFrom : class
-        {
-            return container.Bind<TFrom>((c , p) => { return container.MakeWithOutConcrete(typeof(TFrom) , null); }, null, true);
-        }
-
-        /// <summary>绑定服务</summary>
-        /// <typeparam name="TFrom">接口</typeparam>
-        /// <param name="container">容器</param>
-        /// <param name="to">实例的类</param>
-        public static IContainer Singleton<TFrom>(this IContainer container, Func<IContainer, object[], object> to)
-        {
-            return container.Bind<TFrom>(to, null, true);
-        }
-
-        /// <summary>绑定服务</summary>
-        /// <typeparam name="TFrom">接口</typeparam>
-        /// <param name="container">容器</param>
-        /// <param name="to">实例的类</param>
-        /// <param name="alias">别名</param>
-        public static IContainer Singleton<TFrom>(this IContainer container, Func<IContainer, object[], object> to, string alias)
-        {
-            return container.Bind<TFrom>(to, alias, true);
-        }
-
-        /// <summary>构造一个服务</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="container"></param>
-        /// <param name="alias"></param>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        public static T Make<T>(this IContainer container, string alias = null , params object[] param) where T : class
-        {
-            return container.Make(typeof(T), alias, param) as T;
-        }
-
-        public static T Make<T>(this IContainer container , Type type , string alias = null , params object[] param)
-        {
-            return (T)container.Make(type, alias, param);
-        }
-
     }
 }

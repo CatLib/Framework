@@ -8,18 +8,6 @@ namespace CatLib.Container
     public class CDependency : Attribute
     {
 
-        /// <summary>别名</summary>
-        public string Alias { get; protected set; }
-
-        public CDependency()
-        {
-            Alias = null;
-        }
-
-        public CDependency(string alias)
-        {
-            Alias = alias;
-        }
 
     }
 }

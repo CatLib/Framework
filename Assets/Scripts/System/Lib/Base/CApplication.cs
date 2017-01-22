@@ -3,6 +3,7 @@ using CatLib.Base;
 using CatLib.Container;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// CatLib程序
@@ -29,6 +30,16 @@ public class CApplication : CContainer {
     /// 服务提供商
     /// </summary>
     protected Dictionary<Type , CServiceProvider> serviceProviders = new Dictionary<Type , CServiceProvider>();
+    
+    /// <summary>
+    /// 更新
+    /// </summary>
+    protected List<IUpdate> update = new List<IUpdate>();
+
+    /// <summary>
+    /// 延后更新
+    /// </summary>
+    protected List<ILateUpdate> lateUpdate = new List<ILateUpdate>();
 
     /// <summary>
     /// 是否已经完成引导程序
@@ -54,6 +65,28 @@ public class CApplication : CContainer {
         }
     }
 
+    public CApplication()
+    {
+        Decorator((container , bindData, obj) =>
+        {
+            
+            if (bindData.IsStatic)
+            {
+                if (obj is IUpdate)
+                {
+                    update.Add(obj as IUpdate);
+                }
+
+                if(obj is ILateUpdate)
+                {
+                    lateUpdate.Add(obj as ILateUpdate);
+                }
+            }
+            return obj;
+        });
+    }
+
+
     /// <summary>
     /// 引导程序
     /// </summary>
@@ -62,7 +95,7 @@ public class CApplication : CContainer {
     public CApplication Bootstrap(Type[] bootstraps)
     {
         instance = this;
-        AddInstances(typeof(CApplication) , null , this);
+        Instances(typeof(CApplication).ToString() , this);
 
         IBootstrap bootstrap;
         foreach (Type t in bootstraps)
@@ -100,6 +133,10 @@ public class CApplication : CContainer {
         base.Event.Trigger(Events.ON_INITED_CALLBACK);
     }
 
+    /// <summary>
+    /// 注册服务提供者
+    /// </summary>
+    /// <param name="t"></param>
     public void Register(Type t)
     {
         if (this.serviceProviders.ContainsKey(t)) { return; }
@@ -114,5 +151,20 @@ public class CApplication : CContainer {
 
     }
 
+    public void Update()
+    {
+        for(int i = 0; i < update.Count; i++)
+        {
+            update[i].Update();
+        }
+    }
+
+    public void LateUpdate()
+    {
+        for (int i = 0; i < lateUpdate.Count; i++)
+        {
+            lateUpdate[i].LateUpdate();
+        }
+    }
 
 }
