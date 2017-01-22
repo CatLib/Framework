@@ -1,6 +1,7 @@
 ﻿
 using CatLib.Base;
 using CatLib.Container;
+using CatLib.Contracts.Base;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

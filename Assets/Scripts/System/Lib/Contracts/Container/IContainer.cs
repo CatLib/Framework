@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-namespace CatLib.Container
+namespace CatLib.Contracts.Container
 {
 	///<summary>容器接口</summary>
     public interface IContainer
@@ -15,7 +15,7 @@ namespace CatLib.Container
         /// <param name="concrete">服务实体</param>
         /// <param name="isStatic">服务是否是静态的</param>
         /// <returns></returns>
-        CBindData Bind(string service, Func<IContainer, object[], object> concrete, bool isStatic);
+        IBindData Bind(string service, Func<IContainer, object[], object> concrete, bool isStatic);
 
         /// <summary>
         /// 绑定一个服务
@@ -24,7 +24,7 @@ namespace CatLib.Container
         /// <param name="concrete">服务实体</param>
         /// <param name="isStatic">服务是否是静态的</param>
         /// <returns></returns>
-        CBindData Bind(string service, string concrete, bool isStatic);
+        IBindData Bind(string service, string concrete, bool isStatic);
 
         /// <summary>
         /// 生成一个绑定服务
@@ -41,6 +41,13 @@ namespace CatLib.Container
         /// <param name="service">提供的服务名</param>
         /// <returns></returns>
         IContainer Alias(string alias, string service);
+
+        /// <summary>
+        /// 修饰器
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        IContainer Decorator(Func<IContainer, IBindData, object, object> func);
 
     }
 }

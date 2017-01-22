@@ -3,6 +3,7 @@ using System.Collections;
 using CatLib.Event;
 using System.Collections.Generic;
 using System;
+using CatLib.Contracts.Event;
 
 namespace CatLib.Base
 {

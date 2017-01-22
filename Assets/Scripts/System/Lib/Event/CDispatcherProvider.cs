@@ -2,6 +2,7 @@
 using System.Collections;
 using CatLib.Base;
 using CatLib.Container;
+using CatLib.Contracts.Event;
 
 namespace CatLib.Event
 {
@@ -18,7 +19,7 @@ namespace CatLib.Event
 
         public override void Register()
         {
-            application.Singleton<CDispatcher, CDispatcher>();
+            application.Singleton<IDispatcher, CDispatcher>().Alias<CDispatcher>();
         }
 
     }

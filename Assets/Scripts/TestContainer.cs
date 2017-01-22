@@ -2,6 +2,7 @@
 using System.Collections;
 using CatLib.Container;
 using CatLib.Base;
+using CatLib.Contracts.Base;
 
 public interface ICall
 {
@@ -16,7 +17,7 @@ public class Test1 : ICall
     }
 }
 
-public class Test2 : ICall , IUpdate
+public class Test2 : ICall
 {
 
     private int i = 0;
@@ -34,7 +35,11 @@ public class Test2 : ICall , IUpdate
     }
 }
 
-public class Test3
+public interface T3 { 
+    
+void Call();
+}
+public class Test3 : T3
 {
     [CDependency]
     public ICall Cls { get; set; }
@@ -56,9 +61,9 @@ public class TestContainer : CApplication {
     {
 
         this.Singleton<Test2>().Alias("helloworld");
-        this.Bind<Test3>().Needs<ICall>().Given<Test1>();
+        this.Bind<Test3>().Alias<T3>().Needs<ICall>().Given<Test1>();
 
-        Test3 t3 = this.Make<Test3>();
+        T3 t3 = this.Make<Test3>();
         t3.Call();
 
         Test2 t2 = this.Make<Test2>();

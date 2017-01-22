@@ -23,7 +23,7 @@ namespace CatLib.UpdateSystem
 
         public override void Register()
         {
-            application.Singleton<IAutoUpdate, CAutoUpdate>();
+            application.Singleton<IAutoUpdate, CAutoUpdate>().Alias<CAutoUpdate>();
         }
 
     }

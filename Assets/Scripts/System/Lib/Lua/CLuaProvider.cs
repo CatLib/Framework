@@ -22,7 +22,7 @@ namespace CatLib.Lua
 
         public override void Register()
         {
-            application.Singleton<ILua, CLua>();
+            application.Singleton<ILua, CLua>().Alias<CLua>();
         }
     }
 }

@@ -9,6 +9,7 @@ using CatLib.ResourcesSystem;
 using System.IO;
 using CatLib.Contracts.Lua;
 using CatLib.Contracts.ResourcesSystem;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Lua
 {

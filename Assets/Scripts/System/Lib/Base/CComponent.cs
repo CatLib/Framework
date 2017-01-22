@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CatLib.Event;
+using CatLib.Contracts.Event;
 
 namespace CatLib.Base
 {

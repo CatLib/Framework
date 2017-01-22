@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using CatLib.Contracts.Container;
 
 namespace CatLib.Container
 {
@@ -8,22 +9,22 @@ namespace CatLib.Container
     public static class CContainerExtensions
     {
 
-        public static CBindData Singleton<Service, Concrete>(this IContainer container) where Concrete : class
+        public static IBindData Singleton<Service, Concrete>(this IContainer container) where Concrete : class
         {
             return container.Bind(typeof(Service).ToString(), typeof(Concrete).ToString(), true);
         }
 
-        public static CBindData Singleton<Service>(this IContainer container) where Service : class
+        public static IBindData Singleton<Service>(this IContainer container) where Service : class
         {
             return container.Bind(typeof(Service).ToString(), typeof(Service).ToString() , true);
         }
 
-        public static CBindData Bind<Service , Concrete>(this IContainer container) where Concrete : class
+        public static IBindData Bind<Service , Concrete>(this IContainer container) where Concrete : class
         {
             return container.Bind(typeof(Service).ToString(), typeof(Concrete).ToString(), false);
         }
 
-        public static CBindData Bind<Service>(this IContainer container) where Service : class
+        public static IBindData Bind<Service>(this IContainer container) where Service : class
         {
             return container.Bind(typeof(Service).ToString(), typeof(Service).ToString(), false);
         }

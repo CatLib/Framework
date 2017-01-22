@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace CatLib.Base{
+namespace CatLib.Contracts.Base
+{
 	
 	///<summary>延迟刷新</summary>
 	public interface ILateUpdate{

@@ -5,6 +5,7 @@ using CatLib.Support;
 using System.Collections.Generic;
 using System.Reflection;
 using CatLib.Base;
+using CatLib.Contracts.Container;
 
 namespace CatLib.Container
 {
@@ -30,7 +31,7 @@ namespace CatLib.Container
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , CBindData, object, object>> decorator = new List<Func<IContainer , CBindData, object , object>>();
+        private List<Func<IContainer , IBindData, object, object>> decorator = new List<Func<IContainer , IBindData, object , object>>();
          
         /// <summary>
         /// 配置信息
@@ -59,7 +60,7 @@ namespace CatLib.Container
         /// <param name="concrete">服务实体</param>
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns></returns>
-        public CBindData Bind(string service , string concrete , bool isStatic)
+        public IBindData Bind(string service , string concrete , bool isStatic)
         {
             service  = Normalize(service);
             concrete = Normalize(concrete);
@@ -76,7 +77,7 @@ namespace CatLib.Container
         /// <param name="concrete">服务实体</param>
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns></returns>
-        public CBindData Bind(string service , Func<IContainer, object[], object> concrete, bool isStatic)
+        public IBindData Bind(string service , Func<IContainer, object[], object> concrete, bool isStatic)
         {
             service = Normalize(service);
 
@@ -100,6 +101,7 @@ namespace CatLib.Container
         public object Make(string service, params object[] param)
         {
             service = Normalize(service);
+            service = GetAlias(service);
             return NormalMake(service, true, param);
         }
 
@@ -110,6 +112,7 @@ namespace CatLib.Container
         public void Instances(string service, object objectData)
         {
             if (objectData == null) { return; }
+            service = Normalize(service);
             service = GetAlias(service);
 
             if (instances.ContainsKey(service))
@@ -127,9 +130,9 @@ namespace CatLib.Container
         /// 修饰器
         /// </summary>
         /// <param name="func"></param>
-        public IContainer Decorator(Func<IContainer , CBindData, object, object> func)
+        public IContainer Decorator(Func<IContainer , IBindData, object, object> func)
         {
-            if (decorator == null) { decorator = new List<Func<IContainer , CBindData, object, object>>(); }
+            if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
             decorator.Add(func);
             foreach(KeyValuePair<string , object> data in instances)
             {
@@ -161,7 +164,7 @@ namespace CatLib.Container
         {
             if (decorator != null)
             {
-                foreach (Func<IContainer , CBindData, object, object> func in decorator)
+                foreach (Func<IContainer , IBindData, object, object> func in decorator)
                 {
                     obj = func(this , bindData, obj);
                 }
@@ -178,11 +181,10 @@ namespace CatLib.Container
         /// <returns></returns>
         private object NormalMake(string service , bool withConcrete , params object[] param)
         {
-            service = GetAlias(service);
             if (instances.ContainsKey(service)) { return instances[service]; }
 
             var bindData = GetBindData(service);
-            object objectData = withConcrete ? NormalBuild(bindData, param) : Build(bindData, param);
+            object objectData = withConcrete ? NormalBuild(bindData, param) : Build(bindData , service, param);
 
             DIAttr(bindData , objectData);
 
@@ -207,24 +209,32 @@ namespace CatLib.Container
                 return bindData.Concrete(this, param);
             }
 
-            return Build(bindData, param);
+            return Build(bindData , bindData.Service, param);
         }
 
         /// <summary>构造服务</summary>
-        /// <param name="type"></param>
+        /// <param name="type"></param
+        /// <param name="bindData"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        private object Build(CBindData bindData, object[] param)
+        private object Build(CBindData bindData , string service, object[] param)
         {
             if (param == null) { param = new object[] { }; }
             Type type = Type.GetType(bindData.Service);
-            ConstructorInfo[] constructor = type.GetConstructors();
-            if (constructor.Length <= 0)
+            if (type.IsAbstract || type.IsInterface)
             {
-                if (type.IsAbstract || type.IsInterface)
+                if (service != bindData.Service)
+                {
+                    type = Type.GetType(service);
+                }
+                else
                 {
                     return null;
                 }
+            }
+            ConstructorInfo[] constructor = type.GetConstructors();
+            if (constructor.Length <= 0)
+            {
                 return Activator.CreateInstance(type);
             }
 

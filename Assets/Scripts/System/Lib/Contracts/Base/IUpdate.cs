@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace CatLib.Base
+namespace CatLib.Contracts.Base
 {
     ///<summary>刷新接口</summary>
     public interface IUpdate

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CatLib.Contracts.Container;
+using System;
 using System.Collections.Generic;
 
 namespace CatLib.Container {
@@ -6,12 +7,13 @@ namespace CatLib.Container {
     /// <summary>
     /// 绑定关系
     /// </summary>
-    public class CBindData {
+    public class CBindData : IBindData
+    {
 
         /// <summary>
         /// 绑定关系临时数据
         /// </summary>
-        public class TmpData
+        public class TmpData : ITmpData
         {
 
             protected CBindData bindData;
@@ -24,7 +26,7 @@ namespace CatLib.Container {
                 this.needs = needs;
             }
 
-            public CBindData Given(string service)
+            public IBindData Given(string service)
             {
                 return bindData.AddContextual(needs, service);
             }
@@ -34,7 +36,7 @@ namespace CatLib.Container {
             /// </summary>
             /// <typeparam name="T"></typeparam>
             /// <returns></returns>
-            public CBindData Given<T>()
+            public IBindData Given<T>()
             {
                 return Given(typeof(T).ToString());
             }
@@ -69,7 +71,7 @@ namespace CatLib.Container {
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , CBindData, object, object>> decorator;
+        private List<Func<IContainer , IBindData, object, object>> decorator;
 
         public CBindData(IContainer container, string service , Func<IContainer, object[], object> concrete, bool isStatic)
         {
@@ -84,7 +86,7 @@ namespace CatLib.Container {
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
-        public TmpData Needs(string service)
+        public ITmpData Needs(string service)
         {
             return new TmpData(this, service);
         }
@@ -94,7 +96,7 @@ namespace CatLib.Container {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public TmpData Needs<T>()
+        public ITmpData Needs<T>()
         {
             return Needs(typeof(T).ToString());
         }
@@ -104,7 +106,7 @@ namespace CatLib.Container {
         /// </summary>
         /// <typeparam name="T">别名</typeparam>
         /// <returns></returns>
-        public CBindData Alias<T>()
+        public IBindData Alias<T>()
         {
             return Alias(typeof(T).ToString());
         }
@@ -114,7 +116,7 @@ namespace CatLib.Container {
         /// </summary>
         /// <param name="alias">别名</param>
         /// <returns></returns>
-        public CBindData Alias(string alias)
+        public IBindData Alias(string alias)
         {
             container.Alias(alias, Service);
             return this;
@@ -136,9 +138,9 @@ namespace CatLib.Container {
         /// 修饰器
         /// </summary>
         /// <param name="func"></param>
-        public CBindData Decorator(Func<IContainer , CBindData, object, object> func)
+        public IBindData Decorator(Func<IContainer , IBindData, object, object> func)
         {
-            if (decorator == null) { decorator = new List<Func<IContainer , CBindData, object, object>>(); }
+            if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
             decorator.Add(func);
             return this;
         }
@@ -151,7 +153,7 @@ namespace CatLib.Container {
         public object ExecDecorator(object obj)
         {
             if (decorator == null) { return obj; }
-            foreach(Func<IContainer , CBindData, object, object> func in decorator)
+            foreach(Func<IContainer , IBindData, object, object> func in decorator)
             {
                 obj = func(container , this , obj);
             }

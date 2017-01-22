@@ -4,8 +4,9 @@
  */
 using UnityEngine;
 using System.Collections;
+using CatLib.Event;
 
-namespace CatLib.Event
+namespace CatLib.Contracts.Event
 {
     /// <summary>事件机制接口</summary>
     public interface IEvent
