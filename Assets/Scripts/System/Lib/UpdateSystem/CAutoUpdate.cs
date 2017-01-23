@@ -75,9 +75,8 @@ namespace CatLib.UpdateSystem
             resUrl = resUrl + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
             UnityWebRequest request = UnityWebRequest.Get(resUrl + "/" + CUpdateList.FILE_NAME);
             yield return request.Send();
-            if (request.downloadHandler.text == string.Empty || !string.IsNullOrEmpty(request.error) || request.responseCode != 200)
+            if (request.isError || request.responseCode != 200)
             {
-                Debug.Log(request.downloadHandler.text);
                 this.isUpdate = false;
                 base.Event.Trigger(Events.ON_UPDATE_LIST_FAILED);
                 yield break;
@@ -158,7 +157,7 @@ namespace CatLib.UpdateSystem
                 using (UnityWebRequest request = UnityWebRequest.Get(downloadPath))
                 {
                     yield return request.Send();
-                    if (!string.IsNullOrEmpty(request.error) || request.responseCode != 200)
+                    if (request.isError || request.responseCode != 200)
                     {
                         base.Event.Trigger(Events.ON_UPDATE_FILE_FAILD);
                         yield break;
