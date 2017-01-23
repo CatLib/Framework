@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace CatLib.UpdateSystem{
 
@@ -23,9 +24,9 @@ namespace CatLib.UpdateSystem{
 
 		}
 
-        public CUpdateList(WWW www)
+        public CUpdateList(UnityWebRequest request)
         {
-            this.Parse(new UTF8Encoding(false).GetString(www.bytes));
+            this.Parse(new UTF8Encoding(false).GetString(request.downloadHandler.data));
         }
 
         public CUpdateList SetPath(string path)

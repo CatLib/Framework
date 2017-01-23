@@ -3,6 +3,9 @@ using System.Collections;
 using CatLib.Base;
 using CatLib.Container;
 using CatLib.Contracts.Lua;
+using CatLib.Contracts.UpdateSystem;
+using CatLib.Contracts.Event;
+using CatLib.UpdateSystem;
 
 namespace CatLib.Lua
 {
@@ -12,13 +15,20 @@ namespace CatLib.Lua
 
         public CLuaProvider(CApplication app) : base(app)
         {
-            app.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
-            {
-
-                (app.Make<ILua>() as CLua).LoadHotFix();
-
-            });
         }
+
+        public override void Init()
+        {
+            IAutoUpdate autoUpdata = application.Make<IAutoUpdate>();
+            if (autoUpdata is IEvent)
+            {
+                (autoUpdata as IEvent).Event.One(CAutoUpdate.Events.ON_UPDATE_COMPLETE, (sender, e) =>
+                {
+                    (application.Make<ILua>() as CLua).LoadHotFix();
+                });
+            }
+        }
+
 
         public override void Register()
         {

@@ -6,6 +6,7 @@ using CatLib.FileSystem;
 using CatLib.ResourcesSystem;
 using CatLib.Container;
 using CatLib.Contracts.UpdateSystem;
+using UnityEngine.Networking;
 
 namespace CatLib.UpdateSystem
 {
@@ -72,11 +73,11 @@ namespace CatLib.UpdateSystem
         protected IEnumerator UpdateList(string resUrl)
         {
             resUrl = resUrl + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
-            WWW www = new WWW(resUrl + "/" + CUpdateList.FILE_NAME);
-            yield return www;
-
-            if (www.text == string.Empty || !string.IsNullOrEmpty(www.error))
+            UnityWebRequest request = UnityWebRequest.Get(resUrl + "/" + CUpdateList.FILE_NAME);
+            yield return request.Send();
+            if (request.downloadHandler.text == string.Empty || !string.IsNullOrEmpty(request.error))
             {
+                Debug.Log(request.downloadHandler.text);
                 this.isUpdate = false;
                 base.Event.Trigger(Events.ON_UPDATE_LIST_FAILED);
                 yield break;
@@ -84,7 +85,7 @@ namespace CatLib.UpdateSystem
 
             base.Event.Trigger(Events.ON_SCANNING_DISK_FILE_HASH_START);
 
-            var newLst = new CUpdateList(www).SetPath(CEnv.AssetPath);
+            var newLst = new CUpdateList(request).SetPath(CEnv.AssetPath);
 
             CUpdateList oldLst = new CUpdateList(CEnv.AssetPath);
 
@@ -151,16 +152,19 @@ namespace CatLib.UpdateSystem
                 saveDir = savePath.Substring(0, savePath.LastIndexOf('/'));
 
                 base.Event.Trigger(Events.ON_UPDATE_FILE_ACTION);
-                using (WWW www = new WWW(downloadPath))
+
+                ;
+
+                using (UnityWebRequest request = UnityWebRequest.Get(downloadPath))
                 {
-                    yield return www;
-                    if (!string.IsNullOrEmpty(www.error))
+                    yield return request.Send();
+                    if (!string.IsNullOrEmpty(request.error))
                     {
                         base.Event.Trigger(Events.ON_UPDATE_FILE_FAILD);
                         yield break;
                     }
                     CDirectory.CreateDir(saveDir);
-                    savePath.Cover(www.bytes, 0, www.bytesDownloaded);
+                    savePath.Cover(request.downloadHandler.data, 0, request.downloadHandler.data.Length);
                 }
 
             }
