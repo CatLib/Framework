@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
+using CatLib.Base;
+using CatLib.Container;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Network
 {
@@ -8,33 +12,26 @@ namespace CatLib.Network
     /// <summary>
     /// 网络服务
     /// </summary>
-    public class CNetwork
+    public class CNetwork : CComponent , IDestroy
     {
 
 
         /// <summary>
-        /// 短链接连接器
+        /// 连接器
         /// </summary>
         private Dictionary<string, IConnector> connector = new Dictionary<string, IConnector>();
-
 
         /// <summary>
         /// 创建一个网络链接
         /// </summary>
         /// <param name="aisle">通道</param>
-        /// <param name="host">服务器地址</param>
-        /// <param name="port">端口</param>
-        /// <param name="isLong">是否是长链接</param>
-        public void Connect(string aisle , string host , ushort port , bool isLong = false)
+        public T Create<T>(string aisle) where T : IConnector
         {
-            if (isLong)
-            {
-                //todo 长连接部分待完成
-                return;
-            }
 
-
-
+            IConnector connector = Application.Make<T>();
+            this.connector.Add(aisle, connector);
+            Application.StartCoroutine(connector.StartServer());
+            return (T)connector;
 
         }
 
@@ -44,7 +41,38 @@ namespace CatLib.Network
         /// <param name="aisle">通道</param>
         public void Disconnect(string aisle)
         {
+            if (connector.ContainsKey(aisle))
+            {
+                connector[aisle].Disconnect();
+            }
+            connector.Remove(aisle);
+        }
 
+        /// <summary>
+        /// 获取一个链接器
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="aisle">通道</param>
+        /// <returns></returns>
+        public T Get<T>(string aisle) where T : IConnector
+        {
+            if (connector.ContainsKey(aisle))
+            {
+                return (T)connector[aisle];
+            }
+            return default(T);
+        }
+
+        /// <summary>
+        /// 当释放时
+        /// </summary>
+        public void OnDestroy()
+        {
+            foreach(KeyValuePair<string , IConnector> connector in this.connector)
+            {
+                connector.Value.Disconnect();
+            }
+            this.connector.Clear();
         }
 
     }

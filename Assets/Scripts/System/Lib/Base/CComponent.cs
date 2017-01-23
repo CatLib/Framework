@@ -2,12 +2,17 @@
 using System.Collections;
 using CatLib.Event;
 using CatLib.Contracts.Event;
+using CatLib.Container;
 
 namespace CatLib.Base
 {
 
     public class CComponent : IEvent
     {
+
+        [CDependency]
+        public CApplication Application { get; set; }
+
 
         private CEvent cevent = null;
         /// <summary>

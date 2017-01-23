@@ -9,7 +9,24 @@ namespace CatLib.Network
     public interface IConnectorShort : IConnector
     {
 
-        void Send(string action, byte[] bytes , System.Action<byte[]> callback);
+        /// <summary>
+        /// 设定
+        /// </summary>
+        /// <param name="url"></param>
+        void SetUrl(string url);
+
+        /// <summary>
+        /// 发送一条数据
+        /// </summary>
+        /// <param name="bytes"></param>
+        void Send(byte[] bytes);
+
+        /// <summary>
+        /// 发送一条数据
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="bytes"></param>
+        void Send(string action, byte[] bytes);
 
     }
 }

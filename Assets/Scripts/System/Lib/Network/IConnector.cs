@@ -7,6 +7,9 @@ namespace CatLib.Network
     public interface IConnector
     {
 
+        IEnumerator StartServer();
+
+        void Disconnect();
         
     }
 

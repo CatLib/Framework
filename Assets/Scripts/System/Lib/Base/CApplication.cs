@@ -43,6 +43,11 @@ public class CApplication : CContainer {
     protected List<ILateUpdate> lateUpdate = new List<ILateUpdate>();
 
     /// <summary>
+    /// 释放时需要调用的
+    /// </summary>
+    protected List<IDestroy> destroy = new List<IDestroy>();
+
+    /// <summary>
     /// 是否已经完成引导程序
     /// </summary>
     protected bool bootstrapped = false;
@@ -82,6 +87,10 @@ public class CApplication : CContainer {
                 {
                     lateUpdate.Add(obj as ILateUpdate);
                 }
+                if(obj is IDestroy)
+                {
+                    destroy.Add(obj as IDestroy);
+                }
             }
             return obj;
         });
@@ -97,6 +106,7 @@ public class CApplication : CContainer {
     {
         instance = this;
         Instances(typeof(CApplication).ToString() , this);
+        Alias(typeof(IApplication).ToString(), typeof(CApplication).ToString());
 
         IBootstrap bootstrap;
         foreach (Type t in bootstraps)
@@ -165,6 +175,15 @@ public class CApplication : CContainer {
         for (int i = 0; i < lateUpdate.Count; i++)
         {
             lateUpdate[i].LateUpdate();
+        }
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        for (int i = 0; i < destroy.Count; i++)
+        {
+            destroy[i].OnDestroy();
         }
     }
 
