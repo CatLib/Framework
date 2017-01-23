@@ -44,7 +44,7 @@ public class Test3 : T3
     [CDependency]
     public ICall Cls { get; set; }
 
-    public Test3(Test2 call)
+    public Test3(ICall call)
     {
         call.Call();
     }
@@ -60,14 +60,15 @@ public class TestContainer : CApplication {
     private void Awake()
     {
 
-        this.Singleton<Test2>().Alias("helloworld");
+        this.Singleton<Test2>().Alias("helloworld").Alias<ICall>();
         this.Bind<Test3>().Alias<T3>().Needs<ICall>().Given<Test1>();
 
-        T3 t3 = this.Make<Test3>();
+        ICall t3 = this.Make<ICall>();
         t3.Call();
 
+        /*
         Test2 t2 = this.Make<Test2>();
         t2.Call();
-
+        */
     }
 }

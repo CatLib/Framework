@@ -19,7 +19,7 @@ namespace CatLib.Event
 
         public override void Register()
         {
-            application.Singleton<IDispatcher, CDispatcher>().Alias<CDispatcher>();
+            application.Singleton<CDispatcher>().Alias<IDispatcher>();
         }
 
     }
