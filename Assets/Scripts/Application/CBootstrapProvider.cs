@@ -30,6 +30,7 @@ namespace App
 
                     IConnectorShort conn1 = FNetwork.Instance.Create<IConnectorShort>("test1");
                     IConnectorShort conn2 = FNetwork.Instance.Create<IConnectorShort>("test2");
+                    IConnectorShort conn3 = FNetwork.Instance.Create<IConnectorShort>("test3");
 
                     FDispatcher.Instance.Event.One(conn1.GetType().ToString(), (obj1, obj2) =>
                     {
@@ -51,11 +52,17 @@ namespace App
                         Debug.Log("from class2:" + (obj2 as CWebRequestEventArgs).Request.downloadHandler.text);
                     });
 
+                    conn3.SetUrl("http://127.0.0.1/testcookie.php");
+                    conn3.Send(null);
+                    conn3.Send(null);
+
                     conn1.SetUrl("http://www.52softs.com");
                     conn1.Send(new byte[] { });
 
                     conn2.SetUrl("http://www.baidu.com");
                     conn2.Send(new byte[] { });
+
+                    
 
 
 

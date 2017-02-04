@@ -71,9 +71,17 @@ namespace CatLib.Network
         /// <param name="action"></param>
         private void SendTo(string url , byte[] bytes)
         {
+
             WWWForm form = new WWWForm();
-            form.AddBinaryData("data", bytes);
+            if (bytes != null)
+            {
+                form.AddBinaryData("data", bytes);
+            }else
+            {
+                form.AddField("data", string.Empty);
+            }
             UnityWebRequest request = UnityWebRequest.Post(url, form);
+
             queue.Enqueue(request);
         }
 
