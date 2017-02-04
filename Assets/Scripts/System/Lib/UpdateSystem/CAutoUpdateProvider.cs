@@ -2,6 +2,8 @@
 using CatLib.Container;
 using CatLib.Base;
 using CatLib.Contracts.UpdateSystem;
+using CatLib.Contracts.Base;
+using CapLib.Base;
 
 namespace CatLib.UpdateSystem
 {
@@ -11,7 +13,7 @@ namespace CatLib.UpdateSystem
     public class CAutoUpdateProvider : CServiceProvider
     {
 
-        public CAutoUpdateProvider(CApplication app) : base(app)
+        public CAutoUpdateProvider(IApplication app) : base(app)
         {
             app.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
             {

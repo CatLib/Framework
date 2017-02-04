@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using CatLib.Contracts.Base;
+using CapLib.Base;
 
 namespace CatLib
 {
@@ -19,7 +20,7 @@ namespace CatLib
         {
             foreach(Type t in CProviders.ServiceProviders)
             {
-                CApplication.Instance.Register(t);
+                CApp.Instance.Register(t);
             }
         }
     }

@@ -15,9 +15,6 @@ namespace CatLib.UpdateSystem
     {
 
         [CDependency]
-        public CApplication Application { get; set; }
-
-        [CDependency]
         public CConfig Config { get; set; }
 
         public class Events {

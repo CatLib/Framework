@@ -3,6 +3,7 @@ using System.Collections;
 using CatLib.Container;
 using CatLib.Base;
 using CatLib.Contracts.ResourcesSystem;
+using CatLib.Contracts.Base;
 
 namespace CatLib.ResourcesSystem
 {
@@ -13,7 +14,7 @@ namespace CatLib.ResourcesSystem
     public class CResourcesProvider : CServiceProvider
     {
 
-        public CResourcesProvider(CApplication app) : base(app)
+        public CResourcesProvider(IApplication app) : base(app)
         {
         }
 

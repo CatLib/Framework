@@ -3,6 +3,7 @@ using System.Collections;
 using CatLib.Container;
 using CatLib.Base;
 using CatLib.Contracts.Event;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Event
 {
@@ -11,9 +12,6 @@ namespace CatLib.Event
     /// </summary>
     public class CDispatcher : CComponent , IDispatcher
     {
-
-        [CDependency]
-        public CApplication Application { get; set; }
 
     }
 

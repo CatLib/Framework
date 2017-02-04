@@ -67,7 +67,7 @@ namespace CatLib.Container
             return Bind(service, (c, param) => {
                 CContainer container = c as CContainer;
                 return container.NormalMake(concrete, false, param);
-            }, true);
+            }, isStatic);
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace CatLib.Container
 
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
-                    property.SetValue(cls, ResloveClassAttr(bindData , cls.GetType(), property.PropertyType), null);
+                    property.SetValue(cls, ResloveClassAttr(bindData, cls.GetType(), property.PropertyType), null);
                 }
                 else
                 {

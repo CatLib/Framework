@@ -3,15 +3,16 @@ using System.Collections;
 using CatLib.Event;
 using CatLib.Contracts.Event;
 using CatLib.Container;
+using CatLib.Contracts.Base;
+using CapLib.Base;
 
 namespace CatLib.Base
 {
 
-    public class CComponent : IEvent
+    public class CComponent : IEvent , IGuid
     {
 
-        [CDependency]
-        public CApplication Application { get; set; }
+        public IApplication Application { get { return CApp.Instance; } }
 
 
         private CEvent cevent = null;
@@ -24,6 +25,28 @@ namespace CatLib.Base
             {
                 if (this.cevent == null) { this.cevent = new CEvent(); }
                 return this.cevent;
+            }
+        }
+
+        private long guid;
+
+        public long Guid
+        {
+            get
+            {
+
+                if (guid <= 0)
+                {
+                    guid = Application.GetGuid();
+                }
+                return guid;
+            }
+        }
+        public string TypeGuid
+        {
+            get
+            {
+                return GetType().ToString() + "-" + Guid;
             }
         }
 

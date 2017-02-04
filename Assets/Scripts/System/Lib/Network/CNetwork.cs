@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using CatLib.Base;
 using CatLib.Container;
 using CatLib.Contracts.Base;
+using CatLib.Contracts.Network;
 
 namespace CatLib.Network
 {
@@ -12,7 +13,7 @@ namespace CatLib.Network
     /// <summary>
     /// 网络服务
     /// </summary>
-    public class CNetwork : CComponent , IDestroy
+    public class CNetwork : CComponent , IDestroy , INetwork
     {
 
 
@@ -27,7 +28,7 @@ namespace CatLib.Network
         /// <param name="aisle">通道</param>
         public T Create<T>(string aisle) where T : IConnector
         {
-
+            if (this.connector.ContainsKey(aisle)) { return (T)this.connector[aisle]; }
             IConnector connector = Application.Make<T>();
             this.connector.Add(aisle, connector);
             Application.StartCoroutine(connector.StartServer());

@@ -4,6 +4,8 @@ using CatLib.Event;
 using System.Collections.Generic;
 using System;
 using CatLib.Contracts.Event;
+using CapLib.Base;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Base
 {
@@ -30,9 +32,9 @@ namespace CatLib.Base
         /// <summary>
         /// 应用程序
         /// </summary>
-        public CApplication Application
+        public IApplication Application
         {
-            get { return CApplication.Instance; }
+            get { return CApp.Instance; }
         }
 
         /// <summary>

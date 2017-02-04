@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using CapLib.Base;
 
 /// <summary>
 /// CatLib Mono Object
@@ -35,5 +36,28 @@ public class CMonoObject : MonoBehaviour
             return obj;
         }
     }
+
+    private long guid;
+
+    public long Guid
+    {
+        get
+        {
+
+            if (guid <= 0)
+            {
+                guid = CApp.Instance.GetGuid();
+            }
+            return guid;
+        }
+    }
+    public string TypeGuid
+    {
+        get
+        {
+            return GetType().ToString() + "-" + Guid;
+        }
+    }
+
 
 }

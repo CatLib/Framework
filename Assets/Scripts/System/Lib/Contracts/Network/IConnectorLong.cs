@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace CatLib.Network
+namespace CatLib.Contracts.Network
 {
     /// <summary>
     /// 连接器

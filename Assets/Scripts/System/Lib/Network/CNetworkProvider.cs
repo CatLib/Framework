@@ -2,6 +2,8 @@
 using System.Collections;
 using CatLib.Base;
 using CatLib.Container;
+using CatLib.Contracts.Network;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Network
 {
@@ -12,14 +14,15 @@ namespace CatLib.Network
     public class CNetworkProvider : CServiceProvider
     {
 
-        public CNetworkProvider(CApplication app) : base(app)
+        public CNetworkProvider(IApplication app) : base(app)
         {
         }
 
 
         public override void Register()
         {
-            application.Singleton<CNetwork>();
+            application.Singleton<CNetwork>().Alias<INetwork>();
+            application.Bind<CWebRequest>().Alias<IConnectorShort>();
         }
 
 

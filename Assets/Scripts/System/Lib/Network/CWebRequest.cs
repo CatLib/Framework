@@ -5,18 +5,14 @@ using System.Collections.Generic;
 using CatLib.Contracts.Base;
 using CatLib.Container;
 using CatLib.Contracts.Event;
+using CatLib.Contracts.Network;
+using CatLib.Base;
 
 namespace CatLib.Network
 {
 
-    public class CWebRequest : IConnectorShort
+    public class CWebRequest : CComponent, IConnectorShort
     {
-
-        /// <summary>
-        /// Application
-        /// </summary>
-        [CDependency]
-        public IApplication Application { get; set; }
 
         /// <summary>
         /// 调度器
@@ -109,6 +105,7 @@ namespace CatLib.Network
                         {
                             if (Dispatcher is IEvent)
                             {
+                                (Dispatcher as IEvent).Event.Trigger(TypeGuid, this, new CWebRequestErrorEventArgs(request));
                                 (Dispatcher as IEvent).Event.Trigger(GetType().ToString(), this, new CWebRequestErrorEventArgs(request));
                             }
                         }
@@ -116,6 +113,7 @@ namespace CatLib.Network
                         {
                             if (Dispatcher is IEvent)
                             {
+                                (Dispatcher as IEvent).Event.Trigger(TypeGuid, this, new CWebRequestEventArgs(request));
                                 (Dispatcher as IEvent).Event.Trigger(GetType().ToString(), this, new CWebRequestEventArgs(request));
                             }
                         }

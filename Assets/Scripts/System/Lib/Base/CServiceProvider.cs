@@ -2,6 +2,7 @@
 using System.Collections;
 using CatLib.Event;
 using CatLib.Base;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Base
 {
@@ -12,9 +13,9 @@ namespace CatLib.Base
     public abstract class CServiceProvider : CComponent
     {
 
-        protected CApplication application;
+        protected IApplication application;
 
-        public CServiceProvider(CApplication app)
+        public CServiceProvider(IApplication app)
         {
             application = app;
         }

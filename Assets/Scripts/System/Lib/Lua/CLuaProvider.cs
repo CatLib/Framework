@@ -6,6 +6,7 @@ using CatLib.Contracts.Lua;
 using CatLib.Contracts.UpdateSystem;
 using CatLib.Contracts.Event;
 using CatLib.UpdateSystem;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Lua
 {
@@ -13,7 +14,7 @@ namespace CatLib.Lua
     public class CLuaProvider : CServiceProvider
     {
 
-        public CLuaProvider(CApplication app) : base(app)
+        public CLuaProvider(IApplication app) : base(app)
         {
         }
 

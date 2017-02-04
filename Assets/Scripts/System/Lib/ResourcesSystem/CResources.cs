@@ -12,9 +12,6 @@ namespace CatLib.ResourcesSystem {
     public class CResources : CComponent , IResources
     {
 
-        [CDependency]
-        public CApplication Application { get; set; }
-
         /// <summary>
         /// 主依赖文件
         /// </summary>

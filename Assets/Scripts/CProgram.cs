@@ -3,6 +3,8 @@ using System.Collections;
 using CatLib.Base;
 using System;
 using CatLib;
+using CatLib.Contracts.Base;
+using CapLib.Base;
 
 public class CProgram : MonoBehaviour {
 
@@ -11,7 +13,7 @@ public class CProgram : MonoBehaviour {
     /// </summary>
     public void Awake()
     {
-        CApplication application = gameObject.AddComponent<CApplication>();
+        IApplication application = gameObject.AddComponent<CApplication>();
         application.Bootstrap(BootStrap).Init();
     }
 

@@ -20,9 +20,6 @@ namespace CatLib.Lua
     {
 
         [CDependency]
-        public CApplication Application { get; set; }
-
-        [CDependency]
         public CConfig Config { get; set; }
 
         /// <summary>
