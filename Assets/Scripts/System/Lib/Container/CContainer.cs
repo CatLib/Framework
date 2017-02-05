@@ -269,11 +269,11 @@ namespace CatLib.Container
 
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
-                    property.SetValue(cls, ResloveClassAttr(bindData, cls.GetType(), property.PropertyType), null);
+                    property.SetValue(cls, ResloveClassAttr(bindData, cls.GetType(), property.PropertyType.ToString()), null);
                 }
                 else
                 {
-                    property.SetValue(cls, ResolveNonClassAttr(bindData , cls.GetType(), property.PropertyType), null);
+                    property.SetValue(cls, ResolveNonClassAttr(bindData , cls.GetType(), property.PropertyType.ToString()), null);
                 }
             }
 
@@ -283,20 +283,18 @@ namespace CatLib.Container
         /// <param name="type">参数类型</param>
         /// <param name="alias">别名</param>
         /// <returns></returns>
-        private object ResolveNonClassAttr(CBindData bindData, Type parent, Type type)
+        private object ResolveNonClassAttr(CBindData bindData, Type parent, string cls)
         {
             return null;
         }
 
         /// <summary>解决类类型</summary>
-        /// <param name="type">参数类型</param>
-        /// <param name="alias">别名</param>
         /// <returns></returns>
-        private object ResloveClassAttr(CBindData bindData , Type parent, Type type)
+        private object ResloveClassAttr(CBindData bindData , Type parent, string cls)
         {
             object obj = null;
 
-            if (type == typeof(CConfig))
+            if (cls == typeof(CConfig).ToString())
             {
                 if (config == null) { this.InitConfig(); }
                 if (config.ContainsKey(parent))
@@ -306,7 +304,7 @@ namespace CatLib.Container
             }
             else
             {
-                obj = Make(bindData.GetContextual(type.ToString()));
+                obj = Make(bindData.GetContextual(cls));
             }
 
             return obj;
