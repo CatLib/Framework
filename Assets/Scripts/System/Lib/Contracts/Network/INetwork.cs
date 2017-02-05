@@ -11,6 +11,8 @@ namespace CatLib.Contracts.Network
     {
         T Create<T>(string aisle) where T : IConnector;
 
+        T Create<T>(string aisle, string service) where T : IConnector;
+
         void Disconnect(string aisle);
 
         T Get<T>(string aisle) where T : IConnector;

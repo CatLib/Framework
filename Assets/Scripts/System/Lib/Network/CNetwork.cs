@@ -26,6 +26,20 @@ namespace CatLib.Network
         /// 创建一个网络链接
         /// </summary>
         /// <param name="aisle">通道</param>
+        /// <param name="service">服务名</param>
+        public T Create<T>(string aisle , string service) where T : IConnector
+        {
+            if (this.connector.ContainsKey(aisle)) { return (T)this.connector[aisle]; }
+            IConnector connector = (T)Application.Make(service);
+            this.connector.Add(aisle, connector);
+            Application.StartCoroutine(connector.StartServer());
+            return (T)connector;
+        }
+
+        /// <summary>
+        /// 创建一个网络链接
+        /// </summary>
+        /// <param name="aisle">通道</param>
         public T Create<T>(string aisle) where T : IConnector
         {
             if (this.connector.ContainsKey(aisle)) { return (T)this.connector[aisle]; }

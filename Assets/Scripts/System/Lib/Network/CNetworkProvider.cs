@@ -4,6 +4,7 @@ using CatLib.Base;
 using CatLib.Container;
 using CatLib.Contracts.Network;
 using CatLib.Contracts.Base;
+using CatLib.Network.UnityWebRequest;
 
 namespace CatLib.Network
 {
@@ -22,7 +23,8 @@ namespace CatLib.Network
         public override void Register()
         {
             application.Singleton<CNetwork>().Alias<INetwork>();
-            application.Bind<CWebRequest>().Alias<IConnectorShort>();
+            application.Bind<CWebRequest>().Alias<IConnectorHttp>();
+            application.Bind<CCookieWebRequest>().Alias("testcookie");
         }
 
 

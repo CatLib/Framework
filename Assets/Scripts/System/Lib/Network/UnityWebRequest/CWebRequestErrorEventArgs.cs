@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-namespace CatLib.Network
+namespace CatLib.Network.UnityWebRequest
 {
 
 
@@ -12,9 +12,9 @@ namespace CatLib.Network
     public class CWebRequestErrorEventArgs : System.EventArgs
     {
 
-        public UnityWebRequest Request { get; set; }
+        public UnityEngine.Networking.UnityWebRequest Request { get; set; }
 
-        public CWebRequestErrorEventArgs(UnityWebRequest request)
+        public CWebRequestErrorEventArgs(UnityEngine.Networking.UnityWebRequest request)
         {
             Request = request;
         }

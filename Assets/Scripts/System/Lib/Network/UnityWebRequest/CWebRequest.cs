@@ -7,11 +7,12 @@ using CatLib.Container;
 using CatLib.Contracts.Event;
 using CatLib.Contracts.Network;
 using CatLib.Base;
+using CatLib.Exception;
 
-namespace CatLib.Network
+namespace CatLib.Network.UnityWebRequest
 {
 
-    public class CWebRequest : CComponent, IConnectorShort
+    public class CWebRequest : CComponent, IConnectorHttp
     {
 
         /// <summary>
@@ -34,24 +35,25 @@ namespace CatLib.Network
         /// <summary>
         /// 发送队列
         /// </summary>
-        private Queue<UnityWebRequest> queue = new Queue<UnityWebRequest>();
+        private Queue<UnityEngine.Networking.UnityWebRequest> queue = new Queue<UnityEngine.Networking.UnityWebRequest>();
 
         /// <summary>
         /// 设定服务器访问地址
         /// </summary>
         /// <param name="url"></param>
-        public void SetUrl(string url)
+        public IConnectorHttp SetUrl(string url)
         {
             this.url = url.TrimEnd('/');
+            return this;
         }
 
         /// <summary>
         /// 发送一条数据
         /// </summary>
         /// <param name="bytes"></param>
-        public void Send(byte[] bytes)
+        public void Post(byte[] bytes)
         {
-            SendTo(url, bytes);
+            throw new CException("this component is not support this function");
         }
 
         /// <summary>
@@ -59,29 +61,46 @@ namespace CatLib.Network
         /// </summary>
         /// <param name="action"></param>
         /// <param name="bytes"></param>
-        public void Send(string action, byte[] bytes)
+        public void Post(string action, byte[] bytes)
         {
-            SendTo(url + "/" + action, bytes);
+            throw new CException("this component is not support this function");
+        }
+
+        public void Post(string action, Dictionary<string, string> fields)
+        {
+            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Post(url + action, fields);
+            queue.Enqueue(request);
         }
 
         /// <summary>
-        /// 发送一条数据
+        /// 以Post模式获取数据
         /// </summary>
-        /// <param name="bytes"></param>
         /// <param name="action"></param>
-        private void SendTo(string url , byte[] bytes)
+        /// <param name="form"></param>
+        public void Post(string action, WWWForm form)
         {
+            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Post(url + action, form);
+            queue.Enqueue(request);
+        }
 
-            WWWForm form = new WWWForm();
-            if (bytes != null)
-            {
-                form.AddBinaryData("data", bytes);
-            }else
-            {
-                form.AddField("data", string.Empty);
-            }
-            UnityWebRequest request = UnityWebRequest.Post(url, form);
+        /// <summary>
+        /// 以Get模式获取数据
+        /// </summary>
+        /// <param name="action"></param>
+        public void Get(string action)
+        {
+            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Get(url + action);
+            queue.Enqueue(request);
+        }
 
+        /// <summary>
+        /// 以Put模式发送数据
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="bodyData"></param>
+        public void Put(string action, byte[] bodyData)
+        {
+            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Put(url + action, bodyData);
             queue.Enqueue(request);
         }
 
@@ -104,7 +123,7 @@ namespace CatLib.Network
                 if (isDisconnect) { break; }
                 if (queue.Count > 0)
                 {
-                    UnityWebRequest request;
+                    UnityEngine.Networking.UnityWebRequest request;
                     while (queue.Count > 0)
                     {
                         request = queue.Dequeue();

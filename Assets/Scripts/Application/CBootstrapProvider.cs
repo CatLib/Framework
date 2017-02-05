@@ -8,6 +8,7 @@ using CatLib.Contracts.Event;
 using CatLib.Contracts.Network;
 using CatLib.Contracts.Base;
 using CatLib.Network;
+using CatLib.Network.UnityWebRequest;
 
 namespace App
 {
@@ -28,20 +29,27 @@ namespace App
                 (lua as IEvent).Event.One(CLua.Events.ON_HOT_FIXED_COMPLETE, (sender, e) =>
                 {
 
-                    IConnectorShort conn1 = FNetwork.Instance.Create<IConnectorShort>("test1");
-                    IConnectorShort conn2 = FNetwork.Instance.Create<IConnectorShort>("test2");
-                    IConnectorShort conn3 = FNetwork.Instance.Create<IConnectorShort>("test3");
+                    IConnectorHttp conn1 = FNetwork.Instance.Create<IConnectorHttp>("test1");
+                    IConnectorHttp conn2 = FNetwork.Instance.Create<IConnectorHttp>("test2");
+                    IConnectorHttp conn3 = FNetwork.Instance.Create<IConnectorHttp>("test3");
+                    IConnectorHttp conn4 = FNetwork.Instance.Create<IConnectorHttp>("test4", "testcookie");
 
+                    /*
                     FDispatcher.Instance.Event.One(conn1.GetType().ToString(), (obj1, obj2) =>
                     {
                         Debug.Log("from type one:" + (obj2 as CWebRequestEventArgs).Request.downloadHandler.text);
-                    });
+                    });*/
 
                     FDispatcher.Instance.Event.On(conn1.GetType().ToString(), (obj1, obj2) =>
                     {
-                        Debug.Log("from type on:" + (obj2 as CWebRequestEventArgs).Request.downloadHandler.text);
+                        foreach(var a in (obj2 as CWebRequestEventArgs).Request.GetResponseHeaders())
+                        {
+                            Debug.Log(a.Key + "," + a.Value);
+                        }
+                        //Debug.Log("from type on:" +);
                     });
 
+                    /*
                     FDispatcher.Instance.Event.One((conn1 as IGuid).TypeGuid, (obj1, obj2) =>
                     {
 
@@ -51,16 +59,18 @@ namespace App
                     {
                         Debug.Log("from class2:" + (obj2 as CWebRequestEventArgs).Request.downloadHandler.text);
                     });
+                    */
 
                     conn3.SetUrl("http://127.0.0.1/testcookie.php");
-                    conn3.Send(null);
-                    conn3.Send(null);
+                    conn3.Put(string.Empty , null);
+                    //conn3.Send(null);
 
+                    /*
                     conn1.SetUrl("http://www.52softs.com");
                     conn1.Send(new byte[] { });
 
                     conn2.SetUrl("http://www.baidu.com");
-                    conn2.Send(new byte[] { });
+                    conn2.Send(new byte[] { });*/
 
                     
 

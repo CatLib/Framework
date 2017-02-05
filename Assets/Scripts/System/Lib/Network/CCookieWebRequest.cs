@@ -13,51 +13,106 @@ using CatLib.Contracts.Network;
 namespace CatLib.Network
 {
 
-    public class RequestEnumerator : IEnumerator
+    public class CCookieWebRequest : IConnectorHttp
     {
-        bool done = false;
-        HttpWebRequest request;
 
-        public RequestEnumerator(HttpWebRequest request)
-        {
-            this.request = request;
-        }
+        /// <summary>
+        /// 发送一条数据
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void Post(byte[] bytes) { }
 
-        public object Current
+        /// <summary>
+        /// 发送一条数据
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="fields"></param>
+        public void Post(string action, Dictionary<string, string> fields) { }
+
+        /// <summary>
+        /// 发送一条数据
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="bytes"></param>
+        public void Post(string action, byte[] bytes) { }
+
+        /// <summary>
+        /// 以post模式发送一条数据
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="formData"></param>
+        public void Post(string action, WWWForm formData) { }
+
+        /// <summary>
+        /// 以Put模式推送一条数据
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="bodyData"></param>
+        public void Put(string action, byte[] bodyData) { }
+
+        /// <summary>
+        /// 以get模式发送请求
+        /// </summary>
+        /// <param name="action"></param>
+        public void Get(string action) { }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public class RequestEnumerator : IEnumerator
         {
-            get
+            bool done = false;
+            System.Net.HttpWebRequest request;
+
+            public RequestEnumerator(System.Net.HttpWebRequest request)
             {
-                byte[] r = CCookieWebRequest.sendWebRequest(request);
-                Debug.Log( "LoG: " + System.Text.UTF8Encoding.Default.GetString(r) );
-                return (object)r; //  System.Text.UTF8Encoding.Default.GetString(r);
+                this.request = request;
+            }
+
+            public object Current
+            {
+                get
+                {
+                    byte[] r = SendWebRequest(request);
+                    Debug.Log("LoG: " + System.Text.UTF8Encoding.Default.GetString(r));
+                    return r;
+                }
+            }
+
+            public bool MoveNext()
+            {
+                if (this.done)
+                {
+                    return false;
+                }
+                this.done = true;
+                return true;
+            }
+
+            public void Reset()
+            {
             }
         }
 
-        public bool MoveNext()
+        private static CookieContainer cookie = new CookieContainer();
+
+        private static System.Net.HttpWebRequest GetWebRequest(String url, byte[] bytes, string[] headers)
         {
-            if (this.done)
-            {
-                return false;
-            }
-            this.done = true;
-            return true;
-        }
-
-        public void Reset()
-        {
-        }
-    }
-
-    public class CCookieWebRequest : IConnectorShort
-    {
-        static CookieContainer cookie = new CookieContainer();
-
-        static HttpWebRequest getWebRequest(String url, byte[] bytes, string[] headers)
-        {
-            // String url = "http://echo-system.co:8080/test/index?a=1";
-
-            // var bytes = System.Text.UTF8Encoding.Default.GetBytes("abc");
-            HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;
+            System.Net.HttpWebRequest request = WebRequest.Create(url) as System.Net.HttpWebRequest;
             request.Method = "POST";
             request.KeepAlive = true;
             request.CookieContainer = cookie;
@@ -76,21 +131,19 @@ namespace CatLib.Network
             return request;
         }
 
-        public static byte[] sendWebRequest(HttpWebRequest request)
+        private static byte[] SendWebRequest(System.Net.HttpWebRequest request)
         {
             HttpWebResponse response = null;
             Stream responseStream = null;
             MemoryStream memoryStream = null;
             try
             {
-                // send request
+
                 response = request.GetResponse() as HttpWebResponse;
                 cookie.Add(response.Cookies);
-                // Console.WriteLine("cookie.Count = {0}", cookie.Count);
-
+   
                 responseStream = response.GetResponseStream();
                 memoryStream = new MemoryStream();
-                // responseStream.CopyTo(memoryStream);
 
                 int bufSize = 8192, count;
                 byte[] buffer = new byte[bufSize];
@@ -100,7 +153,6 @@ namespace CatLib.Network
                     memoryStream.Write(buffer, 0, count);
                     count = responseStream.Read(buffer, 0, bufSize);
                 }
-
                 return memoryStream.ToArray();
             }
             catch (System.Exception e)
@@ -124,9 +176,9 @@ namespace CatLib.Network
             }
         }
 
-        static byte[] curl(String url, byte[] bytes, string[] headers)
+        private static byte[] Curl(String url, byte[] bytes, string[] headers)
         {
-            return sendWebRequest(getWebRequest(url, bytes, headers));
+            return SendWebRequest(GetWebRequest(url, bytes, headers));
         }
 
         /// <summary>
@@ -143,15 +195,16 @@ namespace CatLib.Network
         /// <summary>
         /// 发送队列
         /// </summary>
-        private Queue<HttpWebRequest> queue = new Queue<HttpWebRequest>();
+        private Queue<System.Net.HttpWebRequest> queue = new Queue<System.Net.HttpWebRequest>();
 
         /// <summary>
         /// 设定服务器访问地址
         /// </summary>
         /// <param name="url"></param>
-        public void SetUrl(string url)
+        public IConnectorHttp SetUrl(string url)
         {
             this.url = url.TrimEnd('/');
+            return this;
         }
 
         /// <summary>
@@ -180,7 +233,7 @@ namespace CatLib.Network
         /// <param name="action"></param>
         private void SendTo(string url , byte[] bytes)
         {
-            HttpWebRequest request = getWebRequest(url, bytes, new string[] { });
+            System.Net.HttpWebRequest request = GetWebRequest(url, bytes, new string[] { });
             queue.Enqueue(request);
         }
 
@@ -203,7 +256,7 @@ namespace CatLib.Network
                 if (isDisconnect) { break; }
                 if (queue.Count > 0)
                 {
-                    HttpWebRequest request;
+                    System.Net.HttpWebRequest request;
                     while (queue.Count > 0)
                     {
                         request = queue.Dequeue();
