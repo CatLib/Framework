@@ -53,10 +53,11 @@ namespace CatLib.FileSystem{
 
         public static FileInfo[] RWalk(this string path)
         {
+			List<FileInfo> returnList = new List<FileInfo>();
+			if(!path.DirExists()){ return returnList.ToArray(); }
             DirectoryInfo folder = new DirectoryInfo(path);
             FileSystemInfo[] files = folder.GetFileSystemInfos();
             int length = files.Length;
-            List<FileInfo> returnList = new List<FileInfo>();
             for (int i = 0; i < length; i++)
             {
 

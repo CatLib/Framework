@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using XLua;
 
 namespace CapLib.Base
 {
 
+    [LuaCallCSharp]
     /// <summary>
     /// CatLib程序
     /// </summary>

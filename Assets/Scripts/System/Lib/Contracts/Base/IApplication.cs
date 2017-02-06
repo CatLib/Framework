@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using CatLib.Contracts.Container;
 using CatLib.Contracts.Event;
 using System;
+using XLua;
 
 namespace CatLib.Contracts.Base
 {
-
+    [LuaCallCSharp]
     public interface IApplication : IContainer , IEvent
     {
 

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System;
+using XLua;
 
 namespace CatLib.Base
 {
+    [LuaCallCSharp]
     /// <summary>类型转换拓展方法</summary>
     public static class TypeConversionExpand
     {

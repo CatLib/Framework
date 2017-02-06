@@ -2,10 +2,12 @@
 using System.Collections;
 using CapLib.Base;
 using CatLib.Container;
+using XLua;
 
 namespace CatLib.Base
 {
 
+    [LuaCallCSharp]
     /// <summary>
     /// 门面基类
     /// </summary>

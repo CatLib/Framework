@@ -19,6 +19,8 @@ namespace CatLib.UpdateSystem
 
         public class Events {
 
+            public static string ON_UPDATE_START = "autoupdate.update.start";
+
             public static string ON_UPDATE_LIST_FAILED = "autoupdate.update.list.falid";
 
             public static string ON_SCANNING_DISK_FILE_HASH_START = "autoupdate.disk.file.hash.start";
@@ -45,6 +47,13 @@ namespace CatLib.UpdateSystem
 
         protected bool isUpdate;
 
+        protected int needUpdateNum;
+        public int NeedUpdateNum{ get{ return needUpdateNum; } }
+
+
+        protected int updateNum;
+        public int UpdateNum{ get{ return updateNum; } }
+
         public bool UpdateAsset()
         {
             string[] assetUrl = Config.Get<string[]>("update.url");
@@ -69,6 +78,7 @@ namespace CatLib.UpdateSystem
         /// <returns></returns>
         protected IEnumerator UpdateList(string resUrl)
         {
+            base.Event.Trigger(Events.ON_UPDATE_START);
             resUrl = resUrl + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
             UnityWebRequest request = UnityWebRequest.Get(resUrl + "/" + CUpdateList.FILE_NAME);
             yield return request.Send();
@@ -138,6 +148,8 @@ namespace CatLib.UpdateSystem
         protected IEnumerator UpdateAssetFromUrl(CUpdateList needUpdateLst, string downloadUrl)
         {
 
+            updateNum = 0;
+            needUpdateNum = needUpdateLst.Count();
             string savePath, downloadPath, saveDir;
             base.Event.Trigger(Events.ON_UPDATE_FILE_START);
             foreach (CUpdateListField field in needUpdateLst)
@@ -147,10 +159,9 @@ namespace CatLib.UpdateSystem
 
                 saveDir = savePath.Substring(0, savePath.LastIndexOf('/'));
 
+                updateNum++;
                 base.Event.Trigger(Events.ON_UPDATE_FILE_ACTION);
-
-                ;
-
+                
                 using (UnityWebRequest request = UnityWebRequest.Get(downloadPath))
                 {
                     yield return request.Send();
@@ -162,7 +173,7 @@ namespace CatLib.UpdateSystem
                     CDirectory.CreateDir(saveDir);
                     savePath.Cover(request.downloadHandler.data, 0, request.downloadHandler.data.Length);
                 }
-
+                
             }
 
             base.Event.Trigger(Events.ON_UPDATE_FILE_END);

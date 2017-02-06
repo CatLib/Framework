@@ -88,6 +88,8 @@ namespace CatLib.UpdateSystem{
 			string baseFileName = fileName.Substring(0 , fileName.Length - extension.Length);
 			string assetName = fullName.Substring(basePath.Length);
 			assetName = assetName.Substring(0 , assetName.Length - fileName.Length).TrimEnd('/');
+			
+			if(baseFileName + extension == ".DS_Store"){ return; }
 
 			int variantIndex = baseFileName.LastIndexOf(".");
 			string variantName = string.Empty;

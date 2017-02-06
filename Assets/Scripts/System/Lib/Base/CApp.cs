@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CatLib.Contracts.Base;
+using XLua;
 
 namespace CapLib.Base
 {
 
+    [LuaCallCSharp]
     public class CApp
     {
 

@@ -6,10 +6,12 @@ using System;
 using CatLib.Contracts.Event;
 using CapLib.Base;
 using CatLib.Contracts.Base;
+using XLua;
 
 namespace CatLib.Base
 {
 
+    [LuaCallCSharp]
     /// <summary>
     /// 组件基类
     /// </summary>
@@ -57,6 +59,7 @@ namespace CatLib.Base
         {
             if (handlers == null) { handlers = new Dictionary<IEvent, Dictionary<string, EventHandler>>(); }
             if (!handlers.ContainsKey(to)) { handlers.Add(to, new Dictionary<string, EventHandler>()); }
+            to.Event.On(name , handler);
             if (!handlers[to].ContainsKey(name))
             {
                 handlers[to].Add(name, handler);
@@ -75,6 +78,7 @@ namespace CatLib.Base
         {
             if (handlersOne == null) { handlersOne = new Dictionary<IEvent, Dictionary<string, EventHandler>>(); }
             if (!handlersOne.ContainsKey(to)) { handlersOne.Add(to, new Dictionary<string, EventHandler>()); }
+            to.Event.One(name , handler);
             if (!handlersOne[to].ContainsKey(name))
             {
                 handlersOne[to].Add(name, handler);

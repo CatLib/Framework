@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using XLua;
 
 namespace CatLib.Contracts.Network
 {
+    [LuaCallCSharp]
     /// <summary>
     /// 连接器
     /// </summary>

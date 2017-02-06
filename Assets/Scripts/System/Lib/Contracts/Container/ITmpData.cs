@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using XLua;
 
 namespace CatLib.Contracts.Container
 {
+    [LuaCallCSharp]
 
     public interface ITmpData
     {

@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using XLua;
 
 namespace CatLib.Contracts.Container
 {
+    [LuaCallCSharp]
 	///<summary>容器接口</summary>
     public interface IContainer
     {

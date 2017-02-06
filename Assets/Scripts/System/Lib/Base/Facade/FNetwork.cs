@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
-using CatLib.Contracts.Network;
+﻿using CatLib.Contracts.Network;
+using XLua;
 
 namespace CatLib.Base
 {
+    [LuaCallCSharp]
     public class FNetwork : CBaseFacade<INetwork>
     {
 

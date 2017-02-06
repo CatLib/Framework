@@ -35,6 +35,12 @@ namespace CatLib.UpdateSystem{
             return this;
         }
 
+        public int Count(){
+
+            return field.Count;
+
+        }
+
         public IEnumerator GetEnumerator()
         {
             return (new List<CUpdateListField>(field.ToArray())).GetEnumerator();

@@ -36,6 +36,11 @@ namespace CatLib.ResourcesSystem {
             set { variant = value; }
         }
 
+        public Object Load(string path){
+
+            return Load<Object>(path);
+
+        }
 
         /// <summary>
         /// 加载资源
@@ -47,6 +52,12 @@ namespace CatLib.ResourcesSystem {
         {
             this.LoadManifest();
             return this.LoadAsset<T>(path);
+        }
+
+        public Object[] LoadAll(string path){
+
+            return LoadAll<Object>(path);
+
         }
 
         public T[] LoadAll<T>(string path ) where T : Object
@@ -114,6 +125,12 @@ namespace CatLib.ResourcesSystem {
 
         }
 
+        public UnityEngine.Coroutine LoadAsyn(string path, System.Action<Object> callback){
+
+            return LoadAsyn<Object>(path , callback);
+
+        }
+
         /// <summary>
         /// 加载资源（异步）
         /// </summary>
@@ -125,6 +142,12 @@ namespace CatLib.ResourcesSystem {
         {
             this.LoadManifest();
             return Application.StartCoroutine(this.LoadAssetAsyn<T>(path , callback));
+
+        }
+
+        public UnityEngine.Coroutine LoadAllAsyn(string path, System.Action<Object[]> callback){
+
+            return LoadAllAsyn<Object>(path , callback);
 
         }
 

@@ -1,14 +1,13 @@
-﻿using UnityEngine;
-using System.Collections;
-using CatLib.Event;
+﻿using CatLib.Event;
 using CatLib.Contracts.Event;
-using CatLib.Container;
 using CatLib.Contracts.Base;
 using CapLib.Base;
+using XLua;
 
 namespace CatLib.Base
 {
 
+    [LuaCallCSharp]
     public class CComponent : IEvent , IGuid
     {
 

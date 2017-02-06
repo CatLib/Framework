@@ -6,7 +6,6 @@ using CatLib.Contracts.Base;
 
 namespace CatLib.Base
 {
-
     /// <summary>
     /// 服务提供者
     /// </summary>

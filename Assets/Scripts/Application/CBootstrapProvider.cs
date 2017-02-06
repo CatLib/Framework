@@ -60,9 +60,10 @@ namespace App
                         Debug.Log("from class2:" + (obj2 as CWebRequestEventArgs).Request.downloadHandler.text);
                     });
                     */
-
+                    
+                    /*
                     conn3.SetUrl("http://127.0.0.1/testcookie.php");
-                    conn3.Put(string.Empty , null);
+                    conn3.Put(string.Empty , null);*/
                     //conn3.Send(null);
 
                     /*

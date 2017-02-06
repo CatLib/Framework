@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using XLua;
 
 namespace CatLib.Contracts.Container
 {
 
+    [LuaCallCSharp]
     public interface IBindData
     {
 
