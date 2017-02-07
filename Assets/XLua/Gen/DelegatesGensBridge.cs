@@ -42,6 +42,33 @@ namespace XLua
 #endif
 		}
         
+		public void SystemVoid(UnityEngine.Object obj)
+		{
+#if THREAD_SAFT || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.L;
+                int err_func =LuaAPI.load_error_func(L, errorFuncRef);
+                ObjectTranslator translator = luaEnv.translator;
+                
+                LuaAPI.lua_getref(L, luaReference);
+                
+                translator.Push(L, obj);
+                
+                int __gen_error = LuaAPI.lua_pcall(L, 1, 0, err_func);
+                if (__gen_error != 0)
+                    luaEnv.ThrowExceptionFromError(err_func - 1);
+                
+                
+                
+                LuaAPI.lua_settop(L, err_func - 1);
+                
+#if THREAD_SAFT || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
 		public void SystemVoid(bool obj)
 		{
 #if THREAD_SAFT || HOTFIX_ENABLE
@@ -838,6 +865,11 @@ namespace XLua
 		    if (type == typeof(System.Action))
 			{
 			    return new System.Action(SystemVoid);
+			}
+		
+		    if (type == typeof(System.Action<UnityEngine.Object>))
+			{
+			    return new System.Action<UnityEngine.Object>(SystemVoid);
 			}
 		
 		    if (type == typeof(System.Action<bool>))

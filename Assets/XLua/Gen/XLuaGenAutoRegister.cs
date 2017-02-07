@@ -21,6 +21,58 @@ namespace CSObjectWrap
         {
 		    XLua.LuaEnv.AddIniter((luaenv, translator) => {
 			    
+				translator.DelayWrapLoader(typeof(UnityEngine.Application), UnityEngineApplicationWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CapLib.Base.CApp), CapLibBaseCAppWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.CComponent), CatLibBaseCComponentWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.CMonoComponent), CatLibBaseCMonoComponentWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.CLuaMonoComponent), CatLibBaseCLuaMonoComponentWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.FAutoUpdate), CatLibBaseFAutoUpdateWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.FDispatcher), CatLibBaseFDispatcherWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.FLua), CatLibBaseFLuaWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.FNetwork), CatLibBaseFNetworkWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Base.FResources), CatLibBaseFResourcesWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Base.IApplication), CatLibContractsBaseIApplicationWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Container.IBindData), CatLibContractsContainerIBindDataWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Container.IContainer), CatLibContractsContainerIContainerWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Container.ITmpData), CatLibContractsContainerITmpDataWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Event.IDispatcher), CatLibContractsEventIDispatcherWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Event.IEvent), CatLibContractsEventIEventWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Lua.ILua), CatLibContractsLuaILuaWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Network.IConnector), CatLibContractsNetworkIConnectorWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Network.IConnectorHttp), CatLibContractsNetworkIConnectorHttpWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Network.IConnectorSocket), CatLibContractsNetworkIConnectorSocketWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.Network.INetwork), CatLibContractsNetworkINetworkWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.ResourcesSystem.IResources), CatLibContractsResourcesSystemIResourcesWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Contracts.UpdateSystem.IAutoUpdate), CatLibContractsUpdateSystemIAutoUpdateWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Support.CInput), CatLibSupportCInputWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CatLib.Support.CEnv), CatLibSupportCEnvWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(CapLib.Base.CApplication), CapLibBaseCApplicationWrap.__Register);
+				
 				translator.DelayWrapLoader(typeof(LuaBehaviour), LuaBehaviourWrap.__Register);
 				
 				translator.DelayWrapLoader(typeof(XLuaTest.Pedding), XLuaTestPeddingWrap.__Register);
