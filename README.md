@@ -29,7 +29,7 @@ Unity3D Framework For XLua
 * protobuf网络协议组件（等待开发）
 * json协议组件（等待开发）
 * xml协议组件（等待开发）
-* csv文件服务组件（等待开发）
+* csv文件服务组件（被认领）
 * excel文件服务组件（等待开发）
 * 本地化组件（等待开发）
 
