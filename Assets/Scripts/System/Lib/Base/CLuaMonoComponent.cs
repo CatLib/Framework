@@ -11,7 +11,6 @@ using CatLib.Contracts.ResourcesSystem;
 
 namespace CatLib.Base {
 
-    [LuaCallCSharp]
     /// <summary>
     /// Lua 组件
     /// </summary>

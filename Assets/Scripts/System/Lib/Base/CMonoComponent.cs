@@ -11,7 +11,6 @@ using XLua;
 namespace CatLib.Base
 {
 
-    [LuaCallCSharp]
     /// <summary>
     /// 组件基类
     /// </summary>

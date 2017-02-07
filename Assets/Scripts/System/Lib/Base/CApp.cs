@@ -6,7 +6,6 @@ using XLua;
 namespace CapLib.Base
 {
 
-    [LuaCallCSharp]
     public class CApp
     {
 

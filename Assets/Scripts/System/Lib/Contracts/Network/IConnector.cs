@@ -4,7 +4,6 @@ using XLua;
 namespace CatLib.Contracts.Network
 {
 
-    [LuaCallCSharp]
     public interface IConnector
     {
 

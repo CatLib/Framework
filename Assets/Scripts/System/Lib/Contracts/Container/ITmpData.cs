@@ -2,7 +2,6 @@
 
 namespace CatLib.Contracts.Container
 {
-    [LuaCallCSharp]
 
     public interface ITmpData
     {

@@ -7,7 +7,6 @@ using XLua;
 namespace CatLib.Base
 {
 
-    [LuaCallCSharp]
     public class CComponent : IEvent , IGuid
     {
 

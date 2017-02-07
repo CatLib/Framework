@@ -6,7 +6,6 @@ using XLua;
 namespace CatLib.Base
 {
 
-    [LuaCallCSharp]
     /// <summary>
     /// CatLib Mono Object
     /// </summary>

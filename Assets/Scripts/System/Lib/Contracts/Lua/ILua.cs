@@ -5,7 +5,6 @@ using XLua;
 namespace CatLib.Contracts.Lua
 {
 
-    [LuaCallCSharp]
     public interface ILua
     {
 

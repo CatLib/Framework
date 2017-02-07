@@ -7,6 +7,7 @@ using CatLib.ResourcesSystem;
 using CatLib.Container;
 using CatLib.Contracts.UpdateSystem;
 using UnityEngine.Networking;
+using CatLib.Secret;
 
 namespace CatLib.UpdateSystem
 {

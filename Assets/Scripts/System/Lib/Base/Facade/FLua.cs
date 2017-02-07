@@ -5,7 +5,6 @@ using XLua;
 
 namespace CatLib.Base
 {
-    [LuaCallCSharp]
     public class FLua : CBaseFacade<ILua>
     {
 

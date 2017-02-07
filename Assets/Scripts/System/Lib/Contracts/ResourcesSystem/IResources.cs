@@ -4,7 +4,6 @@ using XLua;
 namespace CatLib.Contracts.ResourcesSystem
 {
 
-    [LuaCallCSharp]
     public interface IResources
     {
 

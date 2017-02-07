@@ -7,7 +7,6 @@ using XLua;
 namespace CatLib.Base
 {
 
-    [LuaCallCSharp]
     /// <summary>
     /// 门面基类
     /// </summary>

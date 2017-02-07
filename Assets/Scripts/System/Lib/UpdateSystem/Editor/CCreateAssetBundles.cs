@@ -5,6 +5,7 @@ using CatLib.Exception;
 using CatLib.FileSystem;
 using System.IO;
 using CatLib.UpdateSystem;
+using CatLib.Secret;
 
 namespace CatLib.UpdateSystem{
 
