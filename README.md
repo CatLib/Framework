@@ -37,7 +37,7 @@ Unity3D Framework For XLua
 * 多平台自动打包服务（等待开发）
 * PSD分层自动布局服务（UGUI ，NGUI）（等待开发）
 
-# 文件目录描述
+## 文件目录描述
 * Scripts/ 代码文件目录
 * Scripts/Application/ 用户代码目录 (可自定义名字)
 * Scripts/Config/ 框架组件配置目录
@@ -46,9 +46,9 @@ Unity3D Framework For XLua
 * Scripts/System/Lib/ 框架组件目录（核心）
 * Scripts/System/Lib/Contracts 框架接口文件（重要，因为面向接口开发，里面包含各组件的接口）
 
-# 程序入口
+## 程序入口
 * Scripts/CProgram.cs
 
-# 用户代码入口(默认)
+## 用户代码入口(默认)
 * Scripts/Application/CBootstrapProvider.cs (可自定义，只需配置到config中就可以了)
 
