@@ -1,6 +1,7 @@
 # CatLib
 Unity3D Framework For XLua
 框架正在开发中，改动较为频繁。
+欢迎大家认领组件开发，一起完善框架~！
 
 ## 计划的功能
 
@@ -33,5 +34,3 @@ Unity3D Framework For XLua
 编辑器拓展
 * 多平台自动打包服务（等待开发）
 * PSD分层自动布局服务（UGUI ，NGUI）（等待开发）
-
-欢迎大家认领组件开发，一起完善框架~！
