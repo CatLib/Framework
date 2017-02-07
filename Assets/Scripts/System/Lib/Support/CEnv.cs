@@ -7,12 +7,47 @@ namespace CatLib.Support
     /// <summary>
     /// 环境
     /// </summary>
-    public class CEnv{
+    public class CEnv {
 
-		/// <summary>
-		/// 只可读不可写的文件存放路径(不能做热更新)
+        public enum DebugLevels
+        {
+
+            /// <summary>
+            /// 线上 
+            /// </summary>
+            ONLINE,
+
+            /// <summary>
+            /// 仿真模拟
+            /// </summary>
+            STAGING,
+
+            /// <summary>
+            /// 开发者模式
+            /// </summary>
+            DEV,
+
+        }
+
+        /// <summary>
+        /// 调试等级
+        /// </summary>
+        public static DebugLevels DebugLevel { get { return DebugLevels.DEV; } }
+
+        /// <summary>
+		/// 编译完成后发布AssetBundle的路径
 		/// </summary>
-		public static string StreamingAssetsPath{
+		public static string ReleasePath { get { return "/Release"; } }
+
+        /// <summary>
+		/// 需要编译成AssetBundle的资源包路径
+		/// </summary>
+		public static string ResourcesBuildPath { get{ return "/ResourcesBuild"; } }
+
+        /// <summary>
+        /// 只可读不可写的文件存放路径(不能做热更新)
+        /// </summary>
+        public static string StreamingAssetsPath{
 
 			get{ return Application.streamingAssetsPath; }
 

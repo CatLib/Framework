@@ -3,9 +3,9 @@ using System.Collections;
 using CatLib.Base;
 using CatLib.Support;
 using System.Collections.Generic;
-using CatLib.Container;
 using CatLib.FileSystem;
 using CatLib.Contracts.ResourcesSystem;
+using CatLib.Support;
 
 namespace CatLib.ResourcesSystem {
 
@@ -63,9 +63,26 @@ namespace CatLib.ResourcesSystem {
         public T[] LoadAll<T>(string path ) where T : Object
         {
             this.LoadManifest();
-            string relPath, objName;
+            string relPath, objName, envPath;
             LoadPath<T>(path, out relPath, out objName);
-            AssetBundle assetTarget = LoadAssetBundle(relPath + "/" + objName);
+
+            #if UNITY_EDITOR
+            if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+            {
+                return UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName).To<T>();
+            }
+            #endif
+
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
+            }
+            else
+            {
+                envPath = CEnv.AssetPath;
+            }
+           
+            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + "/" + objName);
             T[] targetAssets = assetTarget.LoadAllAssets<T>();
             return targetAssets;
         }
@@ -78,9 +95,27 @@ namespace CatLib.ResourcesSystem {
         /// <returns></returns>
         protected T LoadAsset<T>(string path) where T : Object
         {
-            string relPath, objName;
+           
+            string relPath, objName , envPath;
             LoadPath<T>(path, out relPath, out objName);
-            AssetBundle assetTarget = LoadAssetBundle(relPath);
+
+            #if UNITY_EDITOR
+                if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+                {
+                    return UnityEditor.AssetDatabase.LoadAssetAtPath<T>("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName);
+                }
+            #endif
+
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
+            }
+            else
+            {
+                envPath = CEnv.AssetPath;
+            }
+
+            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath);
             T targetAsset = assetTarget.LoadAsset<T>(objName);
             return targetAsset;
 
@@ -99,13 +134,13 @@ namespace CatLib.ResourcesSystem {
             }
         }
 
-        protected AssetBundle LoadAssetBundle(string relPath)
+        protected AssetBundle LoadAssetBundle(string envPath , string relPath)
         {
             foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
                 if (!loadAssetBundle.ContainsKey(dependencies))
                 {
-                    AssetBundle assetBundle = AssetBundle.LoadFromFile(CEnv.AssetPath + "/" + dependencies);
+                    AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + "/" + dependencies);
                     loadAssetBundle.Add(dependencies, assetBundle);
                 }
             }
@@ -113,7 +148,7 @@ namespace CatLib.ResourcesSystem {
             AssetBundle assetTarget;
             if (!loadAssetBundle.ContainsKey(relPath))
             {
-                assetTarget = AssetBundle.LoadFromFile(CEnv.AssetPath + "/" + relPath);
+                assetTarget = AssetBundle.LoadFromFile(envPath + "/" + relPath);
                 loadAssetBundle.Add(relPath, assetTarget);
             }
             else
@@ -163,7 +198,25 @@ namespace CatLib.ResourcesSystem {
         protected void LoadManifest()
         {
             if (assetBundleManifest != null) { return; }
-            string manifestPath = CEnv.AssetPath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
+
+            #if UNITY_EDITOR
+            if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+            {
+                return;
+            }
+            #endif
+
+            string envPath;
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
+            }
+            else
+            {
+                envPath = CEnv.AssetPath;
+            }
+
+            string manifestPath = envPath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
             AssetBundle assetBundle = AssetBundle.LoadFromFile(manifestPath);
             assetBundleManifest = assetBundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
         }
@@ -178,12 +231,32 @@ namespace CatLib.ResourcesSystem {
         protected IEnumerator LoadAssetAsyn<T>(string path , System.Action<T> callback) where T : Object
         {
 
-            string relPath, objName;
+            string relPath, objName , envPath;
             LoadPath<T>(path, out relPath, out objName);
+
+
+            #if UNITY_EDITOR
+            if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+            {
+                callback.Invoke(UnityEditor.AssetDatabase.LoadAssetAtPath<T>("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName));
+                yield break;
+            }
+            #endif
+
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                Debug.Log(CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform));
+                envPath = CEnv.DataPath + CEnv.ReleasePath;
+            }
+            else
+            {
+                envPath = CEnv.AssetPath;
+            }
+
 
             AssetBundle assetTarget = null;
 
-            yield return LoadAssetBundleAsyn(relPath, (ab) =>
+            yield return LoadAssetBundleAsyn(envPath , relPath, (ab) =>
             {
                 assetTarget = ab;
             });
@@ -199,12 +272,29 @@ namespace CatLib.ResourcesSystem {
         protected IEnumerator LoadAssetAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object
         {
 
-            string relPath, objName;
+            string relPath, objName , envPath;
             LoadPath<T>(path, out relPath, out objName);
+
+            #if UNITY_EDITOR
+                if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+                {
+                    callback.Invoke(UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName).To<T>());
+                    yield break;
+                }
+            #endif
+
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
+            }
+            else
+            {
+                envPath = CEnv.AssetPath;
+            }
 
             AssetBundle assetTarget = null;
 
-            yield return LoadAssetBundleAsyn(relPath + "/" + objName, (ab) =>
+            yield return LoadAssetBundleAsyn(envPath , relPath + "/" + objName, (ab) =>
             {
                 assetTarget = ab;
             });
@@ -222,14 +312,14 @@ namespace CatLib.ResourcesSystem {
         /// </summary>
         /// <param name="relPath"></param>
         /// <returns></returns>
-        protected IEnumerator LoadAssetBundleAsyn(string relPath , System.Action<AssetBundle> assetBundle) 
+        protected IEnumerator LoadAssetBundleAsyn(string envPath , string relPath , System.Action<AssetBundle> assetBundle) 
         {
 
             foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
                 if (!loadAssetBundle.ContainsKey(dependencies))
                 {
-                    AssetBundleCreateRequest assetBundleDependencies = AssetBundle.LoadFromFileAsync(CEnv.AssetPath + "/" + dependencies);
+                    AssetBundleCreateRequest assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + "/" + dependencies);
                     yield return assetBundleDependencies;
                     loadAssetBundle.Add(dependencies, assetBundleDependencies.assetBundle);
                 }
@@ -238,7 +328,7 @@ namespace CatLib.ResourcesSystem {
             AssetBundle assetTarget;
             if (!loadAssetBundle.ContainsKey(relPath))
             {
-                AssetBundleCreateRequest assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(CEnv.AssetPath + "/" + relPath);
+                AssetBundleCreateRequest assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + "/" + relPath);
                 yield return assetTargetBundleRequest;
                 assetTarget = assetTargetBundleRequest.assetBundle;
                 loadAssetBundle.Add(relPath, assetTarget);
@@ -272,12 +362,11 @@ namespace CatLib.ResourcesSystem {
             {
                 suffix = ".shader";
             }
-
+           
             if (name.Length > suffix.Length && name.Substring(name.Length - suffix.Length) != suffix)
             {
                 name += suffix;
             }
-
             return name + variant;
         }
 

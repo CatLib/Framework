@@ -11,15 +11,6 @@ namespace CatLib.UpdateSystem{
 
 	public class CCreateAssetBundles{
 
-		/// <summary>
-		/// 编译完成后发布AssetBundle的路径
-		/// </summary>
-		protected const string RELEASE_PATH = "/Release";
-
-		/// <summary>
-		/// 需要编译成AssetBundle的资源包路径
-		/// </summary>
-		protected const string RESOURCES_BUILD_PATH =  "/ResourcesBuild";
 
 		/// <summary>
 		/// 编译Asset Bundle
@@ -31,11 +22,11 @@ namespace CatLib.UpdateSystem{
 			string platform = CEnv.PlatformToName(switchPlatform);
 
 			CCreateAssetBundles.ClearAssetBundle();
-			CCreateAssetBundles.BuildAssetBundleName(CEnv.DataPath + CCreateAssetBundles.RESOURCES_BUILD_PATH);
+			CCreateAssetBundles.BuildAssetBundleName(CEnv.DataPath + CEnv.ResourcesBuildPath);
 
-			string releasePath = CEnv.DataPath + CCreateAssetBundles.RELEASE_PATH + "/" + platform;
+			string releasePath = CEnv.DataPath + CEnv.ReleasePath + "/" + platform;
 			CDirectory.CreateDir(releasePath , CDirectory.Operations.EXISTS_TO_DELETE);
-			BuildPipeline.BuildAssetBundles("Assets" + CCreateAssetBundles.RELEASE_PATH + "/" + platform, 
+			BuildPipeline.BuildAssetBundles("Assets" + CEnv.ReleasePath + "/" + platform, 
 												BuildAssetBundleOptions.None , 
 												CCreateAssetBundles.PlatformToBuildTarget(switchPlatform));
 
@@ -101,7 +92,7 @@ namespace CatLib.UpdateSystem{
 
 			}
 
-			AssetImporter assetImporter = AssetImporter.GetAtPath("Assets" + CCreateAssetBundles.RESOURCES_BUILD_PATH + assetName + "/" + baseFileName + extension);
+			AssetImporter assetImporter = AssetImporter.GetAtPath("Assets" + CEnv.ResourcesBuildPath + assetName + "/" + baseFileName + extension);
 			assetImporter.assetBundleName = assetName.TrimStart('/');
 			if(variantName != string.Empty){
 
