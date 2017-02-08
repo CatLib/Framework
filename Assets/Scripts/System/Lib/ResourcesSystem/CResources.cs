@@ -5,7 +5,6 @@ using CatLib.Support;
 using System.Collections.Generic;
 using CatLib.FileSystem;
 using CatLib.Contracts.ResourcesSystem;
-using CatLib.Support;
 
 namespace CatLib.ResourcesSystem {
 
@@ -36,9 +35,29 @@ namespace CatLib.ResourcesSystem {
             set { variant = value; }
         }
 
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="unloadAllLoadedObjects">是否释放已经被加载的Asset资源</param>
+        public void Unload(bool unloadAllLoadedObjects)
+        {
+            foreach(AssetBundle bundle in loadAssetBundle.ToArray())
+            {
+                bundle.Unload(unloadAllLoadedObjects);
+            }
+        }
+
+        #region Load
+
         public Object Load(string path){
 
-            return Load<Object>(path);
+            return Load(path , typeof(Object));
+
+        }
+
+        public Object Load(string path , System.Type type){
+
+            return LoadAsset(path , type);
 
         }
 
@@ -50,41 +69,7 @@ namespace CatLib.ResourcesSystem {
         /// <returns></returns>
         public T Load<T>(string path) where T : Object
         {
-            this.LoadManifest();
-            return this.LoadAsset<T>(path);
-        }
-
-        public Object[] LoadAll(string path){
-
-            return LoadAll<Object>(path);
-
-        }
-
-        public T[] LoadAll<T>(string path ) where T : Object
-        {
-            this.LoadManifest();
-            string relPath, objName, envPath;
-            LoadPath<T>(path, out relPath, out objName);
-
-            #if UNITY_EDITOR
-            if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
-            {
-                return UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName).To<T>();
-            }
-            #endif
-
-            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
-            {
-                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
-            }
-            else
-            {
-                envPath = CEnv.AssetPath;
-            }
-           
-            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + "/" + objName);
-            T[] targetAssets = assetTarget.LoadAllAssets<T>();
-            return targetAssets;
+            return LoadAsset(path , typeof(T)) as T;
         }
 
         /// <summary>
@@ -93,16 +78,16 @@ namespace CatLib.ResourcesSystem {
         /// <typeparam name="T"></typeparam>
         /// <param name="path"></param>
         /// <returns></returns>
-        protected T LoadAsset<T>(string path) where T : Object
+        protected Object LoadAsset(string path , System.Type type)
         {
-           
+            this.LoadManifest();
             string relPath, objName , envPath;
-            LoadPath<T>(path, out relPath, out objName);
+            LoadPath(path , type , out relPath, out objName);
 
             #if UNITY_EDITOR
                 if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
                 {
-                    return UnityEditor.AssetDatabase.LoadAssetAtPath<T>("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName);
+                    return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName , type);
                 }
             #endif
 
@@ -116,53 +101,69 @@ namespace CatLib.ResourcesSystem {
             }
 
             AssetBundle assetTarget = LoadAssetBundle(envPath , relPath);
-            T targetAsset = assetTarget.LoadAsset<T>(objName);
-            return targetAsset;
+            return assetTarget.LoadAsset(objName , type);
+        }
+
+        #endregion
+
+        #region LoadAll
+
+        public Object[] LoadAll(string path){
+
+            return LoadAll(path , typeof(Object));
 
         }
 
-        protected void LoadPath<T>(string path , out string relPath , out string objName) where T : Object
-        {
-            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
-            objName = NameWithTypeToSuffix<T>(path.Substring(path.LastIndexOf('/') + 1), variant);
-            relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
+        public Object[] LoadAll(string path , System.Type type){
 
-            if (!(CEnv.AssetPath + "/" + relPath).Exists())
-            {
-                objName = NameWithTypeToSuffix<T>(path.Substring(path.LastIndexOf('/') + 1), string.Empty);
-                relPath = path.Substring(0, path.LastIndexOf('/'));
-            }
+            return LoadAssetAll(path , type);
+
         }
 
-        protected AssetBundle LoadAssetBundle(string envPath , string relPath)
+        public T[] LoadAll<T>(string path) where T : Object
         {
-            foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
-            {
-                if (!loadAssetBundle.ContainsKey(dependencies))
-                {
-                    AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + "/" + dependencies);
-                    loadAssetBundle.Add(dependencies, assetBundle);
-                }
-            }
+            return LoadAssetAll(path , typeof(T)).To<T>();
+        }
 
-            AssetBundle assetTarget;
-            if (!loadAssetBundle.ContainsKey(relPath))
+        protected Object[] LoadAssetAll(string path , System.Type type)
+        {
+            this.LoadManifest();
+            string relPath, objName, envPath;
+            LoadPath(path , type , out relPath, out objName);
+
+            #if UNITY_EDITOR
+            if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
             {
-                assetTarget = AssetBundle.LoadFromFile(envPath + "/" + relPath);
-                loadAssetBundle.Add(relPath, assetTarget);
+                return UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName);
+            }
+            #endif
+
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
             }
             else
             {
-                assetTarget = loadAssetBundle[relPath];
+                envPath = CEnv.AssetPath;
             }
-
-            return assetTarget;
-
+           
+            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + "/" + objName);
+            return assetTarget.LoadAllAssets();
         }
+
+        #endregion
+
+        #region LoadAsyn
 
         public UnityEngine.Coroutine LoadAsyn(string path, System.Action<Object> callback){
 
-            return LoadAsyn<Object>(path , callback);
+            return LoadAsyn(path , typeof(Object) , callback);
+
+        }
+
+        public UnityEngine.Coroutine LoadAsyn(string path , System.Type type, System.Action<Object> callback){
+
+            return Application.StartCoroutine(this.LoadAssetAsyn(path , type , callback));
 
         }
 
@@ -175,22 +176,115 @@ namespace CatLib.ResourcesSystem {
         /// <returns></returns>
         public UnityEngine.Coroutine LoadAsyn<T>(string path , System.Action<T> callback) where T : Object
         {
-            this.LoadManifest();
-            return Application.StartCoroutine(this.LoadAssetAsyn<T>(path , callback));
+            return Application.StartCoroutine(this.LoadAssetAsyn(path , typeof(T) , (obj) => callback(obj as T)));
 
         }
 
+        /// <summary>
+        /// 加载资源（异步） 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        protected IEnumerator LoadAssetAsyn(string path , System.Type type , System.Action<Object> callback)
+        {
+
+            this.LoadManifest();
+            string relPath, objName , envPath;
+            LoadPath(path , type, out relPath, out objName);
+
+            #if UNITY_EDITOR
+            if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+            {
+                callback.Invoke(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName , type));
+                yield break;
+            }
+            #endif
+
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                envPath = CEnv.DataPath + CEnv.ReleasePath;
+            }
+            else
+            {
+                envPath = CEnv.AssetPath;
+            }
+
+            AssetBundle assetTarget = null;
+
+            yield return LoadAssetBundleAsyn(envPath , relPath, (ab) =>
+            {
+                assetTarget = ab;
+            });
+
+            AssetBundleRequest targetAssetRequest = assetTarget.LoadAssetAsync(objName, type);
+            yield return targetAssetRequest;
+
+            callback.Invoke(targetAssetRequest.asset);
+
+        }
+
+        #endregion
+
+        #region LoadAllAsyn
+
         public UnityEngine.Coroutine LoadAllAsyn(string path, System.Action<Object[]> callback){
 
-            return LoadAllAsyn<Object>(path , callback);
+            return LoadAllAsyn(path , typeof(Object) , callback);
+
+        }
+
+        public UnityEngine.Coroutine LoadAllAsyn(string path , System.Type type, System.Action<Object[]> callback){
+
+            return Application.StartCoroutine(this.LoadAssetAllAsyn(path , type , callback));
 
         }
 
         public UnityEngine.Coroutine LoadAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object
         {
-            this.LoadManifest();
-            return Application.StartCoroutine(this.LoadAssetAllAsyn<T>(path, callback));
+            return Application.StartCoroutine(this.LoadAssetAllAsyn(path , typeof(T), (obj) => callback(obj.To<T>())));
         }
+
+        protected IEnumerator LoadAssetAllAsyn(string path , System.Type type, System.Action<Object[]> callback)
+        {
+
+            this.LoadManifest();
+            string relPath, objName , envPath;
+            LoadPath(path , type, out relPath, out objName);
+
+            #if UNITY_EDITOR
+                if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+                {
+                    callback.Invoke(UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName));
+                    yield break;
+                }
+            #endif
+
+            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            {
+                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
+            }
+            else
+            {
+                envPath = CEnv.AssetPath;
+            }
+
+            AssetBundle assetTarget = null;
+
+            yield return LoadAssetBundleAsyn(envPath , relPath + "/" + objName, (ab) =>
+            {
+                assetTarget = ab;
+            });
+
+            AssetBundleRequest targetAssetRequest = assetTarget.LoadAllAssetsAsync();
+            yield return targetAssetRequest;
+            
+            callback.Invoke(targetAssetRequest.allAssets);
+
+        }
+
+        #endregion
 
         /// <summary>
         /// 加载依赖文件
@@ -221,89 +315,42 @@ namespace CatLib.ResourcesSystem {
             assetBundleManifest = assetBundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
         }
 
-        /// <summary>
-        /// 加载资源（异步） 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <param name="callback"></param>
-        /// <returns></returns>
-        protected IEnumerator LoadAssetAsyn<T>(string path , System.Action<T> callback) where T : Object
+        protected void LoadPath(string path , System.Type type , out string relPath , out string objName)
         {
+            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
+            objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), variant , type);
+            relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
 
-            string relPath, objName , envPath;
-            LoadPath<T>(path, out relPath, out objName);
-
-
-            #if UNITY_EDITOR
-            if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
+            if (!(CEnv.AssetPath + "/" + relPath).Exists())
             {
-                callback.Invoke(UnityEditor.AssetDatabase.LoadAssetAtPath<T>("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName));
-                yield break;
+                objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), string.Empty , type);
+                relPath = path.Substring(0, path.LastIndexOf('/'));
             }
-            #endif
-
-            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
-            {
-                Debug.Log(CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform));
-                envPath = CEnv.DataPath + CEnv.ReleasePath;
-            }
-            else
-            {
-                envPath = CEnv.AssetPath;
-            }
-
-
-            AssetBundle assetTarget = null;
-
-            yield return LoadAssetBundleAsyn(envPath , relPath, (ab) =>
-            {
-                assetTarget = ab;
-            });
-
-            AssetBundleRequest targetAssetRequest = assetTarget.LoadAssetAsync<T>(objName);
-            yield return targetAssetRequest;
-            T targetAsset = targetAssetRequest.asset as T;
-
-            callback.Invoke(targetAsset);
-
         }
 
-        protected IEnumerator LoadAssetAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object
+        protected AssetBundle LoadAssetBundle(string envPath , string relPath)
         {
-
-            string relPath, objName , envPath;
-            LoadPath<T>(path, out relPath, out objName);
-
-            #if UNITY_EDITOR
-                if (CEnv.DebugLevel == CEnv.DebugLevels.DEV)
-                {
-                    callback.Invoke(UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + CEnv.ResourcesBuildPath + "/" + relPath + "/" + objName).To<T>());
-                    yield break;
-                }
-            #endif
-
-            if (CEnv.DebugLevel == CEnv.DebugLevels.STAGING)
+            foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
-                envPath = CEnv.DataPath + CEnv.ReleasePath + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
+                if (!loadAssetBundle.ContainsKey(dependencies))
+                {
+                    AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + "/" + dependencies);
+                    loadAssetBundle.Add(dependencies, assetBundle);
+                }
+            }
+
+            AssetBundle assetTarget;
+            if (!loadAssetBundle.ContainsKey(relPath))
+            {
+                assetTarget = AssetBundle.LoadFromFile(envPath + "/" + relPath);
+                loadAssetBundle.Add(relPath, assetTarget);
             }
             else
             {
-                envPath = CEnv.AssetPath;
+                assetTarget = loadAssetBundle[relPath];
             }
 
-            AssetBundle assetTarget = null;
-
-            yield return LoadAssetBundleAsyn(envPath , relPath + "/" + objName, (ab) =>
-            {
-                assetTarget = ab;
-            });
-
-            AssetBundleRequest targetAssetRequest = assetTarget.LoadAllAssetsAsync<T>();
-            yield return targetAssetRequest;
-            T[] targetAsset = targetAssetRequest.allAssets.To<T>();
-
-            callback.Invoke(targetAsset);
+            return assetTarget;
 
         }
 
@@ -342,44 +389,38 @@ namespace CatLib.ResourcesSystem {
 
         }
 
-
         /// <summary>
         /// 类型对应的后缀
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected string NameWithTypeToSuffix<T>(string name , string variant) where T : Object
+        protected string NameWithTypeToSuffix(string name , string variant , System.Type type)
         {
             string suffix = string.Empty;
-            System.Type t = typeof(T);
-            if (t == typeof(GameObject))
+            if(type == typeof(Object)){
+
+                if(name.LastIndexOf('.') == -1){
+                    
+                    suffix = ".prefab";
+
+                }
+
+            }else if (type == typeof(GameObject))
             {
                 suffix = ".prefab";
-            }else if(t == typeof(Material))
+            }else if(type == typeof(Material))
             {
                 suffix = ".mat";
-            }else if(t == typeof(Shader))
+            }else if(type == typeof(Shader))
             {
                 suffix = ".shader";
             }
            
-            if (name.Length > suffix.Length && name.Substring(name.Length - suffix.Length) != suffix)
+            if (name.Length < suffix.Length || (name.Length == suffix.Length && name != suffix) || (name.Length > suffix.Length && name.Substring(name.Length - suffix.Length) != suffix))
             {
                 name += suffix;
             }
             return name + variant;
-        }
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        /// <param name="unloadAllLoadedObjects">是否释放已经被加载的Asset资源</param>
-        public void Unload(bool unloadAllLoadedObjects)
-        {
-            foreach(AssetBundle bundle in loadAssetBundle.ToArray())
-            {
-                bundle.Unload(unloadAllLoadedObjects);
-            }
         }
 
     }
