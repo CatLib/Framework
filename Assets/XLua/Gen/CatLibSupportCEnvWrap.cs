@@ -28,13 +28,16 @@ namespace CSObjectWrap
 			Utils.EndObjectRegister(typeof(CatLib.Support.CEnv), L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(typeof(CatLib.Support.CEnv), L, __CreateInstance, 2, 6, 0);
+		    Utils.BeginClassRegister(typeof(CatLib.Support.CEnv), L, __CreateInstance, 2, 9, 0);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "PlatformToName", _m_PlatformToName_xlua_st_);
             
 			
             
             Utils.RegisterObject(L, translator, Utils.CLS_IDX, "UnderlyingSystemType", typeof(CatLib.Support.CEnv));
-			Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "StreamingAssetsPath", _g_get_StreamingAssetsPath);
+			Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "DebugLevel", _g_get_DebugLevel);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "ReleasePath", _g_get_ReleasePath);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "ResourcesBuildPath", _g_get_ResourcesBuildPath);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "StreamingAssetsPath", _g_get_StreamingAssetsPath);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "DataPath", _g_get_DataPath);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "PersistentDataPath", _g_get_PersistentDataPath);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "AssetPath", _g_get_AssetPath);
@@ -117,6 +120,42 @@ namespace CSObjectWrap
         
         
         
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_DebugLevel(RealStatePtr L)
+        {
+            ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            try {
+			    translator.Push(L, CatLib.Support.CEnv.DebugLevel);
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_ReleasePath(RealStatePtr L)
+        {
+            
+            try {
+			    LuaAPI.lua_pushstring(L, CatLib.Support.CEnv.ReleasePath);
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_ResourcesBuildPath(RealStatePtr L)
+        {
+            
+            try {
+			    LuaAPI.lua_pushstring(L, CatLib.Support.CEnv.ResourcesBuildPath);
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            return 1;
+        }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_StreamingAssetsPath(RealStatePtr L)

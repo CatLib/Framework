@@ -14,29 +14,29 @@ using System.Collections.Generic;
 
 namespace CSObjectWrap
 {
-    public class CatLibSupportCInputWrap
+    public class ClientWrap
     {
         public static void __Register(RealStatePtr L)
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			Utils.BeginObjectRegister(typeof(CatLib.Support.CInput), L, translator, 0, 0, 0, 0);
+			Utils.BeginObjectRegister(typeof(Client), L, translator, 0, 0, 0, 0);
 			
 			
 			
 			
 			
-			Utils.EndObjectRegister(typeof(CatLib.Support.CInput), L, translator, null, null,
+			Utils.EndObjectRegister(typeof(Client), L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(typeof(CatLib.Support.CInput), L, __CreateInstance, 1, 1, 0);
-			
-			
-            
-            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "UnderlyingSystemType", typeof(CatLib.Support.CInput));
-			Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Gyro", _g_get_Gyro);
+		    Utils.BeginClassRegister(typeof(Client), L, __CreateInstance, 2, 0, 0);
+			Utils.RegisterFunc(L, Utils.CLS_IDX, "SendMessage", _m_SendMessage_xlua_st_);
             
 			
-			Utils.EndClassRegister(typeof(CatLib.Support.CInput), L, translator);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "UnderlyingSystemType", typeof(Client));
+			
+			
+			Utils.EndClassRegister(typeof(Client), L, translator);
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -48,7 +48,7 @@ namespace CSObjectWrap
 				if(LuaAPI.lua_gettop(L) == 1)
 				{
 					
-					CatLib.Support.CInput __cl_gen_ret = new CatLib.Support.CInput();
+					Client __cl_gen_ret = new Client();
 					translator.Push(L, __cl_gen_ret);
 					return 1;
 				}
@@ -57,7 +57,7 @@ namespace CSObjectWrap
 			catch(System.Exception __gen_e) {
 				return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
 			}
-            return LuaAPI.luaL_error(L, "invalid arguments to CatLib.Support.CInput constructor!");
+            return LuaAPI.luaL_error(L, "invalid arguments to Client constructor!");
             
         }
         
@@ -68,20 +68,33 @@ namespace CSObjectWrap
         
         
         
-        
-        
-        
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_Gyro(RealStatePtr L)
+        static int _m_SendMessage_xlua_st_(RealStatePtr L)
         {
-            ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
             try {
-			    translator.Push(L, CatLib.Support.CInput.Gyro);
+                
+                {
+                    string message = LuaAPI.lua_tostring(L, 1);
+                    string data = LuaAPI.lua_tostring(L, 2);
+                    
+                    Client.SendMessage( message, data );
+                    
+                    
+                    
+                    return 0;
+                }
+                
             } catch(System.Exception __gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
             }
-            return 1;
+            
         }
+        
+        
+        
         
         
         

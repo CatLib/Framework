@@ -21,6 +21,10 @@ namespace CSObjectWrap
         {
 		    XLua.LuaEnv.AddIniter((luaenv, translator) => {
 			    
+				translator.DelayWrapLoader(typeof(Client), ClientWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(UnityEngine.Input), UnityEngineInputWrap.__Register);
+				
 				translator.DelayWrapLoader(typeof(UnityEngine.Application), UnityEngineApplicationWrap.__Register);
 				
 				translator.DelayWrapLoader(typeof(CapLib.Base.CApp), CapLibBaseCAppWrap.__Register);
@@ -66,8 +70,6 @@ namespace CSObjectWrap
 				translator.DelayWrapLoader(typeof(CatLib.Contracts.ResourcesSystem.IResources), CatLibContractsResourcesSystemIResourcesWrap.__Register);
 				
 				translator.DelayWrapLoader(typeof(CatLib.Contracts.UpdateSystem.IAutoUpdate), CatLibContractsUpdateSystemIAutoUpdateWrap.__Register);
-				
-				translator.DelayWrapLoader(typeof(CatLib.Support.CInput), CatLibSupportCInputWrap.__Register);
 				
 				translator.DelayWrapLoader(typeof(CatLib.Support.CEnv), CatLibSupportCEnvWrap.__Register);
 				

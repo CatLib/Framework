@@ -24,6 +24,7 @@ public class CLuaConfig : CConfig , GenConfig
         get{    
             return new List<Type>() {
 
+                typeof(UnityEngine.Input),
                 typeof(UnityEngine.Application),
                 typeof(CapLib.Base.CApp),
                 typeof(CatLib.Base.CComponent),
@@ -48,7 +49,6 @@ public class CLuaConfig : CConfig , GenConfig
                 typeof(CatLib.Contracts.Network.INetwork),
                 typeof(CatLib.Contracts.ResourcesSystem.IResources),
                 typeof(CatLib.Contracts.UpdateSystem.IAutoUpdate),
-                typeof(CatLib.Support.CInput),
                 typeof(CatLib.Support.CEnv),
 
             };
@@ -64,7 +64,15 @@ public class CLuaConfig : CConfig , GenConfig
         } 
     }
 
-    public  List<List<string>> BlackList { get{  return new List<List<string>>() { }; } }
+    public List<List<string>> BlackList { 
+        get{  
+            return new List<List<string>>() { 
+
+                new List<string>(){"UnityEngine.Input", "IsJoystickPreconfigured" , "System.String"},
+
+            }; 
+        } 
+    }
 
     /// <summary>
     /// 配置
