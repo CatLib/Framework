@@ -51,6 +51,12 @@ namespace CatLib.Lua
         /// </summary>
         public LuaEnv LuaEnv { get { return luaEnv; } } 
 
+        public CLua(){
+
+            LuaEnv.AddLoader(this.AutoLoader);
+
+        }
+
         public void Update()
         {
             if (Time.time - LuaBehaviour.lastGCTime > GC_INTERVAL)
@@ -58,6 +64,12 @@ namespace CatLib.Lua
                 LuaEnv.Tick();
                 LuaBehaviour.lastGCTime = Time.time;
             }
+        }
+
+        protected byte[] AutoLoader(ref string filepath)
+        {
+            TextAsset text = Application.Make<IResources>().Load<TextAsset>(filepath);
+            return text.bytes;
         }
 
         /// <summary>

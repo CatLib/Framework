@@ -408,6 +408,10 @@ namespace CatLib.ResourcesSystem {
             }else if (type == typeof(GameObject))
             {
                 suffix = ".prefab";
+            }else if(type == typeof(TextAsset)){
+
+                suffix = ".txt";
+                   
             }else if(type == typeof(Material))
             {
                 suffix = ".mat";
