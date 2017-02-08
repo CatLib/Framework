@@ -16,6 +16,34 @@ namespace XLua
     public partial class DelegateBridge : DelegateBridgeBase
     {
 		
+		public InvokeLua.ICalc InvokeLuaICalc(int mult, string[] arg)
+		{
+#if THREAD_SAFT || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.L;
+                int err_func =LuaAPI.load_error_func(L, errorFuncRef);
+                ObjectTranslator translator = luaEnv.translator;
+                
+                LuaAPI.lua_getref(L, luaReference);
+                
+                LuaAPI.xlua_pushinteger(L, mult);
+                for (int __gen_i = 0; __gen_i < arg.Length; ++__gen_i) LuaAPI.lua_pushstring(L, arg[__gen_i]);
+                
+                int __gen_error = LuaAPI.lua_pcall(L, 1 + arg.Length, 1, err_func);
+                if (__gen_error != 0)
+                    luaEnv.ThrowExceptionFromError(err_func - 1);
+                
+                
+                InvokeLua.ICalc __gen_ret = (InvokeLua.ICalc)translator.GetObject(L, err_func + 1, typeof(InvokeLua.ICalc));
+                LuaAPI.lua_settop(L, err_func - 1);
+                return  __gen_ret;
+#if THREAD_SAFT || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
 		public void SystemVoid()
 		{
 #if THREAD_SAFT || HOTFIX_ENABLE
@@ -30,33 +58,6 @@ namespace XLua
                 
                 
                 int __gen_error = LuaAPI.lua_pcall(L, 0, 0, err_func);
-                if (__gen_error != 0)
-                    luaEnv.ThrowExceptionFromError(err_func - 1);
-                
-                
-                
-                LuaAPI.lua_settop(L, err_func - 1);
-                
-#if THREAD_SAFT || HOTFIX_ENABLE
-            }
-#endif
-		}
-        
-		public void SystemVoid(UnityEngine.Object obj)
-		{
-#if THREAD_SAFT || HOTFIX_ENABLE
-            lock (luaEnv.luaEnvLock)
-            {
-#endif
-                RealStatePtr L = luaEnv.L;
-                int err_func =LuaAPI.load_error_func(L, errorFuncRef);
-                ObjectTranslator translator = luaEnv.translator;
-                
-                LuaAPI.lua_getref(L, luaReference);
-                
-                translator.Push(L, obj);
-                
-                int __gen_error = LuaAPI.lua_pcall(L, 1, 0, err_func);
                 if (__gen_error != 0)
                     luaEnv.ThrowExceptionFromError(err_func - 1);
                 
@@ -173,34 +174,6 @@ namespace XLua
                 
                 LuaAPI.lua_settop(L, err_func - 1);
                 
-#if THREAD_SAFT || HOTFIX_ENABLE
-            }
-#endif
-		}
-        
-		public InvokeLua.ICalc InvokeLuaICalc(int mult, string[] arg)
-		{
-#if THREAD_SAFT || HOTFIX_ENABLE
-            lock (luaEnv.luaEnvLock)
-            {
-#endif
-                RealStatePtr L = luaEnv.L;
-                int err_func =LuaAPI.load_error_func(L, errorFuncRef);
-                ObjectTranslator translator = luaEnv.translator;
-                
-                LuaAPI.lua_getref(L, luaReference);
-                
-                LuaAPI.xlua_pushinteger(L, mult);
-                for (int __gen_i = 0; __gen_i < arg.Length; ++__gen_i) LuaAPI.lua_pushstring(L, arg[__gen_i]);
-                
-                int __gen_error = LuaAPI.lua_pcall(L, 1 + arg.Length, 1, err_func);
-                if (__gen_error != 0)
-                    luaEnv.ThrowExceptionFromError(err_func - 1);
-                
-                
-                InvokeLua.ICalc __gen_ret = (InvokeLua.ICalc)translator.GetObject(L, err_func + 1, typeof(InvokeLua.ICalc));
-                LuaAPI.lua_settop(L, err_func - 1);
-                return  __gen_ret;
 #if THREAD_SAFT || HOTFIX_ENABLE
             }
 #endif
@@ -447,33 +420,6 @@ namespace XLua
                 c = LuaAPI.lua_tostring(L, err_func + 3);
                 
                 int __gen_ret = LuaAPI.xlua_tointeger(L, err_func + 1);
-                LuaAPI.lua_settop(L, err_func - 1);
-                return  __gen_ret;
-#if THREAD_SAFT || HOTFIX_ENABLE
-            }
-#endif
-		}
-        
-		public System.Collections.IEnumerator SystemCollectionsIEnumerator(object self)
-		{
-#if THREAD_SAFT || HOTFIX_ENABLE
-            lock (luaEnv.luaEnvLock)
-            {
-#endif
-                RealStatePtr L = luaEnv.L;
-                int err_func =LuaAPI.load_error_func(L, errorFuncRef);
-                ObjectTranslator translator = luaEnv.translator;
-                
-                LuaAPI.lua_getref(L, luaReference);
-                
-                translator.PushAny(L, self);
-                
-                int __gen_error = LuaAPI.lua_pcall(L, 1, 1, err_func);
-                if (__gen_error != 0)
-                    luaEnv.ThrowExceptionFromError(err_func - 1);
-                
-                
-                System.Collections.IEnumerator __gen_ret = (System.Collections.IEnumerator)translator.GetObject(L, err_func + 1, typeof(System.Collections.IEnumerator));
                 LuaAPI.lua_settop(L, err_func - 1);
                 return  __gen_ret;
 #if THREAD_SAFT || HOTFIX_ENABLE
@@ -889,14 +835,14 @@ namespace XLua
 		public override Delegate GetDelegateByType(Type type)
 		{
 		
+		    if (type == typeof(InvokeLua.CalcNew))
+			{
+			    return new InvokeLua.CalcNew(InvokeLuaICalc);
+			}
+		
 		    if (type == typeof(System.Action))
 			{
 			    return new System.Action(SystemVoid);
-			}
-		
-		    if (type == typeof(System.Action<UnityEngine.Object>))
-			{
-			    return new System.Action<UnityEngine.Object>(SystemVoid);
 			}
 		
 		    if (type == typeof(System.Action<bool>))
@@ -922,11 +868,6 @@ namespace XLua
 		    if (type == typeof(System.Action<double>))
 			{
 			    return new System.Action<double>(SystemVoid);
-			}
-		
-		    if (type == typeof(InvokeLua.CalcNew))
-			{
-			    return new InvokeLua.CalcNew(InvokeLuaICalc);
 			}
 		
 		    if (type == typeof(CSCallLua.FDelegate))
@@ -977,22 +918,22 @@ namespace XLua
         
             if (type == typeof(__Gen_Hotfix_Delegate0))
 			{
-                return new __Gen_Hotfix_Delegate0(SystemCollectionsIEnumerator);
+                return new __Gen_Hotfix_Delegate0(SystemVoid);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate1))
 			{
-                return new __Gen_Hotfix_Delegate1(SystemVoid);
+                return new __Gen_Hotfix_Delegate1(SystemInt32);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate2))
 			{
-                return new __Gen_Hotfix_Delegate2(SystemInt32);
+                return new __Gen_Hotfix_Delegate2(UnityEngineVector3);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate3))
 			{
-                return new __Gen_Hotfix_Delegate3(UnityEngineVector3);
+                return new __Gen_Hotfix_Delegate3(SystemInt32);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate4))
@@ -1002,27 +943,27 @@ namespace XLua
         
             if (type == typeof(__Gen_Hotfix_Delegate5))
 			{
-                return new __Gen_Hotfix_Delegate5(SystemInt32);
+                return new __Gen_Hotfix_Delegate5(SystemVoid);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate6))
 			{
-                return new __Gen_Hotfix_Delegate6(SystemVoid);
+                return new __Gen_Hotfix_Delegate6(SystemInt32);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate7))
 			{
-                return new __Gen_Hotfix_Delegate7(SystemInt32);
+                return new __Gen_Hotfix_Delegate7(SystemVoid);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate8))
 			{
-                return new __Gen_Hotfix_Delegate8(SystemVoid);
+                return new __Gen_Hotfix_Delegate8(SystemInt32);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate9))
 			{
-                return new __Gen_Hotfix_Delegate9(SystemInt32);
+                return new __Gen_Hotfix_Delegate9(SystemVoid);
             }
         
             if (type == typeof(__Gen_Hotfix_Delegate10))
@@ -1042,12 +983,7 @@ namespace XLua
         
             if (type == typeof(__Gen_Hotfix_Delegate13))
 			{
-                return new __Gen_Hotfix_Delegate13(SystemVoid);
-            }
-        
-            if (type == typeof(__Gen_Hotfix_Delegate14))
-			{
-                return new __Gen_Hotfix_Delegate14(XLuaLuaTable);
+                return new __Gen_Hotfix_Delegate13(XLuaLuaTable);
             }
         
 		    throw new InvalidCastException("This delegate must add to CSharpCallLua: " + type);
@@ -1056,48 +992,45 @@ namespace XLua
     
     
     [HotfixDelegate]
-    public delegate System.Collections.IEnumerator __Gen_Hotfix_Delegate0(object p0);
+    public delegate void __Gen_Hotfix_Delegate0(object p0);
     
     [HotfixDelegate]
-    public delegate void __Gen_Hotfix_Delegate1(object p0);
+    public delegate int __Gen_Hotfix_Delegate1(object p0, int p1, int p2);
     
     [HotfixDelegate]
-    public delegate int __Gen_Hotfix_Delegate2(object p0, int p1, int p2);
+    public delegate UnityEngine.Vector3 __Gen_Hotfix_Delegate2(object p0, UnityEngine.Vector3 p1, UnityEngine.Vector3 p2);
     
     [HotfixDelegate]
-    public delegate UnityEngine.Vector3 __Gen_Hotfix_Delegate3(object p0, UnityEngine.Vector3 p1, UnityEngine.Vector3 p2);
+    public delegate int __Gen_Hotfix_Delegate3(object p0, int p1, out double p2, ref string p3);
     
     [HotfixDelegate]
-    public delegate int __Gen_Hotfix_Delegate4(object p0, int p1, out double p2, ref string p3);
+    public delegate int __Gen_Hotfix_Delegate4(object p0, int p1, out double p2, ref string p3, object p4);
     
     [HotfixDelegate]
-    public delegate int __Gen_Hotfix_Delegate5(object p0, int p1, out double p2, ref string p3, object p4);
+    public delegate void __Gen_Hotfix_Delegate5(XLua.LuaTable p0, object p1);
     
     [HotfixDelegate]
-    public delegate void __Gen_Hotfix_Delegate6(XLua.LuaTable p0, object p1);
+    public delegate int __Gen_Hotfix_Delegate6(XLua.LuaTable p0);
     
     [HotfixDelegate]
-    public delegate int __Gen_Hotfix_Delegate7(XLua.LuaTable p0);
+    public delegate void __Gen_Hotfix_Delegate7(XLua.LuaTable p0, int p1);
     
     [HotfixDelegate]
-    public delegate void __Gen_Hotfix_Delegate8(XLua.LuaTable p0, int p1);
+    public delegate int __Gen_Hotfix_Delegate8(XLua.LuaTable p0, object p1);
     
     [HotfixDelegate]
-    public delegate int __Gen_Hotfix_Delegate9(XLua.LuaTable p0, object p1);
+    public delegate void __Gen_Hotfix_Delegate9(XLua.LuaTable p0, object p1, int p2);
     
     [HotfixDelegate]
-    public delegate void __Gen_Hotfix_Delegate10(XLua.LuaTable p0, object p1, int p2);
+    public delegate void __Gen_Hotfix_Delegate10(XLua.LuaTable p0);
     
     [HotfixDelegate]
-    public delegate void __Gen_Hotfix_Delegate11(XLua.LuaTable p0);
+    public delegate void __Gen_Hotfix_Delegate11(int p0, int p1);
     
     [HotfixDelegate]
-    public delegate void __Gen_Hotfix_Delegate12(int p0, int p1);
+    public delegate void __Gen_Hotfix_Delegate12(object p0, int p1, int p2);
     
     [HotfixDelegate]
-    public delegate void __Gen_Hotfix_Delegate13(object p0, int p1, int p2);
-    
-    [HotfixDelegate]
-    public delegate XLua.LuaTable __Gen_Hotfix_Delegate14(object p0);
+    public delegate XLua.LuaTable __Gen_Hotfix_Delegate13(object p0);
     
 }

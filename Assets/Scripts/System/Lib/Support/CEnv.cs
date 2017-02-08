@@ -42,7 +42,12 @@ namespace CatLib.Support
         /// <summary>
 		/// 需要编译成AssetBundle的资源包路径
 		/// </summary>
-		public static string ResourcesBuildPath { get{ return "/ResourcesBuild"; } }
+		public static string ResourcesBuildPath { get{ return "/ResourcesBuild/AssetBundle"; } }
+
+		/// <summary>
+		/// 需要编译成AssetBundle的资源包路径
+		/// </summary>
+		public static string ResourcesNoBuildPath { get{ return "/ResourcesBuild/NotAssetBundle"; } }
 
         /// <summary>
         /// 只可读不可写的文件存放路径(不能做热更新)

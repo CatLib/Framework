@@ -26,6 +26,7 @@ namespace CatLib.UpdateSystem{
 
 			string releasePath = CEnv.DataPath + CEnv.ReleasePath + "/" + platform;
 			CDirectory.CreateDir(releasePath , CDirectory.Operations.EXISTS_TO_DELETE);
+			CDirectory.CopyTo(CEnv.DataPath + CEnv.ResourcesNoBuildPath , CEnv.DataPath + CEnv.ReleasePath + "/" + platform);
 			BuildPipeline.BuildAssetBundles("Assets" + CEnv.ReleasePath + "/" + platform, 
 												BuildAssetBundleOptions.None , 
 												CCreateAssetBundles.PlatformToBuildTarget(switchPlatform));

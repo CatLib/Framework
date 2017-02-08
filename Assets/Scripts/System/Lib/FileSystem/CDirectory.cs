@@ -28,6 +28,49 @@ namespace CatLib.FileSystem{
 
 		}
 
+		/// <summary>遍历目录及其子目录</summary>
+		/// <param name="path">起始路径</param>
+		/// <param name="copyPath">复制路径</param>
+		public static void CopyTo(string path, string copyPath){
+
+			if(DirExists(path)){
+				
+				CopyTo(path , path , copyPath);
+			
+			}
+
+		}
+
+		/// <summary>遍历目录及其子目录</summary>
+		/// <param name="root">起始结点</param>
+		/// <param name="path">起始路径</param>
+		/// <param name="copyPath">复制路径</param>
+		private static void CopyTo(string root, string path, string copyPath)
+		{
+			root = root.Replace('\\', '/');
+			path = path.Replace('\\', '/');
+			copyPath = copyPath.Replace('\\', '/');
+
+			string[] names = Directory.GetFiles(path);
+			string[] dirs = Directory.GetDirectories(path);
+			
+			foreach (string filename in names)
+			{
+				string ext = Path.GetExtension(filename);
+				string name = filename.Replace('\\', '/');
+				string targetPath = copyPath + name.Replace(root, string.Empty);
+				if (!Directory.Exists(Path.GetDirectoryName(targetPath)))
+				{
+					Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
+				}
+				File.Copy(filename, targetPath);
+			}
+			foreach (string dir in dirs)
+			{
+				CDirectory.CopyTo(root, dir, copyPath);
+			}
+		}
+
 		/// <summary>
 		/// 创建文件夹
 		/// </summary>

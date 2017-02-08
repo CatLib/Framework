@@ -26,7 +26,7 @@ namespace App
             ILua lua = application.Make<ILua>();
             if (lua is IEvent)
             {
-                (lua as IEvent).Event.One(CLua.Events.ON_HOT_FIXED_COMPLETE, (sender, e) =>
+                (lua as IEvent).Event.One(CLuaEvents.ON_HOT_FIXED_COMPLETE, (sender, e) =>
                 {
 
                     IConnectorHttp conn1 = FNetwork.Instance.Create<IConnectorHttp>("test1");
