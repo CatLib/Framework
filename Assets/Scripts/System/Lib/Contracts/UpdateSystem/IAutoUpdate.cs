@@ -12,9 +12,7 @@ namespace CatLib.Contracts.UpdateSystem
     public interface IAutoUpdate
     {
 
-        bool UpdateAsset();
-
-        bool UpdateAsset(string resUrl);
+        void UpdateAsset();
 
         int NeedUpdateNum{ get; }
 

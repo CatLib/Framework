@@ -25,6 +25,8 @@ public class CLuaConfig : CConfig , GenConfig
             return new List<Type>() {
 
                 typeof(UnityEngine.Input),
+                typeof(UnityEngine.AudioSource),
+                typeof(UnityEngine.AudioClip),
                 typeof(UnityEngine.Application),
                 typeof(CapLib.Base.CApp),
                 typeof(CatLib.Base.CComponent),

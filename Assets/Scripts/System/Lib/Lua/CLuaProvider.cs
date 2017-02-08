@@ -23,7 +23,7 @@ namespace CatLib.Lua
             IAutoUpdate autoUpdata = application.Make<IAutoUpdate>();
             if (autoUpdata is IEvent)
             {
-                (autoUpdata as IEvent).Event.One(CAutoUpdate.Events.ON_UPDATE_COMPLETE, (sender, e) =>
+                (autoUpdata as IEvent).Event.One(CAutoUpdateEvents.ON_UPDATE_COMPLETE, (sender, e) =>
                 {
                     (application.Make<ILua>() as CLua).LoadHotFix();
                 });

@@ -82,4 +82,13 @@ public abstract class CConfig{
         catch { throw new CArgumentException(" field [" + field + "] is can not conversion to " + typeof(T).ToString()); }
     }
 
+
+    public bool IsExists(string field){
+
+        if (this.field.ContainsKey(field))
+        {
+            return true;
+        }
+        return false;
+    }
 }

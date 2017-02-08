@@ -3,7 +3,6 @@ using System.Collections;
 using CatLib.Base;
 using CatLib.Support;
 using CatLib.FileSystem;
-using CatLib.ResourcesSystem;
 using CatLib.Container;
 using CatLib.Contracts.UpdateSystem;
 using UnityEngine.Networking;
@@ -18,58 +17,54 @@ namespace CatLib.UpdateSystem
         [CDependency]
         public CConfig Config { get; set; }
 
-        public class Events {
-
-            public static string ON_UPDATE_START = "autoupdate.update.start";
-
-            public static string ON_UPDATE_LIST_FAILED = "autoupdate.update.list.falid";
-
-            public static string ON_SCANNING_DISK_FILE_HASH_START = "autoupdate.disk.file.hash.start";
-
-            public static string ON_SCANNING_DISK_FILE_HASH_END = "autoupdate.disk.file.hash.end";
-
-            public static string ON_DELETE_DISK_OLD_FILE_START = "autoupdate.disk.delete.old.file.start";
-
-            public static string ON_DELETE_DISK_OLD_FIELD_ACTION = "autoupdate.disk.delete.old.file.action";
-
-            public static string ON_DELETE_DISK_OLD_FILE_END = "autoupdate.disk.delete.file.end";
-
-            public static string ON_UPDATE_FILE_START = "autoupdate.update.file.start";
-
-            public static string ON_UPDATE_FILE_ACTION = "autoupdate.update.file.action";
-
-            public static string ON_UPDATE_FILE_END = "autoupdate.update.file.end";
-
-            public static string ON_UPDATE_FILE_FAILD = "autoupdate.update.file.faild";
-
-            public static string ON_UPDATE_COMPLETE = "autoupdate.uupdate.complete";
-
-        }
-
         protected bool isUpdate;
 
         protected int needUpdateNum;
         public int NeedUpdateNum{ get{ return needUpdateNum; } }
 
-
         protected int updateNum;
         public int UpdateNum{ get{ return updateNum; } }
 
-        public bool UpdateAsset()
+        public void UpdateAsset()
         {
-            string[] assetUrl = Config.Get<string[]>("update.url");
-            return UpdateAsset(assetUrl[Random.Range(0, assetUrl.Length)]);
+            Application.StartCoroutine(this.StartUpdate());
         }
 
-        /// <summary>
-        /// 请求更新资源文件
-        /// </summary>
-        public bool UpdateAsset(string resUrl)
-        {
-            if (this.isUpdate) { return false; }
+        protected IEnumerator StartUpdate(){
+
+            if (this.isUpdate) { yield break; }
             this.isUpdate = true;
-            Application.StartCoroutine(this.UpdateList(resUrl));
-            return true;
+
+            string resUrl = string.Empty;
+
+            if(Config.IsExists("update.api")){
+
+                string apiUrl = Config.Get<string>("update.api");
+                UnityWebRequest request = UnityWebRequest.Get(apiUrl);
+                yield return request.Send();
+                if (!request.isError && request.responseCode == 200)
+                {
+                    resUrl = request.downloadHandler.text;
+                }
+
+            }
+
+            if(resUrl == string.Empty){
+
+                if(Config.IsExists("update.url")){
+
+                    resUrl = Config.Get<string>("update.url");
+                
+                }else{
+
+                    base.Event.Trigger(CAutoUpdateEvents.ON_GET_UPDATE_URL_FAILD);
+                    yield break;
+
+                }
+
+            }
+
+            yield return this.UpdateList(resUrl);
 
         }
 
@@ -79,18 +74,18 @@ namespace CatLib.UpdateSystem
         /// <returns></returns>
         protected IEnumerator UpdateList(string resUrl)
         {
-            base.Event.Trigger(Events.ON_UPDATE_START);
+            base.Event.Trigger(CAutoUpdateEvents.ON_UPDATE_START);
             resUrl = resUrl + "/" + CEnv.PlatformToName(CEnv.SwitchPlatform);
             UnityWebRequest request = UnityWebRequest.Get(resUrl + "/" + CUpdateList.FILE_NAME);
             yield return request.Send();
             if (request.isError || request.responseCode != 200)
             {
                 this.isUpdate = false;
-                base.Event.Trigger(Events.ON_UPDATE_LIST_FAILED);
+                base.Event.Trigger(CAutoUpdateEvents.ON_UPDATE_LIST_FAILED);
                 yield break;
             }
 
-            base.Event.Trigger(Events.ON_SCANNING_DISK_FILE_HASH_START);
+            base.Event.Trigger(CAutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_START);
 
             var newLst = new CUpdateList(request).SetPath(CEnv.AssetPath);
 
@@ -109,7 +104,7 @@ namespace CatLib.UpdateSystem
 
             });
 
-            base.Event.Trigger(Events.ON_SCANNING_DISK_FILE_HASH_END);
+            base.Event.Trigger(CAutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_END);
 
             CUpdateList needUpdateLst, needDeleteLst;
             oldLst.Comparison(newLst, out needUpdateLst, out needDeleteLst);
@@ -120,13 +115,13 @@ namespace CatLib.UpdateSystem
 
             newLst.Save();
 
-            base.Event.Trigger(Events.ON_UPDATE_COMPLETE);
+            base.Event.Trigger(CAutoUpdateEvents.ON_UPDATE_COMPLETE);
 
         }
 
         protected IEnumerator DeleteOldAsset(CUpdateList needDeleteLst)
         {
-            base.Event.Trigger(Events.ON_DELETE_DISK_OLD_FILE_START);
+            base.Event.Trigger(CAutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_START);
 
             string filePath;
             foreach (CUpdateListField field in needDeleteLst)
@@ -134,7 +129,7 @@ namespace CatLib.UpdateSystem
                 filePath = CEnv.AssetPath + field.Path;
                 if (filePath.Exists())
                 {
-                    base.Event.Trigger(Events.ON_DELETE_DISK_OLD_FIELD_ACTION);
+                    base.Event.Trigger(CAutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION);
                     filePath.Delete();
                 }
 
@@ -142,7 +137,7 @@ namespace CatLib.UpdateSystem
 
             yield return null;
 
-            base.Event.Trigger(Events.ON_DELETE_DISK_OLD_FILE_END);
+            base.Event.Trigger(CAutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_END);
 
         }
 
@@ -152,7 +147,7 @@ namespace CatLib.UpdateSystem
             updateNum = 0;
             needUpdateNum = needUpdateLst.Count();
             string savePath, downloadPath, saveDir;
-            base.Event.Trigger(Events.ON_UPDATE_FILE_START);
+            base.Event.Trigger(CAutoUpdateEvents.ON_UPDATE_FILE_START);
             foreach (CUpdateListField field in needUpdateLst)
             {
                 downloadPath = downloadUrl + field.Path;
@@ -161,14 +156,14 @@ namespace CatLib.UpdateSystem
                 saveDir = savePath.Substring(0, savePath.LastIndexOf('/'));
 
                 updateNum++;
-                base.Event.Trigger(Events.ON_UPDATE_FILE_ACTION);
+                base.Event.Trigger(CAutoUpdateEvents.ON_UPDATE_FILE_ACTION);
                 
                 using (UnityWebRequest request = UnityWebRequest.Get(downloadPath))
                 {
                     yield return request.Send();
                     if (request.isError || request.responseCode != 200)
                     {
-                        base.Event.Trigger(Events.ON_UPDATE_FILE_FAILD);
+                        base.Event.Trigger(CAutoUpdateEvents.ON_UPDATE_FILE_FAILD);
                         yield break;
                     }
                     CDirectory.CreateDir(saveDir);
@@ -177,7 +172,7 @@ namespace CatLib.UpdateSystem
                 
             }
 
-            base.Event.Trigger(Events.ON_UPDATE_FILE_END);
+            base.Event.Trigger(CAutoUpdateEvents.ON_UPDATE_FILE_END);
 
         }
     }

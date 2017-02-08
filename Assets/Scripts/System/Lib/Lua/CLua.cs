@@ -5,7 +5,6 @@ using XLua;
 using CatLib.Container;
 using CatLib.Support;
 using CatLib.FileSystem;
-using CatLib.ResourcesSystem;
 using System.IO;
 using CatLib.Contracts.Lua;
 using CatLib.Contracts.ResourcesSystem;
@@ -21,20 +20,6 @@ namespace CatLib.Lua
 
         [CDependency]
         public CConfig Config { get; set; }
-
-        /// <summary>
-        /// 事件
-        /// </summary>
-        public class Events
-        {
-            public readonly static string ON_HOT_FIXED_START = "lua.hotfix.start";
-
-            public readonly static string ON_HOT_FIXED_ACTION = "lua.hotfix.action";
-
-            public readonly static string ON_HOT_FIXED_END = "lua.hotfix.end";
-
-            public readonly static string ON_HOT_FIXED_COMPLETE = "lua.hotfix.complete";
-        }
 
         /// <summary>
         /// 垃圾回收间隔
@@ -82,7 +67,7 @@ namespace CatLib.Lua
 
         protected IEnumerator LoadHotFixAysn()
         {
-            Event.Trigger(Events.ON_HOT_FIXED_START);
+            Event.Trigger(CLuaEvents.ON_HOT_FIXED_START);
 
             string[] filePath = Config.Get<string[]>("lua.hotfix");
 
@@ -99,7 +84,7 @@ namespace CatLib.Lua
                     {
                         yield return resources.LoadAllAsyn<TextAsset>(file + "/" + info.Name, (textAssets) =>
                         {
-                            Event.Trigger(Events.ON_HOT_FIXED_ACTION);
+                            Event.Trigger(CLuaEvents.ON_HOT_FIXED_ACTION);
                             foreach (TextAsset text in textAssets)
                             {
                                 LuaEnv.DoString(text.text);
@@ -108,8 +93,8 @@ namespace CatLib.Lua
                     }
                 }
             }
-            Event.Trigger(Events.ON_HOT_FIXED_END);
-            Event.Trigger(Events.ON_HOT_FIXED_COMPLETE);
+            Event.Trigger(CLuaEvents.ON_HOT_FIXED_END);
+            Event.Trigger(CLuaEvents.ON_HOT_FIXED_COMPLETE);
         }
 
 
