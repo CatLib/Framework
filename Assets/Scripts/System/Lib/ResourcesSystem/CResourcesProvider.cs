@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using CatLib.Container;
+﻿using CatLib.Container;
 using CatLib.Base;
 using CatLib.Contracts.ResourcesSystem;
-using CatLib.Contracts.Base;
+
 
 namespace CatLib.ResourcesSystem
 {
@@ -14,13 +12,9 @@ namespace CatLib.ResourcesSystem
     public class CResourcesProvider : CServiceProvider
     {
 
-        public CResourcesProvider(IApplication app) : base(app)
-        {
-        }
-
         public override void Register()
         {
-            application.Singleton<CResources>().Alias<IResources>();
+            Application.Singleton<CResources>().Alias<IResources>();
         }
 
     }

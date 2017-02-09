@@ -16,14 +16,10 @@ namespace App
     public class CBootstrapProvider : CServiceProvider
     {
 
-        public CBootstrapProvider(IApplication app) : base(app)
-        {
-        }
-
         public override void Init()
         {
             //todo:
-            ILua lua = application.Make<ILua>();
+            ILua lua = Application.Make<ILua>();
             if (lua is IEvent)
             {
                 (lua as IEvent).Event.One(CLuaEvents.ON_HOT_FIXED_COMPLETE, (sender, e) =>
@@ -80,7 +76,7 @@ namespace App
 
                     Debug.Log("hot fixed complete");
 
-                    GameObject obj = application.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab");
+                    GameObject obj = Application.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab");
 
                     GameObject.Instantiate(obj);
 

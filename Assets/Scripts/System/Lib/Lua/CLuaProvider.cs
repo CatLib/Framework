@@ -13,19 +13,14 @@ namespace CatLib.Lua
 
     public class CLuaProvider : CServiceProvider
     {
-
-        public CLuaProvider(IApplication app) : base(app)
-        {
-        }
-
         public override void Init()
         {
-            IAutoUpdate autoUpdata = application.Make<IAutoUpdate>();
+            IAutoUpdate autoUpdata = Application.Make<IAutoUpdate>();
             if (autoUpdata is IEvent)
             {
                 (autoUpdata as IEvent).Event.One(CAutoUpdateEvents.ON_UPDATE_COMPLETE, (sender, e) =>
                 {
-                    (application.Make<ILua>() as CLua).LoadHotFix();
+                    (Application.Make<ILua>() as CLua).LoadHotFix();
                 });
             }
         }
@@ -33,7 +28,7 @@ namespace CatLib.Lua
 
         public override void Register()
         {
-            application.Singleton<CLua>().Alias<ILua>();
+            Application.Singleton<CLua>().Alias<ILua>();
         }
     }
 }
