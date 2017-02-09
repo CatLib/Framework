@@ -260,20 +260,30 @@ namespace CatLib.Container
         {
             if (cls == null) { return; }
 
+            string typeName;
             foreach (PropertyInfo property in cls.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
+
                 if (!property.CanWrite) { continue; }
                 object[] propertyAttrs = property.GetCustomAttributes(typeof(CDependency), true);
                 if (propertyAttrs.Length <= 0) { continue; }
+
                 CDependency dependency = propertyAttrs[0] as CDependency;
+                if (string.IsNullOrEmpty(dependency.Alias))
+                {
+                    typeName = property.PropertyType.ToString(); 
+                }else
+                {
+                    typeName = dependency.Alias;
+                }
 
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
-                    property.SetValue(cls, ResloveClassAttr(bindData, cls.GetType(), property.PropertyType.ToString()), null);
+                    property.SetValue(cls, ResloveClassAttr(bindData, cls.GetType(), typeName), null);
                 }
                 else
                 {
-                    property.SetValue(cls, ResolveNonClassAttr(bindData , cls.GetType(), property.PropertyType.ToString()), null);
+                    property.SetValue(cls, ResolveNonClassAttr(bindData , cls.GetType(), typeName), null);
                 }
             }
 

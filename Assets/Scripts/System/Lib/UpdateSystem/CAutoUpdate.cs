@@ -25,9 +25,9 @@ namespace CatLib.UpdateSystem
         protected int updateNum;
         public int UpdateNum{ get{ return updateNum; } }
 
-        public void UpdateAsset()
+        public IEnumerator UpdateAsset()
         {
-            Application.StartCoroutine(this.StartUpdate());
+            return StartUpdate();
         }
 
         protected IEnumerator StartUpdate(){

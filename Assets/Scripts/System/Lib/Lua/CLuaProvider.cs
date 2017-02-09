@@ -13,16 +13,18 @@ namespace CatLib.Lua
 
     public class CLuaProvider : CServiceProvider
     {
-        public override void Init()
+
+        public override EProviderProcess ProviderProcess
         {
-            IAutoUpdate autoUpdata = Application.Make<IAutoUpdate>();
-            if (autoUpdata is IEvent)
+            get
             {
-                (autoUpdata as IEvent).Event.One(CAutoUpdateEvents.ON_UPDATE_COMPLETE, (sender, e) =>
-                {
-                    (Application.Make<ILua>() as CLua).LoadHotFix();
-                });
+                return EProviderProcess.CODE_AUTO_LOAD;
             }
+        }
+
+        public override IEnumerator OnProviderProcess()
+        {
+            yield return (Application.Make<ILua>() as CLua).LoadHotFix();
         }
 
 

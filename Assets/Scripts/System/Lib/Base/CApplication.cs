@@ -4,6 +4,7 @@ using CatLib.Base;
 using CatLib.Container;
 using CatLib.Contracts.Base;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -25,15 +26,32 @@ namespace CapLib.Base
         public const string VERSION = "0.0.1";
 
         /// <summary>
-        /// 事件
+        /// 框架启动流程
         /// </summary>
-        public class Events
+        public enum StartProcess
         {
-            public static readonly string ON_INITING_CALLBACK = "application.initing.callback";
 
-            public static readonly string ON_INITED_CALLBACK = "application.inited.callback";
+            /// <summary>
+            /// 引导流程
+            /// </summary>
+            ON_BOOTSTRAP = 1,
+
+            /// <summary>
+            /// 初始化流程
+            /// </summary>
+            ON_INITED = 2,
+
+            /// <summary>
+            /// 服务提供商启动流程
+            /// </summary>
+            ON_PROVIDER_PROCESS = 3,
+
+            /// <summary>
+            /// 启动完成
+            /// </summary>
+            ON_COMPLETE = 4,
+
         }
-
 
         /// <summary>
         /// 服务提供商
@@ -66,11 +84,14 @@ namespace CapLib.Base
         protected bool inited = false;
 
         /// <summary>
+        /// 启动流程
+        /// </summary>
+        protected StartProcess process = StartProcess.ON_BOOTSTRAP;
+
+        /// <summary>
         /// 全局唯一自增
         /// </summary>
         protected long guid = 0;
-
-
 
         public CApplication()
         {
@@ -105,6 +126,8 @@ namespace CapLib.Base
         /// <returns></returns>
         public IApplication Bootstrap(Type[] bootstraps)
         {
+            process = StartProcess.ON_BOOTSTRAP;
+
             CApp.Instance = this;
             Instances(typeof(CApplication).ToString(), this);
             Alias(typeof(IApplication).ToString(), typeof(CApplication).ToString());
@@ -134,7 +157,9 @@ namespace CapLib.Base
             if (inited) { return; }
             if (!bootstrapped) { return; }
 
-            base.Event.Trigger(Events.ON_INITING_CALLBACK);
+            process = StartProcess.ON_INITED;
+
+            base.Event.Trigger(CApplicationEvents.ON_INITING_CALLBACK);
 
             foreach (CServiceProvider serviceProvider in serviceProviders.ToArray())
             {
@@ -143,7 +168,10 @@ namespace CapLib.Base
 
             this.inited = true;
 
-            base.Event.Trigger(Events.ON_INITED_CALLBACK);
+            base.Event.Trigger(CApplicationEvents.ON_INITED_CALLBACK);
+
+            StartCoroutine(StartProviderPorcess());
+
         }
 
         /// <summary>
@@ -196,6 +224,33 @@ namespace CapLib.Base
         public long GetGuid()
         {
             return Interlocked.Increment(ref guid);
+        }
+
+        /// <summary>
+        /// 启动服务提供商启动流程
+        /// </summary>
+        /// <returns></returns>
+        protected IEnumerator StartProviderPorcess()
+        {
+
+            process = StartProcess.ON_PROVIDER_PROCESS;
+
+            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSING_CALLBACK);
+
+            List<CServiceProvider> providers = new List<CServiceProvider>(serviceProviders.Values);
+            providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess) );
+
+            foreach(CServiceProvider provider in providers)
+            {
+                yield return provider.OnProviderProcess();
+            }
+
+            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSED_CALLBACK);
+
+            process = StartProcess.ON_COMPLETE;
+
+            Event.Trigger(CApplicationEvents.ON_APPLICATION_START_COMPLETE_CALLBACK);
+
         }
 
     }

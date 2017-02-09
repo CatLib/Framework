@@ -69,34 +69,6 @@ namespace XLua
 #endif
 		}
         
-		public InvokeLua.ICalc InvokeLuaICalc(int mult, string[] arg)
-		{
-#if THREAD_SAFT || HOTFIX_ENABLE
-            lock (luaEnv.luaEnvLock)
-            {
-#endif
-                RealStatePtr L = luaEnv.L;
-                int err_func =LuaAPI.load_error_func(L, errorFuncRef);
-                ObjectTranslator translator = luaEnv.translator;
-                
-                LuaAPI.lua_getref(L, luaReference);
-                
-                LuaAPI.xlua_pushinteger(L, mult);
-                for (int __gen_i = 0; __gen_i < arg.Length; ++__gen_i) LuaAPI.lua_pushstring(L, arg[__gen_i]);
-                
-                int __gen_error = LuaAPI.lua_pcall(L, 1 + arg.Length, 1, err_func);
-                if (__gen_error != 0)
-                    luaEnv.ThrowExceptionFromError(err_func - 1);
-                
-                
-                InvokeLua.ICalc __gen_ret = (InvokeLua.ICalc)translator.GetObject(L, err_func + 1, typeof(InvokeLua.ICalc));
-                LuaAPI.lua_settop(L, err_func - 1);
-                return  __gen_ret;
-#if THREAD_SAFT || HOTFIX_ENABLE
-            }
-#endif
-		}
-        
 		public void SystemVoid(bool obj)
 		{
 #if THREAD_SAFT || HOTFIX_ENABLE
@@ -201,6 +173,34 @@ namespace XLua
                 
                 LuaAPI.lua_settop(L, err_func - 1);
                 
+#if THREAD_SAFT || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
+		public InvokeLua.ICalc InvokeLuaICalc(int mult, string[] arg)
+		{
+#if THREAD_SAFT || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.L;
+                int err_func =LuaAPI.load_error_func(L, errorFuncRef);
+                ObjectTranslator translator = luaEnv.translator;
+                
+                LuaAPI.lua_getref(L, luaReference);
+                
+                LuaAPI.xlua_pushinteger(L, mult);
+                for (int __gen_i = 0; __gen_i < arg.Length; ++__gen_i) LuaAPI.lua_pushstring(L, arg[__gen_i]);
+                
+                int __gen_error = LuaAPI.lua_pcall(L, 1 + arg.Length, 1, err_func);
+                if (__gen_error != 0)
+                    luaEnv.ThrowExceptionFromError(err_func - 1);
+                
+                
+                InvokeLua.ICalc __gen_ret = (InvokeLua.ICalc)translator.GetObject(L, err_func + 1, typeof(InvokeLua.ICalc));
+                LuaAPI.lua_settop(L, err_func - 1);
+                return  __gen_ret;
 #if THREAD_SAFT || HOTFIX_ENABLE
             }
 #endif
@@ -929,11 +929,6 @@ namespace XLua
 			    return new System.Action<UnityEngine.Object>(SystemVoid);
 			}
 		
-		    if (type == typeof(InvokeLua.CalcNew))
-			{
-			    return new InvokeLua.CalcNew(InvokeLuaICalc);
-			}
-		
 		    if (type == typeof(System.Action<bool>))
 			{
 			    return new System.Action<bool>(SystemVoid);
@@ -957,6 +952,11 @@ namespace XLua
 		    if (type == typeof(System.Action<double>))
 			{
 			    return new System.Action<double>(SystemVoid);
+			}
+		
+		    if (type == typeof(InvokeLua.CalcNew))
+			{
+			    return new InvokeLua.CalcNew(InvokeLuaICalc);
 			}
 		
 		    if (type == typeof(CSCallLua.FDelegate))

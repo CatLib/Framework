@@ -69,11 +69,12 @@ namespace CSObjectWrap
                 
                 {
                     
-                    __cl_gen_to_be_invoked.UpdateAsset(  );
+                        System.Collections.IEnumerator __cl_gen_ret = __cl_gen_to_be_invoked.UpdateAsset(  );
+                        translator.Push(L, __cl_gen_ret);
                     
                     
                     
-                    return 0;
+                    return 1;
                 }
                 
             } catch(System.Exception __gen_e) {

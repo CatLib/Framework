@@ -60,9 +60,9 @@ namespace CatLib.Lua
         /// <summary>
         /// 加载热补丁
         /// </summary>
-        public void LoadHotFix()
+        public IEnumerator LoadHotFix()
         {
-            Application.StartCoroutine(LoadHotFixAysn());  
+            return LoadHotFixAysn();  
         }
 
         protected IEnumerator LoadHotFixAysn()

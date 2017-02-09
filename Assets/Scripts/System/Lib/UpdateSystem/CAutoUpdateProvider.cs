@@ -2,6 +2,7 @@
 using CatLib.Base;
 using CatLib.Contracts.UpdateSystem;
 using CapLib.Base;
+using System.Collections;
 
 namespace CatLib.UpdateSystem
 {
@@ -11,15 +12,17 @@ namespace CatLib.UpdateSystem
     public class CAutoUpdateProvider : CServiceProvider
     {
 
-        public override void Init() {
-
-            Application.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
+        public override EProviderProcess ProviderProcess
+        {
+            get
             {
+                return EProviderProcess.AUTO_UPDATE;
+            }
+        }
 
-                Application.Make<IAutoUpdate>().UpdateAsset();
-
-            });
-
+        public override IEnumerator OnProviderProcess()
+        {
+            yield return Application.Make<IAutoUpdate>().UpdateAsset();
         }
 
         public override void Register()
