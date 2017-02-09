@@ -14,6 +14,7 @@ using System.Collections.Generic;
 
 namespace CSObjectWrap
 {
+    using Utils = XLua.Utils;
     public class UnityEngineTransformWrap
     {
         public static void __Register(RealStatePtr L)

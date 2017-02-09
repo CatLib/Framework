@@ -93,6 +93,18 @@ namespace CSObjectWrap
 				
 				translator.DelayWrapLoader(typeof(UnityEngine.WWW), UnityEngineWWWWrap.__Register);
 				
+				translator.DelayWrapLoader(typeof(Foo1Parent), Foo1ParentWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(Foo2Parent), Foo2ParentWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(Foo1Child), Foo1ChildWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(Foo2Child), Foo2ChildWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(Foo), FooWrap.__Register);
+				
+				translator.DelayWrapLoader(typeof(FooExtension), FooExtensionWrap.__Register);
+				
 				translator.DelayWrapLoader(typeof(object), SystemObjectWrap.__Register);
 				
 				translator.DelayWrapLoader(typeof(UnityEngine.Object), UnityEngineObjectWrap.__Register);
@@ -161,6 +173,8 @@ namespace CSObjectWrap
 				translator.AddInterfaceBridgeCreator(typeof(InvokeLua.ICalc), InvokeLuaICalcBridge.__Create);
 				
 				translator.AddInterfaceBridgeCreator(typeof(XLuaTest.IExchanger), XLuaTestIExchangerBridge.__Create);
+				
+				translator.AddInterfaceBridgeCreator(typeof(System.Collections.IEnumerator), SystemCollectionsIEnumeratorBridge.__Create);
 				
 				translator.AddInterfaceBridgeCreator(typeof(CSCallLua.ItfD), CSCallLuaItfDBridge.__Create);
 				

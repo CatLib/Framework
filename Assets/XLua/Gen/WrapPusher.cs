@@ -20,10 +20,10 @@ namespace XLua
         {
             static IniterAdderXLuaTestPedding()
             {
-                AddIniter(Init);
+                LuaEnv.AddIniter(Init);
             }
 			
-			static void Init(ObjectTranslator translator)
+			static void Init(LuaEnv luaenv, ObjectTranslator translator)
 			{
 			
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.Pedding>(translator.PushXLuaTestPedding, translator.Get, translator.UpdateXLuaTestPedding);

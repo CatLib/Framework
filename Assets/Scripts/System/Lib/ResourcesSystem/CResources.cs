@@ -147,7 +147,7 @@ namespace CatLib.ResourcesSystem {
                 envPath = CEnv.AssetPath;
             }
            
-            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + "/" + objName);
+            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + "/" + System.IO.Path.GetFileNameWithoutExtension(objName));
             return assetTarget.LoadAllAssets();
         }
 
@@ -272,7 +272,7 @@ namespace CatLib.ResourcesSystem {
 
             AssetBundle assetTarget = null;
 
-            yield return LoadAssetBundleAsyn(envPath , relPath + "/" + objName, (ab) =>
+            yield return LoadAssetBundleAsyn(envPath , relPath + "/" + System.IO.Path.GetFileNameWithoutExtension(objName), (ab) =>
             {
                 assetTarget = ab;
             });
