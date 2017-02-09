@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿
 using CatLib.Contracts.Base;
-using XLua;
 
-namespace CapLib.Base
+
+namespace CatLib.Base
 {
 
     public class CApp

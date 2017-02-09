@@ -28,7 +28,7 @@ public class CLuaConfig : CConfig , GenConfig
                 typeof(UnityEngine.AudioSource),
                 typeof(UnityEngine.AudioClip),
                 typeof(UnityEngine.Application),
-                typeof(CapLib.Base.CApp),
+                typeof(CatLib.Base.CApp),
                 typeof(CatLib.Base.CComponent),
                 typeof(CatLib.Base.CMonoComponent),
                 typeof(CatLib.Base.CComponent),

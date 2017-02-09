@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using CatLib.Container;
+﻿using CatLib.Container;
 using CatLib.Base;
 using CatLib.Contracts.UpdateSystem;
 using CatLib.Contracts.Base;
@@ -15,12 +14,18 @@ namespace CatLib.UpdateSystem
 
         public CAutoUpdateProvider(IApplication app) : base(app)
         {
-            app.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
+            
+        }
+
+        public override void Init() {
+
+            application.Event.One(CApplication.Events.ON_INITED_CALLBACK, (sender, e) =>
             {
 
-                app.Make<IAutoUpdate>().UpdateAsset();
+                application.Make<IAutoUpdate>().UpdateAsset();
 
             });
+
         }
 
         public override void Register()

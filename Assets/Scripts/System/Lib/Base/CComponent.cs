@@ -1,8 +1,7 @@
-﻿using CatLib.Event;
-using CatLib.Contracts.Event;
+﻿using CatLib.Contracts.Event;
 using CatLib.Contracts.Base;
-using CapLib.Base;
-using XLua;
+using CatLib.Base;
+using CatLib.Container;
 
 namespace CatLib.Base
 {
@@ -13,15 +12,15 @@ namespace CatLib.Base
         public IApplication Application { get { return CApp.Instance; } }
 
 
-        private CEvent cevent = null;
+        private IEventAchieve cevent = null;
         /// <summary>
         /// 事件系统
         /// </summary>
-        public CEvent Event
+        public IEventAchieve Event
         {
             get
             {
-                if (this.cevent == null) { this.cevent = new CEvent(); }
+                if (this.cevent == null) { this.cevent = CApp.Instance.Make<IEventAchieve>(); }
                 return this.cevent;
             }
         }

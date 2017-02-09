@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
+using CatLib.Contracts.Event;
 
 namespace CatLib.Event
 {
 
-    public class CEvent
+    public class CEvent : IEventAchieve
     {
 
         /// <summary>

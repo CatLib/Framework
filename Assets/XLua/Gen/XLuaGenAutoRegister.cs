@@ -29,7 +29,7 @@ namespace CSObjectWrap
 				
 				translator.DelayWrapLoader(typeof(UnityEngine.Application), UnityEngineApplicationWrap.__Register);
 				
-				translator.DelayWrapLoader(typeof(CapLib.Base.CApp), CapLibBaseCAppWrap.__Register);
+				translator.DelayWrapLoader(typeof(CatLib.Base.CApp), CatLibBaseCAppWrap.__Register);
 				
 				translator.DelayWrapLoader(typeof(CatLib.Base.CComponent), CatLibBaseCComponentWrap.__Register);
 				

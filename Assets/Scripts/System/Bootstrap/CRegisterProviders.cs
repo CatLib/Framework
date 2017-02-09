@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using System;
 using CatLib.Contracts.Base;
-using CapLib.Base;
+using CatLib.Base;
 
 namespace CatLib
 {

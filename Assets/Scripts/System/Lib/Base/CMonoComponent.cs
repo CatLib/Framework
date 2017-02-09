@@ -1,12 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
-using CatLib.Event;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using CatLib.Contracts.Event;
-using CapLib.Base;
+using CatLib.Base;
 using CatLib.Contracts.Base;
-using XLua;
+using CatLib.Container;
 
 namespace CatLib.Base
 {
@@ -17,16 +14,16 @@ namespace CatLib.Base
     public class CMonoComponent : CMonoObject, IEvent
     {
 
-        private CEvent cevent = null;
+        private IEventAchieve cevent = null;
         /// <summary>
         /// 事件系统
         /// </summary>
-        public CEvent Event
+        public IEventAchieve Event
         {
             get
             {
-                if (this.cevent == null) { this.cevent = new CEvent(); }
-                return this.cevent;             
+                if (this.cevent == null) { this.cevent = CApp.Instance.Make<IEventAchieve>(); }
+                return this.cevent;
             }
         }
 
