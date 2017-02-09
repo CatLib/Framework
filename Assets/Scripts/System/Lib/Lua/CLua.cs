@@ -76,7 +76,7 @@ namespace CatLib.Lua
             foreach (string file in filePath)
             {
 
-                FileInfo[] infos = (CEnv.AssetPath + "/" + file).RWalk();
+                FileInfo[] infos = CDirectory.Walk((CEnv.AssetPath + "/" + file));
 
                 foreach(var info in infos)
                 {

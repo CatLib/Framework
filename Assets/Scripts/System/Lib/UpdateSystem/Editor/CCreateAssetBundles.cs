@@ -15,7 +15,7 @@ namespace CatLib.UpdateSystem{
 		/// <summary>
 		/// 编译Asset Bundle
 		/// </summary>
-		[MenuItem ("Release/Build AssetBundles")]
+		[MenuItem ("CatLib/Build AssetBundles")]
 		public static void BuildAllAssetBundles ()
 		{
 			RuntimePlatform switchPlatform = CEnv.SwitchPlatform;
@@ -56,7 +56,7 @@ namespace CatLib.UpdateSystem{
 		/// <param name="path">路径</param>
 		protected static void BuildAssetBundleName(string path){
 
-			path.Walk((file) => {
+			CDirectory.Walk(path , (file) => {
 
 				if(!file.Name.EndsWith(".meta"))  
                 {  
@@ -110,7 +110,7 @@ namespace CatLib.UpdateSystem{
 		protected static void BuildListFile(string path){
 
 			CUpdateList lst = new CUpdateList(path);
-			path.Walk((file)=>{
+			CDirectory.Walk(path , (file)=>{
 
                 if (!file.Standard().EndsWith(".meta"))
                 {

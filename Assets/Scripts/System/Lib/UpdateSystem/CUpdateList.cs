@@ -48,7 +48,7 @@ namespace CatLib.UpdateSystem{
 
         public CUpdateList Read()
         {
-            if (path.Exists())
+            if (CFile.Exists(path))
             {
                 using (StreamReader sr = new StreamReader(path, Encoding.UTF8 , true))
                 {

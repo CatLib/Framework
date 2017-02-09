@@ -321,7 +321,7 @@ namespace CatLib.ResourcesSystem {
             objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), variant , type);
             relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
 
-            if (!(CEnv.AssetPath + "/" + relPath).Exists())
+            if (!CFile.Exists(CEnv.AssetPath + "/" + relPath))
             {
                 objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), string.Empty , type);
                 relPath = path.Substring(0, path.LastIndexOf('/'));

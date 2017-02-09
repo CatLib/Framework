@@ -6,20 +6,29 @@ namespace CatLib.FileSystem{
 	/// 文件
 	/// </summary>
 	public static class CFile{
-
-        public static void Delete(this string path)
+		
+		/// <summary>
+		/// 删除指定文件
+		/// </summary>
+        public static void Delete(string path)
         {
             File.Delete(path);
         }
 
-        public static bool Exists(this string path)
+		/// <summary>
+		/// 文件是否存在
+		/// </summary>
+        public static bool Exists(string path)
         {
 
             return File.Exists(path);
 
         }
 
-        public static void Cover(this string path , byte[] array, int offset, int count)
+		/// <summary>
+		/// 覆盖文件
+		/// </summary>
+        public static void Cover(string path , byte[] array, int offset, int count)
         {
             using (FileStream fs = File.Create(path))
             {
@@ -33,14 +42,14 @@ namespace CatLib.FileSystem{
 		/// </summary>
 		public static string Standard(this FileSystemInfo file){
 
-			return file.FullName.Standard();
+			return Standard(file.FullName);
 
 		}
 
 		/// <summary>
 		/// 标准化路径
 		/// </summary>
-		public static string Standard(this string path){
+		public static string Standard(string path){
 
 			return path.Replace("\\","/");
 

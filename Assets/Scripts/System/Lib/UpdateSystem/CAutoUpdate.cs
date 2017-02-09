@@ -93,7 +93,7 @@ namespace CatLib.UpdateSystem
 
             CDirectory.CreateDir(CEnv.AssetPath);
 
-            CEnv.AssetPath.Walk((file) => {
+            CDirectory.Walk(CEnv.AssetPath , (file) => {
 
                 if (!file.Standard().EndsWith(".meta"))
                 {
@@ -127,10 +127,10 @@ namespace CatLib.UpdateSystem
             foreach (CUpdateListField field in needDeleteLst)
             {
                 filePath = CEnv.AssetPath + field.Path;
-                if (filePath.Exists())
+                if (CFile.Exists(filePath))
                 {
                     base.Event.Trigger(CAutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION);
-                    filePath.Delete();
+                    CFile.Delete(filePath);
                 }
 
             }
@@ -167,7 +167,7 @@ namespace CatLib.UpdateSystem
                         yield break;
                     }
                     CDirectory.CreateDir(saveDir);
-                    savePath.Cover(request.downloadHandler.data, 0, request.downloadHandler.data.Length);
+                    CFile.Cover(savePath , request.downloadHandler.data, 0, request.downloadHandler.data.Length);
                 }
                 
             }
