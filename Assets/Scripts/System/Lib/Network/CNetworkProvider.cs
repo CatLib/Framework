@@ -15,16 +15,11 @@ namespace CatLib.Network
     public class CNetworkProvider : CServiceProvider
     {
 
-        public CNetworkProvider(IApplication app) : base(app)
-        {
-        }
-
-
         public override void Register()
         {
-            application.Singleton<CNetwork>().Alias<INetwork>();
-            application.Bind<CWebRequest>().Alias<IConnectorHttp>();
-            application.Bind<CCookieWebRequest>().Alias("testcookie");
+            Application.Singleton<CNetwork>().Alias<INetwork>();
+            Application.Bind<CWebRequest>().Alias<IConnectorHttp>();
+            Application.Bind<CCookieWebRequest>().Alias("testcookie");
         }
 
 
