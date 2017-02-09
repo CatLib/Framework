@@ -14,6 +14,7 @@ using System.Collections.Generic;
 
 namespace CSObjectWrap
 {
+    using Utils = XLua.Utils;
     public class CatLibBaseCMonoComponentWrap
     {
         public static void __Register(RealStatePtr L)

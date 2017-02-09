@@ -14,6 +14,7 @@ using System.Collections.Generic;
 
 namespace CSObjectWrap
 {
+    using Utils = XLua.Utils;
     public class UnityEngineObjectWrap
     {
         public static void __Register(RealStatePtr L)
@@ -407,6 +408,17 @@ namespace CSObjectWrap
 			int __gen_param_count = LuaAPI.lua_gettop(L);
             
             try {
+                if(__gen_param_count == 1&& translator.Assignable<UnityEngine.Object>(L, 1)) 
+                {
+                    UnityEngine.Object original = (UnityEngine.Object)translator.GetObject(L, 1, typeof(UnityEngine.Object));
+                    
+                        UnityEngine.Object __cl_gen_ret = UnityEngine.Object.Instantiate( original );
+                        translator.Push(L, __cl_gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
                 if(__gen_param_count == 1&& translator.Assignable<UnityEngine.Object>(L, 1)) 
                 {
                     UnityEngine.Object original = (UnityEngine.Object)translator.GetObject(L, 1, typeof(UnityEngine.Object));

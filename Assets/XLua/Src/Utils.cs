@@ -24,6 +24,8 @@ using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 
 namespace XLua
 {
+    using UnityEngine;
+
     public static partial class Utils
     {
         public static bool LoadField(RealStatePtr L, int idx, string field_name)
@@ -46,12 +48,14 @@ namespace XLua
             return ret;
         }
 
-        public static IEnumerable<Type> GetAllTypes()
+        public static IEnumerable<Type> GetAllTypes(bool exclude_generic_definition = true)
         {
             return from assembly in AppDomain.CurrentDomain.GetAssemblies()
+#if UNITY_EDITOR
                                           where !(assembly.ManifestModule is System.Reflection.Emit.ModuleBuilder)
+#endif
                                           from type in assembly.GetTypes()
-                                          where !type.IsGenericTypeDefinition
+                                          where exclude_generic_definition ? !type.IsGenericTypeDefinition : true
                                           select type;
         }
 
@@ -415,8 +419,8 @@ namespace XLua
 
                 extension_method_map = (from type in type_def_extention_method
                                         from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                                        where !method.ContainsGenericParameters && method.IsDefined(typeof(ExtensionAttribute), false)
-                                        group method by method.GetParameters()[0].ParameterType).ToDictionary(g => g.Key, g => g as IEnumerable<MethodInfo>);
+                                        where IsSupportedExtensionMethod(method)
+                                        group method by getExtendedType(method)).ToDictionary(g => g.Key, g => g as IEnumerable<MethodInfo>);
             }
             IEnumerable<MethodInfo> ret = null;
             extension_method_map.TryGetValue(type_to_be_extend, out ret);
@@ -618,7 +622,6 @@ namespace XLua
 
         public static void MakePrivateAccessible(RealStatePtr L, Type type)
         {
-            ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
             int oldTop = LuaAPI.lua_gettop(L);
 
             LuaAPI.luaL_getmetatable(L, type.FullName);
@@ -637,17 +640,17 @@ namespace XLua
             }
             int cls_field = LuaAPI.lua_gettop(L);
 
-            loadUpvalue(L, type, Utils.LuaIndexsFieldName, 2);
+            loadUpvalue(L, type, LuaIndexsFieldName, 2);
             int obj_getter = LuaAPI.lua_gettop(L);
             int obj_field = obj_getter - 1;
 
-            loadUpvalue(L, type, Utils.LuaNewIndexsFieldName, 1);
+            loadUpvalue(L, type, LuaNewIndexsFieldName, 1);
             int obj_setter = LuaAPI.lua_gettop(L);
 
-            loadUpvalue(L, type, Utils.LuaClassIndexsFieldName, 1);
+            loadUpvalue(L, type, LuaClassIndexsFieldName, 1);
             int cls_getter = LuaAPI.lua_gettop(L);
 
-            loadUpvalue(L, type, Utils.LuaClassNewIndexsFieldName, 1);
+            loadUpvalue(L, type, LuaClassNewIndexsFieldName, 1);
             int cls_setter = LuaAPI.lua_gettop(L);
 
             LuaCSFunction item_getter;
@@ -708,12 +711,12 @@ namespace XLua
             LuaAPI.lua_pushvalue(L, obj_getter);
             translator.PushFixCSFunction(L, item_getter);
             translator.PushAny(L, type.BaseType);
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             LuaAPI.lua_pushnil(L);
             LuaAPI.gen_obj_indexer(L);
             //store in lua indexs function tables
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             translator.Push(L, type);
             LuaAPI.lua_pushvalue(L, -3);
@@ -725,12 +728,12 @@ namespace XLua
             LuaAPI.lua_pushvalue(L, obj_setter);
             translator.PushFixCSFunction(L, item_setter);
             translator.Push(L, type.BaseType);
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaNewIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaNewIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             LuaAPI.lua_pushnil(L);
             LuaAPI.gen_obj_newindexer(L);
             //store in lua newindexs function tables
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaNewIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaNewIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             translator.Push(L, type);
             LuaAPI.lua_pushvalue(L, -3);
@@ -759,11 +762,11 @@ namespace XLua
             LuaAPI.lua_pushvalue(L, cls_getter);
             LuaAPI.lua_pushvalue(L, cls_field);
             translator.Push(L, type.BaseType);
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             LuaAPI.gen_cls_indexer(L);
             //store in lua indexs function tables
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             translator.Push(L, type);
             LuaAPI.lua_pushvalue(L, -3);
@@ -774,11 +777,11 @@ namespace XLua
             LuaAPI.xlua_pushasciistring(L, "__newindex");
             LuaAPI.lua_pushvalue(L, cls_setter);
             translator.Push(L, type.BaseType);
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassNewIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassNewIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             LuaAPI.gen_cls_newindexer(L);
             //store in lua newindexs function tables
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassNewIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassNewIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             translator.Push(L, type);
             LuaAPI.lua_pushvalue(L, -3);
@@ -903,7 +906,7 @@ namespace XLua
 
             translator.Push(L, type == null ? base_type : type.BaseType);
 
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             if (arrayIndexer == null)
             {
@@ -918,7 +921,7 @@ namespace XLua
 
             if (type != null)
             {
-                LuaAPI.xlua_pushasciistring(L, Utils.LuaIndexsFieldName);
+                LuaAPI.xlua_pushasciistring(L, LuaIndexsFieldName);
                 LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);//store in lua indexs function tables
                 translator.Push(L, type);
                 LuaAPI.lua_pushvalue(L, -3);
@@ -944,7 +947,7 @@ namespace XLua
 
             translator.Push(L, type == null ? base_type : type.BaseType);
 
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaNewIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaNewIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
 
             if (arrayNewIndexer == null)
@@ -960,7 +963,7 @@ namespace XLua
 
             if (type != null)
             {
-                LuaAPI.xlua_pushasciistring(L, Utils.LuaNewIndexsFieldName);
+                LuaAPI.xlua_pushasciistring(L, LuaNewIndexsFieldName);
                 LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);//store in lua newindexs function tables
                 translator.Push(L, type);
                 LuaAPI.lua_pushvalue(L, -3);
@@ -1046,11 +1049,11 @@ namespace XLua
             LuaAPI.lua_pushvalue(L, cls_getter_idx);
             LuaAPI.lua_pushvalue(L, cls_idx);
             translator.Push(L, type.BaseType);
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             LuaAPI.gen_cls_indexer(L);
 
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);//store in lua indexs function tables
             translator.Push(L, type);
             LuaAPI.lua_pushvalue(L, -3);
@@ -1064,11 +1067,11 @@ namespace XLua
             LuaAPI.xlua_pushasciistring(L, "__newindex");
             LuaAPI.lua_pushvalue(L, cls_setter_idx);
             translator.Push(L, type.BaseType);
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassNewIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassNewIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
             LuaAPI.gen_cls_newindexer(L);
 
-            LuaAPI.xlua_pushasciistring(L, Utils.LuaClassNewIndexsFieldName);
+            LuaAPI.xlua_pushasciistring(L, LuaClassNewIndexsFieldName);
             LuaAPI.lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);//store in lua newindexs function tables
             translator.Push(L, type);
             LuaAPI.lua_pushvalue(L, -3);
@@ -1207,6 +1210,78 @@ namespace XLua
             }
 
             return true;
+        }
+
+        public static bool IsSupportedExtensionMethod(MethodBase method)
+        {
+            if (!method.IsDefined(typeof(ExtensionAttribute), false))
+                return false;
+            if (!method.ContainsGenericParameters)
+                return true;
+            var methodParameters = method.GetParameters();
+            var hasValidGenericParameter = false;
+            for (var i = 0; i < methodParameters.Length; i++)
+            {
+                var parameterType = methodParameters[i].ParameterType;
+                if (parameterType.IsGenericParameter)
+                {
+                    var parameterConstraints = parameterType.GetGenericParameterConstraints();
+                    if (parameterConstraints.Length == 0 || !parameterConstraints[0].IsClass)
+                        return false;
+                    hasValidGenericParameter = true;
+                }
+            }
+            return hasValidGenericParameter;
+        }
+
+        public static bool IsSupportedExtensionMethod(MethodBase method,Type extendedType)
+        {
+            if (!method.IsDefined(typeof(ExtensionAttribute), false))
+                return false;
+            var methodParameters = method.GetParameters();
+            if (methodParameters.Length < 1)
+                return false;
+
+            var hasValidGenericParameter = false;
+            for (var i = 0; i < methodParameters.Length; i++)
+            {
+                var parameterType = methodParameters[i].ParameterType;
+                if (i == 0)
+                {
+                    if (parameterType.IsGenericParameter)
+                    {
+                        var parameterConstraints = parameterType.GetGenericParameterConstraints();
+                        if (parameterConstraints.Length == 0 || !parameterConstraints[0].IsAssignableFrom(extendedType))
+                            return false;
+                        hasValidGenericParameter = true;
+                    }
+                    else if (!parameterType.IsAssignableFrom(extendedType))
+                        return false;
+                }
+                else if (parameterType.IsGenericParameter)
+                {
+                    var parameterConstraints = parameterType.GetGenericParameterConstraints();
+                    if (parameterConstraints.Length == 0 || !parameterConstraints[0].IsClass)
+                        return false;
+                    hasValidGenericParameter = true;
+                }
+            }
+            return hasValidGenericParameter || !method.ContainsGenericParameters;
+        }
+
+        private static Type getExtendedType(MethodInfo method)
+        {
+            var type = method.GetParameters()[0].ParameterType;
+            if (!type.IsGenericParameter)
+                return type;
+            var parameterConstraints = type.GetGenericParameterConstraints();
+            if (parameterConstraints.Length == 0)
+                throw new InvalidOperationException();
+
+            var firstParameterConstraint = parameterConstraints[0];
+            if (!firstParameterConstraint.IsClass)
+                throw new InvalidOperationException();
+            return firstParameterConstraint;
         }
     }
 }

@@ -26,7 +26,7 @@ public class CAutoUpdateConfig : CConfig{
         {
             return new object[]
             {
-                "update.url" , "http://pvp.oss-cn-shanghai.aliyuncs.com/demo",
+                "update.url" , "http://pvp.oss-cn-shanghai.aliyuncs.com/demo"
                 //"update.api" , "api请求地址"
             };
         }

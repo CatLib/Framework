@@ -14,6 +14,7 @@ using Tutorial;
 
 namespace CSObjectWrap
 {
+    using Utils = XLua.Utils;
     public class TutorialBaseClassWrap
     {
         public static void __Register(RealStatePtr L)

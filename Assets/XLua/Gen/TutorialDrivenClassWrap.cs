@@ -14,12 +14,13 @@ using Tutorial;
 
 namespace CSObjectWrap
 {
+    using Utils = XLua.Utils;
     public class TutorialDrivenClassWrap
     {
         public static void __Register(RealStatePtr L)
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			Utils.BeginObjectRegister(typeof(Tutorial.DrivenClass), L, translator, 1, 12, 2, 2);
+			Utils.BeginObjectRegister(typeof(Tutorial.DrivenClass), L, translator, 1, 13, 2, 2);
 			Utils.RegisterFunc(L, Utils.OBJ_META_IDX, "__add", __AddMeta);
             
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DMFunc", _m_DMFunc);
@@ -32,6 +33,7 @@ namespace CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "TestLong", _m_TestLong);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetCalc", _m_GetCalc);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetSomeData", _m_GetSomeData);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetSomeBaseData", _m_GetSomeBaseData);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GenericMethodOfString", _m_GenericMethodOfString);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "TestEvent", _e_TestEvent);
@@ -437,6 +439,34 @@ namespace CSObjectWrap
                 {
                     
                         int __cl_gen_ret = __cl_gen_to_be_invoked.GetSomeData(  );
+                        LuaAPI.xlua_pushinteger(L, __cl_gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception __gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_GetSomeBaseData(RealStatePtr L)
+        {
+            
+            ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            Tutorial.DrivenClass __cl_gen_to_be_invoked = (Tutorial.DrivenClass)translator.FastGetCSObj(L, 1);
+            
+            
+            try {
+                
+                {
+                    
+                        int __cl_gen_ret = __cl_gen_to_be_invoked.GetSomeBaseData(  );
                         LuaAPI.xlua_pushinteger(L, __cl_gen_ret);
                     
                     
