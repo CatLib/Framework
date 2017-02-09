@@ -38,6 +38,13 @@ Unity3D Framework For XLua
 * PSD分层自动布局服务（UGUI ，NGUI）（等待开发）
 
 ## 文件目录描述
+* Assets/ 会被打包的目录 （可以通过配置更改）
+* Assets/AssetBundle 会被打包成AssetBundle的目录 （可以通过配置更改）
+* Assets/NotAssetBundle 不会打包成AssetBundle的目录（直接复制）（可以通过配置更改）
+
+* Release/ 编译打包后生成的目录
+
+* Assets/NotAssetBundle 不会打包成AssetBundle的目录（直接复制）（可以通过配置更改）
 * Scripts/ 代码文件目录
 * Scripts/Application/ 用户代码目录 (可自定义名字)
 * Scripts/Config/ 框架组件配置目录
