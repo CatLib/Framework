@@ -5,6 +5,8 @@ Unity3D Framework For XLua
 
 欢迎大家认领组件开发，一起完善框架~！
 
+项目开发计划：https://www.teambition.com/project/589ce998907a7b661c86de9c/
+
 ## 计划的功能
 
 框架核心
@@ -18,12 +20,16 @@ Unity3D Framework For XLua
 * 事件服务（已经完成）
 * XLua热更新支持 （正在开发）
 * 网络服务（Http，Socket）（正在开发）
+* CPD(catlib package data) 提供一个默认数据包头包体分包方案的组件
 * 基础文件服务 （正在开发）
 * 多线程服务 （被认领）
 * 基础UI服务（等待开发）
 * 异常处理组件（等待开发）
 * 对象池组件（等待开发）
 * 基础音频组件（等待开发）
+* 加密组件（提供rsa,des,md5,base64等常用加密，编码的组件）（等待开发）
+* 集合组件（对于传统字典，hashtable，list的强化）（等待开发）
+* 数据验证服务（提供统一的数据验证规范）（等待开发）
 
 扩展组件
 * protobuf网络协议组件（等待开发）
@@ -31,6 +37,8 @@ Unity3D Framework For XLua
 * xml协议组件（等待开发）
 * csv文件服务组件（被认领）
 * excel文件服务组件（等待开发）
+* sqlite 数据库服务组件（等待开发）
+* CDO (catlib data object) catlib数据对象服务（提供对csv，excel，sqlite的统一读写接口）（等待开发）
 * 本地化组件（等待开发）
 
 编辑器拓展
@@ -59,3 +67,5 @@ Unity3D Framework For XLua
 ## 用户代码入口(默认)
 * Scripts/Application/CBootstrapProvider.cs (可自定义，只需配置到config中就可以了)
 
+## 其他
+* 交流QQ群：150371044
