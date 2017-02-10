@@ -20,7 +20,7 @@ Unity3D Framework For XLua
 * 事件服务（已经完成）
 * XLua热更新支持 （正在开发）
 * 网络服务（Http，Socket）（正在开发）
-* CPD(catlib package data) 提供一个默认数据包头包体分包方案的组件
+* CPD(catlib package data) 提供一个默认数据包头包体分包方案的组件（等待开发）
 * 基础文件服务 （正在开发）
 * 多线程服务 （被认领）
 * 基础UI服务（等待开发）
@@ -44,6 +44,7 @@ Unity3D Framework For XLua
 编辑器拓展
 * 多平台自动打包服务（等待开发）
 * PSD分层自动布局服务（UGUI ，NGUI）（等待开发）
+* 真机Debug强化（等待开发）
 
 ## 文件目录描述
 * Assets/ 会被打包的目录 （可以通过配置更改）
