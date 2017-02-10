@@ -5,13 +5,13 @@ namespace CatLib.Base
 {
 
     /// <summary>
-    /// 服务提供者启动流程
+    /// 服务提供者启动流程（服务提供商级流程）
     /// </summary>
     public enum EProviderProcess
     {
 
         /// <summary>
-        /// 初始化流程
+        /// 顶级初始化流程
         /// </summary>
         INITED = 1,
 

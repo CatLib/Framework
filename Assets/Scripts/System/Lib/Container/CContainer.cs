@@ -39,6 +39,20 @@ namespace CatLib.Container
         private Dictionary<Type, CConfig> config;
 
         /// <summary>
+        /// 是否拥有依赖的服务
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        protected bool HasDepend(string service)
+        {
+            if(binds.ContainsKey(service) || alias.ContainsKey(service))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 设定一个别名
         /// </summary>
         /// <param name="alias">别名</param>

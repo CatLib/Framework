@@ -1,6 +1,7 @@
 ﻿using CatLib.Contracts.Base;
 using CatLib.Container;
 using System.Collections;
+using System;
 
 namespace CatLib.Base
 {
@@ -15,6 +16,8 @@ namespace CatLib.Base
         public virtual EProviderProcess ProviderProcess { get { return EProviderProcess.NORMAL; } }
 
         public virtual IEnumerator OnProviderProcess() { yield break; }
+
+        public virtual Type[] ProviderDepend { get { return new Type[] { }; } }
 
         abstract public void Register();
 

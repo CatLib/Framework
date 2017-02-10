@@ -1,6 +1,7 @@
 ﻿
 using CatLib.Container;
 using CatLib.Contracts.Base;
+using CatLib.Exception;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,19 +33,24 @@ namespace CatLib.Base
             ON_BOOTSTRAP = 1,
 
             /// <summary>
+            /// 依赖检测流程
+            /// </summary>
+            ON_DEPEND = 3,
+
+            /// <summary>
             /// 初始化流程
             /// </summary>
-            ON_INITED = 2,
+            ON_INITED = 4,
 
             /// <summary>
             /// 服务提供商启动流程
             /// </summary>
-            ON_PROVIDER_PROCESS = 3,
+            ON_PROVIDER_PROCESS = 5,
 
             /// <summary>
             /// 启动完成
             /// </summary>
-            ON_COMPLETE = 4,
+            ON_COMPLETE = 6,
 
         }
 
@@ -152,11 +158,33 @@ namespace CatLib.Base
             if (inited) { return; }
             if (!bootstrapped) { return; }
 
+            CServiceProvider[] providers = serviceProviders.ToArray();
+
+            process = StartProcess.ON_DEPEND;
+
+            base.Event.Trigger(CApplicationEvents.ON_DEPENDING_CALLBACK);
+
+            foreach (CServiceProvider provider in providers)
+            {
+
+                foreach (Type type in provider.ProviderDepend)
+                {
+
+                    if (!HasDepend(type.ToString()))
+                    {
+                        throw new CException("service provider [" + provider.GetType().ToString() + "] depend service provider [" + type.ToString() + "]");
+                    }
+                }
+
+            }
+
+            base.Event.Trigger(CApplicationEvents.ON_DEPENDED_CALLBACK);
+
             process = StartProcess.ON_INITED;
 
             base.Event.Trigger(CApplicationEvents.ON_INITING_CALLBACK);
 
-            foreach (CServiceProvider serviceProvider in serviceProviders.ToArray())
+            foreach (CServiceProvider serviceProvider in providers)
             {
                 serviceProvider.Init();
             }
