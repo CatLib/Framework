@@ -1,7 +1,6 @@
 ﻿using CatLib.Container;
 using CatLib.Base;
 using CatLib.Contracts.UpdateSystem;
-using CapLib.Base;
 using System.Collections;
 
 namespace CatLib.UpdateSystem

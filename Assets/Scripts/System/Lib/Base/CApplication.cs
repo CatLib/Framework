@@ -1,19 +1,14 @@
 ﻿
-using CapLib.Base;
-using CatLib.Base;
 using CatLib.Container;
 using CatLib.Contracts.Base;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
-using XLua;
 
-namespace CapLib.Base
+namespace CatLib.Base
 {
 
-    [LuaCallCSharp]
     /// <summary>
     /// CatLib程序
     /// </summary>

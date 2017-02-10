@@ -4,7 +4,7 @@ using CatLib.Base;
 using System;
 using CatLib;
 using CatLib.Contracts.Base;
-using CapLib.Base;
+using CatLib.Base;
 
 public class CProgram : MonoBehaviour {
 

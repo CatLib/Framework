@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using CapLib.Base;
-using XLua;
 
 namespace CatLib.Base
 {

@@ -1,8 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using CapLib.Base;
-using CatLib.Container;
-using XLua;
+﻿using CatLib.Container;
+
 
 namespace CatLib.Base
 {
