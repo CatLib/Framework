@@ -16,12 +16,6 @@ namespace CatLib.Network.UnityWebRequest
     {
 
         /// <summary>
-        /// 调度器
-        /// </summary>
-        [CDependency]
-        public IDispatcher Dispatcher { get; set; }
-
-        /// <summary>
         /// 是否断开链接
         /// </summary>
         private bool isDisconnect = false;
@@ -130,19 +124,14 @@ namespace CatLib.Network.UnityWebRequest
                         yield return request.Send();
                         if (request.isError || request.responseCode != 200)
                         {
-                            if (Dispatcher is IEvent)
-                            {
-                                (Dispatcher as IEvent).Event.Trigger(TypeGuid, this, new CWebRequestErrorEventArgs(request));
-                                (Dispatcher as IEvent).Event.Trigger(GetType().ToString(), this, new CWebRequestErrorEventArgs(request));
-                            }
+                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CWebRequestErrorEventArgs(request));
+                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CWebRequestErrorEventArgs(request));
+ 
                         }
                         else
                         {
-                            if (Dispatcher is IEvent)
-                            {
-                                (Dispatcher as IEvent).Event.Trigger(TypeGuid, this, new CWebRequestEventArgs(request));
-                                (Dispatcher as IEvent).Event.Trigger(GetType().ToString(), this, new CWebRequestEventArgs(request));
-                            }
+                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CWebRequestEventArgs(request));
+                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CWebRequestEventArgs(request));
                         }
                     }
                 }

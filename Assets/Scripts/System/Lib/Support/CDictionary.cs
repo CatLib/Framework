@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace CatLib.Support
 {
@@ -36,6 +37,15 @@ namespace CatLib.Support
             }
             return dict;
         }
+
+        public static void Walk<T1,T2>(this Dictionary<T1, T2> dict , Action<T1, T2> callback)
+        {
+            foreach(var kv in dict)
+            {
+                callback(kv.Key, kv.Value);
+            }
+        }
+
     }
 
 }

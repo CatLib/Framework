@@ -1,51 +1,147 @@
-﻿using UnityEngine;
+﻿using CatLib.Base;
+using CatLib.Contracts.Network;
+using CatLib.Exception;
 using System.Collections;
-using System;
+using System.Collections.Generic;
+using System.Net;
+using UnityEngine;
 
 namespace CatLib.Network.HttpWebRequest
 {
 
-    public class CHttpWebRequest
+    public class CHttpWebRequest : CComponent , IConnectorHttp
     {
 
-        private System.Net.HttpWebRequest webRequest;
+        /// <summary>
+        /// Cookie容器
+        /// </summary>
+        private CookieContainer cookieContainer = new CookieContainer();
 
-        private byte[] requestData;
+        /// <summary>
+        /// 是否断开链接
+        /// </summary>
+        private bool isDisconnect = false;
 
-        public CHttpWebRequest(string url)
+        /// <summary>
+        /// 服务器地址
+        /// </summary>
+        private string url;
+
+        /// <summary>
+        /// 发送队列
+        /// </summary>
+        private Queue<CHttpWebRequestEntity> queue = new Queue<CHttpWebRequestEntity>();
+
+        /// <summary>
+        /// 设定服务器访问地址
+        /// </summary>
+        /// <param name="url"></param>
+        public IConnectorHttp SetUrl(string url)
         {
-            webRequest = new System.Net.HttpWebRequest(new Uri(url));
-            webRequest.Method = "GET";
+            this.url = url.TrimEnd('/');
+            return this;
         }
 
-        public CHttpWebRequest(string url, string method)
+        /// <summary>
+        /// 发送一条数据
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void Post(byte[] bytes)
         {
-            webRequest = new System.Net.HttpWebRequest(new Uri(url));
-            webRequest.Method = method;
+            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url, bytes);
+            queue.Enqueue(request);
         }
 
-        public static CHttpWebRequest Get(string uri)
+        /// <summary>
+        /// 发送一条数据
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="bytes"></param>
+        public void Post(string action, byte[] bytes)
         {
-            var obj = new CHttpWebRequest(uri, "GET");
-            return obj;
+            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url + action, bytes);
+            queue.Enqueue(request);
         }
 
-        public static CHttpWebRequest Post(string uri, WWWForm formData)
+        public void Post(string action, Dictionary<string, string> fields)
         {
-            var obj = new CHttpWebRequest(uri, "POST");
-            return obj;
+            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url + action, fields);
+            queue.Enqueue(request);
         }
 
-        public static CHttpWebRequest Post(string uri , byte[] bytes)
+        /// <summary>
+        /// 以Post模式获取数据
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="form"></param>
+        public void Post(string action, WWWForm form)
         {
-            var obj = new CHttpWebRequest(uri, "POST");
-            obj.requestData = bytes;
-            return null;
+            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url + action, form);
+            queue.Enqueue(request);
         }
 
-        public AsyncOperation Send()
+        /// <summary>
+        /// 以Get模式获取数据
+        /// </summary>
+        /// <param name="action"></param>
+        public void Get(string action)
         {
-            return null;
+            CHttpWebRequestEntity request = CHttpWebRequestEntity.Get(url + action);
+            queue.Enqueue(request);
+        }
+
+        /// <summary>
+        /// 以Put模式发送数据
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="bodyData"></param>
+        public void Put(string action, byte[] bodyData)
+        {
+            CHttpWebRequestEntity request = CHttpWebRequestEntity.Put(url + action , bodyData);
+            queue.Enqueue(request);
+        }
+
+        /// <summary>
+        /// 断开链接
+        /// </summary>
+        public void Disconnect()
+        {
+            isDisconnect = true;
+        }
+
+        /// <summary>
+        /// 请求到服务器
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator StartServer()
+        {
+            while (true)
+            {
+                if (isDisconnect) { break; }
+                if (queue.Count > 0)
+                {
+                    CHttpWebRequestEntity request;
+                    while (queue.Count > 0)
+                    {
+                        request = queue.Dequeue();
+                        request.SetContainer(cookieContainer);
+                        yield return request.Send();
+                        if (request.Response.IsError || request.Response.ResponseCode != (int)HttpStatusCode.OK)
+                        {
+                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CHttpRequestErrorEventArgs(request));
+                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CHttpRequestErrorEventArgs(request));
+
+                        }
+                        else
+                        {
+                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CHttpRequestEventArgs(request));
+                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CHttpRequestEventArgs(request));
+                        }
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+
         }
 
     }

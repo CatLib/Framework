@@ -5,9 +5,8 @@ using UnityEngine.Networking;
 namespace CatLib.Network.UnityWebRequest
 {
 
-
     /// <summary>
-    /// 请求错误参数
+    /// 错误请求参数
     /// </summary>
     public class CWebRequestErrorEventArgs : System.EventArgs
     {

@@ -9,6 +9,7 @@ using CatLib.Contracts.Network;
 using CatLib.Contracts.Base;
 using CatLib.Network;
 using CatLib.Network.UnityWebRequest;
+using CatLib.Network.HttpWebRequest;
 
 namespace App
 {
@@ -33,14 +34,21 @@ namespace App
                     Debug.Log("from type one:" + (obj2 as CWebRequestEventArgs).Request.downloadHandler.text);
                 });*/
 
-                FDispatcher.Instance.Event.On(conn1.GetType().ToString(), (obj1, obj2) =>
+                FDispatcher.Instance.Event.On(conn4.GetType().ToString(), (obj1, obj2) =>
                 {
-                    foreach(var a in (obj2 as CWebRequestEventArgs).Request.GetResponseHeaders())
+                    Debug.Log("收到了回应");
+                    Debug.Log((obj2 as CHttpRequestEventArgs).Request.Response.IsError);
+                    Debug.Log((obj2 as CHttpRequestEventArgs).Request.Response.Text);
+                    /*foreach(var a in (obj2 as CWebRequestEventArgs).Request.GetResponseHeaders())
                     {
                         Debug.Log(a.Key + "," + a.Value);
-                    }
+                    }*/
                     //Debug.Log("from type on:" +);
                 });
+
+                conn4.SetUrl("http://www.baidu.com");
+                conn4.Get("");
+                conn4.Get("");
 
                 /*
                 FDispatcher.Instance.Event.One((conn1 as IGuid).TypeGuid, (obj1, obj2) =>
@@ -53,7 +61,7 @@ namespace App
                     Debug.Log("from class2:" + (obj2 as CWebRequestEventArgs).Request.downloadHandler.text);
                 });
                 */
-                    
+
                 /*
                 conn3.SetUrl("http://127.0.0.1/testcookie.php");
                 conn3.Put(string.Empty , null);*/
@@ -66,7 +74,7 @@ namespace App
                 conn2.SetUrl("http://www.baidu.com");
                 conn2.Send(new byte[] { });*/
 
-                    
+
 
 
 

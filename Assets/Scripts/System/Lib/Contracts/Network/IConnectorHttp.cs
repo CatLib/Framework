@@ -5,7 +5,6 @@ using XLua;
 
 namespace CatLib.Contracts.Network
 {
-    [LuaCallCSharp]
     /// <summary>
     /// 连接器
     /// </summary>
