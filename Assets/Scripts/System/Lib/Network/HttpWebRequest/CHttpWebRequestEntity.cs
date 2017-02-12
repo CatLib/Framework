@@ -25,6 +25,8 @@ namespace CatLib.Network
         private string uri;
         private ERestful method;
         private string contentType;
+        private int timeout;
+        private int readWriteTimeout;
 
         public CHttpWebRequestEntity(string uri)
         {
@@ -36,6 +38,18 @@ namespace CatLib.Network
         {
             this.uri = uri;
             this.method = method;
+        }
+
+        public CHttpWebRequestEntity SetReadWriteTimeOut(int readWriteTimeout)
+        {
+            this.readWriteTimeout = readWriteTimeout;
+            return this;
+        }
+
+        public CHttpWebRequestEntity SetTimeOut(int timeout)
+        {
+            this.timeout = timeout;
+            return this;
         }
 
         public CHttpWebRequestEntity SetMethod(ERestful method)
@@ -79,7 +93,7 @@ namespace CatLib.Network
             var requestResponse = new CHttpWebRequestResponse(webRequest);
             webRequest.Method = method.ToString();
 
-            webRequest.KeepAlive = true;
+            webRequest.KeepAlive = false;
 
             if (cookieContainer != null)
             {
@@ -99,6 +113,16 @@ namespace CatLib.Network
                     webRequest.ContentLength = requestBytes.Length;
                     requestResponse.SetRequestBytes(requestBytes);
                 }
+            }
+
+            if(timeout > 0)
+            {
+                webRequest.Timeout = timeout;
+            }
+
+            if(readWriteTimeout > 0)
+            {
+                webRequest.ReadWriteTimeout = readWriteTimeout;
             }
 
             requestResponse.Send();

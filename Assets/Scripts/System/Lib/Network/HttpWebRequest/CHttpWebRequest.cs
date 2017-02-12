@@ -27,6 +27,11 @@ namespace CatLib.Network
         private string url;
 
         /// <summary>
+        /// 超时
+        /// </summary>
+        private int timeout;
+
+        /// <summary>
         /// 发送队列
         /// </summary>
         private Queue<CHttpWebRequestEntity> queue = new Queue<CHttpWebRequestEntity>();
@@ -37,6 +42,12 @@ namespace CatLib.Network
         public IConnectorHttp SetUrl(string url)
         {
             this.url = url.TrimEnd('/');
+            return this;
+        }
+
+        public IConnectorHttp SetTimeOut(int timeout)
+        {
+            this.timeout = timeout;
             return this;
         }
 
@@ -134,6 +145,7 @@ namespace CatLib.Network
                         request = queue.Dequeue();
                         request.SetContainer(cookieContainer);
                         request.SetHeader(headers);
+                        request.SetTimeOut(timeout).SetReadWriteTimeOut(timeout);
 
                         yield return request.Send();
 

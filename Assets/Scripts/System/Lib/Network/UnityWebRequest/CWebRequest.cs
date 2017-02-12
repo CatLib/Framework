@@ -44,6 +44,11 @@ namespace CatLib.Network
             return this;
         }
 
+        public IConnectorHttp SetTimeOut(int timeout)
+        {
+            throw new CException("this component is not support this features");
+        }
+
         public IConnectorHttp AppendHeader(string header , string val)
         {
             if (headers == null) { headers = new Dictionary<string, string>(); }
@@ -144,7 +149,10 @@ namespace CatLib.Network
                     while (queue.Count > 0)
                     {
                         request = queue.Dequeue();
-                        headers.Walk((statu, val) => request.SetRequestHeader(statu.ToString(), val));
+                        if (headers != null)
+                        {
+                            headers.Walk((statu, val) => request.SetRequestHeader(statu.ToString(), val));
+                        }
                         yield return request.Send();
                         var args = new CWebRequestEventArgs(request);
 

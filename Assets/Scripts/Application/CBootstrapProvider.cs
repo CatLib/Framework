@@ -62,10 +62,10 @@ namespace App
                 form.AddField("data", "中文你好");
                 form.AddField("data-en", "en hello");
 
-                conn4.AppendHeader("myheader" , "hello world");
-
-                conn4.Put("", form);
-                conn4.Post("", form);
+                //conn4.AppendHeader("myheader" , "hello world");
+                //conn4.Put("", form);
+                //conn4.Post("", form);
+                conn4.Post("", "helloworld".ToByte());
                 //conn4.Delete("");
                 //conn4.Head("");
 
@@ -81,9 +81,9 @@ namespace App
                 conn4.Restful(ERestful.PROFFIND, string.Empty, form);
                 conn4.Restful(ERestful.VIEW, string.Empty, form);*/
 
-                
+
                 conn3.SetUrl("http://127.0.0.11/testcookie.php");
-                conn3.AppendHeader("myheader", "conn3");
+                //conn3.AppendHeader("myheader", "conn3");
                 //conn3.Put("", form);
                 conn3.Post("", form);
                 //conn3.Delete("");

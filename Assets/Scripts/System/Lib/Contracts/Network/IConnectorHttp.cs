@@ -19,6 +19,8 @@ namespace CatLib.Contracts.Network
 
         IConnectorHttp AppendHeader(string header, string val);
 
+        IConnectorHttp SetTimeOut(int timeout);
+
         void Restful(ERestful method, string action);
 
         void Restful(ERestful method, string action, WWWForm form);
