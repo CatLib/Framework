@@ -7,6 +7,7 @@ using App;
 using CatLib.Event;
 using CatLib.Lua;
 using CatLib.Network;
+using CatLib.NetPackage;
 
 public class CProviders{
 
@@ -19,6 +20,7 @@ public class CProviders{
         {
             return new Type[] {
 
+                typeof(CNetPackageProvider),
                 typeof(CAutoUpdateProvider),
                 typeof(CResourcesProvider),
                 typeof(CDispatcherProvider),

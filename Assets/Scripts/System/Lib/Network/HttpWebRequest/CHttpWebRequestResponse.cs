@@ -15,16 +15,16 @@ namespace CatLib.Network
         private HttpWebRequest webRequest;
         public HttpWebRequest WebRequest { get { return webRequest; } }
 
-        private bool isDone = false;
+        private volatile bool isDone = false;
         public bool IsDone { get { return isDone; } }
 
-        private bool isError = false;
+        private volatile bool isError = false;
         public bool IsError { get { return isError; } }
 
-        private string error;
+        private volatile string error;
         public string Error { get { return error; } }
 
-        private int responseCode = 0;
+        private volatile int responseCode = 0;
         public int ResponseCode { get { return responseCode; } }
 
         private byte[] requestBytes;

@@ -1,6 +1,8 @@
 ﻿using CatLib.Base;
 using CatLib.Container;
+using CatLib.Contracts.NetPackage;
 using CatLib.Contracts.Network;
+using System;
 
 namespace CatLib.Network
 {
@@ -10,6 +12,11 @@ namespace CatLib.Network
     /// </summary>
     public class CNetworkProvider : CServiceProvider
     {
+
+        public override Type[] ProviderDepend
+        {
+            get { return new Type[] { typeof(IUnpacking) }; }
+        }
 
         public override void Register()
         {
