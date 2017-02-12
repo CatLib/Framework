@@ -49,6 +49,7 @@ public class CLuaConfig : CConfig , GenConfig
                 typeof(CatLib.Contracts.Network.IConnectorHttp),
                 typeof(CatLib.Contracts.Network.IConnectorSocket),
                 typeof(CatLib.Contracts.Network.INetwork),
+                typeof(CatLib.Contracts.Network.ERestful),
                 typeof(CatLib.Contracts.ResourcesSystem.IResources),
                 typeof(CatLib.Contracts.UpdateSystem.IAutoUpdate),
                 typeof(CatLib.Support.CEnv),

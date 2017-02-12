@@ -1,4 +1,4 @@
-﻿using CatLib.Exception;
+﻿using CatLib.Base;
 using UnityEngine;
 
 namespace CatLib.Support

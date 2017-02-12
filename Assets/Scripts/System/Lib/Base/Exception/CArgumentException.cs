@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CatLib.Exception{
+namespace CatLib.Base{
 
 	public class CArgumentException : ArgumentException , IErrorCode {
 

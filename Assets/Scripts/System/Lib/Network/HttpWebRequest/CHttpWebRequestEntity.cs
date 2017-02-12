@@ -3,11 +3,10 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using CatLib.Exception;
 using CatLib.Support;
-using System.IO;
+using CatLib.Contracts.Network;
 
-namespace CatLib.Network.HttpWebRequest
+namespace CatLib.Network
 {
 
     public class CHttpWebRequestEntity
@@ -16,26 +15,45 @@ namespace CatLib.Network.HttpWebRequest
         private CookieContainer cookieContainer;
         public CookieContainer CookieContainer { get { return cookieContainer; } }
 
-        private string[] headers;
-        public string[] Headers { get { return headers; } }
+        private ICollection<KeyValuePair<string, string>> headers;
+        public ICollection<KeyValuePair<string, string>> Headers { get { return headers; } }
 
         private byte[] requestBytes;
         private CHttpWebRequestResponse response;
         public CHttpWebRequestResponse Response { get { return response; } }
 
         private string uri;
-        private string method;
+        private ERestful method;
+        private string contentType;
 
         public CHttpWebRequestEntity(string uri)
         {
             this.uri = uri;
-            method = "GET";
+            method = ERestful.GET;
         }
 
-        public CHttpWebRequestEntity(string uri, string method)
+        public CHttpWebRequestEntity(string uri, ERestful method)
         {
             this.uri = uri;
             this.method = method;
+        }
+
+        public CHttpWebRequestEntity SetMethod(ERestful method)
+        {
+            this.method = method;
+            return this;
+        }
+
+        public CHttpWebRequestEntity SetBody(byte[] bytes)
+        {
+            requestBytes = bytes;
+            return this;
+        }
+
+        public CHttpWebRequestEntity SetContentType(string type)
+        {
+            contentType = type;
+            return this;
         }
 
         public CHttpWebRequestEntity SetContainer(CookieContainer cookieContainer)
@@ -44,56 +62,22 @@ namespace CatLib.Network.HttpWebRequest
             return this;
         }
 
-        public CHttpWebRequestEntity SetHeaders(string[] headers)
+        public CHttpWebRequestEntity SetHeader(ICollection<KeyValuePair<string, string>> headers)
         {
             this.headers = headers;
             return this;
         }
 
-        public static CHttpWebRequestEntity Get(string uri)
-        {
-            var obj = new CHttpWebRequestEntity(uri, "GET");
-            return obj;
-        }
-
-        public static CHttpWebRequestEntity Post(string uri, Dictionary<string, string> fields)
-        {
-            var obj = new CHttpWebRequestEntity(uri, "POST");
-            WWWForm form = new WWWForm();
-            fields.Walk(form.AddField);
-            return Post(uri , form);
-        }
-
-        public static CHttpWebRequestEntity Post(string uri, WWWForm formData)
-        {
-            var obj = new CHttpWebRequestEntity(uri, "POST");
-            obj.requestBytes = formData.data;
-            return obj;
-        }
-
-        public static CHttpWebRequestEntity Post(string uri , byte[] bytes)
-        {
-            var obj = new CHttpWebRequestEntity(uri, "POST");
-            obj.requestBytes = bytes;
-            return obj;
-        }
-
-        public static CHttpWebRequestEntity Put(string uri, byte[] bytes)
-        {
-            var obj = new CHttpWebRequestEntity(uri, "PUT");
-            obj.requestBytes = bytes;
-            return obj;
-        }
-
         public IEnumerator Send()
         {
-            return response = new CHttpWebRequestResponse(GetWebRequest()); ;
+            return response = GetWebRequestResponse();
         }
 
-        private System.Net.HttpWebRequest GetWebRequest()
+        private CHttpWebRequestResponse GetWebRequestResponse()
         {
-            var webRequest = new System.Net.HttpWebRequest(new Uri(uri));
-            webRequest.Method = method;
+            var webRequest = new HttpWebRequest(new Uri(uri));
+            var requestResponse = new CHttpWebRequestResponse(webRequest);
+            webRequest.Method = method.ToString();
 
             webRequest.KeepAlive = true;
 
@@ -104,25 +88,21 @@ namespace CatLib.Network.HttpWebRequest
 
             if (headers != null)
             {
-                foreach (string header in headers)
-                {
-                    if ("user-agent:".Equals(header.Substring(0, 11).ToLower()))
-                    {
-                        webRequest.UserAgent = header.Substring(11).TrimStart(' ');
-                        continue;
-                    }
-                    webRequest.Headers.Add(header);
-                }
+                headers.Walk(webRequest.Headers.Add);
             }
 
             if (requestBytes != null)
             {
-                var stream = webRequest.GetRequestStream();
-                stream.Write(requestBytes, 0, requestBytes.Length);
-                stream.Close();
+                if (method != ERestful.DELETE)
+                {
+                    webRequest.ContentType = contentType;
+                    webRequest.ContentLength = requestBytes.Length;
+                    requestResponse.SetRequestBytes(requestBytes);
+                }
             }
 
-            return webRequest;
+            requestResponse.Send();
+            return requestResponse;
 
         }
 

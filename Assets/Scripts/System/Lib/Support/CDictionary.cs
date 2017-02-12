@@ -38,7 +38,7 @@ namespace CatLib.Support
             return dict;
         }
 
-        public static void Walk<T1,T2>(this Dictionary<T1, T2> dict , Action<T1, T2> callback)
+        public static void Walk<T1,T2>(this ICollection<KeyValuePair<T1, T2>> dict , Action<T1, T2> callback)
         {
             foreach(var kv in dict)
             {

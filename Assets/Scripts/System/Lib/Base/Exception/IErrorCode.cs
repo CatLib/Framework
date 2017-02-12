@@ -1,6 +1,7 @@
 ﻿
 
-namespace CatLib.Exception{
+namespace CatLib.Base
+{
 
 	public interface IErrorCode {
 

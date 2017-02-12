@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
-using CatLib.Exception;
+using CatLib.Base;
 
 /// <summary>
 /// 容器注入配置

@@ -1,12 +1,11 @@
 ﻿using CatLib.Base;
 using CatLib.Contracts.Network;
-using CatLib.Exception;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 
-namespace CatLib.Network.HttpWebRequest
+namespace CatLib.Network
 {
 
     public class CHttpWebRequest : CComponent , IConnectorHttp
@@ -32,73 +31,82 @@ namespace CatLib.Network.HttpWebRequest
         /// </summary>
         private Queue<CHttpWebRequestEntity> queue = new Queue<CHttpWebRequestEntity>();
 
-        /// <summary>
-        /// 设定服务器访问地址
-        /// </summary>
-        /// <param name="url"></param>
+        private Dictionary<string, string> headers;
+        public Dictionary<string, string> Headers { get { return headers; } }
+
         public IConnectorHttp SetUrl(string url)
         {
             this.url = url.TrimEnd('/');
             return this;
         }
 
-        /// <summary>
-        /// 发送一条数据
-        /// </summary>
-        /// <param name="bytes"></param>
-        public void Post(byte[] bytes)
+        public IConnectorHttp SetHeader(Dictionary<string, string> headers)
         {
-            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url, bytes);
+            this.headers = headers;
+            return this;
+        }
+
+        public IConnectorHttp AppendHeader(string header, string val)
+        {
+            if (headers == null) { headers = new Dictionary<string, string>(); }
+            headers.Remove(header);
+            headers.Add(header, val);
+            return this;
+        }
+
+        public void Restful(ERestful method, string action)
+        {
+            CHttpWebRequestEntity request = new CHttpWebRequestEntity(url + action , method);
             queue.Enqueue(request);
         }
 
-        /// <summary>
-        /// 发送一条数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="bytes"></param>
-        public void Post(string action, byte[] bytes)
+        public void Restful(ERestful method, string action , WWWForm form)
         {
-            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url + action, bytes);
+            CHttpWebRequestEntity request = new CHttpWebRequestEntity(url + action, method);
+            request.SetBody(form.data).SetContentType("application/x-www-form-urlencoded");
             queue.Enqueue(request);
         }
 
-        public void Post(string action, Dictionary<string, string> fields)
+        public void Restful(ERestful method , string action , byte[] body)
         {
-            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url + action, fields);
+            CHttpWebRequestEntity request = new CHttpWebRequestEntity(url + action, method);
+            request.SetBody(body).SetContentType("application/octet-stream");
             queue.Enqueue(request);
         }
 
-        /// <summary>
-        /// 以Post模式获取数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="form"></param>
-        public void Post(string action, WWWForm form)
-        {
-            CHttpWebRequestEntity request = CHttpWebRequestEntity.Post(url + action, form);
-            queue.Enqueue(request);
-        }
-
-        /// <summary>
-        /// 以Get模式获取数据
-        /// </summary>
-        /// <param name="action"></param>
         public void Get(string action)
         {
-            CHttpWebRequestEntity request = CHttpWebRequestEntity.Get(url + action);
-            queue.Enqueue(request);
+            Restful(ERestful.GET, action);
         }
 
-        /// <summary>
-        /// 以Put模式发送数据
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <param name="bodyData"></param>
-        public void Put(string action, byte[] bodyData)
+        public void Head(string action)
         {
-            CHttpWebRequestEntity request = CHttpWebRequestEntity.Put(url + action , bodyData);
-            queue.Enqueue(request);
+            Restful(ERestful.HEAD, action);
+        }
+
+        public void Post(string action, WWWForm form)
+        {
+            Restful(ERestful.POST , action, form);
+        }
+
+        public void Post(string action, byte[] body)
+        {
+            Restful(ERestful.POST, action, body);
+        }
+
+        public void Put(string action, WWWForm form)
+        {
+            Restful(ERestful.PUT, action, form);
+        }
+
+        public void Put(string action, byte[] body)
+        {
+            Restful(ERestful.PUT, action, body);
+        }
+
+        public void Delete(string action)
+        {
+            Restful(ERestful.DELETE, action);
         }
 
         /// <summary>
@@ -125,18 +133,15 @@ namespace CatLib.Network.HttpWebRequest
                     {
                         request = queue.Dequeue();
                         request.SetContainer(cookieContainer);
-                        yield return request.Send();
-                        if (request.Response.IsError || request.Response.ResponseCode != (int)HttpStatusCode.OK)
-                        {
-                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CHttpRequestErrorEventArgs(request));
-                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CHttpRequestErrorEventArgs(request));
+                        request.SetHeader(headers);
 
-                        }
-                        else
-                        {
-                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CHttpRequestEventArgs(request));
-                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CHttpRequestEventArgs(request));
-                        }
+                        yield return request.Send();
+
+                        var args = new CHttpRequestEventArgs(request);
+                        FDispatcher.Instance.Event.Trigger(TypeGuid, this, args);
+                        FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, args);
+                        FDispatcher.Instance.Event.Trigger(typeof(IConnectorHttp).ToString(), this, args);
+                        
                     }
                 }
                 yield return new WaitForEndOfFrame();

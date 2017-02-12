@@ -97,7 +97,11 @@ namespace CatLib.Base {
             luaOnDestroy = null;
             luaUpdate = null;
             luaStart = null;
-            scriptEnv.Dispose();
+            if (scriptEnv != null)
+            {
+                scriptEnv.Dispose();
+                scriptEnv = null;
+            }
             injections = null;
             base.OnDestroy();
         }

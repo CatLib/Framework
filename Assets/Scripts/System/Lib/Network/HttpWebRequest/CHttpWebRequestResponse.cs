@@ -6,13 +6,14 @@ using System.Text;
 using CatLib.Support;
 using System.IO;
 
-namespace CatLib.Network.HttpWebRequest
+namespace CatLib.Network
 {
 
     public class CHttpWebRequestResponse : IEnumerator
     {
 
-        private System.Net.HttpWebRequest webRequest;
+        private HttpWebRequest webRequest;
+        public HttpWebRequest WebRequest { get { return webRequest; } }
 
         private bool isDone = false;
         public bool IsDone { get { return isDone; } }
@@ -20,14 +21,23 @@ namespace CatLib.Network.HttpWebRequest
         private bool isError = false;
         public bool IsError { get { return isError; } }
 
+        private string error;
+        public string Error { get { return error; } }
+
         private int responseCode = 0;
         public int ResponseCode { get { return responseCode; } }
+
+        private byte[] requestBytes;
 
         public string Text
         {
             get
             {
-                return Encoding.UTF8.GetString(responseBytes);
+                if (responseBytes != null)
+                {
+                    return Encoding.UTF8.GetString(responseBytes);
+                }
+                return string.Empty;
             }
         }
 
@@ -42,16 +52,28 @@ namespace CatLib.Network.HttpWebRequest
         private byte[] responseBytes;
         private List<byte> responseLst = new List<byte>();
 
-        public CHttpWebRequestResponse(System.Net.HttpWebRequest request)
+        public CHttpWebRequestResponse(HttpWebRequest request)
         {
-
             webRequest = request;
+        }
 
+        public void Send()
+        {
             CHttpRequestState requestState = new CHttpRequestState();
-            requestState.Request = request;
+            requestState.Request = webRequest;
 
-            webRequest.BeginGetResponse(this.ReceivedData, requestState);
+            if (requestBytes != null)
+            {
+                webRequest.BeginGetRequestStream(RequestStreamData, requestState);
+            }else
+            {
+                webRequest.BeginGetResponse(ReceivedData, requestState);
+            }
+        }
 
+        public void SetRequestBytes(byte[] bytes)
+        {
+            requestBytes = bytes;
         }
 
         public object Current { get { return 0; } }
@@ -60,6 +82,28 @@ namespace CatLib.Network.HttpWebRequest
 
         public void Reset() { return; }
 
+        private void RequestStreamData(IAsyncResult asyncResult)
+        {
+            try
+            {
+                CHttpRequestState requestState = (CHttpRequestState)asyncResult.AsyncState;
+                HttpWebRequest httpWebRequest = requestState.Request;
+
+                var stream = httpWebRequest.EndGetRequestStream(asyncResult);
+                stream.Write(requestBytes, 0, requestBytes.Length);
+                stream.Close();
+
+                webRequest.BeginGetResponse(ReceivedData, requestState);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                isDone = true;
+                isError = true;
+                responseCode = 0;
+            }
+        }
+
         private void ReceivedData(IAsyncResult asyncResult)
         {
             try
@@ -67,7 +111,7 @@ namespace CatLib.Network.HttpWebRequest
 
                 CHttpRequestState requestState = (CHttpRequestState)asyncResult.AsyncState;
 
-                System.Net.HttpWebRequest httpWebRequest = requestState.Request;
+                HttpWebRequest httpWebRequest = requestState.Request;
 
                 requestState.Response = (HttpWebResponse)httpWebRequest.EndGetResponse(asyncResult);
                 Stream responseStream = requestState.Response.GetResponseStream();
@@ -75,8 +119,9 @@ namespace CatLib.Network.HttpWebRequest
 
                 IAsyncResult asynchronousInputRead = responseStream.BeginRead(requestState.BufferRead, 0, CHttpRequestState.BUFFER_SIZE, new AsyncCallback(ReadCallBack), requestState);
 
-            }catch
+            }catch(Exception ex)
             {
+                error = ex.Message;
                 isDone = true;
                 isError = true;
                 responseCode = 0;
@@ -106,13 +151,14 @@ namespace CatLib.Network.HttpWebRequest
                     responseLst = null;
                     isDone = true;
                     isError = false;
-                    if (responseCode != (int)HttpStatusCode.OK) { isError = true; }
+                    if (responseCode < 200 || responseCode >= 300) { isError = true; }
                     responseStream.Close();
                 }
 
             }
-            catch(System.Exception ex)
+            catch(Exception ex)
             {
+                error = ex.Message;
                 isDone = true;
                 isError = true;
                 responseCode = 0;

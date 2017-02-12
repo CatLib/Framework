@@ -1,7 +1,8 @@
 ﻿
 using System.Runtime.Serialization;
 
-namespace CatLib.Exception{
+namespace CatLib.Base
+{
 
 	public class CException : System.Exception , IErrorCode 
 	{

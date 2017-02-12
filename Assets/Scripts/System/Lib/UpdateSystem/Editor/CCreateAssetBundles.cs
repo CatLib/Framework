@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using CatLib.Support;
 using UnityEngine;
-using CatLib.Exception;
+using CatLib.Base;
 using CatLib.FileSystem;
 using System.IO;
 using CatLib.UpdateSystem;
@@ -21,17 +21,17 @@ namespace CatLib.UpdateSystem{
 			RuntimePlatform switchPlatform = CEnv.SwitchPlatform;
 			string platform = CEnv.PlatformToName(switchPlatform);
 
-			CCreateAssetBundles.ClearAssetBundle();
-			CCreateAssetBundles.BuildAssetBundleName(CEnv.DataPath + CEnv.ResourcesBuildPath);
+            ClearAssetBundle();
+            BuildAssetBundleName(CEnv.DataPath + CEnv.ResourcesBuildPath);
 
 			string releasePath = CEnv.DataPath + CEnv.ReleasePath + "/" + platform;
 			CDirectory.CreateDir(releasePath , CDirectory.Operations.EXISTS_TO_DELETE);
 			CDirectory.CopyTo(CEnv.DataPath + CEnv.ResourcesNoBuildPath , CEnv.DataPath + CEnv.ReleasePath + "/" + platform);
 			BuildPipeline.BuildAssetBundles("Assets" + CEnv.ReleasePath + "/" + platform, 
-												BuildAssetBundleOptions.None , 
-												CCreateAssetBundles.PlatformToBuildTarget(switchPlatform));
+												BuildAssetBundleOptions.None ,
+                                                PlatformToBuildTarget(switchPlatform));
 
-			CCreateAssetBundles.BuildListFile(releasePath);
+            BuildListFile(releasePath);
 
 			AssetDatabase.Refresh();
 		}

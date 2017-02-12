@@ -1,8 +1,6 @@
 ﻿using CatLib.Base;
 using CatLib.Container;
 using CatLib.Contracts.Network;
-using CatLib.Network.UnityWebRequest;
-using CatLib.Network.HttpWebRequest;
 
 namespace CatLib.Network
 {

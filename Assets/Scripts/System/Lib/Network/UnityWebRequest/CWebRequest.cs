@@ -2,14 +2,12 @@
 using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-using CatLib.Contracts.Base;
-using CatLib.Container;
-using CatLib.Contracts.Event;
 using CatLib.Contracts.Network;
 using CatLib.Base;
-using CatLib.Exception;
+using CatLib.Support;
+using System.Net;
 
-namespace CatLib.Network.UnityWebRequest
+namespace CatLib.Network
 {
 
     public class CWebRequest : CComponent, IConnectorHttp
@@ -29,73 +27,98 @@ namespace CatLib.Network.UnityWebRequest
         /// <summary>
         /// 发送队列
         /// </summary>
-        private Queue<UnityEngine.Networking.UnityWebRequest> queue = new Queue<UnityEngine.Networking.UnityWebRequest>();
+        private Queue<UnityWebRequest> queue = new Queue<UnityWebRequest>();
 
-        /// <summary>
-        /// 设定服务器访问地址
-        /// </summary>
-        /// <param name="url"></param>
+        private Dictionary<string, string> headers;
+        public Dictionary<string, string> Headers { get { return headers; } }
+
         public IConnectorHttp SetUrl(string url)
         {
             this.url = url.TrimEnd('/');
             return this;
         }
 
-        /// <summary>
-        /// 发送一条数据
-        /// </summary>
-        /// <param name="bytes"></param>
-        public void Post(byte[] bytes)
+        public IConnectorHttp SetHeader(Dictionary<string, string> headers)
         {
-            throw new CException("this component is not support this function");
+            this.headers = headers;
+            return this;
         }
 
-        /// <summary>
-        /// 发送一条数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="bytes"></param>
-        public void Post(string action, byte[] bytes)
+        public IConnectorHttp AppendHeader(string header , string val)
         {
-            throw new CException("this component is not support this function");
+            if (headers == null) { headers = new Dictionary<string, string>(); }
+            headers.Remove(header);
+            headers.Add(header , val);
+            return this;
         }
 
-        public void Post(string action, Dictionary<string, string> fields)
+
+        public void Restful(ERestful method, string action)
         {
-            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Post(url + action, fields);
+            UnityWebRequest request = new UnityWebRequest(url + action, method.ToString());
             queue.Enqueue(request);
         }
 
-        /// <summary>
-        /// 以Post模式获取数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="form"></param>
-        public void Post(string action, WWWForm form)
+        public void Restful(ERestful method, string action, WWWForm form)
         {
-            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Post(url + action, form);
+            if(method == ERestful.POST)
+            {
+                UnityWebRequest request = UnityWebRequest.Post(url + action, form);
+                queue.Enqueue(request);
+            }
+            else
+            {
+                Restful(method, action, form.data);
+            }
+        }
+
+        public void Restful(ERestful method, string action, byte[] body)
+        {
+            UnityWebRequest request = null;
+            switch (method)
+            {
+                case ERestful.GET: request = UnityWebRequest.Get(url + action); break;
+                case ERestful.PUT: request = UnityWebRequest.Put(url + action, body); break;
+                case ERestful.DELETE: request = UnityWebRequest.Delete(url + action); break;
+                case ERestful.HEAD: request = UnityWebRequest.Head(url + action); break;
+                default: throw new CException("this component is not support [" + method.ToString() + "] restful");
+            }
             queue.Enqueue(request);
         }
 
-        /// <summary>
-        /// 以Get模式获取数据
-        /// </summary>
-        /// <param name="action"></param>
         public void Get(string action)
         {
-            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Get(url + action);
-            queue.Enqueue(request);
+            Restful(ERestful.GET, action);
         }
 
-        /// <summary>
-        /// 以Put模式发送数据
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <param name="bodyData"></param>
-        public void Put(string action, byte[] bodyData)
+        public void Head(string action)
         {
-            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequest.Put(url + action, bodyData);
-            queue.Enqueue(request);
+            Restful(ERestful.HEAD, action);
+        }
+
+        public void Post(string action, WWWForm form)
+        {
+            Restful(ERestful.POST, action, form);
+        }
+
+        public void Post(string action, byte[] body)
+        {
+            Restful(ERestful.POST, action, body);
+        }
+
+        public void Put(string action, WWWForm form)
+        {
+            Restful(ERestful.PUT, action, form);
+        }
+
+        public void Put(string action, byte[] body)
+        {
+            Restful(ERestful.PUT, action, body);
+        }
+
+        public void Delete(string action)
+        {
+            Restful(ERestful.DELETE, action);
         }
 
         /// <summary>
@@ -117,22 +140,17 @@ namespace CatLib.Network.UnityWebRequest
                 if (isDisconnect) { break; }
                 if (queue.Count > 0)
                 {
-                    UnityEngine.Networking.UnityWebRequest request;
+                    UnityWebRequest request;
                     while (queue.Count > 0)
                     {
                         request = queue.Dequeue();
+                        headers.Walk((statu, val) => request.SetRequestHeader(statu.ToString(), val));
                         yield return request.Send();
-                        if (request.isError || request.responseCode != 200)
-                        {
-                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CWebRequestErrorEventArgs(request));
-                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CWebRequestErrorEventArgs(request));
- 
-                        }
-                        else
-                        {
-                            FDispatcher.Instance.Event.Trigger(TypeGuid, this, new CWebRequestEventArgs(request));
-                            FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, new CWebRequestEventArgs(request));
-                        }
+                        var args = new CWebRequestEventArgs(request);
+
+                        FDispatcher.Instance.Event.Trigger(TypeGuid, this, args);
+                        FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, args);
+                        FDispatcher.Instance.Event.Trigger(typeof(IConnectorHttp).ToString(), this, args);
                     }
                 }
                 yield return new WaitForEndOfFrame();

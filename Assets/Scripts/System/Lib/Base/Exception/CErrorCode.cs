@@ -1,5 +1,6 @@
 ﻿
-namespace CatLib.Exception{
+namespace CatLib.Base
+{
 
 	public enum CErrorCode {
 

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using XLua;
+using System.Net;
+using CatLib.Network;
 
 namespace CatLib.Contracts.Network
 {
@@ -11,51 +13,31 @@ namespace CatLib.Contracts.Network
     public interface IConnectorHttp : IConnector
     {
 
-        /// <summary>
-        /// 设定
-        /// </summary>
-        /// <param name="url"></param>
         IConnectorHttp SetUrl(string url);
 
-        /// <summary>
-        /// 发送一条数据
-        /// </summary>
-        /// <param name="bytes"></param>
-        void Post(byte[] bytes);
+        IConnectorHttp SetHeader(Dictionary<string, string> headers);
 
-        /// <summary>
-        /// 发送一条数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="fields"></param>
-        void Post(string action, Dictionary<string, string> fields);
+        IConnectorHttp AppendHeader(string header, string val);
 
-        /// <summary>
-        /// 发送一条数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="bytes"></param>
-        void Post(string action, byte[] bytes);
+        void Restful(ERestful method, string action);
 
-        /// <summary>
-        /// 以post模式发送一条数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="formData"></param>
-        void Post(string action, WWWForm formData);
+        void Restful(ERestful method, string action, WWWForm form);
 
-        /// <summary>
-        /// 以Put模式推送一条数据
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="bodyData"></param>
-        void Put(string action, byte[] bodyData);
+        void Restful(ERestful method, string action, byte[] body);
 
-        /// <summary>
-        /// 以get模式发送请求
-        /// </summary>
-        /// <param name="action"></param>
         void Get(string action);
+
+        void Head(string action);
+
+        void Post(string action, WWWForm form);
+
+        void Post(string action, byte[] body);
+
+        void Put(string action, WWWForm form);
+
+        void Put(string action, byte[] body);
+
+        void Delete(string action);
 
     }
 }

@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using UnityEngine;
 
-namespace CatLib.Network.HttpWebRequest
+namespace CatLib.Network
 {
 
     public class CHttpRequestState

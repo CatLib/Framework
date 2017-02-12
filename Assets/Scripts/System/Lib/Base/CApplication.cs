@@ -1,7 +1,7 @@
 ﻿
 using CatLib.Container;
 using CatLib.Contracts.Base;
-using CatLib.Exception;
+using CatLib.Base;
 using System;
 using System.Collections;
 using System.Collections.Generic;
