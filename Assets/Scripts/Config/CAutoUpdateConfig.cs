@@ -3,6 +3,7 @@ using System.Collections;
 using CatLib.UpdateSystem;
 using System;
 using UnityEngine.Networking;
+using CatLib.Container;
 
 public class CAutoUpdateConfig : CConfig{
 

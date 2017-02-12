@@ -4,6 +4,7 @@ using CatLib.Lua;
 using System;
 using System.Collections.Generic;
 using XLua;
+using CatLib.Container;
 
 public class CLuaConfig : CConfig , GenConfig
 {

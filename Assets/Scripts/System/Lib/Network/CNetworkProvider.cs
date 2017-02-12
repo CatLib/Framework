@@ -14,8 +14,9 @@ namespace CatLib.Network
         public override void Register()
         {
             Application.Singleton<CNetwork>().Alias<INetwork>();
-            Application.Bind<CWebRequest>().Alias<IConnectorHttp>();
-            Application.Bind<CHttpWebRequest>().Alias("testcookie");
+            Application.Bind<CHttpWebRequest>().Alias<IConnectorHttp>();
+            //Application.Bind<CWebRequest>().Alias<IConnectorHttp>();
+            Application.Bind<CTcpRequest>().Alias<IConnectorTcp>();
         }
 
 

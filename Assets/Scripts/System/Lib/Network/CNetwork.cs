@@ -16,6 +16,10 @@ namespace CatLib.Network
     public class CNetwork : CComponent , IDestroy , INetwork
     {
 
+        [CDependency]
+        public CConfig Config { get; set; }
+
+        private const string CONNECTOR_CONFIG_HEADER = "connector.";
 
         /// <summary>
         /// 连接器
@@ -32,6 +36,7 @@ namespace CatLib.Network
             if (this.connector.ContainsKey(aisle)) { return (T)this.connector[aisle]; }
             IConnector connector = (T)Application.Make(service);
             this.connector.Add(aisle, connector);
+            InitConnector(connector, aisle);
             Application.StartCoroutine(connector.StartServer());
             return (T)connector;
         }
@@ -45,6 +50,7 @@ namespace CatLib.Network
             if (this.connector.ContainsKey(aisle)) { return (T)this.connector[aisle]; }
             IConnector connector = Application.Make<T>();
             this.connector.Add(aisle, connector);
+            InitConnector(connector, aisle);
             Application.StartCoroutine(connector.StartServer());
             return (T)connector;
 
@@ -88,6 +94,26 @@ namespace CatLib.Network
                 connector.Value.Disconnect();
             }
             this.connector.Clear();
+        }
+
+        private void InitConnector(IConnector connector, string aisle)
+        {
+
+            if (Config.IsExists(CONNECTOR_CONFIG_HEADER + aisle))
+            {
+                string config;
+                if (connector is IConnectorSocket)
+                {
+                    config = Config.Get<string>(CONNECTOR_CONFIG_HEADER + aisle);
+                    var hostPort = config.Split(':');
+                    (connector as IConnectorTcp).SetHost(hostPort[0]).SetPort(int.Parse(hostPort[1]));
+                }
+                else if (connector is IConnectorHttp)
+                {
+                    (connector as IConnectorHttp).SetUrl(Config.Get<string>(CONNECTOR_CONFIG_HEADER + aisle));
+                }
+            }
+           
         }
 
     }
