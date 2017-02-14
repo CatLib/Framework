@@ -5,6 +5,8 @@ Unity3D Framework For XLua
 
 欢迎大家认领组件开发，一起完善框架~！
 
+情人节这几天公司活动繁忙所以更新可能缓慢！祝天下所有情人，好聚好散！ _(:з」∠)_
+
 项目开发计划：https://www.teambition.com/project/589ce998907a7b661c86de9c/tasks/scrum/589ce9aadf254b9870a7ac90
 
 ## 计划的功能
