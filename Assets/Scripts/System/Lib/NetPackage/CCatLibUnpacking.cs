@@ -16,6 +16,7 @@ namespace CatLib.NetPackge
         /// <returns></returns>
         public bool Append(byte[] bytes, out IPackage[] package)
         {
+            UnityEngine.Debug.Log(System.Text.Encoding.Default.GetString(bytes));
             package = null;
             return false;
         }

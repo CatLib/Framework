@@ -25,7 +25,7 @@ public class CNetworkConfig : CConfig {
             return new object[]
             {
                 "connector.test"    , "http://127.0.0.1/testcookie.php",
-                "connector.testtcp" , "127.0.0.1:7777",
+                "connector.testtcp" , "127.0.0.1:3317",
             };
         }
     }

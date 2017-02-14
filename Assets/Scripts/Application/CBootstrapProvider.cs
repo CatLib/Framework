@@ -30,16 +30,14 @@ namespace App
                     Debug.Log((obj2 as IHttpResponse).Error);
 
                 });
+                
 
                 IConnectorHttp httpConnect = FNetwork.Instance.Create<IConnectorHttp>("test");
                 httpConnect.Post("", "helloworld".ToByte());
 
-
-
-
                 IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("testtcp");
 
-                
+                tcpConnect.Send("hello world".ToByte());
 
 
                 Object.Instantiate(Application.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));

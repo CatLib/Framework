@@ -12,11 +12,8 @@ namespace CatLib.Network
     public class CTcpErrorEventArgs : EventArgs
     {
 
-        public byte[][] FaildSendData { get; protected set; }
-
-        public CTcpErrorEventArgs(byte[][] faildData)
+        public CTcpErrorEventArgs()
         {
-            FaildSendData = faildData;
         }
 
     }

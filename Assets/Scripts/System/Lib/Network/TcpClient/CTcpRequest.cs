@@ -64,11 +64,10 @@ namespace CatLib.Network
 
         private IEnumerator ReadModel()
         {
-            byte[][] data = tcpClient.ReadAll;
-            if (data.Length > 0)
+            if (tcpClient.HasData)
             {
                 IPackage[] packages;
-                foreach (byte[] bytes in data)
+                foreach (byte[] bytes in tcpClient.ReadAllData)
                 {
                     if (Unpacker.Append(bytes, out packages))
                     {
@@ -90,10 +89,9 @@ namespace CatLib.Network
         {
             if (tcpClient.IsError)
             {
-                byte[][] unwrite = tcpClient.UnwriteData;
                 do
                 {
-                    yield return OnErrorReconn(unwrite);
+                    yield return OnErrorReconn();
                 } while (tcpClient.IsError && !isGiveupConnect);
             }
 
@@ -106,11 +104,12 @@ namespace CatLib.Network
             }
         }
 
-        private IEnumerator OnErrorReconn(byte[][] unwrite)
+        private IEnumerator OnErrorReconn()
         {
             currentReconnNum++;
             if (tcpClient != null) { tcpClient.Dispose(); }
             Unpacker.Clear();
+            queue.Clear();
             tcpClient = new CTcpClient(host, port);
             tcpClient.Connect();
 
@@ -124,20 +123,12 @@ namespace CatLib.Network
                 if (currentReconnNum > reconnNum)
                 {
                     isGiveupConnect = true;
-                    var args = new CTcpErrorEventArgs(unwrite);
+                    var args = new CTcpErrorEventArgs();
                     FDispatcher.Instance.Event.Trigger(TypeGuid, this, args);
                     FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, args);
                     FDispatcher.Instance.Event.Trigger(typeof(IConnectorTcp).ToString(), this, args);
                 }
             }
-            else
-            {
-                foreach (var bytes in unwrite)
-                {
-                    tcpClient.Write(bytes);
-                }
-            }
-            
         }
 
         public void Disconnect()
