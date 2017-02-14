@@ -1,4 +1,7 @@
 ﻿using CatLib.Contracts.NetPackage;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace CatLib.NetPackge
 {
@@ -8,6 +11,8 @@ namespace CatLib.NetPackge
     /// </summary>
     public class CCatLibPackage : IPackage
     {
+
+        
 
     }
 }
