@@ -87,7 +87,7 @@ namespace CatLib.Network
 
         private IEnumerator SendModel()
         {
-            if (tcpClient.IsError)
+            if (tcpClient.IsError && !isGiveupConnect)
             {
                 do
                 {

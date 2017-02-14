@@ -31,6 +31,14 @@ namespace App
 
                 });
                 
+                FDispatcher.Instance.Event.On(typeof(IConnectorTcp).ToString(), (obj1, obj2) =>
+                {
+
+                    Debug.Log((obj2).GetType().ToString());
+
+                });
+
+                
 
                 IConnectorHttp httpConnect = FNetwork.Instance.Create<IConnectorHttp>("test");
                 httpConnect.Post("", "helloworld".ToByte());

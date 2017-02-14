@@ -137,8 +137,9 @@ namespace CatLib.Network
             if (read <= 0)
             {
                 lock(statuLocker){
-
+                    
                     isConnect = false;
+                    isError = true;
                     
                 }
                 return;
