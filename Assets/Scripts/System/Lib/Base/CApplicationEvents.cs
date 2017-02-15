@@ -6,19 +6,19 @@ namespace CatLib.Base
     public class CApplicationEvents
     {
 
-        public static readonly string ON_DEPENDING_CALLBACK = "application.depending.callback";
+        public static readonly string ON_DEPENDING = "application.depending";
 
-        public static readonly string ON_DEPENDED_CALLBACK = "application.depended.callback";
+        public static readonly string ON_DEPENDED = "application.depended";
 
-        public static readonly string ON_INITING_CALLBACK = "application.initing.callback";
+        public static readonly string ON_INITING = "application.initing";
 
-        public static readonly string ON_INITED_CALLBACK = "application.inited.callback";
+        public static readonly string ON_INITED = "application.inited";
 
-        public static readonly string ON_PROVIDER_PROCESSING_CALLBACK = "application.provider.processing.callback";
+        public static readonly string ON_PROVIDER_PROCESSING = "application.provider.processing";
 
-        public static readonly string ON_PROVIDER_PROCESSED_CALLBACK = "application.provider.processed.callback";
+        public static readonly string ON_PROVIDER_PROCESSED = "application.provider.processed";
 
-        public static readonly string ON_APPLICATION_START_COMPLETE_CALLBACK = "application.start.complete.callback";
+        public static readonly string ON_APPLICATION_START_COMPLETE = "application.start.complete";
 
     }
 

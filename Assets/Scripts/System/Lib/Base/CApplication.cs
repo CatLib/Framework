@@ -162,7 +162,7 @@ namespace CatLib.Base
 
             process = StartProcess.ON_DEPEND;
 
-            base.Event.Trigger(CApplicationEvents.ON_DEPENDING_CALLBACK);
+            base.Event.Trigger(CApplicationEvents.ON_DEPENDING);
 
             foreach (CServiceProvider provider in providers)
             {
@@ -178,11 +178,11 @@ namespace CatLib.Base
 
             }
 
-            base.Event.Trigger(CApplicationEvents.ON_DEPENDED_CALLBACK);
+            base.Event.Trigger(CApplicationEvents.ON_DEPENDED);
 
             process = StartProcess.ON_INITED;
 
-            base.Event.Trigger(CApplicationEvents.ON_INITING_CALLBACK);
+            base.Event.Trigger(CApplicationEvents.ON_INITING);
 
             foreach (CServiceProvider serviceProvider in providers)
             {
@@ -191,7 +191,7 @@ namespace CatLib.Base
 
             this.inited = true;
 
-            base.Event.Trigger(CApplicationEvents.ON_INITED_CALLBACK);
+            base.Event.Trigger(CApplicationEvents.ON_INITED);
 
             StartCoroutine(StartProviderPorcess());
 
@@ -258,7 +258,7 @@ namespace CatLib.Base
 
             process = StartProcess.ON_PROVIDER_PROCESS;
 
-            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSING_CALLBACK);
+            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSING);
 
             List<CServiceProvider> providers = new List<CServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess) );
@@ -268,11 +268,11 @@ namespace CatLib.Base
                 yield return provider.OnProviderProcess();
             }
 
-            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSED_CALLBACK);
+            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSED);
 
             process = StartProcess.ON_COMPLETE;
 
-            Event.Trigger(CApplicationEvents.ON_APPLICATION_START_COMPLETE_CALLBACK);
+            Event.Trigger(CApplicationEvents.ON_APPLICATION_START_COMPLETE);
 
         }
 

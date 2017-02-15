@@ -19,7 +19,7 @@ namespace App
         public override void Init()
         {
 
-            Application.Event.One(CApplicationEvents.ON_APPLICATION_START_COMPLETE_CALLBACK, (sender, e) =>
+            Application.Event.One(CApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
 
                 FDispatcher.Instance.Event.On(typeof(IConnectorHttp).ToString(), (obj1, obj2) =>

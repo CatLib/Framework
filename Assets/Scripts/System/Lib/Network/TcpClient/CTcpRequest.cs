@@ -20,7 +20,7 @@ namespace CatLib.Network
         private string host;
         private int port;
 
-        private CTcpClient tcpClient;
+        private CTcpConnector tcpConnector;
 
         private bool isDisconnect = false;
         private bool isGiveupConnect = false;
@@ -52,8 +52,8 @@ namespace CatLib.Network
         public IEnumerator StartServer()
         {
             
-            tcpClient = new CTcpClient(host, port);
-            tcpClient.Connect();
+            tcpConnector = new CTcpConnector(host, port);
+            tcpConnector.Connect();
             while (true)
             {
                 yield return SendModel();
@@ -64,10 +64,10 @@ namespace CatLib.Network
 
         private IEnumerator ReadModel()
         {
-            if (tcpClient.HasData)
+            if (tcpConnector.HasData)
             {
                 IPackage[] packages;
-                foreach (byte[] bytes in tcpClient.ReadAllData)
+                foreach (byte[] bytes in tcpConnector.ReadAllData)
                 {
                     if (Unpacker.Append(bytes, out packages))
                     {
@@ -87,38 +87,42 @@ namespace CatLib.Network
 
         private IEnumerator SendModel()
         {
-            if (tcpClient.IsError && !isGiveupConnect)
+            yield return null;
+            /*
+            if (tcpConnector.IsError && !isGiveupConnect)
             {
                 do
                 {
                     yield return OnErrorReconn();
-                } while (tcpClient.IsError && !isGiveupConnect);
+                } while (tcpConnector.IsError && !isGiveupConnect);
             }
 
             while (queue.Count > 0)
             {
-                if (tcpClient.IsConnect)
+                if (tcpConnector.IsConnect)
                 {
-                    tcpClient.Write(queue.Dequeue());
+                    tcpConnector.Write(queue.Dequeue());
                 }
-            }
+            }*/
         }
 
         private IEnumerator OnErrorReconn()
         {
+            yield return null;
+            /*
             currentReconnNum++;
-            if (tcpClient != null) { tcpClient.Dispose(); }
+            if (tcpConnector != null) { tcpConnector.Dispose(); }
             Unpacker.Clear();
             queue.Clear();
-            tcpClient = new CTcpClient(host, port);
-            tcpClient.Connect();
+            tcpConnector = new CTcpConnector(host, port);
+            tcpConnector.Connect();
 
-            while (!tcpClient.IsError && !tcpClient.IsConnect)
+            while (!tcpConnector.IsError && !tcpConnector.IsConnect)
             {
                 yield return new WaitForEndOfFrame();
             }
 
-            if (tcpClient.IsError)
+            if (tcpConnector.IsError)
             {
                 if (currentReconnNum > reconnNum)
                 {
@@ -128,7 +132,7 @@ namespace CatLib.Network
                     FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, args);
                     FDispatcher.Instance.Event.Trigger(typeof(IConnectorTcp).ToString(), this, args);
                 }
-            }
+            }*/
         }
 
         public void Disconnect()
