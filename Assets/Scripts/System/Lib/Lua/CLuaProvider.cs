@@ -24,13 +24,13 @@ namespace CatLib.Lua
 
         public override IEnumerator OnProviderProcess()
         {
-            yield return (Application.Make<ILua>() as CLua).LoadHotFix();
+            yield return (App.Make<ILua>() as CLua).LoadHotFix();
         }
 
 
         public override void Register()
         {
-            Application.Singleton<CLua>().Alias<ILua>();
+            App.Singleton<CLua>().Alias<ILua>();
         }
     }
 }

@@ -21,12 +21,12 @@ namespace CatLib.UpdateSystem
 
         public override IEnumerator OnProviderProcess()
         {
-            yield return Application.Make<IAutoUpdate>().UpdateAsset();
+            yield return App.Make<IAutoUpdate>().UpdateAsset();
         }
 
         public override void Register()
         {
-            Application.Singleton<CAutoUpdate>().Alias<IAutoUpdate>();
+            App.Singleton<CAutoUpdate>().Alias<IAutoUpdate>();
         }
 
     }

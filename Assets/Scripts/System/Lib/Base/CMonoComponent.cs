@@ -18,12 +18,12 @@ namespace CatLib.Base
         /// <summary>
         /// 事件系统
         /// </summary>
-        public IEventAchieve Event
+        public virtual IEventAchieve Event
         {
             get
             {
-                if (this.cevent == null) { this.cevent = CApp.Instance.Make<IEventAchieve>(); }
-                return this.cevent;
+                if (cevent == null) { cevent = CApp.Instance.Make<IEventAchieve>(); }
+                return cevent;
             }
         }
 

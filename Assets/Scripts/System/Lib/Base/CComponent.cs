@@ -9,7 +9,7 @@ namespace CatLib.Base
     public class CComponent : IEvent , IGuid
     {
 
-        public IApplication Application { get { return CApp.Instance; } }
+        public IApplication App { get { return CApp.Instance; } }
 
 
         private IEventAchieve cevent = null;
@@ -34,7 +34,7 @@ namespace CatLib.Base
 
                 if (guid <= 0)
                 {
-                    guid = Application.GetGuid();
+                    guid = App.GetGuid();
                 }
                 return guid;
             }

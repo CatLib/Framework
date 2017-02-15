@@ -14,7 +14,7 @@ namespace CatLib.ResourcesSystem
 
         public override void Register()
         {
-            Application.Singleton<CResources>().Alias<IResources>();
+            App.Singleton<CResources>().Alias<IResources>();
         }
 
     }

@@ -11,6 +11,12 @@ namespace CatLib.Network
     public class CHttpWebRequest : CComponent , IConnectorHttp
     {
 
+
+        /// <summary>
+        /// 名字
+        /// </summary>
+        public string Alias { get; set; }
+
         /// <summary>
         /// Cookie容器
         /// </summary>
@@ -150,9 +156,9 @@ namespace CatLib.Network
                         yield return request.Send();
 
                         var args = new CHttpRequestEventArgs(request);
-                        FDispatcher.Instance.Event.Trigger(TypeGuid, this, args);
-                        FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, args);
-                        FDispatcher.Instance.Event.Trigger(typeof(IConnectorHttp).ToString(), this, args);
+                        App.Trigger(CHttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
+                        App.Trigger(CHttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
+                        App.Trigger(CHttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
                         
                     }
                 }

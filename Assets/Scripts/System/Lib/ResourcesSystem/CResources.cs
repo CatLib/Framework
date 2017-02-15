@@ -163,7 +163,7 @@ namespace CatLib.ResourcesSystem {
 
         public UnityEngine.Coroutine LoadAsyn(string path , System.Type type, System.Action<Object> callback){
 
-            return Application.StartCoroutine(this.LoadAssetAsyn(path , type , callback));
+            return App.StartCoroutine(this.LoadAssetAsyn(path , type , callback));
 
         }
 
@@ -176,7 +176,7 @@ namespace CatLib.ResourcesSystem {
         /// <returns></returns>
         public UnityEngine.Coroutine LoadAsyn<T>(string path , System.Action<T> callback) where T : Object
         {
-            return Application.StartCoroutine(this.LoadAssetAsyn(path , typeof(T) , (obj) => callback(obj as T)));
+            return App.StartCoroutine(this.LoadAssetAsyn(path , typeof(T) , (obj) => callback(obj as T)));
 
         }
 
@@ -237,13 +237,13 @@ namespace CatLib.ResourcesSystem {
 
         public UnityEngine.Coroutine LoadAllAsyn(string path , System.Type type, System.Action<Object[]> callback){
 
-            return Application.StartCoroutine(this.LoadAssetAllAsyn(path , type , callback));
+            return App.StartCoroutine(this.LoadAssetAllAsyn(path , type , callback));
 
         }
 
         public UnityEngine.Coroutine LoadAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object
         {
-            return Application.StartCoroutine(this.LoadAssetAllAsyn(path , typeof(T), (obj) => callback(obj.To<T>())));
+            return App.StartCoroutine(this.LoadAssetAllAsyn(path , typeof(T), (obj) => callback(obj.To<T>())));
         }
 
         protected IEnumerator LoadAssetAllAsyn(string path , System.Type type, System.Action<Object[]> callback)

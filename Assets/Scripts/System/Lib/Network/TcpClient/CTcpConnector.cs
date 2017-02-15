@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 using CatLib.Contracts.Base;
+using CatLib.Base;
 
 namespace CatLib.Network
 {
@@ -30,6 +31,15 @@ namespace CatLib.Network
 
         protected NetworkStream networkStream;
 
+        private byte[] readBuffer;
+        private Queue<byte[]> readQueue = new Queue<byte[]>();
+        private readonly object readQueueLocker = new object();
+
+        public EventHandler OnConnect;
+        public EventHandler OnClose;
+        public EventHandler OnError;
+        public EventHandler OnMessage;
+
         public CTcpConnector(string host, int port)
         {
             remoteAddress = host;
@@ -38,17 +48,20 @@ namespace CatLib.Network
 
         public void Connect()
         {
+            if (status != Status.INITIAL && status != Status.CLOSED) { return; }
             status = Status.CONNECTING;
             Dns.BeginGetHostAddresses(remoteAddress, OnDnsGetHostAddressesComplete, null);
         }
 
         public void Write(byte[] bytes)
         {
+            if (status != Status.ESTABLISH) { return; }
             networkStream.BeginWrite(bytes, 0, bytes.Length, OnWriteCallBack, socket);
         }
 
         public void Dispose()
         {
+            if (status == Status.CLOSED) { return; }
             if (networkStream != null)
             {
                 networkStream.Close();
@@ -57,6 +70,8 @@ namespace CatLib.Network
             {
                 socket.Close();
             }
+            status = Status.CLOSED;
+            OnClose(this, EventArgs.Empty);
         }
 
         public void OnDestroy(){
@@ -75,7 +90,8 @@ namespace CatLib.Network
             }
             catch(Exception ex){
 
-                status = Status.CLOSED;
+                OnError(this ,new CErrorEventArgs(ex));
+                Dispose();
 
             }
         }
@@ -92,11 +108,13 @@ namespace CatLib.Network
                 networkStream.BeginRead(readBuffer, 0, readBuffer.Length, OnReadCallBack, readBuffer);
 
                 status = Status.ESTABLISH;
-                
+                OnConnect(this, EventArgs.Empty);
+
             }
             catch(Exception ex){
 
-                status = Status.CLOSED;
+                OnError(this, new CErrorEventArgs(ex));
+                Dispose();
 
             }
 
@@ -112,11 +130,8 @@ namespace CatLib.Network
                 return;
             }
 
-            lock (readQueueLocker)
-            {
-                readQueue.Enqueue(readBuffer);
-                hasData = true;
-            }
+            var args = new CSocketMessageEventArgs(readBuffer);
+            OnMessage(this, args);
 
             readBuffer = new byte[socket.ReceiveBufferSize];
             networkStream.BeginRead(readBuffer, 0, readBuffer.Length, OnReadCallBack, readBuffer);
@@ -132,55 +147,12 @@ namespace CatLib.Network
 
             }catch(Exception ex){
 
-               status = Status.CLOSED;
+                OnError(this, new CErrorEventArgs(ex));
+                Dispose();
 
             }
             
         }
-
-
-
-        //以下是废弃代码
-
-
-
-
-        private volatile bool hasData;
-        public bool HasData{ get{ return hasData; } }
-
-        private readonly object statuLocker = new object();
-        
-        
-
-        private Queue<byte[]> readQueue = new Queue<byte[]>();
-        private readonly object readQueueLocker = new object();
-
-        private Queue<byte[]> writeQueue = new Queue<byte[]>();
-        private readonly object writeQueueLocker = new object();
-
-        private byte[] readBuffer;
-
-        public byte[][] ReadAllData
-        {
-            get
-            {
-                lock (readQueueLocker)
-                {
-                    var bytes = readQueue.ToArray();
-                    readQueue.Clear();
-                    hasData = false;
-                    return bytes;
-                }
-            }
-        }
-
-        
-
-        
-
-        
-
-        
 
     }
 

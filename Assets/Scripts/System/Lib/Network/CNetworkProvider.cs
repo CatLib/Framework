@@ -20,10 +20,10 @@ namespace CatLib.Network
 
         public override void Register()
         {
-            Application.Singleton<CNetwork>().Alias<INetwork>();
-            Application.Bind<CHttpWebRequest>().Alias<IConnectorHttp>();
+            App.Singleton<CNetwork>().Alias<INetwork>();
+            App.Bind<CHttpWebRequest>().Alias<IConnectorHttp>();
             //Application.Bind<CWebRequest>().Alias<IConnectorHttp>();
-            Application.Bind<CTcpRequest>().Alias<IConnectorTcp>();
+            App.Bind<CTcpRequest>().Alias<IConnectorTcp>();
         }
 
 

@@ -25,17 +25,16 @@ public class CLuaConfig : CConfig , GenConfig
         get{    
             return new List<Type>() {
 
-                typeof(UnityEngine.Input),
-                typeof(UnityEngine.AudioSource),
-                typeof(UnityEngine.AudioClip),
-                typeof(UnityEngine.Application),
+                typeof(Input),
+                typeof(AudioSource),
+                typeof(AudioClip),
+                typeof(Application),
                 typeof(CatLib.Base.CApp),
                 typeof(CatLib.Base.CComponent),
                 typeof(CatLib.Base.CMonoComponent),
                 typeof(CatLib.Base.CComponent),
                 typeof(CatLib.Base.CLuaMonoComponent),
                 typeof(CatLib.Base.FAutoUpdate),
-                typeof(CatLib.Base.FDispatcher),
                 typeof(CatLib.Base.FLua),
                 typeof(CatLib.Base.FNetwork),
                 typeof(CatLib.Base.FResources),

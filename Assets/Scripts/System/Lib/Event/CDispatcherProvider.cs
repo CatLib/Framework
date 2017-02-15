@@ -16,8 +16,7 @@ namespace CatLib.Event
 
         public override void Register()
         {
-            Application.Singleton<CDispatcher>().Alias<IDispatcher>();
-            Application.Bind<CEvent>().Alias<IEvent>().Alias<IEventAchieve>();
+            App.Bind<CEvent>().Alias<IEvent>().Alias<IEventAchieve>();
         }
 
     }

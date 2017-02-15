@@ -7,7 +7,7 @@ using XLua;
 namespace CatLib.Contracts.Base
 {
     [LuaCallCSharp]
-    public interface IApplication : IContainer , IEvent
+    public interface IApplication : IContainer , IDispatcher
     {
 
         IApplication Bootstrap(Type[] bootstraps);

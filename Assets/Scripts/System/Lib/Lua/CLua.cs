@@ -53,7 +53,7 @@ namespace CatLib.Lua
 
         protected byte[] AutoLoader(ref string filepath)
         {
-            TextAsset text = Application.Make<IResources>().Load<TextAsset>(filepath);
+            TextAsset text = App.Make<IResources>().Load<TextAsset>(filepath);
             return text.bytes;
         }
 
@@ -71,7 +71,7 @@ namespace CatLib.Lua
 
             string[] filePath = Config.Get<string[]>("lua.hotfix");
 
-            IResources resources = Application.Make<IResources>();
+            IResources resources = App.Make<IResources>();
 
             foreach (string file in filePath)
             {

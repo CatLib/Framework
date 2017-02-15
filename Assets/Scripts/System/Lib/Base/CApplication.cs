@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using CatLib.Contracts.Event;
 
 namespace CatLib.Base
 {
@@ -94,8 +95,26 @@ namespace CatLib.Base
         /// </summary>
         protected long guid = 0;
 
+        /// <summary>
+        /// 主线程ID
+        /// </summary>
+        private int mainThreadID;
+
+        /// <summary>
+        /// 调度队列
+        /// </summary>
+        private Queue<object[]> actionQueue = new Queue<object[]>();
+
+        /// <summary>
+        /// 调度队列锁
+        /// </summary>
+        private object actionLocker = new object();
+
         public CApplication()
         {
+
+            mainThreadID = Thread.CurrentThread.ManagedThreadId;
+
             Decorator((container, bindData, obj) =>
             {
 
@@ -162,7 +181,7 @@ namespace CatLib.Base
 
             process = StartProcess.ON_DEPEND;
 
-            base.Event.Trigger(CApplicationEvents.ON_DEPENDING);
+            Event.Trigger(CApplicationEvents.ON_DEPENDING);
 
             foreach (CServiceProvider provider in providers)
             {
@@ -178,20 +197,20 @@ namespace CatLib.Base
 
             }
 
-            base.Event.Trigger(CApplicationEvents.ON_DEPENDED);
+            Event.Trigger(CApplicationEvents.ON_DEPENDED);
 
             process = StartProcess.ON_INITED;
 
-            base.Event.Trigger(CApplicationEvents.ON_INITING);
+            Event.Trigger(CApplicationEvents.ON_INITING);
 
             foreach (CServiceProvider serviceProvider in providers)
             {
                 serviceProvider.Init();
             }
 
-            this.inited = true;
+            inited = true;
 
-            base.Event.Trigger(CApplicationEvents.ON_INITED);
+            Event.Trigger(CApplicationEvents.ON_INITED);
 
             StartCoroutine(StartProviderPorcess());
 
@@ -220,6 +239,13 @@ namespace CatLib.Base
             for (int i = 0; i < update.Count; i++)
             {
                 update[i].Update();
+            }
+            lock (actionLocker)
+            {
+                while (actionQueue.Count > 0)
+                {
+                    CallAction(actionQueue.Dequeue());
+                }
             }
         }
 
@@ -258,7 +284,7 @@ namespace CatLib.Base
 
             process = StartProcess.ON_PROVIDER_PROCESS;
 
-            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSING);
+            Trigger(CApplicationEvents.ON_PROVIDER_PROCESSING);
 
             List<CServiceProvider> providers = new List<CServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess) );
@@ -268,13 +294,106 @@ namespace CatLib.Base
                 yield return provider.OnProviderProcess();
             }
 
-            Event.Trigger(CApplicationEvents.ON_PROVIDER_PROCESSED);
+            Trigger(CApplicationEvents.ON_PROVIDER_PROCESSED);
 
             process = StartProcess.ON_COMPLETE;
 
-            Event.Trigger(CApplicationEvents.ON_APPLICATION_START_COMPLETE);
+            Trigger(CApplicationEvents.ON_APPLICATION_START_COMPLETE);
 
         }
+
+        #region Dispatcher
+
+        public override IEventAchieve Event
+        {
+            get
+            {
+                return this;
+            }
+        }
+
+        public void Trigger(string eventName)
+        {
+
+            Trigger(eventName, null, EventArgs.Empty);
+
+        }
+
+        public void Trigger(string eventName, EventArgs e)
+        {
+
+            Trigger(eventName, null, e);
+
+        }
+
+        public void Trigger(string eventName, object sender)
+        {
+
+            Trigger(eventName, sender, EventArgs.Empty);
+
+        }
+
+        public void Trigger(string eventName, object sender, EventArgs e)
+        {
+
+            if (mainThreadID == Thread.CurrentThread.ManagedThreadId)
+            {
+
+                base.Event.Trigger(eventName, sender, e);
+                return;
+
+            }
+
+            lock (actionLocker)
+            {
+ 
+                actionQueue.Enqueue(new object[] { "trigger", eventName, sender, e });
+
+            }
+
+        }
+
+        public void On(string eventName, EventHandler handler)
+        {
+
+            base.Event.On(eventName, handler);
+
+        }
+
+        public void One(string eventName, EventHandler handler)
+        {
+
+            base.Event.One(eventName, handler);
+
+        }
+
+        public void Off(string eventName, EventHandler handler)
+        {
+
+            base.Event.Off(eventName, handler);
+
+        }
+
+        public void OffOne(string eventName, EventHandler handler)
+        {
+
+            base.Event.OffOne(eventName, handler);
+
+        }
+
+        private void CallAction(object[] data)
+        {
+
+            switch (data[0] as string)
+            {
+                case "trigger": base.Event.Trigger(data[1] as string, data[2], data[3] as EventArgs); break;
+                default: break;
+            }
+
+        }
+
+        #endregion
+
 
     }
 

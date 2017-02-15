@@ -19,10 +19,10 @@ namespace App
         public override void Init()
         {
 
-            Application.Event.One(CApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+            App.Event.One(CApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
 
-                FDispatcher.Instance.Event.On(typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
+                App.On(CHttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
                 {
 
                     Debug.Log((obj2 as IHttpResponse).Text);
@@ -30,25 +30,38 @@ namespace App
                     Debug.Log((obj2 as IHttpResponse).Error);
 
                 });
-                
-                FDispatcher.Instance.Event.On(typeof(IConnectorTcp).ToString(), (obj1, obj2) =>
+
+                App.On(CTcpRequestEvents.ON_MESSAGE + typeof(IConnectorTcp).ToString(), (obj1, obj2) =>
                 {
 
                     Debug.Log((obj2).GetType().ToString());
 
                 });
 
-                
+                App.On(CTcpRequestEvents.ON_CONNECT, (obj1, obj2) =>
+                {
+
+                    Debug.Log("on connect");
+
+                });
+
+
+                App.On(CTcpRequestEvents.ON_ERROR, (obj1, obj2) =>
+                {
+
+                    Debug.Log("on tcp error:" + (obj2 as CErrorEventArgs).Error.Message);
+
+                });
 
                 IConnectorHttp httpConnect = FNetwork.Instance.Create<IConnectorHttp>("test");
                 httpConnect.Post("", "helloworld".ToByte());
 
-                //IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("testtcp");
-
+                IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("testtcp");
+                tcpConnect.Connect();
                 //tcpConnect.Send("hello world".ToByte());
 
 
-                Object.Instantiate(Application.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
+                Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
 
             });
 

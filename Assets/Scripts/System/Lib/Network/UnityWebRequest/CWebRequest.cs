@@ -13,6 +13,8 @@ namespace CatLib.Network
     public class CWebRequest : CComponent, IConnectorHttp
     {
 
+        public string Alias { get; set; }
+
         /// <summary>
         /// 是否断开链接
         /// </summary>
@@ -156,9 +158,9 @@ namespace CatLib.Network
                         yield return request.Send();
                         var args = new CWebRequestEventArgs(request);
 
-                        FDispatcher.Instance.Event.Trigger(TypeGuid, this, args);
-                        FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, args);
-                        FDispatcher.Instance.Event.Trigger(typeof(IConnectorHttp).ToString(), this, args);
+                        App.Trigger(CHttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
+                        App.Trigger(CHttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
+                        App.Trigger(CHttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
                     }
                 }
                 yield return new WaitForEndOfFrame();
