@@ -235,6 +235,7 @@ namespace CatLib.Container
         {
             if (param == null) { param = new object[] { }; }
             Type type = Type.GetType(bindData.Service);
+            if(type == null){ return null; }
             if (type.IsAbstract || type.IsInterface)
             {
                 if (service != bindData.Service)

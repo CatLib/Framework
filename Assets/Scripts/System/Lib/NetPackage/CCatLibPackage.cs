@@ -7,12 +7,28 @@ namespace CatLib.NetPackge
 {
     
     /// <summary>
-    /// CatLib 包头包体
+    /// CatLib 默认数据包
     /// </summary>
     public class CCatLibPackage : IPackage
     {
 
-        
+        /// <summary>
+        /// 数据包
+        /// </summary>
+        public object Package { 
+            
+            get{ return null; }
+            
+        }
+
+        /// <summary>
+        /// 数据包字节流
+        /// </summary>
+        public byte[] PackageByte{ 
+            
+            get{ return null; }
+             
+        }
 
     }
 }

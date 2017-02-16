@@ -15,7 +15,7 @@ namespace CatLib.Network
 
         public override Type[] ProviderDepend
         {
-            get { return new Type[] { typeof(IUnpacking) }; }
+            get { return new Type[] { typeof(IPacking) }; }
         }
 
         public override void Register()

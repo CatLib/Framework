@@ -6,8 +6,10 @@ namespace CatLib.Contracts.Network
 
     public interface IConnector
     {
+        
+        string Name { get; set; }
 
-        string Alias { get; set; }
+        void SetConfig(Hashtable hashtable);
 
         IEnumerator StartServer();
 

@@ -13,13 +13,9 @@ namespace CatLib.Contracts.Network
     public interface IConnectorHttp : IConnector
     {
 
-        IConnectorHttp SetUrl(string url);
-
         IConnectorHttp SetHeader(Dictionary<string, string> headers);
 
         IConnectorHttp AppendHeader(string header, string val);
-
-        IConnectorHttp SetTimeOut(int timeout);
 
         void Restful(ERestful method, string action);
 

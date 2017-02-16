@@ -13,7 +13,7 @@ namespace CatLib.Network
     public class CWebRequest : CComponent, IConnectorHttp
     {
 
-        public string Alias { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// 是否断开链接
@@ -34,10 +34,15 @@ namespace CatLib.Network
         private Dictionary<string, string> headers;
         public Dictionary<string, string> Headers { get { return headers; } }
 
-        public IConnectorHttp SetUrl(string url)
-        {
-            this.url = url.TrimEnd('/');
-            return this;
+        public void SetConfig(Hashtable config){
+
+            if(config.ContainsKey("host")){
+                url = config["host"].ToString().TrimEnd('/');
+            }
+
+            if(config.ContainsKey("timeout")){
+                throw new CException(this.GetType().ToString() + " is not support [timeout] config");
+            }
         }
 
         public IConnectorHttp SetHeader(Dictionary<string, string> headers)

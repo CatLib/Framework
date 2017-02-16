@@ -29,14 +29,14 @@ namespace CatLib.Network
         /// <summary>
         /// 创建一个网络链接
         /// </summary>
-        /// <param name="aisle">通道</param>
+        /// <param name="name">通道</param>
         /// <param name="service">服务名</param>
-        public T Create<T>(string aisle , string service) where T : IConnector
+        public T Create<T>(string name , string service) where T : IConnector
         {
-            if (this.connector.ContainsKey(aisle)) { return (T)this.connector[aisle]; }
+            if (this.connector.ContainsKey(name)) { return (T)this.connector[name]; }
             IConnector connector = (T)App.Make(service);
-            this.connector.Add(aisle, connector);
-            InitConnector(connector, aisle);
+            this.connector.Add(name, connector);
+            InitConnector(connector, name);
             App.StartCoroutine(connector.StartServer());
             return (T)connector;
         }
@@ -44,13 +44,13 @@ namespace CatLib.Network
         /// <summary>
         /// 创建一个网络链接
         /// </summary>
-        /// <param name="aisle">通道</param>
-        public T Create<T>(string aisle) where T : IConnector
+        /// <param name="name">通道</param>
+        public T Create<T>(string name) where T : IConnector
         {
-            if (this.connector.ContainsKey(aisle)) { return (T)this.connector[aisle]; }
+            if (this.connector.ContainsKey(name)) { return (T)this.connector[name]; }
             IConnector connector = App.Make<T>();
-            this.connector.Add(aisle, connector);
-            InitConnector(connector, aisle);
+            this.connector.Add(name, connector);
+            InitConnector(connector, name);
             App.StartCoroutine(connector.StartServer());
             return (T)connector;
 
@@ -59,27 +59,27 @@ namespace CatLib.Network
         /// <summary>
         /// 断开一个网络链接
         /// </summary>
-        /// <param name="aisle">通道</param>
-        public void Disconnect(string aisle)
+        /// <param name="name">通道</param>
+        public void Disconnect(string name)
         {
-            if (connector.ContainsKey(aisle))
+            if (connector.ContainsKey(name))
             {
-                connector[aisle].Disconnect();
+                connector[name].Disconnect();
             }
-            connector.Remove(aisle);
+            connector.Remove(name);
         }
 
         /// <summary>
         /// 获取一个链接器
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="aisle">通道</param>
+        /// <param name="name">通道</param>
         /// <returns></returns>
-        public T Get<T>(string aisle) where T : IConnector
+        public T Get<T>(string name) where T : IConnector
         {
-            if (connector.ContainsKey(aisle))
+            if (connector.ContainsKey(name))
             {
-                return (T)connector[aisle];
+                return (T)connector[name];
             }
             return default(T);
         }
@@ -96,24 +96,12 @@ namespace CatLib.Network
             this.connector.Clear();
         }
 
-        private void InitConnector(IConnector connector, string aisle)
+        private void InitConnector(IConnector connector, string name)
         {
-
-            if (Config.IsExists(CONNECTOR_CONFIG_HEADER + aisle))
+            if (Config.IsExists(CONNECTOR_CONFIG_HEADER + name))
             {
-                string config;
-                if (connector is IConnectorSocket)
-                {
-                    config = Config.Get<string>(CONNECTOR_CONFIG_HEADER + aisle);
-                    var hostPort = config.Split(':');
-                    (connector as IConnectorTcp).SetHost(hostPort[0]).SetPort(int.Parse(hostPort[1]));
-                }
-                else if (connector is IConnectorHttp)
-                {
-                    (connector as IConnectorHttp).SetUrl(Config.Get<string>(CONNECTOR_CONFIG_HEADER + aisle));
-                }
-            }
-           
+                connector.SetConfig(Config.Get<Hashtable>(CONNECTOR_CONFIG_HEADER + name));
+            }   
         }
 
     }

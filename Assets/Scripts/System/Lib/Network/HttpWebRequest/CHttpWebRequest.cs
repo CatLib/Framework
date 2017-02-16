@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using System;
 
 namespace CatLib.Network
 {
@@ -15,7 +16,7 @@ namespace CatLib.Network
         /// <summary>
         /// 名字
         /// </summary>
-        public string Alias { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Cookie容器
@@ -45,16 +46,15 @@ namespace CatLib.Network
         private Dictionary<string, string> headers;
         public Dictionary<string, string> Headers { get { return headers; } }
 
-        public IConnectorHttp SetUrl(string url)
-        {
-            this.url = url.TrimEnd('/');
-            return this;
-        }
+        public void SetConfig(Hashtable config){
 
-        public IConnectorHttp SetTimeOut(int timeout)
-        {
-            this.timeout = timeout;
-            return this;
+            if(config.ContainsKey("host")){
+                url = config["host"].ToString().TrimEnd('/');
+            }
+
+            if(config.ContainsKey("timeout")){
+                timeout = Convert.ToInt32(config["timeout"].ToString());
+            }
         }
 
         public IConnectorHttp SetHeader(Dictionary<string, string> headers)

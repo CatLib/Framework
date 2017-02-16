@@ -13,11 +13,7 @@ namespace CatLib.Network
     public class CTcpRequest : CComponent, IConnectorTcp
     {
 
-        public string Alias { get; set; }
-
-
-        [CDependency]
-        public IUnpacking Unpacker { get; set; }
+        public string Name { get; set; }
 
         private Queue<byte[]> queue = new Queue<byte[]>();
 
@@ -30,21 +26,44 @@ namespace CatLib.Network
         private bool isGiveupConnect = false;
         private int reconnNum = 3;
         private int currentReconnNum = 0;
+        private IPacking packer;
+        
+        public void SetConfig(Hashtable config){
 
-        public IConnectorSocket SetHost(string host)
-        {
-            this.host = host;
-            return this;
-        }
+            if(packer == null && config.ContainsKey("packing.alias")){
+                packer = App.Make(config["packing.alias"].ToString()) as IPacking;
+            }
+            if(packer == null && config.ContainsKey("packing.type")){
+                packer = App.Make(config["packing.type"].ToString()) as IPacking;
+            }
+            
+            if(config.ContainsKey("host")){
+                host = config["host"].ToString();
+            }
 
-        public IConnectorSocket SetPort(int port)
-        {
-            this.port = port;
-            return this;
+            if(config.ContainsKey("port")){
+                port = Convert.ToInt32(config["port"].ToString());
+            }
+
         }
 
         public void Connect()
         {
+
+            if(string.IsNullOrEmpty(host)){
+
+                OnError(this, new CErrorEventArgs(new CException(GetType().ToString() + ", Name:" + Name + " , host is invalid")));
+                return;
+
+            }
+
+            if(port <= 0){
+
+                OnError(this, new CErrorEventArgs(new CException(GetType().ToString() + ", Name:" + Name + " , port is invalid")));
+                return;
+
+            }
+
             if(tcpConnector != null)
             {
                 tcpConnector.Dispose();
