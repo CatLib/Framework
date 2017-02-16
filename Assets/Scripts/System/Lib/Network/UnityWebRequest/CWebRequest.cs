@@ -16,9 +16,9 @@ namespace CatLib.Network
         public string Name { get; set; }
 
         /// <summary>
-        /// 是否断开链接
+        /// 终止标记
         /// </summary>
-        private bool isDisconnect = false;
+        private bool stopMark = false;
 
         /// <summary>
         /// 服务器地址
@@ -134,11 +134,11 @@ namespace CatLib.Network
         }
 
         /// <summary>
-        /// 断开链接
+        /// 释放链接
         /// </summary>
-        public void Disconnect()
+        public void Destroy()
         {
-            isDisconnect = true;
+            stopMark = true;
         }
 
         /// <summary>
@@ -149,12 +149,13 @@ namespace CatLib.Network
         {
             while (true)
             {
-                if (isDisconnect) { break; }
+                if (stopMark) { break; }
                 if (queue.Count > 0)
                 {
                     UnityWebRequest request;
                     while (queue.Count > 0)
                     {
+                        if (stopMark) { break; }
                         request = queue.Dequeue();
                         if (headers != null)
                         {

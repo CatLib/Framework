@@ -58,7 +58,7 @@ namespace App
 
                 IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("testtcp");
                 tcpConnect.Connect();
-                //tcpConnect.Send("hello world".ToByte());
+                tcpConnect.Send("hello world\r\n".ToByte());
 
 
                 Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));

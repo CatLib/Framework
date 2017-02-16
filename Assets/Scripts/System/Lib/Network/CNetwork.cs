@@ -60,11 +60,11 @@ namespace CatLib.Network
         /// 断开一个网络链接
         /// </summary>
         /// <param name="name">通道</param>
-        public void Disconnect(string name)
+        public void Destroy(string name)
         {
             if (connector.ContainsKey(name))
             {
-                connector[name].Disconnect();
+                connector[name].Destroy();
             }
             connector.Remove(name);
         }
@@ -89,11 +89,11 @@ namespace CatLib.Network
         /// </summary>
         public void OnDestroy()
         {
-            foreach(KeyValuePair<string , IConnector> connector in this.connector)
+            foreach(KeyValuePair<string , IConnector> conn in connector)
             {
-                connector.Value.Disconnect();
+                conn.Value.Destroy();
             }
-            this.connector.Clear();
+            connector.Clear();
         }
 
         private void InitConnector(IConnector connector, string name)

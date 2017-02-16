@@ -10,7 +10,7 @@ namespace CatLib.NetPackage
     {
         public override void Register()
         {
-            App.Bind<CCatLibPacking>().Alias<IPacking>();
+            App.Bind<CCatLibFramePacking>().Alias<IPacking>().Alias("frame");
         }
     }
 

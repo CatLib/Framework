@@ -2,10 +2,10 @@
 using CatLib.Contracts.Network;
 using System.Collections;
 using UnityEngine;
-using CatLib.Container;
 using System.Collections.Generic;
 using CatLib.Contracts.NetPackage;
 using System;
+using CatLib.Contracts.Base;
 
 namespace CatLib.Network
 {
@@ -21,13 +21,14 @@ namespace CatLib.Network
         private int port;
 
         private CTcpConnector tcpConnector;
-
-        private bool isDisconnect = false;
-        private bool isGiveupConnect = false;
-        private int reconnNum = 3;
-        private int currentReconnNum = 0;
         private IPacking packer;
+
+        private bool stopMark = false;
         
+        /// <summary>
+        /// 设定配置
+        /// </summary>
+        /// <param name="config"></param>
         public void SetConfig(Hashtable config){
 
             if(packer == null && config.ContainsKey("packing.alias")){
@@ -47,6 +48,9 @@ namespace CatLib.Network
 
         }
 
+        /// <summary>
+        /// 当连接时
+        /// </summary>
         public void Connect()
         {
 
@@ -64,11 +68,9 @@ namespace CatLib.Network
 
             }
 
-            if(tcpConnector != null)
-            {
-                tcpConnector.Dispose();
-                tcpConnector = null;
-            }
+            Disconnect();
+            if (packer != null){ packer.Clear(); }
+
             tcpConnector = new CTcpConnector(host, port);
             tcpConnector.OnConnect += OnConnect;
             tcpConnector.OnClose   += OnClose;
@@ -78,11 +80,25 @@ namespace CatLib.Network
 
         }
 
-        public void Reset()
+        /// <summary>
+        /// 发送数据包
+        /// </summary>
+        /// <param name="package"></param>
+        public void Send(IPackage package)
         {
-            isGiveupConnect = false;
+            if(packer != null)
+            {
+                Send(packer.Encode(package));
+            }else
+            {
+                Send(package.PackageByte);
+            }
         }
 
+        /// <summary>
+        /// 加入发送队列
+        /// </summary>
+        /// <param name="bytes"></param>
         public void Send(byte[] bytes)
         {
             queue.Enqueue(bytes);
@@ -92,127 +108,107 @@ namespace CatLib.Network
         {
             while (true)
             {
-                /*
-                yield return SendModel();
-                yield return ReadModel();*/
+                if (stopMark) { break; }
+                while (queue.Count > 0)
+                {
+                    if (tcpConnector != null && tcpConnector.CurrentStatus == CTcpConnector.Status.ESTABLISH)
+                    {
+                        tcpConnector.Write(queue.Dequeue());
+                    }
+                    else { break; }
+                }
                 yield return new WaitForEndOfFrame();
             } 
         }
 
+        /// <summary>
+        /// 当链接时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void OnConnect(object sender , EventArgs args)
         {
-            App.Trigger(CTcpRequestEvents.ON_CONNECT, this, args);
-            App.Trigger(CTcpRequestEvents.ON_CONNECT + TypeGuid, this, args);
-            App.Trigger(CTcpRequestEvents.ON_CONNECT + GetType().ToString(), this, args);
-            App.Trigger(CTcpRequestEvents.ON_CONNECT + typeof(IConnectorTcp).ToString(), this, args);
+            Trigger(CTcpRequestEvents.ON_CONNECT, args);
         }
 
+        /// <summary>
+        /// 当关闭时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void OnClose(object sender, EventArgs args)
         {
-            App.Trigger(CTcpRequestEvents.ON_CLOSE, this, args);
-            App.Trigger(CTcpRequestEvents.ON_CLOSE + TypeGuid, this, args);
-            App.Trigger(CTcpRequestEvents.ON_CLOSE + GetType().ToString(), this, args);
-            App.Trigger(CTcpRequestEvents.ON_CLOSE + typeof(IConnectorTcp).ToString(), this, args);
+            Trigger(CTcpRequestEvents.ON_CLOSE, args);
         }
 
+        /// <summary>
+        /// 当错误时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void OnError(object sender, EventArgs args)
         {
-            App.Trigger(CTcpRequestEvents.ON_ERROR, this, args);
-            App.Trigger(CTcpRequestEvents.ON_ERROR + TypeGuid, this, args);
-            App.Trigger(CTcpRequestEvents.ON_ERROR + GetType().ToString(), this, args);
-            App.Trigger(CTcpRequestEvents.ON_ERROR + typeof(IConnectorTcp).ToString(), this, args);
+            Trigger(CTcpRequestEvents.ON_ERROR, args);
         }
 
+        /// <summary>
+        /// 当接受到消息时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void OnMessage(object sender , EventArgs args)
         {
 
-            Debug.Log(System.Text.Encoding.Default.GetString((args as CSocketMessageEventArgs).Message));
-
-            App.Trigger(CTcpRequestEvents.ON_MESSAGE, this, args);
-            App.Trigger(CTcpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
-            App.Trigger(CTcpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
-            App.Trigger(CTcpRequestEvents.ON_MESSAGE + typeof(IConnectorTcp).ToString(), this, args);
-        }
-
-        private IEnumerator ReadModel()
-        {
-
-            /*
-            if (tcpConnector.HasData)
+            if(packer == null)
             {
-                IPackage[] packages;
-                foreach (byte[] bytes in tcpConnector.Read())
-                {
-                    if (Unpacker.Append(bytes, out packages))
-                    {
-                        foreach(IPackage package in packages)
-                        {
-                            var args = new CTcpEventArgs(package);
-                            Event.Trigger(CTcpRequestEvents.ON_MESSAGE, this, args);
-                            FDispatcher.Instance.Trigger(TypeGuid, this, args);
-                            FDispatcher.Instance.Trigger(GetType().ToString(), this, args);
-                            FDispatcher.Instance.Trigger(typeof(IConnectorTcp).ToString(), this, args);
-                        }
-                    }
-                }
-
-            }*/
-            yield return new WaitForEndOfFrame();
-        }
-
-        private IEnumerator SendModel()
-        {
-            yield return null;
-            /*
-            if (tcpConnector.IsError && !isGiveupConnect)
-            {
-                do
-                {
-                    yield return OnErrorReconn();
-                } while (tcpConnector.IsError && !isGiveupConnect);
+                Trigger(CTcpRequestEvents.ON_MESSAGE, args);
+                return;
             }
 
-            while (queue.Count > 0)
+            IPackage[] package = packer.Decode((args as CSocketMessageEventArgs).Message);
+            if(package != null)
             {
-                if (tcpConnector.IsConnect)
+                for(int i = 0; i < package.Length; i++)
                 {
-                    tcpConnector.Write(queue.Dequeue());
+                    args = new CPackageMessageEventArgs(package[i]);
+                    Trigger(CTcpRequestEvents.ON_MESSAGE, args);
                 }
-            }*/
-        }
-
-        private IEnumerator OnErrorReconn()
-        {
-            yield return null;
-            /*
-            currentReconnNum++;
-            if (tcpConnector != null) { tcpConnector.Dispose(); }
-            Unpacker.Clear();
-            queue.Clear();
-            tcpConnector = new CTcpConnector(host, port);
-            tcpConnector.Connect();
-
-            while (!tcpConnector.IsError && !tcpConnector.IsConnect)
-            {
-                yield return new WaitForEndOfFrame();
             }
 
-            if (tcpConnector.IsError)
-            {
-                if (currentReconnNum > reconnNum)
-                {
-                    isGiveupConnect = true;
-                    var args = new CTcpErrorEventArgs();
-                    FDispatcher.Instance.Event.Trigger(TypeGuid, this, args);
-                    FDispatcher.Instance.Event.Trigger(GetType().ToString(), this, args);
-                    FDispatcher.Instance.Event.Trigger(typeof(IConnectorTcp).ToString(), this, args);
-                }
-            }*/
         }
 
+        /// <summary>
+        /// 断开连接
+        /// </summary>
         public void Disconnect()
         {
-            isDisconnect = true;
+            if (tcpConnector != null)
+            {
+                tcpConnector.Dispose();
+            }
+            tcpConnector = null;
+        }
+
+        /// <summary>
+        /// 释放连接
+        /// </summary>
+        public void Destroy()
+        {
+            stopMark = true;
+            Disconnect();
+        }
+
+        /// <summary>
+        /// 触发事件
+        /// </summary>
+        /// <param name="eventName">事件名字</param>
+        /// <param name="args">参数</param>
+        private void Trigger(string eventName , EventArgs args)
+        {
+            App.Trigger(eventName, this, args);
+            App.Trigger(eventName + TypeGuid, this, args);
+            App.Trigger(eventName + GetType().ToString(), this, args);
+            App.Trigger(eventName + typeof(IConnectorTcp).ToString(), this, args);
         }
 
     }

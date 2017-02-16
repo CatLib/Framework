@@ -10,12 +10,12 @@ namespace CatLib.Contracts.Network
     /// </summary>
     public interface INetwork
     {
-        T Create<T>(string aisle) where T : IConnector;
+        T Create<T>(string name) where T : IConnector;
 
-        T Create<T>(string aisle, string service) where T : IConnector;
+        T Create<T>(string name, string service) where T : IConnector;
 
-        void Disconnect(string aisle);
+        void Destroy(string name);
 
-        T Get<T>(string aisle) where T : IConnector;
+        T Get<T>(string name) where T : IConnector;
     }
 }

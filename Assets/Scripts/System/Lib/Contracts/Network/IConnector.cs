@@ -13,7 +13,7 @@ namespace CatLib.Contracts.Network
 
         IEnumerator StartServer();
 
-        void Disconnect();
+        void Destroy();
         
     }
 

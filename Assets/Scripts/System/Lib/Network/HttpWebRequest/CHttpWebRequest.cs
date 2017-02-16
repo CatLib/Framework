@@ -24,9 +24,9 @@ namespace CatLib.Network
         private CookieContainer cookieContainer = new CookieContainer();
 
         /// <summary>
-        /// 是否断开链接
+        /// 停止标记
         /// </summary>
-        private bool isDisconnect = false;
+        private bool stopMark = false;
 
         /// <summary>
         /// 服务器地址
@@ -127,11 +127,11 @@ namespace CatLib.Network
         }
 
         /// <summary>
-        /// 断开链接
+        /// 释放链接
         /// </summary>
-        public void Disconnect()
+        public void Destroy()
         {
-            isDisconnect = true;
+            stopMark = true;
         }
 
         /// <summary>
@@ -142,12 +142,13 @@ namespace CatLib.Network
         {
             while (true)
             {
-                if (isDisconnect) { break; }
+                if (stopMark) { break; }
                 if (queue.Count > 0)
                 {
                     CHttpWebRequestEntity request;
                     while (queue.Count > 0)
                     {
+                        if (stopMark) { break; }
                         request = queue.Dequeue();
                         request.SetContainer(cookieContainer);
                         request.SetHeader(headers);

@@ -10,7 +10,7 @@ using CatLib.Base;
 namespace CatLib.Network
 {
 
-    public class CTcpConnector : IDisposable , IDestroy
+    public class CTcpConnector : IDisposable 
     {
 
         public enum Status
@@ -24,10 +24,12 @@ namespace CatLib.Network
         protected TcpClient socket;
 
         protected string remoteAddress;
-        
         protected int remotePort;
 
+        protected int readBufferLength = 1024;
+
         protected volatile Status status = Status.INITIAL;
+        public Status CurrentStatus{ get { return status; } }
 
         protected NetworkStream networkStream;
 
@@ -74,12 +76,6 @@ namespace CatLib.Network
             OnClose(this, EventArgs.Empty);
         }
 
-        public void OnDestroy(){
-
-            Dispose();
-
-        }
-
         protected void OnDnsGetHostAddressesComplete(IAsyncResult result)
         {
             try
@@ -104,7 +100,7 @@ namespace CatLib.Network
                 socket.EndConnect(result);
 
                 networkStream = socket.GetStream();
-                readBuffer = new byte[socket.ReceiveBufferSize];
+                readBuffer = new byte[readBufferLength];
                 networkStream.BeginRead(readBuffer, 0, readBuffer.Length, OnReadCallBack, readBuffer);
 
                 status = Status.ESTABLISH;
@@ -130,10 +126,12 @@ namespace CatLib.Network
                 return;
             }
 
-            var args = new CSocketMessageEventArgs(readBuffer);
+            var callbackBuff = new byte[read];
+            Buffer.BlockCopy(readBuffer, 0, callbackBuff, 0, read);
+            var args = new CSocketMessageEventArgs(callbackBuff);
             OnMessage(this, args);
 
-            readBuffer = new byte[socket.ReceiveBufferSize];
+            readBuffer = new byte[readBufferLength];
             networkStream.BeginRead(readBuffer, 0, readBuffer.Length, OnReadCallBack, readBuffer);
 
         }

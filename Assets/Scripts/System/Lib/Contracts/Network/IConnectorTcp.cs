@@ -13,6 +13,11 @@ namespace CatLib.Contracts.Network
         /// </summary>
         void Connect();
 
+        /// <summary>
+        /// 释放连接
+        /// </summary>
+        void Disconnect();
+
     }
 
 }
