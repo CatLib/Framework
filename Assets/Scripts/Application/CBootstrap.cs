@@ -29,7 +29,13 @@ namespace App
                 App.On(CTcpRequestEvents.ON_MESSAGE + typeof(IConnectorTcp).ToString(), (obj1, obj2) =>
                 {
 
-                    Debug.Log((obj2 as CPackageResponseEventArgs).Response.Package as string);
+                    if ((obj2 as CPackageResponseEventArgs).Response.Package is string)
+                    {
+                        Debug.Log((obj2 as CPackageResponseEventArgs).Response.Package as string);
+                    }else
+                    {
+                        Debug.Log(Encoding.UTF8.GetString(((obj2 as CPackageResponseEventArgs).Response.Package as byte[])));
+                    }
 
                 });
 

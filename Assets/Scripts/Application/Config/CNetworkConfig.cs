@@ -41,7 +41,7 @@ public class CNetworkConfig : CConfig {
                                             { "host", "127.0.0.1" },
                                             { "port", 3317 },
                                             { "packing"  , "network.packing.text" },
-                                            { "protocol" , typeof(IProtocol) },
+                                            { "protocol" , "network.protocol.text" },
                                         }
             };
         }

@@ -10,7 +10,10 @@ namespace CatLib.NetPackage
         public override void Register()
         {
             App.Bind<CBasePackage>().Alias<IPackage>().Alias("network.package.base");
-            App.Bind<CTextProtocol>().Alias<IProtocol>().Alias("network.protocol.text");
+
+            App.Bind<CByteProtocol>().Alias<IProtocol>().Alias("network.protocol.byte");
+            App.Bind<CTextProtocol>().Alias("network.protocol.text");
+            
 
             App.Bind<CFramePacking>().Alias<IPacking>().Alias("network.packing.frame");
             App.Bind<CTextPacking>().Alias("network.packing.text");
