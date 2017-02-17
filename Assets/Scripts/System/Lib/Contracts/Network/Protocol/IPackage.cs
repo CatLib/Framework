@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace CatLib.Contracts.NetPackage
+namespace CatLib.Contracts.Network
 {
     /// <summary>
     /// 数据包

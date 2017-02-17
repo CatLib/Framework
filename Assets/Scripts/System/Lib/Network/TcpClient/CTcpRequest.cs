@@ -3,7 +3,6 @@ using CatLib.Contracts.Network;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
-using CatLib.Contracts.NetPackage;
 using System;
 
 namespace CatLib.Network
@@ -172,18 +171,38 @@ namespace CatLib.Network
                 return;
             }
 
-            byte[][] data = packer.Decode((args as CSocketMessageEventArgs).Message);
-            if(data != null)
+            try
             {
-                for(int i = 0; i < data.Length; i++)
+                byte[][] data = packer.Decode((args as CSocketResponseEventArgs).Response);
+                if (data != null)
                 {
-                    if(protocol == null){
-                        args = new CSocketMessageEventArgs(data[i]);
-                    }else{
-                        args = new CPackageMessageEventArgs(protocol.Decode(data[i]));
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        try
+                        {
+
+                            if (protocol == null)
+                            {
+                                args = new CSocketResponseEventArgs(data[i]);
+                            }
+                            else
+                            {
+                                args = new CPackageResponseEventArgs(protocol.Decode(data[i]));
+                            }
+                            Trigger(CTcpRequestEvents.ON_MESSAGE, args);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Trigger(CTcpRequestEvents.ON_ERROR, new CErrorEventArgs(ex));
+                        }
                     }
-                    Trigger(CTcpRequestEvents.ON_MESSAGE, args);
                 }
+            }
+            catch(Exception ex)
+            {
+                Trigger(CTcpRequestEvents.ON_ERROR, new CErrorEventArgs(ex));
+                Disconnect();
             }
 
         }

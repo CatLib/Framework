@@ -1,4 +1,6 @@
-﻿using CatLib.Contracts.NetPackage;
+﻿using CatLib.Base;
+using CatLib.Contracts.Network;
+using System.Text;
 
 namespace CatLib.NetPackage{
 
@@ -11,7 +13,7 @@ namespace CatLib.NetPackage{
         /// <returns></returns>
         public IPackage Decode(byte[] bytes){
 
-			return new CCatLibPackage(bytes);
+            return new CBasePackage(Encoding.UTF8.GetString(bytes));
 
 		}
 
@@ -22,7 +24,7 @@ namespace CatLib.NetPackage{
         /// <returns></returns>
         public byte[] Encode(IPackage package){
 
-			return package.ToByte();
+            return package.Package.ToString().ToByte();
 
 		}
 

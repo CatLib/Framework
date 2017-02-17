@@ -1,8 +1,5 @@
-﻿using CatLib.Contracts.NetPackage;
+﻿using CatLib.Contracts.Network;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace CatLib.Network
 {

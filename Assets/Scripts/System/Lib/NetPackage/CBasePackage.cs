@@ -1,5 +1,5 @@
 ﻿using System;
-using CatLib.Contracts.NetPackage;
+using CatLib.Contracts.Network;
 
 namespace CatLib.NetPackage
 {
@@ -7,12 +7,12 @@ namespace CatLib.NetPackage
     /// <summary>
     /// CatLib 默认数据包
     /// </summary>
-    public class CCatLibPackage : IPackage
+    public class CBasePackage : IPackage
     {
 
         private object package;
 
-        public CCatLibPackage(object package){
+        public CBasePackage(object package){
 
             this.package = package;
 

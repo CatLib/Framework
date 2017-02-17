@@ -1,6 +1,5 @@
 ﻿using CatLib.Base;
 using CatLib.Container;
-using CatLib.Contracts.NetPackage;
 using CatLib.Contracts.Network;
 using System;
 
@@ -22,7 +21,7 @@ namespace CatLib.Network
         {
             App.Singleton<CNetwork>().Alias<INetwork>();
             App.Bind<CHttpWebRequest>().Alias<IConnectorHttp>();
-            //Application.Bind<CWebRequest>().Alias<IConnectorHttp>();
+            App.Bind<CWebRequest>().Alias("network.webrequest");
             App.Bind<CTcpRequest>().Alias<IConnectorTcp>();
         }
 

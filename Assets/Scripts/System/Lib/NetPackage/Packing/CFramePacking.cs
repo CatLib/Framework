@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.NetPackage;
+﻿using CatLib.Contracts.Network;
 using System;
 using System.Collections.Generic;
 using CatLib.Support;
@@ -11,7 +11,7 @@ namespace CatLib.NetPackage
     /// CatLib Frame协议拆包器
     /// 协议格式为 总包长+包体，其中包长为4字节网络字节序的整数，包体可以是普通文本或者二进制数据。
     /// </summary>
-    public class CCatLibFramePacking : IPacking
+    public class CFramePacking : IPacking
     {
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace CatLib.NetPackage
             while(buffer.Length >= 4){
 
                 totalSize = BitConverter.ToInt32(buffer.Peek(4) , 0);
-                if(totalSize < buffer.Length){ break; }
+                if(totalSize > buffer.Length){ break; }
 
                 buffer.Shift(4);
                 bodyBuffer = buffer.Shift(totalSize - 4);
@@ -59,7 +59,7 @@ namespace CatLib.NetPackage
         public byte[] Encode(byte[] bytes){
 
             CBuffer newBuffer = bytes;
-            newBuffer.Unshift(newBuffer.Length.ToString().ToByte());
+            newBuffer.Unshift((newBuffer.Length + 4).ToString().ToByte());
             return newBuffer;
 
         }

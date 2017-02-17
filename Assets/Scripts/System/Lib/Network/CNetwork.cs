@@ -19,8 +19,6 @@ namespace CatLib.Network
         [CDependency]
         public CConfig Config { get; set; }
 
-        private const string CONNECTOR_CONFIG_HEADER = "connector.";
-
         /// <summary>
         /// 连接器
         /// </summary>
@@ -98,9 +96,9 @@ namespace CatLib.Network
 
         private void InitConnector(IConnector connector, string name)
         {
-            if (Config.IsExists(CONNECTOR_CONFIG_HEADER + name))
+            if (Config.IsExists(name))
             {
-                connector.SetConfig(Config.Get<Hashtable>(CONNECTOR_CONFIG_HEADER + name));
+                connector.SetConfig(Config.Get<Hashtable>(name));
             }   
         }
 

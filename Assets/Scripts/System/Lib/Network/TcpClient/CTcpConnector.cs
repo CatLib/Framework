@@ -128,7 +128,7 @@ namespace CatLib.Network
 
             var callbackBuff = new byte[read];
             Buffer.BlockCopy(readBuffer, 0, callbackBuff, 0, read);
-            var args = new CSocketMessageEventArgs(callbackBuff);
+            var args = new CSocketResponseEventArgs(callbackBuff);
             OnMessage(this, args);
 
             readBuffer = new byte[readBufferLength];

@@ -1,6 +1,6 @@
 ﻿using CatLib.Base;
 using CatLib.Container;
-using CatLib.Contracts.NetPackage;
+using CatLib.Contracts.Network;
 
 namespace CatLib.NetPackage
 {
@@ -9,8 +9,11 @@ namespace CatLib.NetPackage
     {
         public override void Register()
         {
-            App.Bind<CTextProtocol>().Alias<IProtocol>().Alias("protocol.text");
-            App.Bind<CCatLibFramePacking>().Alias<IPacking>().Alias("frame");
+            App.Bind<CBasePackage>().Alias<IPackage>().Alias("network.package.base");
+            App.Bind<CTextProtocol>().Alias<IProtocol>().Alias("network.protocol.text");
+
+            App.Bind<CFramePacking>().Alias<IPacking>().Alias("network.packing.frame");
+            App.Bind<CTextPacking>().Alias("network.packing.text");
         }
     }
 

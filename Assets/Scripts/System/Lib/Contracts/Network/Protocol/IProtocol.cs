@@ -1,5 +1,6 @@
 ﻿
-namespace CatLib.Contracts.NetPackage{
+namespace CatLib.Contracts.Network
+{
 
 	/// <summary>
     /// 协议解析器

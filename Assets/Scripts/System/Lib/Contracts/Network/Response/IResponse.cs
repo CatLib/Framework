@@ -14,7 +14,7 @@ namespace CatLib.Contracts.Network
         /// <summary>
         /// 响应字节流
         /// </summary>
-        byte[] Bytes { get; }
+        byte[] Response { get; }
 
     }
 

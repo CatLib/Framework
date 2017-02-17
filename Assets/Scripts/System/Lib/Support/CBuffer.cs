@@ -24,27 +24,23 @@ namespace CatLib.Support{
 
 			if(data.Length <= 0){ return -1; }
 
-			byte[] tmpBuffer = new byte[data.Length];
-
-			int len = 0; bool isFinded;
+			bool isFinded;
 			for(int i = 0, n; i < buffer.Length; i++){
-				
-				
-				len = i * tmpBuffer.Length;
-				if(len + tmpBuffer.Length > buffer.Length){ return -1; }
 
-				Buffer.BlockCopy(buffer, len, tmpBuffer, 0, tmpBuffer.Length);
-				
-				isFinded = true;
-				for(n = 0; n < data.Length ; n++){
-					if(tmpBuffer[n] != data[n]){
-						isFinded = false;
-						break;
-					}
-				}
-
-				if(isFinded){ return len; }
-				
+                if(buffer[i] == data[0])
+                {
+                    isFinded = true;
+                    for (n = 0; n < data.Length; n++)
+                    {
+                        if(buffer[i + n] != data[n])
+                        {
+                            isFinded = false;
+                            break;
+                        }
+                    }
+                    if (isFinded) { return i; }
+                }
+                				
 			}
 
 			return -1;

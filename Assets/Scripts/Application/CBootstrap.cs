@@ -9,7 +9,7 @@ using System.Text;
 namespace App
 {
 
-    public class CBootstrapProvider : CServiceProvider
+    public class CBootstrap : CServiceProvider
     {
 
         public override void Init()
@@ -29,7 +29,7 @@ namespace App
                 App.On(CTcpRequestEvents.ON_MESSAGE + typeof(IConnectorTcp).ToString(), (obj1, obj2) =>
                 {
 
-                    Debug.Log((obj2).GetType().ToString());
+                    Debug.Log((obj2 as CPackageResponseEventArgs).Response.Package as string);
 
                 });
 
@@ -48,34 +48,20 @@ namespace App
 
                 });
 
-                IConnectorHttp httpConnect = FNetwork.Instance.Create<IConnectorHttp>("test");
-                httpConnect.Post("", "helloworld".ToByte());
+                /*IConnectorHttp httpConnect = FNetwork.Instance.Create<IConnectorHttp>("connector.test");
+                httpConnect.Post("", "helloworld".ToByte());*/
 
-                IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("testtcp");
+                
+                IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("connector.test.tcp");
                 tcpConnect.Connect();
-                tcpConnect.Send("hello world\r\n".ToByte());
+                tcpConnect.Send("connector.test.tcp\r\n".ToByte());
 
+                IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("connector.test.tcp.packing.text");
+                tcpConnect2.Connect();
+                tcpConnect2.Send("connector.test.tcp.packing.text".ToByte());
+                
 
-                CatLib.Support.CBuffer buff = new CatLib.Support.CBuffer();
-
-                buff.Push("helloworld\r\nhelloworld".ToByte());
-                int num = buff.IndexOf("\r\n".ToByte());
-
-                buff.Unshift("\r\n".ToByte());
-                var data = buff.Shift(2);
-                Debug.Log(data[0] + "," + data[1]);
-                if(Encoding.UTF8.GetString(data) == "\r\n"){
-                    
-                    Debug.Log("123");
-                }
-
-                buff.Push("999".ToByte());
-                Debug.Log(Encoding.UTF8.GetString(buff.Pop(3)));
-
-                Debug.Log(Encoding.UTF8.GetString(buff.Shift(buff.Length)));
-                Debug.Log(buff.Length);
-
-                UnityEngine.Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
+                Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
 
             });
 

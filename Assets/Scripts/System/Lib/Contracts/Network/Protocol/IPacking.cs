@@ -1,5 +1,5 @@
 ﻿
-namespace CatLib.Contracts.NetPackage
+namespace CatLib.Contracts.Network
 {
 
     /// <summary>

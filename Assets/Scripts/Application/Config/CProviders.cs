@@ -26,7 +26,7 @@ public class CProviders{
                 typeof(CDispatcherProvider),
                 typeof(CNetworkProvider),
                 typeof(CLuaProvider),
-                typeof(CBootstrapProvider),
+                typeof(CBootstrap),
 
             };
         }

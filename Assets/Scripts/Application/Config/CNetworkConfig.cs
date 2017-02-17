@@ -2,7 +2,7 @@
 using CatLib.Network;
 using System;
 using System.Collections;
-using CatLib.Contracts.NetPackage;
+using CatLib.Contracts.Network;
 
 public class CNetworkConfig : CConfig {
 
@@ -30,10 +30,17 @@ public class CNetworkConfig : CConfig {
                                             { "host" , "http://127.0.0.1/testcookie.php" },
                                             { "timeout" , 1000 },
                                     },
-                "connector.testtcp" , new Hashtable(){ 
+                "connector.test.tcp" , new Hashtable(){ 
                                             { "host", "127.0.0.1" },
                                             { "port", 3317 },
                                             { "packing"  , typeof(IPacking) },
+                                            { "protocol" , typeof(IProtocol) },
+                                        },
+
+                "connector.test.tcp.packing.text" , new Hashtable(){
+                                            { "host", "127.0.0.1" },
+                                            { "port", 3317 },
+                                            { "packing"  , "network.packing.text" },
                                             { "protocol" , typeof(IProtocol) },
                                         }
             };
