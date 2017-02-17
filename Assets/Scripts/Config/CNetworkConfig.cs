@@ -33,8 +33,8 @@ public class CNetworkConfig : CConfig {
                 "connector.testtcp" , new Hashtable(){ 
                                             { "host", "127.0.0.1" },
                                             { "port", 3317 },
-                                            { "packing.type"  , typeof(IPacking) },
-                                            { "packing.alias" , string.Empty }
+                                            { "packing"  , typeof(IPacking) },
+                                            { "protocol" , typeof(IProtocol) },
                                         }
             };
         }

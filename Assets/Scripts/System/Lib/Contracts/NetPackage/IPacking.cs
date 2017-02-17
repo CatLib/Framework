@@ -13,14 +13,14 @@ namespace CatLib.Contracts.NetPackage
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        IPackage[] Decode(byte[] bytes);
+        byte[][] Decode(byte[] bytes);
 
         /// <summary>
         /// 封包
         /// </summary>
         /// <param name="bytes">字节数组</param>
         /// <returns></returns>
-        byte[] Encode(IPackage bytes);
+        byte[] Encode(byte[] bytes);
 
         /// <summary>
         /// 清空缓存数据

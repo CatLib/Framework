@@ -1,13 +1,15 @@
 ﻿using CatLib.Contracts.NetPackage;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using CatLib.Support;
+using CatLib.Base;
 
-namespace CatLib.NetPackge
+namespace CatLib.NetPackage
 {
     
     /// <summary>
-    /// CatLib 网络帧协议拆包器
+    /// CatLib Frame协议拆包器
+    /// 协议格式为 总包长+包体，其中包长为4字节网络字节序的整数，包体可以是普通文本或者二进制数据。
     /// </summary>
     public class CCatLibFramePacking : IPacking
     {
@@ -15,66 +17,35 @@ namespace CatLib.NetPackge
         /// <summary>
         /// 缓冲区
         /// </summary>
-        private byte[] buffer;
+        private CBuffer buffer;
 
         /// <summary>
         /// 解包
         /// </summary>
         /// <param name="bytes">字节数组</param>
         /// <returns></returns>
-        public IPackage[] Decode(byte[] bytes) {
+        public byte[][] Decode(byte[] bytes) {
 
-            if (buffer == null) {
-                buffer = bytes;
-            }else {
-                var newBuffer = new byte[buffer.Length + bytes.Length];
-                Buffer.BlockCopy(buffer, 0, newBuffer, 0, buffer.Length);
-                Buffer.BlockCopy(bytes, 0, newBuffer, buffer.Length, bytes.Length);
-                buffer = newBuffer;
-            }
-            List<IPackage> package = null;
-            while (true) {
+            buffer.Push(bytes);
+            if(buffer.Length < 4){ return null; }
 
-                int bodySize = 0;
-                if (buffer == null) { break; }
-                if (buffer.Length > 4)
-                {
-                    bodySize = BitConverter.ToInt32(buffer, 0);
-                    if (buffer.Length - 4 < bodySize) { break; }
-                }
+            List<byte[]> package = null;
+            int totalSize;
+            byte[] bodyBuffer;
+            while(buffer.Length >= 4){
 
-                if (bodySize <= 0)
-                {
-                    if (buffer.Length - 4 <= 0) { break; }
-                    byte[] newBuffer = new byte[buffer.Length - 4];
-                    Buffer.BlockCopy(buffer, 4, newBuffer, 0, newBuffer.Length);
-                    buffer = newBuffer;
-                    continue;
-                }
+                totalSize = BitConverter.ToInt32(buffer.Peek(4) , 0);
+                if(totalSize < buffer.Length){ break; }
 
-                byte[] bodyBuffer = new byte[bodySize];
-                Buffer.BlockCopy(buffer, 4, bodyBuffer, 0, bodySize);
+                buffer.Shift(4);
+                bodyBuffer = buffer.Shift(totalSize - 4);
 
-                if (buffer.Length - 4 - bodySize <= 0)
-                {
-                    buffer = null;
-                }
-                else
-                {
-                    byte[] newBuffer = new byte[buffer.Length - 4 - bodySize];
-                    Buffer.BlockCopy(buffer, 4 + bodySize, newBuffer, 0, newBuffer.Length);
-                    buffer = newBuffer;
-                }
-
-                //todo:: bodyBuffer is body byte
-                UnityEngine.Debug.Log(Encoding.Default.GetString(bodyBuffer));
+                if(package == null){ package = new List<byte[]>(); }
+                package.Add(bodyBuffer);
 
             }
 
-            if(package == null)
-            {
-                return null;
-            }
+            if(package == null){ return null; }
 
             return package.ToArray();
 
@@ -85,9 +56,11 @@ namespace CatLib.NetPackge
         /// </summary>
         /// <param name="bytes">字节数组</param>
         /// <returns></returns>
-        public byte[] Encode(IPackage bytes){
+        public byte[] Encode(byte[] bytes){
 
-            return null;
+            CBuffer newBuffer = bytes;
+            newBuffer.Unshift(newBuffer.Length.ToString().ToByte());
+            return newBuffer;
 
         }
 
@@ -96,7 +69,7 @@ namespace CatLib.NetPackge
         /// </summary>
         public void Clear()
         {
-            buffer = null;
+            buffer = new CBuffer();
         }
 
     }

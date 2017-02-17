@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 using CatLib.Container;
 using CatLib.Base;
-using CatLib.Lua;
-using CatLib.Contracts.Lua;
 using CatLib.Contracts.ResourcesSystem;
-using CatLib.Contracts.Event;
 using CatLib.Contracts.Network;
-using CatLib.Contracts.Base;
 using CatLib.Network;
-using System.Collections.Generic;
+using System.Text;
 
 namespace App
 {
@@ -18,7 +14,6 @@ namespace App
 
         public override void Init()
         {
-
             App.Event.One(CApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
 
@@ -61,7 +56,26 @@ namespace App
                 tcpConnect.Send("hello world\r\n".ToByte());
 
 
-                Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
+                CatLib.Support.CBuffer buff = new CatLib.Support.CBuffer();
+
+                buff.Push("helloworld\r\nhelloworld".ToByte());
+                int num = buff.IndexOf("\r\n".ToByte());
+
+                buff.Unshift("\r\n".ToByte());
+                var data = buff.Shift(2);
+                Debug.Log(data[0] + "," + data[1]);
+                if(Encoding.UTF8.GetString(data) == "\r\n"){
+                    
+                    Debug.Log("123");
+                }
+
+                buff.Push("999".ToByte());
+                Debug.Log(Encoding.UTF8.GetString(buff.Pop(3)));
+
+                Debug.Log(Encoding.UTF8.GetString(buff.Shift(buff.Length)));
+                Debug.Log(buff.Length);
+
+                UnityEngine.Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
 
             });
 

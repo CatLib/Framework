@@ -1,5 +1,4 @@
 ﻿using CatLib.Base;
-using CatLib.NetPackge;
 using CatLib.Container;
 using CatLib.Contracts.NetPackage;
 
@@ -10,6 +9,7 @@ namespace CatLib.NetPackage
     {
         public override void Register()
         {
+            App.Bind<CTextProtocol>().Alias<IProtocol>().Alias("protocol.text");
             App.Bind<CCatLibFramePacking>().Alias<IPacking>().Alias("frame");
         }
     }

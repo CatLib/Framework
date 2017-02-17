@@ -5,7 +5,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using CatLib.Contracts.NetPackage;
 using System;
-using CatLib.Contracts.Base;
 
 namespace CatLib.Network
 {
@@ -21,7 +20,9 @@ namespace CatLib.Network
         private int port;
 
         private CTcpConnector tcpConnector;
+
         private IPacking packer;
+        private IProtocol protocol;
 
         private bool stopMark = false;
         
@@ -31,11 +32,12 @@ namespace CatLib.Network
         /// <param name="config"></param>
         public void SetConfig(Hashtable config){
 
-            if(packer == null && config.ContainsKey("packing.alias")){
-                packer = App.Make(config["packing.alias"].ToString()) as IPacking;
+            if(packer == null && config.ContainsKey("packing")){
+                packer = App.Make(config["packing"].ToString()) as IPacking;
             }
-            if(packer == null && config.ContainsKey("packing.type")){
-                packer = App.Make(config["packing.type"].ToString()) as IPacking;
+
+            if(protocol == null && config.ContainsKey("protocol")){
+                protocol = App.Make(config["protocol"].ToString()) as IProtocol;
             }
             
             if(config.ContainsKey("host")){
@@ -81,18 +83,19 @@ namespace CatLib.Network
         }
 
         /// <summary>
-        /// 发送数据包
+        /// 加入发送队列
         /// </summary>
-        /// <param name="package"></param>
-        public void Send(IPackage package)
-        {
-            if(packer != null)
-            {
-                Send(packer.Encode(package));
-            }else
-            {
-                Send(package.PackageByte);
+        /// <param name="bytes"></param>
+        public void Send(IPackage package){
+
+            byte[] data;
+            if(protocol != null){
+                data = protocol.Encode(package);
+            }else{
+                data = package.ToByte();
             }
+            Send(data);
+
         }
 
         /// <summary>
@@ -101,6 +104,10 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         public void Send(byte[] bytes)
         {
+            if(packer != null)
+            {
+                bytes = packer.Encode(bytes);
+            }
             queue.Enqueue(bytes);
         }
 
@@ -165,12 +172,16 @@ namespace CatLib.Network
                 return;
             }
 
-            IPackage[] package = packer.Decode((args as CSocketMessageEventArgs).Message);
-            if(package != null)
+            byte[][] data = packer.Decode((args as CSocketMessageEventArgs).Message);
+            if(data != null)
             {
-                for(int i = 0; i < package.Length; i++)
+                for(int i = 0; i < data.Length; i++)
                 {
-                    args = new CPackageMessageEventArgs(package[i]);
+                    if(protocol == null){
+                        args = new CSocketMessageEventArgs(data[i]);
+                    }else{
+                        args = new CPackageMessageEventArgs(protocol.Decode(data[i]));
+                    }
                     Trigger(CTcpRequestEvents.ON_MESSAGE, args);
                 }
             }

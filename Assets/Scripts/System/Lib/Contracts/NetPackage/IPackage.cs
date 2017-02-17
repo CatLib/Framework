@@ -19,7 +19,7 @@ namespace CatLib.Contracts.NetPackage
         /// <summary>
         /// 数据包字节流
         /// </summary>
-        byte[] PackageByte{ get; }
+        byte[] ToByte();
     
     }
 }
