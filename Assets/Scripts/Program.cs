@@ -3,7 +3,7 @@ using System;
 using CatLib;
 using CatLib.Contracts;
 
-public class CProgram : MonoBehaviour {
+public class Program : MonoBehaviour {
 
     /// <summary>
     /// 初始化程序

@@ -2,7 +2,7 @@
 using CatLib;
 using CatLib.UpdateSystem;
 
-public class CAutoUpdateConfig : Configs{
+public class AutoUpdateConfig : Configs{
 
     /// <summary>
     /// 类

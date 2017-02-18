@@ -4,7 +4,7 @@ using CatLib;
 using CatLib.Network;
 using CatLib.Contracts.Network;
 
-public class CNetworkConfig : Configs {
+public class NetworkConfig : Configs {
 
     /// <summary>
     /// 类

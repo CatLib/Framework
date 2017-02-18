@@ -5,7 +5,7 @@ using CatLib.Network;
 using CatLib.Contracts.Network;
 using CatLib.Contracts.ResourcesSystem;
 
-public class CBootstrap : ServiceProvider
+public class Bootstrap : ServiceProvider
 {
 
     public override void Init()

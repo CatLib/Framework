@@ -15,7 +15,7 @@ namespace CatLib
         /// </summary>
         public void Bootstrap()
         {
-            foreach(Type t in CProviders.ServiceProviders)
+            foreach(Type t in Providers.ServiceProviders)
             {
                 App.Instance.Register(t);
             }

@@ -3,7 +3,7 @@ using System;
 using CatLib;
 using CatLib.Lua;
 
-public class CLuaConfig : Configs
+public class LuaConfig : Configs
 {
 
     /// <summary>

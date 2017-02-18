@@ -6,7 +6,7 @@ using CatLib.NetPackage;
 using CatLib.UpdateSystem;
 using CatLib.ResourcesSystem;
 
-public class CProviders{
+public class Providers{
 
     /// <summary>
     /// 服务提供者
@@ -23,7 +23,7 @@ public class CProviders{
                 typeof(DispatcherProvider),
                 typeof(NetworkProvider),
                 typeof(LuaProvider),
-                typeof(CBootstrap),
+                typeof(Bootstrap),
 
             };
         }
