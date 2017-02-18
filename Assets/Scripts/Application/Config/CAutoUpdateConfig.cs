@@ -1,11 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using CatLib;
 using CatLib.UpdateSystem;
-using System;
-using UnityEngine.Networking;
-using CatLib.Container;
 
-public class CAutoUpdateConfig : CConfig{
+public class CAutoUpdateConfig : Configs{
 
     /// <summary>
     /// 类
@@ -14,7 +11,7 @@ public class CAutoUpdateConfig : CConfig{
     {
         get
         {
-            return typeof(CAutoUpdate);
+            return typeof(AutoUpdate);
         }
     }
 

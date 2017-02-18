@@ -1,8 +1,9 @@
-﻿using CatLib.Lua;
+﻿
 using System;
-using CatLib.Container;
+using CatLib;
+using CatLib.Lua;
 
-public class CLuaConfig : CConfig
+public class CLuaConfig : Configs
 {
 
     /// <summary>
@@ -12,7 +13,7 @@ public class CLuaConfig : CConfig
     {
         get
         {
-            return typeof(CLua);
+            return typeof(LuaStore);
         }
     }
 

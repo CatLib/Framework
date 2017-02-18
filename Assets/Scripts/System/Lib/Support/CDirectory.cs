@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace CatLib.Support{
+namespace CatLib.FileSystem
+{
 
 	/// <summary>
 	/// 目录
@@ -133,7 +134,6 @@ namespace CatLib.Support{
 			
 			foreach (string filename in names)
 			{
-				string ext = Path.GetExtension(filename);
 				string name = filename.Replace('\\', '/');
 				string targetPath = copyPath + name.Replace(root, string.Empty);
 				if (!Directory.Exists(Path.GetDirectoryName(targetPath)))
@@ -144,7 +144,7 @@ namespace CatLib.Support{
 			}
 			foreach (string dir in dirs)
 			{
-				CDirectory.CopyTo(root, dir, copyPath);
+				CopyTo(root, dir, copyPath);
 			}
 		}
 

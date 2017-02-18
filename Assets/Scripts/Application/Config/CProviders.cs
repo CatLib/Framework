@@ -1,13 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using CatLib.UpdateSystem;
-using CatLib.ResourcesSystem;
-using App;
+﻿using System;
 using CatLib.Event;
 using CatLib.Lua;
 using CatLib.Network;
 using CatLib.NetPackage;
+using CatLib.UpdateSystem;
+using CatLib.ResourcesSystem;
 
 public class CProviders{
 
@@ -20,12 +17,12 @@ public class CProviders{
         {
             return new Type[] {
 
-                typeof(CNetPackageProvider),
-                typeof(CAutoUpdateProvider),
-                typeof(CResourcesProvider),
-                typeof(CDispatcherProvider),
-                typeof(CNetworkProvider),
-                typeof(CLuaProvider),
+                typeof(NetPackageProvider),
+                typeof(AutoUpdateProvider),
+                typeof(ResourcesProvider),
+                typeof(DispatcherProvider),
+                typeof(NetworkProvider),
+                typeof(LuaProvider),
                 typeof(CBootstrap),
 
             };

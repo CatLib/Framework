@@ -15,9 +15,9 @@ namespace CatLib.Contracts.Container
 
         bool IsStatic { get; }
 
-        ITmpData Needs(string service);
+        IGivenData Needs(string service);
 
-        ITmpData Needs<T>();
+        IGivenData Needs<T>();
 
         IBindData Alias<T>();
 

@@ -1,10 +1,10 @@
-﻿using CatLib.Container;
-using CatLib.Network;
-using System;
+﻿using System;
 using System.Collections;
+using CatLib;
+using CatLib.Network;
 using CatLib.Contracts.Network;
 
-public class CNetworkConfig : CConfig {
+public class CNetworkConfig : Configs {
 
     /// <summary>
     /// 类
@@ -13,7 +13,7 @@ public class CNetworkConfig : CConfig {
     {
         get
         {
-            return typeof(CNetwork);
+            return typeof(Network);
         }
     }
 

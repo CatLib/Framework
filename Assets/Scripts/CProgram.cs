@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-using CatLib.Base;
 using System;
 using CatLib;
-using CatLib.Contracts.Base;
+using CatLib.Contracts;
 
 public class CProgram : MonoBehaviour {
 
@@ -12,7 +10,7 @@ public class CProgram : MonoBehaviour {
     /// </summary>
     public void Awake()
     {
-        IApplication application = gameObject.AddComponent<CApplication>();
+        IApplication application = gameObject.AddComponent<CatLib.Application>();
         application.Bootstrap(BootStrap).Init();
     }
 
@@ -25,7 +23,7 @@ public class CProgram : MonoBehaviour {
         {
             return new Type[]
             {
-                typeof(CRegisterProviders)
+                typeof(RegisterProviders)
             };
         }
 
