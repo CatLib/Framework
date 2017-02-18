@@ -23,6 +23,7 @@ public class Providers{
                 typeof(DispatcherProvider),
                 typeof(NetworkProvider),
                 typeof(LuaProvider),
+                typeof(IOProvider),
                 typeof(Bootstrap),
 
             };

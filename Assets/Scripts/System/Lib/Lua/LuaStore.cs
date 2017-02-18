@@ -5,7 +5,7 @@ using XLua;
 using CatLib.Contracts;
 using CatLib.Contracts.Lua;
 using CatLib.Contracts.ResourcesSystem;
-using CatLib.FileSystem;
+using CatLib.Contracts.IO;
 
 namespace CatLib.Lua
 {
@@ -17,6 +17,9 @@ namespace CatLib.Lua
 
         [Dependency]
         public Configs Config { get; set; }
+
+        [Dependency]
+        public IDirectory Directory { get; set; }
 
         /// <summary>
         /// 垃圾回收间隔
@@ -73,7 +76,7 @@ namespace CatLib.Lua
             foreach (string file in filePath)
             {
 
-                FileInfo[] infos = CDirectory.Walk((Env.AssetPath + "/" + file));
+                FileInfo[] infos = Directory.Walk((Env.AssetPath + "/" + file));
 
                 foreach(var info in infos)
                 {

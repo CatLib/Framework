@@ -1,5 +1,4 @@
-﻿using CatLib.FileSystem;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -47,7 +46,7 @@ namespace CatLib.UpdateSystem{
 
         public UpdateList Read()
         {
-            if (CFile.Exists(path))
+            if (File.Exists(path))
             {
                 using (StreamReader sr = new StreamReader(path, Encoding.UTF8 , true))
                 {

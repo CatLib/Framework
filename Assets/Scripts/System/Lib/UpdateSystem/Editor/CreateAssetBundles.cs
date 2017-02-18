@@ -3,17 +3,18 @@ using UnityEngine;
 using System;
 using System.IO;
 using CatLib.Secret;
-using CatLib.FileSystem;
 
 namespace CatLib.UpdateSystem{
 
 	public class CreateAssetBundles{
 
 
-		/// <summary>
-		/// 编译Asset Bundle
-		/// </summary>
-		[MenuItem ("CatLib/Build AssetBundles")]
+        private static IO.Directory directory = new IO.Directory();
+
+        /// <summary>
+        /// 编译Asset Bundle
+        /// </summary>
+        [MenuItem ("CatLib/Build AssetBundles")]
 		public static void BuildAllAssetBundles ()
 		{
 			RuntimePlatform switchPlatform = Env.SwitchPlatform;
@@ -23,8 +24,8 @@ namespace CatLib.UpdateSystem{
             BuildAssetBundleName(Env.DataPath + Env.ResourcesBuildPath);
 
 			string releasePath = Env.DataPath + Env.ReleasePath + "/" + platform;
-			CDirectory.CreateDir(releasePath , CDirectory.Operations.EXISTS_TO_DELETE);
-			CDirectory.CopyTo(Env.DataPath + Env.ResourcesNoBuildPath , Env.DataPath + Env.ReleasePath + "/" + platform);
+            directory.Create(releasePath , true);
+            directory.CopyTo(Env.DataPath + Env.ResourcesNoBuildPath , Env.DataPath + Env.ReleasePath + "/" + platform);
 			BuildPipeline.BuildAssetBundles("Assets" + Env.ReleasePath + "/" + platform, 
 												BuildAssetBundleOptions.None ,
                                                 PlatformToBuildTarget(switchPlatform));
@@ -54,7 +55,7 @@ namespace CatLib.UpdateSystem{
 		/// <param name="path">路径</param>
 		protected static void BuildAssetBundleName(string path){
 
-			CDirectory.Walk(path , (file) => {
+            directory.Walk(path , (file) => {
 
 				if(!file.Name.EndsWith(".meta"))  
                 {  
@@ -74,7 +75,7 @@ namespace CatLib.UpdateSystem{
 		protected static void BuildFileBundleName(FileSystemInfo file , string basePath){
 
 			string extension = file.Extension;
-			string fullName = file.Standard();
+			string fullName = file.FullName.Standard();
 			string fileName = file.Name;
 			string baseFileName = fileName.Substring(0 , fileName.Length - extension.Length);
 			string assetName = fullName.Substring(basePath.Length);
@@ -108,11 +109,11 @@ namespace CatLib.UpdateSystem{
 		protected static void BuildListFile(string path){
 
 			UpdateList lst = new UpdateList(path);
-			CDirectory.Walk(path , (file)=>{
+            directory.Walk(path , (file)=>{
 
-                if (!file.Standard().EndsWith(".meta"))
+                if (!file.FullName.Standard().EndsWith(".meta"))
                 {
-                    string fullName = file.Standard();
+                    string fullName = file.FullName.Standard();
                     string assetName = fullName.Substring(path.Length);
                     lst.Append(assetName, MD5.ParseFile(file), file.Length);
                 }

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CatLib.Config
 {
 
-    public class LuaConfig : GenConfig
+    public class LuaGen : GenConfig
     {
 
 

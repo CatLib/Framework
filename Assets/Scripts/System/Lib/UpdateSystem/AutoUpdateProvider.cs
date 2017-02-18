@@ -1,4 +1,6 @@
-﻿using CatLib.Contracts.UpdateSystem;
+﻿using CatLib.Contracts.IO;
+using CatLib.Contracts.UpdateSystem;
+using System;
 using System.Collections;
 
 namespace CatLib.UpdateSystem
@@ -8,6 +10,8 @@ namespace CatLib.UpdateSystem
     /// </summary>
     public class AutoUpdateProvider : ServiceProvider
     {
+
+        public override Type[] ProviderDepend { get { return new Type[] { typeof(IFile) , typeof(IDirectory) }; } }
 
         public override ProviderProcess ProviderProcess
         {

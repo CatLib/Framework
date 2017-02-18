@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using CatLib.FileSystem;
 using CatLib.Contracts.ResourcesSystem;
+using CatLib.Contracts.IO;
 
 namespace CatLib.ResourcesSystem {
 
     public class Resources : Component , IResources
     {
+
+        [Dependency]
+        public IFile File { get; set; }
 
         /// <summary>
         /// 主依赖文件
@@ -319,7 +322,7 @@ namespace CatLib.ResourcesSystem {
             objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), variant , type);
             relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
 
-            if (!CFile.Exists(Env.AssetPath + "/" + relPath))
+            if (!File.Exists(Env.AssetPath + "/" + relPath))
             {
                 objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), string.Empty , type);
                 relPath = path.Substring(0, path.LastIndexOf('/'));

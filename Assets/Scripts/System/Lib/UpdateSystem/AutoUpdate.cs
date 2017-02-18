@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine.Networking;
 using CatLib.Secret;
-using CatLib.FileSystem;
 using CatLib.Contracts.UpdateSystem;
+using CatLib.Contracts.IO;
 
 namespace CatLib.UpdateSystem
 {
@@ -12,6 +12,12 @@ namespace CatLib.UpdateSystem
 
         [Dependency]
         public Configs Config { get; set; }
+
+        [Dependency]
+        public IFile File { get; set; }
+
+        [Dependency]
+        public IDirectory Directory { get; set; }
 
         protected bool isUpdate;
 
@@ -87,13 +93,13 @@ namespace CatLib.UpdateSystem
 
             UpdateList oldLst = new UpdateList(Env.AssetPath);
 
-            CDirectory.CreateDir(Env.AssetPath);
+            Directory.Create(Env.AssetPath);
 
-            CDirectory.Walk(Env.AssetPath , (file) => {
+            Directory.Walk(Env.AssetPath , (file) => {
 
-                if (!file.Standard().EndsWith(".meta"))
+                if (!file.FullName.Standard().EndsWith(".meta"))
                 {
-                    string fullName = file.Standard();
+                    string fullName = file.FullName.Standard();
                     string assetName = fullName.Substring(Env.AssetPath.Length);
                     oldLst.Append(assetName, MD5.ParseFile(file), file.Length);
                 }
@@ -123,10 +129,10 @@ namespace CatLib.UpdateSystem
             foreach (UpdateListField field in needDeleteLst)
             {
                 filePath = Env.AssetPath + field.Path;
-                if (CFile.Exists(filePath))
+                if (File.Exists(filePath))
                 {
                     base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION);
-                    CFile.Delete(filePath);
+                    File.Delete(filePath);
                 }
 
             }
@@ -162,8 +168,8 @@ namespace CatLib.UpdateSystem
                         base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_FAILD);
                         yield break;
                     }
-                    CDirectory.CreateDir(saveDir);
-                    CFile.Cover(savePath , request.downloadHandler.data, 0, request.downloadHandler.data.Length);
+                    Directory.Create(saveDir);
+                    File.Create(savePath , request.downloadHandler.data, 0, request.downloadHandler.data.Length);
                 }
                 
             }

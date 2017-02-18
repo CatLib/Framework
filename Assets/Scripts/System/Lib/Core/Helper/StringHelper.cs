@@ -16,6 +16,14 @@ namespace CatLib
             return '.' + array[array.Length - 1];
         }
 
+        /// <summary>
+        /// 标准化路径
+        /// </summary>
+        public static string Standard(this string path)
+        {
+            return path.Replace("\\", "/");
+        }
+
     }
 
 }

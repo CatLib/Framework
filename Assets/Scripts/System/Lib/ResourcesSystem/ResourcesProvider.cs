@@ -1,5 +1,6 @@
-﻿using CatLib.Contracts.ResourcesSystem;
-
+﻿using CatLib.Contracts.IO;
+using CatLib.Contracts.ResourcesSystem;
+using System;
 
 namespace CatLib.ResourcesSystem
 {
@@ -9,6 +10,8 @@ namespace CatLib.ResourcesSystem
     /// </summary>
     public class ResourcesProvider : ServiceProvider
     {
+
+        public override Type[] ProviderDepend { get { return new Type[] { typeof(IFile) }; } }
 
         public override void Register()
         {
