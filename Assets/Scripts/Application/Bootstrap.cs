@@ -69,8 +69,7 @@ public class Bootstrap : ServiceProvider
 
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("test.udp.noset.default");
             udpConnect2.Connect();
-            udpConnect2.Send("hello this is udp msg".ToByte() , "127.0.0.1" , 3315);
-            udpConnect2.Send("hello this is udp msg".ToByte(), "127.0.0.1", 3316);
+            udpConnect2.Send("hello world(client udp)".ToByte() , "127.0.0.1" , 3300);
 
 
             Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));

@@ -46,15 +46,11 @@ public class NetworkConfig : Configs {
                                         },
                 "test.udp" , new Hashtable(){
                                             { "host", "127.0.0.1" },
-                                            { "port", 3315 },
-                                            { "listen.host", IPAddress.Any },
-                                            { "listen.port", 3314 },
+                                            { "port", 3300 },
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , "network.protocol.text" },
                                         },
                 "test.udp.noset.default" , new Hashtable(){
-                                            { "listen.host", "0.0.0.0" },
-                                            { "listen.port", 3314 },
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , "network.protocol.text" },
                                         },

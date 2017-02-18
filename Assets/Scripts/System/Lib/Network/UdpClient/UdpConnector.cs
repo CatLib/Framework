@@ -21,8 +21,6 @@ namespace CatLib.Network
 
         protected UdpClient socket;
 
-        protected string listenHost;
-        protected int listenPort;
         protected IPEndPoint listenEndPoint;
 
         protected string remoteAddress;
@@ -33,10 +31,9 @@ namespace CatLib.Network
         public EventHandler OnError;
         public EventHandler OnMessage;
 
-        public UdpConnector(string host, int port)
+        public UdpConnector()
         {
-            listenHost = host;
-            listenPort = port;
+
         }
 
         public void Connect()
@@ -51,7 +48,6 @@ namespace CatLib.Network
 
             OnConnect(this, EventArgs.Empty);
 
-            listenEndPoint = new IPEndPoint(IPAddress.Parse(listenHost), listenPort);
             socket.BeginReceive(OnReadCallBack, null);
 
         }
@@ -101,7 +97,6 @@ namespace CatLib.Network
                     status = Status.ESTABLISH;
                     OnConnect(this, EventArgs.Empty);
 
-                    listenEndPoint = new IPEndPoint(IPAddress.Parse(listenHost), listenPort);
                     socket.BeginReceive(OnReadCallBack, null);
 
                 }

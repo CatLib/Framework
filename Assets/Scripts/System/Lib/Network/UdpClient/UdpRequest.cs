@@ -49,16 +49,6 @@ namespace CatLib.Network
             {
                 port = Convert.ToInt32(config["port"].ToString());
             }
-
-            if (config.ContainsKey("listen.host"))
-            {
-                listenHost = config["listen.host"].ToString();
-            }
-
-            if (config.ContainsKey("listen.port"))
-            {
-                listenPort = Convert.ToInt32(config["listen.port"].ToString());
-            }
         }
 
         /// <summary>
@@ -66,22 +56,11 @@ namespace CatLib.Network
         /// </summary>
         public void Connect()
         {
-            if (string.IsNullOrEmpty(listenHost))
-            {
-                OnError(this, new ErrorEventArgs(new ArgumentNullException("listen.host" , GetType().ToString() + ", Name:" + Name + " ,listen host is invalid")));
-                return;
-            }
-
-            if (listenPort < IPEndPoint.MinPort || listenPort > IPEndPoint.MaxPort)
-            {
-                OnError(this, new ErrorEventArgs(new ArgumentOutOfRangeException("listen.port" , GetType().ToString() + ", Name:" + Name + " ,listen port is invalid")));
-                return;
-            }
 
             Disconnect();
             if (packer != null) { packer.Clear(); }
 
-            udpConnector = new UdpConnector(listenHost, listenPort);
+            udpConnector = new UdpConnector();
             udpConnector.OnConnect += OnConnect;
             udpConnector.OnClose += OnClose;
             udpConnector.OnError += OnError;
