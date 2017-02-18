@@ -110,7 +110,7 @@ namespace CatLib
         public Application()
         {
 
-            mainThreadID = Thread.CurrentThread.ManagedThreadId;
+            mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
             Decorator((container, bindData, obj) =>
             {
@@ -333,7 +333,7 @@ namespace CatLib
         public void Trigger(string eventName, object sender, EventArgs e)
         {
 
-            if (mainThreadID == Thread.CurrentThread.ManagedThreadId)
+            if (mainThreadID == System.Threading.Thread.CurrentThread.ManagedThreadId)
             {
 
                 base.Event.Trigger(eventName, sender, e);

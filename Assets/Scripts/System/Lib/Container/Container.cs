@@ -35,6 +35,11 @@ namespace CatLib.Container
         private Dictionary<Type, Configs> config;
 
         /// <summary>
+        /// 锁定器
+        /// </summary>
+        private object locker = new object();
+
+        /// <summary>
         /// 是否拥有依赖的服务
         /// </summary>
         /// <param name="service"></param>
@@ -110,9 +115,12 @@ namespace CatLib.Container
         /// <returns></returns>
         public object Make(string service, params object[] param)
         {
-            service = Normalize(service);
-            service = GetAlias(service);
-            return NormalMake(service, true, param);
+            lock (locker)
+            {
+                service = Normalize(service);
+                service = GetAlias(service);
+                return NormalMake(service, true, param);
+            }
         }
 
         /// <summary>添加到静态内容</summary>
@@ -122,18 +130,24 @@ namespace CatLib.Container
         public void Instances(string service, object objectData)
         {
             if (objectData == null) { return; }
-            service = Normalize(service);
-            service = GetAlias(service);
 
-            if (instances.ContainsKey(service))
+            lock (locker)
             {
-                instances.Remove(service);
-            }
 
-            var bindData = GetBindData(service);
-            objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
-            
-            instances.Add(service, objectData);
+                service = Normalize(service);
+                service = GetAlias(service);
+
+                if (instances.ContainsKey(service))
+                {
+                    instances.Remove(service);
+                }
+
+                var bindData = GetBindData(service);
+                objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
+
+                instances.Add(service, objectData);
+
+            }
         }
 
         /// <summary>

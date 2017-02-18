@@ -6,6 +6,7 @@ using CatLib.NetPackage;
 using CatLib.UpdateSystem;
 using CatLib.ResourcesSystem;
 using CatLib.Buffer;
+using CatLib.Thread;
 
 public class Providers{
 
@@ -26,6 +27,7 @@ public class Providers{
                 typeof(LuaProvider),
                 typeof(IOProvider),
                 typeof(BufferProvider),
+                typeof(ThreadProvider),
                 typeof(Bootstrap),
 
             };

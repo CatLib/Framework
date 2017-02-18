@@ -1,4 +1,5 @@
-﻿using CatLib.Contracts.Network;
+﻿using CatLib.Contracts.Buffer;
+using CatLib.Contracts.Network;
 using System;
 
 namespace CatLib.Network
@@ -12,7 +13,7 @@ namespace CatLib.Network
 
         public override Type[] ProviderDepend
         {
-            get { return new Type[] { typeof(IPacking) }; }
+            get { return new Type[] { typeof(IPacking) , typeof(IBufferBuilder) }; }
         }
 
         public override void Register()

@@ -4,6 +4,8 @@ using CatLib;
 using CatLib.Network;
 using CatLib.Contracts.Network;
 using CatLib.Contracts.ResourcesSystem;
+using System.Threading;
+using CatLib.Contracts.Thread;
 
 public class Bootstrap : ServiceProvider
 {
@@ -12,6 +14,14 @@ public class Bootstrap : ServiceProvider
     {
         App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+
+            Thread subThread = new Thread(new ThreadStart(() => {
+
+                FMainThread.Instance.Enqueue(() => { new GameObject(); });
+
+            }));
+
+            subThread.Start();
 
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
