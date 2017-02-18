@@ -3,7 +3,6 @@ using System.Collections;
 using CatLib;
 using CatLib.Network;
 using CatLib.Contracts.Network;
-using System.Net;
 
 public class NetworkConfig : Configs {
 

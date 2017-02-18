@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CatLib.Support;
 using CatLib.Contracts.Network;
-
+using CatLib.Contracts.Buffer;
 
 namespace CatLib.NetPackage
 {
@@ -14,10 +13,11 @@ namespace CatLib.NetPackage
     public class FramePacking : IPacking
     {
 
-        /// <summary>
-        /// 缓冲区
-        /// </summary>
-        private BufferBuilder buffer;
+        [Dependency]
+        public IBufferBuilder Buffer { get; set; }
+
+        [Dependency]
+        public IBufferBuilder EncodeBuffer { get; set; }
 
         /// <summary>
         /// 解包
@@ -26,19 +26,19 @@ namespace CatLib.NetPackage
         /// <returns></returns>
         public byte[][] Decode(byte[] bytes) {
 
-            buffer.Push(bytes);
-            if(buffer.Length < 4){ return null; }
+            Buffer.Push(bytes);
+            if(Buffer.Length < 4){ return null; }
 
             List<byte[]> package = null;
             int totalSize;
             byte[] bodyBuffer;
-            while(buffer.Length >= 4){
+            while(Buffer.Length >= 4){
 
-                totalSize = BitConverter.ToInt32(buffer.Peek(4) , 0);
-                if(totalSize > buffer.Length){ break; }
+                totalSize = BitConverter.ToInt32(Buffer.Peek(4) , 0);
+                if(totalSize > Buffer.Length){ break; }
 
-                buffer.Shift(4);
-                bodyBuffer = buffer.Shift(totalSize - 4);
+                Buffer.Shift(4);
+                bodyBuffer = Buffer.Shift(totalSize - 4);
 
                 if(package == null){ package = new List<byte[]>(); }
                 package.Add(bodyBuffer);
@@ -58,9 +58,9 @@ namespace CatLib.NetPackage
         /// <returns></returns>
         public byte[] Encode(byte[] bytes){
 
-            BufferBuilder newBuffer = bytes;
-            newBuffer.Unshift((newBuffer.Length + 4).ToString().ToByte());
-            return newBuffer;
+            EncodeBuffer.Byte = bytes;
+            EncodeBuffer.Unshift((EncodeBuffer.Length + 4).ToString().ToByte());
+            return EncodeBuffer.Byte;
 
         }
 
@@ -69,7 +69,7 @@ namespace CatLib.NetPackage
         /// </summary>
         public void Clear()
         {
-            buffer = new BufferBuilder();
+            Buffer.Clear();
         }
 
     }

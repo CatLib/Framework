@@ -1,4 +1,5 @@
-﻿using CatLib.Contracts.Network;
+﻿using CatLib.Contracts.Buffer;
+using CatLib.Contracts.Network;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,12 @@ namespace CatLib.Network
 
         public string Name { get; set; }
 
+        [Dependency]
+        public IBufferBuilder DecodeRenderBuffer { get; set; }
+
+        [Dependency]
+        public IBufferBuilder EncodeRenderBuffer { get; set; }
+
         private Queue<object[]> queue = new Queue<object[]>();
 
         private string host;
@@ -21,6 +28,7 @@ namespace CatLib.Network
         private UdpConnector udpConnector;
 
         private IPacking packer;
+        private IRender[] render;
         private IProtocol protocol;
 
         private bool stopMark = false;
@@ -30,6 +38,23 @@ namespace CatLib.Network
             if (packer == null && config.ContainsKey("packing"))
             {
                 packer = App.Make(config["packing"].ToString()) as IPacking;
+            }
+
+            if (render == null && config.ContainsKey("render"))
+            {
+                if (config["render"] is Array)
+                {
+                    List<IRender> renders = new List<IRender>();
+                    foreach (object obj in config["render"] as Array)
+                    {
+                        renders.Add(App.Make(obj.ToString()) as IRender);
+                    }
+                    render = renders.ToArray();
+                }
+                else
+                {
+                    render = new IRender[] { App.Make(config["render"].ToString()) as IRender };
+                }
             }
 
             if (protocol == null && config.ContainsKey("protocol"))
@@ -98,10 +123,8 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         public void Send(byte[] bytes)
         {
-            if (packer != null)
-            {
-                bytes = packer.Encode(bytes);
-            }
+            bytes = SendEncode(bytes);
+            if (bytes == null) { return; }
             queue.Enqueue(new object[] { bytes });
         }
 
@@ -133,11 +156,36 @@ namespace CatLib.Network
         /// <param name="port"></param>
         public void Send(byte[] bytes , string host , int port)
         {
-            if (packer != null)
-            {
-                bytes = packer.Encode(bytes);
-            }
+            bytes = SendEncode(bytes);
+            if (bytes == null) { return; }
             queue.Enqueue(new object[] { bytes, host, port });
+        }
+
+        private byte[] SendEncode(byte[] bytes)
+        {
+            try
+            {
+                if (render != null && render.Length > 0)
+                {
+                    EncodeRenderBuffer.Byte = bytes;
+                    for (int n = render.Length - 1; n >= 0; n--)
+                    {
+                        render[n].Encode(EncodeRenderBuffer);
+                    }
+                    bytes = EncodeRenderBuffer.Byte;
+                }
+
+                if (packer != null)
+                {
+                    bytes = packer.Encode(bytes);
+                }
+                return bytes;
+            }
+            catch (Exception ex)
+            {
+                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                return null;
+            }
         }
 
         public IEnumerator StartServer()
@@ -239,6 +287,16 @@ namespace CatLib.Network
                     {
                         try
                         {
+
+                            if (render != null && render.Length > 0)
+                            {
+                                DecodeRenderBuffer.Byte = data[i];
+                                for (int n = 0; n < render.Length; n++)
+                                {
+                                    render[n].Decode(DecodeRenderBuffer);
+                                }
+                                data[i] = DecodeRenderBuffer.Byte;
+                            }
 
                             if (protocol == null)
                             {

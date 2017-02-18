@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using CatLib.Support;
 using CatLib.Contracts.Network;
-
+using CatLib.Contracts.Buffer;
+using CatLib;
 
 namespace CatLib.NetPackage
 {
@@ -13,10 +13,11 @@ namespace CatLib.NetPackage
     public class TextPacking : IPacking
     {
 
-        /// <summary>
-        /// 缓冲区
-        /// </summary>
-        private BufferBuilder buffer;
+        [Dependency]
+        public IBufferBuilder Buffer { get; set; }
+
+        [Dependency]
+        public IBufferBuilder EncodeBuffer { get; set; }
 
         /// <summary>
         /// 换行符
@@ -31,7 +32,7 @@ namespace CatLib.NetPackage
         public byte[][] Decode(byte[] bytes)
         {
 
-            buffer.Push(bytes);
+            Buffer.Push(bytes);
 
             int indexOf = 0;
             byte[] bodyBuffer;
@@ -39,11 +40,11 @@ namespace CatLib.NetPackage
 
             while (true)
             {
-                indexOf = buffer.IndexOf(lineFeed);
+                indexOf = Buffer.IndexOf(lineFeed);
                 if (indexOf < 0) { break; }
-                if(indexOf == 0) { buffer.Shift(2); continue; }
+                if(indexOf == 0) { Buffer.Shift(2); continue; }
 
-                bodyBuffer = buffer.Shift(indexOf);
+                bodyBuffer = Buffer.Shift(indexOf);
 
                 if (package == null) { package = new List<byte[]>(); }
                 package.Add(bodyBuffer);
@@ -62,10 +63,9 @@ namespace CatLib.NetPackage
         /// <returns></returns>
         public byte[] Encode(byte[] bytes)
         {
-
-            BufferBuilder newBuffer = bytes;
-            newBuffer.Push(lineFeed);
-            return newBuffer;
+            EncodeBuffer.Byte = bytes;
+            EncodeBuffer.Push(lineFeed);
+            return EncodeBuffer.Byte;
 
         }
 
@@ -74,7 +74,7 @@ namespace CatLib.NetPackage
         /// </summary>
         public void Clear()
         {
-            buffer = new BufferBuilder();
+            Buffer.Clear();
         }
 
     }

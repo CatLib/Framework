@@ -5,6 +5,7 @@ using CatLib.Network;
 using CatLib.NetPackage;
 using CatLib.UpdateSystem;
 using CatLib.ResourcesSystem;
+using CatLib.Buffer;
 
 public class Providers{
 
@@ -24,6 +25,7 @@ public class Providers{
                 typeof(NetworkProvider),
                 typeof(LuaProvider),
                 typeof(IOProvider),
+                typeof(BufferProvider),
                 typeof(Bootstrap),
 
             };

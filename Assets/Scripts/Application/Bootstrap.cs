@@ -50,7 +50,8 @@ public class Bootstrap : ServiceProvider
 
             });
 
-            
+            //链接配置见 NetworkConfig 配置文件
+
             IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("tcp.text");
             tcpConnect.Connect();
             tcpConnect.Send("hello this is tcp msg with [text]".ToByte());

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CatLib.Contracts.Buffer;
+using System;
 
-namespace CatLib.Support{
+namespace CatLib.Buffer{
 
-	public class BufferBuilder{
+	public class BufferBuilder : IBufferBuilder
+    {
 
 		private byte[] buffer = new byte[0];
 
@@ -19,6 +21,23 @@ namespace CatLib.Support{
 			return obj;
 
 		}
+
+        public byte[] Byte
+        {
+            get
+            {
+                return buffer;
+            }
+            set
+            {
+                if(value == null)
+                {
+                    buffer = new byte[0];
+                    return;
+                }
+                buffer = value;
+            }
+        }
 
 		public int IndexOf(params byte[] data){
 
@@ -50,8 +69,8 @@ namespace CatLib.Support{
 		public void Push(byte[] data){
 
 			var newBuffer = new byte[buffer.Length + data.Length];
-			Buffer.BlockCopy(buffer, 0, newBuffer, 0, buffer.Length);
-			Buffer.BlockCopy(data, 0, newBuffer, buffer.Length, data.Length);
+			System.Buffer.BlockCopy(buffer, 0, newBuffer, 0, buffer.Length);
+            System.Buffer.BlockCopy(data, 0, newBuffer, buffer.Length, data.Length);
 			buffer = newBuffer;
 
 		}
@@ -62,10 +81,10 @@ namespace CatLib.Support{
 			if(count > buffer.Length){ throw new ArgumentOutOfRangeException("count"); }
 
 			byte[] returnBuffer = new byte[count];
-			Buffer.BlockCopy(buffer, buffer.Length - returnBuffer.Length ,returnBuffer, 0, returnBuffer.Length);
+            System.Buffer.BlockCopy(buffer, buffer.Length - returnBuffer.Length ,returnBuffer, 0, returnBuffer.Length);
 
 			byte[] newBuffer = new byte[buffer.Length - returnBuffer.Length];
-			Buffer.BlockCopy(buffer, 0 ,newBuffer, 0, newBuffer.Length);
+            System.Buffer.BlockCopy(buffer, 0 ,newBuffer, 0, newBuffer.Length);
 
 			return returnBuffer;
 
@@ -74,17 +93,18 @@ namespace CatLib.Support{
 		public void Unshift(byte[] data){
 
 			var newBuffer = new byte[buffer.Length + data.Length];
-			Buffer.BlockCopy(data, 0, newBuffer, 0, data.Length);
-			Buffer.BlockCopy(buffer, 0, newBuffer, data.Length, buffer.Length);
+            System.Buffer.BlockCopy(data, 0, newBuffer, 0, data.Length);
+            System.Buffer.BlockCopy(buffer, 0, newBuffer, data.Length, buffer.Length);
 			buffer = newBuffer;
 
 		}
 
 		public byte[] Shift(int count = 1){
 
-			byte[] returnBuffer = Peek(count);
+            count = Math.Max(1, count);
+            byte[] returnBuffer = Peek(count);
 			byte[] newBuffer = new byte[buffer.Length - count];
-			Buffer.BlockCopy(buffer, count ,newBuffer, 0, newBuffer.Length);
+            System.Buffer.BlockCopy(buffer, count ,newBuffer, 0, newBuffer.Length);
 			buffer = newBuffer;
 			return returnBuffer;
 
@@ -96,10 +116,15 @@ namespace CatLib.Support{
 			if(count > buffer.Length){ throw new ArgumentOutOfRangeException("count"); }
 
 			byte[] newBuffer = new byte[count];
-			Buffer.BlockCopy(buffer, 0 ,newBuffer, 0, newBuffer.Length);
+            System.Buffer.BlockCopy(buffer, 0 ,newBuffer, 0, newBuffer.Length);
 			return newBuffer;
 
 		}
+
+        public void Clear()
+        {
+            buffer = new byte[0];
+        }
 
 		public int Length{
 

@@ -120,7 +120,7 @@ namespace CatLib.Network
             }
 
             var callbackBuff = new byte[read];
-            Buffer.BlockCopy(readBuffer, 0, callbackBuff, 0, read);
+            System.Buffer.BlockCopy(readBuffer, 0, callbackBuff, 0, read);
             var args = new SocketResponseEventArgs(callbackBuff);
             OnMessage(this, args);
 
