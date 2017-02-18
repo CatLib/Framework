@@ -20,9 +20,6 @@ namespace CatLib.Network
 
         private UdpConnector udpConnector;
 
-        private string listenHost;
-        private int listenPort;
-
         private IPacking packer;
         private IProtocol protocol;
 

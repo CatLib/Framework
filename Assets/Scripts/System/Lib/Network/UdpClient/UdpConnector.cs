@@ -58,7 +58,14 @@ namespace CatLib.Network
             remoteAddress = host;
             remotePort = port;
             status = Status.CONNECTING;
-            Dns.BeginGetHostAddresses(host, OnDnsGetHostAddressesComplete, null);
+
+            socket = new UdpClient();
+            socket.Connect(host , port);
+
+            status = Status.ESTABLISH;
+            OnConnect(this, EventArgs.Empty);
+
+            socket.BeginReceive(OnReadCallBack, null);
         }
 
         public void SendTo(byte[] bytes , string host , int port)
@@ -82,36 +89,6 @@ namespace CatLib.Network
             }
             status = Status.CLOSED;
             OnClose(this, EventArgs.Empty);
-        }
-
-        protected void OnDnsGetHostAddressesComplete(IAsyncResult result)
-        {
-            try
-            {
-                var ipAddress = Dns.EndGetHostAddresses(result);
-                if (ipAddress != null && ipAddress.Length > 0)
-                {
-                    socket = new UdpClient();
-                    socket.Connect(new IPEndPoint(ipAddress[0], remotePort));
-
-                    status = Status.ESTABLISH;
-                    OnConnect(this, EventArgs.Empty);
-
-                    socket.BeginReceive(OnReadCallBack, null);
-
-                }
-                else
-                {
-                    throw new Exception("can not connect to :" + remoteAddress);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                OnError(this, new ErrorEventArgs(ex));
-                Dispose();
-
-            }
         }
 
         protected void OnReadCallBack(IAsyncResult result)

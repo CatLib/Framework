@@ -27,33 +27,44 @@ public class NetworkConfig : Configs {
         {
             return new object[]
             {
-                "connector.test"    , new Hashtable(){ 
-                                            { "host" , "http://127.0.0.1/testcookie.php" },
-                                            { "timeout" , 1000 },
-                                    },
-                "connector.test.tcp" , new Hashtable(){ 
-                                            { "host", "127.0.0.1" },
-                                            { "port", 3317 },
+
+                //注意测试地址 3300 端口只能走 text 协议 (UDP协议)
+                //注意测试地址 3301 端口只能走 frame 协议 (UDP协议)
+
+                //注意测试地址 3302 端口只能走 text 协议 (TCP协议)
+                //注意测试地址 3303 端口只能走 frame 协议 (TCP协议)
+
+                "tcp.frame" , new Hashtable(){ 
+                                            { "host", "pvp.gift" },
+                                            { "port", 3303 },
                                             { "packing"  , typeof(IPacking) },
                                             { "protocol" , typeof(IProtocol) },
                                         },
 
-                "connector.test.tcp.packing.text" , new Hashtable(){
-                                            { "host", "127.0.0.1" },
-                                            { "port", 3317 },
+                "tcp.text" , new Hashtable(){
+                                            { "host", "pvp.gift" },
+                                            { "port", 3302 },
                                             { "packing"  , "network.packing.text" },
-                                            { "protocol" , "network.protocol.text" },
+                                            { "protocol" , typeof(IProtocol) },
                                         },
-                "test.udp" , new Hashtable(){
-                                            { "host", "127.0.0.1" },
+                "udp.bind.host.text" , new Hashtable(){
+                                            { "host", "pvp.gift" },
                                             { "port", 3300 },
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , "network.protocol.text" },
                                         },
-                "test.udp.noset.default" , new Hashtable(){
-                                            { "packing"  , "network.packing.text" },
+                "udp.bind.host.frame" , new Hashtable(){
+                                            { "host", "pvp.gift" },
+                                            { "port", 3301 },
+                                            { "packing"  , "network.packing.frame" },
                                             { "protocol" , "network.protocol.text" },
                                         },
+
+                "udp.unbind.host.frame" , new Hashtable(){
+                                            { "packing"  , "network.packing.frame" },
+                                            { "protocol" , "network.protocol.text" },
+                                        },
+
             };
         }
     }

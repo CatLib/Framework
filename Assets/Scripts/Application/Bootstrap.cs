@@ -50,26 +50,26 @@ public class Bootstrap : ServiceProvider
 
             });
 
-            /*IConnectorHttp httpConnect = FNetwork.Instance.Create<IConnectorHttp>("connector.test");
-            httpConnect.Post("", "helloworld".ToByte());*/
-
-            /*    
-            IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("connector.test.tcp");
+            
+            IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("tcp.text");
             tcpConnect.Connect();
-            tcpConnect.Send("connector.test.tcp\r\n".ToByte());
+            tcpConnect.Send("hello this is tcp msg with [text]".ToByte());
 
-            IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("connector.test.tcp.packing.text");
+            IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("tcp.frame");
             tcpConnect2.Connect();
-            tcpConnect2.Send("connector.test.tcp.packing.text".ToByte());*/
-
-            /*
-            IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("test.udp");
+            tcpConnect2.Send("hello this is tcp msg with [frame]".ToByte());
+            
+            IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.text");
             udpConnect.Connect();
-            udpConnect.Send("hello this is udp msg".ToByte());*/
+            udpConnect.Send("hello this is udp msg with [text]".ToByte());
 
-            IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("test.udp.noset.default");
+            IConnectorUdp udpConnectFrame = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.frame");
+            udpConnectFrame.Connect();
+            udpConnectFrame.Send("hello this is udp msg with [frame]".ToByte());
+
+            IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
-            udpConnect2.Send("hello world(client udp)".ToByte() , "127.0.0.1" , 3300);
+            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
 
 
             Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
