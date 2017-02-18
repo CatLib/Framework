@@ -2,11 +2,10 @@
 using CatLib.Contracts.Container;
 using CatLib.Contracts.Event;
 using System;
-using XLua;
 
 namespace CatLib.Contracts
 {
-    [LuaCallCSharp]
+
     public interface IApplication : IContainer , IDispatcher
     {
 
@@ -19,6 +18,12 @@ namespace CatLib.Contracts
         UnityEngine.Coroutine StartCoroutine(IEnumerator routine);
 
         long GetGuid();
+
+        bool IsMainThread { get; }
+
+        void MainThread(IEnumerator action);
+
+        void MainThread(Action action);
 
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using CatLib.Contracts.Network;
+using CatLib.Base;
 
 namespace CatLib.Network
 {
@@ -29,6 +30,8 @@ namespace CatLib.Network
         /// </summary>
         private Queue<UnityWebRequest> queue = new Queue<UnityWebRequest>();
 
+        private Hashtable triggerLevel;
+
         private Dictionary<string, string> headers;
         public Dictionary<string, string> Headers { get { return headers; } }
 
@@ -40,6 +43,14 @@ namespace CatLib.Network
 
             if(config.ContainsKey("timeout")){
                 throw new Exception(this.GetType().ToString() + " is not support [timeout] config");
+            }
+
+            if (config.ContainsKey("trigger"))
+            {
+                if (config["trigger"] is Hashtable)
+                {
+                    triggerLevel = config["trigger"] as Hashtable;
+                }
             }
         }
 
@@ -160,11 +171,32 @@ namespace CatLib.Network
                             headers.Walk((statu, val) => request.SetRequestHeader(statu.ToString(), val));
                         }
                         yield return request.Send();
+  
+                        TriggerLevel level = TriggerLevel.ALL;
+                        if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
+                        {
+                            level = (TriggerLevel)int.Parse(triggerLevel[HttpRequestEvents.ON_MESSAGE].ToString());
+                        }
+
                         var args = new WebRequestEventArgs(request);
 
-                        App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
-                        App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
-                        App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
+                        if ((level & TriggerLevel.SELF) > 0)
+                        {
+                            Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
+                        }
+
+                        if ((level & TriggerLevel.TYPE) > 0)
+                        {
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
+                        }
+
+                        if ((level & TriggerLevel.GLOBAL) > 0)
+                        {
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
+                        }
+
                     }
                 }
                 yield return new WaitForEndOfFrame();

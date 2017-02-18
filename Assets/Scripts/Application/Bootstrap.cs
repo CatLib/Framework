@@ -5,7 +5,7 @@ using CatLib.Network;
 using CatLib.Contracts.Network;
 using CatLib.Contracts.ResourcesSystem;
 using System.Threading;
-using CatLib.Contracts.Thread;
+using CatLib.Contracts.Event;
 
 public class Bootstrap : ServiceProvider
 {
@@ -17,7 +17,7 @@ public class Bootstrap : ServiceProvider
 
             Thread subThread = new Thread(new ThreadStart(() => {
 
-                FMainThread.Instance.Enqueue(() => { new GameObject(); });
+                App.MainThread(() => { new GameObject(); });
 
             }));
 
@@ -63,6 +63,19 @@ public class Bootstrap : ServiceProvider
             //链接配置见 NetworkConfig 配置文件
 
             IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("tcp.text");
+
+            (tcpConnect as IEvent).Event.One(SocketRequestEvents.ON_MESSAGE, (s1, e1) =>
+            {
+                if ((e1 as PackageResponseEventArgs).Response.Package is string)
+                {
+                    Debug.Log((e1 as PackageResponseEventArgs).Response.Package as string);
+                }
+                else
+                {
+                    Debug.Log(Encoding.UTF8.GetString(((e1 as PackageResponseEventArgs).Response.Package as byte[])));
+                }
+            });
+
             tcpConnect.Connect();
             tcpConnect.Send("hello this is tcp msg with [text]".ToByte());
 

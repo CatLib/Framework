@@ -98,14 +98,24 @@ namespace CatLib
         private int mainThreadID;
 
         /// <summary>
-        /// 调度队列
+        /// 主线程调度队列
         /// </summary>
-        private Queue<object[]> actionQueue = new Queue<object[]>();
+        private Queue<Action> mainThreadDispatcherQueue = new Queue<Action>();
+        /// <summary>
+        /// 主线程调度队列锁
+        /// </summary>
+        private object mainThreadDispatcherQueueLocker = new object();
 
         /// <summary>
-        /// 调度队列锁
+        /// 是否是主线程
         /// </summary>
-        private object actionLocker = new object();
+        public bool IsMainThread
+        {
+            get
+            {
+                return mainThreadID == System.Threading.Thread.CurrentThread.ManagedThreadId;
+            }
+        }
 
         public Application()
         {
@@ -219,7 +229,7 @@ namespace CatLib
         /// <param name="t"></param>
         public void Register(Type t)
         {
-            if (this.serviceProviders.ContainsKey(t)) { return; }
+            if (serviceProviders.ContainsKey(t)) { return; }
 
             ServiceProvider serviceProvider = this.Make<ServiceProvider>(t);
             if (serviceProvider != null)
@@ -237,11 +247,11 @@ namespace CatLib
             {
                 update[i].Update();
             }
-            lock (actionLocker)
+            lock (mainThreadDispatcherQueueLocker)
             {
-                while (actionQueue.Count > 0)
+                while (mainThreadDispatcherQueue.Count > 0)
                 {
-                    CallAction(actionQueue.Dequeue());
+                    mainThreadDispatcherQueue.Dequeue().Invoke();
                 }
             }
         }
@@ -299,6 +309,41 @@ namespace CatLib
 
         }
 
+        #region Main Thread Dispatcher
+
+        /// <summary>
+        /// 在主线程中调用
+        /// </summary>
+        /// <param name="action"></param>
+        public void MainThread(IEnumerator action)
+        {
+            if (IsMainThread) { StartCoroutine(action); return; }
+            lock (mainThreadDispatcherQueueLocker)
+            {
+                mainThreadDispatcherQueue.Enqueue(() => {
+                    StartCoroutine(action);
+                });
+            }
+        }
+
+        /// <summary>
+        /// 在主线程中调用
+        /// </summary>
+        /// <param name="action"></param>
+        public void MainThread(Action action)
+        {
+            if (IsMainThread) { action.Invoke(); return; }
+            MainThread(ActionWrapper(action));
+        }
+
+        private IEnumerator ActionWrapper(Action action)
+        {
+            action.Invoke();
+            yield return null;
+        }
+
+        #endregion
+
         #region Dispatcher
 
         public override IEventAchieve Event
@@ -333,20 +378,7 @@ namespace CatLib
         public void Trigger(string eventName, object sender, EventArgs e)
         {
 
-            if (mainThreadID == System.Threading.Thread.CurrentThread.ManagedThreadId)
-            {
-
-                base.Event.Trigger(eventName, sender, e);
-                return;
-
-            }
-
-            lock (actionLocker)
-            {
- 
-                actionQueue.Enqueue(new object[] { "trigger", eventName, sender, e });
-
-            }
+            base.Event.Trigger(eventName, sender, e);
 
         }
 
@@ -375,17 +407,6 @@ namespace CatLib
         {
 
             base.Event.OffOne(eventName, handler);
-
-        }
-
-        private void CallAction(object[] data)
-        {
-
-            switch (data[0] as string)
-            {
-                case "trigger": base.Event.Trigger(data[1] as string, data[2], data[3] as EventArgs); break;
-                default: break;
-            }
 
         }
 

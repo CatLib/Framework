@@ -55,6 +55,16 @@ namespace CatLib.Event
         /// <param name="e">参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
+
+            if (!App.Instance.IsMainThread)
+            {
+                App.Instance.MainThread(() =>
+                {
+                    Trigger(eventName, sender, e);
+                });
+                return;
+            }
+
             if (handlers == null) { handlers = new Dictionary<string, EventHandler>(); }
             if (handlersOne == null) { handlersOne = new Dictionary<string, EventHandler>(); }
             if (handlers.ContainsKey(eventName))
@@ -76,6 +86,16 @@ namespace CatLib.Event
         /// <returns></returns>
         public void On(string eventName, EventHandler handler)
         {
+
+            if (!App.Instance.IsMainThread)
+            {
+                App.Instance.MainThread(() =>
+                {
+                    On(eventName, handler);
+                });
+                return;
+            }
+
             if (handlers == null) { handlers = new Dictionary<string, EventHandler>(); }
             if (!handlers.ContainsKey(eventName))
             {
@@ -92,6 +112,16 @@ namespace CatLib.Event
         /// <param name="handler"></param>
         public void One(string eventName , EventHandler handler)
         {
+
+            if (!App.Instance.IsMainThread)
+            {
+                App.Instance.MainThread(() =>
+                {
+                    One(eventName, handler);
+                });
+                return;
+            }
+
             if (handlersOne == null) { handlersOne = new Dictionary<string, EventHandler>(); }
             if (!handlersOne.ContainsKey(eventName))
             {
@@ -108,7 +138,18 @@ namespace CatLib.Event
         /// <param name="handler">操作句柄</param>
         public void Off(string eventName, EventHandler handler)
         {
+
             if (handlers == null) { return; }
+
+            if (!App.Instance.IsMainThread)
+            {
+                App.Instance.MainThread(() =>
+                {
+                    Off(eventName, handler);
+                });
+                return;
+            }
+            
             if (handlers.ContainsKey(eventName))
             {
                 handlers[eventName] -= handler;
@@ -122,7 +163,18 @@ namespace CatLib.Event
         /// <param name="handler"></param>
         public void OffOne(string eventName , EventHandler handler)
         {
+
             if (handlersOne == null) { return; }
+
+            if (!App.Instance.IsMainThread)
+            {
+                App.Instance.MainThread(() =>
+                {
+                    OffOne(eventName, handler);
+                });
+                return;
+            }
+
             if (handlersOne.ContainsKey(eventName))
             {
                 handlersOne[eventName] -= handler;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using CatLib.Contracts.Network;
 using System.Net;
 using CatLib.Contracts.Buffer;
+using CatLib.Base;
 
 namespace CatLib.Network
 {
@@ -32,6 +33,8 @@ namespace CatLib.Network
         private IProtocol protocol;
 
         private bool stopMark = false;
+
+        private Hashtable triggerLevel;
         
         /// <summary>
         /// 设定配置
@@ -69,6 +72,14 @@ namespace CatLib.Network
 
             if(config.ContainsKey("port")){
                 port = Convert.ToInt32(config["port"].ToString());
+            }
+
+            if (config.ContainsKey("trigger"))
+            {
+                if(config["trigger"] is Hashtable)
+                {
+                    triggerLevel = config["trigger"] as Hashtable;
+                }
             }
 
         }
@@ -291,11 +302,30 @@ namespace CatLib.Network
         /// <param name="args">参数</param>
         private void Trigger(string eventName , EventArgs args)
         {
-            App.Trigger(eventName, this, args);
-            App.Trigger(eventName + TypeGuid, this, args);
-            App.Trigger(eventName + GetType().ToString(), this, args);
-            App.Trigger(eventName + typeof(IConnectorTcp).ToString(), this, args);
-            App.Trigger(eventName + typeof(IConnectorSocket).ToString(), this, args);
+
+            TriggerLevel level = TriggerLevel.ALL;
+            if(triggerLevel != null && triggerLevel.ContainsKey(eventName))
+            {
+                level = (TriggerLevel)int.Parse(triggerLevel[eventName].ToString());
+            }
+
+            if ((level & TriggerLevel.SELF) > 0)
+            {
+                Event.Trigger(eventName, this, args);
+                App.Trigger(eventName + TypeGuid, this, args);
+            }
+
+            if ((level & TriggerLevel.TYPE) > 0)
+            {
+                App.Trigger(eventName + GetType().ToString(), this, args);
+                App.Trigger(eventName + typeof(IConnectorTcp).ToString(), this, args);
+                App.Trigger(eventName + typeof(IConnectorSocket).ToString(), this, args);
+            }
+
+            if ((level & TriggerLevel.GLOBAL) > 0)
+            {
+                App.Trigger(eventName, this, args);
+            }
         }
 
     }

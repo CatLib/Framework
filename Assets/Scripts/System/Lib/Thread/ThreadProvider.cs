@@ -1,6 +1,4 @@
-﻿using CatLib.Contracts.Thread;
-
-namespace CatLib.Thread
+﻿namespace CatLib.Thread
 {
 
     public class ThreadProvider : ServiceProvider
@@ -8,7 +6,7 @@ namespace CatLib.Thread
 
         public override void Register()
         {
-            App.Singleton<MainThreadDispatcher>().Alias<IMainThreadDispatcher>();
+
         }
     }
 

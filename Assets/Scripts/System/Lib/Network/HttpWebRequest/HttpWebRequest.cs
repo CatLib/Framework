@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using System;
+using CatLib.Base;
 
 namespace CatLib.Network
 {
@@ -42,6 +43,8 @@ namespace CatLib.Network
         /// </summary>
         private Queue<HttpWebRequestEntity> queue = new Queue<HttpWebRequestEntity>();
 
+        private Hashtable triggerLevel;
+
         private Dictionary<string, string> headers;
         public Dictionary<string, string> Headers { get { return headers; } }
 
@@ -53,6 +56,14 @@ namespace CatLib.Network
 
             if(config.ContainsKey("timeout")){
                 timeout = Convert.ToInt32(config["timeout"].ToString());
+            }
+
+            if (config.ContainsKey("trigger"))
+            {
+                if (config["trigger"] is Hashtable)
+                {
+                    triggerLevel = config["trigger"] as Hashtable;
+                }
             }
         }
 
@@ -155,10 +166,30 @@ namespace CatLib.Network
 
                         yield return request.Send();
 
+                        TriggerLevel level = TriggerLevel.ALL;
+                        if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
+                        {
+                            level = (TriggerLevel)int.Parse(triggerLevel[HttpRequestEvents.ON_MESSAGE].ToString());
+                        }
+
                         var args = new HttpRequestEventArgs(request);
-                        App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
-                        App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
-                        App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
+
+                        if ((level & TriggerLevel.SELF) > 0)
+                        {
+                            Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
+                        }
+
+                        if ((level & TriggerLevel.TYPE) > 0)
+                        {
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
+                        }
+
+                        if ((level & TriggerLevel.GLOBAL) > 0)
+                        {
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
+                        }
                         
                     }
                 }

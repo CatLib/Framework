@@ -3,6 +3,7 @@ using System.Collections;
 using CatLib;
 using CatLib.Network;
 using CatLib.Contracts.Network;
+using CatLib.Base;
 
 public class NetworkConfig : Configs {
 
@@ -38,6 +39,9 @@ public class NetworkConfig : Configs {
                                             { "port", 3303 },
                                             { "packing"  , typeof(IPacking) },
                                             { "protocol" , typeof(IProtocol) },
+                                            { "trigger" , new Hashtable() {
+                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.SELF }
+                                            } }
                                         },
 
                 "tcp.text" , new Hashtable(){
@@ -45,6 +49,9 @@ public class NetworkConfig : Configs {
                                             { "port", 3302 },
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , typeof(IProtocol) },
+                                            { "trigger" , new Hashtable() {
+                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.SELF | TriggerLevel.TYPE }
+                                            } }
                                         },
                 "udp.bind.host.text" , new Hashtable(){
                                             { "host", "pvp.gift" },
