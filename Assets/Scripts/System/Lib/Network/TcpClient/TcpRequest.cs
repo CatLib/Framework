@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using CatLib.Contracts.Network;
+using System.Net;
 
 namespace CatLib.Network
 {
@@ -55,17 +56,14 @@ namespace CatLib.Network
         {
 
             if(string.IsNullOrEmpty(host)){
-
-                OnError(this, new ErrorEventArgs(new Exception(GetType().ToString() + ", Name:" + Name + " , host is invalid")));
+                OnError(this, new ErrorEventArgs(new ArgumentNullException("host" , GetType().ToString() + ", Name:" + Name + " , host is invalid")));
                 return;
-
             }
 
-            if(port <= 0){
-
-                OnError(this, new ErrorEventArgs(new Exception(GetType().ToString() + ", Name:" + Name + " , port is invalid")));
+            if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+            {
+                OnError(this, new ErrorEventArgs(new ArgumentOutOfRangeException("port" , GetType().ToString() + ", Name:" + Name + " , port is invalid")));
                 return;
-
             }
 
             Disconnect();
@@ -118,7 +116,7 @@ namespace CatLib.Network
                 {
                     if (tcpConnector != null && tcpConnector.CurrentStatus == TcpConnector.Status.ESTABLISH)
                     {
-                        tcpConnector.Write(queue.Dequeue());
+                        tcpConnector.Send(queue.Dequeue());
                     }
                     else { break; }
                 }
@@ -133,7 +131,7 @@ namespace CatLib.Network
         /// <param name="args"></param>
         private void OnConnect(object sender , EventArgs args)
         {
-            Trigger(TcpRequestEvents.ON_CONNECT, args);
+            Trigger(SocketRequestEvents.ON_CONNECT, args);
         }
 
         /// <summary>
@@ -143,7 +141,7 @@ namespace CatLib.Network
         /// <param name="args"></param>
         private void OnClose(object sender, EventArgs args)
         {
-            Trigger(TcpRequestEvents.ON_CLOSE, args);
+            Trigger(SocketRequestEvents.ON_CLOSE, args);
         }
 
         /// <summary>
@@ -153,7 +151,7 @@ namespace CatLib.Network
         /// <param name="args"></param>
         private void OnError(object sender, EventArgs args)
         {
-            Trigger(TcpRequestEvents.ON_ERROR, args);
+            Trigger(SocketRequestEvents.ON_ERROR, args);
         }
 
         /// <summary>
@@ -166,7 +164,7 @@ namespace CatLib.Network
 
             if(packer == null)
             {
-                Trigger(TcpRequestEvents.ON_MESSAGE, args);
+                Trigger(SocketRequestEvents.ON_MESSAGE, args);
                 return;
             }
 
@@ -188,19 +186,19 @@ namespace CatLib.Network
                             {
                                 args = new PackageResponseEventArgs(protocol.Decode(data[i]));
                             }
-                            Trigger(TcpRequestEvents.ON_MESSAGE, args);
+                            Trigger(SocketRequestEvents.ON_MESSAGE, args);
 
                         }
                         catch (Exception ex)
                         {
-                            Trigger(TcpRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                            Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
                         }
                     }
                 }
             }
             catch(Exception ex)
             {
-                Trigger(TcpRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
                 Disconnect();
             }
 
@@ -238,6 +236,7 @@ namespace CatLib.Network
             App.Trigger(eventName + TypeGuid, this, args);
             App.Trigger(eventName + GetType().ToString(), this, args);
             App.Trigger(eventName + typeof(IConnectorTcp).ToString(), this, args);
+            App.Trigger(eventName + typeof(IConnectorSocket).ToString(), this, args);
         }
 
     }

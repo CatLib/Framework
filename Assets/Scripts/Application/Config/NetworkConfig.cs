@@ -3,6 +3,7 @@ using System.Collections;
 using CatLib;
 using CatLib.Network;
 using CatLib.Contracts.Network;
+using System.Net;
 
 public class NetworkConfig : Configs {
 
@@ -42,7 +43,21 @@ public class NetworkConfig : Configs {
                                             { "port", 3317 },
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , "network.protocol.text" },
-                                        }
+                                        },
+                "test.udp" , new Hashtable(){
+                                            { "host", "127.0.0.1" },
+                                            { "port", 3315 },
+                                            { "listen.host", IPAddress.Any },
+                                            { "listen.port", 3314 },
+                                            { "packing"  , "network.packing.text" },
+                                            { "protocol" , "network.protocol.text" },
+                                        },
+                "test.udp.noset.default" , new Hashtable(){
+                                            { "listen.host", "0.0.0.0" },
+                                            { "listen.port", 3314 },
+                                            { "packing"  , "network.packing.text" },
+                                            { "protocol" , "network.protocol.text" },
+                                        },
             };
         }
     }

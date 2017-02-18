@@ -22,7 +22,7 @@ public class Bootstrap : ServiceProvider
 
             });
 
-            App.On(TcpRequestEvents.ON_MESSAGE + typeof(IConnectorTcp).ToString(), (obj1, obj2) =>
+            App.On(SocketRequestEvents.ON_MESSAGE + typeof(IConnectorSocket).ToString(), (obj1, obj2) =>
             {
 
                 if ((obj2 as PackageResponseEventArgs).Response.Package is string)
@@ -35,7 +35,7 @@ public class Bootstrap : ServiceProvider
 
             });
 
-            App.On(TcpRequestEvents.ON_CONNECT, (obj1, obj2) =>
+            App.On(SocketRequestEvents.ON_CONNECT, (obj1, obj2) =>
             {
 
                 Debug.Log("on connect");
@@ -43,7 +43,7 @@ public class Bootstrap : ServiceProvider
             });
 
 
-            App.On(TcpRequestEvents.ON_ERROR, (obj1, obj2) =>
+            App.On(SocketRequestEvents.ON_ERROR, (obj1, obj2) =>
             {
 
                 Debug.Log("on tcp error:" + (obj2 as ErrorEventArgs).Error.Message);
@@ -53,15 +53,25 @@ public class Bootstrap : ServiceProvider
             /*IConnectorHttp httpConnect = FNetwork.Instance.Create<IConnectorHttp>("connector.test");
             httpConnect.Post("", "helloworld".ToByte());*/
 
-                
+            /*    
             IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("connector.test.tcp");
             tcpConnect.Connect();
             tcpConnect.Send("connector.test.tcp\r\n".ToByte());
 
             IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("connector.test.tcp.packing.text");
             tcpConnect2.Connect();
-            tcpConnect2.Send("connector.test.tcp.packing.text".ToByte());
-                
+            tcpConnect2.Send("connector.test.tcp.packing.text".ToByte());*/
+
+            /*
+            IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("test.udp");
+            udpConnect.Connect();
+            udpConnect.Send("hello this is udp msg".ToByte());*/
+
+            IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("test.udp.noset.default");
+            udpConnect2.Connect();
+            udpConnect2.Send("hello this is udp msg".ToByte() , "127.0.0.1" , 3315);
+            udpConnect2.Send("hello this is udp msg".ToByte(), "127.0.0.1", 3316);
+
 
             Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
 

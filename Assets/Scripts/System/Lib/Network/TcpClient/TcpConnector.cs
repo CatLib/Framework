@@ -48,10 +48,10 @@ namespace CatLib.Network
             Dns.BeginGetHostAddresses(remoteAddress, OnDnsGetHostAddressesComplete, null);
         }
 
-        public void Write(byte[] bytes)
+        public void Send(byte[] bytes)
         {
             if (status != Status.ESTABLISH) { return; }
-            networkStream.BeginWrite(bytes, 0, bytes.Length, OnWriteCallBack, socket);
+            networkStream.BeginWrite(bytes, 0, bytes.Length, OnSendCallBack, socket);
         }
 
         public void Dispose()
@@ -129,7 +129,7 @@ namespace CatLib.Network
 
         }
 
-        protected void OnWriteCallBack(IAsyncResult result)
+        protected void OnSendCallBack(IAsyncResult result)
         {
 
             try{

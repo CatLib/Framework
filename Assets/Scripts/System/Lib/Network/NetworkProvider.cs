@@ -21,6 +21,7 @@ namespace CatLib.Network
             App.Bind<HttpWebRequest>().Alias<IConnectorHttp>();
             App.Bind<WebRequest>().Alias("network.webrequest");
             App.Bind<TcpRequest>().Alias<IConnectorTcp>();
+            App.Bind<UdpRequest>().Alias<IConnectorUdp>();
         }
 
 

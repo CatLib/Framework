@@ -21,5 +21,15 @@ namespace CatLib.Contracts.Network
         /// <param name="package">数据包</param>
         void Send(IPackage package);
 
+        /// <summary>
+        /// 连接
+        /// </summary>
+        void Connect();
+
+        /// <summary>
+        /// 释放连接
+        /// </summary>
+        void Disconnect();
+
     }
 }
