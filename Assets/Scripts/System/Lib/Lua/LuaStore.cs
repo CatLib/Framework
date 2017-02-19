@@ -44,10 +44,10 @@ namespace CatLib.Lua
 
         public void Update()
         {
-            if (Time.time - LuaBehaviour.lastGCTime > GC_INTERVAL)
+            if (App.Time.Time - LuaBehaviour.lastGCTime > GC_INTERVAL)
             {
                 LuaEnv.Tick();
-                LuaBehaviour.lastGCTime = Time.time;
+                LuaBehaviour.lastGCTime = App.Time.Time;
             }
         }
 

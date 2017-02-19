@@ -25,11 +25,11 @@ public class Bootstrap : ServiceProvider
             {
                 int i = 0;
                 i++;
-            },()=>
+            }).Delay(5).OnComplete(() =>
             {
                 new GameObject("sub thread complete");
                 Debug.Log("sub thread complete");
-            });
+            }).Start();
 
             subThread.Start();
 

@@ -7,6 +7,7 @@ using CatLib.UpdateSystem;
 using CatLib.ResourcesSystem;
 using CatLib.Buffer;
 using CatLib.Thread;
+using CatLib.Time;
 
 public class Providers{
 
@@ -28,6 +29,7 @@ public class Providers{
                 typeof(IOProvider),
                 typeof(BufferProvider),
                 typeof(ThreadProvider),
+                typeof(TimeProvider),
                 typeof(Bootstrap),
 
             };

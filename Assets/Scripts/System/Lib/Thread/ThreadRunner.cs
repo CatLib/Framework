@@ -1,5 +1,7 @@
 ﻿
+using CatLib.Contracts;
 using CatLib.Contracts.Thread;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace CatLib.Thread
@@ -8,61 +10,87 @@ namespace CatLib.Thread
     /// <summary>
     /// 多线程运行器
     /// </summary>
-    public class ThreadRuner : IThread
+    public class ThreadRuner : IThread , IUpdate
     {
 
-        public void Task(System.Action task)
-        {
-            Task(task, null);
-        }
+        private List<TaskRunner> taskRunner = new List<TaskRunner>();
+        private ReaderWriterLockSlim taskRunnerLocker = new ReaderWriterLockSlim();
 
-        public void Task(System.Action task, System.Action onComplete)
+        public ITask Task(System.Action task)
         {
-            Task(task, onComplete, null);
-        }
-
-        public void Task(System.Action task, System.Action onComplete, System.Action<System.Exception> onError)
-        {
-            var taskRunner = new TaskRunner
+            var taskRunner = new TaskRunner(this)
             {
-                OnComplete = onComplete,
-                OnError = onError,
                 Task = task,
                 ReturnResult = false,
             };
-
-            AddTask(taskRunner);
+            return taskRunner;
         }
 
-
-        public void Task(System.Func<object> task)
-        {
-            Task(task, null);
-        }
-
-        public void Task(System.Func<object> task, System.Action<object> onComplete)
-        {
-            Task(task, onComplete, null);
-        }
-
-        public void Task(System.Func<object> task, System.Action<object> onComplete, System.Action<System.Exception> onError)
+        public ITask Task(System.Func<object> task)
         {
 
-            var taskRunner = new TaskRunner
+            var taskRunner = new TaskRunner(this)
             {
-                OnCompleteWithResult = onComplete,
-                OnError = onError,
                 TaskWithResult = task,
                 ReturnResult = true,
             };
 
-            AddTask(taskRunner);
+            return taskRunner;
 
         }
 
-        private void AddTask(TaskRunner taskRunner)
+        public void AddTask(TaskRunner taskRunner)
         {
-            ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadExecuter), taskRunner);
+            taskRunner.StartTime = App.Instance.Time.Time;
+            if (taskRunner.DelayTime > 0)
+            {
+                taskRunnerLocker.EnterWriteLock();
+                try
+                {
+                    this.taskRunner.Add(taskRunner);
+                }
+                finally
+                {
+                    taskRunnerLocker.ExitWriteLock();
+                }
+            }
+            else
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadExecuter), taskRunner);
+            }
+        }
+
+        public void Update()
+        {
+            taskRunnerLocker.EnterReadLock();
+            var handlersToRemove = new bool[taskRunner.Count];
+
+            try
+            {
+                for (var i = 0; i < taskRunner.Count; ++i)
+                {
+                    var runner = taskRunner[i];
+                    if ((runner.StartTime + runner.DelayTime) <= App.Instance.Time.Time)
+                    {
+                        ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadExecuter), runner);
+                        handlersToRemove[i] = true;
+                    }
+                }
+            }
+            finally { taskRunnerLocker.ExitReadLock(); }
+
+            taskRunnerLocker.EnterWriteLock();
+            try
+            {
+                for (var i = handlersToRemove.Length - 1; i > -1; --i)
+                {
+                    if (handlersToRemove[i])
+                    {
+                        taskRunner.RemoveAt(i);
+                    }
+                }
+            }
+            finally { taskRunnerLocker.ExitWriteLock(); }
         }
 
         private void ThreadExecuter(object state)
@@ -88,43 +116,42 @@ namespace CatLib.Thread
         {
             try
             {
+                object result = null;
                 if (taskRunner.ReturnResult)
                 {
-                    var result = taskRunner.TaskWithResult();
-                    if (taskRunner.OnCompleteWithResult != null)
-                    {
-                        App.Instance.MainThread(() =>
-                        {
-                            taskRunner.OnCompleteWithResult(result);
-                        });
-                    }
+                    result = taskRunner.TaskWithResult();
                 }
                 else
                 {
                     taskRunner.Task();
-                    if (taskRunner.OnComplete != null)
+                }
+
+                if (taskRunner.Complete != null)
+                {
+                    App.Instance.MainThread(() =>
                     {
-                        App.Instance.MainThread(() =>
-                        {
-                            taskRunner.OnComplete();
-                        });
-                    }
+                        taskRunner.Complete();
+                    });
+                }
+
+                if (taskRunner.CompleteWithResult != null)
+                {
+                    App.Instance.MainThread(() =>
+                    {
+                        taskRunner.CompleteWithResult(result);
+                    });
                 }
 
             }
             catch (System.Exception exception)
             {
-                if (taskRunner.OnError != null)
+                if (taskRunner.Error != null)
                 {
                     App.Instance.MainThread(() =>
                     {
-                        taskRunner.OnError(exception);
+                        taskRunner.Error(exception);
                     });
                 }
-            }
-            finally
-            {
-                taskRunner.IsComplete = true;
             }
         }
 

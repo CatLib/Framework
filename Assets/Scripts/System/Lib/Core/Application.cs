@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using CatLib.Contracts;
 using CatLib.Contracts.Event;
+using CatLib.Contracts.Time;
 
 namespace CatLib
 {
@@ -107,6 +108,11 @@ namespace CatLib
         private object mainThreadDispatcherQueueLocker = new object();
 
         /// <summary>
+        /// 时间系统
+        /// </summary>
+        private ITime time;
+
+        /// <summary>
         /// 是否是主线程
         /// </summary>
         public bool IsMainThread
@@ -114,6 +120,25 @@ namespace CatLib
             get
             {
                 return mainThreadID == System.Threading.Thread.CurrentThread.ManagedThreadId;
+            }
+        }
+
+        /// <summary>
+        /// 时间
+        /// </summary>
+        public ITime Time
+        {
+            get
+            {
+                if(process <= StartProcess.ON_INITED)
+                {
+                    throw new Exception("can not call Time , because framework is not inited");
+                }
+                if (time == null)
+                {
+                    time = Make(typeof(ITime).ToString()) as ITime;
+                }
+                return time;
             }
         }
 

@@ -2,6 +2,7 @@
 using CatLib.Contracts.Container;
 using CatLib.Contracts.Event;
 using System;
+using CatLib.Contracts.Time;
 
 namespace CatLib.Contracts
 {
@@ -24,6 +25,8 @@ namespace CatLib.Contracts
         void MainThread(IEnumerator action);
 
         void MainThread(Action action);
+
+        ITime Time { get; }
 
     }
 
