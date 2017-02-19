@@ -34,7 +34,9 @@ namespace CatLib.Lua
         /// <summary>
         /// Lua 虚拟机
         /// </summary>
-        public LuaEnv LuaEnv { get { return luaEnv; } } 
+        public LuaEnv LuaEnv { get { return luaEnv; } }
+
+        private float lastGC = 0;
 
         public LuaStore(){
 
@@ -44,10 +46,10 @@ namespace CatLib.Lua
 
         public void Update()
         {
-            if (App.Time.Time - LuaBehaviour.lastGCTime > GC_INTERVAL)
+            if (App.Time.Time - lastGC > GC_INTERVAL)
             {
                 LuaEnv.Tick();
-                LuaBehaviour.lastGCTime = App.Time.Time;
+                lastGC = App.Time.Time;
             }
         }
 

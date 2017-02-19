@@ -10,7 +10,7 @@ namespace CatLib.Thread
     /// <summary>
     /// 多线程运行器
     /// </summary>
-    public class ThreadRuner : IThread , IUpdate
+    public class ThreadRuner : Component , IThread , IUpdate
     {
 
         private List<TaskRunner> taskRunner = new List<TaskRunner>();
@@ -41,7 +41,7 @@ namespace CatLib.Thread
 
         public void AddTask(TaskRunner taskRunner)
         {
-            taskRunner.StartTime = App.Instance.Time.Time;
+            taskRunner.StartTime = App.Time.Time;
             if (taskRunner.DelayTime > 0)
             {
                 taskRunnerLocker.EnterWriteLock();
@@ -70,7 +70,7 @@ namespace CatLib.Thread
                 for (var i = 0; i < taskRunner.Count; ++i)
                 {
                     var runner = taskRunner[i];
-                    if ((runner.StartTime + runner.DelayTime) <= App.Instance.Time.Time)
+                    if ((runner.StartTime + runner.DelayTime) <= App.Time.Time)
                     {
                         ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadExecuter), runner);
                         handlersToRemove[i] = true;
@@ -100,7 +100,7 @@ namespace CatLib.Thread
                 if (typeof(TaskRunner) == state.GetType()) { RunTaskThread((TaskRunner)state); }
                 else
                 {
-                    App.Instance.Trigger(ThreadEvents.ON_THREAD_EXECURE_ERROR, 
+                    App.Trigger(ThreadEvents.ON_THREAD_EXECURE_ERROR, 
                                                 new ErrorEventArgs(
                                                     new System.Exception(string.Format("type '{0}' not supported!", state.GetType())
                                                 )));
@@ -108,7 +108,7 @@ namespace CatLib.Thread
             }
             catch (System.Exception exception)
             {
-                App.Instance.Trigger(ThreadEvents.ON_THREAD_EXECURE_ERROR, new ErrorEventArgs(exception));
+                App.Trigger(ThreadEvents.ON_THREAD_EXECURE_ERROR, new ErrorEventArgs(exception));
             }
         }
 
@@ -128,7 +128,7 @@ namespace CatLib.Thread
 
                 if (taskRunner.Complete != null)
                 {
-                    App.Instance.MainThread(() =>
+                    App.MainThread(() =>
                     {
                         taskRunner.Complete();
                     });
@@ -136,7 +136,7 @@ namespace CatLib.Thread
 
                 if (taskRunner.CompleteWithResult != null)
                 {
-                    App.Instance.MainThread(() =>
+                    App.MainThread(() =>
                     {
                         taskRunner.CompleteWithResult(result);
                     });
@@ -147,7 +147,7 @@ namespace CatLib.Thread
             {
                 if (taskRunner.Error != null)
                 {
-                    App.Instance.MainThread(() =>
+                    App.MainThread(() =>
                     {
                         taskRunner.Error(exception);
                     });

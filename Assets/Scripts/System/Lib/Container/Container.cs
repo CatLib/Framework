@@ -210,11 +210,14 @@ namespace CatLib.Container
             var bindData = GetBindData(service);
             object objectData = withConcrete ? NormalBuild(bindData, param) : Build(bindData , service, param);
 
-            DIAttr(bindData , objectData);
-
-            if (bindData.IsStatic)
+            if (!withConcrete)
             {
-                Instances(service, objectData);
+                DIAttr(bindData, objectData);
+
+                if (bindData.IsStatic)
+                {
+                    Instances(service, objectData);
+                }
             }
 
             return objectData;

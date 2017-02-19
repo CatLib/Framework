@@ -6,6 +6,7 @@ using CatLib.Contracts.Network;
 using CatLib.Contracts.ResourcesSystem;
 using System.Threading;
 using CatLib.Contracts.Event;
+using CatLib.Contracts.Time;
 
 public class Bootstrap : ServiceProvider
 {
@@ -15,6 +16,7 @@ public class Bootstrap : ServiceProvider
         App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            /*
             Thread subThread = new Thread(new ThreadStart(() => {
 
                 App.MainThread(() => { new GameObject(); });
@@ -25,13 +27,43 @@ public class Bootstrap : ServiceProvider
             {
                 int i = 0;
                 i++;
-            }).Delay(5).OnComplete(() =>
-            {
-                new GameObject("sub thread complete");
-                Debug.Log("sub thread complete");
-            }).Start();
+                return i;
+            }).Delay(5).OnComplete((obj) => Debug.Log("sub thread complete:" + obj)).Start();
 
             subThread.Start();
+
+            */
+
+            
+            /*
+            ITimeQueue timeQueue = App.Time.CreateQueue();
+            timeQueue.Task(() =>
+            {
+                Debug.Log("this is in task");
+            }).Delay(3).Loop(3).Push();
+
+            timeQueue.Task(() =>
+            {
+                Debug.Log("2222222");
+            }).Delay(3).Loop(3).OnComplete(()=> { Debug.Log("2 complete"); }).Push();
+
+            timeQueue.OnComplete(() =>
+            {
+                Debug.Log("queue complete");
+            });
+
+            timeQueue.Play();
+
+            FThread.Instance.Task(() =>
+            {
+                Debug.Log("replay");
+                timeQueue.Replay();
+
+            }).Delay(9).Start();
+
+            */
+
+            
 
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {

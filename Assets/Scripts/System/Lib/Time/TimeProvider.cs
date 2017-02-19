@@ -8,6 +8,7 @@ namespace CatLib.Time
 
         public override void Register()
         {
+            App.Bind<TimeQueue>().Alias<ITimeQueue>();
             App.Singleton<TimeSystem>().Alias<ITime>();
         }
     }

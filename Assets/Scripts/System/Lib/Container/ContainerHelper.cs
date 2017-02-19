@@ -27,17 +27,17 @@ namespace CatLib
             return container.Bind(typeof(Service).ToString(), typeof(Service).ToString(), false);
         }
 
-        public static T Make<T>(this IContainer container , object[] param = null)
+        public static T Make<T>(this IContainer container , params object[] param)
         {
             return (T)container.Make(typeof(T).ToString(), param);                                                                      
         }
 
-        public static T Make<T>(this IContainer container , Type service , object[] param = null)
+        public static T Make<T>(this IContainer container , Type service , params object[] param)
         {
             return (T)container.Make(service.ToString(), param);
         }
 
-        public static T Make<T>(this IContainer container, string service, object[] param = null)
+        public static T Make<T>(this IContainer container, string service, params object[] param)
         {
             return (T)container.Make(service, param);
         }
