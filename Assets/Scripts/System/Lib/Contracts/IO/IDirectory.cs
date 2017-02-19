@@ -7,6 +7,25 @@ namespace CatLib.Contracts.IO
     public interface IDirectory
     {
 
+        string Path{ get; }
+
+        string Name { get; }
+
+        void Delete();
+
+        void Create();
+
+        IDirectory Refresh();
+
+        IDirectory Duplicate(string copyDirectroy);
+
+
+
+
+
+
+
+
         void CopyTo(string path, string targetPath);
 
         void Create(string path, bool isOverride = false);

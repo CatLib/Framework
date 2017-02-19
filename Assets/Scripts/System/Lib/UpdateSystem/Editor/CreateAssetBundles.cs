@@ -9,7 +9,7 @@ namespace CatLib.UpdateSystem{
 	public class CreateAssetBundles{
 
 
-        private static IO.Directory directory = new IO.Directory();
+        private static IO.Directory directory = new IO.Directory("hello");
 
         /// <summary>
         /// 编译Asset Bundle
