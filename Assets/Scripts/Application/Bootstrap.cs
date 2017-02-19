@@ -21,6 +21,16 @@ public class Bootstrap : ServiceProvider
 
             }));
 
+            FThread.Instance.Task(() =>
+            {
+                int i = 0;
+                i++;
+            },()=>
+            {
+                new GameObject("sub thread complete");
+                Debug.Log("sub thread complete");
+            });
+
             subThread.Start();
 
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
