@@ -3,8 +3,6 @@ Unity3D Framework For XLua
 
 框架正在开发中，改动较为频繁。
 
-欢迎大家认领组件开发，一起完善框架~！
-
 项目开发计划：https://www.teambition.com/project/589ce998907a7b661c86de9c/tasks/scrum/589ce9aadf254b9870a7ac90
 
 ## 计划的功能
@@ -23,7 +21,7 @@ Unity3D Framework For XLua
 * CPD(catlib package data) 提供一个默认数据包头包体分包方案的组件（已经完成）
 * 基础文件服务 （正在开发）
 * 多线程服务 （已经完成）
-* 时间组件（正在开发）
+* 时间组件（已经完成）
 * 基础UI服务（等待开发）
 * 异常处理组件（等待开发）
 * 对象池组件（等待开发）
