@@ -4,26 +4,34 @@ namespace CatLib.Contracts.Time
     /// <summary>
     /// 时间
     /// </summary>
-    public interface ITime
+    public interface ITime : ITimeRunnerStore
     {
 
         float Time { get; }
 
         float DeltaTime { get; }
 
-        ITimeQueue CreateQueue();
+        float FixedTime { get; }
 
-        /// <summary>
-        /// 推入一个时间运行器
-        /// </summary>
-        /// <param name="runner"></param>
-        bool Runner(ITimeRunner runner);
+        float TimeSinceLevelLoad { get; }
 
-        /// <summary>
-        /// 停止一个时间运行器
-        /// </summary>
-        /// <param name="runner"></param>
-        bool StopRunner(ITimeRunner runner);
+        float FixedDeltaTime { get; }
+
+        float MaximumDeltaTime { get; }
+
+        float SmoothDeltaTime { get; }
+
+        float TimeScale { get; }
+
+        float FrameCount { get; }
+
+        float RealtimeSinceStartup { get; }
+
+        float CaptureFramerate { get; }
+
+        float UnscaledDeltaTime { get; }
+
+        float UnscaledTime { get; }
 
     }
 

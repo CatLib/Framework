@@ -123,20 +123,37 @@ namespace CatLib.Time
                     break;
                 }
 
-                if (task.LoopTime > 0 && task.WaitLoopTime < task.LoopTime)
+                if (task.loopStatusFunc == null)
                 {
-                    if (task.ActionTask != null)
+                    if (task.LoopTime > 0 && task.WaitLoopTime < task.LoopTime)
                     {
-                        task.ActionTask();
+                        if (task.ActionTask != null)
+                        {
+                            task.ActionTask();
+                        }
+                        if (task.ActionTaskWithContext != null)
+                        {
+                            task.ActionTaskWithContext(context);
+                        }
+                        task.WaitLoopTime += App.Time.DeltaTime;
+                        break;
                     }
-                    if (task.ActionTaskWithContext != null)
+                }else
+                {
+                    if (task.loopStatusFunc.Invoke())
                     {
-                        task.ActionTaskWithContext(context);
+                        if (task.ActionTask != null)
+                        {
+                            task.ActionTask();
+                        }
+                        if (task.ActionTaskWithContext != null)
+                        {
+                            task.ActionTaskWithContext(context);
+                        }
+                        break;
                     }
-                    task.WaitLoopTime += App.Time.DeltaTime;
-                    break;
                 }
-                
+
                 task.IsComplete = true;
                 if (task.TaskOnComplete != null)
                 {

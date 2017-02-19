@@ -34,36 +34,45 @@ public class Bootstrap : ServiceProvider
 
             */
 
-            
+
             /*
             ITimeQueue timeQueue = App.Time.CreateQueue();
-            timeQueue.Task(() =>
+            
+            ITimeTaskHandler h = timeQueue.Task(() =>
             {
                 Debug.Log("this is in task");
             }).Delay(3).Loop(3).Push();
 
+            
             timeQueue.Task(() =>
             {
                 Debug.Log("2222222");
-            }).Delay(3).Loop(3).OnComplete(()=> { Debug.Log("2 complete"); }).Push();
+            }).Delay(1).Loop(3).OnComplete(()=> { h.Cancel(); Debug.Log("2 complete"); }).Push();
+
+            timeQueue.Task(() =>
+            {
+                Debug.Log("rand!");
+            }).Loop(() => { return Random.Range(0,100) > 10; }).Push();
 
             timeQueue.OnComplete(() =>
             {
-                Debug.Log("queue complete");
+                Debug.Log("queueComplete");
             });
 
             timeQueue.Play();
 
+            
             FThread.Instance.Task(() =>
             {
-                Debug.Log("replay");
+                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //Debug.Log(App.Time.Time);
                 timeQueue.Replay();
 
-            }).Delay(9).Start();
+            }).Delay(9).Start();*/
 
-            */
 
-            
+
+
 
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
