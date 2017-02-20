@@ -3,6 +3,8 @@ Unity3D Framework For XLua
 
 框架正在开发中，改动较为频繁。
 
+每周一都好忙呢！
+
 项目开发计划：https://www.teambition.com/project/589ce998907a7b661c86de9c/tasks/scrum/589ce9aadf254b9870a7ac90
 
 ## 计划的功能
@@ -55,7 +57,6 @@ Unity3D Framework For XLua
 * Assets/NotAssetBundle 不会打包成AssetBundle的目录（直接复制）（可以通过配置更改）
 * Scripts/ 代码文件目录
 * Scripts/Application/ 用户代码目录 (可自定义名字)
-* Scripts/Config/ 框架组件配置目录
 * Scripts/System/ 框架文件目录
 * Scripts/System/Bootstrap/ 引导程序目录
 * Scripts/System/Lib/ 框架组件目录（核心）
