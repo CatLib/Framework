@@ -3,7 +3,7 @@ Unity3D Framework For XLua
 
 框架正在开发中，改动较为频繁。
 
-每周一都好忙呢！
+最近有些童鞋一直在问有米有文档，文档会在3月初左右发布，但是只有通过测试和功能接口都确定的部分才会写入文档
 
 项目开发计划：https://www.teambition.com/project/589ce998907a7b661c86de9c/tasks/scrum/589ce9aadf254b9870a7ac90
 
