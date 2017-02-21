@@ -21,7 +21,7 @@ Unity3D Framework For XLua
 * XLua热更新支持 （正在开发）
 * 网络服务（Http，Socket）（已经完成）
 * CPD(catlib package data) 提供一个默认数据包头包体分包方案的组件（已经完成）
-* 基础文件服务 （正在开发）
+* 基础文件服务 （已经完成）
 * 多线程服务 （已经完成）
 * 时间组件（已经完成）
 * 基础UI服务（等待开发）
