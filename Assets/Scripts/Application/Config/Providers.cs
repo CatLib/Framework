@@ -8,6 +8,7 @@ using CatLib.ResourcesSystem;
 using CatLib.Buffer;
 using CatLib.Thread;
 using CatLib.Time;
+using CatLib.IO;
 
 public class Providers{
 

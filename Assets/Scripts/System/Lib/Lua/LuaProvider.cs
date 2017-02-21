@@ -9,7 +9,7 @@ namespace CatLib.Lua
     public class LuaProvider : ServiceProvider
     {
 
-        public override Type[] ProviderDepend { get { return new Type[] { typeof(IDirectory) }; } }
+        public override Type[] ProviderDepend { get { return new Type[] { typeof(IIO) }; } }
 
         public override ProviderProcess ProviderProcess
         {

@@ -11,7 +11,7 @@ namespace CatLib.UpdateSystem
     public class AutoUpdateProvider : ServiceProvider
     {
 
-        public override Type[] ProviderDepend { get { return new Type[] { typeof(IFile) , typeof(IDirectory) }; } }
+        public override Type[] ProviderDepend { get { return new Type[] { typeof(IIO) }; } }
 
         public override ProviderProcess ProviderProcess
         {

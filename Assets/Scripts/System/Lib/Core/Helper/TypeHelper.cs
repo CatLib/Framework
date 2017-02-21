@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace CatLib
 {
     /// <summary>类型转换拓展方法</summary>
-    public static class TypeConversionHelper
+    public static class TypeHelper
     {
 
         /// <summary>字符串转Byte</summary>

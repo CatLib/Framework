@@ -10,7 +10,7 @@ namespace CatLib.ResourcesSystem {
     {
 
         [Dependency]
-        public IFile File { get; set; }
+        public IIO IO { get; set; }
 
         /// <summary>
         /// 主依赖文件
@@ -86,7 +86,7 @@ namespace CatLib.ResourcesSystem {
             LoadPath(path , type , out relPath, out objName);
 
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.DEV)
+                if (Env.DebugLevel == Env.DebugLevels.AUTO)
                 {
                     return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName , type);
                 }
@@ -133,7 +133,7 @@ namespace CatLib.ResourcesSystem {
             LoadPath(path , type , out relPath, out objName);
 
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.DEV)
+            if (Env.DebugLevel == Env.DebugLevels.AUTO)
             {
                 return UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName);
             }
@@ -196,7 +196,7 @@ namespace CatLib.ResourcesSystem {
             LoadPath(path , type, out relPath, out objName);
 
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.DEV)
+            if (Env.DebugLevel == Env.DebugLevels.AUTO)
             {
                 callback.Invoke(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName , type));
                 yield break;
@@ -255,7 +255,7 @@ namespace CatLib.ResourcesSystem {
             LoadPath(path , type, out relPath, out objName);
 
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.DEV)
+                if (Env.DebugLevel == Env.DebugLevels.AUTO)
                 {
                     callback.Invoke(UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName));
                     yield break;
@@ -295,7 +295,7 @@ namespace CatLib.ResourcesSystem {
             if (assetBundleManifest != null) { return; }
 
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.DEV)
+            if (Env.DebugLevel == Env.DebugLevels.AUTO)
             {
                 return;
             }
@@ -322,7 +322,7 @@ namespace CatLib.ResourcesSystem {
             objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), variant , type);
             relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
 
-            if (!File.Exists(Env.AssetPath + "/" + relPath))
+            if (!IO.File(Env.AssetPath + "/" + relPath).Exists)
             {
                 objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), string.Empty , type);
                 relPath = path.Substring(0, path.LastIndexOf('/'));

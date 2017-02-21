@@ -1,6 +1,5 @@
 ﻿using CatLib.Contracts.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace CatLib.IO
@@ -20,7 +19,7 @@ namespace CatLib.IO
         /// <summary>
         /// 当前目录文件夹
         /// </summary>
-        private DirectoryInfo Dir
+        public DirectoryInfo DirectoryInfo
         {
             get
             {
@@ -47,7 +46,7 @@ namespace CatLib.IO
         {
             get
             {
-                return Dir.Name;
+                return DirectoryInfo.Name;
             }
         }
 
@@ -71,15 +70,25 @@ namespace CatLib.IO
             get
             {
                 IO.ValidatePath(directoryPath);
-                if (ExistsNew(directoryPath))
+                directoryPath = IO.NormalizePath(directoryPath);
+                if (Exists(directoryPath))
                 {
-                    return new Directory(path + IO.PATH_SPLITTER + directoryPath);
+                    return new Directory(path + directoryPath);
                 }
                 else
                 {
                     throw new DirectoryNotFoundException("a directory was not found at " + directoryPath);
                 }
             }
+        }
+
+        /// <summary>
+        /// 刷新
+        /// </summary>
+        public IDirectory Refresh()
+        {
+            dir = null;
+            return this;
         }
 
         /// <summary>
@@ -90,15 +99,9 @@ namespace CatLib.IO
         {
             if (!Exists())
             {
-                Dir.Create();
+                DirectoryInfo.Create();
                 Refresh();
             }
-        }
-
-        public IDirectory Refresh()
-        {
-            dir = null;
-            return this;
         }
 
         /// <summary>
@@ -108,26 +111,53 @@ namespace CatLib.IO
         /// <returns></returns>
         public IDirectory Create(string directoryPath)
         {
+            IO.ValidatePath(directoryPath);
+            directoryPath = IO.NormalizePath(directoryPath);
             IDirectory directory = null;
-            if (!ExistsNew(path + IO.PATH_SPLITTER + directoryPath))
+            if (!Exists(path + directoryPath))
             {
-                DirectoryInfo dir = new DirectoryInfo(path + IO.PATH_SPLITTER + directoryPath);
+                DirectoryInfo dir = new DirectoryInfo(path + directoryPath);
                 dir.Create();
             }
-            directory = new Directory(path + IO.PATH_SPLITTER + directoryPath);
+            directory = new Directory(path + directoryPath);
             return directory;
+        }
+
+        /// <summary>
+        /// 文件夹是否是空的
+        /// </summary>
+        public bool IsEmpty{
+
+            get{
+
+                int fileLength = DirectoryInfo.GetFiles().Length;
+                if(fileLength > 0){ return false; }
+
+                IDirectory drinfo;
+                string[] infos = System.IO.Directory.GetDirectories(Path);
+                for(int i = 0; i < infos.Length ; i++)
+                {
+                    drinfo = new Directory(infos[i]);
+                    if(!drinfo.IsEmpty){ return false; }
+                }
+
+                return true;
+
+            }
+
         }
 
         /// <summary>
         /// 复制文件夹
         /// </summary>
-        /// <param name="copyDirectroy"></param>
-        public IDirectory Duplicate(string copyDirectroy)
+        /// <param name="targetDirectroy">目标文件夹</param>
+        public IDirectory CopyTo(string targetDirectroy)
         {
-            IDirectory dir = new Directory(copyDirectroy);
+            IO.ValidatePath(targetDirectroy);
+            IDirectory dir = new Directory(targetDirectroy);
             dir.Create();
 
-            string[] files = System.IO.Directory.GetFiles(this);
+            string[] files = System.IO.Directory.GetFiles(Path);
 
             string fileName;
             string destFile;
@@ -135,15 +165,15 @@ namespace CatLib.IO
             foreach (string s in files)
             {
                 fileName = System.IO.Path.GetFileName(s);
-                destFile = copyDirectroy + IO.PATH_SPLITTER +  fileName;
+                destFile = targetDirectroy + IO.PATH_SPLITTER +  fileName;
                 System.IO.File.Copy(s, destFile, true);
             }
 
             IDirectory drinfo;
-            foreach (string info in System.IO.Directory.GetDirectories(this))
+            foreach (string info in System.IO.Directory.GetDirectories(Path))
             {
                 drinfo = new Directory(info);
-                drinfo.Duplicate(copyDirectroy + IO.PATH_SPLITTER + drinfo.Name);
+                drinfo.CopyTo(targetDirectroy + IO.PATH_SPLITTER + drinfo.Name);
             }
 
             return dir.Refresh();
@@ -154,8 +184,10 @@ namespace CatLib.IO
         /// </summary>
         public void Delete()
         {
-            Dir.Delete(true);
-            Refresh();
+            if(DirectoryInfo.Exists){
+                DirectoryInfo.Delete(true);
+                Refresh();
+            }
         }
 
         /// <summary>
@@ -173,18 +205,20 @@ namespace CatLib.IO
         /// </summary>
         /// <returns></returns>
         public bool Exists()
-        {   //todo 需要改为属性
-            return Dir.Exists;
+        {   
+            return DirectoryInfo.Exists;
         }
 
         /// <summary>
-        /// 文件夹是否存在
+        /// 子文件夹是否存在
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <returns></returns>
-        public bool ExistsNew(string directoryPath)
+        public bool Exists(string directoryPath)
         {
-            DirectoryInfo dir = new DirectoryInfo(path + IO.PATH_SPLITTER + path);
+            IO.ValidatePath(directoryPath);
+            directoryPath = IO.NormalizePath(directoryPath);
+            DirectoryInfo dir = new DirectoryInfo(path + directoryPath);
             return dir.Exists;
         }
 
@@ -192,9 +226,9 @@ namespace CatLib.IO
         /// 获取当前目录所有的文件
         /// </summary>
         /// <returns></returns>
-        public IFile[] GetFiles(bool recursive = false)
+        public IFile[] GetFiles(SearchOption option = SearchOption.TopDirectoryOnly)
         {
-            return null;
+            return GetFiles("*" , option);
         }
 
         /// <summary>
@@ -202,9 +236,15 @@ namespace CatLib.IO
         /// </summary>
         /// <param name="filter">筛选</param>
         /// <returns></returns>
-        public IFile[] GetFiles(string filter , bool recursive = false)
+        public IFile[] GetFiles(string filter , SearchOption option)
         {
-            return null;
+            if(!DirectoryInfo.Exists){ return new File[]{}; }
+            FileInfo[] files = DirectoryInfo.GetFiles(filter, option);
+            IFile[] returnData = new IFile[files.Length];
+            for(int i = 0; i < files.Length; i++){
+                returnData[i] = IO.MakeFile(files[i].FullName);
+            }
+            return returnData;
         }
 
 
@@ -212,9 +252,9 @@ namespace CatLib.IO
         /// 将当前目录移动到目标目录
         /// </summary>
         /// <param name="targetDirectory">目标文件夹</param>
-        public void Move(string targetDirectory)
+        public void MoveTo(string targetDirectory)
         {
-            int start = targetDirectory.LastIndexOf('/') + 1;
+            int start = targetDirectory.LastIndexOf(IO.PATH_SPLITTER) + 1;
             int length = targetDirectory.Length - start;
             string name = targetDirectory.Substring(start, length);
 
@@ -223,9 +263,13 @@ namespace CatLib.IO
                 throw new ArgumentException("the name '" + name + "' contains invalid characters");
             }
 
-            Dir.MoveTo(targetDirectory);
+            IDirectory moveToDirectory = new Directory(targetDirectory.Substring(0,targetDirectory.Length - name.Length - 1));
+            moveToDirectory.Create();
+
+            DirectoryInfo.MoveTo(targetDirectory);
             path = targetDirectory;
             Refresh();
+
         }
 
         /// <summary>
@@ -245,7 +289,7 @@ namespace CatLib.IO
                 throw new ArgumentException("the name '" + newName + "' contains invalid characters");
             }
 
-            if (newName.Contains("/"))
+            if (newName.Contains(IO.PATH_SPLITTER.ToString()))
             {
                 throw new ArgumentException("rename can't be used to change a files location use Move(string newPath) instead.");
             }
@@ -253,9 +297,24 @@ namespace CatLib.IO
             string subPath = Path.Substring(0, Path.LastIndexOf(IO.PATH_SPLITTER) + 1);
             string newPath = subPath + newName;
 
-            Dir.MoveTo(newPath);
+            DirectoryInfo.MoveTo(newPath);
             path = newPath;
             Refresh();
+        }
+
+        public void Walk(Action<IFile> callBack , SearchOption option)
+        {
+            Walk(callBack , "*" , option);
+        }
+
+        public void Walk(Action<IFile> callBack , string filter = "*" , SearchOption option = SearchOption.AllDirectories)
+        {
+            IFile[] files = GetFiles(filter , option);
+            for(int i = 0 ; i < files.Length ; i++){
+
+                callBack.Invoke(files[i]);
+
+            }
         }
 
         /// <summary>
@@ -310,23 +369,7 @@ namespace CatLib.IO
             return string.CompareOrdinal(lhs.Path, rhs.Path) == 0;
         }
 
-        /// <summary>
-        /// 允许由字符串转为文件夹
-        /// </summary>
-        /// <param name="directory"></param>
-        public static explicit operator Directory(string directory)
-        {
-            return new Directory(directory);
-        }
 
-        /// <summary>
-        /// 允许由文件夹转为字符串
-        /// </summary>
-        /// <param name="directory"></param>
-        public static implicit operator string(Directory directory)
-        {
-            return directory.Path;
-        }
 
         /// <summary>
         /// 与object比较是否相等
@@ -351,142 +394,6 @@ namespace CatLib.IO
             return Path.GetHashCode();
         }
 
-
-        //以下为被淘汰的代码
-
-
-
-
-
-
-
-        /// <summary>
-        /// 文件夹是否存在
-        /// </summary>
-        public bool Exists(string path)
-        {
-            DirectoryInfo dir = new DirectoryInfo(path);
-            return dir.Exists;
-        }
-
-
-
-        /// <summary>遍历目录及其子目录复制到目标路径</summary>
-		/// <param name="path">起始路径</param>
-		/// <param name="copyPath">目标路径</param>
-		public void CopyTo(string path, string targetPath)
-        {
-            if (Exists(path))
-            {
-                CopyTo(path, path, targetPath);
-            }
-        }
-
-        /// <summary>
-        /// 创建文件夹
-        /// </summary>
-        /// <param name="path">路径</param>
-        /// <param name="isOverride">是否覆盖</param>
-		public void Create(string path, bool isOverride = false)
-        {
-            DirectoryInfo dir = new DirectoryInfo(path);
-            if (dir.Exists)
-            {
-                if (!isOverride) { return; }
-                dir.Delete(true);
-            }
-            dir.Create();
-        }
-
-        /// <summary>
-		/// 遍历文件夹中的所有文件
-		/// </summary>
-        public FileInfo[] Walk(string path)
-        {
-            List<FileInfo> returnList = new List<FileInfo>();
-            if (!Exists(path)) { return returnList.ToArray(); }
-            DirectoryInfo folder = new DirectoryInfo(path);
-            FileSystemInfo[] files = folder.GetFileSystemInfos();
-            int length = files.Length;
-            for (int i = 0; i < length; i++)
-            {
-
-                if (files[i] is DirectoryInfo)
-                {
-
-                    returnList.AddRange(Walk(files[i].FullName));
-
-                }
-                else
-                {
-
-                    returnList.Add(new FileInfo(files[i].FullName));
-
-                }
-
-            }
-            return returnList.ToArray();
-        }
-
-
-        /// <summary>
-		/// 遍历文件夹中的所有文件
-		/// </summary>
-		public void Walk(string path, Action<FileInfo> callBack)
-        {
-
-            DirectoryInfo folder = new DirectoryInfo(path);
-            FileSystemInfo[] files = folder.GetFileSystemInfos();
-            int length = files.Length;
-            for (int i = 0; i < length; i++)
-            {
-
-                if (files[i] is DirectoryInfo)
-                {
-
-                    Walk(files[i].FullName, callBack);
-
-                }
-                else
-                {
-
-                    callBack(new FileInfo(files[i].FullName));
-
-                }
-
-            }
-
-        }
-
-
-        /// <summary>遍历目录及其子目录</summary>
-		/// <param name="root">起始结点</param>
-		/// <param name="path">起始路径</param>
-		/// <param name="copyPath">复制路径</param>
-		private void CopyTo(string root, string path, string copyPath)
-        {
-            root = root.Replace('\\', '/');
-            path = path.Replace('\\', '/');
-            copyPath = copyPath.Replace('\\', '/');
-
-            string[] names = System.IO.Directory.GetFiles(path);
-            string[] dirs = System.IO.Directory.GetDirectories(path);
-
-            foreach (string filename in names)
-            {
-                string name = filename.Replace('\\', '/');
-                string targetPath = copyPath + name.Replace(root, string.Empty);
-                if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(targetPath)))
-                {
-                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(targetPath));
-                }
-                System.IO.File.Copy(filename, targetPath);
-            }
-            foreach (string dir in dirs)
-            {
-                CopyTo(root, dir, copyPath);
-            }
-        }
     }
 
 }

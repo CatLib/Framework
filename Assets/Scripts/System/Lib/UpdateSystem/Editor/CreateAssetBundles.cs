@@ -2,14 +2,13 @@
 using UnityEngine;
 using System;
 using System.IO;
+using CatLib;
+using CatLib.Contracts.IO;
 using CatLib.Secret;
 
 namespace CatLib.UpdateSystem{
 
 	public class CreateAssetBundles{
-
-
-        private static IO.Directory directory = new IO.Directory("hello");
 
         /// <summary>
         /// 编译Asset Bundle
@@ -23,9 +22,16 @@ namespace CatLib.UpdateSystem{
             ClearAssetBundle();
             BuildAssetBundleName(Env.DataPath + Env.ResourcesBuildPath);
 
-			string releasePath = Env.DataPath + Env.ReleasePath + "/" + platform;
-            directory.Create(releasePath , true);
-            directory.CopyTo(Env.DataPath + Env.ResourcesNoBuildPath , Env.DataPath + Env.ReleasePath + "/" + platform);
+			string releasePath = Env.DataPath + Env.ReleasePath + "/" + platform;			
+			
+			IDirectory releaseDir = CatLib.IO.IO.MakeDirectory(releasePath);
+			UnityEngine.Debug.Log(releaseDir);
+            releaseDir.Delete();
+			releaseDir.Create();
+
+			IDirectory copyDire = CatLib.IO.IO.MakeDirectory(Env.DataPath + Env.ResourcesNoBuildPath);
+			copyDire.CopyTo(Env.DataPath + Env.ReleasePath + "/" + platform);
+
 			BuildPipeline.BuildAssetBundles("Assets" + Env.ReleasePath + "/" + platform, 
 												BuildAssetBundleOptions.None ,
                                                 PlatformToBuildTarget(switchPlatform));
@@ -55,14 +61,15 @@ namespace CatLib.UpdateSystem{
 		/// <param name="path">路径</param>
 		protected static void BuildAssetBundleName(string path){
 
-            directory.Walk(path , (file) => {
+			IDirectory directory = CatLib.IO.IO.MakeDirectory(path);
+            directory.Walk((file) => {
 
 				if(!file.Name.EndsWith(".meta"))  
                 {  
-                     CreateAssetBundles.BuildFileBundleName(file , path);
+                     CreateAssetBundles.BuildFileBundleName(file.FileInfo , path);
                 } 
 
-			});
+			},SearchOption.AllDirectories);
 
 		}
 
@@ -108,17 +115,19 @@ namespace CatLib.UpdateSystem{
 		/// <param name="path">路径</param>
 		protected static void BuildListFile(string path){
 
+			
 			UpdateList lst = new UpdateList(path);
-            directory.Walk(path , (file)=>{
+			IDirectory directory = CatLib.IO.IO.MakeDirectory(path);
+            directory.Walk((file)=>{
 
-                if (!file.FullName.Standard().EndsWith(".meta"))
+                if (!file.Name.EndsWith(".meta"))
                 {
-                    string fullName = file.FullName.Standard();
+                    string fullName = file.FileInfo.FullName.Standard();
                     string assetName = fullName.Substring(path.Length);
-                    lst.Append(assetName, MD5.ParseFile(file), file.Length);
+                    lst.Append(assetName, MD5.ParseFile(file.FileInfo), file.FileInfo.Length);
                 }
 
-			});
+			}, SearchOption.AllDirectories);
 			lst.Save();
 			
 		}

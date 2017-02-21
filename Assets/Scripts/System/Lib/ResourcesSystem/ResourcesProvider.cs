@@ -11,7 +11,7 @@ namespace CatLib.ResourcesSystem
     public class ResourcesProvider : ServiceProvider
     {
 
-        public override Type[] ProviderDepend { get { return new Type[] { typeof(IFile) }; } }
+        public override Type[] ProviderDepend { get { return new Type[] { typeof(IIO) }; } }
 
         public override void Register()
         {

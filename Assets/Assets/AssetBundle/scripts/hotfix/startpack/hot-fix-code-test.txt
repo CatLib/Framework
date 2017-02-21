@@ -1,3 +1,0 @@
-xlua.hotfix(CS.HotFixedCodeTest, 'Start', function()
-                         print('this is from lua start')
-                    end)

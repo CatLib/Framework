@@ -1,7 +1,6 @@
 ﻿using CatLib.Contracts.IO;
-using CatLib.IO;
 
-namespace CatLib.ResourcesSystem
+namespace CatLib.IO
 {
 
     /// <summary>
@@ -12,8 +11,7 @@ namespace CatLib.ResourcesSystem
 
         public override void Register()
         {
-            App.Singleton<Directory>().Alias<IDirectory>();
-            App.Singleton<File>().Alias<IFile>();
+            App.Singleton<IO>().Alias<IIO>();
         }
 
     }

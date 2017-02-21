@@ -14,10 +14,7 @@ namespace CatLib.UpdateSystem
         public Configs Config { get; set; }
 
         [Dependency]
-        public IFile File { get; set; }
-
-        [Dependency]
-        public IDirectory Directory { get; set; }
+        public IIO IO { get; set; }
 
         protected bool isUpdate;
 
@@ -29,7 +26,17 @@ namespace CatLib.UpdateSystem
 
         public IEnumerator UpdateAsset()
         {
+            if (Env.DebugLevel == Env.DebugLevels.STAGING)
+            {
+                return JumpUpdate();
+            }
             return StartUpdate();
+        }
+
+        protected IEnumerator JumpUpdate(){
+
+            yield break;
+
         }
 
         protected IEnumerator StartUpdate(){
@@ -93,15 +100,15 @@ namespace CatLib.UpdateSystem
 
             UpdateList oldLst = new UpdateList(Env.AssetPath);
 
-            Directory.Create(Env.AssetPath);
+            IO.AssetPath.Create();
 
-            Directory.Walk(Env.AssetPath , (file) => {
+            IO.AssetPath.Walk((file) => {
 
-                if (!file.FullName.Standard().EndsWith(".meta"))
+                if (!file.FileInfo.FullName.Standard().EndsWith(".meta"))
                 {
-                    string fullName = file.FullName.Standard();
+                    string fullName = file.FileInfo.FullName.Standard();
                     string assetName = fullName.Substring(Env.AssetPath.Length);
-                    oldLst.Append(assetName, MD5.ParseFile(file), file.Length);
+                    oldLst.Append(assetName, MD5.ParseFile(file.FileInfo), file.FileInfo.Length);
                 }
 
             });
@@ -125,14 +132,14 @@ namespace CatLib.UpdateSystem
         {
             base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_START);
 
-            string filePath;
+            IFile file;
             foreach (UpdateListField field in needDeleteLst)
             {
-                filePath = Env.AssetPath + field.Path;
-                if (File.Exists(filePath))
+                file = IO.File(Env.AssetPath + field.Path);
+                if (file.Exists)
                 {
                     base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION);
-                    File.Delete(filePath);
+                    file.Delete();
                 }
 
             }
@@ -168,8 +175,8 @@ namespace CatLib.UpdateSystem
                         base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_FAILD);
                         yield break;
                     }
-                    Directory.Create(saveDir);
-                    File.Create(savePath , request.downloadHandler.data, 0, request.downloadHandler.data.Length);
+                    IO.Directory(saveDir).Create();
+                    IO.CreateFile(savePath , request.downloadHandler.data, 0, request.downloadHandler.data.Length);
                 }
                 
             }

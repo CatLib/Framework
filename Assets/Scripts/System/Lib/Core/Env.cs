@@ -23,16 +23,16 @@ namespace CatLib
             STAGING,
 
             /// <summary>
-            /// 开发者模式
+            /// 自动模式（如果在编辑器模式下则使用开发者模式（非仿真模拟）如果发布则使用线上模式）
             /// </summary>
-            DEV,
+            AUTO,
 
         }
 
         /// <summary>
         /// 调试等级
         /// </summary>
-        public static DebugLevels DebugLevel { get { return DebugLevels.DEV; } }
+        public static DebugLevels DebugLevel { get { return DebugLevels.AUTO; } }
 
         /// <summary>
 		/// 编译完成后发布AssetBundle的路径
@@ -88,8 +88,11 @@ namespace CatLib
 
             get
             {
+				if (Env.DebugLevel == Env.DebugLevels.STAGING)
+				{
+					return Env.DataPath + Env.ReleasePath + "/" + Env.PlatformToName(Env.SwitchPlatform);
+				}
                 return Env.PersistentDataPath + "/" + "Asset";
-
             }
 
         }

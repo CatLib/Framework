@@ -7,7 +7,7 @@ namespace CatLib.IO
     /// <summary>
     /// 文件服务
     /// </summary>
-    public class IO : Component
+    public class IO : Component , IIO
     {
 
         static readonly char[] INVALID_FILE_NAME_CHARS = new char[] { '/', '\\', '<', '>', ':', '|', '"' };
@@ -33,10 +33,33 @@ namespace CatLib.IO
                 throw new System.IO.IOException("a path can not be null or empty when searching the project");
             }
 
-            if (path[path.Length - 1] == '/')
+            if (path[path.Length - 1] == IO.PATH_SPLITTER)
             {
                 throw new System.IO.IOException("all directory paths are expected to not end with a leading slash. ( i.e. the '" + PATH_SPLITTER + "' character )");
             }
+        }
+
+        public static string NormalizePath(string path){
+
+            if(path[0] != IO.PATH_SPLITTER){
+
+                return IO.PATH_SPLITTER + path;
+
+            }
+            return path;
+            
+        }
+
+        public static IFile MakeFile(string path){
+
+            return new File(path);
+
+        }
+
+        public static IDirectory MakeDirectory(string path){
+
+            return new Directory(path);
+
         }
 
         public IDirectory AssetPath
@@ -55,6 +78,33 @@ namespace CatLib.IO
             }
         }
 
+
+        public IFile File(string path){
+
+            return IO.MakeFile(path);
+
+        }
+
+        public IDirectory Directory(string path){
+
+            return IO.MakeDirectory(path);
+
+        }
+
+        /// <summary>
+        /// 创建文件
+        /// </summary>
+        /// <param name="path">文件路径</param>
+        public IFile CreateFile(string path, byte[] array, int offset, int count)
+        {
+            using (System.IO.FileStream fs = System.IO.File.Create(path))
+            {
+                fs.Write(array, offset, count);
+                fs.Close();
+            }
+
+            return MakeFile(path);
+        }
 
     }
 

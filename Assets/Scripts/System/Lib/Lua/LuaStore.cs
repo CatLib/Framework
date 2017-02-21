@@ -19,7 +19,7 @@ namespace CatLib.Lua
         public Configs Config { get; set; }
 
         [Dependency]
-        public IDirectory Directory { get; set; }
+        public IIO IO{ get; set; }
 
         /// <summary>
         /// 垃圾回收间隔
@@ -71,20 +71,18 @@ namespace CatLib.Lua
         {
             Event.Trigger(LuaEvents.ON_HOT_FIXED_START);
 
-            string[] filePath = Config.Get<string[]>("lua.hotfix");
+            string[] filePaths = Config.Get<string[]>("lua.hotfix");
 
             IResources resources = App.Make<IResources>();
 
-            foreach (string file in filePath)
+            foreach (string filePath in filePaths)
             {
-
-                FileInfo[] infos = Directory.Walk((Env.AssetPath + "/" + file));
-
+                IFile[] infos = IO.Directory(Env.AssetPath + "/" + filePath).GetFiles(SearchOption.AllDirectories);
                 foreach(var info in infos)
                 {
                     if (!info.Name.EndsWith(".manifest"))
                     {
-                        yield return resources.LoadAllAsyn<TextAsset>(file + "/" + info.Name, (textAssets) =>
+                        yield return resources.LoadAllAsyn<TextAsset>(filePath + "/" + info.Name, (textAssets) =>
                         {
                             Event.Trigger(LuaEvents.ON_HOT_FIXED_ACTION);
                             foreach (TextAsset text in textAssets)
