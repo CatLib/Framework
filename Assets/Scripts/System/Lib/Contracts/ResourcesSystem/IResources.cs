@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using XLua;
 
 namespace CatLib.Contracts.ResourcesSystem
 {

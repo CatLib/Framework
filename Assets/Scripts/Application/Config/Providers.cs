@@ -9,6 +9,7 @@ using CatLib.Buffer;
 using CatLib.Thread;
 using CatLib.Time;
 using CatLib.IO;
+using CatLib.Secret;
 
 public class Providers{
 
@@ -31,6 +32,7 @@ public class Providers{
                 typeof(BufferProvider),
                 typeof(ThreadProvider),
                 typeof(TimeProvider),
+                typeof(SecretProvider),
                 typeof(Bootstrap),
 
             };
