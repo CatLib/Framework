@@ -2,11 +2,11 @@
 using System.Text;
 using CatLib;
 using CatLib.Network;
-using CatLib.Contracts.Network;
-using CatLib.Contracts.ResourcesSystem;
+using CatLib.API.Network;
+using CatLib.API.ResourcesSystem;
 using System.Threading;
-using CatLib.Contracts.Event;
-using CatLib.Contracts.Time;
+using CatLib.API.Event;
+using CatLib.API.Time;
 
 public class Bootstrap : ServiceProvider
 {

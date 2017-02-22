@@ -1,5 +1,5 @@
-﻿using CatLib.Contracts.IO;
-using CatLib.Contracts.UpdateSystem;
+﻿using CatLib.API.IO;
+using CatLib.API.UpdateSystem;
 using System;
 using System.Collections;
 

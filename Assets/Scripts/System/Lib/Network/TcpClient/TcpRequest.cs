@@ -2,9 +2,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using CatLib.Contracts.Network;
+using CatLib.API.Network;
 using System.Net;
-using CatLib.Contracts.Buffer;
+using CatLib.API.Buffer;
 using CatLib.Base;
 
 namespace CatLib.Network

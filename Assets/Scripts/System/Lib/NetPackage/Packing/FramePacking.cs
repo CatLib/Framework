@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CatLib.Contracts.Network;
-using CatLib.Contracts.Buffer;
+using CatLib.API.Network;
+using CatLib.API.Buffer;
 
 namespace CatLib.NetPackage
 {

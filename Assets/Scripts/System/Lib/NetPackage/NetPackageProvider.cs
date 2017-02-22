@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.Network;
+﻿using CatLib.API.Network;
 
 namespace CatLib.NetPackage
 {

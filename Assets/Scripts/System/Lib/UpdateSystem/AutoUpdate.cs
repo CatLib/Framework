@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine.Networking;
 using CatLib.Secret;
-using CatLib.Contracts.UpdateSystem;
-using CatLib.Contracts.IO;
+using CatLib.API.UpdateSystem;
+using CatLib.API.IO;
 
 namespace CatLib.UpdateSystem
 {

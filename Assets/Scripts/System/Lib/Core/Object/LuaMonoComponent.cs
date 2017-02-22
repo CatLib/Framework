@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using XLua;
 using System;
-using CatLib.Contracts.Lua;
-using CatLib.Contracts.ResourcesSystem;
+using CatLib.API.Lua;
+using CatLib.API.ResourcesSystem;
 
 namespace CatLib {
 

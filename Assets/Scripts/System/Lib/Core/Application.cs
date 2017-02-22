@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using CatLib.Contracts;
-using CatLib.Contracts.Event;
-using CatLib.Contracts.Time;
+using CatLib.API;
+using CatLib.API.Event;
+using CatLib.API.Time;
 
 namespace CatLib
 {

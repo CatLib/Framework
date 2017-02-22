@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using CatLib;
-using CatLib.Contracts;
+using CatLib.API;
 
 public class Program : MonoBehaviour {
 

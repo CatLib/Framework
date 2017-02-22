@@ -1,6 +1,6 @@
 ﻿
-using CatLib.Contracts;
-using CatLib.Contracts.Thread;
+using CatLib.API;
+using CatLib.API.Thread;
 using System.Collections.Generic;
 using System.Threading;
 

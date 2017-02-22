@@ -1,5 +1,5 @@
 ﻿using System;
-using CatLib.Contracts;
+using CatLib.API;
 
 namespace CatLib
 {

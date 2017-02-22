@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
-using CatLib.Contracts.Container;
+using CatLib.API.Container;
 
 namespace CatLib.Container
 {

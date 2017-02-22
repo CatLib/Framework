@@ -1,5 +1,5 @@
-﻿using CatLib.Contracts.Buffer;
-using CatLib.Contracts.Network;
+﻿using CatLib.API.Buffer;
+using CatLib.API.Network;
 using System;
 
 namespace CatLib.Network

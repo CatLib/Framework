@@ -1,5 +1,5 @@
-﻿using CatLib.Contracts.IO;
-using CatLib.Contracts.ResourcesSystem;
+﻿using CatLib.API.IO;
+using CatLib.API.ResourcesSystem;
 using System;
 
 namespace CatLib.ResourcesSystem

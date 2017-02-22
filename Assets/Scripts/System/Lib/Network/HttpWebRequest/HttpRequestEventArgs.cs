@@ -1,5 +1,5 @@
 ﻿using System;
-using CatLib.Contracts.Network;
+using CatLib.API.Network;
 
 namespace CatLib.Network
 {

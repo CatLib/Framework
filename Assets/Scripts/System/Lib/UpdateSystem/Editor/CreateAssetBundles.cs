@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using CatLib;
-using CatLib.Contracts.IO;
+using CatLib.API.IO;
 using CatLib.Secret;
 
 namespace CatLib.UpdateSystem{

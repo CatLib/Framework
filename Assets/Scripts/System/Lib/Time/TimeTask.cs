@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.Time;
+﻿using CatLib.API.Time;
 using System;
 
 namespace CatLib.Time

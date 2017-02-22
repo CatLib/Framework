@@ -1,6 +1,6 @@
 ﻿
-using CatLib.Contracts;
-using CatLib.Contracts.Time;
+using CatLib.API;
+using CatLib.API.Time;
 using System.Collections.Generic;
 using System.Threading;
 

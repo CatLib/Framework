@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.ResourcesSystem;
+﻿using CatLib.API.ResourcesSystem;
 
 namespace CatLib
 {

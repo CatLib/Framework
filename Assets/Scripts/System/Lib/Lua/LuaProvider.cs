@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using CatLib.Contracts.Lua;
-using CatLib.Contracts.IO;
+using CatLib.API.Lua;
+using CatLib.API.IO;
 using System;
 
 namespace CatLib.Lua

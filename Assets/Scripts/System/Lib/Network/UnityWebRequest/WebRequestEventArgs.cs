@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine.Networking;
-using CatLib.Contracts.Network;
+using CatLib.API.Network;
 
 namespace CatLib.Network
 {

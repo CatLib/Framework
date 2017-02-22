@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.Buffer;
+﻿using CatLib.API.Buffer;
 using System;
 
 namespace CatLib.Buffer{

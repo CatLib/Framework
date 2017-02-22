@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.Thread;
+﻿using CatLib.API.Thread;
 using System;
 
 namespace CatLib.Thread

@@ -1,6 +1,6 @@
 ﻿using CatLib.Base;
-using CatLib.Contracts.Buffer;
-using CatLib.Contracts.Network;
+using CatLib.API.Buffer;
+using CatLib.API.Network;
 using System;
 using System.Collections;
 using System.Collections.Generic;

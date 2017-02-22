@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CatLib.Contracts;
-using CatLib.Contracts.Event;
+using CatLib.API;
+using CatLib.API.Event;
 
 namespace CatLib
 {

@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.Lua;
+﻿using CatLib.API.Lua;
 
 namespace CatLib
 {

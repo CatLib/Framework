@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using CatLib.Contracts.Network;
+using CatLib.API.Network;
 
 namespace CatLib.Network
 {

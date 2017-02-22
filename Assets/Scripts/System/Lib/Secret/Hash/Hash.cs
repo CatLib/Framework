@@ -1,6 +1,6 @@
 ﻿
 
-using CatLib.Contracts.Secret;
+using CatLib.API.Secret;
 
 namespace CattLib.Secret{
 

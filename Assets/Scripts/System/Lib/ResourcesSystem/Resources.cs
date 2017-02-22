@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using CatLib.Contracts.ResourcesSystem;
-using CatLib.Contracts.IO;
+using CatLib.API.ResourcesSystem;
+using CatLib.API.IO;
 
 namespace CatLib.ResourcesSystem {
 

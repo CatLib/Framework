@@ -1,4 +1,4 @@
-﻿using CatLib.Contracts.Network;
+﻿using CatLib.API.Network;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;

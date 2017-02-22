@@ -2,10 +2,10 @@
 using System.IO;
 using System.Collections;
 using XLua;
-using CatLib.Contracts;
-using CatLib.Contracts.Lua;
-using CatLib.Contracts.ResourcesSystem;
-using CatLib.Contracts.IO;
+using CatLib.API;
+using CatLib.API.Lua;
+using CatLib.API.ResourcesSystem;
+using CatLib.API.IO;
 
 namespace CatLib.Lua
 {

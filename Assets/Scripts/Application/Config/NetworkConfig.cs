@@ -2,7 +2,7 @@
 using System.Collections;
 using CatLib;
 using CatLib.Network;
-using CatLib.Contracts.Network;
+using CatLib.API.Network;
 using CatLib.Base;
 
 public class NetworkConfig : Configs {
