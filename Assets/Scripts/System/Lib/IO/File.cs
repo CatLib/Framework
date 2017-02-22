@@ -187,6 +187,101 @@ namespace CatLib.IO
 
         }
 
+        /// <summary>
+        /// 创建文件
+        /// </summary>
+        public void Create(byte[] array)
+        {
+            if(Exists){
+
+                throw new System.IO.IOException("file is exists");
+
+            }
+            using (System.IO.FileStream fs = System.IO.File.Create(FullName))
+            {
+                fs.Write(array, 0, array.Length);
+                fs.Close();
+            }
+        }
+
+        /// <summary>
+        /// 异步创建文件
+        /// </summary>
+        public void CreateAsync(byte[] array , Action callback)
+        {
+            if(Exists){
+
+                throw new System.IO.IOException("file is exists");
+
+            }
+
+            System.IO.FileStream fs = System.IO.File.Create(FullName);
+            //todo:需要测试
+            fs.BeginWrite(array, 0, array.Length , (result)=>{
+
+                fs.EndRead(result);
+                fs.Close();
+                fs.Dispose();
+
+                if(callback != null){
+
+                    callback.Invoke();
+
+                }
+
+            }, null);
+
+        }
+
+        /// <summary>
+        /// 读取文件
+        /// </summary>
+        public byte[] Read(){
+
+            if(!Exists){
+
+                throw new System.IO.IOException("file is not exists");
+
+            }
+
+            using (System.IO.FileStream fs = new System.IO.FileStream(FullName , System.IO.FileMode.Open))
+            {
+                byte[] data = new byte[fs.Length];
+                fs.Read(data, 0, data.Length);
+                return data;
+            }
+
+        }
+
+        public void ReadAsync(Action<byte[]> callback){
+
+            if(!Exists){
+
+                throw new System.IO.IOException("file is not exists");
+
+            }
+
+            //todo:需要测试
+            System.IO.FileStream fs = new System.IO.FileStream( FullName , 
+                                                                System.IO.FileMode.Open, 
+                                                                System.IO.FileAccess.Read,
+                                                                System.IO.FileShare.None, 
+                                                                bufferSize : 1024,
+                                                                useAsync   : true
+                                                                );
+                                                
+            byte[] data = new byte[fs.Length];
+            fs.BeginRead(data , 0 , data.Length, (result)=>{
+                
+                fs.EndRead(result);
+                fs.Close();
+                fs.Dispose();
+                callback.Invoke(data);
+
+            },null);
+
+        }
+
         public IFile Refresh()
         {
             fileInfo = null;

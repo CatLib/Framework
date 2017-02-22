@@ -91,21 +91,6 @@ namespace CatLib.IO
 
         }
 
-        /// <summary>
-        /// 创建文件
-        /// </summary>
-        /// <param name="path">文件路径</param>
-        public IFile CreateFile(string path, byte[] array, int offset, int count)
-        {
-            using (System.IO.FileStream fs = System.IO.File.Create(path))
-            {
-                fs.Write(array, offset, count);
-                fs.Close();
-            }
-
-            return MakeFile(path);
-        }
-
     }
 
 }

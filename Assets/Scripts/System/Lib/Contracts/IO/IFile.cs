@@ -1,4 +1,6 @@
-﻿namespace CatLib.Contracts.IO
+﻿using System;
+
+namespace CatLib.Contracts.IO
 {
 
     public interface IFile
@@ -31,6 +33,14 @@
         void MoveTo(string targetDirectory);
 
         void Rename(string newName);
+
+        void Create(byte[] array);
+
+        void CreateAsync(byte[] array , Action callback);
+
+        byte[] Read(); 
+
+        void ReadAsync(Action<byte[]> callback);
 
         IFile Refresh();
 

@@ -176,7 +176,8 @@ namespace CatLib.UpdateSystem
                         yield break;
                     }
                     IO.Directory(saveDir).Create();
-                    IO.CreateFile(savePath , request.downloadHandler.data, 0, request.downloadHandler.data.Length);
+                    IFile saveFile = IO.File(savePath);
+                    saveFile.Create(request.downloadHandler.data);
                 }
                 
             }

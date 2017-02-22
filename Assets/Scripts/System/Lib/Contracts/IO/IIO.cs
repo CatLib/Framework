@@ -12,8 +12,6 @@ namespace CatLib.Contracts.IO
 
 		IDirectory AssetPath{ get; }
 
-		IFile CreateFile(string path, byte[] array, int offset, int count);
-
 	}
 
 }
