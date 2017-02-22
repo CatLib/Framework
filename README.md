@@ -66,7 +66,8 @@ Unity3D Framework For XLua
 * Scripts/CProgram.cs
 
 ## 用户代码入口(默认)
-* Scripts/Application/CBootstrapProvider.cs (可自定义，只需配置到config中就可以了)
+* Scripts/Application/Bootstrap.cs (可自定义，只需配置到config中就可以了)
+* Scripts/Application/Config/ 配置文件目录
 
 ## 其他
 * 交流QQ群：150371044
