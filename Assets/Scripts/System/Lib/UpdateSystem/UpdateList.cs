@@ -2,42 +2,34 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using CatLib.API.IO;
+using CatLib.API.UpdateSystem;
 using UnityEngine.Networking;
 
 namespace CatLib.UpdateSystem{
 
-	public class UpdateList : IEnumerable {
+	public class UpdateList : IEnumerable  {
+
+        [Dependency]
+        public IIO IO{ get; set; }
 
 		protected string path;
 
         public const string FILE_NAME = "list.update";
 
-        protected List<UpdateListField> field = new List<UpdateListField>();
-
-        protected Dictionary<string, UpdateListField> pkField = new Dictionary<string, UpdateListField>();
-
-        public UpdateList(string path){
-
-            this.SetPath(path);
-
-		}
-
-        public UpdateList(UnityWebRequest request)
+        public UpdateList SetData(UnityWebRequest request)
         {
             this.Parse(new UTF8Encoding(false).GetString(request.downloadHandler.data));
-        }
-
-        public UpdateList SetPath(string path)
-        {
-            this.path = path + "/" + UpdateList.FILE_NAME;
             return this;
         }
 
-        public int Count(){
-
-            return field.Count;
-
+        public UpdateList SetData(string path)
+        {
+            this.path = path + IO.PathSpliter + UpdateList.FILE_NAME;
+            return this;
         }
+
+        public int Count(){ return field.Count; }
 
         public IEnumerator GetEnumerator()
         {
@@ -80,7 +72,6 @@ namespace CatLib.UpdateSystem{
                     sw.WriteLine(str);
                 }
             }
-
         }
 
         /// <summary>
@@ -90,12 +81,16 @@ namespace CatLib.UpdateSystem{
         /// <returns></returns>
         public void Comparison(UpdateList newLst , out UpdateList needUpdate , out UpdateList needDelete)
         {
-            needUpdate = new UpdateList(this.path);
-            needDelete = new UpdateList(string.Empty);
+            needUpdate = new UpdateList();
+            needUpdate.SetData(this.path);
+
+            needDelete = new UpdateList();
+            needDelete.SetData(string.Empty);
+
             UpdateListField oldField;
             foreach (UpdateListField newField in newLst)
             {
-                oldField = this.FindPk(newField.Path);
+                oldField = Find(newField.Path);
                 if (oldField != null)
                 {
                     if (oldField.MD5 != newField.MD5)
@@ -110,23 +105,14 @@ namespace CatLib.UpdateSystem{
 
             foreach(UpdateListField old in this)
             {
-                if(newLst.FindPk(old.Path) == null && old.Path != "/" + UpdateList.FILE_NAME)
+                if(newLst.Find(old.Path) == null && old.Path != IO.PathSpliter + UpdateList.FILE_NAME)
                 {
                     needDelete.Append(old);
                 }
             }
         }
 
-        public UpdateListField FindPk(string pk)
-        {
-            if (pkField.ContainsKey(pk))
-            {
-                return pkField[pk];
-            }
-
-            return null;
-
-        }
+        
 
         protected void Parse(string text)
         {

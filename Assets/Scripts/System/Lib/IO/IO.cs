@@ -78,6 +78,12 @@ namespace CatLib.IO
             }
         }
 
+        public char PathSpliter{
+
+            get{ return PATH_SPLITTER; }
+
+        }
+
 
         public IFile File(string path){
 
