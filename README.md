@@ -16,7 +16,7 @@ Unity3D Framework For XLua
 
 基础组件
 * 基础自动更新服务 （已经完成）
-* AssetBundle资源服务（已经完成）
+* AssetBundle资源服务（正在开发）
 * 事件服务（已经完成）
 * XLua热更新支持 （正在开发）
 * 网络服务（Http，Socket）（已经完成）
