@@ -3,9 +3,9 @@ using CatLib.API.IO;
 
 namespace CatLib.UpdateSystem{
 
-	public class UpdateFileStore : Component {
+	public class UpdateFileStore{
 
-        public const string FILE_NAME = "list.update";
+        public const string FILE_NAME = "update-list.catlib";
 
         public UpdateFile LoadFromBytes(byte[] request)
         {

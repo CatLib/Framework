@@ -88,7 +88,7 @@ namespace CatLib.UpdateSystem{
 
 		public UpdateFile Append(UpdateFileField lst){
 
-            this.pkField.Add(lst.Path, lst);
+            pkField.Add(lst.Path, lst);
 			fields = null;
             return this;
 

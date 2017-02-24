@@ -12,10 +12,13 @@ namespace CatLib.ResourcesSystem {
         [Dependency]
         public IIO IO { get; set; }
 
+        [Dependency]
+        public AssetConfig AssetConfig { get; set; }
+
         /// <summary>
         /// 主依赖文件
         /// </summary>
-        protected UnityEngine.AssetBundleManifest assetBundleManifest;
+        protected AssetBundleManifest assetBundleManifest;
 
         /// <summary>
         /// 被加载的资源包
@@ -55,7 +58,7 @@ namespace CatLib.ResourcesSystem {
 
             envPath = Env.AssetPath;
 
-            UnityEngine.AssetBundle assetTarget = LoadAssetBundle(envPath , relPath);
+            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath);
             return assetTarget.LoadAsset(objName);
         }
 
@@ -82,7 +85,7 @@ namespace CatLib.ResourcesSystem {
                 envPath = Env.AssetPath;
             }
            
-            UnityEngine.AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName));
+            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName));
             return assetTarget.LoadAllAssets();
         }
 
@@ -102,7 +105,7 @@ namespace CatLib.ResourcesSystem {
 
             envPath = Env.AssetPath;
 
-            UnityEngine.AssetBundle assetTarget = null;
+            AssetBundle assetTarget = null;
 
             yield return LoadAssetBundleAsync(envPath , relPath, (ab) =>
             {
@@ -125,7 +128,7 @@ namespace CatLib.ResourcesSystem {
 
             envPath = Env.AssetPath;
 
-            UnityEngine.AssetBundle assetTarget = null;
+            AssetBundle assetTarget = null;
 
             yield return LoadAssetBundleAsync(envPath , relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName), (ab) =>
             {
@@ -161,26 +164,36 @@ namespace CatLib.ResourcesSystem {
             }
             #endif
 
-            string envPath = Env.AssetPath;
-
-            string manifestPath = envPath + IO.PathSpliter + Env.PlatformToName(Env.SwitchPlatform);
-            UnityEngine.AssetBundle assetBundle = UnityEngine.AssetBundle.LoadFromFile(manifestPath);
+            AssetBundle assetBundle = LoadAssetBundle(Env.AssetPath, Env.PlatformToName(Env.SwitchPlatform));
             assetBundleManifest = assetBundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
         }
 
         /// <summary>
         /// 加载AssetBundle
         /// </summary>
-        protected UnityEngine.AssetBundle LoadAssetBundle(string envPath , string relPath)
+        protected AssetBundle LoadAssetBundle(string envPath , string relPath)
         {
             
             LoadDependenciesAssetBundle(envPath , relPath);
 
-            UnityEngine.AssetBundle assetTarget;
+            AssetBundle assetTarget;
             if (!loadAssetBundles.ContainsKey(relPath))
             {
-                assetTarget = UnityEngine.AssetBundle.LoadFromFile(envPath + IO.PathSpliter + relPath);
-                loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
+
+                if (AssetConfig.IsEncryption(relPath))
+                {
+
+                    //todo: 处理解密
+                    assetTarget = AssetBundle.LoadFromFile(envPath + IO.PathSpliter + relPath);
+                    loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
+
+                }
+                else
+                {
+                    assetTarget = AssetBundle.LoadFromFile(envPath + IO.PathSpliter + relPath);
+                    loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
+                }
+                
             }
             else
             {
@@ -201,7 +214,7 @@ namespace CatLib.ResourcesSystem {
                 if (!dependenciesBundles.ContainsKey(dependencies))
                 {
 
-                    UnityEngine.AssetBundle assetBundle = UnityEngine.AssetBundle.LoadFromFile(envPath + IO.PathSpliter + dependencies);
+                    AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + IO.PathSpliter + dependencies);
                     dependenciesBundles.Add(dependencies, new DependenciesBundle(assetBundle));
 
                 }else{
@@ -218,15 +231,25 @@ namespace CatLib.ResourcesSystem {
         /// </summary>
         /// <param name="relPath"></param>
         /// <returns></returns>
-        protected IEnumerator LoadAssetBundleAsync(string envPath , string relPath , System.Action<UnityEngine.AssetBundle> complete) 
+        protected IEnumerator LoadAssetBundleAsync(string envPath , string relPath , System.Action<AssetBundle> complete) 
         {
 
             yield return LoadDependenciesAssetBundleAsync(envPath , relPath);
 
-            UnityEngine.AssetBundle assetTarget;
+            AssetBundle assetTarget;
             if (!loadAssetBundle.ContainsKey(relPath))
             {
-                AssetBundleCreateRequest assetTargetBundleRequest = UnityEngine.AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + relPath);
+                AssetBundleCreateRequest assetTargetBundleRequest;
+                if (AssetConfig.IsEncryption(relPath))
+                {
+                    //todo: 解密
+                    assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + relPath);
+                }
+                else
+                {
+                    assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + relPath);
+                }
+
                 yield return assetTargetBundleRequest;
                 assetTarget = assetTargetBundleRequest.assetBundle;
                 loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
@@ -251,7 +274,16 @@ namespace CatLib.ResourcesSystem {
             {
                 if (!loadAssetBundle.ContainsKey(dependencies))
                 {
-                    AssetBundleCreateRequest assetBundleDependencies = UnityEngine.AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + dependencies);
+                    AssetBundleCreateRequest assetBundleDependencies;
+                    if (AssetConfig.IsEncryption(relPath))
+                    {
+                        //todo: 解密
+                        assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + dependencies);
+                    }
+                    else
+                    {
+                        assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + dependencies);
+                    }
                     yield return assetBundleDependencies;
                     dependenciesBundles.Add(dependencies, new DependenciesBundle(assetBundleDependencies.assetBundle));
                 }else{

@@ -1,6 +1,4 @@
 ﻿using UnityEditor;
-using System;
-using CatLib.API.ResourcesSystem;
 
 namespace CatLib.API.ResourcesSystem{
 
@@ -31,11 +29,16 @@ namespace CatLib.API.ResourcesSystem{
         /// </summary>
 		public string ReleasePath{ get; set; }
 
-		/// <summary>
+        /// <summary>
+        /// 最终发布的文件列表
+        /// </summary>
+        public string[] ReleaseFiles { get; set; }
+
+        /// <summary>
         /// 被加密的文件列表
         /// </summary>
-		public string[] EncryptionFiles{ get; set; }
+        public string[] EncryptionFiles{ get; set; }
 
-	}
+    }
 
 }

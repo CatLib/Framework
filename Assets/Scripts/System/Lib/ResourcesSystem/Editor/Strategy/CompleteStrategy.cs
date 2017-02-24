@@ -1,10 +1,6 @@
 ﻿
 using CatLib.API.ResourcesSystem;
 using UnityEditor;
-using UnityEngine;
-using CatLib;
-using System;
-using CatLib.API.IO;
 
 namespace CatLib.ResourcesSystem{
 

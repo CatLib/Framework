@@ -30,6 +30,11 @@ namespace CatLib.API.ResourcesSystem{
         /// </summary>
 		string ReleasePath{ get; set; }
 
+        /// <summary>
+        /// 最终发布的文件列表
+        /// </summary>
+        string[] ReleaseFiles { get; set; }
+
 		/// <summary>
         /// 被加密的文件列表
         /// </summary>

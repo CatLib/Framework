@@ -2,7 +2,6 @@
 using CatLib.API.ResourcesSystem;
 using UnityEditor;
 using UnityEngine;
-using CatLib;
 using System;
 
 namespace CatLib.ResourcesSystem{
@@ -12,6 +11,11 @@ namespace CatLib.ResourcesSystem{
 		public BuildProcess Process{ get { return BuildProcess.Setup; } }
 
 		public void Build(IBuildContext context){
+
+            if (UnityEngine.Application.isPlaying)
+            {
+                throw new Exception("please stop playing");
+            }
 
 			RuntimePlatform switchPlatform = Env.SwitchPlatform;
 			context.BuildTarget  = PlatformToBuildTarget(switchPlatform);

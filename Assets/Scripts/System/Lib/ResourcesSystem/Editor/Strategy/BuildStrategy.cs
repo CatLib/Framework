@@ -1,11 +1,7 @@
-﻿
-using CatLib.API.ResourcesSystem;
-using UnityEditor;
-using UnityEngine;
-using CatLib;
-using System;
-using CatLib.API.IO;
+﻿using UnityEditor;
 using System.IO;
+using CatLib.API.IO;
+using CatLib.API.ResourcesSystem;
 
 namespace CatLib.ResourcesSystem{
 
@@ -17,8 +13,11 @@ namespace CatLib.ResourcesSystem{
 
 			BuildAssetBundleName(context.BuildPath);
 
-			IDirectory copyDire = IO.IO.MakeDirectory(context.NoBuildPath);
-			copyDire.CopyTo(context.ReleasePath);
+			IDirectory copyDir = IO.IO.MakeDirectory(context.NoBuildPath);
+            if (copyDir.Exists())
+            {
+                copyDir.CopyTo(context.ReleasePath);
+            }
 
 			BuildPipeline.BuildAssetBundles("Assets" + context.ReleasePath.Substring(Env.DataPath.Length), 
 												BuildAssetBundleOptions.None ,

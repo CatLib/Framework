@@ -1,6 +1,5 @@
 ﻿
 using System;
-using CatLib.API.UpdateSystem;
 
 namespace CatLib.UpdateSystem{
 
