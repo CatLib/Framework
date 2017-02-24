@@ -142,7 +142,7 @@ namespace CatLib
             }
         }
 
-        public Application()
+        public Application() : base()
         {
 
             mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;

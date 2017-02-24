@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace CatLib.API.AssetBundle{
+namespace CatLib.API.ResourcesSystem{
 
 	public interface IAssetBundle{
 

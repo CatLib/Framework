@@ -31,6 +31,25 @@ namespace CatLib
 
         }
 
+        public static Type[] GetChildTypesWithInterface(this Type interfaceType){
+
+            List<Type> lstType = new List<Type>();
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var type in assembly.GetTypes())
+                {
+                    foreach (var t in type.GetInterfaces())
+                    {
+                        if (t == interfaceType)
+                        {
+                            lstType.Add(type);
+                        }
+                    }
+                }
+            }
+            return lstType.ToArray();
+            
+        }
 
     }
 

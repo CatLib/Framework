@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace CatLib.AssetBundle{
+namespace CatLib.ResourcesSystem{
 
 	public class DependenciesBundle {
 

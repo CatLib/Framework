@@ -1,8 +1,8 @@
 ﻿using System;
-using CatLib.API.AssetBundle;
 using CatLib.API.IO;
+using CatLib.API.ResourcesSystem;
 
-namespace CatLib.AssetBundle{
+namespace CatLib.ResourcesSystem{
 
 	public class AssetBundleProvider : ServiceProvider {
 

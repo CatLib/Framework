@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using CatLib.API.IO;
-using CatLib.API.AssetBundle;
+using CatLib.API.ResourcesSystem;
 
-namespace CatLib.AssetBundle {
+namespace CatLib.ResourcesSystem {
 
     public class AssetBundleLoader : Component , IAssetBundle
     {

@@ -4,7 +4,7 @@ using CatLib.API.UpdateSystem;
 
 namespace CatLib.UpdateSystem{
 
-	public class UpdateFileField : IUpdateFileField{
+	public class UpdateFileField{
 
 		public string MD5{ get; protected set; }
 
@@ -32,9 +32,9 @@ namespace CatLib.UpdateSystem{
 
 		}
 
-		public static implicit operator string(UpdateFileField cls){
-
-			return cls.Path + "\t" + cls.MD5 + "\t" + cls.Size + "\n";
+		public override string ToString(){
+			
+			return Path + "\t" + MD5 + "\t" + Size + "\n";
 
 		}
 	}
