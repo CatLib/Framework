@@ -1,8 +1,5 @@
 ﻿
 using CatLib.API.ResourcesSystem;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 
 namespace CatLib.ResourcesSystem
 {
@@ -16,10 +13,6 @@ namespace CatLib.ResourcesSystem
         {
 
             context.EncryptionFiles = context.ReleaseFiles;
-
-            BuildAssetFile(context);
-
-        
 
             /*
             string[] assetBundles = AssetDatabase.GetAllAssetBundleNames();
@@ -56,28 +49,6 @@ namespace CatLib.ResourcesSystem
 
 
         }
-
-        protected void BuildAssetFile(IBuildContext context)
-        {
-
-            AssetFileStore store = new AssetFileStore();
-            AssetFile file = new AssetFile();
-            if (context.EncryptionFiles != null)
-            {
-                for (int i = 0; i < context.EncryptionFiles.Length; i++)
-                {
-                    file.Append(context.EncryptionFiles[i], true);
-                }
-            }
-
-            store.Save(context.ReleasePath, file);
-            List<string> releasePath = new List<string>(context.ReleaseFiles);
-            releasePath.Add(AssetFileStore.FILE_NAME);
-            context.ReleaseFiles = releasePath.ToArray();
-
-        }
-
-
 
     }
 

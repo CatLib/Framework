@@ -13,7 +13,7 @@ namespace CatLib.ResourcesSystem {
         public IIO IO { get; set; }
 
         [Dependency]
-        public AssetConfig AssetConfig { get; set; }
+        public IDecrypted AssetDecrypted { get; set; }
 
         /// <summary>
         /// 主依赖文件
@@ -53,12 +53,11 @@ namespace CatLib.ResourcesSystem {
         public Object LoadAsset(string path)
         {
             LoadManifest();
-            string relPath, objName , envPath;
+            string relPath, objName;
             ParsePath(path , out relPath, out objName);
 
-            envPath = Env.AssetPath;
-
-            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath);
+            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath);
+            if (assetTarget == null) { return null; }
             return assetTarget.LoadAsset(objName);
         }
 
@@ -66,27 +65,68 @@ namespace CatLib.ResourcesSystem {
         public Object[] LoadAssetAll(string path)
         {
             LoadManifest();
-            string relPath, objName, envPath;
+            string relPath, objName;
             ParsePath(path , out relPath, out objName);
 
-            #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.AUTO)
-            {
-                return UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + Env.ResourcesBuildPath + IO.PathSpliter + relPath + IO.PathSpliter + objName);
-            }
-            #endif
-
-            if (Env.DebugLevel == Env.DebugLevels.STAGING)
-            {
-                envPath = Env.DataPath + Env.ReleasePath + IO.PathSpliter + Env.PlatformToName(Env.SwitchPlatform);
-            }
-            else
-            {
-                envPath = Env.AssetPath;
-            }
-           
-            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName));
+            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName));
+            if (assetTarget == null) { return null; }
             return assetTarget.LoadAllAssets();
+        }
+
+        /// <summary>
+        /// 加载资源（异步） 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public UnityEngine.Coroutine LoadAssetAsync(string path, System.Action<Object> callback)
+        {
+            return App.StartCoroutine(LoadAssetAsyncIEnumerator(path, callback));
+        }
+
+        /// <summary>
+        /// 加载资源（异步） 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public UnityEngine.Coroutine LoadAssetAllAsync(string path, System.Action<Object[]> callback)
+        {
+            return App.StartCoroutine(LoadAssetAllAsyncIEnumerator(path, callback));
+        }
+
+        /// <summary>
+        /// 卸载全部资源包
+        /// </summary>
+        public void UnloadAll()
+        {
+            foreach (var asset in loadAssetBundles)
+            {
+                asset.Value.Bundle.Unload(true);
+            }
+            foreach (var asset in dependenciesBundles)
+            {
+                asset.Value.Bundle.Unload(true);
+            }
+            loadAssetBundles.Clear();
+            dependenciesBundles.Clear();
+        }
+
+        /// <summary>
+        /// 卸载资源包
+        /// </summary>
+        /// <param name="assetbundlePath">资源包路径</param>
+        public void UnloadAssetBundle(string assetbundlePath)
+        {
+            if (loadAssetBundles.ContainsKey(assetbundlePath))
+            {
+                foreach (string dependencies in assetBundleManifest.GetAllDependencies(assetbundlePath))
+                {
+                    UnloadDependenciesAssetBundle(dependencies);
+                }
+                loadAssetBundles[assetbundlePath].Bundle.Unload(true);
+                loadAssetBundles.Remove(assetbundlePath);
+            }
         }
 
         /// <summary>
@@ -96,18 +136,16 @@ namespace CatLib.ResourcesSystem {
         /// <param name="path"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public IEnumerator LoadAssetAsync(string path , System.Action<Object> callback)
+        protected IEnumerator LoadAssetAsyncIEnumerator(string path, System.Action<Object> callback)
         {
 
             LoadManifest();
-            string relPath, objName , envPath;
+            string relPath, objName;
             ParsePath(path, out relPath, out objName);
-
-            envPath = Env.AssetPath;
 
             AssetBundle assetTarget = null;
 
-            yield return LoadAssetBundleAsync(envPath , relPath, (ab) =>
+            yield return LoadAssetBundleAsync(Env.AssetPath, relPath, (ab) =>
             {
                 assetTarget = ab;
             });
@@ -115,22 +153,26 @@ namespace CatLib.ResourcesSystem {
             AssetBundleRequest targetAssetRequest = assetTarget.LoadAssetAsync(objName);
             yield return targetAssetRequest;
 
-            callback.Invoke(targetAssetRequest.asset);
+            if (targetAssetRequest != null)
+            {
+                callback.Invoke(targetAssetRequest.asset);
+            }else
+            {
+                callback.Invoke(null);
+            }
 
         }
 
-        public IEnumerator LoadAssetAllAsync(string path , System.Action<Object[]> callback)
+        protected IEnumerator LoadAssetAllAsyncIEnumerator(string path , System.Action<Object[]> callback)
         {
 
-            this.LoadManifest();
-            string relPath, objName , envPath;
+            LoadManifest();
+            string relPath, objName;
             ParsePath(path, out relPath, out objName);
-
-            envPath = Env.AssetPath;
 
             AssetBundle assetTarget = null;
 
-            yield return LoadAssetBundleAsync(envPath , relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName), (ab) =>
+            yield return LoadAssetBundleAsync(Env.AssetPath, relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName), (ab) =>
             {
                 assetTarget = ab;
             });
@@ -144,8 +186,14 @@ namespace CatLib.ResourcesSystem {
 
             AssetBundleRequest targetAssetRequest = assetTarget.LoadAllAssetsAsync();
             yield return targetAssetRequest;
-            
-            callback.Invoke(targetAssetRequest.allAssets);
+
+            if (targetAssetRequest != null)
+            {
+                callback.Invoke(targetAssetRequest.allAssets);
+            }else
+            {
+                callback.Invoke(null);
+            }
 
         }
 
@@ -171,29 +219,28 @@ namespace CatLib.ResourcesSystem {
         /// <summary>
         /// 加载AssetBundle
         /// </summary>
-        protected AssetBundle LoadAssetBundle(string envPath , string relPath)
+        protected AssetBundle LoadAssetBundle(string envPath, string relPath)
         {
-            
-            LoadDependenciesAssetBundle(envPath , relPath);
+
+            LoadDependenciesAssetBundle(envPath, relPath);
 
             AssetBundle assetTarget;
             if (!loadAssetBundles.ContainsKey(relPath))
             {
 
-                if (AssetConfig.IsEncryption(relPath))
+                if (AssetDecrypted != null && AssetDecrypted.IsEncryption(relPath))
                 {
-
-                    //todo: 处理解密
-                    assetTarget = AssetBundle.LoadFromFile(envPath + IO.PathSpliter + relPath);
-                    loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
-
+                    IFile file = IO.File(envPath + IO.PathSpliter + relPath);
+                    byte[] data = AssetDecrypted.Decrypted(relPath, file.Read());
+                    assetTarget = AssetBundle.LoadFromMemory(data);
                 }
                 else
                 {
                     assetTarget = AssetBundle.LoadFromFile(envPath + IO.PathSpliter + relPath);
-                    loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
                 }
-                
+
+                loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
+
             }
             else
             {
@@ -209,6 +256,7 @@ namespace CatLib.ResourcesSystem {
         /// </summary>
         protected void LoadDependenciesAssetBundle(string envPath , string relPath){
 
+            if (assetBundleManifest == null) { return; }
             foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
                 if (!dependenciesBundles.ContainsKey(dependencies))
@@ -237,13 +285,14 @@ namespace CatLib.ResourcesSystem {
             yield return LoadDependenciesAssetBundleAsync(envPath , relPath);
 
             AssetBundle assetTarget;
-            if (!loadAssetBundle.ContainsKey(relPath))
+            if (!loadAssetBundles.ContainsKey(relPath))
             {
                 AssetBundleCreateRequest assetTargetBundleRequest;
-                if (AssetConfig.IsEncryption(relPath))
+                if (AssetDecrypted != null && AssetDecrypted.IsEncryption(relPath))
                 {
-                    //todo: 解密
-                    assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + relPath);
+                    IFile file = IO.File(envPath + IO.PathSpliter + relPath);
+                    byte[] data = AssetDecrypted.Decrypted(relPath, file.Read());
+                    assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(data);
                 }
                 else
                 {
@@ -272,13 +321,14 @@ namespace CatLib.ResourcesSystem {
 
             foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
-                if (!loadAssetBundle.ContainsKey(dependencies))
+                if (!loadAssetBundles.ContainsKey(dependencies))
                 {
                     AssetBundleCreateRequest assetBundleDependencies;
-                    if (AssetConfig.IsEncryption(relPath))
+                    if (AssetDecrypted != null && AssetDecrypted.IsEncryption(relPath))
                     {
-                        //todo: 解密
-                        assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + dependencies);
+                        IFile file = IO.File(envPath + IO.PathSpliter + relPath);
+                        byte[] data = AssetDecrypted.Decrypted(relPath, file.Read());
+                        assetBundleDependencies = AssetBundle.LoadFromMemoryAsync(data);
                     }
                     else
                     {
@@ -303,85 +353,24 @@ namespace CatLib.ResourcesSystem {
             string extension =  System.IO.Path.GetExtension(path);
             string dirPath = System.IO.Path.GetDirectoryName(path);
 
-            
-
-
-
-
-
-
-
-
-
-            objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf(IO.PathSpliter) + 1), variant );
-            relPath = path.Substring(0, path.LastIndexOf(IO.PathSpliter)) + variant;
-
-            if (!IO.File(Env.AssetPath + IO.PathSpliter + relPath).Exists)
-            {
-                objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf(IO.PathSpliter) + 1), string.Empty );
-                relPath = path.Substring(0, path.LastIndexOf(IO.PathSpliter));
-            }
+            objName = name + variant;
+            relPath = dirPath + variant;
         }
 
         /// <summary>
-        /// 类型对应的后缀
+        /// 卸载依赖资源包
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        protected string NameWithTypeToSuffix(string name , string variant )
+        /// <param name="assetbundlePath">资源包路径</param>
+        private void UnloadDependenciesAssetBundle(string assetbundlePath)
         {
-            string suffix = string.Empty;
-            /*
-            if(type == typeof(Object)){
-
-                if(name.LastIndexOf('.') == -1){
-                    
-                    suffix = ".prefab";
-
+            if (dependenciesBundles.ContainsKey(assetbundlePath))
+            {
+                dependenciesBundles[assetbundlePath].RefCount--;
+                if (dependenciesBundles[assetbundlePath].RefCount <= 0)
+                {
+                    dependenciesBundles[assetbundlePath].Bundle.Unload(true);
+                    dependenciesBundles.Remove(assetbundlePath);
                 }
-
-            }else if (type == typeof(GameObject))
-            {
-                suffix = ".prefab";
-            }else if(type == typeof(TextAsset)){
-
-                suffix = ".txt";
-                   
-            }else if(type == typeof(Material))
-            {
-                suffix = ".mat";
-            }else if(type == typeof(Shader))
-            {
-                suffix = ".shader";
-            }*/
-           
-            if (name.Length < suffix.Length || (name.Length == suffix.Length && name != suffix) || (name.Length > suffix.Length && name.Substring(name.Length - suffix.Length) != suffix))
-            {
-                name += suffix;
-            }
-            return name + variant;
-        }
-
-
-
-
-
-        //一下是需要调整的代码
-
-        /// <summary>
-        /// 被加载的资源包
-        /// </summary>
-        protected Dictionary<string , UnityEngine.AssetBundle> loadAssetBundle = new Dictionary<string, UnityEngine.AssetBundle>();
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        /// <param name="unloadAllLoadedObjects">是否释放已经被加载的Asset资源</param>
-        public void Unload(bool unloadAllLoadedObjects)
-        {
-            foreach(UnityEngine.AssetBundle bundle in loadAssetBundle.ToArray())
-            {
-                bundle.Unload(unloadAllLoadedObjects);
             }
         }
 

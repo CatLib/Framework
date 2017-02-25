@@ -82,7 +82,7 @@ namespace CatLib.Lua
                 {
                     if (!info.Name.EndsWith(".manifest"))
                     {
-                        yield return resources.LoadAllAsyn<TextAsset>(filePath + "/" + info.Name, (textAssets) =>
+                        yield return resources.LoadAllAsync<TextAsset>(filePath + "/" + info.Name, (textAssets) =>
                         {
                             Event.Trigger(LuaEvents.ON_HOT_FIXED_ACTION);
                             foreach (TextAsset text in textAssets)

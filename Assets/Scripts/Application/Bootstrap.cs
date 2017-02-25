@@ -16,6 +16,13 @@ public class Bootstrap : ServiceProvider
         App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            IResources res = App.Make<IResources>();
+            IAssetBundle bundle = App.Make<IAssetBundle>();
+            //bundle.Variant = "sd";
+            Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
+            //res.UnloadAll();
+            //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
+
             /*
             Thread subThread = new Thread(new ThreadStart(() => {
 
@@ -72,7 +79,7 @@ public class Bootstrap : ServiceProvider
 
 
 
-
+            /*
 
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
@@ -145,9 +152,7 @@ public class Bootstrap : ServiceProvider
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
             udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
-
-
-            Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
+            */
 
         });
 

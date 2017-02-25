@@ -32,7 +32,7 @@ namespace CatLib
         /// <summary>
         /// 调试等级
         /// </summary>
-        public static DebugLevels DebugLevel { get { return DebugLevels.AUTO; } }
+        public static DebugLevels DebugLevel { get { return DebugLevels.STAGING; } }
 
         /// <summary>
 		/// 编译完成后发布AssetBundle的路径
@@ -88,11 +88,11 @@ namespace CatLib
 
             get
             {
-				if (Env.DebugLevel == Env.DebugLevels.STAGING)
+				if (DebugLevel == DebugLevels.STAGING)
 				{
-					return Env.DataPath + Env.ReleasePath + "/" + Env.PlatformToName(Env.SwitchPlatform);
+					return DataPath + ReleasePath + "/" + PlatformToName(SwitchPlatform);
 				}
-                return Env.PersistentDataPath + "/" + "Asset";
+                return PersistentDataPath + "/" + "Asset";
             }
 
         }

@@ -5,9 +5,9 @@ namespace CatLib.ResourcesSystem{
 
 	public class MainBundle {
 
-		public UnityEngine.AssetBundle Bundle{ get; set; }
+		public AssetBundle Bundle{ get; set; }
 
-		public MainBundle(UnityEngine.AssetBundle bundle){
+		public MainBundle(AssetBundle bundle){
 
 			Bundle = bundle;
 
