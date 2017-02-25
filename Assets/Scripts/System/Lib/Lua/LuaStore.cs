@@ -69,6 +69,14 @@ namespace CatLib.Lua
 
         protected IEnumerator LoadHotFixAysn()
         {
+
+            #if UNITY_EDITOR
+            if (Env.DebugLevel == Env.DebugLevels.AUTO)
+            {
+                yield break;
+            }
+            #endif
+
             Event.Trigger(LuaEvents.ON_HOT_FIXED_START);
 
             string[] filePaths = Config.Get<string[]>("lua.hotfix");

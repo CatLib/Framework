@@ -18,8 +18,14 @@ public class Bootstrap : ServiceProvider
 
             IResources res = App.Make<IResources>();
             IAssetBundle bundle = App.Make<IAssetBundle>();
-            //bundle.Variant = "sd";
-            Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
+            //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
+
+            //Object[] p = res.LoadAll("prefab/asset6");
+
+            res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
+             {
+                 Object.Instantiate(obj);
+             });
             //res.UnloadAll();
             //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
 
