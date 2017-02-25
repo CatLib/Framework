@@ -147,7 +147,7 @@ namespace CatLib
 
             mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
-            Decorator((container, bindData, obj) =>
+            Resolving((container, bindData, obj) =>
             {
 
                 if (bindData.IsStatic)

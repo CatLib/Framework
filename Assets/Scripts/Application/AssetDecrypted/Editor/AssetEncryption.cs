@@ -1,8 +1,8 @@
 ﻿
-using CatLib.API.ResourcesSystem;
+using CatLib.API.Resources;
 using UnityEditor;
 
-namespace CatLib.ResourcesSystem
+namespace CatLib.Resources
 {
 
     /// <summary>

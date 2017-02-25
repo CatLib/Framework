@@ -2,7 +2,7 @@
 using XLua;
 using System;
 using CatLib.API.Lua;
-using CatLib.API.ResourcesSystem;
+using CatLib.API.Resources;
 
 namespace CatLib {
 

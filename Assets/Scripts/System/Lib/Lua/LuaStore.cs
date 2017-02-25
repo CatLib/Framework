@@ -4,7 +4,7 @@ using System.Collections;
 using XLua;
 using CatLib.API;
 using CatLib.API.Lua;
-using CatLib.API.ResourcesSystem;
+using CatLib.API.Resources;
 using CatLib.API.IO;
 
 namespace CatLib.Lua

@@ -1,4 +1,4 @@
-﻿using CatLib.API.UpdateSystem;
+﻿using CatLib.API.AutoUpdate;
 
 namespace CatLib
 {

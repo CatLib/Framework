@@ -3,7 +3,7 @@ using System.Text;
 using CatLib;
 using CatLib.Network;
 using CatLib.API.Network;
-using CatLib.API.ResourcesSystem;
+using CatLib.API.Resources;
 using System.Threading;
 using CatLib.API.Event;
 using CatLib.API.Time;

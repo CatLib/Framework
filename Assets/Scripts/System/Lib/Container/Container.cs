@@ -167,10 +167,10 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 修饰器
+        /// 当解决类型时触发的秀时期
         /// </summary>
         /// <param name="func"></param>
-        public IContainer Decorator(Func<IContainer , IBindData, object, object> func)
+        public IContainer Resolving(Func<IContainer , IBindData, object, object> func)
         {
             if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
             decorator.Add(func);

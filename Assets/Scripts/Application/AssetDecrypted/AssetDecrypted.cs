@@ -1,4 +1,4 @@
-﻿using CatLib.API.ResourcesSystem;
+﻿using CatLib.API.Resources;
 
 public class AssetDecrypted : IDecrypted
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using CatLib;
-using CatLib.UpdateSystem;
+using CatLib.AutoUpdate;
 
 public class AutoUpdateConfig : Configs{
 

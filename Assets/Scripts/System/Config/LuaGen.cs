@@ -42,8 +42,8 @@ namespace CatLib.Config
                     typeof(API.Network.IConnectorSocket),
                     typeof(API.Network.INetwork),
                     typeof(API.Network.ERestful),
-                    typeof(API.ResourcesSystem.IResources),
-                    typeof(API.UpdateSystem.IAutoUpdate),
+                    typeof(API.Resources.IResources),
+                    typeof(API.AutoUpdate.IAutoUpdate),
                     typeof(Env),
 
                 };

@@ -44,11 +44,11 @@ namespace CatLib.API.Container
         IContainer Alias(string alias, string service);
 
         /// <summary>
-        /// 修饰器
+        /// 当解析对象时触发的事件
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        IContainer Decorator(Func<IContainer, IBindData, object, object> func);
+        IContainer Resolving(Func<IContainer, IBindData, object, object> func);
 
     }
 }
