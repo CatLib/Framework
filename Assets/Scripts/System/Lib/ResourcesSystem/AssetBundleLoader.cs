@@ -353,7 +353,7 @@ namespace CatLib.ResourcesSystem {
             string extension =  System.IO.Path.GetExtension(path);
             string dirPath = System.IO.Path.GetDirectoryName(path);
 
-            objName = name + variant;
+            objName = name + variant + extension;
             relPath = dirPath + variant;
         }
 
