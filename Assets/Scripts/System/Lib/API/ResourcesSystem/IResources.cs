@@ -6,6 +6,8 @@ namespace CatLib.API.ResourcesSystem
     public interface IResources
     {
 
+        void AddExtension(System.Type type, string extension);
+
         Object Load(string path);
 
         Object Load(string path , System.Type type);
@@ -14,26 +16,21 @@ namespace CatLib.API.ResourcesSystem
 
         Object[] LoadAll(string path);
 
-        Object[] LoadAll(string path , System.Type type);
-
         T[] LoadAll<T>(string path) where T : Object;
 
-        UnityEngine.Coroutine LoadAsyn(string path, System.Action<Object> callback);
+        UnityEngine.Coroutine LoadAsync(string path, System.Action<Object> callback);
 
-        UnityEngine.Coroutine LoadAsyn(string path , System.Type type, System.Action<Object> callback);
+        UnityEngine.Coroutine LoadAsync(string path , System.Type type, System.Action<Object> callback);
 
-        UnityEngine.Coroutine LoadAsyn<T>(string path, System.Action<T> callback) where T : Object;
+        UnityEngine.Coroutine LoadAsync<T>(string path, System.Action<T> callback) where T : Object;
 
+        UnityEngine.Coroutine LoadAllAsync(string path , System.Action<Object[]> callback);
 
-        UnityEngine.Coroutine LoadAllAsyn(string path, System.Action<Object[]> callback);
+        UnityEngine.Coroutine LoadAllAsync<T>(string path, System.Action<T[]> callback) where T : Object;
 
-        UnityEngine.Coroutine LoadAllAsyn(string path , System.Type type, System.Action<Object[]> callback);
+        void UnloadAll();
 
-        UnityEngine.Coroutine LoadAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object;
-
-        void Unload(bool unloadAllLoadedObjects);
-
-        string Variant { get; set; }
+        void UnloadAssetBundle(string assetbundlePath);
 
     }
 

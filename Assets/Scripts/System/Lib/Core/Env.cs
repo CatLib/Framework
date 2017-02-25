@@ -88,11 +88,11 @@ namespace CatLib
 
             get
             {
-				if (Env.DebugLevel == Env.DebugLevels.STAGING)
+				if (DebugLevel == DebugLevels.STAGING)
 				{
-					return Env.DataPath + Env.ReleasePath + "/" + Env.PlatformToName(Env.SwitchPlatform);
+					return DataPath + ReleasePath + "/" + PlatformToName(SwitchPlatform);
 				}
-                return Env.PersistentDataPath + "/" + "Asset";
+                return PersistentDataPath + "/" + "Asset";
             }
 
         }

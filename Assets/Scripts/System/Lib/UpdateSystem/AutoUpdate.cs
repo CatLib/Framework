@@ -84,8 +84,8 @@ namespace CatLib.UpdateSystem
         protected IEnumerator UpdateList(string resUrl)
         {
             base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_START);
-            resUrl = resUrl + "/" + Env.PlatformToName(Env.SwitchPlatform);
-            UnityWebRequest request = UnityWebRequest.Get(resUrl + "/" + UpdateSystem.UpdateList.FILE_NAME);
+            resUrl = resUrl + IO.PathSpliter + Env.PlatformToName(Env.SwitchPlatform);
+            UnityWebRequest request = UnityWebRequest.Get(resUrl + IO.PathSpliter + UpdateFileStore.FILE_NAME);
             yield return request.Send();
             if (request.isError || request.responseCode != 200)
             {
@@ -96,12 +96,11 @@ namespace CatLib.UpdateSystem
 
             base.Event.Trigger(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_START);
 
-            var newLst = new UpdateList(request).SetPath(Env.AssetPath);
-
-            UpdateList oldLst = new UpdateList(Env.AssetPath);
+            var fileStore = new UpdateFileStore();
+            var newLst = fileStore.LoadFromBytes(request.downloadHandler.data);
+            var oldLst = new UpdateFile(); //fileStore.LoadFromPath(Env.AssetPath);
 
             IO.AssetPath.Create();
-
             IO.AssetPath.Walk((file) => {
 
                 if (!file.FileInfo.FullName.Standard().EndsWith(".meta"))
@@ -115,25 +114,26 @@ namespace CatLib.UpdateSystem
 
             base.Event.Trigger(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_END);
 
-            UpdateList needUpdateLst, needDeleteLst;
+            UpdateFile needUpdateLst, needDeleteLst;
             oldLst.Comparison(newLst, out needUpdateLst, out needDeleteLst);
 
             yield return this.DeleteOldAsset(needDeleteLst);
 
             yield return this.UpdateAssetFromUrl(needUpdateLst, resUrl);
 
-            newLst.Save();
+            fileStore.Save(Env.AssetPath , newLst);
 
             base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_COMPLETE);
 
         }
 
-        protected IEnumerator DeleteOldAsset(UpdateList needDeleteLst)
+        protected IEnumerator DeleteOldAsset(UpdateFile needDeleteLst)
         {
+
             base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_START);
 
             IFile file;
-            foreach (UpdateListField field in needDeleteLst)
+            foreach (UpdateFileField field in needDeleteLst)
             {
                 file = IO.File(Env.AssetPath + field.Path);
                 if (file.Exists)
@@ -150,19 +150,19 @@ namespace CatLib.UpdateSystem
 
         }
 
-        protected IEnumerator UpdateAssetFromUrl(UpdateList needUpdateLst, string downloadUrl)
+        protected IEnumerator UpdateAssetFromUrl(UpdateFile needUpdateLst, string downloadUrl)
         {
 
             updateNum = 0;
-            needUpdateNum = needUpdateLst.Count();
+            needUpdateNum = needUpdateLst.Count;
             string savePath, downloadPath, saveDir;
             base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_START);
-            foreach (UpdateListField field in needUpdateLst)
+            foreach (UpdateFileField field in needUpdateLst)
             {
                 downloadPath = downloadUrl + field.Path;
                 savePath = Env.AssetPath + field.Path;
 
-                saveDir = savePath.Substring(0, savePath.LastIndexOf('/'));
+                saveDir = savePath.Substring(0, savePath.LastIndexOf(IO.PathSpliter));
 
                 updateNum++;
                 base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_ACTION);

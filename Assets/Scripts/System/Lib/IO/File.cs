@@ -240,7 +240,7 @@ namespace CatLib.IO
 
             if(!Exists){
 
-                throw new System.IO.IOException("file is not exists");
+                throw new System.IO.IOException("file is not exists : " + FullName);
 
             }
 

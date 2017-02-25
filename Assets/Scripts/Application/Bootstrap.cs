@@ -16,6 +16,19 @@ public class Bootstrap : ServiceProvider
         App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            IResources res = App.Make<IResources>();
+            IAssetBundle bundle = App.Make<IAssetBundle>();
+            //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
+
+            //Object[] p = res.LoadAll("prefab/asset6");
+
+            res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
+             {
+                 Object.Instantiate(obj);
+             });
+            //res.UnloadAll();
+            //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
+
             /*
             Thread subThread = new Thread(new ThreadStart(() => {
 
@@ -48,7 +61,7 @@ public class Bootstrap : ServiceProvider
             {
                 Debug.Log("2222222");
             }).Delay(1).Loop(3).OnComplete(()=> { h.Cancel(); Debug.Log("2 complete"); }).Push();
-
+            
             timeQueue.Task(() =>
             {
                 Debug.Log("rand!");
@@ -72,7 +85,7 @@ public class Bootstrap : ServiceProvider
 
 
 
-
+            /*
 
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
@@ -145,9 +158,7 @@ public class Bootstrap : ServiceProvider
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
             udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
-
-
-            Object.Instantiate(App.Make<IResources>().Load<GameObject>("prefab/asset6/test-prefab"));
+            */
 
         });
 

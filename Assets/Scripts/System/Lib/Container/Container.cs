@@ -24,6 +24,11 @@ namespace CatLib.Container
         ///</summary>
         private Dictionary<string, string> alias = new Dictionary<string, string>();
 
+       ///<summary>
+        /// 类型字典
+        ///</summary>
+        private Dictionary<string, Type> typeDict = new Dictionary<string, Type>();
+
         /// <summary>
         /// 修饰器
         /// </summary>
@@ -38,6 +43,20 @@ namespace CatLib.Container
         /// 锁定器
         /// </summary>
         private object locker = new object();
+
+        public Container(){
+
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var type in assembly.GetTypes())
+                {
+                    if(!typeDict.ContainsKey(type.ToString())){
+                        typeDict.Add(type.ToString() , type);
+                    }
+                }
+            }
+
+        }
 
         /// <summary>
         /// 是否拥有依赖的服务
@@ -115,12 +134,9 @@ namespace CatLib.Container
         /// <returns></returns>
         public object Make(string service, params object[] param)
         {
-            lock (locker)
-            {
-                service = Normalize(service);
-                service = GetAlias(service);
-                return NormalMake(service, true, param);
-            }
+            service = Normalize(service);
+            service = GetAlias(service);
+            return NormalMake(service, true, param);
         }
 
         /// <summary>添加到静态内容</summary>
@@ -247,8 +263,9 @@ namespace CatLib.Container
         private object Build(BindData bindData , string service, object[] param)
         {
             if (param == null) { param = new object[] { }; }
-            Type type = Type.GetType(bindData.Service);
+            Type type = GetType(bindData.Service);
             if(type == null){ return null; }
+            
             if (type.IsAbstract || type.IsInterface)
             {
                 if (service != bindData.Service)
@@ -433,6 +450,18 @@ namespace CatLib.Container
                 return new BindData(this , service, null, false);
             }
             return binds[service];
+        }
+
+        private Type GetType(string service){
+
+            if(typeDict.ContainsKey(service)){
+
+                return typeDict[service];
+
+            }
+
+            return Type.GetType(service);
+
         }
 
     }

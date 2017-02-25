@@ -12,6 +12,8 @@ namespace CatLib.API.IO
 
 		IDirectory AssetPath{ get; }
 
+		char PathSpliter{ get; }
+
 	}
 
 }

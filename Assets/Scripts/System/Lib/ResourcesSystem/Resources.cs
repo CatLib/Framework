@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using CatLib.API.IO;
+using CatLib.API.ResourcesSystem;
 using System.Collections;
 using System.Collections.Generic;
-using CatLib.API.ResourcesSystem;
-using CatLib.API.IO;
+using UnityEngine;
 
 namespace CatLib.ResourcesSystem {
 
@@ -10,422 +10,137 @@ namespace CatLib.ResourcesSystem {
     {
 
         [Dependency]
+        public AssetBundleLoader assetBundleLoader { get; set; }
+
+        [Dependency]
         public IIO IO { get; set; }
 
-        /// <summary>
-        /// 主依赖文件
-        /// </summary>
-        protected AssetBundleManifest assetBundleManifest;
+        private Dictionary<System.Type, string> extensionDict = new Dictionary<System.Type, string>();
 
-        /// <summary>
-        /// 被加载的资源包
-        /// </summary>
-        protected Dictionary<string , AssetBundle> loadAssetBundle = new Dictionary<string, AssetBundle>();
-
-        /// <summary>
-        /// 多样资源
-        /// </summary>
-        protected string variant;
-
-        /// <summary>
-        /// 多样资源
-        /// </summary>
-        public string Variant
+        public Resources()
         {
-            get { return variant; }
-            set { variant = value; }
+            extensionDict.Add(typeof(Object), ".prefab");
+            extensionDict.Add(typeof(GameObject), ".prefab");
+            extensionDict.Add(typeof(TextAsset), ".txt");
+            extensionDict.Add(typeof(Material), ".mat");
+            extensionDict.Add(typeof(Shader), ".shader");
         }
 
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        /// <param name="unloadAllLoadedObjects">是否释放已经被加载的Asset资源</param>
-        public void Unload(bool unloadAllLoadedObjects)
+        public void AddExtension(System.Type type, string extension)
         {
-            foreach(AssetBundle bundle in loadAssetBundle.ToArray())
-            {
-                bundle.Unload(unloadAllLoadedObjects);
-            }
+            extensionDict.Remove(type);
+            extensionDict.Add(type, extension);
         }
 
-        #region Load
-
-        public Object Load(string path){
-
+        public Object Load(string path)
+        {
             return Load(path , typeof(Object));
-
         }
 
-        public Object Load(string path , System.Type type){
-
-            return LoadAsset(path , type);
-
-        }
-
-        /// <summary>
-        /// 加载资源
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public T Load<T>(string path) where T : Object
         {
-            return LoadAsset(path , typeof(T)) as T;
+            return Load(path, typeof(T)) as T;
         }
 
-        /// <summary>
-        /// 加载资源
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        protected Object LoadAsset(string path , System.Type type)
+        public Object Load(string path, System.Type type)
         {
-            this.LoadManifest();
-            string relPath, objName , envPath;
-            LoadPath(path , type , out relPath, out objName);
-
+            path = PathFormat(path, type);
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.AUTO)
-                {
-                    return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName , type);
-                }
+            if (Env.DebugLevel == Env.DebugLevels.AUTO)
+            {
+                return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + IO.PathSpliter + path, type);
+            }
             #endif
-
-            if (Env.DebugLevel == Env.DebugLevels.STAGING)
-            {
-                envPath = Env.DataPath + Env.ReleasePath + "/" + Env.PlatformToName(Env.SwitchPlatform);
-            }
-            else
-            {
-                envPath = Env.AssetPath;
-            }
-
-            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath);
-            return assetTarget.LoadAsset(objName , type);
-        }
-
-        #endregion
-
-        #region LoadAll
-
-        public Object[] LoadAll(string path){
-
-            return LoadAll(path , typeof(Object));
-
-        }
-
-        public Object[] LoadAll(string path , System.Type type){
-
-            return LoadAssetAll(path , type);
-
+            return assetBundleLoader.LoadAsset(path);
         }
 
         public T[] LoadAll<T>(string path) where T : Object
         {
-            return LoadAssetAll(path , typeof(T)).To<T>();
+            return LoadAll(path).To<T>();
         }
 
-        protected Object[] LoadAssetAll(string path , System.Type type)
+        public Object[] LoadAll(string path)
         {
-            this.LoadManifest();
-            string relPath, objName, envPath;
-            LoadPath(path , type , out relPath, out objName);
-
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.AUTO)
-            {
-                return UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName);
-            }
+                if (Env.DebugLevel == Env.DebugLevels.AUTO)
+                {
+                    throw new System.Exception("not support [LoadAll] in auto env");
+                }
             #endif
-
-            if (Env.DebugLevel == Env.DebugLevels.STAGING)
-            {
-                envPath = Env.DataPath + Env.ReleasePath + "/" + Env.PlatformToName(Env.SwitchPlatform);
-            }
-            else
-            {
-                envPath = Env.AssetPath;
-            }
-           
-            AssetBundle assetTarget = LoadAssetBundle(envPath , relPath + "/" + System.IO.Path.GetFileNameWithoutExtension(objName));
-            return assetTarget.LoadAllAssets();
+            return assetBundleLoader.LoadAssetAll(path);
         }
 
-        #endregion
-
-        #region LoadAsyn
-
-        public UnityEngine.Coroutine LoadAsyn(string path, System.Action<Object> callback){
-
-            return LoadAsyn(path , typeof(Object) , callback);
-
-        }
-
-        public UnityEngine.Coroutine LoadAsyn(string path , System.Type type, System.Action<Object> callback){
-
-            return App.StartCoroutine(this.LoadAssetAsyn(path , type , callback));
-
-        }
-
-        /// <summary>
-        /// 加载资源（异步）
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <param name="callback"></param>
-        /// <returns></returns>
-        public UnityEngine.Coroutine LoadAsyn<T>(string path , System.Action<T> callback) where T : Object
+        public UnityEngine.Coroutine LoadAsync(string path, System.Action<Object> callback)
         {
-            return App.StartCoroutine(this.LoadAssetAsyn(path , typeof(T) , (obj) => callback(obj as T)));
-
+            return LoadAsync(path , typeof(Object), callback);
         }
 
-        /// <summary>
-        /// 加载资源（异步） 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <param name="callback"></param>
-        /// <returns></returns>
-        protected IEnumerator LoadAssetAsyn(string path , System.Type type , System.Action<Object> callback)
+        public UnityEngine.Coroutine LoadAsync<T>(string path, System.Action<T> callback) where T : Object
         {
+            return LoadAsync(path, typeof(T), obj => callback(obj as T));
+        }
 
-            this.LoadManifest();
-            string relPath, objName , envPath;
-            LoadPath(path , type, out relPath, out objName);
-
+        public UnityEngine.Coroutine LoadAsync(string path, System.Type type, System.Action<Object> callback)
+        {
+            path = PathFormat(path, type);
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.AUTO)
-            {
-                callback.Invoke(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName , type));
-                yield break;
-            }
+                if (Env.DebugLevel == Env.DebugLevels.AUTO)
+                {
+                    return App.StartCoroutine(EmptyIEnumerator(() =>
+                    {
+                        callback(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + IO.PathSpliter + path, type));
+                    }));
+                }
             #endif
-
-            if (Env.DebugLevel == Env.DebugLevels.STAGING)
-            {
-                envPath = Env.DataPath + Env.ReleasePath;
-            }
-            else
-            {
-                envPath = Env.AssetPath;
-            }
-
-            AssetBundle assetTarget = null;
-
-            yield return LoadAssetBundleAsyn(envPath , relPath, (ab) =>
-            {
-                assetTarget = ab;
-            });
-
-            AssetBundleRequest targetAssetRequest = assetTarget.LoadAssetAsync(objName, type);
-            yield return targetAssetRequest;
-
-            callback.Invoke(targetAssetRequest.asset);
-
+            return assetBundleLoader.LoadAssetAsync(PathFormat(path , type), callback); 
         }
 
-        #endregion
-
-        #region LoadAllAsyn
-
-        public UnityEngine.Coroutine LoadAllAsyn(string path, System.Action<Object[]> callback){
-
-            return LoadAllAsyn(path , typeof(Object) , callback);
-
-        }
-
-        public UnityEngine.Coroutine LoadAllAsyn(string path , System.Type type, System.Action<Object[]> callback){
-
-            return App.StartCoroutine(this.LoadAssetAllAsyn(path , type , callback));
-
-        }
-
-        public UnityEngine.Coroutine LoadAllAsyn<T>(string path, System.Action<T[]> callback) where T : Object
+        public UnityEngine.Coroutine LoadAllAsync<T>(string path, System.Action<T[]> callback) where T : Object
         {
-            return App.StartCoroutine(this.LoadAssetAllAsyn(path , typeof(T), (obj) => callback(obj.To<T>())));
+            return LoadAllAsync(path, obj => callback(obj.To<T>()));
         }
 
-        protected IEnumerator LoadAssetAllAsyn(string path , System.Type type, System.Action<Object[]> callback)
+        public UnityEngine.Coroutine LoadAllAsync(string path, System.Action<Object[]> callback)
         {
-
-            this.LoadManifest();
-            string relPath, objName , envPath;
-            LoadPath(path , type, out relPath, out objName);
 
             #if UNITY_EDITOR
                 if (Env.DebugLevel == Env.DebugLevels.AUTO)
                 {
-                    callback.Invoke(UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets" + Env.ResourcesBuildPath + "/" + relPath + "/" + objName));
-                    yield break;
+                    throw new System.Exception("not support [LoadAllAsync] in auto env");
                 }
             #endif
-
-            if (Env.DebugLevel == Env.DebugLevels.STAGING)
-            {
-                envPath = Env.DataPath + Env.ReleasePath + "/" + Env.PlatformToName(Env.SwitchPlatform);
-            }
-            else
-            {
-                envPath = Env.AssetPath;
-            }
-
-            AssetBundle assetTarget = null;
-
-            yield return LoadAssetBundleAsyn(envPath , relPath + "/" + System.IO.Path.GetFileNameWithoutExtension(objName), (ab) =>
-            {
-                assetTarget = ab;
-            });
-
-            AssetBundleRequest targetAssetRequest = assetTarget.LoadAllAssetsAsync();
-            yield return targetAssetRequest;
-            
-            callback.Invoke(targetAssetRequest.allAssets);
-
+            return assetBundleLoader.LoadAssetAllAsync(path, callback);
         }
 
-        #endregion
-
-        /// <summary>
-        /// 加载依赖文件
-        /// </summary>
-        protected void LoadManifest()
+        public void UnloadAll()
         {
-            if (assetBundleManifest != null) { return; }
-
-            #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.AUTO)
-            {
-                return;
-            }
-            #endif
-
-            string envPath;
-            if (Env.DebugLevel == Env.DebugLevels.STAGING)
-            {
-                envPath = Env.DataPath + Env.ReleasePath + "/" + Env.PlatformToName(Env.SwitchPlatform);
-            }
-            else
-            {
-                envPath = Env.AssetPath;
-            }
-
-            string manifestPath = envPath + "/" + Env.PlatformToName(Env.SwitchPlatform);
-            AssetBundle assetBundle = AssetBundle.LoadFromFile(manifestPath);
-            assetBundleManifest = assetBundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            assetBundleLoader.UnloadAll();
         }
 
-        protected void LoadPath(string path , System.Type type , out string relPath , out string objName)
+        public void UnloadAssetBundle(string assetbundlePath)
         {
-            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
-            objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), variant , type);
-            relPath = path.Substring(0, path.LastIndexOf('/')) + variant;
-
-            if (!IO.File(Env.AssetPath + "/" + relPath).Exists)
-            {
-                objName = NameWithTypeToSuffix(path.Substring(path.LastIndexOf('/') + 1), string.Empty , type);
-                relPath = path.Substring(0, path.LastIndexOf('/'));
-            }
+            assetBundleLoader.UnloadAssetBundle(assetbundlePath);
         }
 
-        protected AssetBundle LoadAssetBundle(string envPath , string relPath)
+        protected IEnumerator EmptyIEnumerator(System.Action callback)
         {
-            foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
-            {
-                if (!loadAssetBundle.ContainsKey(dependencies))
-                {
-                    AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + "/" + dependencies);
-                    loadAssetBundle.Add(dependencies, assetBundle);
-                }
-            }
-
-            AssetBundle assetTarget;
-            if (!loadAssetBundle.ContainsKey(relPath))
-            {
-                assetTarget = AssetBundle.LoadFromFile(envPath + "/" + relPath);
-                loadAssetBundle.Add(relPath, assetTarget);
-            }
-            else
-            {
-                assetTarget = loadAssetBundle[relPath];
-            }
-
-            return assetTarget;
-
+            callback.Invoke();
+            yield break;
         }
 
-        /// <summary>
-        /// 异步加载资源
-        /// </summary>
-        /// <param name="relPath"></param>
-        /// <returns></returns>
-        protected IEnumerator LoadAssetBundleAsyn(string envPath , string relPath , System.Action<AssetBundle> assetBundle) 
+        protected string PathFormat(string path , System.Type type)
         {
 
-            foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
+            string extension = System.IO.Path.GetExtension(path);
+            if (extension != string.Empty) { return path; }
+
+            if (extensionDict.ContainsKey(type))
             {
-                if (!loadAssetBundle.ContainsKey(dependencies))
-                {
-                    AssetBundleCreateRequest assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + "/" + dependencies);
-                    yield return assetBundleDependencies;
-                    loadAssetBundle.Add(dependencies, assetBundleDependencies.assetBundle);
-                }
+                return path + extensionDict[type];
             }
 
-            AssetBundle assetTarget;
-            if (!loadAssetBundle.ContainsKey(relPath))
-            {
-                AssetBundleCreateRequest assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + "/" + relPath);
-                yield return assetTargetBundleRequest;
-                assetTarget = assetTargetBundleRequest.assetBundle;
-                loadAssetBundle.Add(relPath, assetTarget);
-            }
-            else
-            {
-                assetTarget = loadAssetBundle[relPath];
-            }
+            return path;
 
-            assetBundle(assetTarget);
-
-        }
-
-        /// <summary>
-        /// 类型对应的后缀
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        protected string NameWithTypeToSuffix(string name , string variant , System.Type type)
-        {
-            string suffix = string.Empty;
-            if(type == typeof(Object)){
-
-                if(name.LastIndexOf('.') == -1){
-                    
-                    suffix = ".prefab";
-
-                }
-
-            }else if (type == typeof(GameObject))
-            {
-                suffix = ".prefab";
-            }else if(type == typeof(TextAsset)){
-
-                suffix = ".txt";
-                   
-            }else if(type == typeof(Material))
-            {
-                suffix = ".mat";
-            }else if(type == typeof(Shader))
-            {
-                suffix = ".shader";
-            }
-           
-            if (name.Length < suffix.Length || (name.Length == suffix.Length && name != suffix) || (name.Length > suffix.Length && name.Substring(name.Length - suffix.Length) != suffix))
-            {
-                name += suffix;
-            }
-            return name + variant;
         }
 
     }

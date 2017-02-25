@@ -69,6 +69,14 @@ namespace CatLib.Lua
 
         protected IEnumerator LoadHotFixAysn()
         {
+
+            #if UNITY_EDITOR
+            if (Env.DebugLevel == Env.DebugLevels.AUTO)
+            {
+                yield break;
+            }
+            #endif
+
             Event.Trigger(LuaEvents.ON_HOT_FIXED_START);
 
             string[] filePaths = Config.Get<string[]>("lua.hotfix");
@@ -82,7 +90,7 @@ namespace CatLib.Lua
                 {
                     if (!info.Name.EndsWith(".manifest"))
                     {
-                        yield return resources.LoadAllAsyn<TextAsset>(filePath + "/" + info.Name, (textAssets) =>
+                        yield return resources.LoadAllAsync<TextAsset>(filePath + "/" + info.Name, (textAssets) =>
                         {
                             Event.Trigger(LuaEvents.ON_HOT_FIXED_ACTION);
                             foreach (TextAsset text in textAssets)
