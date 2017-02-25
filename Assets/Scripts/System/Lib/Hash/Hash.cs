@@ -1,24 +1,41 @@
 ﻿
-
 using CatLib.API.Hash;
 
-namespace CattLib.Secret{
+namespace CatLib.Hash{
 
 	/// <summary>
 	/// Hash
 	/// </summary>
 	public class Hash : IHash{ 
 
+        [Dependency]
+        public Configs Config { get; set; }
+
 		private string generateSalt;
 
-		public void Bcrypt(string password){
+		public string Bcrypt(string password){
 
 			if(generateSalt == null){
 
-				generateSalt = BCrypt.Net.BCrypt.GenerateSalt(10);
+                if (Config != null)
+                {
+                    if (Config.IsExists("salt"))
+                    {
+                        generateSalt = Config.Get<string>("salt");
+                    }
+                    else if (Config.IsExists("factor"))
+                    {
+                        generateSalt = BCrypt.Net.BCrypt.GenerateSalt(Config.Get<int>("factor"));
+                    }
+                }
 
-			}
-			BCrypt.Net.BCrypt.HashPassword(password);
+                if (string.IsNullOrEmpty(generateSalt))
+                {
+                    generateSalt = BCrypt.Net.BCrypt.GenerateSalt(10);
+                }
+
+            }
+			return BCrypt.Net.BCrypt.HashPassword(password, generateSalt);
 
 		}
 
@@ -27,9 +44,6 @@ namespace CattLib.Secret{
 			return BCrypt.Net.BCrypt.Verify(text , hash);
 
 		}
-        
-
-
 	}
 
 }

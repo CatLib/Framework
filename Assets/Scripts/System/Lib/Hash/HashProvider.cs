@@ -1,16 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿
+using CatLib.API.Hash;
 
-public class HashProvider : MonoBehaviour {
+namespace CatLib.Hash
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public class HashProvider : ServiceProvider
+    {
+
+        public override void Register()
+        {
+            App.Singleton<Hash>().Alias<IHash>();
+        }
+    }
+
 }

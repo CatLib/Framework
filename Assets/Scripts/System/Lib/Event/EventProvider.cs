@@ -4,9 +4,9 @@ namespace CatLib.Event
 {
 
     /// <summary>
-    /// 事件调度服务
+    /// 事件服务
     /// </summary>
-    public class DispatcherProvider : ServiceProvider
+    public class EventProvider : ServiceProvider
     {
 
         public override void Register()

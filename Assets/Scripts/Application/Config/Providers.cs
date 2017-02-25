@@ -10,6 +10,7 @@ using CatLib.Thread;
 using CatLib.Time;
 using CatLib.IO;
 using CatLib.Secret;
+using CatLib.Hash;
 
 public class Providers{
 
@@ -25,7 +26,7 @@ public class Providers{
                 typeof(NetPackageProvider),
                 typeof(AutoUpdateProvider),
                 typeof(ResourcesProvider),
-                typeof(DispatcherProvider),
+                typeof(EventProvider),
                 typeof(NetworkProvider),
                 typeof(LuaProvider),
                 typeof(IOProvider),
@@ -33,9 +34,10 @@ public class Providers{
                 typeof(ThreadProvider),
                 typeof(TimeProvider),
                 typeof(SecretProvider),
+                typeof(HashProvider),
 
 
-                //以下是测试的提供商框架本体并不会带有这些提供商
+                //以下是测试的提供商,框架本体并不会带有这些提供商
                 typeof(Bootstrap),
                 typeof(AssetDecryptedProvider),
 

@@ -7,6 +7,7 @@ using CatLib.API.Resources;
 using System.Threading;
 using CatLib.API.Event;
 using CatLib.API.Time;
+using CatLib.API.Hash;
 
 public class Bootstrap : ServiceProvider
 {
@@ -15,6 +16,15 @@ public class Bootstrap : ServiceProvider
     {
         App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+
+
+            IHash hash = App.Make<IHash>();
+            Debug.Log(hash.Bcrypt("helloworld"));
+
+
+
+            Debug.Log(hash.BcryptVerify("helloworld", "$2a$10$Y8BxbHFgGArGVHIucx8i7u7t5ByLlSdWgWcQc187hqFfSiKFJfz3C"));
+            Debug.Log(hash.BcryptVerify("helloworld", "$2a$15$td2ASPNq.8BXbpa6yUU0c.pQpfYLxtcbXviM8fZXw4v8FDeO3hCoC"));
 
             IResources res = App.Make<IResources>();
             IAssetBundle bundle = App.Make<IAssetBundle>();
