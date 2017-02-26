@@ -16,7 +16,7 @@ Unity3D Framework For XLua
 
 基础组件
 * 基础自动更新服务 （已经完成）
-* AssetBundle资源服务（正在开发）
+* AssetBundle资源服务（已经完成）
 * 事件服务（已经完成）
 * XLua热更新支持 （正在开发）
 * 网络服务（Http，Socket）（已经完成）
@@ -28,7 +28,8 @@ Unity3D Framework For XLua
 * 异常处理组件（等待开发）
 * 对象池组件（等待开发）
 * 基础音频组件（等待开发）
-* 加密组件（提供rsa,des,md5,base64等常用加密，编码的组件）（正在开发）
+* Hash组件（已经完成）
+* 加密组件（正在开发）
 * 集合组件（对于传统字典，hashtable，list的强化）（等待开发）
 * 数据验证服务（提供统一的数据验证规范）（等待开发）
 
