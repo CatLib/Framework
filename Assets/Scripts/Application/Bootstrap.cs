@@ -10,6 +10,19 @@ using CatLib.API.Time;
 using CatLib.API.Hash;
 using CatLib.API.Crypt;
 
+class Test
+{
+
+    public Test(string res, IResources res2)
+    {
+
+        Debug.Log(res2);
+        Debug.Log(res);
+
+    }
+
+}
+
 public class Bootstrap : ServiceProvider
 {
 
@@ -18,6 +31,8 @@ public class Bootstrap : ServiceProvider
         App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+
+            Debug.Log(App.Make<Test>("123"));
 
             IHash hash = App.Make<IHash>();
             //Debug.Log(hash.Bcrypt("helloworld"));

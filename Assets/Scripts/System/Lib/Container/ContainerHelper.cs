@@ -32,14 +32,9 @@ namespace CatLib
             return (T)container.Make(typeof(T).ToString(), param);                                                                      
         }
 
-        public static T Make<T>(this IContainer container , Type service , params object[] param)
+        public static object Make(this IContainer container , Type service)
         {
-            return (T)container.Make(service.ToString(), param);
-        }
-
-        public static T Make<T>(this IContainer container, string service, params object[] param)
-        {
-            return (T)container.Make(service, param);
+            return container.Make(service.ToString());
         }
 
         public static IContainer Alias<AliasName, Service>(this IContainer container) where Service : class

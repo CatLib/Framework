@@ -188,7 +188,7 @@ namespace CatLib
             IBootstrap bootstrap;
             foreach (Type t in bootstraps)
             {
-                bootstrap = this.Make<IBootstrap>(t);
+                bootstrap = this.Make(t) as IBootstrap;
                 if (bootstrap != null)
                 {
                     bootstrap.Bootstrap();
@@ -213,8 +213,6 @@ namespace CatLib
 
             process = StartProcess.ON_DEPEND;
 
-            Event.Trigger(ApplicationEvents.ON_DEPENDING);
-
             foreach (ServiceProvider provider in providers)
             {
 
@@ -228,8 +226,6 @@ namespace CatLib
                 }
 
             }
-
-            Event.Trigger(ApplicationEvents.ON_DEPENDED);
 
             process = StartProcess.ON_INITED;
 
@@ -256,7 +252,7 @@ namespace CatLib
         {
             if (serviceProviders.ContainsKey(t)) { return; }
 
-            ServiceProvider serviceProvider = this.Make<ServiceProvider>(t);
+            ServiceProvider serviceProvider = this.Make(t) as ServiceProvider;
             if (serviceProvider != null)
             {
                 serviceProvider.Register();

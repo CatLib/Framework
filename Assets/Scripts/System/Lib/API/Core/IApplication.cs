@@ -7,7 +7,7 @@ using CatLib.API.Time;
 namespace CatLib.API
 {
 
-    public interface IApplication : IContainer , IDispatcher
+    public interface IApplication : IContainer, IEvent, IEventAchieve
     {
 
         IApplication Bootstrap(Type[] bootstraps);
