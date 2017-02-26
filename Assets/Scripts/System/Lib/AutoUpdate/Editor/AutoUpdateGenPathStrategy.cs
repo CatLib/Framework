@@ -1,7 +1,6 @@
-﻿using CatLib.Secret;
-using CatLib.API.IO;
+﻿using CatLib.API.IO;
 using CatLib.API.Resources;
-
+using CatLib.Hash;
 
 namespace CatLib.AutoUpdate{
 

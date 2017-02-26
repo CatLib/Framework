@@ -80,10 +80,14 @@ namespace CatLib.Container
         /// <returns></returns>
         public IContainer Alias(string alias , string service)
         {
-            alias = Normalize(alias);
-            service = Normalize(service);
-            if (this.alias.ContainsKey(alias)) { this.alias.Remove(alias); }
-            this.alias.Add(alias, service);
+            lock (locker)
+            {
+                alias = Normalize(alias);
+                service = Normalize(service);
+                if (this.alias.ContainsKey(alias)) { this.alias.Remove(alias); }
+
+                this.alias.Add(alias, service);
+            }
             return this;
         }
 
@@ -113,17 +117,21 @@ namespace CatLib.Container
         /// <returns></returns>
         public IBindData Bind(string service , Func<IContainer, object[], object> concrete, bool isStatic)
         {
-            service = Normalize(service);
+            lock (locker)
+            {
+                service = Normalize(service);
 
-            instances.Remove(service);
-            alias = alias.RemoveValue(service);
-            alias.Remove(service);
+                instances.Remove(service);
+                alias = alias.RemoveValue(service);
+                alias.Remove(service);
 
-            BindData bindData = new BindData(this , service , concrete, isStatic);
+                BindData bindData = new BindData(this, service, concrete, isStatic);
 
-            binds.Add(service, bindData);
 
-            return bindData;
+                binds.Add(service, bindData);
+
+                return bindData;
+            }
         }
 
         /// <summary>
@@ -134,9 +142,12 @@ namespace CatLib.Container
         /// <returns></returns>
         public object Make(string service, params object[] param)
         {
-            service = Normalize(service);
-            service = GetAlias(service);
-            return NormalMake(service, true, param);
+            lock (locker)
+            {
+                service = Normalize(service);
+                service = GetAlias(service);
+                return NormalMake(service, true, param);
+            }
         }
 
         /// <summary>添加到静态内容</summary>
@@ -172,14 +183,17 @@ namespace CatLib.Container
         /// <param name="func"></param>
         public IContainer Resolving(Func<IContainer , IBindData, object, object> func)
         {
-            if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
-            decorator.Add(func);
-            foreach(KeyValuePair<string , object> data in instances)
+            lock (locker)
             {
-                var bindData = GetBindData(data.Key);
-                instances[data.Key] = func(this , bindData, data.Value);
+                if (decorator == null) { decorator = new List<Func<IContainer, IBindData, object, object>>(); }
+                decorator.Add(func);
+                foreach (KeyValuePair<string, object> data in instances)
+                {
+                    var bindData = GetBindData(data.Key);
+                    instances[data.Key] = func(this, bindData, data.Value);
+                }
+                return this;
             }
-            return this;
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine.Networking;
-using CatLib.Secret;
 using CatLib.API.AutoUpdate;
 using CatLib.API.IO;
+using CatLib.API.Hash;
 
 namespace CatLib.AutoUpdate
 {
@@ -15,6 +15,9 @@ namespace CatLib.AutoUpdate
 
         [Dependency]
         public IIO IO { get; set; }
+
+        [Dependency]
+        public IHash Hash { get; set; }
 
         protected bool isUpdate;
 
@@ -107,7 +110,7 @@ namespace CatLib.AutoUpdate
                 {
                     string fullName = file.FileInfo.FullName.Standard();
                     string assetName = fullName.Substring(Env.AssetPath.Length);
-                    oldLst.Append(assetName, MD5.ParseFile(file.FileInfo), file.FileInfo.Length);
+                    oldLst.Append(assetName, Hash.FileHash(file.FileInfo.FullName), file.FileInfo.Length);
                 }
 
             });

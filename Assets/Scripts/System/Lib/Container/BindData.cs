@@ -135,10 +135,10 @@ namespace CatLib.Container {
         }
 
         /// <summary>
-        /// 修饰器
+        /// 解决问题时触发的回掉
         /// </summary>
         /// <param name="func"></param>
-        public IBindData Decorator(Func<IContainer , IBindData, object, object> func)
+        public IBindData Resolving(Func<IContainer , IBindData, object, object> func)
         {
             if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
             decorator.Add(func);

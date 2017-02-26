@@ -44,6 +44,11 @@ namespace CatLib.Hash{
 			return BCrypt.Net.BCrypt.Verify(text , hash);
 
 		}
-	}
+
+        public string FileHash(string path)
+        {
+            return MD5.ParseFile(path);
+        }
+    }
 
 }

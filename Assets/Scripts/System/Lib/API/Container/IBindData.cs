@@ -23,7 +23,7 @@ namespace CatLib.API.Container
 
         IBindData Alias(string alias);
 
-        IBindData Decorator(Func<IContainer, IBindData, object, object> func);
+        IBindData Resolving(Func<IContainer, IBindData, object, object> func);
 
     }
 }
