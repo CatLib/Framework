@@ -23,7 +23,7 @@ public class Program : MonoBehaviour {
         {
             return new Type[]
             {
-                typeof(RegisterProviders)
+                typeof(RegisterProvidersBootstrap)
             };
         }
 

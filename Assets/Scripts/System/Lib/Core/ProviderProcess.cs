@@ -13,9 +13,14 @@
         INITED = 1,
 
         /// <summary>
-        /// 自动更新流程
+        /// 程序自动更新流程
         /// </summary>
-        AUTO_UPDATE = 10,
+        PROGRAM_AUTO_UPDATE = 5,
+
+        /// <summary>
+        /// 资源自动更新流程
+        /// </summary>
+        RESOURCES_AUTO_UPDATE = 10,
 
         /// <summary>
         /// Lua代码自动载入流程

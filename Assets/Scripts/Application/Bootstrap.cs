@@ -31,7 +31,6 @@ public class Bootstrap : ServiceProvider
         App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
-
             Debug.Log(App.Make<Test>("123"));
 
             IHash hash = App.Make<IHash>();

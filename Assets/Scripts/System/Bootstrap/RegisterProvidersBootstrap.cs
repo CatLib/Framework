@@ -5,9 +5,9 @@ namespace CatLib
 {
 
     /// <summary>
-    /// 注册服务提供商
+    /// 注册服务提供商的引导程序
     /// </summary>
-    public class RegisterProviders : IBootstrap
+    public class RegisterProvidersBootstrap : IBootstrap
     {
 
         /// <summary>
