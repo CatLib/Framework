@@ -3,9 +3,20 @@ namespace CatLib.API.Hash{
 
 	public interface IHash  {
 
-        string Bcrypt(string password);
+        /// <summary>
+        /// 对一个字符串进行Hash加密
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        string Make(string password);
 
-        bool BcryptVerify(string text, string hash);
+        /// <summary>
+        /// 验证一个Hash是否有效
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="hash"></param>
+        /// <returns></returns>
+        bool Check(string text, string hash);
 
         /// <summary>
         /// 用于计算文件的md5 ， 您不应该用它进行密码等高敏感的hash加密

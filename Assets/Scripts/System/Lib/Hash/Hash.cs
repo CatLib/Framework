@@ -13,7 +13,7 @@ namespace CatLib.Hash{
 
 		private string generateSalt;
 
-		public string Bcrypt(string password){
+		public string Make(string password){
 
 			if(generateSalt == null){
 
@@ -31,7 +31,7 @@ namespace CatLib.Hash{
 
                 if (string.IsNullOrEmpty(generateSalt))
                 {
-                    generateSalt = BCrypt.Net.BCrypt.GenerateSalt(10);
+                    generateSalt = BCrypt.Net.BCrypt.GenerateSalt(6);
                 }
 
             }
@@ -39,7 +39,7 @@ namespace CatLib.Hash{
 
 		}
 
-		public bool BcryptVerify(string text, string hash){
+		public bool Check(string text, string hash){
 
 			return BCrypt.Net.BCrypt.Verify(text , hash);
 
