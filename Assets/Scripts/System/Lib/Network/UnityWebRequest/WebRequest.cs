@@ -172,31 +172,31 @@ namespace CatLib.Network
                         }
                         yield return request.Send();
   
-                        TriggerLevel level = TriggerLevel.All;
+                        EventLevel level = EventLevel.All;
                         if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
                         {
-                            level = (TriggerLevel)int.Parse(triggerLevel[HttpRequestEvents.ON_MESSAGE].ToString());
+                            level = (EventLevel)int.Parse(triggerLevel[HttpRequestEvents.ON_MESSAGE].ToString());
                         }
 
                         var args = new WebRequestEventArgs(request);
 
-                        if ((level & TriggerLevel.Self) > 0)
+                        if ((level & EventLevel.Self) > 0)
                         {
                             Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
                         }
 
-                        if ((level & TriggerLevel.Type) > 0)
+                        if ((level & EventLevel.Type) > 0)
                         {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
                         }
 
-                        if ((level & TriggerLevel.Interface) > 0)
+                        if ((level & EventLevel.Interface) > 0)
                         {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
                         }
 
-                        if ((level & TriggerLevel.Global) > 0)
+                        if ((level & EventLevel.Global) > 0)
                         {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
                         }

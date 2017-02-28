@@ -2,9 +2,9 @@
 namespace CatLib.API
 {
     /// <summary>
-    /// 触发器等级
+    /// 事件等级
     /// </summary>
-    public enum TriggerLevel
+    public enum EventLevel
     {
 
         /// <summary>

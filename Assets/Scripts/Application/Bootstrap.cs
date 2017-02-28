@@ -11,6 +11,24 @@ using CatLib.API.Hash;
 using CatLib.API.Crypt;
 using CatLib.API;
 
+public class EventContainerComponent : CatLib.Component
+{
+    public void Call(){
+        Event.Trigger("test_event",this,System.EventArgs.Empty);
+    }
+}
+
+public class ControllerComponent
+{
+    public ControllerComponent(){
+
+        var container = new EventContainerComponent();
+        container.Event.On("test_event" , (sender , e)=>{
+            Debug.Log("hello");
+        });
+    }
+}
+
 class Test
 {
 

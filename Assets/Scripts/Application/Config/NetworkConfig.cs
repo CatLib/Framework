@@ -40,7 +40,7 @@ public class NetworkConfig : Configs {
                                             { "packing"  , typeof(IPacking) },
                                             { "protocol" , typeof(IProtocol) },
                                             { "trigger" , new Hashtable() {
-                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.Self }
+                                                { SocketRequestEvents.ON_MESSAGE , EventLevel.Self }
                                             } }
                                         },
 
@@ -50,7 +50,7 @@ public class NetworkConfig : Configs {
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , typeof(IProtocol) },
                                             { "trigger" , new Hashtable() {
-                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.Self | TriggerLevel.Interface }
+                                                { SocketRequestEvents.ON_MESSAGE , EventLevel.Self | EventLevel.Interface }
                                             } }
                                         },
                 "udp.bind.host.text" , new Hashtable(){

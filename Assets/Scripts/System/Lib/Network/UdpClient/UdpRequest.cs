@@ -344,30 +344,30 @@ namespace CatLib.Network
         /// <param name="args">参数</param>
         private void Trigger(string eventName, EventArgs args)
         {
-            TriggerLevel level = TriggerLevel.All;
+            EventLevel level = EventLevel.All;
             if (triggerLevel != null && triggerLevel.ContainsKey(eventName))
             {
-                level = (TriggerLevel)int.Parse(triggerLevel[eventName].ToString());
+                level = (EventLevel)int.Parse(triggerLevel[eventName].ToString());
             }
 
-            if ((level & TriggerLevel.Self) > 0)
+            if ((level & EventLevel.Self) > 0)
             {
                 Event.Trigger(eventName, this, args);
                 App.Trigger(eventName + TypeGuid, this, args);
             }
 
-            if ((level & TriggerLevel.Type) > 0)
+            if ((level & EventLevel.Type) > 0)
             {
                 App.Trigger(eventName + GetType().ToString(), this, args);
             }
 
-            if ((level & TriggerLevel.Interface) > 0)
+            if ((level & EventLevel.Interface) > 0)
             {
                 App.Trigger(eventName + typeof(IConnectorTcp).ToString(), this, args);
                 App.Trigger(eventName + typeof(IConnectorSocket).ToString(), this, args);
             }
 
-            if ((level & TriggerLevel.Global) > 0)
+            if ((level & EventLevel.Global) > 0)
             {
                 App.Trigger(eventName, this, args);
             }
