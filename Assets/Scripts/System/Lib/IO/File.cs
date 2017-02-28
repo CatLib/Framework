@@ -294,18 +294,18 @@ namespace CatLib.IO
 
         private byte[] Encrypted(byte[] data)
         {
-            if (IO.This != null && IO.This.IOCrypt != null)
+            if (IO.Instance != null && IO.Instance.IOCrypt != null)
             {
-                data = IO.This.IOCrypt.Encrypted(FullName, data);
+                data = IO.Instance.IOCrypt.Encrypted(FullName, data);
             }
             return data;
         }
 
         private byte[] Decrypted(byte[] data)
         {
-            if (IO.This != null && IO.This.IOCrypt != null)
+            if (IO.Instance != null && IO.Instance.IOCrypt != null)
             {
-                data = IO.This.IOCrypt.Decrypted(FullName, data);
+                data = IO.Instance.IOCrypt.Decrypted(FullName, data);
             }
             return data;
         }

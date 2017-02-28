@@ -14,7 +14,7 @@ namespace CatLib.IO
         public IIOCrypt IOCrypt { get; set; }
 
         private static IO io;
-        public static IO This{ get{ return io; } }
+        public static IO Instance{ get{ return io; } }
 
         static readonly char[] INVALID_FILE_NAME_CHARS = new char[] { '/', '\\', '<', '>', ':', '|', '"' };
 
