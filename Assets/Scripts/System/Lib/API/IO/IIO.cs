@@ -3,8 +3,7 @@ namespace CatLib.API.IO
 {
 	public interface IIO{
 
-
-		IFile File(string path);
+        IFile File(string path);
 
 		IDirectory Directory(string path);
 

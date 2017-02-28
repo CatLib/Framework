@@ -15,7 +15,6 @@ namespace CatLib.IO
 
         private System.IO.FileInfo fileInfo;
         
-
         /// <summary>
 		/// 文件
 		/// </summary>
@@ -190,16 +189,17 @@ namespace CatLib.IO
         /// <summary>
         /// 创建文件
         /// </summary>
-        public void Create(byte[] array)
+        public void Create(byte[] data)
         {
             if(Exists){
 
                 throw new System.IO.IOException("file is exists");
 
             }
+            data = Encrypted(data);
             using (System.IO.FileStream fs = System.IO.File.Create(FullName))
             {
-                fs.Write(array, 0, array.Length);
+                fs.Write(data, 0, data.Length);
                 fs.Close();
             }
         }
@@ -207,7 +207,7 @@ namespace CatLib.IO
         /// <summary>
         /// 异步创建文件
         /// </summary>
-        public void CreateAsync(byte[] array , Action callback)
+        public void CreateAsync(byte[] data, Action callback)
         {
             if(Exists){
 
@@ -215,9 +215,11 @@ namespace CatLib.IO
 
             }
 
+            data = Encrypted(data);
+
             System.IO.FileStream fs = System.IO.File.Create(FullName);
             //todo:需要测试
-            fs.BeginWrite(array, 0, array.Length , (result)=>{
+            fs.BeginWrite(data, 0, data.Length , (result)=>{
 
                 fs.EndRead(result);
                 fs.Close();
@@ -248,6 +250,7 @@ namespace CatLib.IO
             {
                 byte[] data = new byte[fs.Length];
                 fs.Read(data, 0, data.Length);
+                data = Decrypted(data);
                 return data;
             }
 
@@ -274,6 +277,7 @@ namespace CatLib.IO
             fs.BeginRead(data , 0 , data.Length, (result)=>{
                 
                 fs.EndRead(result);
+                data = Decrypted(data);
                 fs.Close();
                 fs.Dispose();
                 callback.Invoke(data);
@@ -286,6 +290,24 @@ namespace CatLib.IO
         {
             fileInfo = null;
             return this;
+        }
+
+        private byte[] Encrypted(byte[] data)
+        {
+            if (IO.This != null && IO.This.IOCrypt != null)
+            {
+                data = IO.This.IOCrypt.Encrypted(FullName, data);
+            }
+            return data;
+        }
+
+        private byte[] Decrypted(byte[] data)
+        {
+            if (IO.This != null && IO.This.IOCrypt != null)
+            {
+                data = IO.This.IOCrypt.Decrypted(FullName, data);
+            }
+            return data;
         }
 
         private void ParseFile(string path){

@@ -39,7 +39,7 @@ public class Providers{
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商
                 typeof(Bootstrap),
-                typeof(AssetDecryptedProvider),
+                typeof(IOCryptProvider),
 
             };
         }

@@ -32,7 +32,7 @@ namespace CatLib
         /// <summary>
         /// 调试等级
         /// </summary>
-        public static DebugLevels DebugLevel { get { return DebugLevels.Auto; } }
+        public static DebugLevels DebugLevel { get { return DebugLevels.Staging; } }
 
         /// <summary>
 		/// 编译完成后发布AssetBundle的路径

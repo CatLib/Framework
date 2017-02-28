@@ -10,9 +10,20 @@ namespace CatLib.IO
     public class IO : Component , IIO
     {
 
+        [Dependency]
+        public IIOCrypt IOCrypt { get; set; }
+
+        private static IO io;
+        public static IO This{ get{ return io; } }
+
         static readonly char[] INVALID_FILE_NAME_CHARS = new char[] { '/', '\\', '<', '>', ':', '|', '"' };
 
         public const char PATH_SPLITTER = '/';
+
+        public IO()
+        {
+            io = this;
+        }
 
         public static bool IsValidFileName(string name)
         {

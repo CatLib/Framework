@@ -13,7 +13,7 @@ namespace CatLib.Resources {
         public IIO IO { get; set; }
 
         [Dependency]
-        public IDecrypted AssetDecrypted { get; set; }
+        public IIOCrypt IOCrypt { get; set; }
 
         /// <summary>
         /// 主依赖文件
@@ -228,11 +228,10 @@ namespace CatLib.Resources {
             if (!loadAssetBundles.ContainsKey(relPath))
             {
 
-                if (AssetDecrypted != null && AssetDecrypted.IsEncryption(relPath))
+                if (IOCrypt != null)
                 {
                     IFile file = IO.File(envPath + IO.PathSpliter + relPath);
-                    byte[] data = AssetDecrypted.Decrypted(relPath, file.Read());
-                    assetTarget = AssetBundle.LoadFromMemory(data);
+                    assetTarget = AssetBundle.LoadFromMemory(file.Read());
                 }
                 else
                 {
@@ -288,11 +287,10 @@ namespace CatLib.Resources {
             if (!loadAssetBundles.ContainsKey(relPath))
             {
                 AssetBundleCreateRequest assetTargetBundleRequest;
-                if (AssetDecrypted != null && AssetDecrypted.IsEncryption(relPath))
+                if (IOCrypt != null)
                 {
                     IFile file = IO.File(envPath + IO.PathSpliter + relPath);
-                    byte[] data = AssetDecrypted.Decrypted(relPath, file.Read());
-                    assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(data);
+                    assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(file.Read());
                 }
                 else
                 {
@@ -324,11 +322,10 @@ namespace CatLib.Resources {
                 if (!loadAssetBundles.ContainsKey(dependencies))
                 {
                     AssetBundleCreateRequest assetBundleDependencies;
-                    if (AssetDecrypted != null && AssetDecrypted.IsEncryption(relPath))
+                    if (IOCrypt != null)
                     {
                         IFile file = IO.File(envPath + IO.PathSpliter + relPath);
-                        byte[] data = AssetDecrypted.Decrypted(relPath, file.Read());
-                        assetBundleDependencies = AssetBundle.LoadFromMemoryAsync(data);
+                        assetBundleDependencies = AssetBundle.LoadFromMemoryAsync(file.Read());
                     }
                     else
                     {

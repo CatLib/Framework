@@ -16,10 +16,11 @@ namespace CatLib.Resources
         public void Build(IBuildContext context)
         {
 
-
+            var ioCrypted = new IOCrypted();
             foreach (string releaseFile in context.ReleaseFiles)
             {
                 //todo: 进行加密
+                ioCrypted.Encrypted("", new byte[] { });
                 UnityEngine.Debug.Log(releaseFile);
             }
 
