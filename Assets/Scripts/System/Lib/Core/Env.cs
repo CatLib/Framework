@@ -15,24 +15,24 @@ namespace CatLib
             /// <summary>
             /// 线上 
             /// </summary>
-            ONLINE,
+            Online,
 
             /// <summary>
             /// 仿真模拟
             /// </summary>
-            STAGING,
+            Staging,
 
             /// <summary>
             /// 自动模式（如果在编辑器模式下则使用开发者模式（非仿真模拟）如果发布则使用线上模式）
             /// </summary>
-            AUTO,
+            Auto,
 
         }
 
         /// <summary>
         /// 调试等级
         /// </summary>
-        public static DebugLevels DebugLevel { get { return DebugLevels.AUTO; } }
+        public static DebugLevels DebugLevel { get { return DebugLevels.Auto; } }
 
         /// <summary>
 		/// 编译完成后发布AssetBundle的路径
@@ -88,7 +88,7 @@ namespace CatLib
 
             get
             {
-				if (DebugLevel == DebugLevels.STAGING)
+				if (DebugLevel == DebugLevels.Staging)
 				{
 					return DataPath + ReleasePath + "/" + PlatformToName(SwitchPlatform);
 				}

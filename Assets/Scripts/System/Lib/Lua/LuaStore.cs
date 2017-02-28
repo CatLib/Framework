@@ -71,7 +71,7 @@ namespace CatLib.Lua
         {
 
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.AUTO)
+            if (Env.DebugLevel == Env.DebugLevels.Auto)
             {
                 yield break;
             }

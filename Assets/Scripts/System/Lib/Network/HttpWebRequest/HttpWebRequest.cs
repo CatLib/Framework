@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using System;
-using CatLib.Base;
+using CatLib.API;
 
 namespace CatLib.Network
 {
@@ -103,37 +103,37 @@ namespace CatLib.Network
 
         public void Get(string action)
         {
-            Restful(ERestful.GET, action);
+            Restful(ERestful.Get, action);
         }
 
         public void Head(string action)
         {
-            Restful(ERestful.HEAD, action);
+            Restful(ERestful.Head, action);
         }
 
         public void Post(string action, WWWForm form)
         {
-            Restful(ERestful.POST , action, form);
+            Restful(ERestful.Post , action, form);
         }
 
         public void Post(string action, byte[] body)
         {
-            Restful(ERestful.POST, action, body);
+            Restful(ERestful.Post, action, body);
         }
 
         public void Put(string action, WWWForm form)
         {
-            Restful(ERestful.PUT, action, form);
+            Restful(ERestful.Put, action, form);
         }
 
         public void Put(string action, byte[] body)
         {
-            Restful(ERestful.PUT, action, body);
+            Restful(ERestful.Put, action, body);
         }
 
         public void Delete(string action)
         {
-            Restful(ERestful.DELETE, action);
+            Restful(ERestful.Delete, action);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace CatLib.Network
 
                         yield return request.Send();
 
-                        TriggerLevel level = TriggerLevel.ALL;
+                        TriggerLevel level = TriggerLevel.All;
                         if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
                         {
                             level = (TriggerLevel)int.Parse(triggerLevel[HttpRequestEvents.ON_MESSAGE].ToString());
@@ -174,19 +174,24 @@ namespace CatLib.Network
 
                         var args = new HttpRequestEventArgs(request);
 
-                        if ((level & TriggerLevel.SELF) > 0)
+                        if ((level & TriggerLevel.Self) > 0)
                         {
                             Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
                         }
 
-                        if ((level & TriggerLevel.TYPE) > 0)
+                        if ((level & TriggerLevel.Type) > 0)
                         {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
                         }
 
-                        if ((level & TriggerLevel.GLOBAL) > 0)
+                        if ((level & TriggerLevel.Interface) > 0)
+                        {
+                            App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
+                        }
+
+                        if ((level & TriggerLevel.Global) > 0)
                         {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
                         }

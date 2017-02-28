@@ -29,7 +29,7 @@ namespace CatLib.AutoUpdate
 
         public IEnumerator UpdateAsset()
         {
-            if (Env.DebugLevel == Env.DebugLevels.STAGING)
+            if (Env.DebugLevel == Env.DebugLevels.Staging)
             {
                 return JumpUpdate();
             }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using CatLib.API.Network;
-using CatLib.Base;
+using CatLib.API;
 
 namespace CatLib.Network
 {
@@ -82,7 +82,7 @@ namespace CatLib.Network
 
         public void Restful(ERestful method, string action, WWWForm form)
         {
-            if(method == ERestful.POST)
+            if(method == ERestful.Post)
             {
                 UnityWebRequest request = UnityWebRequest.Post(url + action, form);
                 queue.Enqueue(request);
@@ -98,10 +98,10 @@ namespace CatLib.Network
             UnityWebRequest request = null;
             switch (method)
             {
-                case ERestful.GET: request = UnityWebRequest.Get(url + action); break;
-                case ERestful.PUT: request = UnityWebRequest.Put(url + action, body); break;
-                case ERestful.DELETE: request = UnityWebRequest.Delete(url + action); break;
-                case ERestful.HEAD: request = UnityWebRequest.Head(url + action); break;
+                case ERestful.Get: request = UnityWebRequest.Get(url + action); break;
+                case ERestful.Put: request = UnityWebRequest.Put(url + action, body); break;
+                case ERestful.Delete: request = UnityWebRequest.Delete(url + action); break;
+                case ERestful.Head: request = UnityWebRequest.Head(url + action); break;
                 default: throw new Exception("this component is not support [" + method.ToString() + "] restful");
             }
             queue.Enqueue(request);
@@ -109,37 +109,37 @@ namespace CatLib.Network
 
         public void Get(string action)
         {
-            Restful(ERestful.GET, action);
+            Restful(ERestful.Get, action);
         }
 
         public void Head(string action)
         {
-            Restful(ERestful.HEAD, action);
+            Restful(ERestful.Head, action);
         }
 
         public void Post(string action, WWWForm form)
         {
-            Restful(ERestful.POST, action, form);
+            Restful(ERestful.Post, action, form);
         }
 
         public void Post(string action, byte[] body)
         {
-            Restful(ERestful.POST, action, body);
+            Restful(ERestful.Post, action, body);
         }
 
         public void Put(string action, WWWForm form)
         {
-            Restful(ERestful.PUT, action, form);
+            Restful(ERestful.Put, action, form);
         }
 
         public void Put(string action, byte[] body)
         {
-            Restful(ERestful.PUT, action, body);
+            Restful(ERestful.Put, action, body);
         }
 
         public void Delete(string action)
         {
-            Restful(ERestful.DELETE, action);
+            Restful(ERestful.Delete, action);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace CatLib.Network
                         }
                         yield return request.Send();
   
-                        TriggerLevel level = TriggerLevel.ALL;
+                        TriggerLevel level = TriggerLevel.All;
                         if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
                         {
                             level = (TriggerLevel)int.Parse(triggerLevel[HttpRequestEvents.ON_MESSAGE].ToString());
@@ -180,19 +180,23 @@ namespace CatLib.Network
 
                         var args = new WebRequestEventArgs(request);
 
-                        if ((level & TriggerLevel.SELF) > 0)
+                        if ((level & TriggerLevel.Self) > 0)
                         {
                             Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
                         }
 
-                        if ((level & TriggerLevel.TYPE) > 0)
+                        if ((level & TriggerLevel.Type) > 0)
                         {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
+                        }
+
+                        if ((level & TriggerLevel.Interface) > 0)
+                        {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
                         }
 
-                        if ((level & TriggerLevel.GLOBAL) > 0)
+                        if ((level & TriggerLevel.Global) > 0)
                         {
                             App.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
                         }

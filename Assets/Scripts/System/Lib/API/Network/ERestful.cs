@@ -9,23 +9,23 @@ namespace CatLib.API.Network
     {
 
         //HTTP 1.1 协议谓词
-        GET, 
-        POST,
-        PUT,
-        DELETE,
-        HEAD,
-        OPTIONS,
-        TRACE,
+        Get, 
+        Post,
+        Put,
+        Delete,
+        Head,
+        Options,
+        Trace,
 
-        PATCH,
-        COPY,
-        LINK,
-        UNLINK,
-        PURGE,
-        LOCK,
-        UNLOCK,
-        PROFFIND,
-        VIEW
+        Patch,
+        Copy,
+        Link,
+        UnLink,
+        Purge,
+        Lock,
+        UnLock,
+        Proffind,
+        View
 
     }
 

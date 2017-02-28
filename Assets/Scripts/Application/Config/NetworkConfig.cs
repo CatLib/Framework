@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using CatLib;
-using CatLib.Network;
+using CatLib.API;
 using CatLib.API.Network;
-using CatLib.Base;
+using CatLib.Network;
 
 public class NetworkConfig : Configs {
 
@@ -40,7 +40,7 @@ public class NetworkConfig : Configs {
                                             { "packing"  , typeof(IPacking) },
                                             { "protocol" , typeof(IProtocol) },
                                             { "trigger" , new Hashtable() {
-                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.SELF }
+                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.Self }
                                             } }
                                         },
 
@@ -50,7 +50,7 @@ public class NetworkConfig : Configs {
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , typeof(IProtocol) },
                                             { "trigger" , new Hashtable() {
-                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.SELF | TriggerLevel.TYPE }
+                                                { SocketRequestEvents.ON_MESSAGE , TriggerLevel.Self | TriggerLevel.Interface }
                                             } }
                                         },
                 "udp.bind.host.text" , new Hashtable(){

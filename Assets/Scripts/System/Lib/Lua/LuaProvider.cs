@@ -15,7 +15,7 @@ namespace CatLib.Lua
         {
             get
             {
-                return ProviderProcess.CODE_AUTO_LOAD;
+                return ProviderProcess.CodeAutoLoad;
             }
         }
 

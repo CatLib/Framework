@@ -29,7 +29,7 @@ namespace CatLib.Network
         public HttpWebRequestEntity(string uri)
         {
             this.uri = uri;
-            method = ERestful.GET;
+            method = ERestful.Get;
         }
 
         public HttpWebRequestEntity(string uri, ERestful method)
@@ -105,7 +105,7 @@ namespace CatLib.Network
 
             if (requestBytes != null)
             {
-                if (method != ERestful.DELETE)
+                if (method != ERestful.Delete)
                 {
                     webRequest.ContentType = contentType;
                     webRequest.ContentLength = requestBytes.Length;

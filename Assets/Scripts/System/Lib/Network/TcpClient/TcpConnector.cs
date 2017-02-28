@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using CatLib.API;
 
 namespace CatLib.Network
 {
@@ -10,10 +11,10 @@ namespace CatLib.Network
 
         public enum Status
         {
-            INITIAL    = 1,
-            CONNECTING = 2,
-            ESTABLISH  = 3,
-            CLOSED     = 4,            
+            Initial    = 1,
+            Connecting = 2,
+            Establish = 3,
+            Closed     = 4,            
         }
 
         protected TcpClient socket;
@@ -23,7 +24,7 @@ namespace CatLib.Network
 
         protected int readBufferLength = 1024;
 
-        protected volatile Status status = Status.INITIAL;
+        protected volatile Status status = Status.Initial;
         public Status CurrentStatus{ get { return status; } }
 
         protected NetworkStream networkStream;
@@ -43,20 +44,20 @@ namespace CatLib.Network
 
         public void Connect()
         {
-            if (status != Status.INITIAL && status != Status.CLOSED) { return; }
-            status = Status.CONNECTING;
+            if (status != Status.Initial && status != Status.Closed) { return; }
+            status = Status.Connecting;
             Dns.BeginGetHostAddresses(remoteAddress, OnDnsGetHostAddressesComplete, null);
         }
 
         public void Send(byte[] bytes)
         {
-            if (status != Status.ESTABLISH) { return; }
+            if (status != Status.Establish) { return; }
             networkStream.BeginWrite(bytes, 0, bytes.Length, OnSendCallBack, socket);
         }
 
         public void Dispose()
         {
-            if (status == Status.CLOSED) { return; }
+            if (status == Status.Closed) { return; }
             if (networkStream != null)
             {
                 networkStream.Close();
@@ -65,7 +66,7 @@ namespace CatLib.Network
             {
                 socket.Close();
             }
-            status = Status.CLOSED;
+            status = Status.Closed;
             OnClose(this, EventArgs.Empty);
         }
 
@@ -96,7 +97,7 @@ namespace CatLib.Network
                 readBuffer = new byte[readBufferLength];
                 networkStream.BeginRead(readBuffer, 0, readBuffer.Length, OnReadCallBack, readBuffer);
 
-                status = Status.ESTABLISH;
+                status = Status.Establish;
                 OnConnect(this, EventArgs.Empty);
 
             }
@@ -115,7 +116,7 @@ namespace CatLib.Network
             int read = networkStream.EndRead(result);
             if (read <= 0)
             {
-                status = Status.CLOSED;
+                status = Status.Closed;
                 return;
             }
 

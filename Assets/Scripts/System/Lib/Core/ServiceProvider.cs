@@ -11,7 +11,7 @@ namespace CatLib
 
         public virtual void Init() { }
 
-        public virtual ProviderProcess ProviderProcess { get { return ProviderProcess.NORMAL; } }
+        public virtual ProviderProcess ProviderProcess { get { return ProviderProcess.Normal; } }
 
         public virtual IEnumerator OnProviderProcess() { yield break; }
 

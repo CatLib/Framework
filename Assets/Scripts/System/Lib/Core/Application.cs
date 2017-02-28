@@ -29,27 +29,27 @@ namespace CatLib
             /// <summary>
             /// 引导流程
             /// </summary>
-            ON_BOOTSTRAP = 1,
+            OnBootstrap = 1,
 
             /// <summary>
             /// 依赖检测流程
             /// </summary>
-            ON_DEPEND = 3,
+            OnDepend = 3,
 
             /// <summary>
             /// 初始化流程
             /// </summary>
-            ON_INITED = 4,
+            OnInit = 4,
 
             /// <summary>
             /// 服务提供商启动流程
             /// </summary>
-            ON_PROVIDER_PROCESS = 5,
+            OnProviderProcess = 5,
 
             /// <summary>
             /// 启动完成
             /// </summary>
-            ON_COMPLETE = 6,
+            OnComplete = 6,
 
         }
 
@@ -86,7 +86,7 @@ namespace CatLib
         /// <summary>
         /// 启动流程
         /// </summary>
-        protected StartProcess process = StartProcess.ON_BOOTSTRAP;
+        protected StartProcess process = StartProcess.OnBootstrap;
 
         /// <summary>
         /// 全局唯一自增
@@ -130,7 +130,7 @@ namespace CatLib
         {
             get
             {
-                if(process <= StartProcess.ON_INITED)
+                if(process <= StartProcess.OnInit)
                 {
                     throw new Exception("can not call Time , because framework is not inited");
                 }
@@ -178,7 +178,7 @@ namespace CatLib
         /// <returns></returns>
         public IApplication Bootstrap(Type[] bootstraps)
         {
-            process = StartProcess.ON_BOOTSTRAP;
+            process = StartProcess.OnBootstrap;
 
             App.Instance = this;
             Instances(typeof(Application).ToString(), this);
@@ -211,7 +211,7 @@ namespace CatLib
 
             ServiceProvider[] providers = serviceProviders.ToArray();
 
-            process = StartProcess.ON_DEPEND;
+            process = StartProcess.OnDepend;
 
             foreach (ServiceProvider provider in providers)
             {
@@ -227,7 +227,7 @@ namespace CatLib
 
             }
 
-            process = StartProcess.ON_INITED;
+            process = StartProcess.OnInit;
 
             Event.Trigger(ApplicationEvents.ON_INITING);
 
@@ -310,7 +310,7 @@ namespace CatLib
         protected IEnumerator StartProviderPorcess()
         {
 
-            process = StartProcess.ON_PROVIDER_PROCESS;
+            process = StartProcess.OnProviderProcess;
 
             Trigger(ApplicationEvents.ON_PROVIDER_PROCESSING);
 
@@ -324,7 +324,7 @@ namespace CatLib
 
             Trigger(ApplicationEvents.ON_PROVIDER_PROCESSED);
 
-            process = StartProcess.ON_COMPLETE;
+            process = StartProcess.OnComplete;
 
             Trigger(ApplicationEvents.ON_APPLICATION_START_COMPLETE);
 

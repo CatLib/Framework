@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using CatLib.API;
 
 namespace CatLib.Network
 {
@@ -10,13 +11,13 @@ namespace CatLib.Network
 
         public enum Status
         {
-            INITIAL = 1,
-            CONNECTING = 2,
-            ESTABLISH = 3,
-            CLOSED = 4,
+            Initial    = 1,
+            Connecting = 2,
+            Establish = 3,
+            Closed     = 4, 
         }
 
-        protected volatile Status status = Status.INITIAL;
+        protected volatile Status status = Status.Initial;
         public Status CurrentStatus { get { return status; } }
 
         protected UdpClient socket;
@@ -38,13 +39,13 @@ namespace CatLib.Network
 
         public void Connect()
         {
-            if (status != Status.INITIAL && status != Status.CLOSED) { return; }
+            if (status != Status.Initial && status != Status.Closed) { return; }
 
-            status = Status.CONNECTING;
+            status = Status.Connecting;
 
             socket = new UdpClient();
 
-            status = Status.ESTABLISH;
+            status = Status.Establish;
 
             OnConnect(this, EventArgs.Empty);
 
@@ -54,15 +55,15 @@ namespace CatLib.Network
 
         public void Connect(string host , int port)
         {
-            if (status != Status.INITIAL && status != Status.CLOSED) { return; }
+            if (status != Status.Initial && status != Status.Closed) { return; }
             remoteAddress = host;
             remotePort = port;
-            status = Status.CONNECTING;
+            status = Status.Connecting;
 
             socket = new UdpClient();
             socket.Connect(host , port);
 
-            status = Status.ESTABLISH;
+            status = Status.Establish;
             OnConnect(this, EventArgs.Empty);
 
             socket.BeginReceive(OnReadCallBack, null);
@@ -70,24 +71,24 @@ namespace CatLib.Network
 
         public void SendTo(byte[] bytes , string host , int port)
         {
-            if (status != Status.ESTABLISH) { return; }
+            if (status != Status.Establish) { return; }
             socket.BeginSend(bytes, bytes.Length , host, port, OnSendCallBack, null);
         }
 
         public void Send(byte[] bytes)
         {
-            if (status != Status.ESTABLISH) { return; }
+            if (status != Status.Establish) { return; }
             socket.BeginSend(bytes, bytes.Length, OnSendCallBack , null);
         }
 
         public void Dispose()
         {
-            if (status == Status.CLOSED) { return; }
+            if (status == Status.Closed) { return; }
             if (socket != null)
             {
                 socket.Close();
             }
-            status = Status.CLOSED;
+            status = Status.Closed;
             OnClose(this, EventArgs.Empty);
         }
 

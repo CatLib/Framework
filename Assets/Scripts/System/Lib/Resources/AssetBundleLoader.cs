@@ -206,7 +206,7 @@ namespace CatLib.Resources {
             if (assetBundleManifest != null) { return; }
 
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.AUTO)
+            if (Env.DebugLevel == Env.DebugLevels.Auto)
             {
                 return;
             }

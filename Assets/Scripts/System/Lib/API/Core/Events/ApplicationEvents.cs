@@ -1,4 +1,4 @@
-﻿namespace CatLib
+﻿namespace CatLib.API
 {
     public class ApplicationEvents
     {

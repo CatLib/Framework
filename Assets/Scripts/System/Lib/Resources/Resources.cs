@@ -46,7 +46,7 @@ namespace CatLib.Resources {
         {
             path = PathFormat(path, type);
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.AUTO)
+            if (Env.DebugLevel == Env.DebugLevels.Auto)
             {
                 return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + IO.PathSpliter + path, type);
             }
@@ -62,7 +62,7 @@ namespace CatLib.Resources {
         public Object[] LoadAll(string path)
         {
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.AUTO)
+                if (Env.DebugLevel == Env.DebugLevels.Auto)
                 {
                     throw new System.Exception("not support [LoadAll] in auto env");
                 }
@@ -84,7 +84,7 @@ namespace CatLib.Resources {
         {
             path = PathFormat(path, type);
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.AUTO)
+                if (Env.DebugLevel == Env.DebugLevels.Auto)
                 {
                     return App.StartCoroutine(EmptyIEnumerator(() =>
                     {
@@ -104,7 +104,7 @@ namespace CatLib.Resources {
         {
 
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.AUTO)
+                if (Env.DebugLevel == Env.DebugLevels.Auto)
                 {
                     throw new System.Exception("not support [LoadAllAsync] in auto env");
                 }

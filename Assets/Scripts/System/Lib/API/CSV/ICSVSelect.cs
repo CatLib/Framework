@@ -22,12 +22,12 @@ namespace CatLib.API.CSV{
 		/// <summary>
 		/// 建立一个Where查询
 		/// </summary>
-		ICSVSelect Where(string field, string operators = null, string value = null, ECSVLinker linker = ECSVLinker.AND);
+		ICSVSelect Where(string field, string operators = null, string value = null, ECSVLinker linker = ECSVLinker.And);
 		
 		/// <summary>
 		/// 建立一个Where嵌套查询
 		/// </summary>
-		ICSVSelect Where(Action<ICSVSelect> nested, ECSVLinker linker = ECSVLinker.AND);
+		ICSVSelect Where(Action<ICSVSelect> nested, ECSVLinker linker = ECSVLinker.And);
 
 		/// <summary>
 		/// andWhere查询

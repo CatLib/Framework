@@ -10,37 +10,37 @@
         /// <summary>
         /// 顶级初始化流程
         /// </summary>
-        INITED = 1,
+        Inited = 1,
 
         /// <summary>
         /// 程序自动更新流程
         /// </summary>
-        PROGRAM_AUTO_UPDATE = 5,
+        ProgramAutoUpdate= 5,
 
         /// <summary>
         /// 资源自动更新流程
         /// </summary>
-        RESOURCES_AUTO_UPDATE = 10,
+        ResourcesAutoUpdate = 10,
 
         /// <summary>
         /// Lua代码自动载入流程
         /// </summary>
-        CODE_AUTO_LOAD = 20,
+        CodeAutoLoad = 20,
 
         /// <summary>
         /// 资源准备流程
         /// </summary>
-        RESOURCES_LOAD = 30,
+        ResourcesLoad = 30,
 
         /// <summary>
         /// 标准准备流程
         /// </summary>
-        NORMAL = 100,
+        Normal = 100,
 
         /// <summary>
         /// 延迟标准流程
         /// </summary>
-        LATE_NORMAL = 200,
+        LateNormal = 200,
 
     }
 

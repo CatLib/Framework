@@ -17,7 +17,7 @@ namespace CatLib.AutoUpdate
         {
             get
             {
-                return ProviderProcess.RESOURCES_AUTO_UPDATE;
+                return ProviderProcess.ResourcesAutoUpdate;
             }
         }
 

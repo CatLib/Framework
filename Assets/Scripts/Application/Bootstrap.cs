@@ -9,6 +9,7 @@ using CatLib.API.Event;
 using CatLib.API.Time;
 using CatLib.API.Hash;
 using CatLib.API.Crypt;
+using CatLib.API;
 
 class Test
 {

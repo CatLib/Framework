@@ -1,11 +1,11 @@
-﻿using CatLib.Base;
-using CatLib.API.Buffer;
+﻿using CatLib.API.Buffer;
 using CatLib.API.Network;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using CatLib.API;
 
 namespace CatLib.Network
 {
@@ -207,7 +207,7 @@ namespace CatLib.Network
                 if (stopMark) { break; }
                 while (queue.Count > 0)
                 {
-                    if (udpConnector != null && udpConnector.CurrentStatus == UdpConnector.Status.ESTABLISH)
+                    if (udpConnector != null && udpConnector.CurrentStatus == UdpConnector.Status.Establish)
                     {
                         object[] data = queue.Dequeue();
                         if(data.Length == 1)
@@ -344,26 +344,30 @@ namespace CatLib.Network
         /// <param name="args">参数</param>
         private void Trigger(string eventName, EventArgs args)
         {
-            TriggerLevel level = TriggerLevel.ALL;
+            TriggerLevel level = TriggerLevel.All;
             if (triggerLevel != null && triggerLevel.ContainsKey(eventName))
             {
                 level = (TriggerLevel)int.Parse(triggerLevel[eventName].ToString());
             }
 
-            if ((level & TriggerLevel.SELF) > 0)
+            if ((level & TriggerLevel.Self) > 0)
             {
                 Event.Trigger(eventName, this, args);
                 App.Trigger(eventName + TypeGuid, this, args);
             }
 
-            if ((level & TriggerLevel.TYPE) > 0)
+            if ((level & TriggerLevel.Type) > 0)
             {
                 App.Trigger(eventName + GetType().ToString(), this, args);
+            }
+
+            if ((level & TriggerLevel.Interface) > 0)
+            {
                 App.Trigger(eventName + typeof(IConnectorTcp).ToString(), this, args);
                 App.Trigger(eventName + typeof(IConnectorSocket).ToString(), this, args);
             }
 
-            if ((level & TriggerLevel.GLOBAL) > 0)
+            if ((level & TriggerLevel.Global) > 0)
             {
                 App.Trigger(eventName, this, args);
             }

@@ -8,9 +8,9 @@ namespace CatLib.API.CSV{
 	/// </summary>
 	public enum ECSVLinker{
 
-		AND,
+		And,
 
-		OR,
+		Or,
 
 	}
 
