@@ -13,12 +13,12 @@ namespace CatLib.Thread
     public class ThreadRuner : Component , IThread , IUpdate
     {
 
-        private List<TaskRunner> taskRunner = new List<TaskRunner>();
+        private List<ThreadTask> taskRunner = new List<ThreadTask>();
         private ReaderWriterLockSlim taskRunnerLocker = new ReaderWriterLockSlim();
 
         public ITask Task(System.Action task)
         {
-            var taskRunner = new TaskRunner(this)
+            var taskRunner = new ThreadTask(this)
             {
                 Task = task,
                 ReturnResult = false,
@@ -29,7 +29,7 @@ namespace CatLib.Thread
         public ITask Task(System.Func<object> task)
         {
 
-            var taskRunner = new TaskRunner(this)
+            var taskRunner = new ThreadTask(this)
             {
                 TaskWithResult = task,
                 ReturnResult = true,
@@ -39,7 +39,7 @@ namespace CatLib.Thread
 
         }
 
-        public void AddTask(TaskRunner taskRunner)
+        public ITaskHandler AddTask(ThreadTask taskRunner)
         {
             taskRunner.StartTime = App.Time.Time;
             if (taskRunner.DelayTime > 0)
@@ -57,6 +57,19 @@ namespace CatLib.Thread
             else
             {
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadExecuter), taskRunner);
+            }
+            return taskRunner;
+        }
+
+        public void Cancel(ThreadTask taskRunner)
+        {
+            taskRunnerLocker.EnterWriteLock();
+            try
+            {
+                this.taskRunner.Remove(taskRunner);
+            }finally
+            {
+                taskRunnerLocker.ExitWriteLock();
             }
         }
 
@@ -97,7 +110,7 @@ namespace CatLib.Thread
         {
             try
             {
-                if (typeof(TaskRunner) == state.GetType()) { RunTaskThread((TaskRunner)state); }
+                if (typeof(ThreadTask) == state.GetType()) { RunTaskThread((ThreadTask)state); }
                 else
                 {
                     App.Trigger(ThreadEvents.ON_THREAD_EXECURE_ERROR, 
@@ -112,7 +125,7 @@ namespace CatLib.Thread
             }
         }
 
-        private void RunTaskThread(TaskRunner taskRunner)
+        private void RunTaskThread(ThreadTask taskRunner)
         {
             try
             {

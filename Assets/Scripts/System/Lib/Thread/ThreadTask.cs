@@ -4,7 +4,7 @@ using System;
 namespace CatLib.Thread
 {
 
-    public class TaskRunner : ITask
+    public class ThreadTask : ITask , ITaskHandler
     {
 
         private ThreadRuner runner;
@@ -23,11 +23,9 @@ namespace CatLib.Thread
 
         public float DelayTime { get; private set; }
 
-        public string TaskName { get; private set; }
-
         public float StartTime { get; set; }
 
-        public TaskRunner(ThreadRuner runner)
+        public ThreadTask(ThreadRuner runner)
         {
             this.runner = runner;
         }
@@ -35,12 +33,6 @@ namespace CatLib.Thread
         public ITask OnComplete(Action onComplete)
         {
             Complete = onComplete;
-            return this;
-        }
-
-        public ITask Name(string name)
-        {
-            TaskName = name;
             return this;
         }
 
@@ -62,9 +54,15 @@ namespace CatLib.Thread
             return this;
         }
 
-        public void Start()
+        public void Cancel(){
+            
+            runner.Cancel(this);
+
+        }
+
+        public ITaskHandler Start()
         {
-            runner.AddTask(this);
+            return runner.AddTask(this);
         }
 
     }

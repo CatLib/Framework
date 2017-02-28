@@ -37,11 +37,18 @@ public class Bootstrap : ServiceProvider
             //Debug.Log(hash.Bcrypt("helloworld"));
 
             ICrypt secret = App.Make<ICrypt>();
-            string code = secret.Encrypt("this is need encrypt string");
+            string code = secret.Encrypt("helloworld");
             Debug.Log(code);
 
             Debug.Log(secret.Decrypt(code));
 
+            FThread.Instance.Task(() =>
+            {
+                Debug.Log("pppppppppppppppppppp");
+                int i = 0;
+                i++;
+                return i;
+            }).Delay(5).Start().Cancel();
 
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$10$Y8BxbHFgGArGVHIucx8i7u7t5ByLlSdWgWcQc187hqFfSiKFJfz3C"));
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$15$td2ASPNq.8BXbpa6yUU0c.pQpfYLxtcbXviM8fZXw4v8FDeO3hCoC"));

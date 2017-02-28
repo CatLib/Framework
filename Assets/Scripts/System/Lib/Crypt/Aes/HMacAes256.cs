@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-
+using CatLib.API.Crypt;
 
 public class HMacAes256 {
 
@@ -32,12 +32,12 @@ public class HMacAes256 {
     public string Decrypt(string toDecrypt, string key)
     {
         var hmac = toDecrypt.Split('$');
-        if (hmac.Length < 2) { throw new Exception("mac is invalid"); }
-        if (HMac(hmac[0], key) != hmac[1]) { throw new Exception("mac is invalid"); }
+        if (hmac.Length < 2) { throw new DecryptException("mac is invalid"); }
+        if (HMac(hmac[0], key) != hmac[1]) { throw new DecryptException("mac is invalid"); }
 
         string aesIVString = Encoding.UTF8.GetString(Convert.FromBase64String(hmac[0]));
         var aesIVStringArr = aesIVString.Split('$');
-        if (aesIVStringArr.Length < 2) { throw new Exception("mac is invalid"); }
+        if (aesIVStringArr.Length < 2) { throw new DecryptException("mac is invalid"); }
 
         byte[] aesBuffer = Convert.FromBase64String(aesIVStringArr[0]);
         byte[] ivBuffer = Convert.FromBase64String(aesIVStringArr[1]);
