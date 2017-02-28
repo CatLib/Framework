@@ -4,7 +4,7 @@ using CatLib.API.Event;
 namespace CatLib
 {
 
-    public class Component : IEvent , IGuid
+    public class Component : CatLibObject , IEvent , IGuid
     {
 
         public IApplication App { get { return CatLib.App.Instance; } }

@@ -11,12 +11,7 @@ namespace CatLib.Event
         /// <summary>
         /// 事件地图
         /// </summary>
-        protected Dictionary<string, EventHandler> handlers;
-
-        /// <summary>
-        /// 事件地图
-        /// </summary>
-        protected Dictionary<string, EventHandler> handlersOne;
+        protected Dictionary<string, List<EventHandler>> handlers;
 
         /// <summary>
         /// 触发一个事件
@@ -55,7 +50,6 @@ namespace CatLib.Event
         /// <param name="e">参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
-
             if (!App.Instance.IsMainThread)
             {
                 App.Instance.MainThread(() =>
@@ -65,70 +59,77 @@ namespace CatLib.Event
                 return;
             }
 
-            if (handlers == null) { handlers = new Dictionary<string, EventHandler>(); }
-            if (handlersOne == null) { handlersOne = new Dictionary<string, EventHandler>(); }
-            if (handlers.ContainsKey(eventName))
+            if (handlers == null) { return; }
+
+            if (handlers.ContainsKey(eventName) && handlers[eventName].Count > 0)
             {
-                handlers[eventName](sender, e);
+                List<EventHandler> removeList = null;
+                var handler = handlers[eventName];
+                for(int i = 0; i < handler.Count; i++){
+                    
+                    handler[i].Call(sender, e);
+                    if(!handler[i].IsLife){
+
+                        if(removeList == null){ removeList = new List<EventHandler>(); }
+                        removeList.Add(handler[i]);
+
+                    }
+
+                }
+
+                if(removeList != null){
+                    for(int i = 0; i < removeList.Count ; i++){
+
+                        removeList[i].Cancel();
+                    
+                    }
+                }
             }
-            if (handlersOne.ContainsKey(eventName))
-            {
-                handlersOne[eventName](sender, e);
-                handlersOne.Remove(eventName);
-            }
+
         }
 
         /// <summary>
         /// 注册一个事件
         /// </summary>
         /// <param name="eventName">事件名称</param>
-        /// <param name="handler">操作句柄</param>
+        /// <param name="handler">事件句柄</param>
+        /// <param name="life">活性</param>
         /// <returns></returns>
-        public void On(string eventName, EventHandler handler)
+        public IEventHandler On(string eventName, System.EventHandler handler , int life = -1)
         {
-
+            var callHandler = new EventHandler(this , eventName , handler , life);
             if (!App.Instance.IsMainThread)
             {
                 App.Instance.MainThread(() =>
                 {
-                    On(eventName, handler);
+                    On(eventName , callHandler);
                 });
-                return;
+                return callHandler;
             }
-
-            if (handlers == null) { handlers = new Dictionary<string, EventHandler>(); }
-            if (!handlers.ContainsKey(eventName))
-            {
-                handlers.Add(eventName, handler);
-                return;
-            }
-            handlers[eventName] += handler;
+            On(eventName , callHandler);
+            return callHandler;
         }
 
         /// <summary>
         /// 注册一个事件，调用一次后就释放
         /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="handler"></param>
-        public void One(string eventName , EventHandler handler)
+        /// <param name="eventName">事件名</param>
+        /// <param name="handler">事件句柄</param>
+        public IEventHandler One(string eventName , System.EventHandler handler)
         {
+            return On(eventName , handler , 1);
+        }
 
-            if (!App.Instance.IsMainThread)
-            {
-                App.Instance.MainThread(() =>
-                {
-                    One(eventName, handler);
-                });
-                return;
-            }
+        private void On(string eventName, EventHandler handler){
 
-            if (handlersOne == null) { handlersOne = new Dictionary<string, EventHandler>(); }
-            if (!handlersOne.ContainsKey(eventName))
+            if (handlers == null) { handlers = new Dictionary<string, List<EventHandler>>(); }
+            if (!handlers.ContainsKey(eventName))
             {
-                handlersOne.Add(eventName, handler);
-                return;
+                handlers.Add(eventName, new List<EventHandler>());
             }
-            handlersOne[eventName] += handler;
+            handlers[eventName].Add(handler);
+            handler.Active();
+
         }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace CatLib.Event
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="handler">操作句柄</param>
-        public void Off(string eventName, EventHandler handler)
+        public void Off(string eventName, IEventHandler handler)
         {
 
             if (handlers == null) { return; }
@@ -152,34 +153,14 @@ namespace CatLib.Event
             
             if (handlers.ContainsKey(eventName))
             {
-                handlers[eventName] -= handler;
-            }
-        }
-
-        /// <summary>
-        /// 移除一个一次性事件
-        /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="handler"></param>
-        public void OffOne(string eventName , EventHandler handler)
-        {
-
-            if (handlersOne == null) { return; }
-
-            if (!App.Instance.IsMainThread)
-            {
-                App.Instance.MainThread(() =>
+                handlers[eventName].Remove(handler as EventHandler);
+                if(handlers[eventName].Count <= 0)
                 {
-                    OffOne(eventName, handler);
-                });
-                return;
-            }
-
-            if (handlersOne.ContainsKey(eventName))
-            {
-                handlersOne[eventName] -= handler;
+                    handlers.Remove(eventName);
+                }
             }
         }
+
     }
 
 }

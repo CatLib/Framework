@@ -29,9 +29,30 @@ public class Bootstrap : ServiceProvider
 
     public override void Init()
     {
-        App.Event.One(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+
+        IEventHandler h = App.On(ApplicationEvents.ON_INITED,(sender,e)=>{
+
+            Debug.Log("9123891237012897312");
+        });
+
+        IEventHandler aa = App.On(ApplicationEvents.ON_INITED,(sender,e)=>{
+
+            Debug.Log("aksldjalkds9123891237012897312");
+        });
+
+        IEventHandler bb = App.On(ApplicationEvents.ON_INITED,(sender,e)=>{
+
+            Debug.Log("ooooooooo9123891237012897312");
+        });
+        
+
+        App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            h.Cancel();
+
+            App.Event.Trigger(ApplicationEvents.ON_INITED);
+            
             Debug.Log(App.Make<Test>("123"));
 
             IHash hash = App.Make<IHash>();

@@ -36,12 +36,7 @@ namespace CatLib
         /// <summary>
         /// 注册到消息中心的句柄
         /// </summary>
-        private Dictionary<IEvent, Dictionary<string, EventHandler>> handlers;
-
-        /// <summary>
-        /// 注册到消息中心的句柄（执行一次）
-        /// </summary>
-        private Dictionary<IEvent, Dictionary<string, EventHandler>> handlersOne;
+        private List<IEventHandler> handlers;
 
         /// <summary>
         /// 注册事件到指定的对象
@@ -49,17 +44,12 @@ namespace CatLib
         /// <param name="to">注册到的目标</param>
         /// <param name="name">事件名字</param>
         /// <param name="handler">句柄</param>
-        protected void On(IEvent to , string name , EventHandler handler)
+        protected IEventHandler On(IEvent to , string name , EventHandler handler , int lift = -1) 
         {
-            if (handlers == null) { handlers = new Dictionary<IEvent, Dictionary<string, EventHandler>>(); }
-            if (!handlers.ContainsKey(to)) { handlers.Add(to, new Dictionary<string, EventHandler>()); }
-            to.Event.On(name , handler);
-            if (!handlers[to].ContainsKey(name))
-            {
-                handlers[to].Add(name, handler);
-                return;
-            }
-            handlers[to][name] += handler;
+            if(handlers == null){ handlers = new List<IEventHandler>(); }
+            IEventHandler eventHandler = to.Event.On(name , handler , lift);
+            handlers.Add(eventHandler);
+            return eventHandler;
         }
     
         /// <summary>
@@ -68,17 +58,9 @@ namespace CatLib
         /// <param name="to"></param>
         /// <param name="name"></param>
         /// <param name="handler"></param>
-        protected void One(IEvent to , string name , EventHandler handler)
+        protected IEventHandler One(IEvent to , string name , EventHandler handler)
         {
-            if (handlersOne == null) { handlersOne = new Dictionary<IEvent, Dictionary<string, EventHandler>>(); }
-            if (!handlersOne.ContainsKey(to)) { handlersOne.Add(to, new Dictionary<string, EventHandler>()); }
-            to.Event.One(name , handler);
-            if (!handlersOne[to].ContainsKey(name))
-            {
-                handlersOne[to].Add(name, handler);
-                return;
-            }
-            handlersOne[to][name] += handler;
+            return On(to , name , handler , 1);
         }
 
         /// <summary>
@@ -88,30 +70,13 @@ namespace CatLib
         {
             if (handlers != null)
             {
-                foreach (KeyValuePair<IEvent, Dictionary<string, EventHandler>> data1 in handlers)
-                {
-                    foreach (KeyValuePair<string, EventHandler> data2 in data1.Value)
-                    {
-                        if (data1.Key != null)
-                        {
-                            data1.Key.Event.Off(data2.Key, data2.Value);
-                        }
-                    }
-                }
-            }
+                for(int i = 0; i < handlers.Count ; i++){
 
-            if (handlersOne != null)
-            {
-                foreach (KeyValuePair<IEvent, Dictionary<string, EventHandler>> data1 in handlersOne)
-                {
-                    foreach (KeyValuePair<string, EventHandler> data2 in data1.Value)
-                    {
-                        if (data1.Key != null)
-                        {
-                            data1.Key.Event.OffOne(data2.Key, data2.Value);
-                        }
-                    }
+                    handlers[i].Cancel();
+
                 }
+                handlers.Clear();
+                handlers = null;
             }
         }
 

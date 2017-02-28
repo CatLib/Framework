@@ -12,13 +12,11 @@ namespace CatLib.API.Event{
 
 		void Trigger(string eventName, object sender, EventArgs e);
 
-		void On(string eventName, EventHandler handler);
+		IEventHandler On(string eventName, System.EventHandler handler , int life = -1);
 
-		void One(string eventName , EventHandler handler);
+		IEventHandler One(string eventName , System.EventHandler handler);
 
-		void Off(string eventName, EventHandler handler);
-
-		void OffOne(string eventName , EventHandler handler);
+		void Off(string eventName, IEventHandler handler);
 
 	}
 

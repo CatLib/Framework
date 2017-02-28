@@ -403,31 +403,24 @@ namespace CatLib
 
         }
 
-        public void On(string eventName, EventHandler handler)
+        public IEventHandler On(string eventName, EventHandler handler , int life = -1)
         {
 
-            base.Event.On(eventName, handler);
+            return base.Event.On(eventName, handler , life);
 
         }
 
-        public void One(string eventName, EventHandler handler)
+        public IEventHandler One(string eventName, EventHandler handler)
         {
 
-            base.Event.One(eventName, handler);
+            return base.Event.One(eventName, handler);
 
         }
 
-        public void Off(string eventName, EventHandler handler)
+        public void Off(string eventName, IEventHandler handler)
         {
 
             base.Event.Off(eventName, handler);
-
-        }
-
-        public void OffOne(string eventName, EventHandler handler)
-        {
-
-            base.Event.OffOne(eventName, handler);
 
         }
 
