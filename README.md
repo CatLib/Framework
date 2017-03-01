@@ -3,7 +3,8 @@ Unity3D Framework For XLua
 
 框架正在开发中，改动较为频繁。
 
-最近有些童鞋一直在问有米有文档，文档会在3月初左右发布，但是只有通过测试和功能接口都确定的部分才会写入文档
+文档地址：catlib.io 
+PS:已经列入文档的接口不会进行大的调整，尚未列入的可能会进行调整。
 
 项目开发计划：https://www.teambition.com/project/589ce998907a7b661c86de9c/tasks/scrum/589ce9aadf254b9870a7ac90
 
