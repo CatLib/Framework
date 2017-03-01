@@ -10,9 +10,9 @@ namespace CatLib.IO{
 
         public IIOCrypt IOCrypt { get; set; }
 
+        private string iocryptName;
+
 		static readonly char[] INVALID_FILE_NAME_CHARS = new char[] { '/', '\\', '<', '>', ':', '|', '"' };
-        
-        private bool locker = false;
 
 		public static bool IsValidFileName(string name)
         {
@@ -74,11 +74,13 @@ namespace CatLib.IO{
 
 		public void SetConfig(Hashtable config){
 
-            if(locker){ return; }
-            locker = true;
             if(config.ContainsKey("crypt")){
 
-                IOCrypt = App.Instance.Make<IIOCrypt>(config["crypt"].ToString());
+                if (iocryptName != config["crypt"].ToString())
+                {
+                    iocryptName = config["crypt"].ToString();
+                    IOCrypt = App.Instance.Make<IIOCrypt>(iocryptName);
+                }
 
             }
 
