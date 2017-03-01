@@ -23,8 +23,8 @@ namespace CatLib.IO
             Hashtable cloudConfig = null;
             if(Config != null && Config.IsExists(name)){
                 cloudConfig = Config.Get<Hashtable>(name);
-                if(cloudConfig.ContainsKey("service")){
-                    service = cloudConfig["service"].ToString();
+                if(cloudConfig.ContainsKey("driver")){
+                    service = cloudConfig["driver"].ToString();
                 }
             }
             if(disk == null){

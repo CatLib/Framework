@@ -34,7 +34,6 @@ class Test
 
     public Test(string res, IResources res2)
     {
-
         Debug.Log(res2);
         Debug.Log(res);
 
@@ -93,12 +92,12 @@ public class Bootstrap : ServiceProvider
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$10$Y8BxbHFgGArGVHIucx8i7u7t5ByLlSdWgWcQc187hqFfSiKFJfz3C"));
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$15$td2ASPNq.8BXbpa6yUU0c.pQpfYLxtcbXviM8fZXw4v8FDeO3hCoC"));
 
-            IResources res = App.Make<IResources>();
+            
             IAssetBundle bundle = App.Make<IAssetBundle>();
             //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
 
             //Object[] p = res.LoadAll("prefab/asset6");
-
+            IResources res = App.Make<IResources>();
             res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
              {
                  Object.Instantiate(obj);
