@@ -12,7 +12,7 @@ namespace CatLib.IO
         public override void Register()
         {
             App.Singleton<IO>().Alias<IIOFactory>();
-            App.Singleton<LocalDisk>().Alias<IDisk>();
+            App.Bind<LocalDisk>().Alias<IDisk>();
         }
 
     }

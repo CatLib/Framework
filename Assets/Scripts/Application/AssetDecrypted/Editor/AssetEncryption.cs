@@ -16,6 +16,7 @@ namespace CatLib.Resources
         public void Build(IBuildContext context)
         {
 
+            UnityEngine.Debug.Log(Env.AssetPath);
             var ioCrypted = new IOCrypted();
             foreach (string releaseFile in context.ReleaseFiles)
             {

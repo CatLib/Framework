@@ -86,7 +86,7 @@ namespace CatLib
 
         public bool IsExists(string field)
         {
-
+            if (string.IsNullOrEmpty(field)) { return false; }
             if (this.field.ContainsKey(field))
             {
                 return true;
