@@ -188,7 +188,7 @@ namespace CatLib
             IBootstrap bootstrap;
             foreach (Type t in bootstraps)
             {
-                bootstrap = this.Make(t) as IBootstrap;
+                bootstrap = this.Make<IBootstrap>(t);
                 if (bootstrap != null)
                 {
                     bootstrap.Bootstrap();
@@ -252,7 +252,7 @@ namespace CatLib
         {
             if (serviceProviders.ContainsKey(t)) { return; }
 
-            ServiceProvider serviceProvider = this.Make(t) as ServiceProvider;
+            ServiceProvider serviceProvider = this.Make<ServiceProvider>(t);
             if (serviceProvider != null)
             {
                 serviceProvider.Register();

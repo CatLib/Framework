@@ -8,7 +8,6 @@ namespace CatLib.IO{
 	
 	public class LocalDisk : IDisk{
 
-		[Dependency]
         public IIOCrypt IOCrypt { get; set; }
 
 		static readonly char[] INVALID_FILE_NAME_CHARS = new char[] { '/', '\\', '<', '>', ':', '|', '"' };
@@ -73,7 +72,11 @@ namespace CatLib.IO{
 
 		public void SetConfig(Hashtable config){
 
-			//local disk no config
+            if(config.ContainsKey("crypt")){
+
+                IOCrypt = App.Instance.Make<IIOCrypt>(config["crypt"].ToString());
+
+            }
 
 		}
 
