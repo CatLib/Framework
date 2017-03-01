@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using CatLib.API.IO;
 
 namespace CatLib.IO
@@ -7,6 +8,8 @@ namespace CatLib.IO
     public class File : IFile
     {
 
+        private LocalDisk disk;
+
         private string directory;
         
         private string extension;
@@ -14,28 +17,28 @@ namespace CatLib.IO
         private string fileName;
 
         private System.IO.FileInfo fileInfo;
-        
-        /// <summary>
-		/// 文件
-		/// </summary>
-        public File(string path)
-        {
-            ParseFile(path);
-        }
 
-        /// <summary>
-		/// 原始文件信息
-		/// </summary>
-        public System.IO.FileInfo FileInfo{
+        private System.IO.FileInfo FileInfo{
 
             get{
 
                 if(fileInfo == null){
+
                     fileInfo = new System.IO.FileInfo(FullName);
+
                 }
                 return fileInfo;
-            }
 
+            }
+        }
+        
+        /// <summary>
+		/// 文件
+		/// </summary>
+        public File(string path , LocalDisk disk) 
+        {
+            this.disk = disk;
+            ParseFile(path);
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace CatLib.IO
 		/// </summary>
         public string FullName
         {
-            get { return directory + IO.PATH_SPLITTER + fileName + extension; }
+            get { return directory + Path.AltDirectorySeparatorChar + fileName + extension; }
         }
 
         /// <summary>
@@ -103,7 +106,7 @@ namespace CatLib.IO
         {
             get
             {
-                return new Directory(directory);
+                return new Directory(directory , disk);
             }
         }
 
@@ -121,7 +124,7 @@ namespace CatLib.IO
 		/// </summary>
         public IFile CopyTo(string targetFileName)
         {
-            IFile destFile = new File(targetFileName);
+            IFile destFile = new File(targetFileName, disk);
             destFile.Directory.Create();
             FileInfo.CopyTo(targetFileName);
             return destFile.Refresh();
@@ -132,7 +135,7 @@ namespace CatLib.IO
 		/// </summary>
         public IFile CopyTo(IDirectory targetDirectory){
 
-            return CopyTo(targetDirectory + IO.PATH_SPLITTER.ToString() + Name);
+            return CopyTo(targetDirectory + Path.AltDirectorySeparatorChar.ToString() + Name);
 
         }
 
@@ -149,9 +152,9 @@ namespace CatLib.IO
 		/// </summary>
         public void MoveTo(string targetDirectory){
 
-            IO.ValidatePath(targetDirectory);
-            IO.MakeDirectory(targetDirectory).Create();
-            FileInfo.MoveTo(targetDirectory + IO.PATH_SPLITTER + fileName + extension);
+            LocalDisk.ValidatePath(targetDirectory);
+            (new Directory(targetDirectory , disk)).Create();
+            FileInfo.MoveTo(targetDirectory + Path.AltDirectorySeparatorChar + fileName + extension);
             directory = targetDirectory;
             Refresh();
 
@@ -163,9 +166,9 @@ namespace CatLib.IO
         public void Rename(string newName)
         {
 
-            IO.IsValidFileName(newName);
+            LocalDisk.IsValidFileName(newName);
 
-            if (newName.Contains(IO.PATH_SPLITTER.ToString()))
+            if (newName.Contains(Path.AltDirectorySeparatorChar.ToString()))
             {
                 throw new ArgumentException("rename can't be used to change a files location use Move(string newPath) instead.");
             }
@@ -173,12 +176,12 @@ namespace CatLib.IO
             string newExtension = System.IO.Path.GetExtension(newName);
             string newFileName = System.IO.Path.GetFileNameWithoutExtension(newName);
 
-            IFile targetFile = new File(directory + IO.PATH_SPLITTER + newFileName + newExtension);
+            IFile targetFile = new File(directory + Path.AltDirectorySeparatorChar + newFileName + newExtension , disk);
             if(targetFile.Exists)
             {
                 throw new ArgumentException("duplicate file name:" + newName);
             }
-            FileInfo.MoveTo(directory + IO.PATH_SPLITTER + newFileName + newExtension);
+            FileInfo.MoveTo(directory + Path.AltDirectorySeparatorChar + newFileName + newExtension);
             fileName = newFileName;
             extension = newExtension;
 
@@ -294,18 +297,18 @@ namespace CatLib.IO
 
         private byte[] Encrypted(byte[] data)
         {
-            if (IO.Instance != null && IO.Instance.IOCrypt != null)
+            if (disk.IOCrypt != null)
             {
-                data = IO.Instance.IOCrypt.Encrypted(FullName, data);
+                data = disk.IOCrypt.Encrypted(FullName, data);
             }
             return data;
         }
 
         private byte[] Decrypted(byte[] data)
         {
-            if (IO.Instance != null && IO.Instance.IOCrypt != null)
+            if (disk.IOCrypt != null)
             {
-                data = IO.Instance.IOCrypt.Decrypted(FullName, data);
+                data = disk.IOCrypt.Decrypted(FullName, data);
             }
             return data;
         }

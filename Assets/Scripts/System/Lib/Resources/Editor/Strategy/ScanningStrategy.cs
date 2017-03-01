@@ -1,6 +1,7 @@
 ﻿using CatLib.API.IO;
 using CatLib.API.Resources;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CatLib.Resources
 {
@@ -14,8 +15,8 @@ namespace CatLib.Resources
         {
 
             var filter = new List<string>(){ ".meta", ".DS_Store" };
-
-            IDirectory releaseDir = IO.IO.MakeDirectory(context.ReleasePath);
+            
+            IDirectory releaseDir = context.Disk.Directory(context.ReleasePath);
 
             var releaseFile = new List<string>();
 
@@ -25,7 +26,7 @@ namespace CatLib.Resources
                 if (!filter.Contains(file.Extension))
                 {
 
-                    releaseFile.Add(file.FullName.Substring(context.ReleasePath.Length).Trim(IO.IO.PATH_SPLITTER, '\\').Standard());
+                    releaseFile.Add(file.FullName.Substring(context.ReleasePath.Length).Trim(Path.AltDirectorySeparatorChar, '\\').Standard());
 
                 }
 

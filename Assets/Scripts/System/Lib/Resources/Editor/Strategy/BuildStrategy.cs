@@ -11,9 +11,9 @@ namespace CatLib.Resources{
 
 		public void Build(IBuildContext context){
 
-			BuildAssetBundleName(context.BuildPath);
+			BuildAssetBundleName(context);
 
-			IDirectory copyDir = IO.IO.MakeDirectory(context.NoBuildPath);
+			IDirectory copyDir = context.Disk.Directory(context.NoBuildPath);
             if (copyDir.Exists())
             {
                 copyDir.CopyTo(context.ReleasePath);
@@ -28,15 +28,14 @@ namespace CatLib.Resources{
 		/// <summary>
 		/// 编译AssetBundle标记的名字
 		/// </summary>
-		/// <param name="path">路径</param>
-		protected void BuildAssetBundleName(string path){
+		protected void BuildAssetBundleName(IBuildContext context){
 
-			IDirectory directory = IO.IO.MakeDirectory(path);
+			IDirectory directory = context.Disk.Directory(context.BuildPath);
             directory.Walk((file) => {
 
 				if(!file.Name.EndsWith(".meta"))  
                 {  
-                     BuildFileBundleName(file.FileInfo , path);
+                     BuildFileBundleName(file , context.BuildPath);
                 } 
 
 			},SearchOption.AllDirectories);
@@ -49,14 +48,14 @@ namespace CatLib.Resources{
 		/// <param name="file">文件信息</param>
 		/// <param name="basePath">基础路径</param>
 
-		protected void BuildFileBundleName(FileSystemInfo file , string basePath){
+		protected void BuildFileBundleName(IFile file , string basePath){
 
 			string extension = file.Extension;
 			string fullName = file.FullName.Standard();
 			string fileName = file.Name;
 			string baseFileName = fileName.Substring(0 , fileName.Length - extension.Length);
 			string assetName = fullName.Substring(basePath.Length);
-			assetName = assetName.Substring(0 , assetName.Length - fileName.Length).TrimEnd(IO.IO.PATH_SPLITTER);
+			assetName = assetName.Substring(0 , assetName.Length - fileName.Length).TrimEnd(Path.AltDirectorySeparatorChar);
 			
 			if(baseFileName + extension == ".DS_Store"){ return; }
 
@@ -69,8 +68,8 @@ namespace CatLib.Resources{
 
 			}
 
-			AssetImporter assetImporter = AssetImporter.GetAtPath("Assets" + Env.ResourcesBuildPath + assetName + IO.IO.PATH_SPLITTER + baseFileName + extension);
-			assetImporter.assetBundleName = assetName.TrimStart(IO.IO.PATH_SPLITTER);
+			AssetImporter assetImporter = AssetImporter.GetAtPath("Assets" + Env.ResourcesBuildPath + assetName + Path.AltDirectorySeparatorChar + baseFileName + extension);
+			assetImporter.assetBundleName = assetName.TrimStart(Path.AltDirectorySeparatorChar);
 			if(variantName != string.Empty){
 
 				assetImporter.assetBundleVariant = variantName;

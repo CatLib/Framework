@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CatLib.API.IO;
 using CatLib.API.Resources;
+using System.IO;
 
 namespace CatLib.Resources {
 
@@ -14,6 +15,18 @@ namespace CatLib.Resources {
 
         [Dependency]
         public IIOCrypt IOCrypt { get; set; }
+
+        private IDisk disk;
+
+        /// <summary>
+        /// 磁盘
+        /// </summary>
+        private IDisk Disk{
+
+            get{
+                return disk ?? (disk = IO.Disk());
+            }
+        }
 
         /// <summary>
         /// 主依赖文件
@@ -68,7 +81,7 @@ namespace CatLib.Resources {
             string relPath, objName;
             ParsePath(path , out relPath, out objName);
 
-            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName));
+            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath + Path.AltDirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(objName));
             if (assetTarget == null) { return null; }
             return assetTarget.LoadAllAssets();
         }
@@ -172,7 +185,7 @@ namespace CatLib.Resources {
 
             AssetBundle assetTarget = null;
 
-            yield return LoadAssetBundleAsync(Env.AssetPath, relPath + IO.PathSpliter + System.IO.Path.GetFileNameWithoutExtension(objName), (ab) =>
+            yield return LoadAssetBundleAsync(Env.AssetPath, relPath + System.IO.Path.PathSeparator + System.IO.Path.GetFileNameWithoutExtension(objName), (ab) =>
             {
                 assetTarget = ab;
             });
@@ -230,12 +243,12 @@ namespace CatLib.Resources {
 
                 if (IOCrypt != null)
                 {
-                    IFile file = IO.File(envPath + IO.PathSpliter + relPath);
+                    IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath);
                     assetTarget = AssetBundle.LoadFromMemory(file.Read());
                 }
                 else
                 {
-                    assetTarget = AssetBundle.LoadFromFile(envPath + IO.PathSpliter + relPath);
+                    assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + relPath);
                 }
 
                 loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
@@ -261,7 +274,7 @@ namespace CatLib.Resources {
                 if (!dependenciesBundles.ContainsKey(dependencies))
                 {
 
-                    AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + IO.PathSpliter + dependencies);
+                    AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + dependencies);
                     dependenciesBundles.Add(dependencies, new DependenciesBundle(assetBundle));
 
                 }else{
@@ -289,12 +302,12 @@ namespace CatLib.Resources {
                 AssetBundleCreateRequest assetTargetBundleRequest;
                 if (IOCrypt != null)
                 {
-                    IFile file = IO.File(envPath + IO.PathSpliter + relPath);
+                    IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath);
                     assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(file.Read());
                 }
                 else
                 {
-                    assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + relPath);
+                    assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + relPath);
                 }
 
                 yield return assetTargetBundleRequest;
@@ -324,12 +337,12 @@ namespace CatLib.Resources {
                     AssetBundleCreateRequest assetBundleDependencies;
                     if (IOCrypt != null)
                     {
-                        IFile file = IO.File(envPath + IO.PathSpliter + relPath);
+                        IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath);
                         assetBundleDependencies = AssetBundle.LoadFromMemoryAsync(file.Read());
                     }
                     else
                     {
-                        assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + IO.PathSpliter + dependencies);
+                        assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + dependencies);
                     }
                     yield return assetBundleDependencies;
                     dependenciesBundles.Add(dependencies, new DependenciesBundle(assetBundleDependencies.assetBundle));

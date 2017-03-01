@@ -1,6 +1,7 @@
 ﻿using CatLib.API.IO;
 using CatLib.API.Resources;
 using CatLib.Hash;
+using System.IO;
 
 namespace CatLib.AutoUpdate{
 
@@ -25,11 +26,11 @@ namespace CatLib.AutoUpdate{
             IFile file;
             for(int i = 0; i < context.ReleaseFiles.Length; i++)
             {
-                file = IO.IO.MakeFile(context.ReleasePath + IO.IO.PATH_SPLITTER + context.ReleaseFiles[i]);
-                lst.Append(context.ReleaseFiles[i], MD5.ParseFile(file.FileInfo), file.FileInfo.Length);
+                file = context.Disk.File(context.ReleasePath + Path.AltDirectorySeparatorChar + context.ReleaseFiles[i]);
+                lst.Append(context.ReleaseFiles[i], MD5.ParseFile(file.FullName), file.Length);
             }
 
-            var store = new UpdateFileStore();
+            var store = App.Instance.Make(typeof(UpdateFileStore).ToString()) as UpdateFileStore;
 			store.Save(context.ReleasePath, lst);
 			
 		}

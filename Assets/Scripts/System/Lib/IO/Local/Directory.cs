@@ -10,6 +10,8 @@ namespace CatLib.IO
     public class Directory : IDirectory
     {
 
+        private LocalDisk disk;
+
         /// <summary>
         /// 当前目录文件夹
         /// </summary>
@@ -54,9 +56,10 @@ namespace CatLib.IO
         /// 文件夹服务
         /// </summary>
         /// <param name="directoryPath">默认根路径</param>
-        public Directory(string directoryPath)
+        public Directory(string directoryPath,LocalDisk disk)
         {
-            IO.ValidatePath(directoryPath);
+            LocalDisk.ValidatePath(directoryPath);
+            this.disk = disk;
             path = directoryPath;
         }
 
@@ -69,11 +72,11 @@ namespace CatLib.IO
         {
             get
             {
-                IO.ValidatePath(directoryPath);
-                directoryPath = IO.NormalizePath(directoryPath);
+                LocalDisk.ValidatePath(directoryPath);
+                directoryPath = LocalDisk.NormalizePath(directoryPath);
                 if (Exists(directoryPath))
                 {
-                    return new Directory(path + directoryPath);
+                    return new Directory(path + directoryPath , disk);
                 }
                 else
                 {
@@ -111,15 +114,15 @@ namespace CatLib.IO
         /// <returns></returns>
         public IDirectory Create(string directoryPath)
         {
-            IO.ValidatePath(directoryPath);
-            directoryPath = IO.NormalizePath(directoryPath);
+            LocalDisk.ValidatePath(directoryPath);
+            directoryPath = LocalDisk.NormalizePath(directoryPath);
             IDirectory directory = null;
             if (!Exists(path + directoryPath))
             {
                 DirectoryInfo dir = new DirectoryInfo(path + directoryPath);
                 dir.Create();
             }
-            directory = new Directory(path + directoryPath);
+            directory = new Directory(path + directoryPath , disk);
             return directory;
         }
 
@@ -137,7 +140,7 @@ namespace CatLib.IO
                 string[] infos = System.IO.Directory.GetDirectories(Path);
                 for(int i = 0; i < infos.Length ; i++)
                 {
-                    drinfo = new Directory(infos[i]);
+                    drinfo = new Directory(infos[i], disk);
                     if(!drinfo.IsEmpty){ return false; }
                 }
 
@@ -153,8 +156,8 @@ namespace CatLib.IO
         /// <param name="targetDirectroy">目标文件夹</param>
         public IDirectory CopyTo(string targetDirectroy)
         {
-            IO.ValidatePath(targetDirectroy);
-            IDirectory dir = new Directory(targetDirectroy);
+            LocalDisk.ValidatePath(targetDirectroy);
+            IDirectory dir = new Directory(targetDirectroy, disk);
             dir.Create();
 
             string[] files = System.IO.Directory.GetFiles(Path);
@@ -165,15 +168,15 @@ namespace CatLib.IO
             foreach (string s in files)
             {
                 fileName = System.IO.Path.GetFileName(s);
-                destFile = targetDirectroy + IO.PATH_SPLITTER +  fileName;
+                destFile = targetDirectroy + System.IO.Path.AltDirectorySeparatorChar +  fileName;
                 System.IO.File.Copy(s, destFile, true);
             }
 
             IDirectory drinfo;
             foreach (string info in System.IO.Directory.GetDirectories(Path))
             {
-                drinfo = new Directory(info);
-                drinfo.CopyTo(targetDirectroy + IO.PATH_SPLITTER + drinfo.Name);
+                drinfo = new Directory(info, disk);
+                drinfo.CopyTo(targetDirectroy + System.IO.Path.AltDirectorySeparatorChar + drinfo.Name);
             }
 
             return dir.Refresh();
@@ -216,8 +219,8 @@ namespace CatLib.IO
         /// <returns></returns>
         public bool Exists(string directoryPath)
         {
-            IO.ValidatePath(directoryPath);
-            directoryPath = IO.NormalizePath(directoryPath);
+            LocalDisk.ValidatePath(directoryPath);
+            directoryPath = LocalDisk.NormalizePath(directoryPath);
             DirectoryInfo dir = new DirectoryInfo(path + directoryPath);
             return dir.Exists;
         }
@@ -242,7 +245,7 @@ namespace CatLib.IO
             FileInfo[] files = DirectoryInfo.GetFiles(filter, option);
             IFile[] returnData = new IFile[files.Length];
             for(int i = 0; i < files.Length; i++){
-                returnData[i] = IO.MakeFile(files[i].FullName);
+                returnData[i] = new File(files[i].FullName , disk);
             }
             return returnData;
         }
@@ -254,16 +257,16 @@ namespace CatLib.IO
         /// <param name="targetDirectory">目标文件夹</param>
         public void MoveTo(string targetDirectory)
         {
-            int start = targetDirectory.LastIndexOf(IO.PATH_SPLITTER) + 1;
+            int start = targetDirectory.LastIndexOf(System.IO.Path.AltDirectorySeparatorChar) + 1;
             int length = targetDirectory.Length - start;
             string name = targetDirectory.Substring(start, length);
 
-            if (!IO.IsValidFileName(name))
+            if (!LocalDisk.IsValidFileName(name))
             {
                 throw new ArgumentException("the name '" + name + "' contains invalid characters");
             }
 
-            IDirectory moveToDirectory = new Directory(targetDirectory.Substring(0,targetDirectory.Length - name.Length - 1));
+            IDirectory moveToDirectory = new Directory(targetDirectory.Substring(0,targetDirectory.Length - name.Length - 1), disk);
             moveToDirectory.Create();
 
             DirectoryInfo.MoveTo(targetDirectory);
@@ -284,17 +287,17 @@ namespace CatLib.IO
                 throw new ArgumentNullException("you can't send a empty or null string to rename an asset. trying to rename " + path);
             }
 
-            if (!IO.IsValidFileName(newName))
+            if (!LocalDisk.IsValidFileName(newName))
             {
                 throw new ArgumentException("the name '" + newName + "' contains invalid characters");
             }
 
-            if (newName.Contains(IO.PATH_SPLITTER.ToString()))
+            if (newName.Contains(System.IO.Path.AltDirectorySeparatorChar.ToString()))
             {
                 throw new ArgumentException("rename can't be used to change a files location use Move(string newPath) instead.");
             }
 
-            string subPath = Path.Substring(0, Path.LastIndexOf(IO.PATH_SPLITTER) + 1);
+            string subPath = Path.Substring(0, Path.LastIndexOf(System.IO.Path.AltDirectorySeparatorChar) + 1);
             string newPath = subPath + newName;
 
             DirectoryInfo.MoveTo(newPath);

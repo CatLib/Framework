@@ -24,7 +24,7 @@ namespace CatLib.Container
         ///</summary>
         private Dictionary<string, string> alias = new Dictionary<string, string>();
 
-       ///<summary>
+        ///<summary>
         /// 类型字典
         ///</summary>
         private Dictionary<string, Type> typeDict = new Dictionary<string, Type>();
@@ -266,7 +266,7 @@ namespace CatLib.Container
                 return bindData.Concrete(this, param);
             }
 
-            return Build(bindData , bindData.Service, param);
+            return NormalMake(bindData.Service , false , param); //Build(bindData , bindData.Service, param);
         }
 
         /// <summary>构造服务</summary>

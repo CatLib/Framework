@@ -21,6 +21,18 @@ namespace CatLib.Lua
         [Dependency]
         public IIOFactory IO{ get; set; }
 
+        private IDisk disk;
+
+        /// <summary>
+        /// 磁盘
+        /// </summary>
+        private IDisk Disk{
+
+            get{
+                return disk ?? (disk = IO.Disk());
+            }
+        }
+
         /// <summary>
         /// 垃圾回收间隔
         /// </summary>
@@ -87,7 +99,7 @@ namespace CatLib.Lua
 
             foreach (string filePath in filePaths)
             {
-                IFile[] infos = IO.Directory(Env.AssetPath + "/" + filePath).GetFiles(SearchOption.AllDirectories);
+                IFile[] infos = Disk.Directory(Env.AssetPath + "/" + filePath).GetFiles(SearchOption.AllDirectories);
                 foreach(var info in infos)
                 {
                     if (!info.Name.EndsWith(".manifest"))

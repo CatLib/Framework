@@ -11,22 +11,7 @@ public class Program : MonoBehaviour {
     public void Awake()
     {
         IApplication application = gameObject.AddComponent<CatLib.Application>();
-        application.Bootstrap(BootStrap).Init();
-    }
-
-    /// <summary>
-    /// 引导程序
-    /// </summary>
-    protected Type[] BootStrap
-    {
-        get
-        {
-            return new Type[]
-            {
-                typeof(RegisterProvidersBootstrap)
-            };
-        }
-
+        application.Bootstrap(CatLib.Bootstrap.BootStrap).Init();
     }
 
 }

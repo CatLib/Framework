@@ -1,6 +1,7 @@
 ﻿
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CatLib.AutoUpdate{
 
@@ -128,7 +129,7 @@ namespace CatLib.AutoUpdate{
 
             foreach(UpdateFileField old in this)
             {
-                if(newLst.Find(old.Path) == null && old.Path != IO.IO.PATH_SPLITTER + UpdateFileStore.FILE_NAME)
+                if(newLst.Find(old.Path) == null && old.Path != Path.AltDirectorySeparatorChar + UpdateFileStore.FILE_NAME)
                 {
                     needDelete.Append(old);
                 }

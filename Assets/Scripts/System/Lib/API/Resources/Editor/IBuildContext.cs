@@ -1,4 +1,5 @@
 ﻿
+using CatLib.API.IO;
 using UnityEditor;
 
 namespace CatLib.API.Resources{
@@ -39,6 +40,11 @@ namespace CatLib.API.Resources{
         /// 被加密的文件列表
         /// </summary>
 		string[] EncryptionFiles{ get; set; }
+
+        /// <summary>
+        /// 文件系统
+        /// </summary>
+        IDisk Disk{ get; set; }
 
 		
 	}

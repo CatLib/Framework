@@ -3,6 +3,8 @@ using CatLib.API.Resources;
 using UnityEditor;
 using UnityEngine;
 using System;
+using System.IO;
+using CatLib.API.IO;
 
 namespace CatLib.Resources{
 
@@ -20,9 +22,10 @@ namespace CatLib.Resources{
 			RuntimePlatform switchPlatform = Env.SwitchPlatform;
 			context.BuildTarget  = PlatformToBuildTarget(switchPlatform);
 			context.PlatformName = Env.PlatformToName(switchPlatform);
-			context.ReleasePath  = Env.DataPath + Env.ReleasePath + IO.IO.PATH_SPLITTER + context.PlatformName;
+			context.ReleasePath  = Env.DataPath + Env.ReleasePath + Path.AltDirectorySeparatorChar + context.PlatformName;
 			context.BuildPath    = Env.DataPath + Env.ResourcesBuildPath;
 			context.NoBuildPath  = Env.DataPath + Env.ResourcesNoBuildPath;
+			context.Disk = (App.Instance.Make(typeof(IIOFactory)) as IIOFactory).Disk();
 
 		}
 

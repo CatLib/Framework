@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine.Networking;
+using System.IO;
 using CatLib.API.AutoUpdate;
 using CatLib.API.IO;
 using CatLib.API.Hash;
@@ -18,6 +19,18 @@ namespace CatLib.AutoUpdate
 
         [Dependency]
         public IHash Hash { get; set; }
+
+        private IDisk disk;
+
+        /// <summary>
+        /// 磁盘
+        /// </summary>
+        private IDisk Disk{
+
+            get{
+                return disk ?? (disk = IO.Disk());
+            }
+        }
 
         protected bool isUpdate;
 
@@ -89,8 +102,8 @@ namespace CatLib.AutoUpdate
         protected IEnumerator UpdateList(string resUrl)
         {
             base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_START);
-            resUrl = resUrl + IO.PathSpliter + Env.PlatformToName(Env.SwitchPlatform);
-            UnityWebRequest request = UnityWebRequest.Get(resUrl + IO.PathSpliter + UpdateFileStore.FILE_NAME);
+            resUrl = resUrl + Path.AltDirectorySeparatorChar + Env.PlatformToName(Env.SwitchPlatform);
+            UnityWebRequest request = UnityWebRequest.Get(resUrl + Path.AltDirectorySeparatorChar + UpdateFileStore.FILE_NAME);
             yield return request.Send();
             if (request.isError || request.responseCode != 200)
             {
@@ -105,14 +118,14 @@ namespace CatLib.AutoUpdate
             var newLst = fileStore.LoadFromBytes(request.downloadHandler.data);
             var oldLst = new UpdateFile(); //fileStore.LoadFromPath(Env.AssetPath);
 
-            IO.AssetPath.Create();
-            IO.AssetPath.Walk((file) => {
+            Disk.Root.Create();
+            Disk.Root.Walk((file) => {
 
-                if (!file.FileInfo.FullName.Standard().EndsWith(".meta"))
+                if (!file.FullName.Standard().EndsWith(".meta"))
                 {
-                    string fullName = file.FileInfo.FullName.Standard();
+                    string fullName = file.FullName.Standard();
                     string assetName = fullName.Substring(Env.AssetPath.Length);
-                    oldLst.Append(assetName, Hash.FileHash(file.FileInfo.FullName), file.FileInfo.Length);
+                    oldLst.Append(assetName, Hash.FileHash(file.FullName), file.Length);
                 }
 
             });
@@ -140,7 +153,7 @@ namespace CatLib.AutoUpdate
             IFile file;
             foreach (UpdateFileField field in needDeleteLst)
             {
-                file = IO.File(Env.AssetPath + field.Path);
+                file = Disk.File(Env.AssetPath + field.Path);
                 if (file.Exists)
                 {
                     base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION);
@@ -167,7 +180,7 @@ namespace CatLib.AutoUpdate
                 downloadPath = downloadUrl + field.Path;
                 savePath = Env.AssetPath + field.Path;
 
-                saveDir = savePath.Substring(0, savePath.LastIndexOf(IO.PathSpliter));
+                saveDir = savePath.Substring(0, savePath.LastIndexOf(Path.AltDirectorySeparatorChar));
 
                 updateNum++;
                 base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_ACTION);
@@ -180,8 +193,8 @@ namespace CatLib.AutoUpdate
                         base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_FAILD);
                         yield break;
                     }
-                    IO.Directory(saveDir).Create();
-                    IFile saveFile = IO.File(savePath);
+                    Disk.Directory(saveDir).Create();
+                    IFile saveFile = Disk.File(savePath);
                     saveFile.Create(request.downloadHandler.data);
                 }
                 

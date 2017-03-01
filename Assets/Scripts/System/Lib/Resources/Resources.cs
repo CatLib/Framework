@@ -3,6 +3,7 @@ using CatLib.API.Resources;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 namespace CatLib.Resources {
 
@@ -48,7 +49,7 @@ namespace CatLib.Resources {
             #if UNITY_EDITOR
             if (Env.DebugLevel == Env.DebugLevels.Auto)
             {
-                return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + IO.PathSpliter + path, type);
+                return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + Path.AltDirectorySeparatorChar + path, type);
             }
             #endif
             return assetBundleLoader.LoadAsset(path);
@@ -88,7 +89,7 @@ namespace CatLib.Resources {
                 {
                     return App.StartCoroutine(EmptyIEnumerator(() =>
                     {
-                        callback(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + IO.PathSpliter + path, type));
+                        callback(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + Path.AltDirectorySeparatorChar + path, type));
                     }));
                 }
             #endif

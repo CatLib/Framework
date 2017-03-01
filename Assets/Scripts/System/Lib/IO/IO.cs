@@ -14,117 +14,29 @@ namespace CatLib.IO
         [Dependency]
         public Configs Config{ get; set; }
 
-        [Dependency]
-        public IIOCrypt IOCrypt { get; set; }
+        public IDisk Disk(string name = null){
 
-        private static IO io;
-        public static IO Instance{ get{ return io; } }
+            if(name == null || Config == null || !Config.IsExists(name)){
 
-        static readonly char[] INVALID_FILE_NAME_CHARS = new char[] { '/', '\\', '<', '>', ':', '|', '"' };
-
-        public const char PATH_SPLITTER = '/';
-
-        public IO()
-        {
-            io = this;
-        }
-
-        public static bool IsValidFileName(string name)
-        {
-            for (int i = 0; i < INVALID_FILE_NAME_CHARS.Length; i++)
-            {
-                if (name.IndexOf(INVALID_FILE_NAME_CHARS[i]) != -1)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public static void ValidatePath(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new System.IO.IOException("a path can not be null or empty when searching the project");
-            }
-
-            if (path[path.Length - 1] == IO.PATH_SPLITTER)
-            {
-                throw new System.IO.IOException("all directory paths are expected to not end with a leading slash. ( i.e. the '" + PATH_SPLITTER + "' character )");
-            }
-        }
-
-        public static string NormalizePath(string path){
-
-            if(path[0] != IO.PATH_SPLITTER){
-
-                return IO.PATH_SPLITTER + path;
+                return App.Make(typeof(IDisk)) as IDisk;
 
             }
-            return path;
-            
-        }
 
-        public static IFile MakeFile(string path){
-
-            return new File(path);
-
-        }
-
-        public static IDirectory MakeDirectory(string path){
-
-            return new Directory(path);
-
-        }
-
-        public IDirectory AssetPath
-        {
-            get
-            {
-                return new Directory(Env.AssetPath);
-            }
-        }
-
-        public IDirectory DataPath
-        {
-            get
-            {
-                return new Directory(Env.DataPath);
-            }
-        }
-
-        public char PathSpliter{
-
-            get{ return PATH_SPLITTER; }
-
-        }
-
-
-        public IFile File(string path){
-
-            return IO.MakeFile(path);
-
-        }
-
-        public IDirectory Directory(string path){
-
-            return IO.MakeDirectory(path);
-
-        }
-
-        public ICloud Cloud(string name){
-
-            if(!Config.IsExists(name)){ return null; }
             var cloudConfig = Config.Get<Hashtable>(name);
-            string service = typeof(ICloud).ToString();
+            string service = typeof(IDisk).ToString();
+            IDisk disk = null;
             if(cloudConfig.ContainsKey("service")){
                 service = cloudConfig["service"].ToString();
+                disk = App.Make(service) as IDisk;
+                if(disk == null){ 
+                    disk = App.Make(typeof(IDisk)) as IDisk; 
+                }
+            }else{
+                disk = App.Make(service) as IDisk;
             }
-            var cloud = App.Make(service) as ICloud;
-            if(cloud == null){ return null; }
-            cloud.SetConfig(cloudConfig);
-            return cloud;
-
+            if(disk != null){ disk.SetConfig(cloudConfig); }
+            return disk;
+            
         }
 
     }

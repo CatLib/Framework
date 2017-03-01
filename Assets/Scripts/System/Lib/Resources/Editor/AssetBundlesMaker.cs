@@ -2,6 +2,7 @@
 using System;
 using CatLib.API.Resources;
 using System.Collections.Generic;
+using CatLib.API.IO;
 
 namespace CatLib.Resources{
 
@@ -15,11 +16,10 @@ namespace CatLib.Resources{
 		{
 
 			List<IBuildStrategy> strategys = new List<IBuildStrategy>();
-			var container = new Container.Container();
-	
+
 			foreach(Type t in typeof(IBuildStrategy).GetChildTypesWithInterface()){
 				
-				strategys.Add(container.Make(t.ToString()) as IBuildStrategy);
+				strategys.Add(App.Instance.Make(t.ToString()) as IBuildStrategy);
 
 			}
 		

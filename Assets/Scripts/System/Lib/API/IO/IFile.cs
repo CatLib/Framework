@@ -6,8 +6,6 @@ namespace CatLib.API.IO
     public interface IFile
     {
 
-        System.IO.FileInfo FileInfo{ get; }
-
         string Extension{ get; }
 
         string FullName{ get; }
