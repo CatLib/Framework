@@ -18,7 +18,7 @@ namespace CatLib.Network
 
         public override void Register()
         {
-            App.Singleton<Network>().Alias<INetwork>();
+            App.Singleton<Network>().Alias<INetworkFactory>();
             App.Bind<HttpWebRequest>().Alias<IConnectorHttp>();
             App.Bind<WebRequest>().Alias("network.webrequest");
             App.Bind<TcpRequest>().Alias<IConnectorTcp>();

@@ -9,7 +9,7 @@ namespace CatLib.Network
     /// <summary>
     /// 网络服务
     /// </summary>
-    public class Network : Component , IDestroy , INetwork
+    public class Network : Component , IDestroy , INetworkFactory
     {
 
         [Dependency]
@@ -92,6 +92,7 @@ namespace CatLib.Network
 
         private void InitConnector(IConnector connector, string name)
         {
+            if(Config == null){ return; }
             if (Config.IsExists(name))
             {
                 connector.SetConfig(Config.Get<Hashtable>(name));

@@ -2,7 +2,7 @@
 
 namespace CatLib
 {
-    public class FNetwork : Facade<INetwork>
+    public class FNetwork : Facade<INetworkFactory>
     {
 
 

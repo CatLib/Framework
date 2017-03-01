@@ -8,7 +8,7 @@ namespace CatLib.API.Network
     /// <summary>
     /// 网络服务
     /// </summary>
-    public interface INetwork
+    public interface INetworkFactory
     {
         T Create<T>(string name) where T : IConnector;
 

@@ -13,7 +13,7 @@ namespace CatLib.Resources {
         public AssetBundleLoader assetBundleLoader { get; set; }
 
         [Dependency]
-        public IIO IO { get; set; }
+        public IIOFactory IO { get; set; }
 
         private Dictionary<System.Type, string> extensionDict = new Dictionary<System.Type, string>();
 

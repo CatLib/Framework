@@ -11,7 +11,7 @@ namespace CatLib.IO
 
         public override void Register()
         {
-            App.Singleton<IO>().Alias<IIO>();
+            App.Singleton<IO>().Alias<IIOFactory>();
         }
 
     }

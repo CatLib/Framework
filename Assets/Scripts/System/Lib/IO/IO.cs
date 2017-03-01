@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using CatLib.API.IO;
 
 namespace CatLib.IO
@@ -7,8 +8,11 @@ namespace CatLib.IO
     /// <summary>
     /// 文件服务
     /// </summary>
-    public class IO : Component , IIO
+    public class IO : Component , IIOFactory
     {
+
+        [Dependency]
+        public Configs Config{ get; set; }
 
         [Dependency]
         public IIOCrypt IOCrypt { get; set; }
@@ -105,6 +109,21 @@ namespace CatLib.IO
         public IDirectory Directory(string path){
 
             return IO.MakeDirectory(path);
+
+        }
+
+        public ICloud Cloud(string name){
+
+            if(!Config.IsExists(name)){ return null; }
+            var cloudConfig = Config.Get<Hashtable>(name);
+            string service = typeof(ICloud).ToString();
+            if(cloudConfig.ContainsKey("service")){
+                service = cloudConfig["service"].ToString();
+            }
+            var cloud = App.Make(service) as ICloud;
+            if(cloud == null){ return null; }
+            cloud.SetConfig(cloudConfig);
+            return cloud;
 
         }
 

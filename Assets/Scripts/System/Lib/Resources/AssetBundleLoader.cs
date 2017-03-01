@@ -10,7 +10,7 @@ namespace CatLib.Resources {
     {
 
         [Dependency]
-        public IIO IO { get; set; }
+        public IIOFactory IO { get; set; }
 
         [Dependency]
         public IIOCrypt IOCrypt { get; set; }

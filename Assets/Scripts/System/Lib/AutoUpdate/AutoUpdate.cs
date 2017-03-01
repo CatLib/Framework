@@ -14,7 +14,7 @@ namespace CatLib.AutoUpdate
         public Configs Config { get; set; }
 
         [Dependency]
-        public IIO IO { get; set; }
+        public IIOFactory IO { get; set; }
 
         [Dependency]
         public IHash Hash { get; set; }
@@ -48,6 +48,8 @@ namespace CatLib.AutoUpdate
             this.isUpdate = true;
 
             string resUrl = string.Empty;
+
+            if(Config == null){ yield break; }
 
             if(Config.IsExists("update.api")){
 

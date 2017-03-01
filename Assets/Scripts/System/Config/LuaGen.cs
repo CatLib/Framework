@@ -39,7 +39,7 @@ namespace CatLib.Config
                     typeof(API.Network.IConnector),
                     typeof(API.Network.IConnectorHttp),
                     typeof(API.Network.IConnectorSocket),
-                    typeof(API.Network.INetwork),
+                    typeof(API.Network.INetworkFactory),
                     typeof(API.Network.ERestful),
                     typeof(API.Resources.IResources),
                     typeof(API.AutoUpdate.IAutoUpdate),

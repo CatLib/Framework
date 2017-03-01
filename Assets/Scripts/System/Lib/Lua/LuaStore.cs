@@ -19,7 +19,7 @@ namespace CatLib.Lua
         public Configs Config { get; set; }
 
         [Dependency]
-        public IIO IO{ get; set; }
+        public IIOFactory IO{ get; set; }
 
         /// <summary>
         /// 垃圾回收间隔
@@ -76,6 +76,8 @@ namespace CatLib.Lua
                 yield break;
             }
             #endif
+
+            if(Config == null){ yield break; }
 
             Event.Trigger(LuaEvents.ON_HOT_FIXED_START);
 

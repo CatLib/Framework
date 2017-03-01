@@ -1,7 +1,7 @@
 ﻿
 namespace CatLib.API.IO
 {
-	public interface IIO{
+	public interface IIOFactory{
 
         IFile File(string path);
 
@@ -10,6 +10,8 @@ namespace CatLib.API.IO
 		IDirectory DataPath{ get; }
 
 		IDirectory AssetPath{ get; }
+		
+		ICloud Cloud(string name);
 
 		char PathSpliter{ get; }
 
