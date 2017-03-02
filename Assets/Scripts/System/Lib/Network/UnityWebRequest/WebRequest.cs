@@ -175,12 +175,12 @@ namespace CatLib.Network
                         EventLevel level = EventLevel.All;
                         if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
                         {
-                            level = (EventLevel)int.Parse(triggerLevel[HttpRequestEvents.ON_MESSAGE].ToString());
+                            level = (EventLevel)triggerLevel[HttpRequestEvents.ON_MESSAGE];
                         }
 
                         var args = new WebRequestEventArgs(request);
 
-                        Event.Trigger(HttpRequestEvents.ON_MESSAGE);
+                        Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
                         App.Trigger(this)
                            .SetEventName(HttpRequestEvents.ON_MESSAGE)
                            .SetEventLevel(level)

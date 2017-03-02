@@ -46,7 +46,7 @@ public class Bootstrap : ServiceProvider
 
     public override void Init()
     {
-
+        /*
         IEventHandler h = App.On(ApplicationEvents.ON_INITED,(sender,e)=>{
 
             Debug.Log("9123891237012897312");
@@ -60,48 +60,48 @@ public class Bootstrap : ServiceProvider
         IEventHandler bb = App.On(ApplicationEvents.ON_INITED,(sender,e)=>{
 
             Debug.Log("ooooooooo9123891237012897312");
-        });
+        });*/
         
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
             
-            h.Cancel();
+            //h.Cancel();
 
             //App.Event.Trigger(ApplicationEvents.ON_INITED);
             
-            Debug.Log(App.Make<Test>("123"));
+            //Debug.Log(App.Make<Test>("123"));
 
-            IHash hash = App.Make<IHash>();
+            //IHash hash = App.Make<IHash>();
             //Debug.Log(hash.Bcrypt("helloworld"));
 
-            ICrypt secret = App.Make<ICrypt>();
-            string code = secret.Encrypt("helloworld");
-            Debug.Log(code);
+            //ICrypt secret = App.Make<ICrypt>();
+            //string code = secret.Encrypt("helloworld");
+            //Debug.Log(code);
 
-            Debug.Log(secret.Decrypt(code));
+            //Debug.Log(secret.Decrypt(code));
 
-            FThread.Instance.Task(() =>
+            /*FThread.Instance.Task(() =>
             {
                 Debug.Log("pppppppppppppppppppp");
                 int i = 0;
                 i++;
                 return i;
             }).Delay(5).Start().Cancel();
-
+            */
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$10$Y8BxbHFgGArGVHIucx8i7u7t5ByLlSdWgWcQc187hqFfSiKFJfz3C"));
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$15$td2ASPNq.8BXbpa6yUU0c.pQpfYLxtcbXviM8fZXw4v8FDeO3hCoC"));
 
             
-            IAssetBundle bundle = App.Make<IAssetBundle>();
+            //IAssetBundle bundle = App.Make<IAssetBundle>();
             //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
 
             //Object[] p = res.LoadAll("prefab/asset6");
-            IResources res = App.Make<IResources>();
-            res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
+            //IResources res = App.Make<IResources>();
+            /*res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
              {
                  Object.Instantiate(obj);
-             });
+             });*/
             //res.UnloadAll();
             //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
 
@@ -159,7 +159,7 @@ public class Bootstrap : ServiceProvider
 
             }).Delay(9).Start();*/
 
-            
+            /*
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
 
@@ -167,7 +167,8 @@ public class Bootstrap : ServiceProvider
                 Debug.Log((obj2 as IHttpResponse).IsError);
                 Debug.Log((obj2 as IHttpResponse).Error);
 
-            });
+            });*/
+
 
             App.On(SocketRequestEvents.ON_MESSAGE + typeof(IConnectorSocket).ToString(), (obj1, obj2) =>
             {
@@ -204,6 +205,7 @@ public class Bootstrap : ServiceProvider
             
             (tcpConnect as IEvent).Event.One(SocketRequestEvents.ON_MESSAGE, (s1, e1) =>
             {
+                Debug.Log((e1 as PackageResponseEventArgs));
                 if ((e1 as PackageResponseEventArgs).Response.Package is string)
                 {
                     Debug.Log((e1 as PackageResponseEventArgs).Response.Package as string);
@@ -214,14 +216,15 @@ public class Bootstrap : ServiceProvider
                 }
             });
 
-            /* 
+            
             tcpConnect.Connect();
             tcpConnect.Send("hello this is tcp msg with [text]".ToByte());
-            */
+
+            
             IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("tcp.frame");
             tcpConnect2.Connect();
             tcpConnect2.Send("hello this is tcp msg with [frame]".ToByte());
-            /* 
+            
             IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.text");
             udpConnect.Connect();
             udpConnect.Send("hello this is udp msg with [text]".ToByte());
@@ -229,12 +232,12 @@ public class Bootstrap : ServiceProvider
             IConnectorUdp udpConnectFrame = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.frame");
             udpConnectFrame.Connect();
             udpConnectFrame.Send("hello this is udp msg with [frame]".ToByte());
-
+           
             
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
             udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
-            */
+             
 
         });
 

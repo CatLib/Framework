@@ -306,10 +306,10 @@ namespace CatLib.Network
             EventLevel level = EventLevel.All;
             if(triggerLevel != null && triggerLevel.ContainsKey(eventName))
             {
-                level = (EventLevel)int.Parse(triggerLevel[eventName].ToString());
+                level = (EventLevel)triggerLevel[eventName];
             }
 
-            Event.Trigger(eventName);
+            Event.Trigger(eventName , this, args);
             App.Trigger(this)
                .SetEventName(eventName)
                .SetEventLevel(level)
