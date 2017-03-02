@@ -61,10 +61,6 @@ namespace CatLib{
             {
 				if(score != null){
 					
-					if(score is IEvent && score != App.Instance){
-						(score as IEvent).Event.Trigger(eventName, score, args);
-					}
-					
 					if(score is IGuid){
 						App.Instance.Trigger(eventName + (score as IGuid).TypeGuid, score, args);
 					}
