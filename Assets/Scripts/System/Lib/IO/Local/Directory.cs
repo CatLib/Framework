@@ -21,7 +21,7 @@ namespace CatLib.IO
         /// <summary>
         /// 当前目录文件夹
         /// </summary>
-        public DirectoryInfo DirectoryInfo
+        protected DirectoryInfo DirectoryInfo
         {
             get
             {

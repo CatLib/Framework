@@ -7,8 +7,6 @@ namespace CatLib.API.IO
     public interface IDirectory
     {
 
-        DirectoryInfo DirectoryInfo{ get; }
-
         string Path{ get; }
 
         string Name { get; }
