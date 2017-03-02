@@ -12,6 +12,8 @@ namespace CatLib.API.IO{
 
 		IDirectory Root{ get; }
 		
+		bool IsCrypt{ get; }
+		
 		void SetConfig(Hashtable config);
 
 	}

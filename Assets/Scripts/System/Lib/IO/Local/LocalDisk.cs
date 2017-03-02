@@ -21,6 +21,16 @@ namespace CatLib.IO{
             path = Env.AssetPath;
         }
 
+        public bool IsCrypt{
+
+            get{
+
+                return IOCrypt != null;
+
+            }
+
+        }
+
 		public static bool IsValidFileName(string name)
         {
             for (int i = 0; i < INVALID_FILE_NAME_CHARS.Length; i++)

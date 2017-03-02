@@ -13,9 +13,6 @@ namespace CatLib.Resources {
         [Dependency]
         public IIOFactory IO { get; set; }
 
-        [Dependency]
-        public IIOCrypt IOCrypt { get; set; }
-
         private IDisk disk;
 
         /// <summary>
@@ -241,7 +238,7 @@ namespace CatLib.Resources {
             if (!loadAssetBundles.ContainsKey(relPath))
             {
 
-                if (IOCrypt != null)
+                if (Disk.IsCrypt)
                 {
                     IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
                     assetTarget = AssetBundle.LoadFromMemory(file.Read());
@@ -300,7 +297,7 @@ namespace CatLib.Resources {
             if (!loadAssetBundles.ContainsKey(relPath))
             {
                 AssetBundleCreateRequest assetTargetBundleRequest;
-                if (IOCrypt != null)
+                if (Disk.IsCrypt)
                 {
                     IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
                     assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(file.Read());
@@ -335,7 +332,7 @@ namespace CatLib.Resources {
                 if (!loadAssetBundles.ContainsKey(dependencies))
                 {
                     AssetBundleCreateRequest assetBundleDependencies;
-                    if (IOCrypt != null)
+                    if (Disk.IsCrypt)
                     {
                         IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
                         assetBundleDependencies = AssetBundle.LoadFromMemoryAsync(file.Read());
