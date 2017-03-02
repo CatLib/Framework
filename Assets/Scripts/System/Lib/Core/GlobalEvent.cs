@@ -30,12 +30,12 @@ namespace CatLib{
 
 		}
 
-		public IGlobalEvent SetInterface<T>(){
+		public IGlobalEvent AppendInterface<T>(){
 			
-			SetInterface(typeof(T));
+			AppendInterface(typeof(T));
 			return this;
 		}
-		public IGlobalEvent SetInterface(Type t){
+		public IGlobalEvent AppendInterface(Type t){
 
 			if(classInterface == null){ classInterface = new List<string>(); }
 			classInterface.Add(t.ToString());

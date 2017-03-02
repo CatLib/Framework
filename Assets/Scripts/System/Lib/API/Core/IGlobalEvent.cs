@@ -10,8 +10,8 @@ namespace CatLib.API{
 
 		IGlobalEvent SetEventName(string name);
 
-		IGlobalEvent SetInterface<T>();
-		IGlobalEvent SetInterface(Type t);
+		IGlobalEvent AppendInterface<T>();
+		IGlobalEvent AppendInterface(Type t);
 
 		IGlobalEvent SetEventLevel(EventLevel level);
 

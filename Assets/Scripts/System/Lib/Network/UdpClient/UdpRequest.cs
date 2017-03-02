@@ -353,8 +353,8 @@ namespace CatLib.Network
             App.Trigger(this)
                .SetEventName(eventName)
                .SetEventLevel(level)
-               .SetInterface<IConnectorUdp>()
-               .SetInterface<IConnectorSocket>()
+               .AppendInterface<IConnectorUdp>()
+               .AppendInterface<IConnectorSocket>()
                .Trigger(args);
         }
 

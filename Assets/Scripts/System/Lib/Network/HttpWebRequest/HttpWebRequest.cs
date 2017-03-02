@@ -177,7 +177,7 @@ namespace CatLib.Network
                         App.Trigger(this)
                            .SetEventName(HttpRequestEvents.ON_MESSAGE)
                            .SetEventLevel(level)
-                           .SetInterface<IConnectorHttp>()
+                           .AppendInterface<IConnectorHttp>()
                            .Trigger(args);
                                         
                     }

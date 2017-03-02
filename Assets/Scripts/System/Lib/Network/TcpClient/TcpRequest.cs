@@ -312,8 +312,8 @@ namespace CatLib.Network
             App.Trigger(this)
                .SetEventName(eventName)
                .SetEventLevel(level)
-               .SetInterface<IConnectorTcp>()
-               .SetInterface<IConnectorSocket>()
+               .AppendInterface<IConnectorTcp>()
+               .AppendInterface<IConnectorSocket>()
                .Trigger(args);
         }
 
