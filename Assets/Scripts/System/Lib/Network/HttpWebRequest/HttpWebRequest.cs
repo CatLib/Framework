@@ -174,6 +174,7 @@ namespace CatLib.Network
 
                         var args = new HttpRequestEventArgs(request);
 
+                        Event.Trigger(HttpRequestEvents.ON_MESSAGE);
                         App.Trigger(this)
                            .SetEventName(HttpRequestEvents.ON_MESSAGE)
                            .SetEventLevel(level)
