@@ -3,7 +3,7 @@ Unity3D Framework For XLua
 
 框架正在开发中，改动较为频繁。
 
-文档地址：catlib.io 
+文档地址：http://catlib.io 
 
 PS:已经列入文档的接口不会进行大的调整，尚未列入的可能会进行调整。
 
