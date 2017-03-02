@@ -25,7 +25,7 @@ namespace CatLib.Resources{
 
 		protected void ClearReleaseDir(IBuildContext context){
 
-			IDirectory releaseDir = context.Disk.Directory(context.ReleasePath);
+			IDirectory releaseDir = context.Disk.Directory(context.ReleasePath, PathTypes.Absolute);
             releaseDir.Delete();
 			releaseDir.Create();
 

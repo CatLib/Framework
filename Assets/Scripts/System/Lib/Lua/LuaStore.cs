@@ -99,7 +99,7 @@ namespace CatLib.Lua
 
             foreach (string filePath in filePaths)
             {
-                IFile[] infos = Disk.Directory(Env.AssetPath + "/" + filePath).GetFiles(SearchOption.AllDirectories);
+                IFile[] infos = Disk.Directory(Env.AssetPath + "/" + filePath , PathTypes.Absolute).GetFiles(SearchOption.AllDirectories);
                 foreach(var info in infos)
                 {
                     if (!info.Name.EndsWith(".manifest"))

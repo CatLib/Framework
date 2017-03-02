@@ -153,7 +153,7 @@ namespace CatLib.AutoUpdate
             IFile file;
             foreach (UpdateFileField field in needDeleteLst)
             {
-                file = Disk.File(Env.AssetPath + field.Path);
+                file = Disk.File(Env.AssetPath + field.Path, PathTypes.Absolute);
                 if (file.Exists)
                 {
                     base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION);
@@ -193,8 +193,8 @@ namespace CatLib.AutoUpdate
                         base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_FAILD);
                         yield break;
                     }
-                    Disk.Directory(saveDir).Create();
-                    IFile saveFile = Disk.File(savePath);
+                    Disk.Directory(saveDir, PathTypes.Absolute).Create();
+                    IFile saveFile = Disk.File(savePath, PathTypes.Absolute);
                     saveFile.Create(request.downloadHandler.data);
                 }
                 

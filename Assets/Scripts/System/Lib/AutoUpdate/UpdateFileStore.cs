@@ -32,13 +32,13 @@ namespace CatLib.AutoUpdate{
 
         public UpdateFile LoadFromPath(string path)
         {
-            IFile file = Disk.File(path + Path.AltDirectorySeparatorChar + UpdateFileStore.FILE_NAME);
+            IFile file = Disk.File(path + Path.AltDirectorySeparatorChar + UpdateFileStore.FILE_NAME, PathTypes.Absolute);
             return LoadFromBytes(file.Read());
         }
         
         public void Save(string path , UpdateFile updateFile){
 
-            IFile file = Disk.File(path + Path.AltDirectorySeparatorChar + UpdateFileStore.FILE_NAME);
+            IFile file = Disk.File(path + Path.AltDirectorySeparatorChar + UpdateFileStore.FILE_NAME, PathTypes.Absolute);
             file.Delete();
             file.Create(updateFile.Data.ToByte());
 

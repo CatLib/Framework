@@ -13,7 +13,7 @@ namespace CatLib.Resources{
 
 			BuildAssetBundleName(context);
 
-			IDirectory copyDir = context.Disk.Directory(context.NoBuildPath);
+			IDirectory copyDir = context.Disk.Directory(context.NoBuildPath, PathTypes.Absolute);
             if (copyDir.Exists())
             {
                 copyDir.CopyTo(context.ReleasePath);
@@ -30,7 +30,7 @@ namespace CatLib.Resources{
 		/// </summary>
 		protected void BuildAssetBundleName(IBuildContext context){
 
-			IDirectory directory = context.Disk.Directory(context.BuildPath);
+			IDirectory directory = context.Disk.Directory(context.BuildPath, PathTypes.Absolute);
             directory.Walk((file) => {
 
 				if(!file.Name.EndsWith(".meta"))  

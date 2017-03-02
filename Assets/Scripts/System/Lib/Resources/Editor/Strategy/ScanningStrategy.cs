@@ -16,7 +16,7 @@ namespace CatLib.Resources
 
             var filter = new List<string>(){ ".meta", ".DS_Store" };
             
-            IDirectory releaseDir = context.Disk.Directory(context.ReleasePath);
+            IDirectory releaseDir = context.Disk.Directory(context.ReleasePath, PathTypes.Absolute);
 
             var releaseFile = new List<string>();
 

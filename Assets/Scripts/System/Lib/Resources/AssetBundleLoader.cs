@@ -243,7 +243,7 @@ namespace CatLib.Resources {
 
                 if (IOCrypt != null)
                 {
-                    IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath);
+                    IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
                     assetTarget = AssetBundle.LoadFromMemory(file.Read());
                 }
                 else
@@ -302,7 +302,7 @@ namespace CatLib.Resources {
                 AssetBundleCreateRequest assetTargetBundleRequest;
                 if (IOCrypt != null)
                 {
-                    IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath);
+                    IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
                     assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(file.Read());
                 }
                 else
@@ -337,7 +337,7 @@ namespace CatLib.Resources {
                     AssetBundleCreateRequest assetBundleDependencies;
                     if (IOCrypt != null)
                     {
-                        IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath);
+                        IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
                         assetBundleDependencies = AssetBundle.LoadFromMemoryAsync(file.Read());
                     }
                     else

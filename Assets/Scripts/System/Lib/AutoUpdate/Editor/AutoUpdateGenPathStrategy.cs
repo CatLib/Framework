@@ -26,7 +26,7 @@ namespace CatLib.AutoUpdate{
             IFile file;
             for(int i = 0; i < context.ReleaseFiles.Length; i++)
             {
-                file = context.Disk.File(context.ReleasePath + Path.AltDirectorySeparatorChar + context.ReleaseFiles[i]);
+                file = context.Disk.File(context.ReleasePath + Path.AltDirectorySeparatorChar + context.ReleaseFiles[i] , PathTypes.Absolute);
                 lst.Append(context.ReleaseFiles[i], MD5.ParseFile(file.FullName), file.Length);
             }
 
