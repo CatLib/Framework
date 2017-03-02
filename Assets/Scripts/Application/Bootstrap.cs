@@ -65,10 +65,10 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
-
+            
             h.Cancel();
 
-            App.Event.Trigger(ApplicationEvents.ON_INITED);
+            //App.Event.Trigger(ApplicationEvents.ON_INITED);
             
             Debug.Log(App.Make<Test>("123"));
 
@@ -159,10 +159,7 @@ public class Bootstrap : ServiceProvider
 
             }).Delay(9).Start();*/
 
-
-
-            /*
-
+            
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
 
@@ -204,6 +201,7 @@ public class Bootstrap : ServiceProvider
 
             IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("tcp.text");
 
+            
             (tcpConnect as IEvent).Event.One(SocketRequestEvents.ON_MESSAGE, (s1, e1) =>
             {
                 if ((e1 as PackageResponseEventArgs).Response.Package is string)
@@ -216,21 +214,23 @@ public class Bootstrap : ServiceProvider
                 }
             });
 
+            /* 
             tcpConnect.Connect();
             tcpConnect.Send("hello this is tcp msg with [text]".ToByte());
-
+            */
             IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("tcp.frame");
             tcpConnect2.Connect();
             tcpConnect2.Send("hello this is tcp msg with [frame]".ToByte());
-            
+            /* 
             IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.text");
             udpConnect.Connect();
             udpConnect.Send("hello this is udp msg with [text]".ToByte());
-
+            
             IConnectorUdp udpConnectFrame = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.frame");
             udpConnectFrame.Connect();
             udpConnectFrame.Send("hello this is udp msg with [frame]".ToByte());
 
+            
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
             udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);

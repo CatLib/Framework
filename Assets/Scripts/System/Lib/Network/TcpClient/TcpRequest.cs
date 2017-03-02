@@ -309,27 +309,12 @@ namespace CatLib.Network
                 level = (EventLevel)int.Parse(triggerLevel[eventName].ToString());
             }
 
-            if ((level & EventLevel.Self) > 0)
-            {
-                Event.Trigger(eventName, this, args);
-                App.Trigger(eventName + TypeGuid, this, args);
-            }
-
-            if ((level & EventLevel.Type) > 0)
-            {
-                App.Trigger(eventName + GetType().ToString(), this, args);
-            }
-
-            if ((level & EventLevel.Interface) > 0)
-            {
-                App.Trigger(eventName + typeof(IConnectorTcp).ToString(), this, args);
-                App.Trigger(eventName + typeof(IConnectorSocket).ToString(), this, args);
-            }
-
-            if ((level & EventLevel.Global) > 0)
-            {
-                App.Trigger(eventName, this, args);
-            }
+            App.Trigger(this)
+               .SetEventName(eventName)
+               .SetEventLevel(level)
+               .SetInterface<IConnectorTcp>()
+               .SetInterface<IConnectorSocket>()
+               .Trigger(args);
         }
 
     }

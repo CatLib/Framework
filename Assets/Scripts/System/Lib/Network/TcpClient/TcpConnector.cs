@@ -138,7 +138,7 @@ namespace CatLib.Network
                 networkStream.EndWrite(result);
 
             }catch(Exception ex){
-
+                
                 OnError(this, new ErrorEventArgs(ex));
                 Dispose();
 

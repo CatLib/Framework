@@ -26,6 +26,8 @@ namespace CatLib.API
 
         void MainThread(Action action);
 
+        IGlobalEvent Trigger(object score);
+
         ITime Time { get; }
 
     }

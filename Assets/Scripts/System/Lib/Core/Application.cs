@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
 using CatLib.API.Event;
+using CatLib.API.Exception;
 using CatLib.API.Time;
 
 namespace CatLib
@@ -229,7 +230,7 @@ namespace CatLib
 
             process = StartProcess.OnInit;
 
-            Event.Trigger(ApplicationEvents.ON_INITING);
+            Trigger(this).SetEventName(ApplicationEvents.ON_INITING).Trigger();
 
             foreach (ServiceProvider serviceProvider in providers)
             {
@@ -238,7 +239,7 @@ namespace CatLib
 
             inited = true;
 
-            Event.Trigger(ApplicationEvents.ON_INITED);
+            Trigger(this).SetEventName(ApplicationEvents.ON_INITED).Trigger();
 
             StartCoroutine(StartProviderPorcess());
 
@@ -312,7 +313,7 @@ namespace CatLib
 
             process = StartProcess.OnProviderProcess;
 
-            Trigger(ApplicationEvents.ON_PROVIDER_PROCESSING);
+            Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSING).Trigger();
 
             List<ServiceProvider> providers = new List<ServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess) );
@@ -322,11 +323,11 @@ namespace CatLib
                 yield return provider.OnProviderProcess();
             }
 
-            Trigger(ApplicationEvents.ON_PROVIDER_PROCESSED);
+            Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSED).Trigger();
 
             process = StartProcess.OnComplete;
 
-            Trigger(ApplicationEvents.ON_APPLICATION_START_COMPLETE);
+            Trigger(this).SetEventName(ApplicationEvents.ON_APPLICATION_START_COMPLETE).Trigger();
 
         }
 
@@ -375,53 +376,45 @@ namespace CatLib
             }
         }
 
+        public IGlobalEvent Trigger(object score){
+
+            return new GlobalEvent(score);
+
+        }
+
         public void Trigger(string eventName)
         {
-
-            Trigger(eventName, null, EventArgs.Empty);
-
+            base.Event.Trigger(eventName);
         }
 
         public void Trigger(string eventName, EventArgs e)
         {
-
-            Trigger(eventName, null, e);
-
+            base.Event.Trigger(eventName , e);
         }
 
         public void Trigger(string eventName, object sender)
         {
-
-            Trigger(eventName, sender, EventArgs.Empty);
-
+            base.Event.Trigger(eventName , sender);
         }
 
         public void Trigger(string eventName, object sender, EventArgs e)
         {
-
-            base.Event.Trigger(eventName, sender, e);
-
+            base.Event.Trigger(eventName , sender , e);
         }
 
         public IEventHandler On(string eventName, EventHandler handler , int life = -1)
         {
-
             return base.Event.On(eventName, handler , life);
-
         }
 
         public IEventHandler One(string eventName, EventHandler handler)
         {
-
             return base.Event.One(eventName, handler);
-
         }
 
         public void Off(string eventName, IEventHandler handler)
         {
-
             base.Event.Off(eventName, handler);
-
         }
 
         #endregion

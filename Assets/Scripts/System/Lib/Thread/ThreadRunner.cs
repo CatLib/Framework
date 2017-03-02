@@ -113,15 +113,15 @@ namespace CatLib.Thread
                 if (typeof(ThreadTask) == state.GetType()) { RunTaskThread((ThreadTask)state); }
                 else
                 {
-                    App.Trigger(ThreadEvents.ON_THREAD_EXECURE_ERROR, 
-                                                new ErrorEventArgs(
-                                                    new System.Exception(string.Format("type '{0}' not supported!", state.GetType())
-                                                )));
+                    App.Trigger(this).SetEventName(ThreadEvents.ON_THREAD_EXECURE_ERROR).Trigger(
+                                        new ErrorEventArgs(
+                                            new System.Exception(string.Format("type '{0}' not supported!", state.GetType())
+                                        )));
                 }
             }
             catch (System.Exception exception)
             {
-                App.Trigger(ThreadEvents.ON_THREAD_EXECURE_ERROR, new ErrorEventArgs(exception));
+                App.Trigger(this).SetEventName(ThreadEvents.ON_THREAD_EXECURE_ERROR).Trigger(new ErrorEventArgs(exception));
             }
         }
 

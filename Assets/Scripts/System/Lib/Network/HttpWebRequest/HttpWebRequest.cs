@@ -174,28 +174,12 @@ namespace CatLib.Network
 
                         var args = new HttpRequestEventArgs(request);
 
-                        if ((level & EventLevel.Self) > 0)
-                        {
-                            Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
-                            App.Trigger(HttpRequestEvents.ON_MESSAGE + TypeGuid, this, args);
-                        }
-
-                        if ((level & EventLevel.Type) > 0)
-                        {
-                            App.Trigger(HttpRequestEvents.ON_MESSAGE + GetType().ToString(), this, args);
-                            App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
-                        }
-
-                        if ((level & EventLevel.Interface) > 0)
-                        {
-                            App.Trigger(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), this, args);
-                        }
-
-                        if ((level & EventLevel.Global) > 0)
-                        {
-                            App.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
-                        }
-                        
+                        App.Trigger(this)
+                           .SetEventName(HttpRequestEvents.ON_MESSAGE)
+                           .SetEventLevel(level)
+                           .SetInterface<IConnectorHttp>()
+                           .Trigger(args);
+                                        
                     }
                 }
                 yield return new WaitForEndOfFrame();
