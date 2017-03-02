@@ -88,7 +88,7 @@ namespace CatLib.IO
         /// <summary>
         /// 刷新
         /// </summary>
-        public IDirectory Refresh()
+        protected IDirectory Refresh()
         {
             dir = null;
             return this;
@@ -179,7 +179,7 @@ namespace CatLib.IO
                 drinfo.CopyTo(targetDirectroy + System.IO.Path.AltDirectorySeparatorChar + drinfo.Name);
             }
 
-            return dir.Refresh();
+            return (dir as Directory).Refresh();
         }
 
         /// <summary>

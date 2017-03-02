@@ -40,7 +40,5 @@ namespace CatLib.API.IO
 
         void ReadAsync(Action<byte[]> callback);
 
-        IFile Refresh();
-
     }
 }

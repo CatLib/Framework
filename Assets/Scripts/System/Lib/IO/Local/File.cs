@@ -127,7 +127,7 @@ namespace CatLib.IO
             IFile destFile = new File(targetFileName, disk);
             destFile.Directory.Create();
             FileInfo.CopyTo(targetFileName);
-            return destFile.Refresh();
+            return (destFile as File).Refresh();
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace CatLib.IO
 
         }
 
-        public IFile Refresh()
+        protected IFile Refresh()
         {
             fileInfo = null;
             return this;

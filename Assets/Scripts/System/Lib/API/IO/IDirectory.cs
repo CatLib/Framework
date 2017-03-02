@@ -27,8 +27,6 @@ namespace CatLib.API.IO
 
         IDirectory Create(string directoryPath);
 
-        IDirectory Refresh();
-
         IDirectory CopyTo(string targetDirectroy);
 
         IFile[] GetFiles(SearchOption option = SearchOption.TopDirectoryOnly);
