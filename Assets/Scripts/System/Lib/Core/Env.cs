@@ -197,7 +197,7 @@ namespace CatLib
             {
                 assetPath = config.Get<string>("asset.path");
             }
-            else { assetPath = "Asset"; }
+            else { assetPath = "Assets"; }
 
     
             if (string.IsNullOrEmpty(releasePath))
