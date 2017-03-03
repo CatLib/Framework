@@ -4,7 +4,7 @@ namespace CatLib.API.Time
     /// <summary>
     /// 时间
     /// </summary>
-    public interface ITime : ITimeRunnerStore
+    public interface ITime
     {
 
         float Time { get; }

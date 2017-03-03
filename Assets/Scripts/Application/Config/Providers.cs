@@ -12,6 +12,7 @@ using CatLib.Time;
 using CatLib.IO;
 using CatLib.Crypt;
 using CatLib.Hash;
+using CatLib.TimeQueue;
 
 public class Providers{
 
@@ -37,6 +38,7 @@ public class Providers{
                 typeof(CryptProvider),
                 typeof(HashProvider),
                 typeof(CoreProvider),
+                typeof(TimeQueueProvider),
 
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商

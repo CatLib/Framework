@@ -1,22 +1,22 @@
 ﻿
 using CatLib.API;
-using CatLib.API.Time;
+using CatLib.API.TimeQueue;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace CatLib.Time {
+namespace CatLib.TimeQueue {
 
-    public class TimeRunner : Component , IUpdate {
+    public class TimeRunner : Component , IUpdate{
 
-        private List<ITimeRunner> timeRuner = new List<ITimeRunner>();
+        private List<TimeQueue> timeRuner = new List<TimeQueue>();
         private ReaderWriterLockSlim timeRunnerLocker = new ReaderWriterLockSlim();
 
         public ITimeQueue CreateQueue()
         {
-            return App.Make<ITimeQueue>();
+            return new TimeQueue(){ Runner = this };
         }
 
-        public bool Runner(ITimeRunner runner)
+        public bool Runner(TimeQueue runner)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace CatLib.Time {
             return true;
         }
 
-        public bool StopRunner(ITimeRunner runner)
+        public bool StopRunner(TimeQueue runner)
         {
             try
             {

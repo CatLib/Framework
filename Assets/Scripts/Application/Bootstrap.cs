@@ -10,6 +10,7 @@ using CatLib.API.Time;
 using CatLib.API.Hash;
 using CatLib.API.Crypt;
 using CatLib.API;
+using CatLib.API.TimeQueue;
 
 public class EventContainerComponent : CatLib.Component
 {
@@ -66,6 +67,12 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
             
+            IResources res = App.Make<IResources>();
+            res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
+            {
+                Object.Instantiate(obj);
+            });
+
             //h.Cancel();
 
             //App.Event.Trigger(ApplicationEvents.ON_INITED);
@@ -122,10 +129,8 @@ public class Bootstrap : ServiceProvider
             subThread.Start();
 
             */
-
-
             /*
-            ITimeQueue timeQueue = App.Time.CreateQueue();
+            ITimeQueue timeQueue = App.Make<ITimeQueue>();
             
             ITimeTaskHandler h = timeQueue.Task(() =>
             {
@@ -148,8 +153,8 @@ public class Bootstrap : ServiceProvider
                 Debug.Log("queueComplete");
             });
 
-            timeQueue.Play();
-
+            timeQueue.Play(); */
+/* 
             
             FThread.Instance.Task(() =>
             {
@@ -169,7 +174,7 @@ public class Bootstrap : ServiceProvider
 
             });*/
 
-
+            /* 
             App.On(SocketRequestEvents.ON_MESSAGE + typeof(IConnectorSocket).ToString(), (obj1, obj2) =>
             {
 
@@ -236,7 +241,7 @@ public class Bootstrap : ServiceProvider
             
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
-            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
+            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);*/
              
 
         });
