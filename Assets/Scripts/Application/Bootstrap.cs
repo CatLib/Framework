@@ -70,7 +70,7 @@ public class Bootstrap : ServiceProvider
 
             //App.Event.Trigger(ApplicationEvents.ON_INITED);
             
-            //Debug.Log(App.Make<Test>("123"));
+            //Debug.Log(App.Make(typeof(Test).ToString(),"123"));
 
             //IHash hash = App.Make<IHash>();
             //Debug.Log(hash.Bcrypt("helloworld"));
