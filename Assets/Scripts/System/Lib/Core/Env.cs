@@ -199,11 +199,42 @@ namespace CatLib
             }
             else { assetPath = "Asset"; }
 
-            releasePath = Path.AltDirectorySeparatorChar + releasePath;
-            resourcesBuildPath = Path.AltDirectorySeparatorChar + resourcesBuildPath;
-            resourcesNoBuildPath = Path.AltDirectorySeparatorChar + resourcesNoBuildPath;
+    
+            if (string.IsNullOrEmpty(releasePath))
+            {
+                releasePath = Path.AltDirectorySeparatorChar + "Release";
+            }
+            else
+            {
+                releasePath = Path.AltDirectorySeparatorChar + releasePath;
+            }
 
-            assetPath = PersistentDataPath + Path.AltDirectorySeparatorChar + "Asset";
+            if (string.IsNullOrEmpty(resourcesBuildPath))
+            {
+                resourcesBuildPath = Path.AltDirectorySeparatorChar + "Assets/AssetBundle";
+            }
+            else
+            {
+                resourcesBuildPath = Path.AltDirectorySeparatorChar + resourcesBuildPath;
+            }
+
+            if (string.IsNullOrEmpty(resourcesNoBuildPath))
+            {
+                resourcesNoBuildPath = Path.AltDirectorySeparatorChar + "Assets/NotAssetBundle";
+            }
+            else
+            {
+                resourcesNoBuildPath = Path.AltDirectorySeparatorChar + resourcesNoBuildPath;
+            }
+
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                assetPath = PersistentDataPath;
+            }
+            else
+            {
+                assetPath = PersistentDataPath + Path.AltDirectorySeparatorChar + assetPath;
+            }
 
             #if UNITY_EDITOR
             if (DebugLevel == DebugLevels.Staging)
