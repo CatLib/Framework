@@ -183,7 +183,7 @@ namespace CatLib
 
             if (config != null && config.IsExists("build.asset.path"))
             {
-                resourcesBuildPath = config.Get<string>("release.path");
+                resourcesBuildPath = config.Get<string>("build.asset.path");
             }
             else { resourcesBuildPath = "Assets/AssetBundle"; }
 
