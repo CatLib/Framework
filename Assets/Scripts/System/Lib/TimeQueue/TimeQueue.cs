@@ -1,13 +1,12 @@
 ﻿
-using CatLib.API;
-using CatLib.API.Time;
+using CatLib.API.TimeQueue;
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.Time
+namespace CatLib.TimeQueue
 {
 
-    public class TimeQueue : Component , ITimeQueue , ITimeRunner
+    public class TimeQueue : Component , ITimeQueue
     {
 
         private Action queueOnComplete;
@@ -16,6 +15,8 @@ namespace CatLib.Time
 
         private List<TimeTask> queueTasks = new List<TimeTask>();
         public bool IsComplete { get; set; }
+
+        public TimeRunner Runner{ get; set; }
 
         public ITimeTaskHandler Push(TimeTask task)
         {
@@ -66,18 +67,18 @@ namespace CatLib.Time
 
         public bool Pause()
         {
-            return App.Time.StopRunner(this);
+            return Runner.StopRunner(this);
         }
 
         public bool Play()
         {
             IsComplete = false;
-            return App.Time.Runner(this);
+            return Runner.Runner(this);
         }
 
         public bool Stop()
         {
-            bool statu = App.Time.StopRunner(this);
+            bool statu = Runner.StopRunner(this);
             if (statu)
             {
                 Reset();

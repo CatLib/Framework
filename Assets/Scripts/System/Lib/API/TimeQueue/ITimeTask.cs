@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace CatLib.API.Time
+namespace CatLib.API.TimeQueue
 {
 
     /// <summary>
@@ -27,6 +27,8 @@ namespace CatLib.API.Time
         ITimeTask Task(Action<object> task);
 
         ITimeTaskHandler Push();
+
+        ITimeQueue Play();
 
     }
 

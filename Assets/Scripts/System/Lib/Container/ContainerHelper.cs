@@ -27,6 +27,11 @@ namespace CatLib
             return container.Bind(typeof(Service).ToString(), typeof(Service).ToString(), false);
         }
 
+        public static IBindData Bind<Service>(this IContainer container , Func<IContainer, object[], object> concrete) where Service : class
+        {
+            return container.Bind(typeof(Service).ToString(), concrete, false);
+        }
+
         public static To Make<To>(this IContainer container)
         {
             return (To)container.Make(typeof(To).ToString());

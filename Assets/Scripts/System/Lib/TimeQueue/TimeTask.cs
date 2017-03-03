@@ -1,7 +1,7 @@
-﻿using CatLib.API.Time;
+﻿using CatLib.API.TimeQueue;
 using System;
 
-namespace CatLib.Time
+namespace CatLib.TimeQueue
 {
 
     public class TimeTask : ITimeTask , ITimeTaskHandler
@@ -91,6 +91,12 @@ namespace CatLib.Time
                 LoopTime = loopDurationFunc.Invoke();
             }
             return queue.Push(this);
+        }
+
+        public ITimeQueue Play(){
+            Push();
+            queue.Play();
+            return queue;
         }
 
         public void Cancel()

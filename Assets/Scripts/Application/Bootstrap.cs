@@ -10,6 +10,7 @@ using CatLib.API.Time;
 using CatLib.API.Hash;
 using CatLib.API.Crypt;
 using CatLib.API;
+using CatLib.API.TimeQueue;
 
 public class EventContainerComponent : CatLib.Component
 {
@@ -122,10 +123,8 @@ public class Bootstrap : ServiceProvider
             subThread.Start();
 
             */
-
-
-            /*
-            ITimeQueue timeQueue = App.Time.CreateQueue();
+            
+            ITimeQueue timeQueue = App.Make<ITimeQueue>();
             
             ITimeTaskHandler h = timeQueue.Task(() =>
             {
@@ -149,7 +148,7 @@ public class Bootstrap : ServiceProvider
             });
 
             timeQueue.Play();
-
+/* 
             
             FThread.Instance.Task(() =>
             {

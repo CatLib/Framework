@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace CatLib.API.Time
+namespace CatLib.API.TimeQueue
 {
 
     /// <summary>
