@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine.Networking;
 using System.IO;
+using CatLib.API;
 using CatLib.API.AutoUpdate;
 using CatLib.API.IO;
 using CatLib.API.Hash;
@@ -19,6 +20,9 @@ namespace CatLib.AutoUpdate
 
         [Dependency]
         public IHash Hash { get; set; }
+
+        [Dependency]
+        public IEnv Env { get; set; }
 
         private IDisk disk;
 
@@ -42,7 +46,7 @@ namespace CatLib.AutoUpdate
 
         public IEnumerator UpdateAsset()
         {
-            if (Env.DebugLevel == Env.DebugLevels.Staging)
+            if (Env.DebugLevel == DebugLevels.Staging)
             {
                 return JumpUpdate();
             }

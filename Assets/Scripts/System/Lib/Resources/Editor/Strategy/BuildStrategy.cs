@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using System.IO;
+using CatLib.API;
 using CatLib.API.IO;
 using CatLib.API.Resources;
 
@@ -7,7 +8,11 @@ namespace CatLib.Resources{
 
 	public class BuildStrategy : IBuildStrategy {
 
-		public BuildProcess Process{ get { return BuildProcess.Build; } }
+
+        [Dependency]
+        public IEnv Env { get; set; }
+
+        public BuildProcess Process{ get { return BuildProcess.Build; } }
 
 		public void Build(IBuildContext context){
 

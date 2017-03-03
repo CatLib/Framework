@@ -4,13 +4,18 @@ using UnityEditor;
 using UnityEngine;
 using System;
 using System.IO;
+using CatLib.API;
 using CatLib.API.IO;
 
 namespace CatLib.Resources{
 
 	public class SetupStrategy : IBuildStrategy {
 
-		public BuildProcess Process{ get { return BuildProcess.Setup; } }
+
+        [Dependency]
+        public IEnv Env { get; set; }
+
+        public BuildProcess Process{ get { return BuildProcess.Setup; } }
 
 		public void Build(IBuildContext context){
 

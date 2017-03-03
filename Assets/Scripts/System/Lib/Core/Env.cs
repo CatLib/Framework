@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using CatLib.API;
+using System.IO;
 
 namespace CatLib
 {
@@ -7,52 +9,54 @@ namespace CatLib
     /// <summary>
     /// 环境
     /// </summary>
-    public class Env {
+    public class Env : IEnv
+    {
 
-        public enum DebugLevels
+        private Configs config;
+        [Dependency]
+        public Configs Config
         {
-
-            /// <summary>
-            /// 线上 
-            /// </summary>
-            Online,
-
-            /// <summary>
-            /// 仿真模拟
-            /// </summary>
-            Staging,
-
-            /// <summary>
-            /// 自动模式（如果在编辑器模式下则使用开发者模式（非仿真模拟）如果发布则使用线上模式）
-            /// </summary>
-            Auto,
-
+            get { return config; }
+            set
+            {
+                config = value;
+                Init(config);
+            }
         }
 
         /// <summary>
         /// 调试等级
         /// </summary>
-        public static DebugLevels DebugLevel { get { return DebugLevels.Auto; } }
+        public DebugLevels DebugLevel { get; protected set; }
+
+        private string releasePath;
 
         /// <summary>
 		/// 编译完成后发布AssetBundle的路径
 		/// </summary>
-		public static string ReleasePath { get { return "/Release"; } }
+		public string ReleasePath { get { return releasePath; } }
+
+
+        private string resourcesBuildPath;
 
         /// <summary>
 		/// 需要编译成AssetBundle的资源包路径
 		/// </summary>
-		public static string ResourcesBuildPath { get{ return "/Assets/AssetBundle"; } }
+		public string ResourcesBuildPath { get{ return resourcesBuildPath; } }
 
-		/// <summary>
-		/// 需要编译成AssetBundle的资源包路径
-		/// </summary>
-		public static string ResourcesNoBuildPath { get{ return "/Assets/NotAssetBundle"; } }
+
+
+        private string resourcesNoBuildPath;
+
+        /// <summary>
+        /// 需要编译成AssetBundle的资源包路径
+        /// </summary>
+        public string ResourcesNoBuildPath { get{ return resourcesNoBuildPath; } }
 
         /// <summary>
         /// 只可读不可写的文件存放路径(不能做热更新)
         /// </summary>
-        public static string StreamingAssetsPath{
+        public string StreamingAssetsPath{
 
 			get{ return UnityEngine.Application.streamingAssetsPath; }
 
@@ -61,16 +65,16 @@ namespace CatLib
 		/// <summary>
 		/// 只可读不可写的文件存放路径(不能做热更新)
 		/// </summary>
-		public static string DataPath{
+		public string DataPath{
 
 			get{ return UnityEngine.Application.dataPath; }
 
 		}
 
 		/// <summary>
-		/// 配置,热更新存放路径
+		/// 可以更删改的文件路径
 		/// </summary>
-		public static string PersistentDataPath{
+		public string PersistentDataPath{
 
 			get{
 
@@ -80,19 +84,17 @@ namespace CatLib
 			
 		}
 
+        private string assetPath;
+
         /// <summary>
         /// 热更新系统资源的下载路径
         /// </summary>
-        public static string AssetPath
+        public string AssetPath
         {
 
             get
             {
-				if (DebugLevel == DebugLevels.Staging)
-				{
-					return DataPath + ReleasePath + "/" + PlatformToName(SwitchPlatform);
-				}
-                return PersistentDataPath + "/" + "Asset";
+                return assetPath;
             }
 
         }
@@ -100,7 +102,7 @@ namespace CatLib
 		/// <summary>
 		/// 当前运行的平台(和编辑器所在平台有关)
 		/// </summary>
-		public static RuntimePlatform Platform{
+		public RuntimePlatform Platform{
 
 			get{
 
@@ -113,7 +115,7 @@ namespace CatLib
 		/// <summary>
 		/// 当前所选择的编译平台
 		/// </summary>
-		public static RuntimePlatform SwitchPlatform{
+		public RuntimePlatform SwitchPlatform{
 
 			get{
 
@@ -142,9 +144,9 @@ namespace CatLib
 		/// <summary>
 		/// 将平台转为名字
 		/// </summary>
-		public static string PlatformToName(RuntimePlatform? platform = null){
+		public string PlatformToName(RuntimePlatform? platform = null){
 
-			if(platform == null){ platform = Env.Platform; }
+			if(platform == null){ platform = Platform; }
 			switch(platform){
 				
 				case RuntimePlatform.LinuxPlayer: return "Linux";
@@ -159,8 +161,60 @@ namespace CatLib
 			}
 
 		}
-		
-		
-	}
+
+        /// <summary>
+        /// 初始化配置
+        /// </summary>
+        /// <param name="config"></param>
+        protected void Init(Configs config)
+        {
+
+            if (config != null && config.IsExists("debug"))
+            {
+                DebugLevel = config.Get<DebugLevels>("debug");
+            }
+            else { DebugLevel = DebugLevels.Auto; }
+
+            if (config != null && config.IsExists("release.path"))
+            {
+                releasePath = config.Get<string>("release.path");
+            }
+            else { releasePath = "Release"; }
+
+            if (config != null && config.IsExists("build.asset.path"))
+            {
+                resourcesBuildPath = config.Get<string>("release.path");
+            }
+            else { resourcesBuildPath = "Assets/AssetBundle"; }
+
+            if (config != null && config.IsExists("nobuild.asset.path"))
+            {
+                resourcesNoBuildPath = config.Get<string>("nobuild.asset.path");
+            }
+            else { resourcesNoBuildPath = "Assets/NotAssetBundle"; }
+
+            if (config != null && config.IsExists("asset.path"))
+            {
+                assetPath = config.Get<string>("asset.path");
+            }
+            else { assetPath = "Asset"; }
+
+            releasePath = Path.AltDirectorySeparatorChar + releasePath;
+            resourcesBuildPath = Path.AltDirectorySeparatorChar + resourcesBuildPath;
+            resourcesNoBuildPath = Path.AltDirectorySeparatorChar + resourcesNoBuildPath;
+
+            assetPath = PersistentDataPath + Path.AltDirectorySeparatorChar + "Asset";
+
+            #if UNITY_EDITOR
+            if (DebugLevel == DebugLevels.Staging)
+            {
+                assetPath = DataPath + ReleasePath + Path.AltDirectorySeparatorChar + PlatformToName(SwitchPlatform);
+            }
+            #endif
+           
+        }
+
+
+    }
 
 }

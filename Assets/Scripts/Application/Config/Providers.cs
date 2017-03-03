@@ -1,4 +1,5 @@
 ﻿using System;
+using CatLib;
 using CatLib.Event;
 using CatLib.Lua;
 using CatLib.Network;
@@ -35,6 +36,7 @@ public class Providers{
                 typeof(TimeProvider),
                 typeof(CryptProvider),
                 typeof(HashProvider),
+                typeof(CoreProvider),
 
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商

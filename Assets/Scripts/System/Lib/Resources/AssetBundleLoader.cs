@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.IO;
 using CatLib.API.Resources;
 using System.IO;
@@ -12,6 +13,9 @@ namespace CatLib.Resources {
 
         [Dependency]
         public IIOFactory IO { get; set; }
+
+        [Dependency]
+        public IEnv Env { get; set; }
 
         private IDisk disk;
 
@@ -216,7 +220,7 @@ namespace CatLib.Resources {
             if (assetBundleManifest != null) { return; }
 
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.Auto)
+            if (Env.DebugLevel == DebugLevels.Auto)
             {
                 return;
             }

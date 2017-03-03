@@ -1,4 +1,5 @@
 ﻿
+using CatLib.API;
 using CatLib.API.Resources;
 using UnityEditor;
 
@@ -10,6 +11,10 @@ namespace CatLib.Resources
     /// </summary>
     public class AssetEncryption : IBuildStrategy
     {
+
+
+        [Dependency]
+        public IEnv Env { get; set; }
 
         public BuildProcess Process { get { return BuildProcess.Encryption; } }
 

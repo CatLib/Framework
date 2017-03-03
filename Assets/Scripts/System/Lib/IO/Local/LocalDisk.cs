@@ -1,6 +1,7 @@
 ﻿
 using System.Collections;
 using System.IO;
+using CatLib.API;
 using CatLib.API.IO;
 
 namespace CatLib.IO{
@@ -16,7 +17,7 @@ namespace CatLib.IO{
 
 		static readonly char[] INVALID_FILE_NAME_CHARS = new char[] { '/', '\\', '<', '>', ':', '|', '"' };
 
-        public LocalDisk()
+        public LocalDisk(IEnv Env)
         {
             path = Env.AssetPath;
         }

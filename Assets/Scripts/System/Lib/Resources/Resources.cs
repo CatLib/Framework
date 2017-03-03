@@ -1,4 +1,5 @@
-﻿using CatLib.API.IO;
+﻿using CatLib.API;
+using CatLib.API.IO;
 using CatLib.API.Resources;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace CatLib.Resources {
 
         [Dependency]
         public IIOFactory IO { get; set; }
+
+        [Dependency]
+        public IEnv Env { get; set; }
 
         private Dictionary<System.Type, string> extensionDict = new Dictionary<System.Type, string>();
 
@@ -47,7 +51,7 @@ namespace CatLib.Resources {
         {
             path = PathFormat(path, type);
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.Auto)
+            if (Env.DebugLevel == DebugLevels.Auto)
             {
                 return UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + Path.AltDirectorySeparatorChar + path, type);
             }
@@ -63,7 +67,7 @@ namespace CatLib.Resources {
         public Object[] LoadAll(string path)
         {
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.Auto)
+                if (Env.DebugLevel == DebugLevels.Auto)
                 {
                     throw new System.Exception("not support [LoadAll] in auto env");
                 }
@@ -85,7 +89,7 @@ namespace CatLib.Resources {
         {
             path = PathFormat(path, type);
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.Auto)
+                if (Env.DebugLevel == DebugLevels.Auto)
                 {
                     return App.StartCoroutine(EmptyIEnumerator(() =>
                     {
@@ -105,7 +109,7 @@ namespace CatLib.Resources {
         {
 
             #if UNITY_EDITOR
-                if (Env.DebugLevel == Env.DebugLevels.Auto)
+                if (Env.DebugLevel == DebugLevels.Auto)
                 {
                     throw new System.Exception("not support [LoadAllAsync] in auto env");
                 }

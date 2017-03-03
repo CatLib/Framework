@@ -21,6 +21,9 @@ namespace CatLib.Lua
         [Dependency]
         public IIOFactory IO{ get; set; }
 
+        [Dependency]
+        public IEnv Env { get; set; }
+
         private IDisk disk;
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace CatLib.Lua
         {
 
             #if UNITY_EDITOR
-            if (Env.DebugLevel == Env.DebugLevels.Auto)
+            if (Env.DebugLevel == DebugLevels.Auto)
             {
                 yield break;
             }
