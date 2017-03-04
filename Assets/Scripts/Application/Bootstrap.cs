@@ -164,7 +164,7 @@ public class Bootstrap : ServiceProvider
 
             }).Delay(9).Start();*/
 
-            /*
+            
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
 
@@ -172,7 +172,11 @@ public class Bootstrap : ServiceProvider
                 Debug.Log((obj2 as IHttpResponse).IsError);
                 Debug.Log((obj2 as IHttpResponse).Error);
 
-            });*/
+            });
+
+            IConnectorHttp http = FNetwork.Instance.Create<IConnectorHttp>("http");
+            //http.SetConfig(new System.Collections.Hashtable() { { "host", "http://www.qidian.com/" } });
+            http.Get(string.Empty);
 
             /* 
             App.On(SocketRequestEvents.ON_MESSAGE + typeof(IConnectorSocket).ToString(), (obj1, obj2) =>
@@ -242,7 +246,7 @@ public class Bootstrap : ServiceProvider
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
             udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);*/
-             
+
 
         });
 

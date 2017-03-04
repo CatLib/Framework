@@ -19,10 +19,10 @@ namespace CatLib.Network
         public override void Register()
         {
             App.Singleton<Network>().Alias<INetworkFactory>();
-            App.Bind<HttpWebRequest>().Alias<IConnectorHttp>();
-            App.Bind<WebRequest>().Alias("network.webrequest");
-            App.Bind<TcpRequest>().Alias<IConnectorTcp>();
-            App.Bind<UdpRequest>().Alias<IConnectorUdp>();
+            App.Bind<HttpWebRequest>().Alias<IConnectorHttp>().Alias("network.hwr");
+            App.Bind<WebRequest>().Alias("network.uwr");
+            App.Bind<TcpRequest>().Alias<IConnectorTcp>().Alias("network.tcp");
+            App.Bind<UdpRequest>().Alias<IConnectorUdp>().Alias("network.udp");
         }
 
 

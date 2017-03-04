@@ -35,6 +35,8 @@ namespace CatLib.Network
         private bool stopMark = false;
 
         private Hashtable triggerLevel;
+
+        private object locker = new object();
         
         /// <summary>
         /// 设定配置
@@ -74,11 +76,11 @@ namespace CatLib.Network
                 port = Convert.ToInt32(config["port"].ToString());
             }
 
-            if (config.ContainsKey("trigger"))
+            if (config.ContainsKey("event.level"))
             {
-                if(config["trigger"] is Hashtable)
+                if(config["event.level"] is Hashtable)
                 {
-                    triggerLevel = config["trigger"] as Hashtable;
+                    triggerLevel = config["event.level"] as Hashtable;
                 }
             }
 
@@ -89,7 +91,7 @@ namespace CatLib.Network
         /// </summary>
         public void Connect()
         {
-
+            
             if(string.IsNullOrEmpty(host)){
                 OnError(this, new ErrorEventArgs(new ArgumentNullException("host" , GetType().ToString() + ", Name:" + Name + " , host is invalid")));
                 return;
@@ -101,15 +103,18 @@ namespace CatLib.Network
                 return;
             }
 
-            Disconnect();
-            if (packer != null){ packer.Clear(); }
+            lock (locker)
+            {
+                Disconnect();
+                if (packer != null) { packer.Clear(); }
 
-            tcpConnector = new TcpConnector(host, port);
-            tcpConnector.OnConnect += OnConnect;
-            tcpConnector.OnClose   += OnClose;
-            tcpConnector.OnError   += OnError;
-            tcpConnector.OnMessage += OnMessage;
-            tcpConnector.Connect();
+                tcpConnector = new TcpConnector(host, port);
+                tcpConnector.OnConnect += OnConnect;
+                tcpConnector.OnClose += OnClose;
+                tcpConnector.OnError += OnError;
+                tcpConnector.OnMessage += OnMessage;
+                tcpConnector.Connect();
+            }
 
         }
 
@@ -119,13 +124,19 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         public void Send(IPackage package){
 
-            byte[] data;
-            if(protocol != null){
-                data = protocol.Encode(package);
-            }else{
-                data = package.ToByte();
+            lock (locker)
+            {
+                byte[] data;
+                if (protocol != null)
+                {
+                    data = protocol.Encode(package);
+                }
+                else
+                {
+                    data = package.ToByte();
+                }
+                Send(data);
             }
-            Send(data);
 
         }
 
@@ -135,9 +146,12 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         public void Send(byte[] bytes)
         {
-            bytes = SendEncode(bytes);
-            if (bytes == null) { return; }
-            queue.Enqueue(bytes);
+            lock (locker)
+            {
+                bytes = SendEncode(bytes);
+                if (bytes == null) { return; }
+                queue.Enqueue(bytes);
+            }
         }
 
         private byte[] SendEncode(byte[] bytes)

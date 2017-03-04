@@ -24,25 +24,22 @@ namespace CatLib.Network
         /// 创建一个网络链接
         /// </summary>
         /// <param name="name">通道</param>
-        /// <param name="service">服务名</param>
-        public T Create<T>(string name , string service) where T : IConnector
-        {
-            if (this.connector.ContainsKey(name)) { return (T)this.connector[name]; }
-            IConnector connector = (T)App.Make(service);
-            this.connector.Add(name, connector);
-            InitConnector(connector, name);
-            App.StartCoroutine(connector.StartServer());
-            return (T)connector;
-        }
-
-        /// <summary>
-        /// 创建一个网络链接
-        /// </summary>
-        /// <param name="name">通道</param>
         public T Create<T>(string name) where T : IConnector
         {
             if (this.connector.ContainsKey(name)) { return (T)this.connector[name]; }
-            IConnector connector = App.Make<T>();
+            IConnector connector = null;
+            if (Config != null && Config.IsExists(name))
+            {
+                Hashtable table = Config.Get<Hashtable>(name);
+                if (table.ContainsKey("driver"))
+                {
+                    connector = App.Make<T>(table["driver"].ToString());
+                }
+            }
+            if(connector == null)
+            {
+                connector = App.Make<T>();
+            }
             this.connector.Add(name, connector);
             InitConnector(connector, name);
             App.StartCoroutine(connector.StartServer());

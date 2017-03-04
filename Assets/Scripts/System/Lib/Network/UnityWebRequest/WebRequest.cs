@@ -45,11 +45,11 @@ namespace CatLib.Network
                 throw new Exception(this.GetType().ToString() + " is not support [timeout] config");
             }
 
-            if (config.ContainsKey("trigger"))
+            if (config.ContainsKey("event.level"))
             {
-                if (config["trigger"] is Hashtable)
+                if (config["event.level"] is Hashtable)
                 {
-                    triggerLevel = config["trigger"] as Hashtable;
+                    triggerLevel = config["event.level"] as Hashtable;
                 }
             }
         }

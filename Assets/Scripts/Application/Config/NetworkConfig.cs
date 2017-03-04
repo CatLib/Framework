@@ -34,12 +34,20 @@ public class NetworkConfig : Configs {
                 //注意测试地址 3302 端口只能走 text 协议 (TCP协议)
                 //注意测试地址 3303 端口只能走 frame 协议 (TCP协议)
 
+                "http"  , new Hashtable(){
+                                            { "host", "http://www.qidian.com/" },
+                                            { "timeout", 10000 }, //10秒
+                                            { "event.level" , new Hashtable() { 
+                                                { SocketRequestEvents.ON_MESSAGE , EventLevel.Self }
+                                            } }
+                                        },
+
                 "tcp.frame" , new Hashtable(){ 
                                             { "host", "pvp.gift" },
                                             { "port", 3303 },
                                             { "packing"  , typeof(IPacking) },
                                             { "protocol" , typeof(IProtocol) },
-                                            { "trigger" , new Hashtable() {
+                                            { "event.level" , new Hashtable() {
                                                 { SocketRequestEvents.ON_MESSAGE , EventLevel.Self }
                                             } }
                                         },
@@ -49,7 +57,7 @@ public class NetworkConfig : Configs {
                                             { "port", 3302 },
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , typeof(IProtocol) },
-                                            { "trigger" , new Hashtable() {
+                                            { "event.level" , new Hashtable() {
                                                 { SocketRequestEvents.ON_MESSAGE , EventLevel.Self | EventLevel.Interface }
                                             } }
                                         },

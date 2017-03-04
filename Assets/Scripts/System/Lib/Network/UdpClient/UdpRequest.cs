@@ -36,6 +36,8 @@ namespace CatLib.Network
 
         private Hashtable triggerLevel;
 
+        private object locker = new object();
+
 
         public void SetConfig(Hashtable config)
         {
@@ -76,11 +78,11 @@ namespace CatLib.Network
                 port = Convert.ToInt32(config["port"].ToString());
             }
 
-            if (config.ContainsKey("trigger"))
+            if (config.ContainsKey("event.level"))
             {
-                if (config["trigger"] is Hashtable)
+                if (config["event.level"] is Hashtable)
                 {
-                    triggerLevel = config["trigger"] as Hashtable;
+                    triggerLevel = config["event.level"] as Hashtable;
                 }
             }
         }
@@ -90,23 +92,25 @@ namespace CatLib.Network
         /// </summary>
         public void Connect()
         {
-
-            Disconnect();
-            if (packer != null) { packer.Clear(); }
-
-            udpConnector = new UdpConnector();
-            udpConnector.OnConnect += OnConnect;
-            udpConnector.OnClose += OnClose;
-            udpConnector.OnError += OnError;
-            udpConnector.OnMessage += OnMessage;
-
-            if (string.IsNullOrEmpty(host) || port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+            lock (locker)
             {
-                udpConnector.Connect();
-            }
-            else
-            {
-                udpConnector.Connect(host, port);
+                Disconnect();
+                if (packer != null) { packer.Clear(); }
+
+                udpConnector = new UdpConnector();
+                udpConnector.OnConnect += OnConnect;
+                udpConnector.OnClose += OnClose;
+                udpConnector.OnError += OnError;
+                udpConnector.OnMessage += OnMessage;
+
+                if (string.IsNullOrEmpty(host) || port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
+                {
+                    udpConnector.Connect();
+                }
+                else
+                {
+                    udpConnector.Connect(host, port);
+                }
             }
 
         }
@@ -117,16 +121,19 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         public void Send(IPackage package)
         {
-            byte[] data;
-            if (protocol != null)
+            lock (locker)
             {
-                data = protocol.Encode(package);
+                byte[] data;
+                if (protocol != null)
+                {
+                    data = protocol.Encode(package);
+                }
+                else
+                {
+                    data = package.ToByte();
+                }
+                Send(data);
             }
-            else
-            {
-                data = package.ToByte();
-            }
-            Send(data);
         }
 
         /// <summary>
@@ -135,9 +142,12 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         public void Send(byte[] bytes)
         {
-            bytes = SendEncode(bytes);
-            if (bytes == null) { return; }
-            queue.Enqueue(new object[] { bytes });
+            lock (locker)
+            {
+                bytes = SendEncode(bytes);
+                if (bytes == null) { return; }
+                queue.Enqueue(new object[] { bytes });
+            }
         }
 
         /// <summary>
@@ -148,16 +158,19 @@ namespace CatLib.Network
         /// <param name="port"></param>
         public void Send(IPackage package, string host, int port)
         {
-            byte[] data;
-            if (protocol != null)
+            lock (locker)
             {
-                data = protocol.Encode(package);
+                byte[] data;
+                if (protocol != null)
+                {
+                    data = protocol.Encode(package);
+                }
+                else
+                {
+                    data = package.ToByte();
+                }
+                Send(data, host, port);
             }
-            else
-            {
-                data = package.ToByte();
-            }
-            Send(data , host , port);
         }
 
         /// <summary>
@@ -168,9 +181,12 @@ namespace CatLib.Network
         /// <param name="port"></param>
         public void Send(byte[] bytes , string host , int port)
         {
-            bytes = SendEncode(bytes);
-            if (bytes == null) { return; }
-            queue.Enqueue(new object[] { bytes, host, port });
+            lock (locker)
+            {
+                bytes = SendEncode(bytes);
+                if (bytes == null) { return; }
+                queue.Enqueue(new object[] { bytes, host, port });
+            }
         }
 
         private byte[] SendEncode(byte[] bytes)
