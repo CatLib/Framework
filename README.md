@@ -1,7 +1,8 @@
-# CatLib
-Unity3D Framework For XLua
+![](http://catlib.io/style/catlib.png)
+[![license](https://img.shields.io/badge/license-MIT-blue.png)](https://github.com/yb199478/catlib/master/LICENSE.TXT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.png)](https://github.com/yb199478/catlib/pulls)
 
-框架正在开发中，改动较为频繁。
+Unity3D Framework For XLua
 
 文档地址：http://catlib.io 
 
