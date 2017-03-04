@@ -15,6 +15,7 @@ namespace CatLib.Resources
 
         public override void Register()
         {
+            App.Singleton<ResourcesHosted>().Alias<IResourcesHosted>();
             App.Singleton<AssetBundleLoader>().Alias<IAssetBundle>();
             App.Singleton<Resources>().Alias<IResources>();
         }

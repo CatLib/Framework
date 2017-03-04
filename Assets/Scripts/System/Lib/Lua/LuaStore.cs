@@ -24,6 +24,9 @@ namespace CatLib.Lua
         [Dependency]
         public IEnv Env { get; set; }
 
+        [Dependency]
+        public IResources Resources { get; set; }
+
         private IDisk disk;
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace CatLib.Lua
 
         protected byte[] AutoLoader(ref string filepath)
         {
-            TextAsset text = App.Make<IResources>().Load<TextAsset>(filepath);
+            TextAsset text = Resources.Load<TextAsset>(filepath).Get<TextAsset>();
             return text.bytes;
         }
 

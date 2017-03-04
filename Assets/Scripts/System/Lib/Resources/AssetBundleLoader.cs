@@ -45,20 +45,6 @@ namespace CatLib.Resources {
         protected Dictionary<string, DependenciesBundle> dependenciesBundles = new Dictionary<string, DependenciesBundle>();
 
         /// <summary>
-        /// 多样资源
-        /// </summary>
-        protected string variant;
-
-        /// <summary>
-        /// 多样资源
-        /// </summary>
-        public string Variant
-        {
-            get { return variant; }
-            set { variant = value; }
-        }
-
-        /// <summary>
         /// 加载资源
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -359,13 +345,12 @@ namespace CatLib.Resources {
         /// </summary>
         protected void ParsePath(string path, out string relPath , out string objName)
         {
-            string variant = string.IsNullOrEmpty(Variant) ? string.Empty : "." + Variant;
             string name = System.IO.Path.GetFileNameWithoutExtension(path);
             string extension =  System.IO.Path.GetExtension(path);
             string dirPath = System.IO.Path.GetDirectoryName(path);
 
-            objName = name + variant + extension;
-            relPath = dirPath + variant;
+            objName = name + extension;
+            relPath = dirPath;
         }
 
         /// <summary>

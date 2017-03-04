@@ -69,6 +69,11 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+            IResources res = App.Make<IResources>();
+            var a = res.Load<Object>("prefab/asset6/test-prefab");
+            var b = res.Load<Object>("prefab/asset6/test-prefab");
+
+            Object.Instantiate(a.Get<GameObject>());
 
             /*
             IResources res = App.Make<IResources>();
@@ -103,7 +108,7 @@ public class Bootstrap : ServiceProvider
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$10$Y8BxbHFgGArGVHIucx8i7u7t5ByLlSdWgWcQc187hqFfSiKFJfz3C"));
             //Debug.Log(hash.BcryptVerify("helloworld", "$2a$15$td2ASPNq.8BXbpa6yUU0c.pQpfYLxtcbXviM8fZXw4v8FDeO3hCoC"));
 
-            
+
             //IAssetBundle bundle = App.Make<IAssetBundle>();
             //Object.Instantiate(res.Load<GameObject>("prefab/asset6/test-prefab.prefab"));
 
@@ -158,15 +163,15 @@ public class Bootstrap : ServiceProvider
             });
 
             timeQueue.Play(); */
-/* 
-            
-            FThread.Instance.Task(() =>
-            {
-                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                //Debug.Log(App.Time.Time);
-                timeQueue.Replay();
+            /* 
 
-            }).Delay(9).Start();*/
+                        FThread.Instance.Task(() =>
+                        {
+                            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Debug.Log(App.Time.Time);
+                            timeQueue.Replay();
+
+                        }).Delay(9).Start();*/
 
             /*
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
