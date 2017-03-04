@@ -178,7 +178,7 @@ public class Bootstrap : ServiceProvider
             //http.SetConfig(new System.Collections.Hashtable() { { "host", "http://www.qidian.com/" } });
             http.Get(string.Empty);
 
-            /* 
+            
             App.On(SocketRequestEvents.ON_MESSAGE + typeof(IConnectorSocket).ToString(), (obj1, obj2) =>
             {
 
@@ -245,7 +245,7 @@ public class Bootstrap : ServiceProvider
             
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
-            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);*/
+            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
 
 
         });

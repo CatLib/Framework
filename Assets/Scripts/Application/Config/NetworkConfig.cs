@@ -35,6 +35,7 @@ public class NetworkConfig : Configs {
                 //注意测试地址 3303 端口只能走 frame 协议 (TCP协议)
 
                 "http"  , new Hashtable(){
+                                            { "driver" , "network.http.hwr" },
                                             { "host", "http://www.qidian.com/" },
                                             { "timeout", 10000 }, //10秒
                                             { "event.level" , new Hashtable() { 
@@ -42,7 +43,8 @@ public class NetworkConfig : Configs {
                                             } }
                                         },
 
-                "tcp.frame" , new Hashtable(){ 
+                "tcp.frame" , new Hashtable(){
+                                            { "driver" , "network.tcp" },
                                             { "host", "pvp.gift" },
                                             { "port", 3303 },
                                             { "packing"  , typeof(IPacking) },
@@ -53,6 +55,7 @@ public class NetworkConfig : Configs {
                                         },
 
                 "tcp.text" , new Hashtable(){
+                                            { "driver" , "network.tcp" },
                                             { "host", "pvp.gift" },
                                             { "port", 3302 },
                                             { "packing"  , "network.packing.text" },
@@ -62,12 +65,14 @@ public class NetworkConfig : Configs {
                                             } }
                                         },
                 "udp.bind.host.text" , new Hashtable(){
+                                            { "driver" , "network.udp" },
                                             { "host", "pvp.gift" },
                                             { "port", 3300 },
                                             { "packing"  , "network.packing.text" },
                                             { "protocol" , "network.protocol.text" },
                                         },
                 "udp.bind.host.frame" , new Hashtable(){
+                                            { "driver" , "network.udp" },
                                             { "host", "pvp.gift" },
                                             { "port", 3301 },
                                             { "packing"  , "network.packing.frame" },
@@ -75,6 +80,7 @@ public class NetworkConfig : Configs {
                                         },
 
                 "udp.unbind.host.frame" , new Hashtable(){
+                                            { "driver" , "network.udp" },
                                             { "packing"  , "network.packing.frame" },
                                             { "protocol" , "network.protocol.text" },
                                         },
