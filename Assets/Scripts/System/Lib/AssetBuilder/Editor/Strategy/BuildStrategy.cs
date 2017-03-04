@@ -3,8 +3,10 @@ using System.IO;
 using CatLib.API;
 using CatLib.API.IO;
 using CatLib.API.Resources;
+using CatLib.API.AssetBuilder;
 
-namespace CatLib.Resources{
+namespace CatLib.AssetBuilder
+{
 
 	public class BuildStrategy : IBuildStrategy {
 

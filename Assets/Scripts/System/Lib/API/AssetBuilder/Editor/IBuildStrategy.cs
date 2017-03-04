@@ -1,5 +1,6 @@
 ﻿
-namespace CatLib.API.Resources{
+namespace CatLib.API.AssetBuilder
+{
 
 
 	public interface IBuildStrategy {

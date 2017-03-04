@@ -16,13 +16,10 @@ namespace CatLib.Crypt{
             {
                 config = value;
                 if (config == null){ return; }
-                if (config.IsExists("key"))
+                key = config.Get<string>("key", string.Empty);
+                if (key.Length != 32)
                 {
-                    key = config.Get<string>("key");
-                    if(key.Length != 32)
-                    {
-                        key = null;
-                    }
+                    key = null;
                 }
             }
         }

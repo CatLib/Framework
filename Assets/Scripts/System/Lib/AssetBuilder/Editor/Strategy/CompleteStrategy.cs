@@ -1,8 +1,10 @@
 ﻿
 using CatLib.API.Resources;
+using CatLib.API.AssetBuilder;
 using UnityEditor;
 
-namespace CatLib.Resources{
+namespace CatLib.AssetBuilder
+{
 
 	public class CompleteStrategy : IBuildStrategy {
 

@@ -1,7 +1,8 @@
 ﻿
 using CatLib.API.Resources;
+using CatLib.API.AssetBuilder;
 
-namespace CatLib.Resources
+namespace CatLib.AssetBuilder
 {
 
     public class GenTableStrategy : IBuildStrategy

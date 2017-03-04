@@ -2,9 +2,10 @@
 using System;
 using CatLib.API.Resources;
 using System.Collections.Generic;
-using CatLib.API.IO;
+using CatLib.API.AssetBuilder;
 
-namespace CatLib.Resources{
+namespace CatLib.AssetBuilder
+{
 
 	public class AssetBundlesMaker{
 

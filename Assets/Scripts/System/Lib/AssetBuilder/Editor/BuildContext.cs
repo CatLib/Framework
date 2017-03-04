@@ -1,7 +1,9 @@
 ﻿using CatLib.API.IO;
 using UnityEditor;
+using CatLib.API.AssetBuilder;
 
-namespace CatLib.API.Resources{
+namespace CatLib.AssetBuilder
+{
 
 	public class BuildContext : IBuildContext {
 

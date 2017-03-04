@@ -1,7 +1,7 @@
 ﻿
 using CatLib.API;
 using CatLib.API.Resources;
-using UnityEditor;
+using CatLib.API.AssetBuilder;
 
 namespace CatLib.Resources
 {

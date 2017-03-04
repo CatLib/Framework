@@ -2,6 +2,7 @@
 using CatLib.API.Resources;
 using CatLib.Hash;
 using System.IO;
+using CatLib.API.AssetBuilder;
 
 namespace CatLib.AutoUpdate{
 

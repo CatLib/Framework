@@ -169,36 +169,14 @@ namespace CatLib
         protected void Init(Configs config)
         {
 
-            if (config != null && config.IsExists("debug"))
+            if (config != null)
             {
-                DebugLevel = config.Get<DebugLevels>("debug");
+                DebugLevel = config.Get<DebugLevels>("debug" , DebugLevels.Auto);
+                releasePath = config.Get<string>("release.path", "Release");
+                resourcesBuildPath = config.Get<string>("build.asset.path" , "Assets/AssetBundle");
+                resourcesNoBuildPath = config.Get<string>("nobuild.asset.path" , "Assets/NotAssetBundle");
+                assetPath = config.Get<string>("asset.path" , "Assets");
             }
-            else { DebugLevel = DebugLevels.Auto; }
-
-            if (config != null && config.IsExists("release.path"))
-            {
-                releasePath = config.Get<string>("release.path");
-            }
-            else { releasePath = "Release"; }
-
-            if (config != null && config.IsExists("build.asset.path"))
-            {
-                resourcesBuildPath = config.Get<string>("build.asset.path");
-            }
-            else { resourcesBuildPath = "Assets/AssetBundle"; }
-
-            if (config != null && config.IsExists("nobuild.asset.path"))
-            {
-                resourcesNoBuildPath = config.Get<string>("nobuild.asset.path");
-            }
-            else { resourcesNoBuildPath = "Assets/NotAssetBundle"; }
-
-            if (config != null && config.IsExists("asset.path"))
-            {
-                assetPath = config.Get<string>("asset.path");
-            }
-            else { assetPath = "Assets"; }
-
     
             if (string.IsNullOrEmpty(releasePath))
             {

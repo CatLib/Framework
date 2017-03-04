@@ -1,12 +1,11 @@
 ﻿
 using CatLib.API.Resources;
 using UnityEditor;
-using UnityEngine;
-using CatLib;
-using System;
 using CatLib.API.IO;
+using CatLib.API.AssetBuilder;
 
-namespace CatLib.Resources{
+namespace CatLib.AssetBuilder
+{
 
 	public class ClearStrategy : IBuildStrategy {
 

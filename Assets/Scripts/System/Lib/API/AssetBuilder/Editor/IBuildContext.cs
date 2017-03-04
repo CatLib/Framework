@@ -2,7 +2,8 @@
 using CatLib.API.IO;
 using UnityEditor;
 
-namespace CatLib.API.Resources{
+namespace CatLib.API.AssetBuilder
+{
 
 	public interface IBuildContext{
 

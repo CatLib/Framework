@@ -65,12 +65,12 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 获取一个配置
+        /// 获取一个配置如果获取不到则使用默认值
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="field"></param>
         /// <returns></returns>
-        public T Get<T>(string field)
+        public T Get<T>(string field , T def = default(T))
         {
             try
             {
@@ -78,7 +78,7 @@ namespace CatLib
                 {
                     return (T)this.field[field].Val;
                 }
-                throw new Exception("undefined [" + field + "] config");
+                return def;
             }
             catch { throw new ArgumentException(" field [" + field + "] is can not conversion to " + typeof(T).ToString()); }
         }

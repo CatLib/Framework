@@ -6,8 +6,10 @@ using System;
 using System.IO;
 using CatLib.API;
 using CatLib.API.IO;
+using CatLib.API.AssetBuilder;
 
-namespace CatLib.Resources{
+namespace CatLib.AssetBuilder
+{
 
 	public class SetupStrategy : IBuildStrategy {
 

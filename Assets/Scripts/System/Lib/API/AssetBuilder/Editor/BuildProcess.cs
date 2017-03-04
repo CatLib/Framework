@@ -1,5 +1,6 @@
 ﻿
-namespace CatLib.API.Resources{
+namespace CatLib.API.AssetBuilder
+{
 
 	/// <summary>构建流程</summary>
 	public enum BuildProcess{
