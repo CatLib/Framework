@@ -1,5 +1,5 @@
 ﻿using System;
-using CatLib;
+using CatLib.API;
 using CatLib.AutoUpdate;
 
 public class AutoUpdateConfig : Configs{

@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.Collections;
-using CatLib;
+using CatLib.API;
 using CatLib.API.IO;
 
 public class IOConfig : Configs

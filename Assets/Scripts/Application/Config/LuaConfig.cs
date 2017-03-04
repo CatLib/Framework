@@ -1,6 +1,6 @@
 ﻿
 using System;
-using CatLib;
+using CatLib.API;
 using CatLib.Lua;
 
 public class LuaConfig : Configs

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CatLib
+namespace CatLib.API
 {
 
     /// <summary>

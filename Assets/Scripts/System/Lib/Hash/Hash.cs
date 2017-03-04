@@ -1,4 +1,4 @@
-﻿
+﻿using CatLib.API;
 using CatLib.API.Hash;
 
 namespace CatLib.Hash{

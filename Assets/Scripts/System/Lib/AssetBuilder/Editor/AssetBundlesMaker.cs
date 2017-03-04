@@ -12,7 +12,7 @@ namespace CatLib.AssetBuilder
         /// <summary>
         /// 编译Asset Bundle
         /// </summary>
-        [MenuItem ("CatLib/Build AssetBundles")]
+        [MenuItem ("CatLib/Asset Builder/Build Current Platform")]
 		public static void BuildAllAssetBundles ()
 		{
 
