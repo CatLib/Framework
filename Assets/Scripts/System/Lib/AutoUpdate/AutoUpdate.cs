@@ -46,7 +46,8 @@ namespace CatLib.AutoUpdate
 
         public IEnumerator UpdateAsset()
         {
-            if (Env.DebugLevel == DebugLevels.Staging)
+            //Stading模式下资源目录会被定位到发布文件目录所以不能进行热更新
+            if (Env.DebugLevel == DebugLevels.Staging) 
             {
                 return JumpUpdate();
             }
@@ -61,8 +62,8 @@ namespace CatLib.AutoUpdate
 
         protected IEnumerator StartUpdate(){
 
-            if (this.isUpdate) { yield break; }
-            this.isUpdate = true;
+            if (isUpdate) { yield break; }
+            isUpdate = true;
 
             string resUrl = string.Empty;
 
@@ -88,7 +89,9 @@ namespace CatLib.AutoUpdate
                 
                 }else{
 
-                    base.Event.Trigger(AutoUpdateEvents.ON_GET_UPDATE_URL_FAILD);
+                    App.Trigger(this).SetEventName(AutoUpdateEvents.ON_GET_UPDATE_URL_FAILD)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
                     yield break;
 
                 }
@@ -105,18 +108,24 @@ namespace CatLib.AutoUpdate
         /// <returns></returns>
         protected IEnumerator UpdateList(string resUrl)
         {
-            base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_START);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_START)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
             resUrl = resUrl + Path.AltDirectorySeparatorChar + Env.PlatformToName(Env.SwitchPlatform);
             UnityWebRequest request = UnityWebRequest.Get(resUrl + Path.AltDirectorySeparatorChar + UpdateFileStore.FILE_NAME);
             yield return request.Send();
             if (request.isError || request.responseCode != 200)
             {
                 this.isUpdate = false;
-                base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_LIST_FAILED);
+                App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_LIST_FAILED)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
                 yield break;
             }
 
-            base.Event.Trigger(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_START);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_START)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
 
             var fileStore = new UpdateFileStore();
             var newLst = fileStore.LoadFromBytes(request.downloadHandler.data);
@@ -134,7 +143,9 @@ namespace CatLib.AutoUpdate
 
             });
 
-            base.Event.Trigger(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_END);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_END)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
 
             UpdateFile needUpdateLst, needDeleteLst;
             oldLst.Comparison(newLst, out needUpdateLst, out needDeleteLst);
@@ -145,14 +156,18 @@ namespace CatLib.AutoUpdate
 
             fileStore.Save(Env.AssetPath , newLst);
 
-            base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_COMPLETE);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_COMPLETE)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
 
         }
 
         protected IEnumerator DeleteOldAsset(UpdateFile needDeleteLst)
         {
 
-            base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_START);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_START)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
 
             IFile file;
             foreach (UpdateFileField field in needDeleteLst)
@@ -160,7 +175,9 @@ namespace CatLib.AutoUpdate
                 file = Disk.File(Env.AssetPath + field.Path, PathTypes.Absolute);
                 if (file.Exists)
                 {
-                    base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION);
+                    App.Trigger(this).SetEventName(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
                     file.Delete();
                 }
 
@@ -168,7 +185,9 @@ namespace CatLib.AutoUpdate
 
             yield return null;
 
-            base.Event.Trigger(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_END);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_END)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
 
         }
 
@@ -178,7 +197,9 @@ namespace CatLib.AutoUpdate
             updateNum = 0;
             needUpdateNum = needUpdateLst.Count;
             string savePath, downloadPath, saveDir;
-            base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_START);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_START)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
             foreach (UpdateFileField field in needUpdateLst)
             {
                 downloadPath = downloadUrl + field.Path;
@@ -187,14 +208,18 @@ namespace CatLib.AutoUpdate
                 saveDir = savePath.Substring(0, savePath.LastIndexOf(Path.AltDirectorySeparatorChar));
 
                 updateNum++;
-                base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_ACTION);
-                
+                App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_ACTION)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
+
                 using (UnityWebRequest request = UnityWebRequest.Get(downloadPath))
                 {
                     yield return request.Send();
                     if (request.isError || request.responseCode != 200)
                     {
-                        base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_FAILD);
+                        App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_FAILD)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
                         yield break;
                     }
                     Disk.Directory(saveDir, PathTypes.Absolute).Create();
@@ -203,8 +228,9 @@ namespace CatLib.AutoUpdate
                 }
                 
             }
-
-            base.Event.Trigger(AutoUpdateEvents.ON_UPDATE_FILE_END);
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_END)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger();
 
         }
     }

@@ -82,7 +82,7 @@ namespace CatLib.Resources {
             string relPath, objName;
             ParsePath(path , out relPath, out objName);
 
-            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath + Path.AltDirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(objName));
+            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath + Path.AltDirectorySeparatorChar + Path.GetFileNameWithoutExtension(objName));
             if (assetTarget == null) { return null; }
             return assetTarget.LoadAllAssets();
         }

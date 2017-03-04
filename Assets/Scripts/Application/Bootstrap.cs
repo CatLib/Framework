@@ -33,12 +33,15 @@ public class ControllerComponent
 class Test
 {
 
+    public Test() { }
+
+    /*
     public Test(string res, IResources res2)
     {
         Debug.Log(res2);
         Debug.Log(res);
 
-    }
+    }*/
 
 }
 
@@ -66,7 +69,8 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
-            
+
+            /*
             IResources res = App.Make<IResources>();
             res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
             {
@@ -164,7 +168,7 @@ public class Bootstrap : ServiceProvider
 
             }).Delay(9).Start();*/
 
-            
+            /*
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
 
@@ -245,7 +249,7 @@ public class Bootstrap : ServiceProvider
             
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
-            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
+            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);*/
 
 
         });

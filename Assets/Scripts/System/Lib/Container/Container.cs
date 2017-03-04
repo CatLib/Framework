@@ -433,7 +433,7 @@ namespace CatLib.Container
             }
             else
             {
-                obj = this.Make(bindData.GetContextual(info.ParameterType.ToString()), null);
+                obj = Make(bindData.GetContextual(info.ParameterType.ToString()), null);
             }
 
             if (obj == null) { return info.DefaultValue; }

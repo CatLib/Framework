@@ -11,15 +11,12 @@ namespace CatLib
 
 
         private IEventAchieve cevent = null;
-        /// <summary>
-        /// 事件系统
-        /// </summary>
         public IEventAchieve Event
         {
             get
             {
-                if (this.cevent == null) { this.cevent = CatLib.App.Instance.Make<IEventAchieve>(); }
-                return this.cevent;
+                if (cevent == null) { cevent = CatLib.App.Instance.Make<IEventAchieve>(); }
+                return cevent;
             }
         }
 
