@@ -4,7 +4,7 @@ using CatLib.API.Network;
 namespace CatLib.Network
 {
 
-    public class PackageResponseEventArgs : EventArgs
+    public class PackageResponseEventArgs : EventArgs , IPackageResponse
     {
 
         public IPackage Response { get; protected set; }
