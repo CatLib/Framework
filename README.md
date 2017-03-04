@@ -12,7 +12,7 @@ PS:对于尚未列入文档的内容，入门的最佳方法就是查看API提�
 
 项目开发计划：https://www.teambition.com/project/589ce998907a7b661c86de9c/tasks/scrum/589ce9aadf254b9870a7ac90
 
-这个框架尚处于开发状态。
+这个框架尚处于开发状态。欢迎宝宝们来提意见哦~
 
 ## 其他
 * 交流QQ群：150371044
