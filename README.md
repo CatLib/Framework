@@ -1,5 +1,6 @@
 ![](http://catlib.io/style/catlib.png)
-[![license](https://img.shields.io/badge/license-MIT-blue.png)](https://github.com/yb199478/catlib/master/LICENSE.TXT)
+
+[![license](https://img.shields.io/badge/license-MIT-blue.png)](https://github.com/yb199478/CatLib/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.png)](https://github.com/yb199478/catlib/pulls)
 
 Unity3D Framework For XLua
