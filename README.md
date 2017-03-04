@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/badge/license-MIT-blue.png)](https://github.com/yb199478/CatLib/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.png)](https://github.com/yb199478/catlib/pulls)
-[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](catlib.io)
+[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://catlib.io)
 
 Unity3D Framework For XLua
 
