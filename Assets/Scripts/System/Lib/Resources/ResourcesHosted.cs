@@ -108,7 +108,11 @@ namespace CatLib.Resources
                         refTraversal[i].Check();
                         if (refTraversal[i].IsDestroy)
                         {
-                            destroyQueue.Enqueue(refTraversal[i]);
+                            //防止处理卸载来不及不停的加入队列
+                            if (!destroyQueue.Contains(refTraversal[i]))
+                            {
+                                destroyQueue.Enqueue(refTraversal[i]);
+                            }
                         }
                     }
                 }
