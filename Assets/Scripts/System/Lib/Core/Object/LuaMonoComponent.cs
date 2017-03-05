@@ -51,7 +51,7 @@ namespace CatLib {
                 scriptEnv.Set(injection.name, injection.value);
             }
 
-            TextAsset text = Application.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>();
+            TextAsset text = Application.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>(scriptEnv);
 
             LuaEnv.DoString(text.text, "LuaBehaviour", scriptEnv);
 

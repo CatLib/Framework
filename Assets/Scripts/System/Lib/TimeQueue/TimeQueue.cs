@@ -108,6 +108,18 @@ namespace CatLib.TimeQueue
             }
         }
 
+        protected void CallTask(TimeTask task)
+        {
+            if (task.ActionTask != null)
+            {
+                task.ActionTask();
+            }
+            if (task.ActionTaskWithContext != null)
+            {
+                task.ActionTaskWithContext(context);
+            }
+        }
+
         public void Update()
         {
             bool isAllComplete = true;
@@ -115,7 +127,7 @@ namespace CatLib.TimeQueue
             {
                 var task = queueTasks[i];
                 if (task.IsComplete) { continue; }
-
+                
                 isAllComplete = false;
 
                 if (task.DelayTime > 0 && task.WaitDelayTime < task.DelayTime)
@@ -128,33 +140,21 @@ namespace CatLib.TimeQueue
                 {
                     if (task.LoopTime > 0 && task.WaitLoopTime < task.LoopTime)
                     {
-                        if (task.ActionTask != null)
-                        {
-                            task.ActionTask();
-                        }
-                        if (task.ActionTaskWithContext != null)
-                        {
-                            task.ActionTaskWithContext(context);
-                        }
+                        CallTask(task);
                         task.WaitLoopTime += App.Time.DeltaTime;
                         break;
+                    }else if(task.LoopTime <= 0)
+                    {
+                        CallTask(task);
                     }
                 }else
                 {
                     if (task.loopStatusFunc.Invoke())
                     {
-                        if (task.ActionTask != null)
-                        {
-                            task.ActionTask();
-                        }
-                        if (task.ActionTaskWithContext != null)
-                        {
-                            task.ActionTaskWithContext(context);
-                        }
+                        CallTask(task);
                         break;
                     }
                 }
-
                 task.IsComplete = true;
                 if (task.TaskOnComplete != null)
                 {

@@ -73,7 +73,7 @@ namespace CatLib.Lua
 
         protected byte[] AutoLoader(ref string filepath)
         {
-            TextAsset text = Resources.Load<TextAsset>(filepath).Get<TextAsset>();
+            TextAsset text = Resources.Load<TextAsset>(filepath).UnHostedGet() as TextAsset;
             return text.bytes;
         }
 

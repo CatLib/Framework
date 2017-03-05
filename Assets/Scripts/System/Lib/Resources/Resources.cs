@@ -14,7 +14,6 @@ namespace CatLib.Resources {
         [Dependency]
         public AssetBundleLoader assetBundleLoader { get; set; }
 
-        [Dependency]
         public IResourcesHosted resourcesHosted { get; set; }
 
         [Dependency]
@@ -22,6 +21,34 @@ namespace CatLib.Resources {
 
         [Dependency]
         public IEnv Env { get; set; }
+
+        private Configs config;
+
+        [Dependency]
+        public Configs Config
+        {
+            get
+            {
+                return config;
+            }set
+            {
+                config = value;
+                if (config != null)
+                {
+                    string hosted = config.Get<object>("hosted").ToString();
+                    if (!string.IsNullOrEmpty(hosted))
+                    {
+                        resourcesHosted = App.Make<IResourcesHosted>(hosted);
+                    }else
+                    {
+                        resourcesHosted = null;
+                    }
+                }else
+                {
+                    resourcesHosted = App.Make<IResourcesHosted>(typeof(IResourcesHosted).ToString());
+                }
+            }
+        }
 
         private Dictionary<System.Type, string> extensionDict = new Dictionary<System.Type, string>();
 

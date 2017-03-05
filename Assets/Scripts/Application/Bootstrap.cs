@@ -47,7 +47,6 @@ class Test
 
 public class Bootstrap : ServiceProvider
 {
-
     public override void Init()
     {
         /*
@@ -71,9 +70,17 @@ public class Bootstrap : ServiceProvider
         {
             IResources res = App.Make<IResources>();
             var a = res.Load<Object>("prefab/asset6/test-prefab");
-            var b = res.Load<Object>("prefab/asset6/test-prefab");
+            //var b = res.Load<Object>("prefab/asset6/test-prefab");
 
-            Object.Instantiate(a.Get<GameObject>());
+            GameObject obj = a.Instantiate();
+            GameObject.Instantiate(obj); //绕过控制克隆
+            App.Make<ITimeQueue>().Task(() =>
+            {
+
+                Debug.Log("111");
+                GameObject.Destroy(obj);
+
+            }).Delay(10).Play();
 
             /*
             IResources res = App.Make<IResources>();

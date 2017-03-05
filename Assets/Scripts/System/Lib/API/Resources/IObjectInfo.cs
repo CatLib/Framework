@@ -6,9 +6,13 @@ namespace CatLib.API.Resources
     public interface IObjectInfo
     {
 
-        void Instantiate();
+        GameObject Instantiate();
 
-        T Get<T>() where T : Object;
+        T Get<T>(object hostedObject) where T : Object;
+
+        Object Get(object hostedObject);
+
+        Object UnHostedGet();
 
     }
 

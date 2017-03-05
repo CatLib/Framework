@@ -5,7 +5,6 @@ namespace CatLib.TimeQueue
 
     public class TimeQueueProvider : ServiceProvider
     {
-
         public override void Register()
         {
             App.Bind<TimeQueue>((app , param)=>{

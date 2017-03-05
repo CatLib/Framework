@@ -94,6 +94,7 @@ namespace CatLib.TimeQueue
         }
 
         public ITimeQueue Play(){
+
             Push();
             queue.Play();
             return queue;
