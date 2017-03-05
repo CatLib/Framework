@@ -15,9 +15,9 @@ namespace CatLib.API.Resources{
 
         UnityEngine.Coroutine LoadAssetAllAsync(string path , System.Action<Object[]> callback);
 
-        void UnloadAll();
+        bool UnloadAll();
 
-        void UnloadAssetBundle(string assetbundlePath);
+        bool UnloadAssetBundle(string assetbundlePath);
 
     }
 
