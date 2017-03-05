@@ -150,13 +150,20 @@ namespace CatLib.Resources
                     }
                     if (needDestroy)
                     {
-                        assetBundleLoader.UnloadAssetBundle(info.AssetBundle);
-                        foreach (var val in tmpDict.Values)
+                        bool isSuccess = assetBundleLoader.UnloadAssetBundle(info.AssetBundle);
+                        if (isSuccess)
                         {
-                            refTraversal.Remove(val);
+                            foreach (var val in tmpDict.Values)
+                            {
+                                refTraversal.Remove(val);
+                            }
+                            refDict.Remove(info.AssetBundle);
+                            yield return new WaitForSeconds(UNLOAD_INTERVAL);
+                        }else
+                        {
+                            //如果释放失败则重新丢入队尾
+                            destroyQueue.Enqueue(info);
                         }
-                        refDict.Remove(info.AssetBundle);
-                        yield return new WaitForSeconds(UNLOAD_INTERVAL);
                     }
 
                 }
