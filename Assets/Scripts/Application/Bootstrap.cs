@@ -69,10 +69,17 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
             IResources res = App.Make<IResources>();
-            var a = res.Load<Object>("prefab/asset6/test-prefab");
+            res.LoadAsync("prefab/asset6/test-prefab",(a)=>
+            {
+                a.Instantiate();
+            });
+            res.LoadAsync("prefab/asset6/test-prefab2", (a) =>
+            {
+                a.Instantiate();
+            });
             //var b = res.Load<Object>("prefab/asset6/test-prefab");
 
-            GameObject obj = a.Instantiate();
+            /*GameObject obj = a.Instantiate();
             GameObject.Instantiate(obj); //绕过控制克隆
             App.Make<ITimeQueue>().Task(() =>
             {
@@ -80,7 +87,7 @@ public class Bootstrap : ServiceProvider
                 Debug.Log("111");
                 GameObject.Destroy(obj);
 
-            }).Delay(10).Play();
+            }).Delay(10).Play();*/
 
             /*
             IResources res = App.Make<IResources>();

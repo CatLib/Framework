@@ -45,6 +45,11 @@ namespace CatLib.Resources {
         protected Dictionary<string, DependenciesBundle> dependenciesBundles = new Dictionary<string, DependenciesBundle>();
 
         /// <summary>
+        /// 加载中的资源包
+        /// </summary>
+        protected List<string> onLoadingAssetBundles = new List<string>();
+
+        /// <summary>
         /// 加载资源
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -221,7 +226,6 @@ namespace CatLib.Resources {
         /// </summary>
         protected AssetBundle LoadAssetBundle(string envPath, string relPath)
         {
-
             LoadDependenciesAssetBundle(envPath, relPath);
 
             AssetBundle assetTarget;
@@ -280,32 +284,42 @@ namespace CatLib.Resources {
         /// <returns></returns>
         protected IEnumerator LoadAssetBundleAsync(string envPath , string relPath , System.Action<AssetBundle> complete) 
         {
+            if (onLoadingAssetBundles.Contains(relPath))
+            {
+                while (true)
+                {
+                    yield return new WaitForEndOfFrame();
+                    if (onLoadingAssetBundles.Contains(relPath))
+                    {
+                        continue;
+                    }
+                    
+                    if (loadAssetBundles.ContainsKey(relPath)) {
+                        complete(loadAssetBundles[relPath].Bundle);
+                        yield break;
+                    }
+                }
+            }
 
+            onLoadingAssetBundles.Add(relPath);
             yield return LoadDependenciesAssetBundleAsync(envPath , relPath);
 
-            AssetBundle assetTarget;
-            if (!loadAssetBundles.ContainsKey(relPath))
+            AssetBundleCreateRequest assetTargetBundleRequest;
+            if (Disk.IsCrypt)
             {
-                AssetBundleCreateRequest assetTargetBundleRequest;
-                if (Disk.IsCrypt)
-                {
-                    IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
-                    assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(file.Read());
-                }
-                else
-                {
-                    assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + relPath);
-                }
-
-                yield return assetTargetBundleRequest;
-                assetTarget = assetTargetBundleRequest.assetBundle;
-                loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
+                IFile file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
+                assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(file.Read());
             }
             else
             {
-                assetTarget = loadAssetBundles[relPath].Bundle;
+                assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + relPath);
             }
 
+            yield return assetTargetBundleRequest;
+            AssetBundle assetTarget = assetTargetBundleRequest.assetBundle;
+            loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
+
+            onLoadingAssetBundles.Remove(relPath);
             complete(assetTarget);
 
         }

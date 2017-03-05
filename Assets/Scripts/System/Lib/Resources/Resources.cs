@@ -143,7 +143,7 @@ namespace CatLib.Resources {
 
         public UnityEngine.Coroutine LoadAsync(string path, System.Type type, System.Action<IObjectInfo> callback)
         {
-            path = PathFormat(path, type);
+            path = PathFormat(path, type); 
             #if UNITY_EDITOR
                 if (Env.DebugLevel == DebugLevels.Auto)
                 {
