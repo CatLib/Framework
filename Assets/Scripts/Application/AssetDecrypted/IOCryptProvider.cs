@@ -10,7 +10,7 @@ public class IOCryptProvider : ServiceProvider
 
     public override void Register()
     {
-        App.Singleton<IOCrypted>().Alias<IIOCrypt>();
+        //App.Singleton<IOCrypted>().Alias<IIOCrypt>();
     }
 
 }

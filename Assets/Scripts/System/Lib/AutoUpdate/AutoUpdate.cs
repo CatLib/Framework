@@ -47,10 +47,16 @@ namespace CatLib.AutoUpdate
         public IEnumerator UpdateAsset()
         {
             //Stading模式下资源目录会被定位到发布文件目录所以不能进行热更新
-            if (Env.DebugLevel == DebugLevels.Staging) 
+            #if UNITY_EDITOR
+            if (Env.DebugLevel == DebugLevels.Staging)
             {
                 return JumpUpdate();
             }
+            if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
+            {
+                return JumpUpdate();
+            }
+            #endif
             return StartUpdate();
         }
 

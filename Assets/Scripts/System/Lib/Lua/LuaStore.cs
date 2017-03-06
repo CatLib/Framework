@@ -88,8 +88,9 @@ namespace CatLib.Lua
         protected IEnumerator LoadHotFixAysn()
         {
 
+            //如果处于编辑器下的自动模式和开发者模式则不进行热补丁
             #if UNITY_EDITOR
-            if (Env.DebugLevel == DebugLevels.Auto)
+            if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
             {
                 yield break;
             }

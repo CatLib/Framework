@@ -219,6 +219,10 @@ namespace CatLib
             {
                 assetPath = DataPath + ReleasePath + Path.AltDirectorySeparatorChar + PlatformToName(SwitchPlatform);
             }
+            if(DebugLevel == DebugLevels.Auto || DebugLevel == DebugLevels.Dev)
+            {
+                assetPath = DataPath;
+            }
             #endif
            
         }

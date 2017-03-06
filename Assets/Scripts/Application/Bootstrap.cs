@@ -11,6 +11,8 @@ using CatLib.API.Hash;
 using CatLib.API.Crypt;
 using CatLib.API;
 using CatLib.API.TimeQueue;
+using CatLib.API.INI;
+using CatLib.API.IO;
 
 public class EventContainerComponent : CatLib.Component
 {
@@ -68,8 +70,16 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+
+
+            IEnv env = App.Make<IEnv>();
+            IDisk disk = App.Make<IIOFactory>().Disk();
+            IINIResult result = App.Make<IINILoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "test.ini"));
+            result.Set("helloworld", "mynameisyb", "yb");
+            result.Remove("myname");
+            result.Save();
+
             IResources res = App.Make<IResources>();
-            var a = res.Load("prefab/asset6/test-prefab2");
             /*res.LoadAsync("prefab/asset6/test-prefab",(a)=>
             {
                 a.Instantiate();
@@ -91,6 +101,7 @@ public class Bootstrap : ServiceProvider
 
                 }).Delay(20).Play();
             });
+            var a = res.Load("prefab/asset6/test-prefab2");
             GameObject obj = a.Instantiate();
             GameObject.Instantiate(obj); //绕过控制克隆
             

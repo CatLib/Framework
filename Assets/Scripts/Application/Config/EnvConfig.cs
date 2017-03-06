@@ -25,7 +25,7 @@ public class EnvConfig : Configs
         {
             return new object[]
             {
-                "debug" , DebugLevels.Staging,
+                "debug" , DebugLevels.Dev,
             };
         }
     }
