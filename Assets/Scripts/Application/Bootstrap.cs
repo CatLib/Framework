@@ -71,7 +71,6 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
-
             IEnv env = App.Make<IEnv>();
             IDisk disk = App.Make<IIOFactory>().Disk();
             IINIResult result = App.Make<IINILoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "test.ini"));
