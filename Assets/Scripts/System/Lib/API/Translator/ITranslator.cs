@@ -17,29 +17,11 @@ namespace CatLib.API.Translator{
 		string Trans(string key , params string[] replace);
 
 		/// <summary>
-        /// 翻译内容
-        /// </summary>
-        /// <param name="key">键</param>
-		/// <param name="local">本次翻译的语言</param>
-		/// <param name="replace">替换翻译内容的占位符</param>
-        /// <returns></returns>
-		string Trans(string key , string local , params string[] replace);
-
-		/// <summary>
         /// 翻译内容的复数形式
         /// </summary>
         /// <param name="key">键</param>
 		/// <param name="number">数值</param>
 		/// <param name="local">本次翻译的语言</param>
-		/// <param name="replace">替换翻译内容的占位符</param>
-        /// <returns></returns>
-		string TransChoice(string key, int number, string local , params string[] replace);
-
-		/// <summary>
-        /// 翻译内容的复数形式
-        /// </summary>
-        /// <param name="key">键</param>
-		/// <param name="num">数值</param>
 		/// <param name="replace">替换翻译内容的占位符</param>
         /// <returns></returns>
 		string TransChoice(string key, int number, params string[] replace);

@@ -111,7 +111,7 @@ public class Bootstrap : ServiceProvider
                 GameObject.Destroy(obj);
 
             }).Delay(10).Play();
-
+            
             /*
             IResources res = App.Make<IResources>();
             res.LoadAsync<GameObject>("prefab/asset6/test-prefab", (obj) =>
