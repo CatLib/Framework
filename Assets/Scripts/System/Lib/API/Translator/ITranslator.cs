@@ -48,7 +48,7 @@ namespace CatLib.API.Translator{
         /// 获取默认本地语言
         /// </summary>
         /// <returns></returns>
-		string GetLocale();
+		SystemLanguage GetLocale();
 
 		/// <summary>
         /// 设定默认本地语言
