@@ -23,7 +23,7 @@ namespace CatLib.API.Translator{
 		/// <param name="local">本次翻译的语言</param>
 		/// <param name="replace">替换翻译内容的占位符</param>
         /// <returns></returns>
-		string Trans(string key , SystemLanguage local , params string[] replace);
+		string Trans(string key , string local , params string[] replace);
 
 		/// <summary>
         /// 翻译内容的复数形式
@@ -33,7 +33,7 @@ namespace CatLib.API.Translator{
 		/// <param name="local">本次翻译的语言</param>
 		/// <param name="replace">替换翻译内容的占位符</param>
         /// <returns></returns>
-		string TransChoice(string key, int number, SystemLanguage local , params string[] replace);
+		string TransChoice(string key, int number, string local , params string[] replace);
 
 		/// <summary>
         /// 翻译内容的复数形式
@@ -48,14 +48,14 @@ namespace CatLib.API.Translator{
         /// 获取默认本地语言
         /// </summary>
         /// <returns></returns>
-		SystemLanguage GetLocale();
+		string GetLocale();
 
 		/// <summary>
         /// 设定默认本地语言
         /// </summary>
 		/// <param name="local">设定默认本地语言</param>
         /// <returns></returns>
-		void SetLocale(SystemLanguage local);
+		void SetLocale(string local);
 
 	}
 
