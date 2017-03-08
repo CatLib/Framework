@@ -162,11 +162,12 @@ namespace CatLib.INI
         }
 
         protected string ParseSection(string section ,string line)
-        {
-
+        {   
+            line = line.Trim();
+            if(line.Length <= 0){ return section; }
             int start = line.IndexOf('[');
             int end = line.IndexOf(']');
-            if (start < 0){ return section; }
+            if (start != 0){ return section; }
             if (end < 0) { return section; }
             if (start == end || end < start) { return section; }
             if (start + 1 == end) { return string.Empty; }
@@ -181,7 +182,6 @@ namespace CatLib.INI
 
             string key = line.Substring(0, equal);
             string val = (equal >= line.Length) ? string.Empty : line.Substring(equal + 1, line.Length - equal - 1);
-
             Set(section, key, val);
         }
 

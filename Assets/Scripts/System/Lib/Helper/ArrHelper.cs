@@ -5,6 +5,14 @@ namespace CatLib
     public static class ArrHelper
     {
 
+        public static T[] Merge<T>(this T[] first, T[] second)
+        {
+            T[] result = new T[first.Length + second.Length];
+            first.CopyTo(result, 0);
+            second.CopyTo(result, first.Length);
+            return result;
+        }
+
         /// <summary>
         /// 数组转换至指定类型
         /// </summary>

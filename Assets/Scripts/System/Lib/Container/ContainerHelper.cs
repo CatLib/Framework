@@ -7,6 +7,11 @@ namespace CatLib
     public static class ContainerHelper
     {
 
+        public static IBindData Singleton(this IContainer container,string service , Func<IContainer, object[], object> concrete)
+        {
+            return container.Bind(service, concrete, true);
+        }
+
         public static IBindData Singleton<Service, Concrete>(this IContainer container) where Concrete : class
         {
             return container.Bind(typeof(Service).ToString(), typeof(Concrete).ToString(), true);
@@ -15,6 +20,11 @@ namespace CatLib
         public static IBindData Singleton<Service>(this IContainer container) where Service : class
         {
             return container.Bind(typeof(Service).ToString(), typeof(Service).ToString() , true);
+        }
+
+        public static IBindData Singleton<Service>(this IContainer container , Func<IContainer, object[], object> concrete) where Service : class
+        {
+            return container.Bind(typeof(Service).ToString(), concrete , true);
         }
 
         public static IBindData Bind<Service , Concrete>(this IContainer container) where Concrete : class
@@ -30,6 +40,11 @@ namespace CatLib
         public static IBindData Bind<Service>(this IContainer container , Func<IContainer, object[], object> concrete) where Service : class
         {
             return container.Bind(typeof(Service).ToString(), concrete, false);
+        }
+
+        public static IBindData Bind(this IContainer container ,string service , Func<IContainer, object[], object> concrete)
+        {
+            return container.Bind(service, concrete, false);
         }
 
         public static To Make<To>(this IContainer container)

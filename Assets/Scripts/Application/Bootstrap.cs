@@ -13,6 +13,7 @@ using CatLib.API;
 using CatLib.API.TimeQueue;
 using CatLib.API.INI;
 using CatLib.API.IO;
+using CatLib.API.Translator;
 
 public class EventContainerComponent : CatLib.Component
 {
@@ -71,12 +72,22 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
-            IEnv env = App.Make<IEnv>();
-            IDisk disk = App.Make<IIOFactory>().Disk();
-            IINIResult result = App.Make<IINILoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "test.ini"));
-            result.Set("helloworld", "mynameisyb", "yb");
-            result.Remove("myname");
-            result.Save();
+            ITranslator tran = App.Make<ITranslator>();
+            //Debug.Log(tran.Trans("test.message" , "name" , "喵喵"));
+            Debug.Log(tran.TransChoice("test.messages" , 0 , "name" , "喵喵"));
+            Debug.Log(tran.TransChoice("test.messages" , 8 , "name" , "喵喵"));
+            Debug.Log(tran.TransChoice("test.messages" , 12 , "name" , "喵喵"));
+            Debug.Log(tran.TransChoice("test.messages" , 20 , "name" , "喵喵"));
+            tran.SetLocale("en");
+            Debug.Log(tran.TransChoice("test.messages2", 1 , "name" , "喵喵"));
+
+            //IEnv env = App.Make<IEnv>();
+            //IDisk disk = App.Make<IIOFactory>().Disk();
+            //IINIResult result = App.Make<IINILoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "/lang/cn/test.ini"));
+            //result.Set("helloworld", "mynameisyb", "yb");
+            //result.Remove("myname");
+            //result.Save();
+
 
             IResources res = App.Make<IResources>();
             /*res.LoadAsync("prefab/asset6/test-prefab",(a)=>
