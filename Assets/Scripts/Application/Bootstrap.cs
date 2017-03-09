@@ -14,6 +14,8 @@ using CatLib.API.TimeQueue;
 using CatLib.API.INI;
 using CatLib.API.IO;
 using CatLib.API.Translator;
+using CatLib.API.JSON;
+using System.Collections.Generic;
 
 public class EventContainerComponent : CatLib.Component
 {
@@ -48,6 +50,21 @@ class Test
 
 }
 
+public class Foos 
+{ 
+    public int Value;
+
+    public List<Foosub> SubList;
+}
+
+public class Foosub{
+
+    public int Hello;
+
+    public bool IsTrue;
+
+}
+
 public class Bootstrap : ServiceProvider
 {
     public override void Init()
@@ -72,6 +89,27 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            IJSON json = App.Make<IJSON>();
+
+            Foos ff = new Foos();
+            ff.Value = 100;
+            ff.SubList = new List<Foosub>();
+            ff.SubList.Add(new Foosub(){ Hello = 10 , IsTrue = true});
+            ff.SubList.Add(new Foosub(){ Hello = 20 , IsTrue = true});
+            ff.SubList.Add(new Foosub(){ Hello = 30 , IsTrue = false});
+
+            Debug.Log(json.Encode(ff));
+
+            Foos f = json.Decode<Foos>(json.Encode(ff));
+            foreach(Foosub sb in f.SubList){
+
+                Debug.Log(sb.Hello);
+
+            }
+
+            //Debug.Log(f.Value);
+
+            /* 
             ITranslator tran = App.Make<ITranslator>();
             Debug.Log(tran.Trans("test.messages3" , "age:18" , "name" , "喵喵"));
             Debug.Log(tran.Trans("test.message" , "name:喵喵" , "喵喵"));
@@ -79,7 +117,7 @@ public class Bootstrap : ServiceProvider
             Debug.Log(tran.TransChoice("test.messages" , 12 , "name" , "miaomiao"));
             Debug.Log(tran.TransChoice("test.messages" , 20 , "name" , "miaomiao"));
             tran.SetLocale("en");
-            Debug.Log(tran.Trans("test.message" , "name" , "喵喵"));
+            Debug.Log(tran.Trans("test.message" , "name" , "喵喵"));*/
             
 
             //IEnv env = App.Make<IEnv>();
