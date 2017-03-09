@@ -16,6 +16,7 @@ using CatLib.TimeQueue;
 using CatLib.INI;
 using CatLib.Translation;
 using CatLib.JSON;
+using CatLib.Compress;
 
 public class Providers{
 
@@ -45,6 +46,7 @@ public class Providers{
                 typeof(INIProvider),
                 typeof(TranslationProvider),
                 typeof(JSONProvider),
+                typeof(CompressProvider),
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商
                 typeof(Bootstrap),

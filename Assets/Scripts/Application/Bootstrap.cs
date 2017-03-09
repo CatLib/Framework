@@ -15,6 +15,7 @@ using CatLib.API.INI;
 using CatLib.API.IO;
 using CatLib.API.Translator;
 using CatLib.API.JSON;
+using CatLib.API.Compress;
 using System.Collections.Generic;
 
 public class EventContainerComponent : CatLib.Component
@@ -89,6 +90,21 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            IIOFactory fac = App.Make<IIOFactory>();
+            IDisk disk = fac.Disk();
+
+            IFile file = disk.File("hello.zip");
+            ICompress comp = App.Make<ICompress>();
+            byte[] byt = comp.Compress("helloworld".ToByte());
+
+            Debug.Log(byt.Length);
+            file.Create(byt);
+
+            //byte[] debyt = comp.Expand(byt);
+
+            //Debug.Log(System.Text.Encoding.UTF8.GetString(debyt));
+
+            /* 
             IJSON json = App.Make<IJSON>();
 
             Foos ff = new Foos();
@@ -105,7 +121,7 @@ public class Bootstrap : ServiceProvider
 
                 Debug.Log(sb.Hello);
 
-            }
+            }*/
 
             //Debug.Log(f.Value);
 
