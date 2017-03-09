@@ -19,7 +19,6 @@ namespace CatLib.Translation{
 
 			segments = StripConditions(segments);
 			int pluralIndex = GetPluralIndex(locale , number);
-
 			if(segments.Length == 1 || segments.Length < pluralIndex){
 				
 				return segments[0];

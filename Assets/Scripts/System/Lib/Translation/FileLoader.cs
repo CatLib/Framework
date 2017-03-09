@@ -16,17 +16,17 @@ namespace CatLib.Translation{
 
 		}
 
-		public IFileMapping Load(string root , string locale, string file , string fallback){
+		public IFileMapping Load(string root , string locale, string file){
 
-			return LoadINIPath(root , locale , file , fallback);
+			return LoadINIPath(root , locale , file);
 			
 		}
 
-		protected IFileMapping LoadINIPath(string root , string locale, string file , string fallback){
+		protected IFileMapping LoadINIPath(string root , string locale, string file){
 
 			IFile iniFile = disk.File(root + System.IO.Path.AltDirectorySeparatorChar + locale + System.IO.Path.AltDirectorySeparatorChar + file + ".ini");
 			if(!iniFile.Exists){
-				iniFile = disk.File(root + System.IO.Path.AltDirectorySeparatorChar + fallback + System.IO.Path.AltDirectorySeparatorChar + file + ".ini");	
+				return null;
 			}
 			IINIResult result = iniLoader.Load(iniFile);
 			return new INIMapping(result);

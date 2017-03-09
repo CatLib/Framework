@@ -81,7 +81,9 @@ namespace CatLib.Translation{
         /// <returns></returns>
 		public string Trans(string key , params string[] replace){
 
-			return Get(key , replace);
+			string line = Get(locale , key , replace);
+			if(line == null){ line = Get(fallback, key , replace); }
+			return line;
 
 		}
 
@@ -122,7 +124,12 @@ namespace CatLib.Translation{
 
 		protected string Choice(string key , int number , string[] replace){
 
-			string line = Get(key , replace);
+			string locale = this.locale;
+			string line = Get(locale, key , replace);
+			if(line == null){ 
+				line = Get(fallback, key , replace); 
+				locale = fallback; 
+			}
 
 			replace = new string[]{ "count" , number.ToString() };
 
@@ -130,24 +137,22 @@ namespace CatLib.Translation{
 
 		}
 
-		protected string Get(string key, string[] replace)
+		protected string Get(string locale , string key, string[] replace)
     	{
 			//segments: file , key
 			string[] segments = ParseKey(key);
 
-			return GetLine(segments[0] , segments[1] , locale , fallback , replace);
+			return GetLine(segments[0] , segments[1] , locale , replace);
 
 		}
 
-		protected string GetLine(string file, string key , string locale , string fallback , string[] replace){
+		protected string GetLine(string file, string key , string locale , string[] replace){
 
-			Load(file , key , locale , fallback);
+			Load(file , key , locale);
 			
+			if(loaded[locale + "." + file] == null){ return null; }
+
 			string line = loaded[locale + "." + file].Get(key , null);
-			if(line == null){
-				Load(file , key , fallback , fallback);
-				line = loaded[fallback + "." + file].Get(key , string.Empty);
-			}
 
 			return MakeReplacements(line, replace);
 
@@ -158,14 +163,25 @@ namespace CatLib.Translation{
         /// </summary>
 		protected string MakeReplacements(string line , string[] replace){
 
+			if(line == null){ return null; }
 			if(replace.Length <= 0){ return line; }
-			if(replace.Length % 2 != 0){ throw new System.Exception("replace key and val is not matches"); }
-			
-			string replaceLeft , replaceRight;
-			for(int i = 0; i < replace.Length ; i += 2){
 
-				replaceLeft = replace[i];
-				replaceRight = replace[i + 1];
+			string[] tmp;
+			string replaceLeft , replaceRight;
+			for(int i = 0; i < replace.Length ;){
+
+				tmp = replace[i].Split(':');
+				if(tmp.Length == 2){
+					replaceLeft = tmp[0];
+					replaceRight = tmp[1];
+					i += 1;
+				}else{
+					if(i + 1 >= replace.Length){ break; }
+					replaceLeft = replace[i];
+					replaceRight = replace[i + 1];
+					i += 2;
+				}
+
 				line = line.Replace(":" + replaceLeft , replaceRight);
 				line = line.Replace(":" + replaceLeft.ToUpper() , replaceRight.ToUpper());
 				if(replaceRight.Length >= 1 && replaceRight.Length >= 1){
@@ -178,13 +194,13 @@ namespace CatLib.Translation{
 
 		}
 
-		protected void Load(string file, string key , string locale, string fallback){
+		protected void Load(string file, string key , string locale){
 
 			if(loaded.ContainsKey(locale + "." + file)){
 				return;
 			}
 
-			IFileMapping mapping = loader.Load(root, locale, file , fallback);
+			IFileMapping mapping = loader.Load(root, locale, file);
 			loaded.Add(locale + "." + file , mapping);	
 
 		}
