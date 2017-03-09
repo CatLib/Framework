@@ -76,7 +76,6 @@ public class Bootstrap : ServiceProvider
             Debug.Log(tran.Trans("test.messages3" , "age:18" , "name" , "喵喵"));
             Debug.Log(tran.Trans("test.message" , "name:喵喵" , "喵喵"));
             Debug.Log(tran.TransChoice("test.messages" , 0 , "name" , "喵喵"));
-            Debug.Log(tran.TransChoice("test.messages" , 8 , "name" , "喵喵"));
             Debug.Log(tran.TransChoice("test.messages" , 12 , "name" , "miaomiao"));
             Debug.Log(tran.TransChoice("test.messages" , 20 , "name" , "miaomiao"));
             tran.SetLocale("en");
