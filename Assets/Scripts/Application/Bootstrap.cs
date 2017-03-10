@@ -170,17 +170,17 @@ public class Bootstrap : ServiceProvider
 
                 }).Delay(20).Play();
             });
-            var a = res.Load("prefab/asset6/test-prefab2");
-            GameObject obj = a.Instantiate();
-            GameObject.Instantiate(obj); //绕过控制克隆
+            //var a = res.Load("prefab/asset6/test-prefab2");
+            //GameObject obj = a.Instantiate();
+            //GameObject.Instantiate(obj); //绕过控制克隆
             
-            App.Make<ITimeQueue>().Task(() =>
+            /*App.Make<ITimeQueue>().Task(() =>
             {
 
                 Debug.Log("now destroy 1 prefab");
                 GameObject.Destroy(obj);
 
-            }).Delay(10).Play();
+            }).Delay(10).Play();*/
             
             /*
             IResources res = App.Make<IResources>();

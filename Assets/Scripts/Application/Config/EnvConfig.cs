@@ -25,7 +25,7 @@ public class EnvConfig : IConfig
         {
             return new object[]
             {
-                "debug" , DebugLevels.Dev,
+                "debug" , DebugLevels.Auto,
             };
         }
     }
