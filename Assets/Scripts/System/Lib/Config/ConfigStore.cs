@@ -16,18 +16,18 @@ namespace CatLib.Config{
 
 		}
 
-		public T Get<T>(Type service, string field , T def = default(T)){
+		public T Get<T>(Type name, string field , T def = default(T)){
 
-			return Get<T>(service.ToString() , field , def);
+			return Get<T>(name.ToString() , field , def);
 
 		}
 
-		public T Get<T>(string service, string field , T def = default(T))
+		public T Get<T>(string name, string field , T def = default(T))
 		{
 
 			try{
 
-				object obj = Get(service , field , (object)def);
+				object obj = Get(name , field , (object)def);
 				if(obj == null){ return def; }
 
 				if(typeof(T) == typeof(int)){
@@ -46,30 +46,30 @@ namespace CatLib.Config{
 
 		}
 
-		public string Get(Type service , string field , string def){
+		public string Get(Type name , string field , string def){
 
-			return Get(service.ToString(), field , def);
-
-		}
-
-		public string Get(string service , string field , string def){
-
-			return Get<string>(service , field , def);
+			return Get(name.ToString(), field , def);
 
 		}
 
-		public object Get(Type service , string field , object def){
+		public string Get(string name , string field , string def){
 
-			return Get(service.ToString(), field , def);
+			return Get<string>(name , field , def);
 
 		}
 
-		public object Get(string service , string field , object def){
+		public object Get(Type name , string field , object def){
 
-			if(!configs.ContainsKey(service)){ return def; }
-			if(!configs[service].ContainsKey(field)){ return def; }
+			return Get(name.ToString(), field , def);
 
-			return configs[service][field];
+		}
+
+		public object Get(string name , string field , object def){
+
+			if(!configs.ContainsKey(name)){ return def; }
+			if(!configs[name].ContainsKey(field)){ return def; }
+
+			return configs[name][field];
 
 		}
 
@@ -80,8 +80,8 @@ namespace CatLib.Config{
 			for(int i = 0; i < types.Length ; i++){
 
 				conf = App.Make(types[i].ToString(), null) as IConfig;
-				configs.Remove(conf.Service.ToString());
-				configs.Add(conf.Service.ToString() , ParseConfig(conf));
+				configs.Remove(conf.Name.ToString());
+				configs.Add(conf.Name.ToString() , ParseConfig(conf));
 
 			}
         }

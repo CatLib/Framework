@@ -7,7 +7,7 @@ public class HashConfig : IConfig
     /// <summary>
     /// 类
     /// </summary>
-    public object Service
+    public object Name
     {
         get
         {

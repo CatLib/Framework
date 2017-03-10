@@ -2,7 +2,7 @@
 namespace CatLib.API.Config{
 	public interface IConfig{
 
-		object Service{ get; }
+		object Name{ get; }
 		
 		object[] Config { get; }
 
