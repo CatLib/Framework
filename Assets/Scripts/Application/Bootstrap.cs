@@ -93,12 +93,16 @@ public class Bootstrap : ServiceProvider
             IIOFactory fac = App.Make<IIOFactory>();
             IDisk disk = fac.Disk();
 
-            IFile file = disk.File("hello.zip");
+            IFile file = disk.File("hello.gz");
             ICompress comp = App.Make<ICompress>();
-            byte[] byt = comp.Compress("helloworld".ToByte());
+            byte[] byt = comp.Compress("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte());
 
-            Debug.Log(byt.Length);
-            file.Create(byt);
+            Debug.Log("UnCompress: "+ "helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte().Length);
+            Debug.Log("Compress: "+ byt.Length);
+            //file.Create(byt);
+
+            byt = comp.UnCompress(byt);
+            Debug.Log(System.Text.Encoding.UTF8.GetString(byt));
 
             //byte[] debyt = comp.Expand(byt);
 

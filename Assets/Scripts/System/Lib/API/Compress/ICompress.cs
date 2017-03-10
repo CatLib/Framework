@@ -3,9 +3,9 @@ namespace CatLib.API.Compress{
 
 	public interface ICompress{
 
-		byte[] Compress(byte[] bytes);
+		byte[] Compress(byte[] bytes, int level = 6);
 
-		byte[] Expand(byte[] bytes);
+		byte[] UnCompress(byte[] bytes);
 
 	}
 

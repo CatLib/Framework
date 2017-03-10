@@ -17,7 +17,7 @@ namespace CatLib.Compress{
 
 			App.Singleton<ICompressAdapter>((app , param) => {
 
-				return new ZipStorerAdapter();
+				return new ShareZipLibAdapter();
 
 			}).Alias("compress.parse");
 
