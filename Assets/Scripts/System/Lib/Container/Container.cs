@@ -34,11 +34,6 @@ namespace CatLib.Container
         /// 修饰器
         /// </summary>
         private List<Func<IContainer , IBindData, object, object>> decorator = new List<Func<IContainer , IBindData, object , object>>();
-         
-        /// <summary>
-        /// 配置信息
-        /// </summary>
-        private Dictionary<Type, Configs> config;
 
         /// <summary>
         /// 锁定器
@@ -197,24 +192,6 @@ namespace CatLib.Container
             }
         }
 
-        /// <summary>
-        /// 初始化配置
-        /// </summary>
-        protected void InitConfig()
-        {
-            config = new Dictionary<Type, Configs>();
-            Type[] types = typeof(Configs).GetChildTypes();
-            foreach (Type t in types)
-            {
-                Configs conf = Make(t.ToString(), null) as Configs;
-                if (conf == null) { continue; }
-                if (!config.ContainsKey(conf.Class))
-                {
-                    config.Add(conf.Class, conf);
-                }
-            }
-        }
-
         private object ExecDecorator(BindData bindData, object obj)
         {
             if (decorator != null)
@@ -362,22 +339,7 @@ namespace CatLib.Container
         /// <returns></returns>
         private object ResloveClassAttr(BindData bindData , Type parent, string cls)
         {
-            object obj = null;
-
-            if (cls == typeof(Configs).ToString())
-            {
-                if (config == null) { this.InitConfig(); }
-                if (config.ContainsKey(parent))
-                {
-                    obj = config[parent];
-                }
-            }
-            else
-            {
-                obj = Make(bindData.GetContextual(cls));
-            }
-
-            return obj;
+            return Make(bindData.GetContextual(cls));;
         }
 
         /// <summary>获取依赖关系</summary>
@@ -420,24 +382,7 @@ namespace CatLib.Container
         /// <returns></returns>
         private object ResloveClass(BindData bindData, Type parent, ParameterInfo info)
         {
-
-            object obj = null;
-
-            if (info.ParameterType == typeof(Configs))
-            {
-                if (config == null) { this.InitConfig(); }
-                if (config.ContainsKey(parent))
-                {
-                    obj = config[parent];
-                }
-            }
-            else
-            {
-                obj = Make(bindData.GetContextual(info.ParameterType.ToString()), null);
-            }
-
-            if (obj == null) { return info.DefaultValue; }
-            return obj;
+            return Make(bindData.GetContextual(info.ParameterType.ToString()), null);
         }
 
 

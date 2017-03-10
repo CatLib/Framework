@@ -1,16 +1,14 @@
-﻿
-using System;
-using System.Collections;
-using CatLib.API;
+﻿using System.Collections;
+using CatLib.API.Config;
 using CatLib.API.IO;
 
-public class IOConfig : Configs
+public class IOConfig : IConfig
 {
 
     /// <summary>
     /// 类
     /// </summary>
-    public override Type Class
+    public object Service
     {
         get
         {
@@ -21,7 +19,7 @@ public class IOConfig : Configs
     /// <summary>
     /// 配置
     /// </summary>
-    protected override object[] Field
+    public object[] Config
     {
         get
         {

@@ -13,8 +13,13 @@ namespace CatLib.IO
     public class IO : Component , IIOFactory
     {
 
-        [Dependency]
-        public Configs Config{ get; set; }
+        private Func<string , Hashtable> configSearch;
+
+        public void SetQuery(Func<string , Hashtable> search){
+
+            configSearch = search;
+
+        }
 
         public IDisk Disk(string name = null){
 
@@ -22,9 +27,9 @@ namespace CatLib.IO
             string service = typeof(IDisk).ToString();
             
             Hashtable cloudConfig = null;
-            if(Config != null && Config.IsExists(name)){
-                cloudConfig = Config.Get<Hashtable>(name);
-                if(cloudConfig.ContainsKey("driver")){
+            if(configSearch != null){
+                cloudConfig = configSearch(name ?? service);
+                if(cloudConfig != null && cloudConfig.ContainsKey("driver")){
                     service = cloudConfig["driver"].ToString();
                 }
             }

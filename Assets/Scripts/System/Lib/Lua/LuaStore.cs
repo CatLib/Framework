@@ -16,9 +16,6 @@ namespace CatLib.Lua
     {
 
         [Dependency]
-        public Configs Config { get; set; }
-
-        [Dependency]
         public IIOFactory IO{ get; set; }
 
         [Dependency]
@@ -55,6 +52,14 @@ namespace CatLib.Lua
         public LuaEnv LuaEnv { get { return luaEnv; } }
 
         private float lastGC = 0;
+
+        private string[] hotfixPath;
+
+        public void SetHotfixPath(string[] path){
+
+            hotfixPath = path;
+
+        }
 
         public LuaStore(){
 
@@ -96,11 +101,11 @@ namespace CatLib.Lua
             }
             #endif
 
-            if(Config == null){ yield break; }
+            if(hotfixPath == null){ yield break; }
 
             Event.Trigger(LuaEvents.ON_HOT_FIXED_START);
 
-            string[] filePaths = Config.Get<string[]>("lua.hotfix");
+            string[] filePaths = hotfixPath;
 
             IResources resources = App.Make<IResources>();
 

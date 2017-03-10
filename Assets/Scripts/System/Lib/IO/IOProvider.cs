@@ -1,4 +1,6 @@
-﻿using CatLib.API.IO;
+﻿using System.Collections;
+using CatLib.API.Config;
+using CatLib.API.IO;
 
 namespace CatLib.IO
 {
@@ -11,7 +13,16 @@ namespace CatLib.IO
 
         public override void Register()
         {
-            App.Singleton<IO>().Alias<IIOFactory>();
+            App.Singleton<IO>().Alias<IIOFactory>().Resolving((app , bind, obj)=>{
+
+                IConfigStore config = app.Make<IConfigStore>();
+                IO io = obj as IO;
+
+                io.SetQuery((name) => config.Get<Hashtable>(typeof(IO) , name , null));
+
+                return obj;
+
+            });
             App.Bind<LocalDisk>().Alias<IDisk>();
         }
 

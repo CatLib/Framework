@@ -2,6 +2,7 @@
 using CatLib.API.Lua;
 using CatLib.API.IO;
 using System;
+using CatLib.API.Config;
 
 namespace CatLib.Lua
 {
@@ -27,7 +28,16 @@ namespace CatLib.Lua
 
         public override void Register()
         {
-            App.Singleton<LuaStore>().Alias<ILua>();
+            App.Singleton<LuaStore>().Alias<ILua>().Resolving((app , bind , obj)=>{
+
+                IConfigStore config = app.Make<IConfigStore>();
+                LuaStore store = obj as LuaStore;
+
+                store.SetHotfixPath(config.Get<string[]>(typeof(LuaStore) , "lua.hotfix.path" , null));
+
+                return obj;
+
+            });
         }
     }
 }

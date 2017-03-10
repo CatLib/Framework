@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using CatLib.API;
+using CatLib.API.Config;
 using CatLib.API.INI;
 using CatLib.API.IO;
 using CatLib.API.Translator;
@@ -16,6 +17,7 @@ namespace CatLib.Translation{
 
 			App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").Resolving((app , bind , obj)=>{
 
+				IConfigStore config = app.Make<IConfigStore>();
 				Translator tran = obj as Translator;
 				
 				IFileLoader loader = app.Make("translation.loader") as IFileLoader;
@@ -24,6 +26,10 @@ namespace CatLib.Translation{
 				tran.SetFileLoader(loader);
 				tran.SetLocale("zh");
 				tran.SetSelector(selector);
+				
+				tran.SetRoot(config.Get(typeof(Translator) , "root" , null));
+				tran.SetFallback(config.Get(typeof(Translator) , "fallback" , null));
+
 				return obj;
 
 			});

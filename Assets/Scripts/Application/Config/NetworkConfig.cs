@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections;
-using CatLib;
-using CatLib.API;
+﻿using CatLib.API;
+using CatLib.API.Config;
 using CatLib.API.Network;
 using CatLib.Network;
+using System.Collections;
 
-public class NetworkConfig : Configs {
+public class NetworkConfig : IConfig {
 
     /// <summary>
     /// 类
     /// </summary>
-    public override Type Class
+    public object Service
     {
         get
         {
@@ -21,7 +20,7 @@ public class NetworkConfig : Configs {
     /// <summary>
     /// 配置
     /// </summary>
-    protected override object[] Field
+    public object[] Config
     {
         get
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Network;
@@ -12,13 +13,19 @@ namespace CatLib.Network
     public class Network : Component , IDestroy , INetworkFactory
     {
 
-        [Dependency]
-        public Configs Config { get; set; }
-
         /// <summary>
         /// 连接器
         /// </summary>
         private Dictionary<string, IConnector> connector = new Dictionary<string, IConnector>();
+
+        private Func<string , Hashtable> configSearch;
+
+        public void SetQuery(Func<string , Hashtable> search){
+
+            configSearch = search;
+
+        }
+
 
         /// <summary>
         /// 创建一个网络链接
@@ -28,10 +35,11 @@ namespace CatLib.Network
         {
             if (this.connector.ContainsKey(name)) { return (T)this.connector[name]; }
             IConnector connector = null;
-            if (Config != null && Config.IsExists(name))
+            Hashtable table = null;
+            if (configSearch != null)
             {
-                Hashtable table = Config.Get<Hashtable>(name);
-                if (table.ContainsKey("driver"))
+                table = configSearch(name);
+                if (table != null && table.ContainsKey("driver"))
                 {
                     connector = App.Make<T>(table["driver"].ToString());
                 }
@@ -41,7 +49,7 @@ namespace CatLib.Network
                 connector = App.Make<T>();
             }
             this.connector.Add(name, connector);
-            InitConnector(connector, name);
+            InitConnector(connector, name , table);
             App.StartCoroutine(connector.StartServer());
             return (T)connector;
 
@@ -87,13 +95,10 @@ namespace CatLib.Network
             connector.Clear();
         }
 
-        private void InitConnector(IConnector connector, string name)
+        private void InitConnector(IConnector connector, string name , Hashtable table)
         {
-            if(Config == null){ return; }
-            if (Config.IsExists(name))
-            {
-                connector.SetConfig(Config.Get<Hashtable>(name));
-            }   
+            if(table == null){ return; }
+            connector.SetConfig(table); 
         }
 
     }

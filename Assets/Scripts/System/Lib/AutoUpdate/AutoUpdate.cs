@@ -13,9 +13,6 @@ namespace CatLib.AutoUpdate
     {
 
         [Dependency]
-        public Configs Config { get; set; }
-
-        [Dependency]
         public IIOFactory IO { get; set; }
 
         [Dependency]
@@ -43,6 +40,36 @@ namespace CatLib.AutoUpdate
 
         protected int updateNum;
         public int UpdateNum{ get{ return updateNum; } }
+
+
+        #region Config
+
+        private string updateAPI;
+
+        public void SetUpdateAPI(string api){
+
+            if(!string.IsNullOrEmpty(api)){
+                
+                updateAPI = api;
+            
+            }
+
+        }
+
+        private string updateURL;
+
+        public void SetUpdateURL(string url){
+
+            if(!string.IsNullOrEmpty(url)){
+                
+                updateURL = url;
+            
+            }
+
+        }
+
+        #endregion
+
 
         public IEnumerator UpdateAsset()
         {
@@ -73,12 +100,9 @@ namespace CatLib.AutoUpdate
 
             string resUrl = string.Empty;
 
-            if(Config == null){ yield break; }
+            if(updateAPI != null){
 
-            if(Config.IsExists("update.api")){
-
-                string apiUrl = Config.Get<string>("update.api");
-                UnityWebRequest request = UnityWebRequest.Get(apiUrl);
+                UnityWebRequest request = UnityWebRequest.Get(updateAPI);
                 yield return request.Send();
                 if (!request.isError && request.responseCode == 200)
                 {
@@ -89,9 +113,9 @@ namespace CatLib.AutoUpdate
 
             if(resUrl == string.Empty){
 
-                if(Config.IsExists("update.url")){
+                if(updateURL != null){
 
-                    resUrl = Config.Get<string>("update.url");
+                    resUrl = updateURL;
                 
                 }else{
 

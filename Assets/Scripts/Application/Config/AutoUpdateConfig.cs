@@ -1,13 +1,13 @@
 ﻿using System;
-using CatLib.API;
+using CatLib.API.Config;
 using CatLib.AutoUpdate;
 
-public class AutoUpdateConfig : Configs{
+public class AutoUpdateConfig : IConfig{
 
     /// <summary>
     /// 类
     /// </summary>
-	public override Type Class
+	public object Service
     {
         get
         {
@@ -18,7 +18,7 @@ public class AutoUpdateConfig : Configs{
     /// <summary>
     /// 配置
     /// </summary>
-    protected override object[] Field
+    public object[] Config
     {
         get
         {

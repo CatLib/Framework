@@ -22,32 +22,16 @@ namespace CatLib.Resources {
         [Dependency]
         public IEnv Env { get; set; }
 
-        private Configs config;
+        public void SetHosted(string service){
 
-        [Dependency]
-        public Configs Config
-        {
-            get
+            if (!string.IsNullOrEmpty(service))
             {
-                return config;
-            }set
+                resourcesHosted = App.Make<IResourcesHosted>(service);
+            }else
             {
-                config = value;
-                if (config != null)
-                {
-                    string hosted = config.Get<object>("hosted").ToString();
-                    if (!string.IsNullOrEmpty(hosted))
-                    {
-                        resourcesHosted = App.Make<IResourcesHosted>(hosted);
-                    }else
-                    {
-                        resourcesHosted = null;
-                    }
-                }else
-                {
-                    resourcesHosted = App.Make<IResourcesHosted>(typeof(IResourcesHosted).ToString());
-                }
+                resourcesHosted = null;
             }
+
         }
 
         private Dictionary<System.Type, string> extensionDict = new Dictionary<System.Type, string>();

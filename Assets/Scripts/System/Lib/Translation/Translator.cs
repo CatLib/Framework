@@ -42,16 +42,24 @@ namespace CatLib.Translation{
         /// </summary>
     	protected Dictionary<string , string[]> parsed;
 
-		protected Configs config;
-		[Dependency]
-		public Configs Config{
-			set{
-				config = value;
-				if(config != null){
-					root = config.Get<string>("root" , string.Empty);
-					fallback = config.Get<string>("fallback" , string.Empty);
-				}
+		public void SetRoot(string root){
+
+			if(!string.IsNullOrEmpty(root)){
+
+				this.root = root;
+
 			}
+
+		}
+
+		public void SetFallback(string fallback){
+
+			if(!string.IsNullOrEmpty(fallback)){
+
+				this.fallback = fallback;
+				
+			}
+
 		}
 
 		public Translator(){

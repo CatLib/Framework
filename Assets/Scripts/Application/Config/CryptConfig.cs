@@ -1,14 +1,13 @@
-﻿using CatLib.API;
-using CatLib.Crypt;
-using System;
+﻿using CatLib.Crypt;
+using CatLib.API.Config;
 
-public class CryptConfig : Configs
+public class CryptConfig : IConfig
 {
 
     /// <summary>
     /// 类
     /// </summary>
-    public override Type Class
+    public object Service
     {
         get
         {
@@ -19,7 +18,7 @@ public class CryptConfig : Configs
     /// <summary>
     /// 配置
     /// </summary>
-    protected override object[] Field
+    public object[] Config
     {
         get
         {

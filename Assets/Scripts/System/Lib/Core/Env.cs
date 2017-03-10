@@ -12,18 +12,6 @@ namespace CatLib
     public class Env : IEnv
     {
 
-        private Configs config;
-        [Dependency]
-        public Configs Config
-        {
-            get { return config; }
-            set
-            {
-                config = value;
-                Init(config);
-            }
-        }
-
         /// <summary>
         /// 调试等级
         /// </summary>
@@ -94,6 +82,18 @@ namespace CatLib
 
             get
             {
+
+                #if UNITY_EDITOR
+                if (DebugLevel == DebugLevels.Staging)
+                {
+                    return DataPath + ReleasePath + Path.AltDirectorySeparatorChar + PlatformToName(SwitchPlatform);
+                }
+                if(DebugLevel == DebugLevels.Auto || DebugLevel == DebugLevels.Dev)
+                {
+                    return DataPath;
+                }
+                #endif
+
                 return assetPath;
             }
 
@@ -162,22 +162,17 @@ namespace CatLib
 
 		}
 
-        /// <summary>
-        /// 初始化配置
-        /// </summary>
-        /// <param name="config"></param>
-        protected void Init(Configs config)
-        {
+        #region Config
 
-            if (config != null)
-            {
-                DebugLevel = config.Get<DebugLevels>("debug" , DebugLevels.Auto);
-                releasePath = config.Get<string>("release.path", "Release");
-                resourcesBuildPath = config.Get<string>("build.asset.path" , "Assets/AssetBundle");
-                resourcesNoBuildPath = config.Get<string>("nobuild.asset.path" , "Assets/NotAssetBundle");
-                assetPath = config.Get<string>("asset.path" , "Assets");
-            }
-    
+        public void SetDebugLevel(DebugLevels level){
+
+            DebugLevel = level;
+
+        }
+
+        public void SetReleasePath(string path){
+
+            releasePath = path;
             if (string.IsNullOrEmpty(releasePath))
             {
                 releasePath = Path.AltDirectorySeparatorChar + "Release";
@@ -187,6 +182,11 @@ namespace CatLib
                 releasePath = Path.AltDirectorySeparatorChar + releasePath;
             }
 
+        }
+
+        public void SetResourcesBuildPath(string path){
+
+            resourcesBuildPath = path;
             if (string.IsNullOrEmpty(resourcesBuildPath))
             {
                 resourcesBuildPath = Path.AltDirectorySeparatorChar + "Assets/AssetBundle";
@@ -195,6 +195,12 @@ namespace CatLib
             {
                 resourcesBuildPath = Path.AltDirectorySeparatorChar + resourcesBuildPath;
             }
+
+        }
+
+        public void SetResourcesNoBuildPath(string path){
+
+            resourcesNoBuildPath = path;
 
             if (string.IsNullOrEmpty(resourcesNoBuildPath))
             {
@@ -205,28 +211,24 @@ namespace CatLib
                 resourcesNoBuildPath = Path.AltDirectorySeparatorChar + resourcesNoBuildPath;
             }
 
+        }
+
+        public void SetAssetPath(string path){
+
+            assetPath = path;
+
             if (string.IsNullOrEmpty(assetPath))
             {
-                assetPath = PersistentDataPath;
+                assetPath = PersistentDataPath + Path.AltDirectorySeparatorChar + "Assets";
             }
             else
             {
                 assetPath = PersistentDataPath + Path.AltDirectorySeparatorChar + assetPath;
             }
 
-            #if UNITY_EDITOR
-            if (DebugLevel == DebugLevels.Staging)
-            {
-                assetPath = DataPath + ReleasePath + Path.AltDirectorySeparatorChar + PlatformToName(SwitchPlatform);
-            }
-            if(DebugLevel == DebugLevels.Auto || DebugLevel == DebugLevels.Dev)
-            {
-                assetPath = DataPath;
-            }
-            #endif
-           
         }
 
+        #endregion
 
     }
 

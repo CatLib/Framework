@@ -1,15 +1,13 @@
-﻿
-using System;
-using CatLib.API;
+﻿using CatLib.API.Config;
 using CatLib.Lua;
 
-public class LuaConfig : Configs
+public class LuaConfig : IConfig
 {
 
     /// <summary>
     /// 类
     /// </summary>
-    public override Type Class
+    public object Service
     {
         get
         {
@@ -20,7 +18,7 @@ public class LuaConfig : Configs
     /// <summary>
     /// 配置
     /// </summary>
-    protected override object[] Field
+    public object[] Config
     {
         get
         {

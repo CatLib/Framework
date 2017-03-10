@@ -1,14 +1,13 @@
-﻿using CatLib.API;
-using CatLib.Hash;
-using System;
+﻿using CatLib.Hash;
+using CatLib.API.Config;
 
-public class HashConfig : Configs
+public class HashConfig : IConfig
 {
 
     /// <summary>
     /// 类
     /// </summary>
-    public override Type Class
+    public object Service
     {
         get
         {
@@ -19,7 +18,7 @@ public class HashConfig : Configs
     /// <summary>
     /// 配置
     /// </summary>
-    protected override object[] Field
+    public object[] Config
     {
         get
         {

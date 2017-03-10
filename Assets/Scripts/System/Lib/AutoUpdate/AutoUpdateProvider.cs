@@ -2,6 +2,7 @@
 using CatLib.API.AutoUpdate;
 using System;
 using System.Collections;
+using CatLib.API.Config;
 
 namespace CatLib.AutoUpdate
 {
@@ -28,7 +29,17 @@ namespace CatLib.AutoUpdate
 
         public override void Register()
         {
-            App.Singleton<AutoUpdate>().Alias<IAutoUpdate>();
+            App.Singleton<AutoUpdate>().Alias<IAutoUpdate>().Resolving((app , bind , obj)=>{
+                
+                IConfigStore config = app.Make<IConfigStore>();
+                AutoUpdate autoupdate = obj as AutoUpdate;
+
+                autoupdate.SetUpdateAPI(config.Get(typeof(AutoUpdate) , "update.api" , null));
+                autoupdate.SetUpdateURL(config.Get(typeof(AutoUpdate) , "update.url" , null));
+
+                return obj;
+
+            });
         }
 
     }

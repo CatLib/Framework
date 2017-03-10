@@ -1,6 +1,7 @@
 ﻿using CatLib.API.IO;
 using CatLib.API.Resources;
 using System;
+using CatLib.API.Config;
 
 namespace CatLib.Resources
 {
@@ -17,7 +18,21 @@ namespace CatLib.Resources
         {
             App.Singleton<ResourcesHosted>().Alias<IResourcesHosted>();
             App.Singleton<AssetBundleLoader>().Alias<IAssetBundle>();
-            App.Singleton<Resources>().Alias<IResources>();
+            App.Singleton<Resources>().Alias<IResources>().Resolving((app , bind, obj)=>{
+
+                IConfigStore config = app.Make<IConfigStore>();
+                Resources resources = obj as Resources;
+
+                string service = config.Get<string>(typeof(Resources) , "hosted" , typeof(IResourcesHosted).ToString());
+                if(!string.IsNullOrEmpty(service)){
+
+                    resources.SetHosted(service);
+
+                }
+
+                return obj;
+
+            });
         }
 
     }

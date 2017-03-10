@@ -1,13 +1,12 @@
-﻿using System;
-using CatLib.API;
+﻿using CatLib.API.Config;
 using CatLib.Translation;
 
-public class TransConfig : Configs {
+public class TransConfig : IConfig {
 
 	/// <summary>
     /// 类
     /// </summary>
-    public override Type Class
+    public object Service
     {
         get
         {
@@ -18,7 +17,7 @@ public class TransConfig : Configs {
     /// <summary>
     /// 配置
     /// </summary>
-    protected override object[] Field
+    public object[] Config
     {
         get
         {
