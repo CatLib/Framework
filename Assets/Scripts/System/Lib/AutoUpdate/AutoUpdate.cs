@@ -157,7 +157,7 @@ namespace CatLib.AutoUpdate
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
 
-            var fileStore = new UpdateFileStore();
+            var fileStore = App.Make<UpdateFileStore>();
             var newLst = fileStore.LoadFromBytes(request.downloadHandler.data);
             var oldLst = new UpdateFile(); //fileStore.LoadFromPath(Env.AssetPath);
 
@@ -210,7 +210,6 @@ namespace CatLib.AutoUpdate
                                      .Trigger();
                     file.Delete();
                 }
-
             }
 
             yield return null;
@@ -223,7 +222,6 @@ namespace CatLib.AutoUpdate
 
         protected IEnumerator UpdateAssetFromUrl(UpdateFile needUpdateLst, string downloadUrl)
         {
-
             updateNum = 0;
             needUpdateNum = needUpdateLst.Count;
             string savePath, downloadPath, saveDir;
@@ -232,8 +230,8 @@ namespace CatLib.AutoUpdate
                                      .Trigger();
             foreach (UpdateFileField field in needUpdateLst)
             {
-                downloadPath = downloadUrl + field.Path;
-                savePath = Env.AssetPath + field.Path;
+                downloadPath = downloadUrl + System.IO.Path.AltDirectorySeparatorChar + field.Path;
+                savePath = Env.AssetPath + System.IO.Path.AltDirectorySeparatorChar + field.Path;
 
                 saveDir = savePath.Substring(0, savePath.LastIndexOf(Path.AltDirectorySeparatorChar));
 

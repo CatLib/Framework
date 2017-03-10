@@ -108,7 +108,7 @@ public class Bootstrap : ServiceProvider
 
             //Debug.Log(System.Text.Encoding.UTF8.GetString(debyt));
 
-            /* 
+            
             IJSON json = App.Make<IJSON>();
 
             Foos ff = new Foos();
@@ -125,11 +125,11 @@ public class Bootstrap : ServiceProvider
 
                 Debug.Log(sb.Hello);
 
-            }*/
+            }
 
             //Debug.Log(f.Value);
 
-            /* 
+            
             ITranslator tran = App.Make<ITranslator>();
             Debug.Log(tran.Trans("test.messages3" , "age:18" , "name" , "喵喵"));
             Debug.Log(tran.Trans("test.message" , "name:喵喵" , "喵喵"));
@@ -137,7 +137,7 @@ public class Bootstrap : ServiceProvider
             Debug.Log(tran.TransChoice("test.messages" , 12 , "name" , "miaomiao"));
             Debug.Log(tran.TransChoice("test.messages" , 20 , "name" , "miaomiao"));
             tran.SetLocale("en");
-            Debug.Log(tran.Trans("test.message" , "name" , "喵喵"));*/
+            Debug.Log(tran.Trans("test.message" , "name" , "喵喵"));
             
 
             //IEnv env = App.Make<IEnv>();
@@ -280,7 +280,7 @@ public class Bootstrap : ServiceProvider
 
                         }).Delay(9).Start();*/
 
-            /*
+            
             App.On(HttpRequestEvents.ON_MESSAGE + typeof(IConnectorHttp).ToString(), (obj1, obj2) =>
             {
 
@@ -349,19 +349,20 @@ public class Bootstrap : ServiceProvider
             IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("tcp.frame");
             tcpConnect2.Connect();
             tcpConnect2.Send("hello this is tcp msg with [frame]".ToByte());
-            
+            /* 
             IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.text");
             udpConnect.Connect();
             udpConnect.Send("hello this is udp msg with [text]".ToByte());
             
+            
             IConnectorUdp udpConnectFrame = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.frame");
             udpConnectFrame.Connect();
-            udpConnectFrame.Send("hello this is udp msg with [frame]".ToByte());
+            udpConnectFrame.Send("hello this is udp msg with [frame]".ToByte());*/
            
             
             IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
-            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);*/
+            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
 
 
         });

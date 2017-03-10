@@ -8,6 +8,8 @@ namespace CatLib.Translation{
 
 		public string Choose(string line , int number, string locale){
 
+			if(line == null){ return string.Empty; }
+
 			string[] segments = line.Split('|');
 			
 			string val;
