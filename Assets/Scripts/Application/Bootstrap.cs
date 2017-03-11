@@ -55,6 +55,8 @@ public class Foos
 { 
     public int Value;
 
+    public object Value2;
+
     public List<Foosub> SubList;
 }
 
@@ -113,6 +115,7 @@ public class Bootstrap : ServiceProvider
 
             Foos ff = new Foos();
             ff.Value = 100;
+            ff.Value2 = "123";
             ff.SubList = new List<Foosub>();
             ff.SubList.Add(new Foosub(){ Hello = 10 , IsTrue = true});
             ff.SubList.Add(new Foosub(){ Hello = 20 , IsTrue = true});
@@ -121,6 +124,7 @@ public class Bootstrap : ServiceProvider
             Debug.Log(json.Encode(ff));
 
             Foos f = json.Decode<Foos>(json.Encode(ff));
+            Debug.Log(f.Value2);
             foreach(Foosub sb in f.SubList){
 
                 Debug.Log(sb.Hello);
