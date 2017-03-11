@@ -24,13 +24,13 @@ namespace CatLib.Translation{
 				ISelector selector = app.Make("translation.selector") as ISelector;
 
 				tran.SetFileLoader(loader);
-				tran.SetLocale("zh");
 				tran.SetSelector(selector);
-				
-				tran.SetRoot(config.Get(typeof(Translator) , "root" , null));
+
+                tran.SetLocale(config.Get(typeof(Translator), "default", "zh"));
+                tran.SetRoot(config.Get(typeof(Translator) , "root" , null));
 				tran.SetFallback(config.Get(typeof(Translator) , "fallback" , null));
 
-				return obj;
+                return obj;
 
 			});
 		}
