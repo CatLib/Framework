@@ -1,6 +1,6 @@
-﻿using CatLib.API.JSON;
+﻿using CatLib.API.Json;
 
-namespace CatLib.JSON{
+namespace CatLib.Json{
 
 	public class JSONProvider : ServiceProvider {
 
@@ -8,13 +8,13 @@ namespace CatLib.JSON{
 		{
 
 			RegisterParse();
-			App.Singleton<JSON>().Alias<IJSON>().Alias("json");
+			App.Singleton<Json>().Alias<IJson>().Alias("json");
 
 		}
 
 		protected void RegisterParse(){
 
-			App.Singleton<IJSONAdapter>((app , param) => {
+			App.Singleton<IJsonAdapter>((app , param) => {
 
 				return new TinyJsonAdapter();
 

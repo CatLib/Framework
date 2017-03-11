@@ -15,7 +15,7 @@ using CatLib.Hash;
 using CatLib.TimeQueue;
 using CatLib.INI;
 using CatLib.Translation;
-using CatLib.JSON;
+using CatLib.Json;
 using CatLib.Compress;
 using CatLib.Config;
 

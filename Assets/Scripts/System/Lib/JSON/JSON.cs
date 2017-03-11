@@ -1,12 +1,12 @@
-﻿using CatLib.API.JSON;
+﻿using CatLib.API.Json;
 
-namespace CatLib.JSON{
+namespace CatLib.Json{
 
-    public class JSON : IJSON {
+    public class Json : IJson {
 
-        private IJSONAdapter jsonParse;
+        private IJsonAdapter jsonParse;
 
-        public JSON(IJSONAdapter adapter){
+        public Json(IJsonAdapter adapter){
 
             jsonParse = adapter;
 

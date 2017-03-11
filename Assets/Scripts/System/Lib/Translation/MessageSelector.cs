@@ -60,7 +60,7 @@ namespace CatLib.Translation{
 
 			if(condition.Contains(",")){
 				string[] fromTo = condition.Split(new char[]{ ',' } , 2);
-				 if (fromTo[1] == "*" && number >= int.Parse(fromTo[0])) {
+				if (fromTo[1] == "*" && number >= int.Parse(fromTo[0])) {
 					return val;
 				} else if (fromTo[0] == "*" && number <= int.Parse(fromTo[1])) {
 					return val;

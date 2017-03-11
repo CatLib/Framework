@@ -1,8 +1,8 @@
 ﻿
 
-namespace CatLib.JSON{
+namespace CatLib.Json{
 
-	public interface IJSONAdapter{
+	public interface IJsonAdapter{
 
 		T Decode<T>(string json);
 

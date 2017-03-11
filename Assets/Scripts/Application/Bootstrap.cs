@@ -14,7 +14,7 @@ using CatLib.API.TimeQueue;
 using CatLib.API.INI;
 using CatLib.API.IO;
 using CatLib.API.Translator;
-using CatLib.API.JSON;
+using CatLib.API.Json;
 using CatLib.API.Compress;
 using System.Collections.Generic;
 
@@ -109,7 +109,7 @@ public class Bootstrap : ServiceProvider
             //Debug.Log(System.Text.Encoding.UTF8.GetString(debyt));
 
             
-            IJSON json = App.Make<IJSON>();
+            IJson json = App.Make<IJson>();
 
             Foos ff = new Foos();
             ff.Value = 100;
@@ -131,8 +131,9 @@ public class Bootstrap : ServiceProvider
 
             
             ITranslator tran = App.Make<ITranslator>();
-            Debug.Log(tran.Trans("test.messages3" , "age:18" , "name" , "喵喵"));
-            Debug.Log(tran.Trans("test.message" , "name:喵喵" , "喵喵"));
+            Debug.Log(tran.Trans("test.messages3"));
+            Debug.Log(tran.Trans("test.messages3" , "age:18" , "name" , "anny"));
+            Debug.Log(tran.Trans("test.message" , "name:anny"));
             Debug.Log(tran.TransChoice("test.messages" , 0 , "name" , "喵喵"));
             Debug.Log(tran.TransChoice("test.messages" , 12 , "name" , "miaomiao"));
             Debug.Log(tran.TransChoice("test.messages" , 20 , "name" , "miaomiao"));

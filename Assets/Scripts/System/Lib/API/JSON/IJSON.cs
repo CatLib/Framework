@@ -1,7 +1,7 @@
 ﻿
-namespace CatLib.API.JSON{
+namespace CatLib.API.Json{
 
-	public interface IJSON {
+	public interface IJson {
 		
 		T Decode<T>(string json);
 

@@ -1,8 +1,8 @@
 ﻿
 using TinyJson;
 
-namespace CatLib.JSON{
-	public class TinyJsonAdapter : IJSONAdapter {
+namespace CatLib.Json{
+	public class TinyJsonAdapter : IJsonAdapter {
 
 		public T Decode<T>(string json){
 
