@@ -11,9 +11,5 @@ namespace CatLib.API.AutoUpdate
 
         IEnumerator UpdateAsset();
 
-        int NeedUpdateNum{ get; }
-
-        int UpdateNum{ get;}
-
     }
 }

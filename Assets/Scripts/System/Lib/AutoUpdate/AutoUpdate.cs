@@ -35,12 +35,6 @@ namespace CatLib.AutoUpdate
 
         protected bool isUpdate;
 
-        protected int needUpdateNum;
-        public int NeedUpdateNum{ get{ return needUpdateNum; } }
-
-        protected int updateNum;
-        public int UpdateNum{ get{ return updateNum; } }
-
 
         #region Config
 
@@ -146,7 +140,7 @@ namespace CatLib.AutoUpdate
             yield return request.Send();
             if (request.isError || request.responseCode != 200)
             {
-                this.isUpdate = false;
+                isUpdate = false;
                 App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_LIST_FAILED)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
@@ -222,26 +216,33 @@ namespace CatLib.AutoUpdate
 
         protected IEnumerator UpdateAssetFromUrl(UpdateFile needUpdateLst, string downloadUrl)
         {
-            updateNum = 0;
-            needUpdateNum = needUpdateLst.Count;
+
             string savePath, downloadPath, saveDir;
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_START)
-                                     .SetEventLevel(EventLevel.Global)
-                                     .Trigger();
+
+            int i = 0;
+            string[] updatePath = new string[needUpdateLst.Count];
             foreach (UpdateFileField field in needUpdateLst)
             {
-                downloadPath = downloadUrl + System.IO.Path.AltDirectorySeparatorChar + field.Path;
-                savePath = Env.AssetPath + System.IO.Path.AltDirectorySeparatorChar + field.Path;
+                updatePath[i++] = field.Path;
+            }
+
+            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_START)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger(new UpdateFileStartEventArgs(updatePath));
+
+            for(i = 0; i < updatePath.Length; i++)
+            {
+
+                downloadPath = downloadUrl + Path.AltDirectorySeparatorChar + updatePath[i];
+                savePath = Env.AssetPath + Path.AltDirectorySeparatorChar + updatePath[i];
 
                 saveDir = savePath.Substring(0, savePath.LastIndexOf(Path.AltDirectorySeparatorChar));
 
-                updateNum++;
-                App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_ACTION)
-                                     .SetEventLevel(EventLevel.Global)
-                                     .Trigger();
-
                 using (UnityWebRequest request = UnityWebRequest.Get(downloadPath))
                 {
+                    App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_ACTION)
+                                     .SetEventLevel(EventLevel.Global)
+                                     .Trigger(new UpdateFileActionEventArgs(updatePath[i], request));
                     yield return request.Send();
                     if (request.isError || request.responseCode != 200)
                     {
