@@ -8,7 +8,13 @@ namespace CatLib.Protobuf
     {
         public override void Register()
         {
+            RegisterProtobufAdapter();
             App.Singleton<Protobuf>().Alias<IProtobuf>().Alias("protobuf");
+        }
+
+        protected void RegisterProtobufAdapter()
+        {
+            App.Singleton<ProtobufNetAdapter>().Alias<IProtobufAdapter>();
         }
     }
 

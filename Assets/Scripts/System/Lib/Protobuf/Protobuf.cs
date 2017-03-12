@@ -8,24 +8,16 @@ namespace CatLib.Protobuf
     public class Protobuf : IProtobuf
     {
 
+        private IProtobufAdapter protoParse;
+
+        public Protobuf(IProtobufAdapter adapter)
+        {
+            protoParse = adapter;
+        }
+
         public byte[] Serializers<T>(T proto)
         {
-            if (proto == null) { return null; }
-            try
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    ProtoBuf.Serializer.Serialize<T>(ms, proto);
-                    byte[] result = new byte[ms.Length];
-                    ms.Position = 0;
-                    ms.Read(result, 0, result.Length);
-                    return result;
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return protoParse.Serializers<T>(proto);
         }
 
         public T UnSerializers<T>(byte[] data)
@@ -35,11 +27,7 @@ namespace CatLib.Protobuf
 
         public object UnSerializers(byte[] data , Type type)
         {
-            using (MemoryStream memoryStream = new MemoryStream(data))
-            {
-                object proto = ProtoBuf.Serializer.Deserialize(type , memoryStream);
-                return proto;
-            }
+            return protoParse.UnSerializers(data , type);
         }
 
         

@@ -15,7 +15,7 @@ namespace CatLib.Protobuf
 
         public static string Arguments = "-i:{in} -o:{out}";
 
-        [MenuItem("CatLib/Protobuf Builder/Build Protobuf", false, 5)]
+        [MenuItem("CatLib/Protobuf Builder/Build", false, 5)]
         public static void BuildProtobuf()
         {
             IEnv env = App.Instance.Make<IEnv>();
