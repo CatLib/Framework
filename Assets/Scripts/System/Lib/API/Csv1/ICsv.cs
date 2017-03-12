@@ -1,11 +1,11 @@
 ﻿
-namespace CatLib.API.CSV{
+namespace CatLib.API.Csv{
 
 	
 	/// <summary>
 	/// CSV管理器接口
 	/// </summary>
-	public interface ICSV {
+	public interface ICsv {
 
 
 		/// <summary>
@@ -16,7 +16,7 @@ namespace CatLib.API.CSV{
 		/// <summary>
         /// 获取一个CSV表
         /// </summary>
-		ICSVTable Get(string table);
+		ICsvTable Get(string table);
 
 	}
 

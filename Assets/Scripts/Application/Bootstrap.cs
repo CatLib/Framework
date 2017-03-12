@@ -18,6 +18,7 @@ using CatLib.API.Json;
 using CatLib.API.Compress;
 using System.Collections.Generic;
 using CatLib.API.Protobuf;
+using CatLib.API.Csv;
 using ProtoBuf;
 
 public class EventContainerComponent : CatLib.Component
@@ -93,6 +94,18 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+
+
+            ICsvParser csvParser = App.Make<ICsvParser>();
+
+            string[][] parser = csvParser.Parser("id,\"na ,  me  \",  hash\r\n1,29,abcdefg\r\n");
+
+            foreach(string[] s in parser)
+            {
+
+                Debug.Log(s[0] + "," + s[1] + "," + s[2]);
+
+            }
 
 
             IProtobuf protobuf = App.Make<IProtobuf>();

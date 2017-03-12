@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace CatLib.API.CSV{
+namespace CatLib.API.Csv{
 
-	public interface ICSVField{
+	public interface ICsvField{
 
 		/// <summary>
 		/// 获取指定字段的内容

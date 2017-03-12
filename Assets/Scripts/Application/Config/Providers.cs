@@ -19,6 +19,7 @@ using CatLib.Json;
 using CatLib.Compress;
 using CatLib.Config;
 using CatLib.Protobuf;
+using CatLib.Csv;
 
 public class Providers{
 
@@ -51,6 +52,7 @@ public class Providers{
                 typeof(CompressProvider),
                 typeof(ConfigProvider),
                 typeof(ProtobufProvider),
+                typeof(CsvProvider),
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商
                 typeof(Bootstrap),
