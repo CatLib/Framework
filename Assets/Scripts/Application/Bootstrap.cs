@@ -17,6 +17,8 @@ using CatLib.API.Translator;
 using CatLib.API.Json;
 using CatLib.API.Compress;
 using System.Collections.Generic;
+using CatLib.API.Protobuf;
+using ProtoBuf;
 
 public class EventContainerComponent : CatLib.Component
 {
@@ -91,6 +93,31 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+
+
+            IProtobuf protobuf = App.Make<IProtobuf>();
+
+            var person = new TestProto.Person
+            {
+                Id = 12345,
+                Name = "Fred",
+                Address = new TestProto.Address
+                {
+                    Line1 = "Flat 1",
+                    Line2 = "The Meadows"
+                }
+            };
+
+            byte[] data = protobuf.Serializers(person);
+
+            Debug.Log(data.Length);
+
+            var p = protobuf.UnSerializers<TestProto.Person>(data);
+
+            Debug.Log(p.Name);
+
+
+
 
             IIOFactory fac = App.Make<IIOFactory>();
             IDisk disk = fac.Disk();
