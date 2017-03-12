@@ -98,7 +98,7 @@ public class Bootstrap : ServiceProvider
 
             ICsvParser csvParser = App.Make<ICsvParser>();
 
-            string[][] parser = csvParser.Parser("id,\"na ,  me  \",  hash\r\n1,29,abcdefg\r\n");
+            string[][] parser = csvParser.Parser("id,\"na,me\r\n  \",  hash\r\n1,29,abcdefg\r\n");
 
             foreach(string[] s in parser)
             {

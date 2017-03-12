@@ -22,7 +22,7 @@ namespace CatLib.Csv
             var cols = new List<string>();
             while (isContinue)
             {
-                content = NextToken(reader , out isContinue);
+                content = NextBlock(reader , out isContinue);
 
                 if (content != null)
                 {
@@ -32,7 +32,7 @@ namespace CatLib.Csv
             return cols.ToArray();
         }
 
-        private string NextToken(StringReader reader , out bool isContinue)
+        private string NextBlock(StringReader reader , out bool isContinue)
         {
 
             string result = string.Empty;
