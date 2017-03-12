@@ -1,8 +1,8 @@
-<p align="center"><img src="http://catlib.io/style/logo.png"></p>
+<p align="center"><img width="173" height="57" src="http://catlib.io/style/logo.png"></p>
 
 <p align="center">
-<a href="https://github.com/yb199478/CatLib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.png" title="license-mit" /></a>
-<a href="https://github.com/yb199478/catlib/pulls"><img src="https://img.shields.io/badge/PRs-welcome-blue.png" title="pull request welcome" /></a>
+<a href="https://github.com/yb199478/CatLib/blob/master/LICENSE"><img src="http://catlib.io/style/license.svg" title="license-mit" /></a>
+<a href="https://github.com/yb199478/catlib/pulls"><img src="https://img.shields.io/badge/PRs-welcome-blue.svg" title="pull request welcome" /></a>
 <a href="http://catlib.io"><img src="https://img.shields.io/website-up-down-green-red/http/shields.io.svg" title="CatLib文档" /></a>
 </p>
 
