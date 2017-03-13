@@ -8,11 +8,6 @@ public class RFC4180Options{
     public char QuoteChar { get; set; }
     
     /// <summary>
-    /// 转义字符
-    /// </summary>
-    public char EscapeChar { get; set; }
-
-    /// <summary>
     /// 分隔符
     /// </summary>
     public char DelimiterChar { get; set; }
@@ -20,7 +15,6 @@ public class RFC4180Options{
     public RFC4180Options()
     {
         QuoteChar = '"';
-        EscapeChar = '\\';
         DelimiterChar = ',';
     }
 

@@ -15,6 +15,9 @@ namespace CatLib.Csv
             this.options = options;
         }
 
+        /// <summary>
+        /// 解析内容
+        /// </summary>
         public string[] Parse(StringReader reader)
         {
             bool isContinue = true;
@@ -32,6 +35,12 @@ namespace CatLib.Csv
             return cols.ToArray();
         }
 
+        /// <summary>
+        /// 下一个区块
+        /// </summary>
+        /// <param name="reader">字符串</param>
+        /// <param name="isContinue">是否继续循环</param>
+        /// <returns></returns>
         private string NextBlock(StringReader reader , out bool isContinue)
         {
 
@@ -39,12 +48,12 @@ namespace CatLib.Csv
 
             int c = reader.Peek();
 
-            //分隔符
             if (c == options.DelimiterChar)
             {
+                //如果没有内容则返回空
                 reader.Read();
                 isContinue = true;
-                return null;
+                return string.Empty;
             }
             else
             {
@@ -92,7 +101,6 @@ namespace CatLib.Csv
                     return result;
                 }
 
-
             }
         }
 
@@ -103,21 +111,26 @@ namespace CatLib.Csv
         /// <returns></returns>
         private string ReadQuoted(StringReader reader)
         {
+            //去除第1个引用标记
             reader.Read();
 
+            //读取到第2个引用标记的内容
             string result = ReadTo(reader , options.QuoteChar);
 
+            //去除第2个引用标记
             reader.Read();
 
             if (reader.Peek() != options.QuoteChar)
             {
+                //不是引用标记则直接返回
                 return result;
             }
 
+            //如果连续引用则说明引用转义
             StringBuilder buffer = new StringBuilder(result);
             do
             {
-
+                //一直循环直到没有引用转义的内容
                 buffer.Append((char)reader.Read());
                 buffer.Append(ReadTo(reader, options.QuoteChar));
                 reader.Read();
@@ -127,16 +140,32 @@ namespace CatLib.Csv
             return buffer.ToString();
         }
 
+        /// <summary>
+        /// 是否是分隔符
+        /// </summary>
+        /// <param name="c">字符</param>
+        /// <returns></returns>
         private bool IsDelimiter(int c)
         {
             return c == options.DelimiterChar;
         }
 
+        /// <summary>
+        /// 是否是结束位置
+        /// </summary>
+        /// <param name="c">字符</param>
+        /// <returns></returns>
         private bool IsEndOfStream(int c)
         {
             return c == -1;
         }
 
+        /// <summary>
+        /// 读取到指定字符位置
+        /// </summary>
+        /// <param name="reader">字符流</param>
+        /// <param name="readTo">字符</param>
+        /// <returns></returns>
         private string ReadTo(StringReader reader, char readTo)
         {
             StringBuilder buffer = new StringBuilder();

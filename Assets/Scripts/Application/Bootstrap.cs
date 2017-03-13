@@ -95,18 +95,35 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            IEnv env = App.Make<IEnv>();
+            IIOFactory fac = App.Make<IIOFactory>();
+            IDisk disk = fac.Disk();
+
+            IFile fff = disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "csv" + System.IO.Path.AltDirectorySeparatorChar + "csv.csv");
+
+            string ssss = System.Text.Encoding.UTF8.GetString(fff.Read());
+            
+            /* 
+            string[] ss2 = ssss.Split(new string[]{ System.Environment.NewLine}, System.StringSplitOptions.RemoveEmptyEntries );
+            
+            foreach(var ss in ss2){
+            Debug.Log(ss);
+            }
+
+            return;*/
 
             ICsvParser csvParser = App.Make<ICsvParser>();
 
-            string[][] parser = csvParser.Parser("id,\"na,me\r\n  \",  hash\r\n1,29,abcdefg\r\n");
+            string[][] parser = csvParser.Parser(ssss);
 
             foreach(string[] s in parser)
             {
 
-                Debug.Log(s[0] + "," + s[1] + "," + s[2]);
+                Debug.Log(s[0] + "|" + s[1] + "|" + s[2]);
 
             }
 
+            return;
 
             IProtobuf protobuf = App.Make<IProtobuf>();
 
@@ -128,12 +145,6 @@ public class Bootstrap : ServiceProvider
             var p = protobuf.UnSerializers<TestProto.Person>(data);
 
             Debug.Log(p.Name);
-
-
-
-
-            IIOFactory fac = App.Make<IIOFactory>();
-            IDisk disk = fac.Disk();
 
             IFile file = disk.File("hello.gz");
             ICompress comp = App.Make<ICompress>();

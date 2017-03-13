@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using CatLib.API.Csv;
-using System.IO;
-using System.Text;
 
 namespace CatLib.Csv
 {
@@ -44,22 +42,8 @@ namespace CatLib.Csv
         /// <returns></returns>
         protected string[] ParseLine(string data)
         {
-            /*
             List<string> lst = new List<string>();
-            StringReader sr = new StringReader(data);
-            string line;
-            while (true)
-            {
-                line = NextLine(sr);
-
-                lst.Add(line);
-
-            }*/
-
-
-
-            List<string> lst = new List<string>();
-            string[] lines = data.Split(new string[]{ "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = data.Split(new string[]{ System.Environment.NewLine }, System.StringSplitOptions.RemoveEmptyEntries);
             
             for(int i = 0; i < lines.Length; i++)
             {
@@ -71,61 +55,6 @@ namespace CatLib.Csv
             }
             return lst.ToArray();
         }
-
-        /*
-        protected string NextLine(StringReader reader)
-        {
-
-            string result = string.Empty;
-
-            int c = reader.Peek();
-
-            if (c == '"')
-            {
-                result += ReadQuoted(reader);
-            }
-            else
-            {
-                result += c;
-            }
-
-        }
-
-        private string ReadQuoted(StringReader reader)
-        {
-            reader.Read();
-
-            string result = ReadTo(reader, '"');
-
-            reader.Read();
-
-            if (reader.Peek() != '"')
-            {
-                return result;
-            }
-
-            StringBuilder buffer = new StringBuilder(result);
-            do
-            {
-
-                buffer.Append((char)reader.Read());
-                buffer.Append(ReadTo(reader, '"'));
-                reader.Read();
-
-            } while (reader.Peek() == '"');
-
-            return buffer.ToString();
-        }
-
-        private string ReadTo(StringReader reader, char readTo)
-        {
-            StringBuilder buffer = new StringBuilder();
-            while (reader.Peek() != -1 && reader.Peek() != readTo)
-            {
-                buffer.Append((char)reader.Read());
-            }
-            return buffer.ToString();
-        }*/
 
     }
 
