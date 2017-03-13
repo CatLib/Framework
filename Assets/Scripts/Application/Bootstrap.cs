@@ -120,7 +120,12 @@ public class Bootstrap : ServiceProvider
             IDataTableFactory dataTable = App.Make<IDataTableFactory>();
             IDataTable table = dataTable.Make(parser);
 
-            foreach(var v in table.Where("tag", "=", "小兔子").Get()){
+            foreach(var v in table.Where((selector)=>
+            {
+
+                selector.Where("name", "=", "小兔子").OrWhere("tag", "<", "3");
+
+            }).Where("tag", ">", "4").Get()){
 
                 Debug.Log(v["name"]);
 

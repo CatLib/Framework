@@ -13,11 +13,6 @@ namespace CatLib.API.Csv{
         /// </summary>
 		void Reload();
 
-		/// <summary>
-        /// 获取一个CSV表
-        /// </summary>
-		ICsvTable Get(string table);
-
 	}
 
 }
