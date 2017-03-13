@@ -16,6 +16,7 @@ using CatLib.API.IO;
 using CatLib.API.Translator;
 using CatLib.API.Json;
 using CatLib.API.Compress;
+using CatLib.API.DataTable;
 using System.Collections.Generic;
 using CatLib.API.Protobuf;
 using CatLib.API.Csv;
@@ -99,7 +100,7 @@ public class Bootstrap : ServiceProvider
             IIOFactory fac = App.Make<IIOFactory>();
             IDisk disk = fac.Disk();
 
-            IFile fff = disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "csv" + System.IO.Path.AltDirectorySeparatorChar + "csv.csv");
+            IFile fff = disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "csv" + System.IO.Path.AltDirectorySeparatorChar + "csv2.csv");
 
             string ssss = System.Text.Encoding.UTF8.GetString(fff.Read());
             
@@ -115,6 +116,18 @@ public class Bootstrap : ServiceProvider
             ICsvParser csvParser = App.Make<ICsvParser>();
 
             string[][] parser = csvParser.Parser(ssss);
+
+            IDataTableFactory dataTable = App.Make<IDataTableFactory>();
+            IDataTable table = dataTable.Make(parser);
+
+            foreach(var v in table.Where("tag", "=", "小兔子").Get()){
+
+                Debug.Log(v["name"]);
+
+            }
+
+            return;
+
 
             foreach(string[] s in parser)
             {
