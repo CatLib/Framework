@@ -213,6 +213,16 @@ namespace CatLib.IO
         }
 
         /// <summary>
+        /// 获取文件夹内的文件
+        /// </summary>
+        /// <returns></returns>
+        public IFile File(string path){
+
+            return disk.File(this.path + System.IO.Path.AltDirectorySeparatorChar + path , PathTypes.Absolute);
+
+        }
+
+        /// <summary>
         /// 子文件夹是否存在
         /// </summary>
         /// <param name="directoryPath"></param>

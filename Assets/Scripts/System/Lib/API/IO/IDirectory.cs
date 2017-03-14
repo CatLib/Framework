@@ -28,6 +28,8 @@ namespace CatLib.API.IO
         IDirectory Create(string directoryPath);
 
         IDirectory CopyTo(string targetDirectroy);
+        
+        IFile File(string path);
 
         IFile[] GetFiles(SearchOption option = SearchOption.TopDirectoryOnly);
 

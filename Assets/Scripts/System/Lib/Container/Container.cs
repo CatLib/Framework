@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
-using CatLib.API;
 using CatLib.API.Container;
 
 namespace CatLib.Container
@@ -145,6 +144,11 @@ namespace CatLib.Container
                 return NormalMake(service, true, param);
             }
         }
+
+        /// <summary>
+        /// 构造服务
+        /// </summary>
+        public object this[string service]{ get{ return Make(service); } }
 
         /// <summary>添加到静态内容</summary>
         /// <param name="type">类型</param>

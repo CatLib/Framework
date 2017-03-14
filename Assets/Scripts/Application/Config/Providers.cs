@@ -20,6 +20,7 @@ using CatLib.Compress;
 using CatLib.Config;
 using CatLib.Protobuf;
 using CatLib.Csv;
+using CatLib.CsvStore;
 using CatLib.DataTable;
 
 public class Providers{
@@ -53,7 +54,8 @@ public class Providers{
                 typeof(CompressProvider),
                 typeof(ConfigProvider),
                 typeof(ProtobufProvider),
-                typeof(CsvProvider),
+                typeof(CsvParserProvider),
+                typeof(CsvStoreProvider),
                 typeof(DataTableProvider),
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商

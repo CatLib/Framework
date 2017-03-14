@@ -20,6 +20,7 @@ using CatLib.API.DataTable;
 using System.Collections.Generic;
 using CatLib.API.Protobuf;
 using CatLib.API.Csv;
+using CatLib.API.CsvStore;
 using ProtoBuf;
 
 public class EventContainerComponent : CatLib.Component
@@ -95,6 +96,20 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+
+            ICsvStore csvStore = App.Make<ICsvStore>();
+
+            foreach(var v in csvStore["csv2"].Where((selector)=>
+                            {
+                                selector.Where("name", "=", "小兔子").OrWhere("tag", "<", "3");
+                            }).Where("tag", "<", "1000").Get()){
+
+                Debug.Log(v["name"]);
+
+            }
+
+            return;
+
 
             IEnv env = App.Make<IEnv>();
             IIOFactory fac = App.Make<IIOFactory>();

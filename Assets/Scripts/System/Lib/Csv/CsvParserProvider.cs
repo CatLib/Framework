@@ -7,7 +7,7 @@ namespace CatLib.Csv
     /// <summary>
     /// Csv服务提供商
     /// </summary>
-    public class CsvProvider : ServiceProvider
+    public class CsvParserProvider : ServiceProvider
     {
 
         public override void Register()

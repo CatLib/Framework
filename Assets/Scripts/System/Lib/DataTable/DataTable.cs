@@ -111,6 +111,18 @@ namespace CatLib.DataTable{
 		}
 
 		/// <summary>
+		/// 根据下标获取一个结果集
+		/// </summary>
+		public IDataTableResult Get(int index){
+
+			if(dataTableResult.Count <= index){
+				return null;
+			}
+			return dataTableResult[index];
+
+		}
+
+		/// <summary>
 		/// 执行一个查询获取结果集
 		/// </summary>
 		private IDataTableResult[] Parser(){

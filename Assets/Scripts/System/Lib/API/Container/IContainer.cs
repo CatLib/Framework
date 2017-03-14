@@ -36,6 +36,11 @@ namespace CatLib.API.Container
         object Make(string service, params object[] param);
 
         /// <summary>
+        /// 生成一个绑定服务
+        /// </summary>
+		object this[string service]{ get; }
+
+        /// <summary>
         /// 别名
         /// </summary>
         /// <param name="alias">别名</param>
