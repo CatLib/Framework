@@ -177,7 +177,6 @@ namespace CatLib.DataTable{
 
 				case "==":
 				case "=": return row[wheres.Field] == wheres.Value;
-
 				case "<": return int.Parse(row[wheres.Field]) < int.Parse(wheres.Value);
 				case ">": return int.Parse(row[wheres.Field]) > int.Parse(wheres.Value);
 				case "<=": return int.Parse(row[wheres.Field]) <= int.Parse(wheres.Value);

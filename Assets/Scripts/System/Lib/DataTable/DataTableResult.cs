@@ -17,7 +17,7 @@ namespace CatLib.DataTable{
 		}
 
 		public string Get(string field){
-
+			
 			int index = table.GetIndex(field);
 			if(index == -1){ return null; }
 			return row[index];

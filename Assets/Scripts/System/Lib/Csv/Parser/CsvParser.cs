@@ -43,6 +43,7 @@ namespace CatLib.Csv
         protected string[] ParseLine(string data)
         {
             List<string> lst = new List<string>();
+            data = data.Replace("\r\n" , System.Environment.NewLine);
             string[] lines = data.Split(new string[]{ System.Environment.NewLine }, System.StringSplitOptions.RemoveEmptyEntries);
             
             for(int i = 0; i < lines.Length; i++)

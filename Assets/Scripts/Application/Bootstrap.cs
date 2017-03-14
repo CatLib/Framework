@@ -117,6 +117,15 @@ public class Bootstrap : ServiceProvider
 
             string[][] parser = csvParser.Parser(ssss);
 
+            /* 
+            foreach(var v in parser){
+
+                Debug.Log(v[0] + "|" + v[1] + "|" + v[2]);
+
+            }*/
+            
+            
+
             IDataTableFactory dataTable = App.Make<IDataTableFactory>();
             IDataTable table = dataTable.Make(parser);
 
@@ -125,7 +134,7 @@ public class Bootstrap : ServiceProvider
 
                 selector.Where("name", "=", "小兔子").OrWhere("tag", "<", "3");
 
-            }).Where("tag", ">", "4").Get()){
+            }).Where("tag", "<", "1000").Get()){
 
                 Debug.Log(v["name"]);
 
