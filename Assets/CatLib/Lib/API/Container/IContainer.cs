@@ -1,13 +1,24 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using XLua;
+﻿using System;
 
 namespace CatLib.API.Container
 {
 	///<summary>容器接口</summary>
     public interface IContainer
     {
+
+        /// <summary>
+        /// 给定的服务是否被绑定
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <returns></returns>
+        bool HasBind(string service);
+
+        /// <summary>
+        /// 给定的服务是否是一个静态服务
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <returns></returns>
+        bool IsStatic(string service);
 
         /// <summary>
         /// 绑定一个服务
@@ -26,6 +37,40 @@ namespace CatLib.API.Container
         /// <param name="isStatic">服务是否是静态的</param>
         /// <returns></returns>
         IBindData Bind(string service, string concrete, bool isStatic);
+
+
+        /// <summary>
+        /// 如果服务不存在那么绑定
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <param name="concrete">服务实体</param>
+        /// <param name="isStatic">服务是否是静态的</param>
+        /// <returns></returns>
+        IBindData BindIf(string service, Func<IContainer, object[], object> concrete, bool isStatic);
+
+        /// <summary>
+        /// 如果服务不存在那么绑定
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <param name="concrete">服务实体</param>
+        /// <param name="isStatic">服务是否是静态的</param>
+        /// <returns></returns>
+        IBindData BindIf(string service, string concrete, bool isStatic);
+
+        /// <summary>
+        /// 手动注册服务实例
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="instance"></param>
+        void Instance(string service, object instance);
+
+        /// <summary>
+        /// 以依赖注入形式调用一个方法
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="method"></param>
+        /// <param name="param"></param>
+        void Call(object instance , string method, params object[] param);
 
         /// <summary>
         /// 生成一个绑定服务

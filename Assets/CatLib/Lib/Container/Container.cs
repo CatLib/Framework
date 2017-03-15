@@ -54,17 +54,32 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 是否拥有依赖的服务
+        /// 是否已经绑定了给定名字的服务
         /// </summary>
-        /// <param name="service"></param>
+        /// <param name="service">服务名</param>
         /// <returns></returns>
-        protected bool HasDepend(string service)
+        public bool HasBind(string service)
         {
-            if(binds.ContainsKey(service) || alias.ContainsKey(service))
+            service = Normalize(service);
+            if (binds.ContainsKey(service) || alias.ContainsKey(service))
             {
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// 给定的服务是否是一个静态服务
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <returns></returns>
+        public bool IsStatic(string service)
+        {
+            if (!HasBind(service)) { return false; }
+
+            service = Normalize(service);
+            service = GetAlias(service);
+            return binds[service].IsStatic;
         }
 
         /// <summary>
@@ -84,6 +99,42 @@ namespace CatLib.Container
                 this.alias.Add(alias, service);
             }
             return this;
+        }
+
+        /// <summary>
+        /// 如果服务不存在那么绑定
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <param name="concrete">服务实体</param>
+        /// <param name="isStatic">服务是否是静态的</param>
+        /// <returns></returns>
+        public IBindData BindIf(string service, Func<IContainer, object[], object> concrete, bool isStatic)
+        {
+            if (!HasBind(service))
+            {
+                return Bind(service, concrete, isStatic);
+            }
+            service = Normalize(service);
+            service = GetAlias(service);
+            return binds[service];
+        }
+
+        /// <summary>
+        /// 如果服务不存在那么绑定
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <param name="concrete">服务实体</param>
+        /// <param name="isStatic">服务是否是静态的</param>
+        /// <returns></returns>
+        public IBindData BindIf(string service, string concrete, bool isStatic)
+        {
+            if (!HasBind(service))
+            {
+                return Bind(service, concrete, isStatic);
+            }
+            service = Normalize(service);
+            service = GetAlias(service);
+            return binds[service];
         }
 
         /// <summary>
@@ -130,6 +181,17 @@ namespace CatLib.Container
         }
 
         /// <summary>
+        /// 以依赖注入形式调用一个方法
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="method"></param>
+        /// <param name="param"></param>
+        public void Call(object instance, string method, params object[] param)
+        {
+            //todo:
+        }
+
+        /// <summary>
         /// 构造服务
         /// </summary>
         /// <param name="service">服务名或别名</param>
@@ -154,7 +216,7 @@ namespace CatLib.Container
         /// <param name="type">类型</param>
         /// <param name="alias">别名</param>
         /// <param name="objectData">实体数据</param>
-        public void Instances(string service, object objectData)
+        public void Instance(string service, object objectData)
         {
             if (objectData == null) { return; }
 
@@ -228,7 +290,7 @@ namespace CatLib.Container
 
                 if (bindData.IsStatic)
                 {
-                    Instances(service, objectData);
+                    Instance(service, objectData);
                 }
             }
 

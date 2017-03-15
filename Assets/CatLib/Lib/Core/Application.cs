@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
 using CatLib.API.Event;
-using CatLib.API.Exception;
 using CatLib.API.Time;
 
 namespace CatLib
@@ -182,7 +181,7 @@ namespace CatLib
             process = StartProcess.OnBootstrap;
 
             App.Instance = this;
-            Instances(typeof(Application).ToString(), this);
+            Instance(typeof(Application).ToString(), this);
             Alias(typeof(IApplication).ToString(), typeof(Application).ToString());
             Alias(typeof(App).ToString(), typeof(Application).ToString());
 
@@ -220,7 +219,7 @@ namespace CatLib
                 foreach (Type type in provider.ProviderDepend)
                 {
 
-                    if (!HasDepend(type.ToString()))
+                    if (!HasBind(type.ToString()))
                     {
                         throw new Exception("service provider [" + provider.GetType().ToString() + "] depend service provider [" + type.ToString() + "]");
                     }

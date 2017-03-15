@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using XLua;
-using System.Net;
-using CatLib.Network;
 
 namespace CatLib.API.Network
 {

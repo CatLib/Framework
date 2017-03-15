@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using XLua;
+﻿using System;
 
 namespace CatLib.API.Container
 {
