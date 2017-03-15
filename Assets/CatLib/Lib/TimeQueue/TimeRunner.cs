@@ -49,6 +49,7 @@ namespace CatLib.TimeQueue {
 
         public void Update()
         {
+            if (timeRuner.Count <= 0){ return; }
             timeRunnerLocker.EnterWriteLock();
             try
             {

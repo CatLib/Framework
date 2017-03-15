@@ -97,6 +97,35 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            ITimeQueue queue = App.Make<ITimeQueue>();
+
+            queue.Task(() =>
+            {
+                Debug.Log("time queue complete");
+            }).Delay(3).Loop(5).Delay(5).Loop(()=>{
+
+                return Random.Range(0,100) > 10;
+            
+            }).OnComplete(()=>{
+                Debug.Log("query complete");  
+            }).Play();
+
+            FThread.Instance.Task(() =>
+            {
+                if(queue.Replay()){
+  
+                    Debug.Log("reset complete!");
+
+                }else{
+
+                    throw new System.Exception("faild");
+
+                }
+            }).Delay(5).Start();
+            
+            return;
+
+
             ICsvStore csvStore = App.Make<ICsvStore>();
 
             foreach(var v in csvStore["csv2"].Where((selector)=>

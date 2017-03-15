@@ -33,7 +33,7 @@ namespace CatLib.TimeQueue
         {
             TimeTask timeTask = new TimeTask(this)
             {
-                ActionTask = task
+                TaskCall = task
             };
             return timeTask;
         }
@@ -42,7 +42,7 @@ namespace CatLib.TimeQueue
         {
             TimeTask timeTask = new TimeTask(this)
             {
-                ActionTaskWithContext = task
+                TaskCallWithContext = task
             };
             return timeTask;
         }
@@ -103,81 +103,160 @@ namespace CatLib.TimeQueue
             {
                 task = queueTasks[i];
                 task.IsComplete = false;
-                task.WaitDelayTime = 0;
-                task.WaitLoopTime = 0;
-            }
-        }
-
-        protected void CallTask(TimeTask task)
-        {
-            if (task.ActionTask != null)
-            {
-                task.ActionTask();
-            }
-            if (task.ActionTaskWithContext != null)
-            {
-                task.ActionTaskWithContext(context);
+                task.Reset();
             }
         }
 
         public void Update()
         {
+
             bool isAllComplete = true;
+            float deltaTime = App.Time.DeltaTime;
+            bool jumpFlag;
             for (int i = 0; i < queueTasks.Count; ++i)
             {
-                var task = queueTasks[i];
-                if (task.IsComplete) { continue; }
+
+                if (queueTasks[i].IsComplete) { continue; }
                 
                 isAllComplete = false;
+                jumpFlag = false;
+                
+                while(queueTasks[i].TimeLineIndex < queueTasks[i].TimeLine.Count){
 
-                if (task.DelayTime > 0 && task.WaitDelayTime < task.DelayTime)
-                {
-                    task.WaitDelayTime += App.Time.DeltaTime;
-                    break;
+                    if(!RunTask(queueTasks[i] , ref deltaTime)){
+                        
+                        jumpFlag = true;
+                        break;
+
+                    }
+
                 }
 
-                if (task.loopStatusFunc == null)
-                {
-                    if (task.LoopTime > 0 && task.WaitLoopTime < task.LoopTime)
-                    {
-                        CallTask(task);
-                        task.WaitLoopTime += App.Time.DeltaTime;
-                        break;
-                    }else if(task.LoopTime <= 0)
-                    {
-                        CallTask(task);
-                    }
-                }else
-                {
-                    if (task.loopStatusFunc.Invoke())
-                    {
-                        CallTask(task);
-                        break;
-                    }
-                }
-                task.IsComplete = true;
-                if (task.TaskOnComplete != null)
-                {
-                    task.TaskOnComplete.Invoke();
-                }
-                if (task.TaskOnCompleteWithContext != null)
-                {
-                    task.TaskOnCompleteWithContext.Invoke(context);
-                }
+                if(jumpFlag){ break; }
+                if(deltaTime <= 0){ break; }
+
+                CallTaskComplete(queueTasks[i]);
+
             }
 
-            if (isAllComplete)
+            if (isAllComplete){ QueueComplete(); }
+
+        }
+
+        protected bool RunTask(TimeTask task , ref float deltaTime){
+
+            TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
+
+            switch(action.Type){
+
+                case TimeTaskActionTypes.DelayTime: return TaskDelayTime(task , ref deltaTime);
+                case TimeTaskActionTypes.LoopFunc:  return TaskLoopFunc(task , ref deltaTime);
+                case TimeTaskActionTypes.LoopTime:  return TaskLoopTime(task , ref deltaTime);
+                default: return true;
+
+            }
+
+        }
+
+        protected bool TaskDelayTime(TimeTask task , ref float deltaTime){
+
+            TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
+
+            if (action.FloatArgs[0] > 0 && action.FloatArgs[1] < action.FloatArgs[0])
             {
-                if(queueOnComplete != null)
-                {
-                    queueOnComplete.Invoke();
+                action.FloatArgs[1] += deltaTime;
+
+                if(action.FloatArgs[1] >= action.FloatArgs[0]){
+                    
+                    deltaTime = action.FloatArgs[1] - action.FloatArgs[0];
+                    task.TimeLineIndex++;
+                    CallTask(task);
+                    return true;
+
                 }
-                if(queueOnCompleteWithContext != null)
-                {
-                    queueOnCompleteWithContext.Invoke(context);
-                }
-                IsComplete = true;
             }
+
+            return false;
+
+        }
+
+        protected bool TaskLoopFunc(TimeTask task , ref float deltaTime){
+
+            TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
+
+            if(!action.FuncBoolArg()){
+
+                task.TimeLineIndex++;
+                return true;
+
+            }
+
+            CallTask(task);
+            return false;
+
+        }
+
+        protected bool TaskLoopTime(TimeTask task , ref float deltaTime)
+        {
+
+            TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
+
+            if (action.FloatArgs[0] > 0 && action.FloatArgs[1] < action.FloatArgs[0])
+            {
+                action.FloatArgs[1] += deltaTime;
+
+                if(action.FloatArgs[1] >= action.FloatArgs[0]){
+                    
+                    deltaTime = action.FloatArgs[1] - action.FloatArgs[0];
+                    task.TimeLineIndex++;
+                    return true;
+
+                }
+            }
+
+            CallTask(task);
+            return false;
+
+        }
+
+        protected void CallTaskComplete(TimeTask task){
+
+            task.IsComplete = true;
+            if (task.OnCompleteTask != null)
+            {
+                task.OnCompleteTask.Invoke();
+            }
+            if (task.OnCompleteTaskWithContext != null)
+            {
+                task.OnCompleteTaskWithContext.Invoke(context);
+            }
+
+        }
+
+        protected void CallTask(TimeTask task)
+        {
+            if (task.TaskCall != null)
+            {
+                task.TaskCall.Invoke();
+            }
+            if (task.TaskCallWithContext != null)
+            {
+                task.TaskCallWithContext.Invoke(context);
+            }
+        }
+
+        protected void QueueComplete(){
+
+            if(queueOnComplete != null)
+            {
+                queueOnComplete.Invoke();
+            }
+            if(queueOnCompleteWithContext != null)
+            {
+                queueOnCompleteWithContext.Invoke(context);
+            }
+            IsComplete = true;
+
         }
 
     }

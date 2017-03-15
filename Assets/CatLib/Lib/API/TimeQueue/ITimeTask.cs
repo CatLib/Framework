@@ -14,8 +14,6 @@ namespace CatLib.API.TimeQueue
 
         ITimeTask Loop(float time);
 
-        ITimeTask Loop(Func<float> loopFunc);
-
         ITimeTask Loop(Func<bool> loopFunc);
 
         ITimeTask OnComplete(Action onComplete);

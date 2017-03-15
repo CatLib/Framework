@@ -1,5 +1,6 @@
 ﻿using CatLib.API.TimeQueue;
 using System;
+using System.Collections.Generic;
 
 namespace CatLib.TimeQueue
 {
@@ -9,66 +10,64 @@ namespace CatLib.TimeQueue
 
         private TimeQueue queue;
 
-        public Action ActionTask { get; set; }
+        private List<TimeTaskAction> timeLine = new List<TimeTaskAction>();
 
-        public Action<object> ActionTaskWithContext { get; set; }
+        public List<TimeTaskAction> TimeLine{ get{ return timeLine; } }
 
-        public float DelayTime { get; private set; }
+        public Action TaskCall { get; set; }
 
-        public float WaitDelayTime { get; set; }
+        public Action<object> TaskCallWithContext { get; set; }
 
-        public float LoopTime { get; private set; }
+        public Action OnCompleteTask { get; set; }
 
-        public float WaitLoopTime { get; set; }
-
-        public Action TaskOnComplete { get; set; }
-
-        public Action<object> TaskOnCompleteWithContext { get; set; }
-
-        public Func<bool> loopStatusFunc { get; set; }
+        public Action<object> OnCompleteTaskWithContext { get; set; }
 
         public bool IsComplete { get; set; }
 
-        private Func<float> loopDurationFunc;
+        public int TimeLineIndex{ get; set; }
 
         public TimeTask(TimeQueue queue)
         {
             this.queue = queue;
+            TimeLineIndex = 0;
         }
 
         public ITimeTask Delay(float time)
         {
-            DelayTime = time;
+            timeLine.Add(new TimeTaskAction(){
+                Type = TimeTaskActionTypes.DelayTime,
+                FloatArgs = new float[]{ time , 0 }
+            });
             return this;
         }
 
         public ITimeTask Loop(float time)
         {
-            LoopTime = time;
-            return this;
-        }
-
-        public ITimeTask Loop(Func<float> loopFunc)
-        {
-            loopDurationFunc = loopFunc;
+            timeLine.Add(new TimeTaskAction(){
+                Type = TimeTaskActionTypes.LoopTime,
+                FloatArgs = new float[]{ time , 0 }
+            });
             return this;
         }
 
         public ITimeTask Loop(Func<bool> loopFunc)
         {
-            loopStatusFunc = loopFunc;
+            timeLine.Add(new TimeTaskAction(){
+                Type = TimeTaskActionTypes.LoopFunc,
+                FuncBoolArg = loopFunc
+            });
             return this;
         }
 
         public ITimeTask OnComplete(Action onComplete)
         {
-            TaskOnComplete = onComplete;
+            OnCompleteTask = onComplete;
             return this;
         }
 
         public ITimeTask OnComplete(Action<object> onComplete)
         {
-            TaskOnCompleteWithContext = onComplete;
+            OnCompleteTaskWithContext = onComplete;
             return this;
         }
 
@@ -86,15 +85,11 @@ namespace CatLib.TimeQueue
 
         public ITimeTaskHandler Push()
         {
-            if(loopDurationFunc != null)
-            {
-                LoopTime = loopDurationFunc.Invoke();
-            }
             return queue.Push(this);
         }
 
-        public ITimeQueue Play(){
-
+        public ITimeQueue Play()
+        {
             Push();
             queue.Play();
             return queue;
@@ -103,6 +98,27 @@ namespace CatLib.TimeQueue
         public void Cancel()
         {
             queue.Cancel(this);
+        }
+
+        public void Reset(){
+
+            for(int i = 0 ; i < TimeLine.Count ; i++){
+
+                switch(TimeLine[i].Type){
+
+                    case TimeTaskActionTypes.DelayTime: 
+                    case TimeTaskActionTypes.LoopTime:
+                        TimeLine[i].FloatArgs[1] = 0; 
+                        break;
+                    default: break;
+                    
+
+                }
+
+            }
+
+            TimeLineIndex = 0;
+
         }
     }
 
