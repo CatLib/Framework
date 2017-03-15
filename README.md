@@ -18,6 +18,7 @@ CatLib是为Unity3D开发的全栈开发框架，我们通过集成常见的开�
 - 项目 [国际化](http://catlib.io/?page=catlib.translation.translator).
 - [时间库](http://catlib.io/?page=catlib.time-queue.time-queue).
 - [Json](http://catlib.io/?page=catlib.json.json), [Protobuf](http://catlib.io/?page=catlib.protobuf.protobuf)等主流协议的解析支持
+- [加密](http://catlib.io/?page=catlib.crypt.crypt), [哈希](http://catlib.io/?page=catlib.hash.hash), [压缩](http://catlib.io/?page=catlib.compress.compress)
 
 ## 学习CatLib
 
