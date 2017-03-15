@@ -11,7 +11,7 @@ namespace CatLib.Protobuf
         /// <summary>
         /// 编译工具路径
         /// </summary>
-        public static string GenToolPath = UnityEngine.Application.dataPath + "/Scripts/System/Lib/Protobuf/Editor/Gen/";
+        public static string GenToolPath = UnityEngine.Application.dataPath + "/CaLib/Lib/Protobuf/Editor/Gen/";
 
         public static string Arguments = "-i:{in} -o:{out}";
 
