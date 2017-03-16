@@ -7,6 +7,13 @@ namespace CatLib.API.Container
     {
 
         /// <summary>
+        /// 获取服务的绑定数据
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <returns></returns>
+        IBindData GetBind(string service);
+
+        /// <summary>
         /// 给定的服务是否被绑定
         /// </summary>
         /// <param name="service">服务名</param>
@@ -70,7 +77,7 @@ namespace CatLib.API.Container
         /// <param name="instance"></param>
         /// <param name="method"></param>
         /// <param name="param"></param>
-        void Call(object instance , string method, params object[] param);
+        object Call(object instance , string method, params object[] param);
 
         /// <summary>
         /// 生成一个绑定服务
