@@ -24,6 +24,11 @@ namespace CatLib.Container
         ///</summary>
         private Dictionary<string, string> alias = new Dictionary<string, string>();
 
+        /// <summary>
+        /// 标记
+        /// </summary>
+        private Dictionary<string, List<string>> tags = new Dictionary<string, List<string>>();
+
         ///<summary>
         /// 类型字典
         ///</summary>
@@ -50,6 +55,38 @@ namespace CatLib.Container
                     }
                 }
             }
+
+        }
+
+        /// <summary>
+        /// 为一个及以上的服务定义一个标记
+        /// </summary>
+        /// <param name="tag">标记名</param>
+        /// <param name="service">服务名</param>
+        public void Tag(string tag , params string[] service)
+        {
+            if (service.Length <= 0) { return; }
+            if (!tags.ContainsKey(tag)) { tags.Add(tag, new List<string>()); }
+            tags[tag].AddRange(service);
+        }
+
+        /// <summary>
+        /// 根据标记名生成对应的所有服务
+        /// </summary>
+        /// <param name="tag">标记名</param>
+        /// <returns></returns>
+        public object[] Tagged(string tag)
+        {
+            if (!tags.ContainsKey(tag)){ return new object[] { }; }
+
+            List<object> result = new List<object>();
+
+            for (int i = 0; i < tags[tag].Count; ++i)
+            {
+                result.Add(Make(tags[tag][i]));
+            }
+
+            return result.ToArray(); 
 
         }
 

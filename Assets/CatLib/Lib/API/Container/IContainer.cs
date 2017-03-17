@@ -65,6 +65,20 @@ namespace CatLib.API.Container
         IBindData BindIf(string service, string concrete, bool isStatic);
 
         /// <summary>
+        /// 为一个及以上的服务定义一个标记
+        /// </summary>
+        /// <param name="tag">标记名</param>
+        /// <param name="service">服务名</param>
+        void Tag(string tag, params string[] service);
+
+        /// <summary>
+        /// 根据标记名生成对应的所有服务
+        /// </summary>
+        /// <param name="tag">标记名</param>
+        /// <returns></returns>
+        object[] Tagged(string tag);
+
+        /// <summary>
         /// 手动注册服务实例
         /// </summary>
         /// <param name="service"></param>

@@ -96,7 +96,7 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
-
+     
             ITimeQueue queue = App.Make<ITimeQueue>();
 
             Debug.Log(Time.frameCount);
