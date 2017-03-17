@@ -6,9 +6,13 @@ namespace CatLib.TimeQueue{
 
 		DelayTime,
 
+		DelayFrame,
+
 		LoopTime,
 
 		LoopFunc,
+		
+		LoopFrame,
 
 	}
 

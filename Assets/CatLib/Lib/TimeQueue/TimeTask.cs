@@ -32,6 +32,16 @@ namespace CatLib.TimeQueue
             TimeLineIndex = 0;
         }
 
+        public ITimeTask DelayFrame(int frame){
+
+            timeLine.Add(new TimeTaskAction(){
+                Type = TimeTaskActionTypes.DelayFrame,
+                IntArgs = new int[]{ frame , 0 }
+            });
+            return this;
+
+        }
+
         public ITimeTask Delay(float time)
         {
             timeLine.Add(new TimeTaskAction(){
@@ -57,6 +67,16 @@ namespace CatLib.TimeQueue
                 FuncBoolArg = loopFunc
             });
             return this;
+        }
+
+        public ITimeTask LoopFrame(int frame){
+
+            timeLine.Add(new TimeTaskAction(){
+                Type = TimeTaskActionTypes.LoopFrame,
+                IntArgs = new int[]{ frame , 0 }
+            });
+            return this;
+
         }
 
         public ITimeTask OnComplete(Action onComplete)
@@ -106,6 +126,10 @@ namespace CatLib.TimeQueue
 
                 switch(TimeLine[i].Type){
 
+                    case TimeTaskActionTypes.LoopFrame:
+                    case TimeTaskActionTypes.DelayFrame:
+                        TimeLine[i].IntArgs[1] = 0; 
+                        break;
                     case TimeTaskActionTypes.DelayTime: 
                     case TimeTaskActionTypes.LoopTime:
                         TimeLine[i].FloatArgs[1] = 0; 

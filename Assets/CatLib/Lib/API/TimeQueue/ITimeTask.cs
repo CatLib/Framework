@@ -12,9 +12,13 @@ namespace CatLib.API.TimeQueue
 
         ITimeTask Delay(float time);
 
+        ITimeTask DelayFrame(int frame);
+
         ITimeTask Loop(float time);
 
         ITimeTask Loop(Func<bool> loopFunc);
+
+        ITimeTask LoopFrame(int frame);
 
         ITimeTask OnComplete(Action onComplete);
 

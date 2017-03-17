@@ -99,6 +99,13 @@ public class Bootstrap : ServiceProvider
 
             ITimeQueue queue = App.Make<ITimeQueue>();
 
+            Debug.Log(Time.frameCount);
+            queue.Task(() =>
+            {
+                Debug.Log("time queue complete:" + Time.frameCount);
+            }).LoopFrame(10).Play();
+
+            /* 
             queue.Task(() =>
             {
                 Debug.Log("time queue complete");
@@ -121,7 +128,7 @@ public class Bootstrap : ServiceProvider
                     throw new System.Exception("faild");
 
                 }
-            }).Delay(5).Start();
+            }).Delay(5).Start();*/
             
             return;
 

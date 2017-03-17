@@ -149,12 +149,33 @@ namespace CatLib.TimeQueue
 
             switch(action.Type){
 
+                case TimeTaskActionTypes.DelayFrame: return TaskDelayFrame(task , ref deltaTime);
                 case TimeTaskActionTypes.DelayTime: return TaskDelayTime(task , ref deltaTime);
                 case TimeTaskActionTypes.LoopFunc:  return TaskLoopFunc(task , ref deltaTime);
                 case TimeTaskActionTypes.LoopTime:  return TaskLoopTime(task , ref deltaTime);
+                case TimeTaskActionTypes.LoopFrame: return TaskLoopFrame(task , ref deltaTime);
                 default: return true;
 
             }
+
+        }
+
+        protected bool TaskDelayFrame(TimeTask task , ref float deltaTime){
+
+            TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
+            if (action.IntArgs[0] >= 0 && action.IntArgs[1] < action.IntArgs[0])
+            {
+                action.IntArgs[1] += 1;
+                deltaTime = 0;
+                if(action.IntArgs[1] >= action.IntArgs[0]){
+                    
+                    task.TimeLineIndex++;
+                    CallTask(task);
+                    return true;
+
+                }
+            }
+            return false;
 
         }
 
@@ -162,7 +183,7 @@ namespace CatLib.TimeQueue
 
             TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
 
-            if (action.FloatArgs[0] > 0 && action.FloatArgs[1] < action.FloatArgs[0])
+            if (action.FloatArgs[0] >= 0 && action.FloatArgs[1] < action.FloatArgs[0])
             {
                 action.FloatArgs[1] += deltaTime;
 
@@ -201,11 +222,11 @@ namespace CatLib.TimeQueue
 
             TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
 
-            if (action.FloatArgs[0] > 0 && action.FloatArgs[1] < action.FloatArgs[0])
+            if (action.FloatArgs[0] >= 0 && action.FloatArgs[1] <= action.FloatArgs[0])
             {
                 action.FloatArgs[1] += deltaTime;
 
-                if(action.FloatArgs[1] >= action.FloatArgs[0]){
+                if(action.FloatArgs[1] > action.FloatArgs[0]){
                     
                     deltaTime = action.FloatArgs[1] - action.FloatArgs[0];
                     task.TimeLineIndex++;
@@ -214,6 +235,26 @@ namespace CatLib.TimeQueue
                 }
             }
 
+            CallTask(task);
+            return false;
+
+        }
+
+        protected bool TaskLoopFrame(TimeTask task , ref float deltaTime){
+
+            TimeTaskAction action = task.TimeLine[task.TimeLineIndex];
+            if (action.IntArgs[0] >= 0 && action.IntArgs[1] <= action.IntArgs[0])
+            {
+                action.IntArgs[1] += 1;
+                deltaTime = 0;
+                if(action.IntArgs[1] > action.IntArgs[0]){
+                    
+                    task.TimeLineIndex++;
+                    return true;
+
+                }
+            }
+            
             CallTask(task);
             return false;
 
