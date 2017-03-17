@@ -29,6 +29,27 @@ namespace CatLib.DataTable{
 			
 		}
 
+        /// <summary>
+        /// 将数据表转为数组
+        /// </summary>
+        /// <returns></returns>
+        public string[][] ToArray()
+        {
+            if (this.title == null || this.dataTableResult == null) { return null; }
+            List<string[]> returnData = new List<string[]>();
+
+            string[] title = new string[this.title.Keys.Count];
+            this.title.Keys.CopyTo(title, 0);
+            returnData.Add(title);
+
+            for(int i = 0; i < dataTableResult.Count; i++)
+            {
+                returnData.Add(dataTableResult[i].Row);
+            }
+
+            return returnData.ToArray();
+        }
+
 		/// <summary>
         /// 获取标题对应的下标
         /// </summary>

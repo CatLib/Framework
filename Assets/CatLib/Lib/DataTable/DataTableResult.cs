@@ -9,6 +9,8 @@ namespace CatLib.DataTable{
 
 		private string[] row;
 
+        public string[] Row { get { return row; } }
+
 		public DataTableResult(DataTable table , string[] row){
 
 			this.table = table;

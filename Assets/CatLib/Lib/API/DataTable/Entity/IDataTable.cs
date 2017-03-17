@@ -25,6 +25,12 @@ namespace CatLib.API.DataTable{
 		/// 根据一个下标获取结果
 		/// </summary>
 		IDataTableResult Get(int index);
+
+        /// <summary>
+        /// 转为数组
+        /// </summary>
+        /// <returns></returns>
+        string[][] ToArray();
 		
 
 	}
