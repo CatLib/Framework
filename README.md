@@ -6,7 +6,7 @@
 <a href="http://catlib.io"><img src="https://img.shields.io/badge/website-up-brightgreen.svg" title="CatLib文档" /></a>
 </p>
 
-> **使用及风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险.
+> **风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险.
 
 ## 关于CatLib
 
