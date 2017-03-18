@@ -1,10 +1,6 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using CatLib.API;
-using CatLib.API.Event;
-using CatLib.API.Exception;
 
 namespace CatLib{
 	public class GlobalEvent : IGlobalEvent {

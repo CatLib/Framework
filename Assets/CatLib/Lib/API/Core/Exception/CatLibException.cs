@@ -1,4 +1,4 @@
-﻿namespace CatLib.API.Exception
+﻿namespace CatLib.API
 {
     public class CatLibException : System.Exception
     {

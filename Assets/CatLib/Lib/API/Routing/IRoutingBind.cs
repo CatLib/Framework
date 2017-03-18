@@ -41,7 +41,7 @@ namespace CatLib.API.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        IRegister OnError(Func<IRequest, System.Exception, bool> middleware);
+        IRoutingBind OnError(Func<IRequest, System.Exception, bool> middleware);
 
         /// <summary>
         /// 为当前路由定义一个名字，允许通过名字来路由
@@ -49,6 +49,12 @@ namespace CatLib.API.Routing
         /// <param name="name"></param>
         /// <returns></returns>
         IRoutingBind Name(string name);
+
+        /// <summary>
+        /// 以异步的方式进行路由
+        /// </summary>
+        /// <returns></returns>
+        IRoutingBind Async();
 
     }
 
