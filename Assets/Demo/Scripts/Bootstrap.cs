@@ -24,6 +24,8 @@ using CatLib.API.CsvStore;
 using System.Runtime.Serialization;
 using ProtoBuf;
 using CatLib.API.LocalSetting;
+using CatLib.API.FilterChain;
+using System;
 
 
 public class EventContainerComponent : CatLib.Component
@@ -101,6 +103,25 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            IFilterChain fc = App.Make<IFilterChain>();
+
+            IFilterChain<string> bb = fc.Create<string>();
+
+            bb.Add((inData, chain) =>
+            {
+                Debug.Log("first:" + inData);
+                inData = "zzzz";
+                chain.Do(inData);
+            });
+            bb.Add((inData, chain) =>
+            {
+                Debug.Log("second:" + inData);
+                chain.Do(inData);
+            });
+
+            bb.Do("hello");
+
+            return;
             var abs = new Foosub() { Hello = 100 , IsTrue = true };
 
             ILocalSetting setting = App.Make<ILocalSetting>();
