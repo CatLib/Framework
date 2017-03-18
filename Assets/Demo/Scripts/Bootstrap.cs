@@ -21,7 +21,10 @@ using System.Collections.Generic;
 using CatLib.API.Protobuf;
 using CatLib.API.Csv;
 using CatLib.API.CsvStore;
+using System.Runtime.Serialization;
 using ProtoBuf;
+using CatLib.API.LocalSetting;
+
 
 public class EventContainerComponent : CatLib.Component
 {
@@ -65,6 +68,7 @@ public class Foos
     public List<Foosub> SubList;
 }
 
+[System.Serializable]
 public class Foosub{
 
     public int Hello;
@@ -96,7 +100,20 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
-     
+
+            var abs = new Foosub() { Hello = 100 , IsTrue = true };
+
+            ILocalSetting setting = App.Make<ILocalSetting>();
+            setting.SetObject("testobj", abs);
+            setting.SetInt("aa", 19);
+            var abc = setting.GetObject<Foosub>("testobj");
+
+            Debug.Log(abc.Hello);
+            Debug.Log(abc.IsTrue);
+            Debug.Log(setting.GetInt("aa"));
+            Debug.Log(setting.GetInt("ab",100));
+            return;
+
             ITimeQueue queue = App.Make<ITimeQueue>();
 
             Debug.Log(Time.frameCount);

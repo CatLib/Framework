@@ -22,6 +22,7 @@ using CatLib.Protobuf;
 using CatLib.Csv;
 using CatLib.CsvStore;
 using CatLib.DataTable;
+using CatLib.LocalSetting;
 
 public class Providers{
 
@@ -57,6 +58,7 @@ public class Providers{
                 typeof(CsvParserProvider),
                 typeof(CsvStoreProvider),
                 typeof(DataTableProvider),
+                typeof(LocalSettingProvider),
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商
                 typeof(Bootstrap),

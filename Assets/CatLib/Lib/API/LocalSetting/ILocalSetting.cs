@@ -1,9 +1,15 @@
 ﻿
-namespace CatLib.API.LocalStore
+
+namespace CatLib.API.LocalSetting
 {
 
-    public interface ILocalStoreHandle
+    /// <summary>
+    /// 本地配置
+    /// </summary>
+    public interface ILocalSetting
     {
+
+        void Save();
 
         bool Has(string key);
 
@@ -19,7 +25,7 @@ namespace CatLib.API.LocalStore
 
         float GetFloat(string key, float defaultValue = 0);
 
-        float SetFloat(string key, float val);
+        void SetFloat(string key, float val);
 
         string GetString(string key, string defaultValue = null);
 
@@ -30,5 +36,6 @@ namespace CatLib.API.LocalStore
         void SetObject<T>(string key, T obj);
 
     }
+
 
 }
