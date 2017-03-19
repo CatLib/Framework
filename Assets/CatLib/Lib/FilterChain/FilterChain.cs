@@ -54,12 +54,6 @@ namespace CatLib.FilterChain
             return this;
         }
 
-        public IFilterChain<TIn> Remove(IFilter<TIn> filter)
-        {
-            filterList.Remove(filter);
-            return this;
-        }
-
         public void Do(TIn inData)
         {
             if (index >= filterList.Count) { return; }
@@ -98,12 +92,6 @@ namespace CatLib.FilterChain
         public IFilterChain<TIn, TOut> Add(IFilter<TIn, TOut> filter)
         {
             filterList.Add(filter);
-            return this;
-        }
-
-        public IFilterChain<TIn, TOut> Remove(IFilter<TIn, TOut> filter)
-        {
-            filterList.Remove(filter);
             return this;
         }
 
