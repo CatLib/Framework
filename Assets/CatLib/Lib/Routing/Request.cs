@@ -22,6 +22,11 @@ namespace CatLib.Routing
         protected Route route;
 
         /// <summary>
+        /// Uri
+        /// </summary>
+        public string Uri { get { return uri.OriginalString; } }
+
+        /// <summary>
         /// 方案
         /// </summary>
         public string Scheme { get { return uri.Scheme; } }

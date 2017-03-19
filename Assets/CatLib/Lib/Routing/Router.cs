@@ -28,24 +28,35 @@ namespace CatLib.Routing
         protected IContainer container;
 
         /// <summary>
+        /// 过滤器链生成器
+        /// </summary>
+        protected IFilterChain filterChain;
+
+        /// <summary>
         /// 协议方案
         /// </summary>
         protected Dictionary<string, Scheme> schemes;
 
         /// <summary>
-        /// 路由请求过滤链
+        /// 当路由没有找到时过滤链
         /// </summary>
-        protected IFilterChain middleware;
+        protected IFilterChain<IRequest> onNotFound;
+
+        /// <summary>
+        /// 当出现异常时的过滤器链
+        /// </summary>
+        protected IFilterChain<IRequest , Exception> onError;
 
         /// <summary>
         /// 创建一个新的路由器
         /// </summary>
         /// <param name="events"></param>
         /// <param name="container"></param>
-        public Router(IEvent events , IContainer container)
+        public Router(IEvent events , IContainer container , IFilterChain filterChain)
         {
             this.events = events;
             this.container = container;
+            this.filterChain = filterChain;
             schemes = new Dictionary<string, Scheme>();
         }
 
@@ -62,6 +73,8 @@ namespace CatLib.Routing
             if (!schemes.ContainsKey(scheme)) { throw new NotFoundSchemeException("scheme: [" + scheme + "] is not exists"); }
 
             var route = new Route(Prefix(url), action);
+            route.SetRouter(this);
+            route.SetScheme(schemes[scheme]);
             schemes[scheme].AddRoute(route);
 
             return route;
@@ -73,8 +86,13 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRouter OnNotFound(Func<IRequest, bool> middleware)
+        public IRouter OnNotFound(Action<IRequest , IFilterChain<IRequest>> middleware)
         {
+            if(onNotFound == null)
+            {
+                onNotFound = filterChain.Create<IRequest>();
+            }
+            onNotFound.Add(middleware);
             return this;
         }
 
@@ -83,8 +101,13 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRouter OnError(Func<IRequest, Exception, bool> middleware)
+        public IRouter OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
         {
+            if (onError == null)
+            {
+                onError = filterChain.Create<IRequest , Exception>();
+            }
+            onError.Add(middleware);
             return this;
         }
 
@@ -100,29 +123,91 @@ namespace CatLib.Routing
 
             if (!schemes.ContainsKey(request.Scheme))
             {
-                throw new NotFoundSchemeException("scheme: [" + request.Scheme + "] is not exists");
+                ThrowOnNotFound(request);
+                return null;
             }
+            try
+            {
 
-            Route route = FindRoute(request);
-            request.SetRoute(route);
-            
-            //todo: dispatch event
-            //events.Event.Trigger();
+                Route route = FindRoute(request);
+                if (route == null) { return null; }
 
+                request.SetRoute(route);
 
+                //todo: dispatch event
+         
+                return RunRouteWithMiddleware(route, request);
 
-            return null;
+            }catch(NotFoundRouteException)
+            {
+                ThrowOnNotFound(request);
+                return null;
+            }
+            catch(Exception ex)
+            {
+                ThrowOnError(request, ex);
+                return null;
+            }
         }
 
         /// <summary>
-        /// 执行请求路由
+        /// 触发没有找到路由的过滤器链
         /// </summary>
-        /// <returns></returns>
-        protected IResponse RunRouteWithinStack(Route route, Request request)
+        /// <param name="request"></param>
+        protected void ThrowOnNotFound(Request request)
         {
+            if(onNotFound != null)
+            {
+                onNotFound.Do(request);
+            }
+        }
 
-            return null;
+        /// <summary>
+        /// 触发没有找到路由的过滤器链
+        /// </summary>
+        /// <param name="request"></param>
+        protected void ThrowOnError(Request request , Exception ex)
+        {
+            if (onError != null)
+            {
+                onError.Do(request , ex);
+            }
+        }
 
+        /// <summary>
+        /// 通过中间件后执行路由请求
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        protected IResponse RunRouteWithMiddleware(Route route, Request request)
+        {
+            try
+            {
+                var response = new Response();
+                var middleware = route.GatherMiddleware();
+                if (middleware != null)
+                {
+                    middleware.Then((req, res) =>
+                    {
+                        PrepareResponse(req, route.Run(req, res));
+                    }).Do(request, response);
+                }
+                else
+                {
+                    PrepareResponse(request, route.Run(request, response));
+                }
+                return response;
+
+            }catch(Exception ex)
+            {
+                var chain = route.GatherOnError();
+                if(chain != null)
+                {
+                    chain.Do(request, ex);
+                }
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -131,9 +216,9 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <returns></returns>
-        protected IResponse PrepareResponse(IRequest request, IResponse response)
+        protected void PrepareResponse(IRequest request, IResponse response)
         {
-            return response;
+            //todo 对响应内容进行处理  
         }
 
         /// <summary>
@@ -144,7 +229,7 @@ namespace CatLib.Routing
         protected Route FindRoute(Request request)
         {
             Route route = schemes[request.Scheme].Match(request);
-            container.Instance(typeof(Route).ToString(), route);
+            container.Instance("route.current", route);
             return route;
         }
 

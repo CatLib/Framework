@@ -9,7 +9,7 @@ namespace CatLib.FilterChain
         public override void Register()
         {
 
-            App.Bind<FilterChain>().Alias<IFilterChain>();
+            App.Singleton<FilterChain>().Alias<IFilterChain>();
 
         }
     }

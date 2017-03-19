@@ -1,6 +1,7 @@
 ﻿using System;
 using CatLib.API.Routing;
 using CatLib.API.Container;
+using CatLib.API.FilterChain;
 
 namespace CatLib.Routing
 {
@@ -17,10 +18,29 @@ namespace CatLib.Routing
         protected Router router;
 
         /// <summary>
+        /// 方案
+        /// </summary>
+        protected Scheme scheme;
+
+        /// <summary>
         /// 容器
         /// </summary>
         protected IContainer container;
 
+        /// <summary>
+        /// 过滤器链生成器
+        /// </summary>
+        protected IFilterChain filterChain;
+
+        /// <summary>
+        /// 路由请求过滤链
+        /// </summary>
+        protected IFilterChain<IRequest, IResponse> middleware;
+
+        /// <summary>
+        /// 当路由出现异常时的过滤器链
+        /// </summary>
+        protected IFilterChain<IRequest, Exception> onError;
 
         /// <summary>
         /// 创建一个新的路由条目
@@ -32,6 +52,16 @@ namespace CatLib.Routing
 
         }
 
+        /// <summary>
+        /// 设定方案
+        /// </summary>
+        /// <param name="scheme"></param>
+        /// <returns></returns>
+        public Route SetScheme(Scheme scheme)
+        {
+            this.scheme = scheme;
+            return this;
+        }
 
         /// <summary>
         /// 设定路由器
@@ -52,6 +82,17 @@ namespace CatLib.Routing
         public Route SetContainer(IContainer container)
         {
             this.container = container;
+            return this;
+        }
+
+        /// <summary>
+        /// 设定过滤器链生成器
+        /// </summary>
+        /// <param name="filterChain"></param>
+        /// <returns></returns>
+        public Route SetFilterChain(IFilterChain filterChain)
+        {
+            this.filterChain = filterChain;
             return this;
         }
 
@@ -77,32 +118,32 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 在路由之前
-        /// </summary>
-        /// <param name="middleware">中间件</param>
-        /// <returns></returns>
-        public IRoutingBind OnBefore(Func<IRequest, bool> middleware)
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// 在路由之后
-        /// </summary>
-        /// <param name="middleware">中间件</param>
-        /// <returns></returns>
-        public IRoutingBind OnAfter(Func<IResponse> middleware)
-        {
-            return this;
-        }
-
-        /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRoutingBind OnError(Func<IRequest, System.Exception, bool> middleware)
+        public IRoutingBind OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
         {
+            if (onError == null)
+            {
+                onError = filterChain.Create<IRequest , Exception>();
+            }
+            onError.Add(middleware);
+            return this;
+        }
+
+        /// <summary>
+        /// 路由中间件
+        /// </summary>
+        /// <param name="middleware"></param>
+        /// <returns></returns>
+        public IRoutingBind Middleware(Action<IRequest, IResponse , IFilterChain<IRequest, IResponse>> middleware)
+        {
+            if (this.middleware == null)
+            {
+                this.middleware = filterChain.Create<IRequest , IResponse>();
+            }
+            this.middleware.Add(middleware);
             return this;
         }
 
@@ -123,6 +164,45 @@ namespace CatLib.Routing
         public IRoutingBind Async()
         {
             return this;
+        }
+
+        /// <summary>
+        /// 执行请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public IResponse Run(IRequest request, IResponse response)
+        {
+            return response;
+        }
+
+        /// <summary>
+        /// 获取路由的中间件
+        /// </summary>
+        /// <returns></returns>
+        public IFilterChain<IRequest, IResponse> GatherMiddleware()
+        {
+            return middleware;
+        }
+
+        /// <summary>
+        /// 获取当出现错误时的过滤器链
+        /// </summary>
+        /// <returns></returns>
+        public IFilterChain<IRequest, Exception> GatherOnError()
+        {
+            return onError;
+        }
+
+        /// <summary>
+        /// 当前路由条目是否符合请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public bool Matches(Request request)
+        {
+            return false;
         }
 
     }

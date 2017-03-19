@@ -1,5 +1,6 @@
 ﻿
 using System;
+using CatLib.API.FilterChain;
 
 namespace CatLib.API.Routing
 {
@@ -24,14 +25,14 @@ namespace CatLib.API.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        IRouter OnNotFound(Func<IRequest, bool> middleware);
+        IRouter OnNotFound(Action<IRequest, IFilterChain<IRequest>> middleware);
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        IRouter OnError(Func<IRequest, System.Exception , bool> middleware);
+        IRouter OnError(Action<IRequest, Exception, IFilterChain<IRequest , Exception>> middleware);
 
         /// <summary>
         /// 调度路由

@@ -103,6 +103,22 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            Uri uri = new Uri("catlib://yb199478:123456@hello/home/like/?myname=123&ss=222");
+
+            Debug.Log("UserInfo:" + uri.UserInfo);
+            Debug.Log("DnsSafeHost:" + uri.DnsSafeHost);
+            Debug.Log("Fragment:" + uri.Fragment);
+            Debug.Log("Authority:" + uri.Authority); 
+            Debug.Log("Query:" + uri.Query);
+            Debug.Log("AbsolutePath:" + uri.AbsolutePath);
+            foreach (var s in uri.Segments)
+            {
+                Debug.Log("Segments:" + s);
+            }
+            Debug.Log("Scheme:" + uri.Scheme);
+
+            return;
+
             IFilterChain fc = App.Make<IFilterChain>();
 
             IFilterChain<string> bb = fc.Create<string>();

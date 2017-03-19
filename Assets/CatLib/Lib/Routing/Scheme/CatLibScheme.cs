@@ -8,6 +8,8 @@ namespace CatLib.Routing
     public class CatLibScheme : Scheme
     {
 
+        public override string Name { get { return "catlib"; } }
+
     }
 
 }

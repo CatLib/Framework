@@ -1,5 +1,6 @@
 ﻿
 using System;
+using CatLib.API.FilterChain;
 
 namespace CatLib.API.Routing
 {
@@ -23,25 +24,18 @@ namespace CatLib.API.Routing
         IRoutingBind Where(string name, string pattern);
 
         /// <summary>
-        /// 在路由之前
+        /// 在路由中间件
         /// </summary>
         /// <param name="middleware">中间件</param>
         /// <returns></returns>
-        IRoutingBind OnBefore(Func<IRequest, bool> middleware);
-
-        /// <summary>
-        /// 在路由之后
-        /// </summary>
-        /// <param name="middleware">中间件</param>
-        /// <returns></returns>
-        IRoutingBind OnAfter(Func<IResponse> middleware);
+        IRoutingBind Middleware(Action<IRequest, IResponse, IFilterChain<IRequest, IResponse>> middleware);
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        IRoutingBind OnError(Func<IRequest, System.Exception, bool> middleware);
+        IRoutingBind OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> onError);
 
         /// <summary>
         /// 为当前路由定义一个名字，允许通过名字来路由
