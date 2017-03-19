@@ -74,18 +74,18 @@ namespace CatLib.Routing
         protected Dictionary<string, string> wheres;
 
         /// <summary>
-        /// 筛选条件
+        /// 获取筛选条件
         /// </summary>
-        public IEnumerable<KeyValuePair<string, string>> Wheres
+        /// <param name="varName"></param>
+        /// <returns></returns>
+        public string GetWhere(string varName)
         {
-            get
+            if (wheres == null) { return null; }
+            if (wheres.ContainsKey(varName))
             {
-                if (wheres != null)
-                {
-                    return wheres;
-                }
-                return new KeyValuePair<string, string>[] { };
+                return wheres[varName];
             }
+            return null;
         }
 
         /// <summary>
