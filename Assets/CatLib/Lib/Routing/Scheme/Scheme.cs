@@ -18,7 +18,7 @@ namespace CatLib.Routing
         /// 匹配一个路由
         /// </summary>
         /// <param name="request"></param>
-        public void Match(Request request) { }
+        public Route Match(Request request) { return null; }
 
     }
 

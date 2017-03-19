@@ -1,5 +1,6 @@
 ﻿
 using CatLib.API.Routing;
+using System;
 
 namespace CatLib.Routing
 {
@@ -11,14 +12,41 @@ namespace CatLib.Routing
     {
 
         /// <summary>
+        /// 统一资源标识符
+        /// </summary>
+        protected Uri uri;
+
+        /// <summary>
+        /// 使用的路由
+        /// </summary>
+        protected Route route;
+
+        /// <summary>
         /// 方案
         /// </summary>
-        public string Scheme { get; protected set; }
+        public string Scheme { get { return uri.Scheme; } }
 
+        /// <summary>
+        /// 构建一个请求
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="context"></param>
         public Request(string uri , object context)
         {
-
+            this.uri = new Uri(uri);
         }
+
+        /// <summary>
+        /// 设定路由方案
+        /// </summary>
+        /// <param name="route">路由方案</param>
+        /// <returns></returns>
+        public Request SetRoute(Route route)
+        {
+            this.route = route;
+            return this;
+        }
+
 
         /// <summary>
         /// 获取字符串附加物

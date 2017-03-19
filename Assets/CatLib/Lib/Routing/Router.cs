@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CatLib.API.Event;
 using CatLib.API.Container;
 using CatLib.API.Routing;
+using CatLib.API.FilterChain;
 
 namespace CatLib.Routing
 {
@@ -17,7 +18,7 @@ namespace CatLib.Routing
         public const char SEPARATOR = '/';
 
         /// <summary>
-        /// 事件
+        /// 全局调度器
         /// </summary>
         protected IEvent events;
 
@@ -30,6 +31,11 @@ namespace CatLib.Routing
         /// 协议方案
         /// </summary>
         protected Dictionary<string, Scheme> schemes;
+
+        /// <summary>
+        /// 路由请求过滤链
+        /// </summary>
+        protected IFilterChain middleware;
 
         /// <summary>
         /// 创建一个新的路由器
@@ -94,10 +100,52 @@ namespace CatLib.Routing
 
             if (!schemes.ContainsKey(request.Scheme))
             {
-
+                throw new NotFoundSchemeException("scheme: [" + request.Scheme + "] is not exists");
             }
 
+            Route route = FindRoute(request);
+            request.SetRoute(route);
+            
+            //todo: dispatch event
+            //events.Event.Trigger();
+
+
+
             return null;
+        }
+
+        /// <summary>
+        /// 执行请求路由
+        /// </summary>
+        /// <returns></returns>
+        protected IResponse RunRouteWithinStack(Route route, Request request)
+        {
+
+            return null;
+
+        }
+
+        /// <summary>
+        /// 准备响应的内容
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
+        /// <returns></returns>
+        protected IResponse PrepareResponse(IRequest request, IResponse response)
+        {
+            return response;
+        }
+
+        /// <summary>
+        /// 查找一个合适的路由
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        protected Route FindRoute(Request request)
+        {
+            Route route = schemes[request.Scheme].Match(request);
+            container.Instance(typeof(Route).ToString(), route);
+            return route;
         }
 
         /// <summary>
