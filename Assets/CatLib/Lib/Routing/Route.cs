@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CatLib.API.Routing;
 using CatLib.API.Container;
 using CatLib.API.FilterChain;
@@ -11,6 +12,21 @@ namespace CatLib.Routing
     /// </summary>
     public class Route : IRoutingBind
     {
+
+        /// <summary>
+        /// 验证器
+        /// </summary>
+        protected static IValidators[] validators;
+
+        /// <summary>
+        /// 统一资源标识
+        /// </summary>
+        protected Uri uri;
+
+        /// <summary>
+        /// 统一资源标识
+        /// </summary>
+        public Uri Uri { get { return uri; } }
 
         /// <summary>
         /// 路由器
@@ -33,6 +49,11 @@ namespace CatLib.Routing
         protected IFilterChain filterChain;
 
         /// <summary>
+        /// 编译后的路由器信息
+        /// </summary>
+        protected CompiledRoute compiled;
+
+        /// <summary>
         /// 路由请求过滤链
         /// </summary>
         protected IFilterChain<IRequest, IResponse> middleware;
@@ -43,13 +64,39 @@ namespace CatLib.Routing
         protected IFilterChain<IRequest, Exception> onError;
 
         /// <summary>
+        /// 路由行为
+        /// </summary>
+        protected Action<IRequest, IResponse> action;
+
+        /// <summary>
+        /// 筛选条件
+        /// </summary>
+        protected Dictionary<string, string> wheres;
+
+        /// <summary>
+        /// 筛选条件
+        /// </summary>
+        public IEnumerable<KeyValuePair<string, string>> Wheres
+        {
+            get
+            {
+                if (wheres != null)
+                {
+                    return wheres;
+                }
+                return new KeyValuePair<string, string>[] { };
+            }
+        }
+
+        /// <summary>
         /// 创建一个新的路由条目
         /// </summary>
         /// <param name="url"></param>
         /// <param name="action"></param>
-        public Route(string url , Action<IRequest, IResponse> action)
+        public Route(Uri uri , Action<IRequest, IResponse> action)
         {
-
+            this.uri = uri;
+            this.action = action;
         }
 
         /// <summary>
@@ -97,13 +144,17 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 别名，与别名相匹配的路由也将会路由到指定的绑定中
+        /// 获取验证器列表
         /// </summary>
-        /// <param name="name"></param>
         /// <returns></returns>
-        public IRoutingBind Alias(string name)
+        public static IValidators[] GetValidators()
         {
-            return this;
+            if(validators != null)
+            {
+                return validators;
+            }
+
+            return validators = new IValidators[] { };
         }
 
         /// <summary>
@@ -114,6 +165,9 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IRoutingBind Where(string name, string pattern)
         {
+            if (wheres == null) { wheres = new Dictionary<string, string>(); }
+            if (wheres.ContainsKey(name)) { wheres.Remove(name); }
+            wheres[name] = pattern;
             return this;
         }
 
@@ -196,13 +250,45 @@ namespace CatLib.Routing
         }
 
         /// <summary>
+        /// 获取被编译的路由信息
+        /// </summary>
+        /// <returns></returns>
+        public CompiledRoute GetCompiled()
+        {
+            return compiled;
+        }
+
+        /// <summary>
         /// 当前路由条目是否符合请求
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         public bool Matches(Request request)
         {
-            return false;
+
+            CompileRoute();
+            GetValidators();
+
+            for (int i = 0; i < validators.Length; i++)
+            {
+                if (!validators[i].Matches(this, request))
+                {
+                    return false;
+                }
+            }
+            return true;
+
+        }
+
+        /// <summary>
+        /// 编译路由条目
+        /// </summary>
+        protected void CompileRoute()
+        {
+            if(compiled == null)
+            {
+                compiled = RouteCompiler.Compile(this);
+            }
         }
 
     }

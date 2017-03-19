@@ -32,6 +32,11 @@ namespace CatLib.Routing
         public string Scheme { get { return uri.Scheme; } }
 
         /// <summary>
+        /// 上下文
+        /// </summary>
+        protected object context;
+
+        /// <summary>
         /// 构建一个请求
         /// </summary>
         /// <param name="uri"></param>
@@ -39,6 +44,7 @@ namespace CatLib.Routing
         public Request(string uri , object context)
         {
             this.uri = new Uri(uri);
+            this.context = context;
         }
 
         /// <summary>

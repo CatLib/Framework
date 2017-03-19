@@ -9,13 +9,6 @@ namespace CatLib.API.Routing
     {
 
         /// <summary>
-        /// 别名，与别名相匹配的路由也将会路由到指定的绑定中
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        IRoutingBind Alias(string name);
-
-        /// <summary>
         /// 约束指定参数必须符合指定模式才会被路由
         /// </summary>
         /// <param name="name"></param>

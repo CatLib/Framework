@@ -14,11 +14,10 @@ namespace CatLib.API.Routing
         /// <summary>
         /// 注册一个路由方案
         /// </summary>
-        /// <param name="scheme">方案</param>
         /// <param name="url">统一资源定位符</param>
         /// <param name="action">行为</param>
         /// <returns></returns>
-        IRoutingBind Reg(string scheme, string url, Action<IRequest, IResponse> action);
+        IRoutingBind Reg(string url, Action<IRequest, IResponse> action);
 
         /// <summary>
         /// 当路由没有找到时

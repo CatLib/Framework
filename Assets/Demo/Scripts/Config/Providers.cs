@@ -24,6 +24,7 @@ using CatLib.CsvStore;
 using CatLib.DataTable;
 using CatLib.LocalSetting;
 using CatLib.FilterChain;
+using CatLib.Routing;
 
 public class Providers{
 
@@ -61,6 +62,7 @@ public class Providers{
                 typeof(DataTableProvider),
                 typeof(LocalSettingProvider),
                 typeof(FilterChainProvider),
+                typeof(RoutingProvider),
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商
                 typeof(Bootstrap),

@@ -25,6 +25,8 @@ using System.Runtime.Serialization;
 using ProtoBuf;
 using CatLib.API.LocalSetting;
 using CatLib.API.FilterChain;
+using System.Text.RegularExpressions;
+using CatLib.API.Routing;
 using System;
 
 
@@ -102,7 +104,25 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+ 
+            IRouter router = App.Make<IRouter>();
 
+            router.Reg("main/hash/{name}/{age?}", (request, response) =>
+           {
+
+               Debug.Log("hash routing");
+
+           });
+
+
+            router.Dispatch("catlib://main/hash/yubin/18");
+
+            return;
+
+
+
+            Debug.Log(Regex.Replace("/home/{lik{bbb}e?}/", @"\{(\w+?)\?\}", "{$1}" ));
+            return;
             Uri uri = new Uri("catlib://yb199478:123456@hello/home/like/?myname=123&ss=222");
 
             Debug.Log("UserInfo:" + uri.UserInfo);

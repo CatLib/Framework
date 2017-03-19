@@ -48,6 +48,11 @@ namespace CatLib.Routing
         protected IFilterChain<IRequest , Exception> onError;
 
         /// <summary>
+        /// 默认的scheme
+        /// </summary>
+        protected string defaultScheme;
+
+        /// <summary>
         /// 创建一个新的路由器
         /// </summary>
         /// <param name="events"></param>
@@ -61,21 +66,45 @@ namespace CatLib.Routing
         }
 
         /// <summary>
+        /// 设定默认的scheme
+        /// </summary>
+        /// <param name="scheme"></param>
+        /// <returns></returns>
+        public IRouter SetDefaultScheme(string scheme)
+        {
+            defaultScheme = scheme;
+            return this;
+        }
+
+        /// <summary>
+        /// 增加一个处理方案
+        /// </summary>
+        /// <param name="schemes"></param>
+        /// <returns></returns>
+        public IRouter AddScheme(Scheme schemes)
+        {
+            this.schemes.Add(schemes.Name.ToLower(), schemes);
+            return this;
+        }
+
+        /// <summary>
         /// 注册一个路由方案
         /// </summary>
-        /// <param name="scheme">方案</param>
-        /// <param name="url">统一资源定位符</param>
+        /// <param name="uris">统一资源标识符</param>
         /// <param name="action">行为</param>
         /// <returns></returns>
-        public IRoutingBind Reg(string scheme, string url, Action<IRequest, IResponse> action)
+        public IRoutingBind Reg(string uris, Action<IRequest, IResponse> action)
         {
 
-            if (!schemes.ContainsKey(scheme)) { throw new NotFoundSchemeException("scheme: [" + scheme + "] is not exists"); }
+            uris = GuardUri(uris);
+            Uri uri = new Uri(uris);
 
-            var route = new Route(Prefix(url), action);
+            if (!schemes.ContainsKey(uri.Scheme)) { throw new NotFoundSchemeException("scheme: [" + uri.Scheme + "] is not exists"); }
+
+            var route = new Route(uri, action);
             route.SetRouter(this);
-            route.SetScheme(schemes[scheme]);
-            schemes[scheme].AddRoute(route);
+            route.SetScheme(schemes[uri.Scheme]);
+            schemes[uri.Scheme].AddRoute(route);
 
             return route;
 
@@ -119,6 +148,9 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IResponse Dispatch(string uri, object context = null)
         {
+
+            uri = GuardUri(uri);
+
             Request request = CreateRequest(uri, context);
 
             if (!schemes.ContainsKey(request.Scheme))
@@ -126,6 +158,7 @@ namespace CatLib.Routing
                 ThrowOnNotFound(request);
                 return null;
             }
+
             try
             {
 
@@ -148,6 +181,7 @@ namespace CatLib.Routing
                 ThrowOnError(request, ex);
                 return null;
             }
+
         }
 
         /// <summary>
@@ -262,7 +296,28 @@ namespace CatLib.Routing
             return string.Empty;
         }
 
+        /// <summary>
+        /// uri 保护
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        protected string GuardUri(string uri)
+        {
+            if (string.IsNullOrEmpty(uri))
+            {
+                throw new RouterConfigException("reg uri is null or empty");
+            }
 
+            if (uri.IndexOf(@"://") < 0)
+            {
+                if (string.IsNullOrEmpty(defaultScheme))
+                {
+                    throw new UndefinedDefaultSchemeException("undefined default scheme please call SetDefaultScheme(string)");
+                }
+                uri = defaultScheme + "://" + uri;
+            }
+            return Prefix(uri);
+        }
 
     }
 
