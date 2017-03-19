@@ -41,6 +41,8 @@ namespace CatLib.FilterChain
 
         protected List<IFilter<TIn>> filterList = new List<IFilter<TIn>>();
 
+        protected Action<TIn> then;
+
         protected int index = 0;
 
         public IFilterChain<TIn> Add(Action<TIn, IFilterChain<TIn>> filter)
@@ -54,9 +56,19 @@ namespace CatLib.FilterChain
             return this;
         }
 
+        public IFilterChain<TIn> Then(Action<TIn> then)
+        {
+            this.then = then;
+            return this;
+        }
+
         public void Do(TIn inData)
         {
-            if (index >= filterList.Count) { return; }
+            if (index >= filterList.Count)
+            {
+                if (then != null) { then.Invoke(inData); }
+                return;
+            }
             filterList[index++].Do(inData , this);
         }
 
@@ -82,6 +94,8 @@ namespace CatLib.FilterChain
 
         protected List<IFilter<TIn, TOut>> filterList = new List<IFilter<TIn, TOut>>();
 
+        protected Action<TIn , TOut> then;
+
         protected int index = 0;
 
         public IFilterChain<TIn, TOut> Add(Action<TIn , TOut, IFilterChain<TIn, TOut>> filter)
@@ -95,9 +109,19 @@ namespace CatLib.FilterChain
             return this;
         }
 
+        public IFilterChain<TIn , TOut> Then(Action<TIn , TOut> then)
+        {
+            this.then = then;
+            return this;
+        }
+
         public void Do(TIn inData, TOut outData)
         {
-            if (index >= filterList.Count) { return; }
+            if (index >= filterList.Count)
+            {
+                if (then != null) { then.Invoke(inData , outData); }
+                return;
+            }
             filterList[index++].Do(inData , outData , this);
         }
 
