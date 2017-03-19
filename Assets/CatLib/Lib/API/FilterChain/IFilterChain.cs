@@ -27,6 +27,8 @@ namespace CatLib.API.FilterChain
 
         IFilterChain<TIn> Add(IFilter<TIn> filter);
 
+        IFilterChain<TIn> Then(Action<TIn> then);
+
         void Do(TIn inData);
 
     }
@@ -42,6 +44,8 @@ namespace CatLib.API.FilterChain
         IFilterChain<TIn, TOut> Add(Action<TIn, TOut, IFilterChain<TIn, TOut>> filter);
 
         IFilterChain<TIn, TOut> Add(IFilter<TIn, TOut> filter);
+
+        IFilterChain<TIn, TOut> Then(Action<TIn, TOut> then);
 
         void Do(TIn inData, TOut outData);
 

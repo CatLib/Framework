@@ -112,11 +112,19 @@ public class Bootstrap : ServiceProvider
                 Debug.Log("first:" + inData);
                 inData = "zzzz";
                 chain.Do(inData);
+                Debug.Log("first:" + inData);
             });
             bb.Add((inData, chain) =>
             {
                 Debug.Log("second:" + inData);
                 chain.Do(inData);
+                Debug.Log("second:" + inData); //string的不变性
+            });
+
+            bb.Then((inData) =>
+            {
+                inData = "end";
+                Debug.Log("end");
             });
 
             bb.Do("hello");
