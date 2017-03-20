@@ -24,8 +24,9 @@ namespace CatLib.Routing
         {
 
             Hashtable result;
-            string[] hostVariables , hostTokens , variables;
-            hostVariables = hostTokens = variables = new string[]{};
+            string[][] hostTokens = new string[][]{};
+            string[] hostVariables , variables;
+            hostVariables = variables = new string[]{};
             string host , hostRegex;
             host = hostRegex = string.Empty;
 
@@ -35,11 +36,11 @@ namespace CatLib.Routing
                 hostVariables = result["variables"] as string[];
                 variables = hostVariables;
 
-                hostTokens = result["tokens"] as string[];
+                hostTokens = result["tokens"] as string[][];
                 hostRegex = result["regex"].ToString();
 
             }
-
+  
             string uri = Regex.Replace(route.Uri.OriginalString, @"\{(\w+?)\?\}", "{$1}");
             result = CompilePattern(route, uri , false);
 
@@ -55,9 +56,9 @@ namespace CatLib.Routing
 
             variables = tmp.ToArray();
 
-            string[] tokens = result["tokens"] as string[];
+            string[][] tokens = result["tokens"] as string[][];
             string regex = result["regex"].ToString();
-            
+
 
             return new CompiledRoute(){
                             StaticPrefix = staticPrefix,
@@ -201,7 +202,7 @@ namespace CatLib.Routing
             var hash = new Hashtable()
                         {
                             { "staticPrefix" ,  "text" == tokens[0][0] ? tokens[0][1] : string.Empty },
-                            { "regexp" , regexp },
+                            { "regex" , regexp },
                             { "variables" , variables.ToArray() }
                         };
 

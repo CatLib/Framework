@@ -112,7 +112,7 @@ public class Bootstrap : ServiceProvider
             Debug.Log("AbsolutePath:" + uriss.AbsolutePath);
             return;*/
 
-            Regex reg = new Regex("^catlib\\://main/hash/(?<name>[^/]+)(?:/(?<age>[^/]++))?$");
+            Regex reg = new Regex("^catlib\\://main/hash/(?<name>[^/]+)(?:/(?<age>[^/]+))?$");
 
             Debug.Log(reg.IsMatch("catlib://main/hash/yubin/18") ? "yes" : "no");
 
