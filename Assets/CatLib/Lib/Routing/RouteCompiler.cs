@@ -26,7 +26,10 @@ namespace CatLib.Routing
 
             Hashtable hashtable = CompilePattern(route, uri , false);
 
+            string staticPrefix = hashtable["staticPrefix"].ToString();
+            string[] pathVariables = hashtable["variables"] as string[];
 
+            
 
             return null;
 
@@ -52,7 +55,7 @@ namespace CatLib.Routing
             string[] parameters = MatchParameters(uri, @"\{(\w+?)\}", ref parametersIndex);
 
             //已经被使用的变量名
-            Dictionary<string, bool> variables = new Dictionary<string, bool>();
+            List<string> variables = new List<string>();
 
             List<string[]> tokens = new List<string[]>();
 
@@ -86,7 +89,7 @@ namespace CatLib.Routing
                     throw new DomainException(string.Format("variable name {0} cannot start with a digit in route pattern {1}. please use a different name.", varName, uri));
                 }
 
-                if (variables.ContainsKey(varName))
+                if (variables.Contains(varName))
                 {
                     throw new DomainException(string.Format("route pattern {0} cannot reference variable name {1} more than once.", varName, uri));
                 }
@@ -122,14 +125,10 @@ namespace CatLib.Routing
                         defaultSeparator != nextSeparator && nextSeparator != string.Empty ? RegexQuote(nextSeparator) : string.Empty
                     );
 
-                    if ((nextSeparator != string.Empty && IsMatch(followingPattern, @"^\{\w+\}")) || followingPattern == string.Empty)
-                    {
-                        where += "+";
-                    }
                 }
 
                 tokens.Add(new string[] { "variable", isSeparator ? precedingChar : string.Empty, where, varName });
-                variables.Add(varName, true);
+                variables.Add(varName);
 
             }
 
@@ -166,9 +165,9 @@ namespace CatLib.Routing
 
             var hash = new Hashtable()
                         {
-                            { "static-prefix" ,  "text" == tokens[0][0] ? tokens[0][1] : string.Empty },
+                            { "staticPrefix" ,  "text" == tokens[0][0] ? tokens[0][1] : string.Empty },
                             { "regexp" , regexp },
-                            { "variables" , variables }
+                            { "variables" , variables.ToArray() }
                         };
 
             tokens.Reverse();

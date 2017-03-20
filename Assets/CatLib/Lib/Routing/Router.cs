@@ -77,17 +77,6 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 增加一个处理方案
-        /// </summary>
-        /// <param name="schemes"></param>
-        /// <returns></returns>
-        public IRouter AddScheme(Scheme schemes)
-        {
-            this.schemes.Add(schemes.Name.ToLower(), schemes);
-            return this;
-        }
-
-        /// <summary>
         /// 注册一个路由方案
         /// </summary>
         /// <param name="uris">统一资源标识符</param>
@@ -99,7 +88,11 @@ namespace CatLib.Routing
             uris = GuardUri(uris);
             Uri uri = new Uri(uris);
 
-            if (!schemes.ContainsKey(uri.Scheme)) { throw new NotFoundSchemeException("scheme: [" + uri.Scheme + "] is not exists"); }
+            if (!schemes.ContainsKey(uri.Scheme)) { 
+
+                CreateScheme(uri.Scheme);
+            
+            }
 
             var route = new Route(uri, action);
             route.SetRouter(this);
@@ -253,6 +246,17 @@ namespace CatLib.Routing
         protected void PrepareResponse(IRequest request, IResponse response)
         {
             //todo 对响应内容进行处理  
+        }
+
+        /// <summary>
+        /// 增加一个处理方案
+        /// </summary>
+        /// <param name="name">名字</param>
+        /// <returns></returns>
+        protected IRouter CreateScheme(string name)
+        {
+            this.schemes.Add(name.ToLower(), new Scheme(name));
+            return this;
         }
 
         /// <summary>

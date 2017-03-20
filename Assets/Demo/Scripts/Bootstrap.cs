@@ -114,11 +114,11 @@ public class Bootstrap : ServiceProvider
             IRouter router = App.Make<IRouter>();
 
             router.Reg("main/hash/{name}/{age?}", (request, response) =>
-           {
+            {
 
-               Debug.Log("hash routing");
+                Debug.Log("hash routing");
 
-           });
+            });
 
 
             router.Dispatch("catlib://main/hash/yubin/18");

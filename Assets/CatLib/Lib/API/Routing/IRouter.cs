@@ -20,6 +20,13 @@ namespace CatLib.API.Routing
         IRoutingBind Reg(string url, Action<IRequest, IResponse> action);
 
         /// <summary>
+        /// 设定默认的Scheme
+        /// </summary>
+        /// <param name="scheme">方案名</param>
+        /// <returns></returns>
+        IRouter SetDefaultScheme(string scheme);
+
+        /// <summary>
         /// 当路由没有找到时
         /// </summary>
         /// <param name="middleware"></param>

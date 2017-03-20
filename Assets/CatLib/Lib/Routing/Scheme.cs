@@ -8,7 +8,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 方案
     /// </summary>
-    public abstract class Scheme
+    public class Scheme
     {
 
         /// <summary>
@@ -22,9 +22,20 @@ namespace CatLib.Routing
         protected Router router;
 
         /// <summary>
+        /// 方案名
+        /// </summary>
+        protected string name;
+
+        /// <summary>
         /// Scheme Name
         /// </summary>
-        public abstract string Name { get; }
+        public string Name { get{ return name; } }
+
+        public Scheme(string name){
+
+            this.name = name;
+
+        }
 
         /// <summary>
         /// 设定路由器
