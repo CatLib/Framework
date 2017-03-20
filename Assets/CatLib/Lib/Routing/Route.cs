@@ -54,6 +54,20 @@ namespace CatLib.Routing
         protected CompiledRoute compiled;
 
         /// <summary>
+        /// 编译后的路由器信息
+        /// </summary>
+        public CompiledRoute Compiled{
+
+            get{
+
+                CompileRoute();
+                return compiled;
+
+            }
+
+        }
+
+        /// <summary>
         /// 路由请求过滤链
         /// </summary>
         protected IFilterChain<IRequest, IResponse> middleware;
@@ -74,6 +88,26 @@ namespace CatLib.Routing
         protected Dictionary<string, string> wheres;
 
         /// <summary>
+        /// 创建一个新的路由条目
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="action"></param>
+        public Route(Uri uri , Action<IRequest, IResponse> action)
+        {
+            this.uri = uri;
+            this.action = action;
+        }
+
+        /// <summary>
+        /// Host
+        /// </summary>
+        public string GetHost(){
+
+            return Uri.Host;
+
+        }
+
+        /// <summary>
         /// 获取筛选条件
         /// </summary>
         /// <param name="varName"></param>
@@ -86,17 +120,6 @@ namespace CatLib.Routing
                 return wheres[varName];
             }
             return null;
-        }
-
-        /// <summary>
-        /// 创建一个新的路由条目
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="action"></param>
-        public Route(Uri uri , Action<IRequest, IResponse> action)
-        {
-            this.uri = uri;
-            this.action = action;
         }
 
         /// <summary>
@@ -154,7 +177,10 @@ namespace CatLib.Routing
                 return validators;
             }
 
-            return validators = new IValidators[] { };
+            return validators = new IValidators[] { 
+                                                    new HostValidator(),
+                                                    new UriValidator() 
+                                                };
         }
 
         /// <summary>
@@ -247,15 +273,6 @@ namespace CatLib.Routing
         public IFilterChain<IRequest, Exception> GatherOnError()
         {
             return onError;
-        }
-
-        /// <summary>
-        /// 获取被编译的路由信息
-        /// </summary>
-        /// <returns></returns>
-        public CompiledRoute GetCompiled()
-        {
-            return compiled;
         }
 
         /// <summary>

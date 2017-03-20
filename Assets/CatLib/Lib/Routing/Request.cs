@@ -27,6 +27,11 @@ namespace CatLib.Routing
         public string Uri { get { return uri.OriginalString; } }
 
         /// <summary>
+        /// host
+        /// </summary>
+        public string Host{ get{ return uri.Host; } }
+
+        /// <summary>
         /// 方案
         /// </summary>
         public string Scheme { get { return uri.Scheme; } }

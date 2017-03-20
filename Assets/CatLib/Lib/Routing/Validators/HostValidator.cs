@@ -3,8 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace CatLib.Routing{
 
-	public class UriValidator : IValidators {
-
+	public class HostValidator : IValidators {
 
 		/// <summary>
         /// 是否匹配
@@ -14,9 +13,11 @@ namespace CatLib.Routing{
         /// <returns></returns>
         public bool Matches(Route route, Request request){
 
-			string path = request.Uri == "/" ? "/" : "/" + request.Uri;
-			
-			return (new Regex(route.Compiled.RouteRegex)).IsMatch(path);
+			if (string.IsNullOrEmpty(route.Compiled.HostRegex)) {
+            	return true;
+        	}
+
+			return (new Regex(route.Compiled.HostRegex)).IsMatch(request.Host);
 
 		}
 

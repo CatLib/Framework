@@ -105,6 +105,13 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
+            /* 
+            Uri uriss = new Uri("catlib:///home/like/?myname=123&ss=222");
+            Debug.Log(uriss.DnsSafeHost);
+            Debug.Log("Query:" + uriss.Query);
+            Debug.Log("AbsolutePath:" + uriss.AbsolutePath);
+            return;*/
+
             Regex reg = new Regex("^catlib\\://main/hash/(?<name>[^/]+)(?:/(?<age>[^/]++))?$");
 
             Debug.Log(reg.IsMatch("catlib://main/hash/yubin/18") ? "yes" : "no");

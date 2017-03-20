@@ -22,16 +22,53 @@ namespace CatLib.Routing
         /// <returns></returns>
         public static CompiledRoute Compile(Route route)
         {
+
+            Hashtable result;
+            string[] hostVariables , hostTokens , variables;
+            hostVariables = hostTokens = variables = new string[]{};
+            string host , hostRegex;
+            host = hostRegex = string.Empty;
+
+            if ((host = route.GetHost()) != string.Empty) {
+
+                result = CompilePattern(route, host, true);
+                hostVariables = result["variables"] as string[];
+                variables = hostVariables;
+
+                hostTokens = result["tokens"] as string[];
+                hostRegex = result["regex"].ToString();
+
+            }
+
             string uri = Regex.Replace(route.Uri.OriginalString, @"\{(\w+?)\?\}", "{$1}");
+            result = CompilePattern(route, uri , false);
 
-            Hashtable hashtable = CompilePattern(route, uri , false);
+            string staticPrefix = result["staticPrefix"].ToString();
+            string[] pathVariables = result["variables"] as string[];
+            
+            List<string> tmp = new List<string>(hostVariables);
+            for(int i = 0; i < pathVariables.Length ; i++){
+                if(!tmp.Contains(pathVariables[i])){
+                    tmp.Add(pathVariables[i]);
+                }
+            }
 
-            string staticPrefix = hashtable["staticPrefix"].ToString();
-            string[] pathVariables = hashtable["variables"] as string[];
+            variables = tmp.ToArray();
 
+            string[] tokens = result["tokens"] as string[];
+            string regex = result["regex"].ToString();
             
 
-            return null;
+            return new CompiledRoute(){
+                            StaticPrefix = staticPrefix,
+                            RouteRegex = regex,
+                            Tokens = tokens,
+                            PathVariables = pathVariables,
+                            HostRegex = hostRegex,
+                            HostTokens = hostTokens,
+                            HostVariables = hostVariables,
+                            Variables = variables
+                        };
 
         }
 
@@ -58,8 +95,6 @@ namespace CatLib.Routing
             List<string> variables = new List<string>();
 
             List<string[]> tokens = new List<string[]>();
-
-            UnityEngine.Debug.Log(uri);
 
             int pos = 0;
             string varName, precedingText, precedingChar, where, followingPattern, nextSeparator;
@@ -171,7 +206,7 @@ namespace CatLib.Routing
                         };
 
             tokens.Reverse();
-            hash.Add("tokens", tokens);
+            hash.Add("tokens", tokens.ToArray());
 
             return hash;
 

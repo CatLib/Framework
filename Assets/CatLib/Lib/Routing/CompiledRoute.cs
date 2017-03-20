@@ -11,57 +11,47 @@ namespace CatLib.Routing
     {
 
         /// <summary>
-        /// uri
+        /// 静态文本
         /// </summary>
-        private string uri;
+        public string StaticPrefix{ get; set; }
 
         /// <summary>
-        /// 可选字段
+        /// 路由匹配表达式
         /// </summary>
-        private IEnumerable<string> optionals;
+        public string RouteRegex{ get; set; }
 
         /// <summary>
-        /// 条件选择
+        /// 所有需要匹配的变量单独的正则匹配式
         /// </summary>
-        private IEnumerable<KeyValuePair<string, string>> wheres;
+        public string[] Tokens{ get; set; }
 
         /// <summary>
-        /// 是否被编译过
+        /// 路径中的变量
         /// </summary>
-        private bool isCompiled;
+        public string[] PathVariables{ get; set; }
 
         /// <summary>
-        /// 创建一个编译后的路由信息
+        /// 匹配host的表达式
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="optionals"></param>
-        /// <param name="wheres"></param>
-        public CompiledRoute(string uri, IEnumerable<string> optionals, IEnumerable<KeyValuePair<string, string>> wheres)
-        {
-            this.uri = uri;
-            this.optionals = optionals;
-            this.wheres = wheres;
-            isCompiled = false;
-        }
+        public string HostRegex{ get; set; }
 
         /// <summary>
-        /// 构建路由信息
+        /// host部分的需要匹配变量单独的正则表达式
         /// </summary>
-        public CompiledRoute Compile()
-        {
+        public string[] HostTokens{ get; set; }
+
+        /// <summary>
+        /// 匹配host的的变量名
+        /// </summary>
+        public string[] HostVariables{ get; set; }
+
+        /// <summary>
+        /// 所有的变量列表
+        /// </summary>
+        public string[] Variables{ get; set; }
 
 
-            //catlib://index-controller/{id}/{num}/{num?}
-            // 假设where num: [0-9]*
-            //catlib://index-controller/
-
-            //compilePattern(uri, compilePattern
-
-
-
-            return this;
-        }
-
+        public CompiledRoute(){}
 
     }
 
