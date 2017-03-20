@@ -1,6 +1,18 @@
-﻿using System;
+﻿/*
+ * This file is part of the CatLib package.
+ *
+ * (c) Yu Bin <support@catlib.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Document: http://catlib.io/
+ */
+ 
+using System;
 using System.Collections.Generic;
 using CatLib.API;
+using CatLib.API.Exception;
 
 namespace CatLib{
 	public class GlobalEvent : IGlobalEvent {

@@ -1,6 +1,17 @@
-﻿using System.Diagnostics;
-using UnityEditor;
+﻿/*
+ * This file is part of the CatLib package.
+ *
+ * (c) Yu Bin <support@catlib.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Document: http://catlib.io/
+ */
+
+using System.Diagnostics;
 using CatLib.API;
+using UnityEditor;
 
 namespace CatLib.Protobuf
 {
@@ -31,13 +42,15 @@ namespace CatLib.Protobuf
             string call = null;
             if(env.Platform == UnityEngine.RuntimePlatform.WindowsEditor)
             {
-                call = "protogen.exe";
+                call = GenToolPath + "protogen.exe";
+            }else if(env.Platform == UnityEngine.RuntimePlatform.OSXEditor){
+                //call = "mono " + GenToolPath + "protogen.exe";
             }
 
             if (string.IsNullOrEmpty(call)) { UnityEngine.Debug.Log("not support this platform to build"); return; }
 
-            ProcessStartInfo start = new ProcessStartInfo(GenToolPath + call);
-
+            ProcessStartInfo start = new ProcessStartInfo(call);
+            UnityEngine.Debug.Log(Arguments.Replace("{in}", protoPath).Replace("{out}", saveTo));
             start.Arguments = Arguments.Replace("{in}", protoPath).Replace("{out}", saveTo);
             start.CreateNoWindow = false;
             start.ErrorDialog = true;
