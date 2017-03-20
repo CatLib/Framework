@@ -22,7 +22,7 @@ namespace CatLib.Protobuf
         /// <summary>
         /// 编译工具路径
         /// </summary>
-        public static string GenToolPath = UnityEngine.Application.dataPath + "/CaLib/Lib/Protobuf/Editor/Gen/";
+        public static string GenToolPath = UnityEngine.Application.dataPath + "/CatLib/Lib/Protobuf/Editor/Gen/";
 
         public static string Arguments = "-i:{in} -o:{out}";
 
@@ -50,7 +50,6 @@ namespace CatLib.Protobuf
             if (string.IsNullOrEmpty(call)) { UnityEngine.Debug.Log("not support this platform to build"); return; }
 
             ProcessStartInfo start = new ProcessStartInfo(call);
-            UnityEngine.Debug.Log(Arguments.Replace("{in}", protoPath).Replace("{out}", saveTo));
             start.Arguments = Arguments.Replace("{in}", protoPath).Replace("{out}", saveTo);
             start.CreateNoWindow = false;
             start.ErrorDialog = true;
