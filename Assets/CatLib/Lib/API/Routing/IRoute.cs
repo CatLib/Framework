@@ -9,7 +9,7 @@ namespace CatLib.API.Routing
     {
 
         /// <summary>
-        /// 约束指定参数必须符合指定模式才会被路由
+        /// 约束指定参数必须符合正则表达式
         /// </summary>
         /// <param name="name"></param>
         /// <param name="pattern"></param>
