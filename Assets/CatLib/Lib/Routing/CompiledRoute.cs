@@ -57,21 +57,27 @@ namespace CatLib.Routing
         public override string ToString(){
 
             StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine("[RouteRegex]: " + RouteRegex);
+            builder.AppendLine();
+
             builder.AppendLine("[StaticPrefix]: " + StaticPrefix);
-            builder.AppendLine("[RouteRegex]: " + StaticPrefix);
+            builder.AppendLine();
+            
 
             builder.AppendLine("[Tokens]:");
             for(int i = 0 ; i < Tokens.Length ; i++){
 
                 if(Tokens[i][0] == "text"){
 
-                    builder.AppendLine("    [type]: " + Tokens[i][0] + " , [str]: " + Tokens[i][1]);
+                    builder.AppendLine("    [type]: " + Tokens[i][0] + " , [regex]: " + Tokens[i][1]);
                 }else{
                     builder.AppendLine("    [type]: " + Tokens[i][0] + " , [preceding]: " + Tokens[i][1]+ " , [regex]: " + Tokens[i][2] + " , [var]: " + Tokens[i][3]);
                 }
 
             }
 
+            builder.AppendLine();
             builder.AppendLine("[PathVariables]: ");
             for(int i = 0 ; i < PathVariables.Length ; i++){
 
@@ -79,19 +85,22 @@ namespace CatLib.Routing
 
             }
 
+            builder.AppendLine();
             builder.AppendLine("[HostRegex]: " + HostRegex);
 
+            builder.AppendLine();
             builder.AppendLine("[HostTokens]: ");
             for(int i = 0 ; i < HostTokens.Length ; i++){
 
                 if(HostTokens[i][0] == "text"){
-                    builder.AppendLine("    [type]: " + HostTokens[i][0] + " , [str]: " + HostTokens[i][1]);
+                    builder.AppendLine("    [type]: " + HostTokens[i][0] + " , [regex]: " + HostTokens[i][1]);
                 }else{
                     builder.AppendLine("    [type]: " + HostTokens[i][0] + " , [preceding]: " + HostTokens[i][1]+ " , [regex]: " + HostTokens[i][2] + " , [var]: " + HostTokens[i][3]);
                 }
 
             }
 
+            builder.AppendLine();
             builder.AppendLine("[HostVariables]: ");
             for(int i = 0 ; i < HostVariables.Length ; i++){
 
@@ -99,6 +108,7 @@ namespace CatLib.Routing
 
             }
 
+            builder.AppendLine();
             builder.AppendLine("[Variables]: ");
             for(int i = 0 ; i < Variables.Length ; i++){
 

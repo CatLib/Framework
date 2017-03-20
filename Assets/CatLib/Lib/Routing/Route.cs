@@ -10,7 +10,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 路由条目
     /// </summary>
-    public class Route : IRoutingBind
+    public class Route : IRoute
     {
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace CatLib.Routing
         /// <param name="name"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        public IRoutingBind Where(string name, string pattern)
+        public IRoute Where(string name, string pattern)
         {
             if (wheres == null) { wheres = new Dictionary<string, string>(); }
             if (wheres.ContainsKey(name)) { wheres.Remove(name); }
@@ -202,7 +202,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRoutingBind OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
+        public IRoute OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
         {
             if (onError == null)
             {
@@ -217,32 +217,13 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRoutingBind Middleware(Action<IRequest, IResponse , IFilterChain<IRequest, IResponse>> middleware)
+        public IRoute Middleware(Action<IRequest, IResponse , IFilterChain<IRequest, IResponse>> middleware)
         {
             if (this.middleware == null)
             {
                 this.middleware = filterChain.Create<IRequest , IResponse>();
             }
             this.middleware.Add(middleware);
-            return this;
-        }
-
-        /// <summary>
-        /// 为当前路由定义一个名字，允许通过名字来路由
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public IRoutingBind Name(string name)
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// 以异步的方式进行路由
-        /// </summary>
-        /// <returns></returns>
-        public IRoutingBind Async()
-        {
             return this;
         }
 
@@ -295,6 +276,9 @@ namespace CatLib.Routing
                     return false;
                 }
             }
+
+            UnityEngine.Debug.Log("match!");
+            UnityEngine.Debug.Log(Compiled.ToString());
             return true;
 
         }

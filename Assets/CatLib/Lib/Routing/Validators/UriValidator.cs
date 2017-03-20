@@ -13,10 +13,8 @@ namespace CatLib.Routing{
         /// <param name="request">请求</param>
         /// <returns></returns>
         public bool Matches(Route route, Request request){
-
-			string path = request.Path == "/" ? "/" : "/" + request.Path;
 			
-			return (new Regex(route.Compiled.RouteRegex)).IsMatch(path);
+			return (new Regex(route.Compiled.RouteRegex)).IsMatch(request.Uri);
 
 		}
 

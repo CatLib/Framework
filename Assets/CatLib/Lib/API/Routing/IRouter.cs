@@ -17,7 +17,7 @@ namespace CatLib.API.Routing
         /// <param name="url">统一资源定位符</param>
         /// <param name="action">行为</param>
         /// <returns></returns>
-        IRoutingBind Reg(string url, Action<IRequest, IResponse> action);
+        IRoute Reg(string url, Action<IRequest, IResponse> action);
 
         /// <summary>
         /// 设定默认的Scheme

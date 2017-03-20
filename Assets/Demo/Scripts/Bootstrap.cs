@@ -112,15 +112,23 @@ public class Bootstrap : ServiceProvider
             Debug.Log("AbsolutePath:" + uriss.AbsolutePath);
             return;*/
 
+            /*
             Regex reg = new Regex("^catlib\\://main/hash/(?<name>[^/]+)(?:/(?<age>[^/]+))?$");
 
             Debug.Log(reg.IsMatch("catlib://main/hash/yubin/18") ? "yes" : "no");
-
+            */
             //return;
 
             IRouter router = App.Make<IRouter>();
 
-            router.Reg("main/hash/{name}/{age?}", (request, response) =>
+            router.Reg("name", (request, response) =>
+            {
+
+                Debug.Log("hash routing / !");
+
+            });
+
+            router.Reg("main/hash/{name}/time/{age?}", (request, response) =>
             {
 
                 Debug.Log("hash routing");
@@ -128,7 +136,7 @@ public class Bootstrap : ServiceProvider
             });
 
 
-            router.Dispatch("catlib://main/hash/yubin/18");
+            router.Dispatch("catlib://main/hash/yubin/time/18");
 
             return;
 

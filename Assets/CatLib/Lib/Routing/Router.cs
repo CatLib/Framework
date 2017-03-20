@@ -82,7 +82,7 @@ namespace CatLib.Routing
         /// <param name="uris">统一资源标识符</param>
         /// <param name="action">行为</param>
         /// <returns></returns>
-        public IRoutingBind Reg(string uris, Action<IRequest, IResponse> action)
+        public IRoute Reg(string uris, Action<IRequest, IResponse> action)
         {
 
             uris = GuardUri(uris);
@@ -143,6 +143,7 @@ namespace CatLib.Routing
         {
 
             uri = GuardUri(uri);
+            uri = Prefix(uri);
 
             Request request = CreateRequest(uri, context);
 
@@ -320,7 +321,7 @@ namespace CatLib.Routing
                 }
                 uri = defaultScheme + "://" + uri;
             }
-            return Prefix(uri);
+            return uri;
         }
 
     }
