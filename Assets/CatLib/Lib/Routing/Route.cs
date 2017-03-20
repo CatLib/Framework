@@ -14,6 +14,31 @@ namespace CatLib.Routing
     {
 
         /// <summary>
+        /// 路由行为
+        /// </summary>
+        protected class RouteAction
+        {
+
+            /// <summary>
+            /// 路由行为类型
+            /// </summary>
+            public enum RouteTypes
+            {
+                CallBack,
+            }
+
+            /// <summary>
+            /// 类型
+            /// </summary>
+            public RouteTypes Type { get; set; }
+
+            /// <summary>
+            /// 回调行为
+            /// </summary>
+            public Action<IRequest, IResponse> Action { get; set; }
+        }
+
+        /// <summary>
         /// 验证器
         /// </summary>
         protected static IValidators[] validators;
@@ -80,7 +105,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 路由行为
         /// </summary>
-        protected Action<IRequest, IResponse> action;
+        protected RouteAction action;
 
         /// <summary>
         /// 筛选条件
@@ -95,7 +120,7 @@ namespace CatLib.Routing
         public Route(Uri uri , Action<IRequest, IResponse> action)
         {
             this.uri = uri;
-            this.action = action;
+            this.action = new RouteAction() { Type = RouteAction.RouteTypes.CallBack, Action = action };
         }
 
         /// <summary>
@@ -235,6 +260,11 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IResponse Run(IRequest request, IResponse response)
         {
+            RouteParameterBinder.Parameters(this , request);
+            if (action.Type == RouteAction.RouteTypes.CallBack)
+            {
+                action.Action(request, response);
+            }
             return response;
         }
 
@@ -267,8 +297,6 @@ namespace CatLib.Routing
             CompileRoute();
             GetValidators();
  
-            UnityEngine.Debug.Log(Compiled.ToString());
-
             for (int i = 0; i < validators.Length; i++)
             {
                 if (!validators[i].Matches(this, request))
@@ -277,8 +305,8 @@ namespace CatLib.Routing
                 }
             }
 
-            UnityEngine.Debug.Log("match!");
             UnityEngine.Debug.Log(Compiled.ToString());
+
             return true;
 
         }

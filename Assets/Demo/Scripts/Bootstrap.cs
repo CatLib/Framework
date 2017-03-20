@@ -121,19 +121,34 @@ public class Bootstrap : ServiceProvider
 
             IRouter router = App.Make<IRouter>();
 
+            router.SetDefaultScheme("catlib");
+
             router.Reg("name", (request, response) =>
             {
 
-                Debug.Log("hash routing / !");
+                Debug.Log("has routing / !");
+
+            });
+
+            router.Reg("myscheme://helloworld", (request, response) =>
+            {
+
+                Debug.Log("hello world");
 
             });
 
             router.Reg("main/hash/{name}/time/{age?}", (request, response) =>
             {
 
-                Debug.Log("hash routing");
+                Debug.Log("has routing");
 
             }).Where("age", "[0-9]+");
+
+            Debug.Log("dispatch : myscheme://helloworld");
+            router.Dispatch("myscheme://helloworld");
+
+            Debug.Log("dispatch : catlib://name");
+            router.Dispatch("catlib://name");
 
             Debug.Log("dispatch : catlib://main/hash/yubin/time/18");
             router.Dispatch("catlib://main/hash/yubin/time/18");
