@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
  
-namespace CatLib.API.Exception{
+namespace CatLib.API{
 
 	public class RunTimeException : System.Exception {
 
