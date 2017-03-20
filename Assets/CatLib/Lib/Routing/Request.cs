@@ -32,6 +32,11 @@ namespace CatLib.Routing
         public string Host{ get{ return uri.Host; } }
 
         /// <summary>
+        /// 获取 URI 的绝对路径(不带参数)
+        /// </summary>
+        public string Path{ get{ return uri.AbsolutePath; } }
+
+        /// <summary>
         /// 方案
         /// </summary>
         public string Scheme { get { return uri.Scheme; } }

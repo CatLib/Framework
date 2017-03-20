@@ -14,7 +14,7 @@ namespace CatLib.Routing{
         /// <returns></returns>
         public bool Matches(Route route, Request request){
 
-			string path = request.Uri == "/" ? "/" : "/" + request.Uri;
+			string path = request.Path == "/" ? "/" : "/" + request.Path;
 			
 			return (new Regex(route.Compiled.RouteRegex)).IsMatch(path);
 
