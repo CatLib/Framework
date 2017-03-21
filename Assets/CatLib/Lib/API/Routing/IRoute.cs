@@ -19,6 +19,13 @@ namespace CatLib.API.Routing
     {
 
         /// <summary>
+        /// 设定参数的默认值
+        /// </summary>
+        /// <param name="name">参数名</param>
+        /// <param name="val">参数值</param>
+        IRoute Defaults(string name, string val);
+
+        /// <summary>
         /// 约束指定参数必须符合正则表达式
         /// </summary>
         /// <param name="name"></param>

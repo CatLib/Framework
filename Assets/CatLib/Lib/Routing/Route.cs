@@ -124,6 +124,11 @@ namespace CatLib.Routing
         protected Dictionary<string, string> wheres;
 
         /// <summary>
+        /// 默认值
+        /// </summary>
+        protected Dictionary<string, string> defaults;
+
+        /// <summary>
         /// 创建一个新的路由条目
         /// </summary>
         /// <param name="url"></param>
@@ -141,6 +146,18 @@ namespace CatLib.Routing
 
             return Uri.Host;
 
+        }
+
+        /// <summary>
+        /// 获取参数默认值
+        /// </summary>
+        /// <param name="name">参数名</param>
+        public string GetDefault(string name , string defaultValue = null){
+
+            if(defaults == null){ return defaultValue; }
+            if(!defaults.ContainsKey(name)){ return defaultValue; }
+            return defaults[name];
+            
         }
 
         /// <summary>
@@ -231,6 +248,24 @@ namespace CatLib.Routing
             if (wheres.ContainsKey(name)) { wheres.Remove(name); }
             wheres[name] = pattern;
             return this;
+        }
+
+        /// <summary>
+        /// 设定默认值
+        /// </summary>
+        /// <param name="name">参数名</param>
+        /// <param name="val">默认值</param>
+        public IRoute Defaults(string name, string val){
+
+            if(defaults == null){  
+                defaults = new Dictionary<string , string>();
+            }
+
+            defaults.Remove(name);
+            defaults.Add(name , val);
+
+            return this;
+
         }
 
         /// <summary>

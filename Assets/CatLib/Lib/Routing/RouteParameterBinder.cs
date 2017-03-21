@@ -61,6 +61,23 @@ namespace CatLib.Routing
 
         protected static void ReplaceDefaults(Route route , Request request){
 
+            string varName , defaults;
+            for(int i = 0 ; i < route.Compiled.Variables.Length ; i++){
+                
+                varName = route.Compiled.Variables[i];
+                if(request.Get(varName) == null){
+
+                    defaults = route.GetDefault(varName);
+                    if(!string.IsNullOrEmpty(defaults)){
+
+                        request.AddParameters(varName , defaults);
+
+                    }
+
+                }
+                
+
+            }
 
         }
     }
