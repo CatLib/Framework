@@ -84,6 +84,19 @@ namespace CatLib.Routing
         }
 
         /// <summary>
+        /// 增加参数
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="val"></param>
+        public Request AddParameters(string key , string val){
+
+            this.parameters.Remove(key);
+            this.parameters.Add(key , val);
+            return this;
+
+        }
+
+        /// <summary>
         /// 设定路由方案
         /// </summary>
         /// <param name="route">路由方案</param>
@@ -92,6 +105,24 @@ namespace CatLib.Routing
         {
             this.route = route;
             return this;
+        }
+
+        /// <summary>
+        /// 获取字符串附加物
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public string Get(string key, string defaultValue = null)
+        {
+            if(parameters != null)
+            {
+                if (parameters.ContainsKey(key))
+                {
+                    return parameters[key];
+                }
+            }
+            return defaultValue;
         }
 
 
@@ -103,14 +134,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         public string GetString(string key, string defaultValue = null)
         {
-            if(parameters != null)
-            {
-                if (parameters.ContainsKey(key))
-                {
-                    return parameters[key];
-                }
-            }
-            return defaultValue;
+            return Get(key , defaultValue);
         }
 
         /// <summary>

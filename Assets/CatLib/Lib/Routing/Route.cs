@@ -269,9 +269,9 @@ namespace CatLib.Routing
         /// <param name="request"></param>
         /// <param name="response"></param>
         /// <returns></returns>
-        public IResponse Run(IRequest request, IResponse response)
+        public IResponse Run(Request request, Response response)
         {
-            RouteParameterBinder.Parameters(this , request);
+            RouteParameterBinder.Parameters(this , request as Request);
             if (action.Type == RouteAction.RouteTypes.CallBack)
             {
                 action.Action(request, response);

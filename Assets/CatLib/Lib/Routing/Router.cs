@@ -228,7 +228,7 @@ namespace CatLib.Routing
                 {
                     middleware.Then((req, res) =>
                     {
-                        PrepareResponse(req, route.Run(req, res));
+                        PrepareResponse(req, route.Run(req as Request, res as Response));
                     }).Do(request, response);
                 }
                 else

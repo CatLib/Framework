@@ -140,22 +140,22 @@ public class Bootstrap : ServiceProvider
             router.Reg("main/hash/{name}/time/{age?}", (request, response) =>
             {
 
-                Debug.Log("has routing");
+                Debug.Log("has routing ,my name is:" + request.Get("name") + ", my age is:" + request.Get("age"));
 
             }).Where("age", "[0-9]+");
 
-            Debug.Log("dispatch : myscheme://helloworld");
-            router.Dispatch("myscheme://helloworld");
+            //Debug.Log("dispatch : myscheme://helloworld");
+            //router.Dispatch("myscheme://helloworld");
 
-            Debug.Log("dispatch : catlib://name");
-            router.Dispatch("catlib://name");
+            //Debug.Log("dispatch : catlib://name");
+            //router.Dispatch("catlib://name");
 
             Debug.Log("dispatch : catlib://main/hash/yubin/time/18");
             router.Dispatch("catlib://main/hash/yubin/time/18");
-            Debug.Log("dispatch : catlib://main/hash/yubin/time/1d8");
-            router.Dispatch("catlib://main/hash/yubin/time/1d8");
-            Debug.Log("dispatch : catlib://main/hash/yubin/time");
-            router.Dispatch("catlib://main/hash/yubin/time");
+            //Debug.Log("dispatch : catlib://main/hash/yubin/time/1d8");
+            //router.Dispatch("catlib://main/hash/yubin/time/1d8");
+            //Debug.Log("dispatch : catlib://main/hash/yubin/time");
+            //router.Dispatch("catlib://main/hash/yubin/time");
 
             return;
 

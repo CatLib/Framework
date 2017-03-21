@@ -8,9 +8,7 @@
  *
  * Document: http://catlib.io/
  */
-
-using System.Collections.Generic;
-using CatLib.API.Routing;
+using System.Text.RegularExpressions;
 
 namespace CatLib.Routing
 {
@@ -26,9 +24,44 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> Parameters(Route route , IRequest request)
+        public static void Parameters(Route route , Request request)
+        {   
+            BindPathParameters(route , request);
+            BindHostParameters(route , request);
+            ReplaceDefaults(route, request);
+        }
+
+        protected static void BindPathParameters(Route route , Request request)
         {
-            return null;
+            Regex reg = new Regex(route.Compiled.RouteRegex);
+            MatchToKeys(route , request , reg.Match(request.Uri));
+        }
+
+        protected static void BindHostParameters(Route route, Request request)
+        {
+            Regex reg = new Regex(route.Compiled.HostRegex);
+            MatchToKeys(route , request , reg.Match(request.Host));
+        }
+
+        protected static void MatchToKeys(Route route , Request request , Match matches)
+        {   
+            string[] parameterNames = route.Compiled.Variables;
+            if(parameterNames.Length <= 0){ return; }
+
+            string val;
+            for(int i = 0 ; i < route.Compiled.Variables.Length ; i++){
+
+                val = matches.Groups[route.Compiled.Variables[i]].Value;
+                if(!string.IsNullOrEmpty(val)){
+                    request.AddParameters(route.Compiled.Variables[i] , val);
+                }
+
+            }
+        }
+
+        protected static void ReplaceDefaults(Route route , Request request){
+
+
         }
     }
 

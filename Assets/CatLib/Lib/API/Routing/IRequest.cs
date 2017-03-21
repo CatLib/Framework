@@ -19,6 +19,19 @@ namespace CatLib.API.Routing
     {
 
         /// <summary>
+        /// Uri
+        /// </summary>
+        string Uri{ get; }
+
+        /// <summary>
+        /// 获取字符串附加物
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        string Get(string key, string defaultValue = null);
+
+        /// <summary>
         /// 获取字符串附加物
         /// </summary>
         /// <param name="key"></param>
