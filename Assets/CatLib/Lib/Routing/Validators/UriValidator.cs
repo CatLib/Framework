@@ -23,8 +23,8 @@ namespace CatLib.Routing{
         /// <param name="request">请求</param>
         /// <returns></returns>
         public bool Matches(Route route, Request request){
-			
-			return (new Regex(route.Compiled.RouteRegex)).IsMatch(request.Uri);
+            
+			return (new Regex(route.Compiled.RouteRegex)).IsMatch(request.SchemeHostPath);
 
 		}
 

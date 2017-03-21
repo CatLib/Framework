@@ -34,7 +34,7 @@ namespace CatLib.Routing
         protected static void BindPathParameters(Route route , Request request)
         {
             Regex reg = new Regex(route.Compiled.RouteRegex);
-            MatchToKeys(route , request , reg.Match(request.Uri));
+            MatchToKeys(route , request , reg.Match(request.SchemeHostPath));
         }
 
         protected static void BindHostParameters(Route route, Request request)

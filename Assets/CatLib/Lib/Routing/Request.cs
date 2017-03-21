@@ -42,6 +42,12 @@ namespace CatLib.Routing
         /// </summary>
         public string Uri { get { return uri.OriginalString; } }
 
+        public string SchemeHostPath{
+
+            get{ return Scheme + "://" + Host + Path; }
+
+        }
+
         /// <summary>
         /// host
         /// </summary>
