@@ -27,22 +27,63 @@ namespace CatLib.Routing
         public static void Parameters(Route route , Request request)
         {   
             BindPathParameters(route , request);
+            BindQueryParameters(route, request);
             BindHostParameters(route , request);
             ReplaceDefaults(route, request);
         }
 
+        /// <summary>
+        /// 匹配路径
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="request"></param>
         protected static void BindPathParameters(Route route , Request request)
         {
             Regex reg = new Regex(route.Compiled.RouteRegex);
             MatchToKeys(route , request , reg.Match(request.SchemeHostPath));
         }
 
+        /// <summary>
+        /// 匹配Host
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="request"></param>
         protected static void BindHostParameters(Route route, Request request)
         {
             Regex reg = new Regex(route.Compiled.HostRegex);
             MatchToKeys(route , request , reg.Match(request.Host));
         }
 
+        /// <summary>
+        /// 匹配绑定参数
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="request"></param>
+        protected static void BindQueryParameters(Route route , Request request)
+        {
+            if (request.Uri.Query.Length <= 0) { return; }
+            string query = request.Uri.Query;
+            query = query.Substring(1, query.Length - 1);
+
+            string[] paramKV = query.Split('&');
+            string[] kv;
+            foreach(string parameter in paramKV)
+            {
+                kv = parameter.Split('=');
+                if(kv.Length == 2)
+                {
+                    request.AddParameters(kv[0], kv[1]);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 匹配路径中的key
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="request"></param>
+        /// <param name="matches"></param>
         protected static void MatchToKeys(Route route , Request request , Match matches)
         {   
             string[] parameterNames = route.Compiled.Variables;
@@ -59,6 +100,11 @@ namespace CatLib.Routing
             }
         }
 
+        /// <summary>
+        /// 将没有传入的参数替换为默认参数
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="request"></param>
         protected static void ReplaceDefaults(Route route , Request request){
 
             string varName , defaults;

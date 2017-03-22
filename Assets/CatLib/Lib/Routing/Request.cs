@@ -236,8 +236,8 @@ namespace CatLib.Routing
         public Request AddParameters(string key, string val)
         {
 
-            this.parameters.Remove(key);
-            this.parameters.Add(key, val);
+            parameters.Remove(key);
+            parameters.Add(key, val);
             return this;
 
         }
