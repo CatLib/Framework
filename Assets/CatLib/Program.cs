@@ -12,6 +12,10 @@
 using UnityEngine;
 using CatLib.API;
 
+/// <summary>
+/// 程序入口
+/// Program Entry
+/// </summary>
 public class Program : MonoBehaviour {
 
     /// <summary>

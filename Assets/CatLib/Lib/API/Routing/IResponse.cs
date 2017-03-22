@@ -18,6 +18,17 @@ namespace CatLib.API.Routing
     public interface IResponse
     {
 
+        /// <summary>
+        /// 设定上下文
+        /// </summary>
+        /// <param name="context"></param>
+        object GetContext();
+
+        /// <summary>
+        /// 设定上下文
+        /// </summary>
+        /// <param name="context"></param>
+        void SetContext(object context);
 
     }
 

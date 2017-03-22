@@ -40,28 +40,37 @@ namespace CatLib.Routing
         /// <summary>
         /// Uri
         /// </summary>
-        public string Uri { get { return uri.OriginalString; } }
-
-        public string SchemeHostPath{
-
-            get{ return Scheme + "://" + Host + Path; }
-
-        }
+        public Uri Uri { get { return uri; } }
 
         /// <summary>
-        /// host
+        /// FullPath eg: catlib://login/register
+        /// </summary>
+        public string FullPath { get { return uri.OriginalString; } }
+
+        /// <summary>
+        /// 方案 eg: catlib
+        /// </summary>
+        public string Scheme { get { return uri.Scheme; } }
+
+        /// <summary>
+        /// host eg: login
         /// </summary>
         public string Host{ get{ return uri.Host; } }
 
         /// <summary>
-        /// 获取 URI 的绝对路径(不带参数)
+        /// 获取 URI 的绝对路径(不带参数) eg:/register
         /// </summary>
         public string Path{ get{ return uri.AbsolutePath; } }
 
         /// <summary>
-        /// 方案
+        /// scheme + host + path 组合内容 eg: catlib://login/register
         /// </summary>
-        public string Scheme { get { return uri.Scheme; } }
+        public string SchemeHostPath{ get { return Scheme + "://" + Host + Path; } }
+
+        /// <summary>
+        /// 请求中附带的用户信息
+        /// </summary>
+        public string UserInfo { get { return uri.UserInfo; } }
 
         /// <summary>
         /// 上下文
@@ -80,37 +89,27 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 设定参数
+        /// 构成uri路径段的数组
         /// </summary>
-        /// <param name="parameters"></param>
-        public Request SetParameters(Dictionary<string, string> parameters)
-        {
-            this.parameters = parameters;
-            return this;
-        }
-
-        /// <summary>
-        /// 增加参数
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="val"></param>
-        public Request AddParameters(string key , string val){
-
-            this.parameters.Remove(key);
-            this.parameters.Add(key , val);
-            return this;
-
-        }
-
-        /// <summary>
-        /// 设定路由方案
-        /// </summary>
-        /// <param name="route">路由方案</param>
+        /// <param name="index">下标</param>
+        /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
-        public Request SetRoute(Route route)
+        public string Segment(int index, string defaultValue = null)
         {
-            this.route = route;
-            return this;
+            if(index < uri.Segments.Length)
+            {
+                return uri.Segments[index];
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 获取上下文
+        /// </summary>
+        /// <returns></returns>
+        public object GetContext()
+        {
+            return context;
         }
 
         /// <summary>
@@ -130,7 +129,6 @@ namespace CatLib.Routing
             }
             return defaultValue;
         }
-
 
         /// <summary>
         /// 获取字符串附加物
@@ -218,6 +216,41 @@ namespace CatLib.Routing
         public bool GetBoolean(string key, bool defaultValue = false)
         {
             return bool.Parse(GetString(key) ?? defaultValue.ToString());
+        }
+
+        /// <summary>
+        /// 设定参数
+        /// </summary>
+        /// <param name="parameters"></param>
+        public Request SetParameters(Dictionary<string, string> parameters)
+        {
+            this.parameters = parameters;
+            return this;
+        }
+
+        /// <summary>
+        /// 增加参数
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="val"></param>
+        public Request AddParameters(string key, string val)
+        {
+
+            this.parameters.Remove(key);
+            this.parameters.Add(key, val);
+            return this;
+
+        }
+
+        /// <summary>
+        /// 设定路由方案
+        /// </summary>
+        /// <param name="route">路由方案</param>
+        /// <returns></returns>
+        public Request SetRoute(Route route)
+        {
+            this.route = route;
+            return this;
         }
 
     }

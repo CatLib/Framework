@@ -142,6 +142,7 @@ public class Bootstrap : ServiceProvider
             {
 
                 Debug.Log("has routing ,my name is:" + request.Get("name") + ", my age is:" + request.Get("age"));
+                response.SetContext("this is response context");
 
             }).Where("age", "[0-9]+");
 
@@ -152,8 +153,9 @@ public class Bootstrap : ServiceProvider
             //router.Dispatch("catlib://name");
 
             Debug.Log("dispatch : catlib://main/hash/yubin/time/18?name=cat");
-            router.Dispatch("catlib://main/hash/yubin/time/18?name=cat");
-            //Debug.Log("dispatch : catlib://main/hash/yubin/time/1d8");
+            var rData = router.Dispatch("catlib://main/hash/yubin/time/18?name=cat");
+            Debug.Log(rData.GetContext().ToString());
+            //Deresponsebug.Log("dispatch : catlib://main/hash/yubin/time/1d8");
             //router.Dispatch("catlib://main/hash/yubin/time/1d8");
             //Debug.Log("dispatch : catlib://main/hash/yubin/time");
             //router.Dispatch("catlib://main/hash/yubin/time");
