@@ -138,13 +138,20 @@ public class Bootstrap : ServiceProvider
 
             });*/
 
-            router.Reg("main/hash/{name}/time/{age?}", (request, response) =>
+            router.Reg("main/hash/{name}/time/{age?}/{apple?}", (request, response) =>
             {
 
                 Debug.Log("has routing ,my name is:" + request.Get("name") + ", my age is:" + request.Get("age"));
                 response.SetContext("this is response context");
 
             }).Where("age", "[0-9]+");
+
+            router.OnNotFound((req, filter) =>
+            {
+
+                Debug.Log("can not find route");
+
+            });
 
             //Debug.Log("dispatch : myscheme://helloworld");
             //router.Dispatch("myscheme://helloworld");

@@ -67,6 +67,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="events"></param>
         /// <param name="container"></param>
+        /// <param name="filterChain"></param>
         public Router(IEvent events , IContainer container , IFilterChain filterChain)
         {
             this.events = events;
@@ -256,7 +257,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         protected void PrepareResponse(IRequest request, IResponse response)
         {
-            //todo 对响应内容进行处理  
+            //todo: 预留函数  
         }
 
         /// <summary>
