@@ -9,9 +9,12 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections;
+using System.Collections.Generic;
+
 namespace CatLib.API.LruCache{
 
-	public interface ILruCache<TKey, TVal>{
+	public interface ILruCache<TKey, TVal> :  IEnumerator , IEnumerator<KeyValuePair<TKey , TVal>> ,IEnumerable , IEnumerable<KeyValuePair<TKey , TVal>>{
 
 		/// <summary>
 		/// 在lru缓存中增加一个元素
