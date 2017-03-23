@@ -8,7 +8,9 @@
  *
  * Document: http://catlib.io/
  */
- 
+
+using System.Collections.Generic;
+
 namespace CatLib.LruCache{
 
 	/// <summary>
@@ -17,14 +19,9 @@ namespace CatLib.LruCache{
 	public class CacheNode<TKey, TVal>{
 
 		/// <summary>
-		/// 键
+		/// 键值
 		/// </summary>
-        public TKey Key { get; private set; }
-
-		/// <summary>
-		/// 值
-		/// </summary>
-		public TVal Val { get; private set; }
+		public KeyValuePair<TKey , TVal> KeyValue{ get; private set; }
 		
 		/// <summary>
 		/// 上一个节点
@@ -41,8 +38,7 @@ namespace CatLib.LruCache{
 		/// </summary>
         public CacheNode(TKey key , TVal val)
         {	
-			Key = key;
-            Val = val;
+			KeyValue = new KeyValuePair<TKey , TVal>(key , val);
         }
 
 	}

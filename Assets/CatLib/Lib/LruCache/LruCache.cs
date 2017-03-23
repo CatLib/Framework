@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using CatLib.API.LruCache;
 
@@ -39,6 +39,11 @@ namespace CatLib.LruCache{
 		/// 尾节点
 		/// </summary>
         private CacheNode<TKey, TVal> tail;
+
+        /// <summary>
+		/// 当前节点
+		/// </summary>
+        private CacheNode<TKey, TVal> current;
 		
 		/// <summary>
 		/// 创建一个Lru缓存
@@ -75,6 +80,8 @@ namespace CatLib.LruCache{
 			}
 
             lruCache.Add(key, addedNode);
+
+            Reset();
         }
 
 		/// <summary>
@@ -86,7 +93,9 @@ namespace CatLib.LruCache{
 
             MakeUsed(lruCache[key]);
 
-            return lruCache[key].Val;
+            Reset();
+
+            return lruCache[key].KeyValue.Value;
         }
 
 		/// <summary>
@@ -112,12 +121,66 @@ namespace CatLib.LruCache{
 
 		}
 
+        /// <summary>
+		/// 下一个节点是否有数据
+		/// </summary>
+        public bool MoveNext()
+        {
+            if(current == null){ 
+                if(head == null){ return false; }
+                current = head;
+                return true; 
+            }
+            return (current = current.Next) != null;
+        }
+
+        /// <summary>
+		/// 重置
+		/// </summary>
+        public void Reset(){
+
+            current = null;
+
+        }
+
+        public void Dispose(){ Reset(); }
+
+        /// <summary>
+		/// 当前元素
+		/// </summary>
+        public object Current{
+
+            get{ return current.KeyValue; }
+
+        }
+
+        /// <summary>
+		/// 当前元素
+		/// </summary>
+        KeyValuePair<TKey,TVal> IEnumerator<KeyValuePair<TKey , TVal>>.Current{
+
+            get{ return current.KeyValue; }
+
+        }
+
+        public IEnumerator GetEnumerator(){
+
+            return this;
+            
+        }
+
+        IEnumerator<KeyValuePair<TKey,TVal>> IEnumerable<KeyValuePair<TKey,TVal>>.GetEnumerator(){
+
+            return this;
+
+        }   
+
 		/// <summary>
 		/// 移除最后一个元素
 		/// </summary>
 		private void RemoveLeastUsed()
         {
-            lruCache.Remove(tail.Key);
+            lruCache.Remove(tail.KeyValue.Key);
             tail.Previous.Next = null;
             tail = tail.Previous;
         }
