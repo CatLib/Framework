@@ -195,7 +195,6 @@ namespace CatLib
             Instance(typeof(Application).ToString(), this);
             Alias(typeof(IApplication).ToString(), typeof(Application).ToString());
             Alias(typeof(App).ToString(), typeof(Application).ToString());
-
             IBootstrap bootstrap;
             foreach (Type t in bootstraps)
             {

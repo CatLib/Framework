@@ -21,8 +21,11 @@ namespace CatLib.Network
     /// <summary>
     /// 网络服务
     /// </summary>
-    public class Network : Component , IDestroy , INetworkFactory
+    public class Network :  IDestroy , INetworkFactory
     {
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         /// <summary>
         /// 连接器

@@ -16,13 +16,19 @@ using System.Net;
 using UnityEngine;
 using System;
 using CatLib.API;
+using CatLib.API.Event;
 
 namespace CatLib.Network
 {
 
-    public class HttpWebRequest : Component , IConnectorHttp
+    public class HttpWebRequest : IEvent, IConnectorHttp
     {
 
+        [Dependency]
+        public IEventAchieve Event{ get; set;  }
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         /// <summary>
         /// 名字

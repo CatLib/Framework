@@ -17,12 +17,19 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using CatLib.API;
+using CatLib.API.Event;
 
 namespace CatLib.Network
 {
 
-    public class UdpRequest : Component, IConnectorUdp
+    public class UdpRequest : IEvent, IConnectorUdp
     {
+
+        [Dependency]
+        public IEventAchieve Event { get; set; }
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         public string Name { get; set; }
 

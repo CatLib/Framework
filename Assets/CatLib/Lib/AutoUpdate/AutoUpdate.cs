@@ -20,7 +20,7 @@ using CatLib.API.Hash;
 namespace CatLib.AutoUpdate
 {
 
-    public class AutoUpdate : Component , IAutoUpdate
+    public class AutoUpdate : IAutoUpdate
     {
 
         [Dependency]
@@ -31,6 +31,9 @@ namespace CatLib.AutoUpdate
 
         [Dependency]
         public IEnv Env { get; set; }
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         private IDisk disk;
 

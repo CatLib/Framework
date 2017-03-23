@@ -17,12 +17,19 @@ using CatLib.API.Network;
 using System.Net;
 using CatLib.API.Buffer;
 using CatLib.API;
+using CatLib.API.Event;
 
 namespace CatLib.Network
 {
 
-    public class TcpRequest : Component, IConnectorTcp
+    public class TcpRequest : IEvent, IConnectorTcp
     {
+
+        [Dependency]
+        public IEventAchieve Event { get; set; }
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         public string Name { get; set; }
 

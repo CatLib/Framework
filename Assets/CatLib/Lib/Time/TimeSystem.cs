@@ -17,7 +17,7 @@ namespace CatLib.Time
     /// <summary>
     /// 时间系统
     /// </summary>
-    public class TimeSystem : Component, ITime
+    public class TimeSystem : ITime
     {
 
         public virtual float Time
