@@ -11,13 +11,14 @@
  
 using System;
 using System.Collections;
+using CatLib.API;
 
 namespace CatLib
 {
     /// <summary>
     /// 服务提供者
     /// </summary>
-    public abstract class ServiceProvider : Component
+    public abstract class ServiceProvider
     {
 
         public virtual void Init() { }
@@ -27,6 +28,8 @@ namespace CatLib
         public virtual IEnumerator OnProviderProcess() { yield break; }
 
         public virtual Type[] ProviderDepend { get { return new Type[] { }; } }
+
+        public IApplication App { get { return CatLib.App.Instance; } }
 
         abstract public void Register();
 

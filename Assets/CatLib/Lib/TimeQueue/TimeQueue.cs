@@ -12,12 +12,15 @@
 using CatLib.API.TimeQueue;
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 
 namespace CatLib.TimeQueue
 {
 
-    public class TimeQueue : Component , ITimeQueue
+    public class TimeQueue : ITimeQueue
     {
+
+        public IApplication App { get; set; }
 
         private Action queueOnComplete;
         private Action<object> queueOnCompleteWithContext;

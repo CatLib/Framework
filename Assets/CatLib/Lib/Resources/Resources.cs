@@ -19,7 +19,7 @@ using System.IO;
 
 namespace CatLib.Resources {
 
-    public class Resources : Component , IResources
+    public class Resources : IResources
     {
 
         [Dependency]
@@ -32,6 +32,9 @@ namespace CatLib.Resources {
 
         [Dependency]
         public IEnv Env { get; set; }
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         public void SetHosted(string service){
 

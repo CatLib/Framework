@@ -227,7 +227,7 @@ public class Bootstrap : ServiceProvider
             Debug.Log(abc.IsTrue);
             Debug.Log(setting.GetInt("aa"));
             Debug.Log(setting.GetInt("ab",100));
-            return;
+           // return;
 
             ITimeQueue queue = App.Make<ITimeQueue>();
 
@@ -262,7 +262,7 @@ public class Bootstrap : ServiceProvider
                 }
             }).Delay(5).Start();*/
             
-            return;
+            //return;
 
 
             ICsvStore csvStore = App.Make<ICsvStore>();
@@ -276,7 +276,7 @@ public class Bootstrap : ServiceProvider
 
             }
 
-            return;
+            //return;
 
 
             IEnv env = App.Make<IEnv>();
@@ -323,7 +323,7 @@ public class Bootstrap : ServiceProvider
 
             }
 
-            return;
+           // return;
 
 
             foreach(string[] s in parser)
@@ -333,7 +333,7 @@ public class Bootstrap : ServiceProvider
 
             }
 
-            return;
+            //return;
 
             IProtobuf protobuf = App.Make<IProtobuf>();
 

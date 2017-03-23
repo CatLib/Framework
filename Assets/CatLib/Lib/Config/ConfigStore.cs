@@ -12,19 +12,27 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API.Config;
+using CatLib.API;
 
 namespace CatLib.Config{
 
-	public class ConfigStore : Component , IConfigStore{
+	public class ConfigStore : IConfigStore{
 
-		protected Dictionary<string, Dictionary<string, object>> configs;
+        [Dependency]
+        public IApplication App { get; set; }
+
+        protected Dictionary<string, Dictionary<string, object>> configs;
 
 		public ConfigStore(){
 
 			configs = new Dictionary<string, Dictionary<string, object>>();
-			InitConfig();
 
 		}
+
+        public void Init()
+        {
+            InitConfig();
+        }
 
 		public T Get<T>(Type name, string field , T def = default(T)){
 

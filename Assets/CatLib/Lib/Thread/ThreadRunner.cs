@@ -20,8 +20,11 @@ namespace CatLib.Thread
     /// <summary>
     /// 多线程运行器
     /// </summary>
-    public class ThreadRuner : Component , IThread , IUpdate
+    public class ThreadRuner : IThread , IUpdate
     {
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         private List<ThreadTask> taskRunner = new List<ThreadTask>();
         private ReaderWriterLockSlim taskRunnerLocker = new ReaderWriterLockSlim();

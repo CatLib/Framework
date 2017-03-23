@@ -17,13 +17,14 @@ using CatLib.API;
 using CatLib.API.Lua;
 using CatLib.API.Resources;
 using CatLib.API.IO;
+using CatLib.API.Event;
 
 namespace CatLib.Lua
 {
     /// <summary>
     /// Lua 虚拟机
     /// </summary>
-    public class LuaStore : Component , IUpdate , ILua
+    public class LuaStore :  IUpdate , ILua
     {
 
         [Dependency]
@@ -34,6 +35,12 @@ namespace CatLib.Lua
 
         [Dependency]
         public IResources Resources { get; set; }
+
+        [Dependency]
+        public IEventAchieve Event { get; set; }
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         private IDisk disk;
 

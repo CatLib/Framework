@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using CatLib.API.IO;
+using CatLib.API;
 
 namespace CatLib.IO
 {
@@ -19,8 +20,11 @@ namespace CatLib.IO
     /// <summary>
     /// 文件服务
     /// </summary>
-    public class IO : Component , IIOFactory
+    public class IO : IIOFactory
     {
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         private Func<string , Hashtable> configSearch;
 

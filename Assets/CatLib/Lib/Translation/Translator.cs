@@ -14,7 +14,7 @@ using CatLib.API.Translator;
 
 namespace CatLib.Translation{
 
-	public class Translator : Component , ITranslator {
+	public class Translator : ITranslator {
 
 		/// <summary>
         /// 已经被加载的语言集(locale , file , IFileMapping)

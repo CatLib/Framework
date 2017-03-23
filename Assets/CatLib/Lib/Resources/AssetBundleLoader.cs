@@ -19,7 +19,7 @@ using System.IO;
 
 namespace CatLib.Resources {
 
-    public class AssetBundleLoader : Component , IAssetBundle
+    public class AssetBundleLoader :  IAssetBundle
     {
 
         [Dependency]
@@ -27,6 +27,9 @@ namespace CatLib.Resources {
 
         [Dependency]
         public IEnv Env { get; set; }
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         private IDisk disk;
 

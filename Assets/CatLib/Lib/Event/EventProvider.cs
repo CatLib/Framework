@@ -22,7 +22,7 @@ namespace CatLib.Event
 
         public override void Register()
         {
-            App.Bind<EventStore>().Alias<IEvent>().Alias<IEventAchieve>();
+            App.Bind<EventStore>().Alias<IEventAchieve>();
         }
 
     }

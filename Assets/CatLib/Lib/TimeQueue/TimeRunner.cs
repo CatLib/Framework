@@ -16,14 +16,17 @@ using System.Threading;
 
 namespace CatLib.TimeQueue {
 
-    public class TimeRunner : Component , IUpdate{
+    public class TimeRunner : IUpdate{
+
+        [Dependency]
+        public IApplication App { get; set; }
 
         private List<TimeQueue> timeRuner = new List<TimeQueue>();
         private ReaderWriterLockSlim timeRunnerLocker = new ReaderWriterLockSlim();
 
         public ITimeQueue CreateQueue()
         {
-            return new TimeQueue(){ Runner = this };
+            return new TimeQueue(){ Runner = this , App = App };
         }
 
         public bool Runner(TimeQueue runner)
