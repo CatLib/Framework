@@ -58,6 +58,11 @@ namespace CatLib.Routing
         protected IFilterChain<IRequest , Exception> onError;
 
         /// <summary>
+        /// 路由组
+        /// </summary>
+        protected Dictionary<string , RouteGroup> routeGroup;
+
+        /// <summary>
         /// 默认的scheme
         /// </summary>
         protected string defaultScheme;
@@ -186,6 +191,22 @@ namespace CatLib.Routing
                 ThrowOnError(request, ex);
                 return null;
             }
+
+        }
+
+        /// <summary>
+        /// 建立或者获取一个已经建立的路由组
+        /// </summary>
+        public IRouteGroup Group(string name){
+
+            if(routeGroup == null){ routeGroup = new Dictionary<string , RouteGroup>(); }
+            if(!routeGroup.ContainsKey(name)){
+
+                routeGroup.Add(name , new RouteGroup());
+
+            }
+
+            return routeGroup[name];
 
         }
 
