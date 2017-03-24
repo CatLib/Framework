@@ -15,7 +15,7 @@ namespace CatLib.Resources{
 
 		private int refCount = 0;
 
-		public int RefCount{ get { return RefCount; } set{ refCount = value; } }
+		public int RefCount{ get { return refCount; } set{ refCount = value; } }
 		
     	public UnityEngine.AssetBundle Bundle{ get; set; }
 
