@@ -69,7 +69,7 @@ namespace CatLib{
 				if(score != null){
 					
 					if(score is IGuid){
-						App.Instance.Trigger(eventName + (score as IGuid).TypeGuid, score, args);
+						App.Instance.Trigger(eventName + score.GetType().ToString() + (score as IGuid).Guid, score, args);
 					}
 				}
             }

@@ -45,13 +45,6 @@ namespace CatLib
                 return guid;
             }
         }
-        public string TypeGuid
-        {
-            get
-            {
-                return GetType().ToString() + "-" + Guid;
-            }
-        }
 
     }
 
