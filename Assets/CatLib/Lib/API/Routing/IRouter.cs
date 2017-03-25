@@ -27,7 +27,16 @@ namespace CatLib.API.Routing
         /// <param name="url">统一资源定位符</param>
         /// <param name="action">行为</param>
         /// <returns></returns>
-        IRoute Reg(string url, Action<IRequest, IResponse> action);
+        IRoute Reg(string uri, Action<IRequest, IResponse> action);
+
+        /// <summary>
+        /// 注册一个路由方案
+        /// </summary>
+        /// <param name="url">统一资源定位符</param>
+        /// <param name="controller">控制器类型</param>
+        /// <param name="func">控制器方法名</param>
+        /// <returns></returns>
+        IRoute Reg(string uri, Type controller, string func);
 
         /// <summary>
         /// 设定默认的Scheme

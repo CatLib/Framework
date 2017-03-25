@@ -25,6 +25,9 @@ namespace CatLib.Routing
     public class Router : IRouter
     {
 
+        /// <summary>
+        /// 分隔符
+        /// </summary>
         public const char SEPARATOR = '/';
 
         /// <summary>
@@ -99,36 +102,35 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 注册一个路由方案
+        /// 根据回调行为注册一个路由
         /// </summary>
         /// <param name="uris">统一资源标识符</param>
         /// <param name="action">行为</param>
         /// <returns></returns>
-        public IRoute Reg(string uris, Action<IRequest, IResponse> action)
+        public IRoute Reg(string uris , Action<IRequest, IResponse> action)
         {
-
-            uris = GuardUri(uris);
-            Uri uri = new Uri(uris);
-
-            if (!schemes.ContainsKey(uri.Scheme)) { 
-
-                CreateScheme(uri.Scheme);
-            
-            }
-
-            var route = new Route(uri, action);
-            route.SetRouter(this);
-            route.SetScheme(schemes[uri.Scheme]);
-            route.SetFilterChain(filterChain);
-            schemes[uri.Scheme].AddRoute(route);
-
-            if(routeGroupStack.Count > 0)
+            return RegisterRoute(uris , new RouteAction()
             {
-                routeGroupStack.Peek().AddRoute(route);
-            }
+                Type = RouteAction.RouteTypes.CallBack,
+                Action = action,
+            });
+        }
 
-            return route;
-
+        /// <summary>
+        /// 根据控制器的type和调用的方法名字注册一个路由
+        /// </summary>
+        /// <param name="uris"></param>
+        /// <param name="controller"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public IRoute Reg(string uris , Type controller , string func)
+        {
+            return RegisterRoute(uris, new RouteAction()
+            {
+                Type = RouteAction.RouteTypes.ControllerCall,
+                Controller = controller.ToString(),
+                Func = func
+            });
         }
 
         /// <summary>
@@ -241,6 +243,52 @@ namespace CatLib.Routing
         }
 
         /// <summary>
+        /// 注册一个路由方案
+        /// </summary>
+        /// <param name="uris">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns></returns>
+        protected IRoute RegisterRoute(string uris, RouteAction action)
+        {
+
+            uris = GuardUri(uris);
+            Uri uri = new Uri(uris);
+
+            if (!schemes.ContainsKey(uri.Scheme))
+            {
+                CreateScheme(uri.Scheme);
+            }
+
+            var route = MakeRoute(uri, action);
+
+            schemes[uri.Scheme].AddRoute(route);
+
+            if (routeGroupStack.Count > 0)
+            {
+                routeGroupStack.Peek().AddRoute(route);
+            }
+
+            return route;
+
+        }
+
+        /// <summary>
+        /// 产生一个路由条目
+        /// </summary>
+        /// <param name="uri">uri</param>
+        /// <param name="action">路由行为</param>
+        /// <returns></returns>
+        protected Route MakeRoute(Uri uri, RouteAction action)
+        {
+            var route = new Route(uri, action);
+            route.SetRouter(this);
+            route.SetScheme(schemes[uri.Scheme]);
+            route.SetFilterChain(filterChain);
+            route.SetContainer(container);
+            return route;
+        }
+
+        /// <summary>
         /// 触发没有找到路由的过滤器链
         /// </summary>
         /// <param name="request"></param>
@@ -253,7 +301,7 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 触发没有找到路由的过滤器链
+        /// 触发异常
         /// </summary>
         /// <param name="request"></param>
         protected void ThrowOnError(Request request , Exception ex)
@@ -292,9 +340,15 @@ namespace CatLib.Routing
             }catch(Exception ex)
             {
                 var chain = route.GatherOnError();
-                if(chain != null)
+                if (chain != null)
                 {
-                    chain.Do(request, ex);
+                    chain.Then((req, error) =>
+                    {
+                        ThrowOnError(request, ex);
+                    }).Do(request, ex);
+                } else
+                {
+                    ThrowOnError(request, ex);
                 }
                 throw ex;
             }

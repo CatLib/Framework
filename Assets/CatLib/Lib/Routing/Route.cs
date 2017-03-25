@@ -12,6 +12,7 @@
 using System;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
+using CatLib.API.Container;
 
 namespace CatLib.Routing
 {
@@ -21,31 +22,6 @@ namespace CatLib.Routing
     /// </summary>
     public class Route : IRoute
     {
-
-        /// <summary>
-        /// 路由行为
-        /// </summary>
-        protected class RouteAction
-        {
-
-            /// <summary>
-            /// 路由行为类型
-            /// </summary>
-            public enum RouteTypes
-            {
-                CallBack,
-            }
-
-            /// <summary>
-            /// 类型
-            /// </summary>
-            public RouteTypes Type { get; set; }
-
-            /// <summary>
-            /// 回调行为
-            /// </summary>
-            public Action<IRequest, IResponse> Action { get; set; }
-        }
 
         /// <summary>
         /// 验证器
@@ -101,6 +77,8 @@ namespace CatLib.Routing
 
         }
 
+        protected IContainer container;
+
         /// <summary>
         /// 路由行为
         /// </summary>
@@ -111,14 +89,22 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="url"></param>
         /// <param name="action"></param>
-        public Route(Uri uri , Action<IRequest, IResponse> action)
+        public Route(Uri uri , RouteAction action)
         {
             this.uri = uri;
-            this.action = new RouteAction() {
-                                                Type = RouteAction.RouteTypes.CallBack,
-                                                Action = action
-                                            };
+            this.action = action;
             options = new RouteOptions();
+        }
+
+        /// <summary>
+        /// 设定容器
+        /// </summary>
+        /// <param name="container">容器</param>
+        /// <returns></returns>
+        public Route SetContainer(IContainer container)
+        {
+            this.container = container;
+            return this;
         }
 
         /// <summary>
@@ -270,6 +256,10 @@ namespace CatLib.Routing
             {
                 action.Action(request, response);
             }
+            else if (action.Type == RouteAction.RouteTypes.ControllerCall)
+            {
+                ControllerCall(request, response);
+            }
             return response;
         }
 
@@ -314,6 +304,18 @@ namespace CatLib.Routing
 
             return true;
 
+        }
+
+        
+        /// <summary>
+        /// 控制器调用
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
+        protected void ControllerCall(Request request, Response response)
+        {
+            object controller = container.Make(action.Controller);
+            container.Call(controller, action.Func, request, response);
         }
 
         /// <summary>

@@ -13,6 +13,7 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 using CatLib.API.Container;
+using CatLib.API;
 
 namespace CatLib.Container
 {
@@ -254,8 +255,16 @@ namespace CatLib.Container
         /// <param name="param"></param>
         public object Call(object instance, string method, params object[] param)
         {
+
+            if(instance == null)
+            {
+                throw new RunTimeException("call instance is null");
+            }
+
             Type type = instance.GetType();
             MethodInfo methodInfo = type.GetMethod(method);
+
+            if (methodInfo == null) { throw new RunTimeException("can not find instance [" + type.ToString() + "] 's function :" + method); }
 
 			List<ParameterInfo> parameter = new List<ParameterInfo>(methodInfo.GetParameters());
             parameter.RemoveRange(0, param.Length);

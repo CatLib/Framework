@@ -27,6 +27,7 @@ using CatLib.API.LocalSetting;
 using CatLib.API.FilterChain;
 using System.Text.RegularExpressions;
 using CatLib.API.Routing;
+using CatLib.Routing;
 using System;
 
 
@@ -79,6 +80,17 @@ public class Foosub{
 
     public bool IsTrue;
 
+}
+
+/// <summary>
+/// 测试用的调用
+/// </summary>
+public class TestController
+{
+    public void TestAction(IRequest request , CatLib.API.Routing.IResponse response)
+    {
+        Debug.Log("call TestController.TestAction");
+    }
 }
 
 public class Bootstrap : ServiceProvider
@@ -154,10 +166,17 @@ public class Bootstrap : ServiceProvider
 
             router.Reg("hello/dog", (request, response) => { Debug.Log("hello/dog"); }).Group("testgroup"); //通过路由组的名字也可以直接设定已经定义好规则的路由组
 
+            router.Reg("test/controller", typeof(TestController), "TestAction");
+            router.OnError((req, err, next) =>
+            {
+                Debug.Log("has some error:" + err.Message);
+            });
             router.Dispatch("catlib://hello/world");
             router.Dispatch("catlib://hello/gold");
             router.Dispatch("catlib://hello/cat/18");
             router.Dispatch("catlib://hello/dog");
+            router.Dispatch("catlib://test/controller");
+            
             return;
 
 
