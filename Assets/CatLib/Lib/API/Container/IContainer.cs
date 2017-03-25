@@ -10,6 +10,7 @@
  */
  
 using System;
+using System.Reflection;
 
 namespace CatLib.API.Container
 {
@@ -103,6 +104,14 @@ namespace CatLib.API.Container
         /// <param name="method"></param>
         /// <param name="param"></param>
         object Call(object instance , string method, params object[] param);
+
+        /// <summary>
+        /// 以依赖注入形式调用一个方法
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="method"></param>
+        /// <param name="param"></param>
+        object Call(object instance, MethodInfo methodInfo, params object[] param);
 
         /// <summary>
         /// 生成一个绑定服务

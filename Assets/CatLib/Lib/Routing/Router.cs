@@ -15,6 +15,7 @@ using CatLib.API.Event;
 using CatLib.API.Container;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
+using System.Collections;
 
 namespace CatLib.Routing
 {
@@ -243,6 +244,16 @@ namespace CatLib.Routing
         }
 
         /// <summary>
+        /// 路由器编译
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator RouterCompiler()
+        {
+            (new AttrRouteCompiler(this , container)).Complie();
+            yield break;
+        }
+
+        /// <summary>
         /// 注册一个路由方案
         /// </summary>
         /// <param name="uris">统一资源标识符</param>
@@ -372,7 +383,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         protected IRouter CreateScheme(string name)
         {
-            this.schemes.Add(name.ToLower(), new Scheme(name));
+            schemes.Add(name.ToLower(), new Scheme(name));
             return this;
         }
 

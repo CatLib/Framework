@@ -60,7 +60,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 获取 URI 的绝对路径(不带参数) eg:/register
         /// </summary>
-        public string Path{ get{ return uri.AbsolutePath; } }
+        public string Path{ get{ return uri.AbsolutePath.TrimEnd('/'); } }
 
         /// <summary>
         /// scheme + host + path 组合内容 eg: catlib://login/register

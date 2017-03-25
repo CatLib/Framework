@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 路由标记
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true)]
     public class Routed : Attribute
     {
 

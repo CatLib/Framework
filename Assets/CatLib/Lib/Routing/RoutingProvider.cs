@@ -11,12 +11,26 @@
 
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
+using System.Collections;
 
 namespace CatLib.Routing
 {
 
     public class RoutingProvider : ServiceProvider
     {
+
+        public override ProviderProcess ProviderProcess
+        {
+            get
+            {
+                return base.ProviderProcess;
+            }
+        }
+
+        public override IEnumerator OnProviderProcess()
+        {
+            return (App.Make<IRouter>() as Router).RouterCompiler();
+        }
 
         public override void Register()
         {
@@ -31,6 +45,7 @@ namespace CatLib.Routing
             App.Singleton<Router>((app , param)=>
             {
 
+                UnityEngine.Debug.Log("debug!!!");
                 var router = new Router(App , app , app.Make<IFilterChain>());
                 router.SetDefaultScheme("catlib");
                 return router;

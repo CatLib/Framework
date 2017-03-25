@@ -90,6 +90,27 @@ public class TestController
     }
 }
 
+public class TestController2 : IRouted
+{
+    [Routed("test1/{hello?}/{name?}")]
+    public void TestIsTest()
+    {
+        Debug.Log("TestIsTest 1");
+    }
+
+    [Routed("catlib://test2/{hello?}/{name?}")]
+    public void TestIsTest2()
+    {
+        Debug.Log("TestIsTest 2");
+    }
+
+    [Routed("test3/{hello?}/{name?}")]
+    public static void TestIsTest3()
+    {
+        Debug.Log("TestIsTest 3");
+    }
+}
+
 public class Bootstrap : ServiceProvider
 {
     public override void Init()
@@ -113,6 +134,16 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
+
+            Regex reg = new Regex(@"^catlib\\://test1(?:/(?<hello>[^/]+)(?:/(?<name>[^/]+))?)?$");
+
+            Debug.Log(reg.IsMatch("catlib://test1") ? "yes" : "no");
+
+            IRouter router = App.Make<IRouter>();
+            router.Dispatch("catlib://test1");
+
+
+            return;
             /* 
             Uri uriss = new Uri("catlib:///home/like/?myname=123&ss=222");
             Debug.Log(uriss.DnsSafeHost);
@@ -127,7 +158,7 @@ public class Bootstrap : ServiceProvider
             */
             //return;
 
-            IRouter router = App.Make<IRouter>();
+            
 
             router.SetDefaultScheme("catlib");
 

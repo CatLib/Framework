@@ -61,7 +61,7 @@ namespace CatLib{
 
 			if(string.IsNullOrEmpty(eventName)){
 
-				throw new RunTimeException("global event , event name can not be null");
+				throw new RuntimeException("global event , event name can not be null");
 
 			}
 

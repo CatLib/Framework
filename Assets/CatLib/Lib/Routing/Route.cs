@@ -291,7 +291,7 @@ namespace CatLib.Routing
 
             CompileRoute();
             GetValidators();
-
+            UnityEngine.Debug.Log(Compiled.ToString());
             for (int i = 0; i < validators.Length; i++)
             {
                 if (!validators[i].Matches(this, request))
@@ -300,7 +300,7 @@ namespace CatLib.Routing
                 }
             }
 
-            //UnityEngine.Debug.Log(Compiled.ToString());
+            UnityEngine.Debug.Log(Compiled.ToString());
 
             return true;
 

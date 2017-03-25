@@ -258,18 +258,37 @@ namespace CatLib.Container
 
             if(instance == null)
             {
-                throw new RunTimeException("call instance is null");
+                throw new RuntimeException("call instance is null");
+            }
+
+            MethodInfo methodInfo = instance.GetType().GetMethod(method);
+
+            return Call(instance, methodInfo, param);
+
+        }
+
+        /// <summary>
+        /// 以依赖注入形式调用一个方法
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="method"></param>
+        /// <param name="param"></param>
+        public object Call(object instance, MethodInfo methodInfo, params object[] param)
+        {
+
+            if (instance == null)
+            {
+                throw new RuntimeException("call instance is null");
             }
 
             Type type = instance.GetType();
-            MethodInfo methodInfo = type.GetMethod(method);
 
-            if (methodInfo == null) { throw new RunTimeException("can not find instance [" + type.ToString() + "] 's function :" + method); }
+            if (methodInfo == null) { throw new RuntimeException("can not find instance [" + type.ToString() + "] 's function :" + methodInfo.Name); }
 
-			List<ParameterInfo> parameter = new List<ParameterInfo>(methodInfo.GetParameters());
+            List<ParameterInfo> parameter = new List<ParameterInfo>(methodInfo.GetParameters());
 
             var bindData = GetBindData(type.ToString());
-            if (parameter.Count > 0) { param = GetDependencies(bindData , type, parameter, param); }
+            if (parameter.Count > 0) { param = GetDependencies(bindData, type, parameter, param); }
 
             return methodInfo.Invoke(instance, param);
 
@@ -368,7 +387,7 @@ namespace CatLib.Container
             var bindData = GetBindData(service);
             object objectData = withConcrete ? NormalBuild(bindData, param) : Build(bindData , service, param);
 
-            if (!withConcrete)
+            if (!withConcrete || (withConcrete && bindData.Concrete != null))
             {
                 DIAttr(bindData, objectData);
 

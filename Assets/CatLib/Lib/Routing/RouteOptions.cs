@@ -206,6 +206,11 @@ namespace CatLib.Routing
         /// <returns></returns>
         public RouteOptions Merge(RouteOptions options)
         {
+
+            //合并的过程是一个平级的过程，所以遵循以下原则：
+            //当key不允许重复时，如果已经有值则不进行赋值
+            //当key是允许重复时，所有的合并操作追加在原始key list之后
+
             MergeMiddleware(options);
             MergeOnError(options);
             MergeWhere(options);

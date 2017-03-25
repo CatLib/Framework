@@ -11,7 +11,7 @@
 
 namespace CatLib.API.Crypt{
 
-	public class DecryptException : RunTimeException {
+	public class DecryptException : RuntimeException {
 
 		public DecryptException(string message) : base(message){}
 
