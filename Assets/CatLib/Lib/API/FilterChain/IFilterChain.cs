@@ -33,6 +33,8 @@ namespace CatLib.API.FilterChain
     public interface IFilterChain<TIn>
     {
 
+        IFilter<TIn>[] FilterList { get; }
+
         IFilterChain<TIn> Add(Action<TIn, IFilterChain<TIn>> filter);
 
         IFilterChain<TIn> Add(IFilter<TIn> filter);
@@ -50,6 +52,8 @@ namespace CatLib.API.FilterChain
     /// <typeparam name="TOut"></typeparam>
     public interface IFilterChain<TIn, TOut>
     {
+
+        IFilter<TIn , TOut>[] FilterList { get; }
 
         IFilterChain<TIn, TOut> Add(Action<TIn, TOut, IFilterChain<TIn, TOut>> filter);
 

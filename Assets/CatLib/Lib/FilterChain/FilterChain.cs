@@ -51,6 +51,8 @@ namespace CatLib.FilterChain
 
         protected List<IFilter<TIn>> filterList = new List<IFilter<TIn>>();
 
+        public IFilter<TIn>[] FilterList { get { return filterList.ToArray(); } }
+
         protected Action<TIn> then;
 
         protected int index = 0;
@@ -103,6 +105,8 @@ namespace CatLib.FilterChain
         }
 
         protected List<IFilter<TIn, TOut>> filterList = new List<IFilter<TIn, TOut>>();
+
+        public IFilter<TIn, TOut>[] FilterList { get { return filterList.ToArray(); } }
 
         protected Action<TIn , TOut> then;
 

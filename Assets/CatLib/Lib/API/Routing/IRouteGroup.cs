@@ -8,7 +8,14 @@ namespace CatLib.API.Routing{
 	/// </summary>
 	public interface IRouteGroup{
 
-		/// <summary>
+        /// <summary>
+        /// 增加一个路由条目到路由组中
+        /// </summary>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        IRouteGroup AddRoute(IRoute route);
+
+        /// <summary>
         /// 设定参数的默认值
         /// </summary>
         /// <param name="name">参数名</param>

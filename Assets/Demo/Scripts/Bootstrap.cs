@@ -138,6 +138,29 @@ public class Bootstrap : ServiceProvider
 
             });*/
 
+            router.Group(() => //路由组允许统一定义规则
+            {
+
+                router.Reg("hello/world", (request, response) => { Debug.Log("hello/world:" + request.Get("say")); });
+                router.Reg("hello/gold/{say?}", (request, response) => { Debug.Log("hello/gold:" + request.Get("say")); }); 
+                router.Reg("hello/cat/{say?}", (request, response) => { Debug.Log("hello/cat:" + request.Get("say"));  });
+
+            },"testgroup").Middleware((req, resp, filter) =>
+            {
+                Debug.Log("this is group middleware 1");
+                filter.Do(req, resp); //所有中间件必须do不do意味着请求被拦截
+                Debug.Log("this is group middleware 1 back");
+            }).Defaults("say", "this is say"); //只有是请求参数时default才会生效
+
+            router.Reg("hello/dog", (request, response) => { Debug.Log("hello/dog"); }).Group("testgroup"); //通过路由组的名字也可以直接设定已经定义好规则的路由组
+
+            router.Dispatch("catlib://hello/world");
+            router.Dispatch("catlib://hello/gold");
+            router.Dispatch("catlib://hello/cat/18");
+            router.Dispatch("catlib://hello/dog");
+            return;
+
+
             router.Reg("main/hash/{name}/time/{age?}/{apple?}", (request, response) =>
             {
 

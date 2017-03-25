@@ -10,9 +10,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using CatLib.API.Routing;
-using CatLib.API.Container;
 using CatLib.API.FilterChain;
 
 namespace CatLib.Routing
@@ -75,14 +73,14 @@ namespace CatLib.Routing
         protected Scheme scheme;
 
         /// <summary>
-        /// 容器
+        /// 路由配置
         /// </summary>
-        protected IContainer container;
+        protected RouteOptions options;
 
         /// <summary>
-        /// 过滤器链生成器
+        /// 路由配置
         /// </summary>
-        protected IFilterChain filterChain;
+        public RouteOptions Options { get { return options; } }
 
         /// <summary>
         /// 编译后的路由器信息
@@ -104,29 +102,9 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 路由请求过滤链
-        /// </summary>
-        protected IFilterChain<IRequest, IResponse> middleware;
-
-        /// <summary>
-        /// 当路由出现异常时的过滤器链
-        /// </summary>
-        protected IFilterChain<IRequest, Exception> onError;
-
-        /// <summary>
         /// 路由行为
         /// </summary>
         protected RouteAction action;
-
-        /// <summary>
-        /// 筛选条件
-        /// </summary>
-        protected Dictionary<string, string> wheres;
-
-        /// <summary>
-        /// 默认值
-        /// </summary>
-        protected Dictionary<string, string> defaults;
 
         /// <summary>
         /// 创建一个新的路由条目
@@ -136,43 +114,11 @@ namespace CatLib.Routing
         public Route(Uri uri , Action<IRequest, IResponse> action)
         {
             this.uri = uri;
-            this.action = new RouteAction() { Type = RouteAction.RouteTypes.CallBack, Action = action };
-        }
-
-        /// <summary>
-        /// Host
-        /// </summary>
-        public string GetHost(){
-
-            return Uri.Host;
-
-        }
-
-        /// <summary>
-        /// 获取参数默认值
-        /// </summary>
-        /// <param name="name">参数名</param>
-        public string GetDefault(string name , string defaultValue = null){
-
-            if(defaults == null){ return defaultValue; }
-            if(!defaults.ContainsKey(name)){ return defaultValue; }
-            return defaults[name];
-            
-        }
-
-        /// <summary>
-        /// 获取筛选条件
-        /// </summary>
-        /// <param name="varName"></param>
-        /// <returns></returns>
-        public string GetWhere(string varName)
-        {
-            if (wheres == null) { return null; }
-            if (wheres.ContainsKey(varName))
-            {
-                return wheres[varName];
-            }
-            return null;
+            this.action = new RouteAction() {
+                                                Type = RouteAction.RouteTypes.CallBack,
+                                                Action = action
+                                            };
+            options = new RouteOptions();
         }
 
         /// <summary>
@@ -198,25 +144,43 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 设定容器
-        /// </summary>
-        /// <param name="container">容器</param>
-        /// <returns></returns>
-        public Route SetContainer(IContainer container)
-        {
-            this.container = container;
-            return this;
-        }
-
-        /// <summary>
         /// 设定过滤器链生成器
         /// </summary>
         /// <param name="filterChain"></param>
         /// <returns></returns>
         public Route SetFilterChain(IFilterChain filterChain)
         {
-            this.filterChain = filterChain;
+            options.SetFilterChain(filterChain);
             return this;
+        }
+
+        /// <summary>
+        /// Host
+        /// </summary>
+        public string GetHost(){
+
+            return Uri.Host;
+
+        }
+
+        /// <summary>
+        /// 获取参数默认值
+        /// </summary>
+        /// <param name="name">参数名</param>
+        public string GetDefaults(string name , string defaultValue = null){
+
+            return options.GetDefaults(name , defaultValue);
+
+        }
+
+        /// <summary>
+        /// 获取筛选条件
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <returns></returns>
+        public string GetWhere(string varName)
+        {
+            return options.GetWhere(varName);
         }
 
         /// <summary>
@@ -244,9 +208,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IRoute Where(string name, string pattern)
         {
-            if (wheres == null) { wheres = new Dictionary<string, string>(); }
-            if (wheres.ContainsKey(name)) { wheres.Remove(name); }
-            wheres[name] = pattern;
+            options.Where(name, pattern);
             return this;
         }
 
@@ -257,15 +219,20 @@ namespace CatLib.Routing
         /// <param name="val">默认值</param>
         public IRoute Defaults(string name, string val){
 
-            if(defaults == null){  
-                defaults = new Dictionary<string , string>();
-            }
-
-            defaults.Remove(name);
-            defaults.Add(name , val);
-
+            options.Defaults(name, val);
             return this;
 
+        }
+
+        /// <summary>
+        /// 将当前路由条目追加到指定路由组中
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public IRoute Group(string name)
+        {
+            router.Group(name).AddRoute(this);
+            return this;
         }
 
         /// <summary>
@@ -275,11 +242,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IRoute OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
         {
-            if (onError == null)
-            {
-                onError = filterChain.Create<IRequest , Exception>();
-            }
-            onError.Add(middleware);
+            options.OnError(middleware);
             return this;
         }
 
@@ -290,11 +253,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IRoute Middleware(Action<IRequest, IResponse , IFilterChain<IRequest, IResponse>> middleware)
         {
-            if (this.middleware == null)
-            {
-                this.middleware = filterChain.Create<IRequest , IResponse>();
-            }
-            this.middleware.Add(middleware);
+            options.Middleware(middleware);
             return this;
         }
 
@@ -320,7 +279,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IFilterChain<IRequest, IResponse> GatherMiddleware()
         {
-            return middleware;
+            return options.GatherMiddleware();
         }
 
         /// <summary>
@@ -329,7 +288,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IFilterChain<IRequest, Exception> GatherOnError()
         {
-            return onError;
+            return options.GatherOnError();
         }
 
         /// <summary>

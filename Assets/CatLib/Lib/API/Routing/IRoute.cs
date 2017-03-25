@@ -19,6 +19,13 @@ namespace CatLib.API.Routing
     {
 
         /// <summary>
+        /// 将当前路由条目追加到指定路由组中
+        /// </summary>
+        /// <param name="name">路由组名</param>
+        /// <returns></returns>
+        IRoute Group(string name);
+
+        /// <summary>
         /// 设定参数的默认值
         /// </summary>
         /// <param name="name">参数名</param>

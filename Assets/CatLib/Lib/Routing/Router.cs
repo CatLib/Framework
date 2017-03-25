@@ -63,6 +63,11 @@ namespace CatLib.Routing
         protected Dictionary<string , RouteGroup> routeGroup;
 
         /// <summary>
+        /// 路由组堆栈
+        /// </summary>
+        protected Stack<IRouteGroup> routeGroupStack;
+
+        /// <summary>
         /// 默认的scheme
         /// </summary>
         protected string defaultScheme;
@@ -79,6 +84,7 @@ namespace CatLib.Routing
             this.container = container;
             this.filterChain = filterChain;
             schemes = new Dictionary<string, Scheme>();
+            routeGroupStack = new Stack<IRouteGroup>();
         }
 
         /// <summary>
@@ -113,7 +119,13 @@ namespace CatLib.Routing
             var route = new Route(uri, action);
             route.SetRouter(this);
             route.SetScheme(schemes[uri.Scheme]);
+            route.SetFilterChain(filterChain);
             schemes[uri.Scheme].AddRoute(route);
+
+            if(routeGroupStack.Count > 0)
+            {
+                routeGroupStack.Peek().AddRoute(route);
+            }
 
             return route;
 
@@ -200,14 +212,32 @@ namespace CatLib.Routing
         public IRouteGroup Group(string name){
 
             if(routeGroup == null){ routeGroup = new Dictionary<string , RouteGroup>(); }
+            if (name == null) { return (new RouteGroup()).SetFilterChain(filterChain); }
             if(!routeGroup.ContainsKey(name)){
 
-                routeGroup.Add(name , new RouteGroup());
+                routeGroup.Add(name , new RouteGroup().SetFilterChain(filterChain));
 
             }
 
             return routeGroup[name];
 
+        }
+
+        /// <summary>
+        /// 建立匿名路由组，调用的闭包内为路由组有效范围, 允许给定一个名字来显示命名路由组
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public IRouteGroup Group(Action area , string name = null)
+        {
+            IRouteGroup group = Group(name);
+    
+            routeGroupStack.Push(group);
+            area.Invoke();
+            routeGroupStack.Pop();
+
+            return group;
         }
 
         /// <summary>

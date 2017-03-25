@@ -113,7 +113,7 @@ namespace CatLib.Routing
                 varName = route.Compiled.Variables[i];
                 if(request.Get(varName) == null){
 
-                    defaults = route.GetDefault(varName);
+                    defaults = route.GetDefaults(varName);
                     if(!string.IsNullOrEmpty(defaults)){
 
                         request.AddParameters(varName , defaults);

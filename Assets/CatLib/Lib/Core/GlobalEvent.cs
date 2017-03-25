@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using CatLib.API;
 
 namespace CatLib{
+
 	public class GlobalEvent : IGlobalEvent {
 
 		private object score;

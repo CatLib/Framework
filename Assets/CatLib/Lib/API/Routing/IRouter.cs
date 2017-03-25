@@ -58,6 +58,21 @@ namespace CatLib.API.Routing
         /// <returns></returns>
         IResponse Dispatch(string uri, object context = null);
 
+        /// <summary>
+        /// 路由组
+        /// </summary>
+        /// <param name="name">组名</param>
+        /// <returns></returns>
+        IRouteGroup Group(string name);
+
+        /// <summary>
+        /// 建立匿名路由组，调用的闭包内为路由组有效范围, 允许给定一个名字来显示命名路由组
+        /// </summary>
+        /// <param name="area">作用范围</param>
+        /// <param name="name">路由组名</param>
+        /// <returns></returns>
+        IRouteGroup Group(Action area, string name = null);
+
     }
 
 }
