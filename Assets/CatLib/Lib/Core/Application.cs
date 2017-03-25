@@ -319,7 +319,6 @@ namespace CatLib
         /// <returns></returns>
         protected IEnumerator StartProviderPorcess()
         {
-
             process = StartProcess.OnProviderProcess;
 
             Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSING).Trigger();

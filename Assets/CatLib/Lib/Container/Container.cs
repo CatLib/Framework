@@ -58,7 +58,6 @@ namespace CatLib.Container
 
         public Container(){
 
-            //检查这段代码
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (var type in assembly.GetTypes())

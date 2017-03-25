@@ -10,6 +10,7 @@
  */
  
 using UnityEngine;
+using CatLib.API;
 
 namespace CatLib
 {
@@ -17,7 +18,7 @@ namespace CatLib
     /// <summary>
     /// CatLib Mono Object
     /// </summary>
-    public class MonoObject : MonoBehaviour
+    public class MonoObject : MonoBehaviour ,IGuid
     {
 
         protected Transform tran;
@@ -51,23 +52,18 @@ namespace CatLib
 
         private long guid;
 
+        /// <summary>
+        /// 唯一标识符
+        /// </summary>
         public long Guid
         {
             get
             {
-
                 if (guid <= 0)
                 {
                     guid = App.Instance.GetGuid();
                 }
                 return guid;
-            }
-        }
-        public string TypeGuid
-        {
-            get
-            {
-                return GetType().ToString() + "-" + Guid;
             }
         }
 

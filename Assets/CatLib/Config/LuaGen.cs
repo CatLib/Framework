@@ -24,7 +24,6 @@ namespace CatLib.Config
                     typeof(App),
                     typeof(Component),
                     typeof(MonoComponent),
-                    typeof(Component),
                     typeof(LuaMonoComponent),
                     typeof(FAutoUpdate),
                     typeof(FLua),

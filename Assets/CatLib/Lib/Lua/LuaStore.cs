@@ -57,7 +57,7 @@ namespace CatLib.Lua
         /// <summary>
         /// 垃圾回收间隔
         /// </summary>
-        protected const float GC_INTERVAL = 1; 
+        protected const float GC_INTERVAL = 1;
 
         /// <summary>
         /// Lua 虚拟机

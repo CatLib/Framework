@@ -31,24 +31,6 @@ using CatLib.Routing;
 using System;
 
 
-public class EventContainerComponent : CatLib.Component
-{
-    public void Call(){
-        Event.Trigger("test_event",this,System.EventArgs.Empty);
-    }
-}
-
-public class ControllerComponent
-{
-    public ControllerComponent(){
-
-        var container = new EventContainerComponent();
-        container.Event.On("test_event" , (sender , e)=>{
-            Debug.Log("hello");
-        });
-    }
-}
-
 class Test
 {
 
@@ -131,7 +113,6 @@ public class Bootstrap : ServiceProvider
 
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
-
             /* 
             Uri uriss = new Uri("catlib:///home/like/?myname=123&ss=222");
             Debug.Log(uriss.DnsSafeHost);

@@ -96,7 +96,7 @@ namespace CatLib
         /// </summary>
         public virtual void OnDestroy()
         {
-            this.ClearHandlers();
+            ClearHandlers();
         }
 
     }
