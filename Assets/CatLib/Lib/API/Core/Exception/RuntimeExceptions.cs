@@ -11,9 +11,9 @@
  
 namespace CatLib.API{
 
-	public class RunTimeException : System.Exception {
+	public class RuntimeException : System.Exception {
 
-		public RunTimeException(string message) : base(message){}
+		public RuntimeException(string message) : base(message){}
 		
 	}
 
