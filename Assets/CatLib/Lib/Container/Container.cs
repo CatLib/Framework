@@ -58,6 +58,7 @@ namespace CatLib.Container
 
         public Container(){
 
+            //检查这段代码
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (var type in assembly.GetTypes())
@@ -267,7 +268,6 @@ namespace CatLib.Container
             if (methodInfo == null) { throw new RunTimeException("can not find instance [" + type.ToString() + "] 's function :" + method); }
 
 			List<ParameterInfo> parameter = new List<ParameterInfo>(methodInfo.GetParameters());
-            parameter.RemoveRange(0, param.Length);
 
             var bindData = GetBindData(type.ToString());
             if (parameter.Count > 0) { param = GetDependencies(bindData , type, parameter, param); }
@@ -499,17 +499,28 @@ namespace CatLib.Container
         /// <returns></returns>
         private object[] GetDependencies(BindData bindData, Type type, List<ParameterInfo> paramInfo, object[] param)
         {
-            List<object> myParam = new List<object>(param);
+            List<object> myParam = new List<object>();
 
-            foreach (ParameterInfo info in paramInfo)
+            ParameterInfo info;
+            for (int i = 0; i < paramInfo.Count; i++)
             {
+                info = paramInfo[i];
+                if (param != null && i < param.Length)
+                {
+                    if (param[i] == null || info.ParameterType.IsAssignableFrom(param[i].GetType()))
+                    {
+                        myParam.Add(param[i]);
+                        continue;
+                    }
+                }
+
                 if (info.ParameterType.IsClass || info.ParameterType.IsInterface)
                 {
-                    myParam.Add(ResloveClass(bindData , type, info));
+                    myParam.Add(ResloveClass(bindData, type, info));
                 }
                 else
                 {
-                    myParam.Add(ResolveNonClass(bindData , type , info));
+                    myParam.Add(ResolveNonClass(bindData, type, info));
                 }
             }
 

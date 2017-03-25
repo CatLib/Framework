@@ -91,6 +91,21 @@ public class TestController
     {
         Debug.Log("call TestController.TestAction");
     }
+
+    public void TestAction222(IRequest request , IApplication app)
+    {
+        Debug.Log(request);
+        Debug.Log(app);
+        Debug.Log("call TestController.TestAction22222");
+    }
+
+    public void TestAction333(IRequest request, IApplication app , CatLib.API.Routing.IResponse response) //这样是不行的,由于容器注入优先匹配传入参数
+    {
+        Debug.Log(response); //null
+        Debug.Log(request);
+        Debug.Log(app);
+        Debug.Log("call TestController.TestAction22222");
+    }
 }
 
 public class Bootstrap : ServiceProvider
@@ -167,6 +182,8 @@ public class Bootstrap : ServiceProvider
             router.Reg("hello/dog", (request, response) => { Debug.Log("hello/dog"); }).Group("testgroup"); //通过路由组的名字也可以直接设定已经定义好规则的路由组
 
             router.Reg("test/controller", typeof(TestController), "TestAction");
+            router.Reg("test/controller222", typeof(TestController), "TestAction222");
+            router.Reg("test/controller333", typeof(TestController), "TestAction333");
             router.OnError((req, err, next) =>
             {
                 Debug.Log("has some error:" + err.Message);
@@ -176,7 +193,8 @@ public class Bootstrap : ServiceProvider
             router.Dispatch("catlib://hello/cat/18");
             router.Dispatch("catlib://hello/dog");
             router.Dispatch("catlib://test/controller");
-            
+            router.Dispatch("catlib://test/controller222");
+            router.Dispatch("catlib://test/controller333");
             return;
 
 
