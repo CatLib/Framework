@@ -29,7 +29,7 @@ namespace CatLib
         /// <summary>
         /// CatLib框架版本
         /// </summary>
-        public const string VERSION = "0.0.1";
+        public const string VERSION = "1.0.0";
 
         /// <summary>
         /// 框架启动流程
