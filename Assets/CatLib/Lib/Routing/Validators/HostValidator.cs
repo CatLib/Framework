@@ -27,7 +27,7 @@ namespace CatLib.Routing{
             	return true;
         	}
 
-			return (new Regex(route.Compiled.HostRegex)).IsMatch(request.Host);
+			return (new Regex(route.Compiled.HostRegex)).IsMatch(request.CatLibUri.Host);
 
 		}
 

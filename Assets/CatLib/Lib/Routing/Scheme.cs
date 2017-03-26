@@ -78,7 +78,7 @@ namespace CatLib.Routing
             Route route = MatchAgainstRoutes(request);
             if (route != null) { return route; }
 
-            throw new NotFoundRouteException("can not find route: " + request.FullPath);
+            throw new NotFoundRouteException("can not find route: " + request.CatLibUri.FullPath);
 
         }
 

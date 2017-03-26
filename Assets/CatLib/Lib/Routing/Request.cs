@@ -40,37 +40,12 @@ namespace CatLib.Routing
         /// <summary>
         /// Uri
         /// </summary>
-        public Uri Uri { get { return uri; } }
+        public System.Uri Uri { get { return uri.Original; } }
 
         /// <summary>
-        /// FullPath eg: catlib://login/register
+        /// Uri
         /// </summary>
-        public string FullPath { get { return uri.OriginalString; } }
-
-        /// <summary>
-        /// 方案 eg: catlib
-        /// </summary>
-        public string Scheme { get { return uri.Scheme; } }
-
-        /// <summary>
-        /// host eg: login
-        /// </summary>
-        public string Host{ get{ return uri.Host; } }
-
-        /// <summary>
-        /// 获取 URI 的绝对路径(不带参数) eg:/register
-        /// </summary>
-        public string Path{ get{ return uri.AbsolutePath.TrimEnd('/'); } }
-
-        /// <summary>
-        /// scheme + host + path 组合内容 eg: catlib://login/register
-        /// </summary>
-        public string SchemeHostPath{ get { return Scheme + "://" + Host + Path; } }
-
-        /// <summary>
-        /// 请求中附带的用户信息
-        /// </summary>
-        public string UserInfo { get { return uri.UserInfo; } }
+        public Uri CatLibUri { get { return uri; } }
 
         /// <summary>
         /// 上下文

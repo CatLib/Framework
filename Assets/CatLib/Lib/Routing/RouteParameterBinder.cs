@@ -40,7 +40,7 @@ namespace CatLib.Routing
         protected static void BindPathParameters(Route route , Request request)
         {
             Regex reg = new Regex(route.Compiled.RouteRegex);
-            MatchToKeys(route , request , reg.Match(request.SchemeHostPath));
+            MatchToKeys(route , request , reg.Match(request.CatLibUri.NoParamFullPath));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CatLib.Routing
         protected static void BindHostParameters(Route route, Request request)
         {
             Regex reg = new Regex(route.Compiled.HostRegex);
-            MatchToKeys(route , request , reg.Match(request.Host));
+            MatchToKeys(route , request , reg.Match(request.CatLibUri.Host));
         }
 
         /// <summary>

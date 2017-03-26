@@ -41,7 +41,7 @@ namespace CatLib.Routing
             string host , hostRegex;
             host = hostRegex = string.Empty;
 
-            if ((host = route.GetHost()) != string.Empty) {
+            if ((host = route.Uri.Host) != string.Empty) {
 
                 result = CompilePattern(route, host, true);
                 hostVariables = result["variables"] as string[];
@@ -52,7 +52,7 @@ namespace CatLib.Routing
 
             }
   
-            string uri = Regex.Replace(route.Uri.OriginalString, @"\{(\w+?)\?\}", "{$1}");
+            string uri = Regex.Replace(route.Uri.FullPath, @"\{(\w+?)\?\}", "{$1}");
             result = CompilePattern(route, uri , false);
 
             string staticPrefix = result["staticPrefix"].ToString();
@@ -98,7 +98,7 @@ namespace CatLib.Routing
             string defaultSeparator = isHost ? "." : "/";
 
             //可选参数
-            List<string> optionalParameters = new List<string>(MatchParameters(route.Uri.OriginalString, @"\{(\w+?)\?\}", ref parametersIndex));
+            List<string> optionalParameters = new List<string>(MatchParameters(route.Uri.FullPath, @"\{(\w+?)\?\}", ref parametersIndex));
 
             //所有参数
             string[] parameters = MatchParameters(uri, @"\{(\w+?)\}", ref parametersIndex);
@@ -290,11 +290,10 @@ namespace CatLib.Routing
         /// <returns></returns>
         protected static string RegexQuote(string str)
         {
-            string[] quote = new string[] { ".", @"\" , "+" , "*" , "?","[", "^", "]", "$", "(", ")", "{", "}", "=", "!", "<", ">", "|", ":", "-" };
-
+            string[] quote = new string[] { @"\" , ".", "+" , "*" , "?","[", "^", "]", "$", "(", ")", "{", "}", "=", "!", "<", ">", "|", ":", "-" };
             foreach(string q in quote)
             {
-                str = str.Replace(q, "\\" + q);
+                str = str.Replace(q, @"\" + q);
             }
             return str;
         }

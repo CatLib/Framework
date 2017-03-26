@@ -92,19 +92,19 @@ public class TestController
 
 public class TestController2 : IRouted
 {
-    [Routed("test1/{hello?}/{name?}")]
-    public void TestIsTest()
+    [Routed("hello:123@test1.com/{hello?}/{name?}")]
+    public void TestIsTest(IRequest request)
     {
-        Debug.Log("TestIsTest 1");
+        Debug.Log("TestIsTest 1" + request.Get("hello"));
     }
 
-    [Routed("catlib://test2/{hello?}/{name?}")]
+    //[Routed("test://test2/{hello?}/{name?}")]
     public void TestIsTest2()
     {
         Debug.Log("TestIsTest 2");
     }
 
-    [Routed("test3/{hello?}/{name?}")]
+    //[Routed("test3/{hello?}/{name?}")]
     public static void TestIsTest3()
     {
         Debug.Log("TestIsTest 3");
@@ -135,15 +135,13 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
-            Regex reg = new Regex(@"^catlib\\://test1(?:/(?<hello>[^/]+)(?:/(?<name>[^/]+))?)?$");
-
-            Debug.Log(reg.IsMatch("catlib://test1") ? "yes" : "no");
+          
 
             IRouter router = App.Make<IRouter>();
-            router.Dispatch("catlib://test1");
+            router.Dispatch("catlib://test1.com/thisishello/sometime");
 
 
-            return;
+            //return;
             /* 
             Uri uriss = new Uri("catlib:///home/like/?myname=123&ss=222");
             Debug.Log(uriss.DnsSafeHost);
@@ -245,7 +243,7 @@ public class Bootstrap : ServiceProvider
 
             Debug.Log(Regex.Replace("/home/{lik{bbb}e?}/", @"\{(\w+?)\?\}", "{$1}" ));
             return;
-            Uri uri = new Uri("catlib://yb199478:123456@hello/home/like/?myname=123&ss=222");
+            System.Uri uri = new System.Uri("catlib://yb199478:123456@hello/home/like/?myname=123&ss=222");
 
             Debug.Log("UserInfo:" + uri.UserInfo);
             Debug.Log("DnsSafeHost:" + uri.DnsSafeHost);

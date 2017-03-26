@@ -24,7 +24,7 @@ namespace CatLib.Routing{
         /// <returns></returns>
         public bool Matches(Route route, Request request){
             
-			return (new Regex(route.Compiled.RouteRegex)).IsMatch(request.SchemeHostPath);
+			return (new Regex(route.Compiled.RouteRegex)).IsMatch(request.CatLibUri.NoParamFullPath);
 
 		}
 

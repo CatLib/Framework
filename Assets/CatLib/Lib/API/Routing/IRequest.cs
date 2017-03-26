@@ -27,36 +27,6 @@ namespace CatLib.API.Routing
         Uri Uri { get; }
 
         /// <summary>
-        /// FullPath eg: catlib://login/register
-        /// </summary>
-        string FullPath { get; }
-
-        /// <summary>
-        /// 方案 eg: catlib
-        /// </summary>
-        string Scheme { get; }
-
-        /// <summary>
-        /// host eg: login
-        /// </summary>
-        string Host { get; }
-
-        /// <summary>
-        /// 获取 URI 的绝对路径(不带参数) eg:/register
-        /// </summary>
-        string Path { get; }
-
-        /// <summary>
-        /// scheme + host + path 组合内容 eg: catlib://login/register
-        /// </summary>
-        string SchemeHostPath { get; }
-
-        /// <summary>
-        /// 请求中附带的用户信息
-        /// </summary>
-        string UserInfo { get; }
-
-        /// <summary>
         /// 上下文
         /// </summary>
         /// <returns></returns>

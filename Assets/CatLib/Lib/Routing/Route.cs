@@ -141,15 +141,6 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// Host
-        /// </summary>
-        public string GetHost(){
-
-            return Uri.Host;
-
-        }
-
-        /// <summary>
         /// 获取参数默认值
         /// </summary>
         /// <param name="name">参数名</param>
@@ -300,7 +291,7 @@ namespace CatLib.Routing
                 }
             }
 
-            UnityEngine.Debug.Log(Compiled.ToString());
+            //UnityEngine.Debug.Log(Compiled.ToString());
 
             return true;
 

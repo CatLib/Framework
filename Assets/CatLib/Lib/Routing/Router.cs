@@ -178,7 +178,7 @@ namespace CatLib.Routing
 
             Request request = CreateRequest(uri, context);
 
-            if (!schemes.ContainsKey(request.Scheme))
+            if (!schemes.ContainsKey(request.CatLibUri.Scheme))
             {
                 ThrowOnNotFound(request);
                 return null;
@@ -394,7 +394,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         protected Route FindRoute(Request request)
         {
-            Route route = schemes[request.Scheme].Match(request);
+            Route route = schemes[request.CatLibUri.Scheme].Match(request);
             container.Instance("route.current", route);
             return route;
         }

@@ -288,7 +288,14 @@ namespace CatLib.Container
             List<ParameterInfo> parameter = new List<ParameterInfo>(methodInfo.GetParameters());
 
             var bindData = GetBindData(type.ToString());
-            if (parameter.Count > 0) { param = GetDependencies(bindData, type, parameter, param); }
+            if (parameter.Count > 0)
+            {
+                param = GetDependencies(bindData, type, parameter, param);
+            }
+            else
+            {
+                param = new object[] { };
+            }
 
             return methodInfo.Invoke(instance, param);
 
