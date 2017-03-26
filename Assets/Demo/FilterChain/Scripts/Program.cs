@@ -1,11 +1,9 @@
 ﻿using System;
-using CatLib;
 using CatLib.API;
-using CatLib.Routing;
 using CatLib.FilterChain;
 using CatLib.Event;
 
-namespace CatLib.Demo.Routing
+namespace CatLib.Demo.FilterChain
 {
     /**
      * 这个类提供了当前demo演示时用到的组件 
@@ -15,10 +13,9 @@ namespace CatLib.Demo.Routing
 
         public void Bootstrap()
         {
-            App.Instance.Register(typeof(RoutingProvider));
-            App.Instance.Register(typeof(FilterChainProvider));
             App.Instance.Register(typeof(EventProvider));
-            App.Instance.Register(typeof(RoutingDemo));
+            App.Instance.Register(typeof(FilterChainProvider));
+            App.Instance.Register(typeof(FilterChainDemo));
         }
 
     }
