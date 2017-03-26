@@ -29,9 +29,14 @@ namespace CatLib.Config{
 
 		}
 
-        public void Init()
+        /// <summary>
+        /// 增加配置
+        /// </summary>
+        /// <param name="config"></param>
+        public void AddConfig(IConfig config)
         {
-            InitConfig();
+            configs.Remove(config.Name.ToString());
+            configs.Add(config.Name.ToString(), ParseConfig(config));
         }
 
 		public T Get<T>(Type name, string field , T def = default(T)){
@@ -90,19 +95,6 @@ namespace CatLib.Config{
 			return configs[name][field];
 
 		}
-
-		protected void InitConfig()
-        {
-            Type[] types = typeof(IConfig).GetChildTypesWithInterface();
-			IConfig conf;
-			for(int i = 0; i < types.Length ; i++){
-
-				conf = App.Make(types[i].ToString(), null) as IConfig;
-				configs.Remove(conf.Name.ToString());
-				configs.Add(conf.Name.ToString() , ParseConfig(conf));
-
-			}
-        }
 
 		protected Dictionary<string , object> ParseConfig(IConfig config){
 
