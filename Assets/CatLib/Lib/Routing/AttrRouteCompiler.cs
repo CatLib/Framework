@@ -191,7 +191,7 @@ namespace CatLib.Routing
         {
             foreach(var kv in routed)
             {
-                route.Where(kv.Key, kv.Value);
+                route.Where(kv.Key, kv.Value, false);
             }
         }
 
@@ -204,7 +204,7 @@ namespace CatLib.Routing
         {
             foreach (var kv in routed)
             {
-                route.Defaults(kv.Key, kv.Value);
+                route.Defaults(kv.Key, kv.Value , false);
             }
         }
 

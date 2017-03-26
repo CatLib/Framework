@@ -109,6 +109,13 @@ namespace CatLib.Routing
         /// 获取字符串附加物
         /// </summary>
         /// <param name="key"></param>
+        /// <returns></returns>
+        public string this[string key] { get { return Get(key); } }
+
+        /// <summary>
+        /// 获取字符串附加物
+        /// </summary>
+        /// <param name="key"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public string GetString(string key, string defaultValue = null)

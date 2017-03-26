@@ -93,10 +93,14 @@ namespace CatLib.Routing
         /// <param name="name"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        public RouteOptions Where(string name, string pattern)
+        public RouteOptions Where(string name, string pattern, bool overrided = true)
         {
             if (wheres == null) { wheres = new Dictionary<string, string>(); }
-            if (wheres.ContainsKey(name)) { wheres.Remove(name); }
+            if (wheres.ContainsKey(name))
+            {
+                if (!overrided) { return this; }
+                wheres.Remove(name);
+            }
             wheres[name] = pattern;
             return this;
         }
@@ -106,15 +110,18 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="name">参数名</param>
         /// <param name="val">默认值</param>
-        public RouteOptions Defaults(string name, string val)
+        public RouteOptions Defaults(string name, string val, bool overrided = true)
         {
 
             if (defaults == null)
             {
                 defaults = new Dictionary<string, string>();
             }
-
-            defaults.Remove(name);
+            if (defaults.ContainsKey(name))
+            {
+                if (!overrided) { return this; }
+                defaults.Remove(name);
+            }
             defaults.Add(name, val);
 
             return this;
@@ -257,10 +264,7 @@ namespace CatLib.Routing
 
             foreach(var kv in wheres)
             {
-                if(options.GetWhere(kv.Key) == null)
-                {
-                    options.Where(kv.Key, kv.Value);
-                }
+                options.Where(kv.Key, kv.Value , false);
             }
         }
 
@@ -274,10 +278,7 @@ namespace CatLib.Routing
 
             foreach (var kv in defaults)
             {
-                if (options.GetDefaults(kv.Key) == null)
-                {
-                    options.Defaults(kv.Key, kv.Value);
-                }
+                options.Defaults(kv.Key, kv.Value , false);
             }
         }
 

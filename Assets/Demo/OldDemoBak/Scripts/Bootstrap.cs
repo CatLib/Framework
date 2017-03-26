@@ -153,8 +153,6 @@ public class Bootstrap : ServiceProvider
         App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
         {
 
-          
-
             IRouter router = App.Make<IRouter>();
             router.Dispatch("catlib://home:199478@test1.com/thisishello/sometime");
             router.Dispatch("test://test2?hello=123");

@@ -76,7 +76,7 @@ namespace CatLib.Routing{
             options.Defaults(name, val);
             for(int i = 0; i < routes.Count; i++)
             {
-                routes[i].Defaults(name, val);
+                routes[i].Defaults(name, val , false);
             }
             return this;
 
@@ -93,7 +93,7 @@ namespace CatLib.Routing{
             options.Where(name, pattern);
             for (int i = 0; i < routes.Count; i++)
             {
-                routes[i].Where(name, pattern);
+                routes[i].Where(name, pattern , false);
             }
             return this;
 

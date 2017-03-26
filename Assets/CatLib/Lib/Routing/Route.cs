@@ -183,9 +183,9 @@ namespace CatLib.Routing
         /// <param name="name"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        public IRoute Where(string name, string pattern)
+        public IRoute Where(string name, string pattern, bool overrided = true)
         {
-            options.Where(name, pattern);
+            options.Where(name, pattern , overrided);
             return this;
         }
 
@@ -194,9 +194,10 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="name">参数名</param>
         /// <param name="val">默认值</param>
-        public IRoute Defaults(string name, string val){
+        public IRoute Defaults(string name, string val, bool overrided = true)
+        {
 
-            options.Defaults(name, val);
+            options.Defaults(name, val , overrided);
             return this;
 
         }

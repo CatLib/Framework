@@ -334,6 +334,7 @@ namespace CatLib.Routing
             try
             {
                 var response = new Response();
+                container.Instance(typeof(IResponse).ToString(), response);
                 var middleware = route.GatherMiddleware();
                 if (middleware != null)
                 {
@@ -361,7 +362,7 @@ namespace CatLib.Routing
                 {
                     ThrowOnError(request, ex);
                 }
-                throw ex;
+                return null;
             }
         }
 
@@ -395,7 +396,7 @@ namespace CatLib.Routing
         protected Route FindRoute(Request request)
         {
             Route route = schemes[request.CatLibUri.Scheme].Match(request);
-            container.Instance("route.current", route);
+            container.Instance(typeof(IRequest).ToString(), route);
             return route;
         }
 

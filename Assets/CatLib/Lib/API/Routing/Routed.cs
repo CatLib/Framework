@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.Routing
+namespace CatLib.API.Routing
 {
     /// <summary>
     /// 路由标记

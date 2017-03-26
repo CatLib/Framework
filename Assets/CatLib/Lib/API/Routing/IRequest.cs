@@ -52,6 +52,13 @@ namespace CatLib.API.Routing
         /// 获取字符串附加物
         /// </summary>
         /// <param name="key"></param>
+        /// <returns></returns>
+        string this[string key] { get; }
+
+        /// <summary>
+        /// 获取字符串附加物
+        /// </summary>
+        /// <param name="key"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         string GetString(string key, string defaultValue = null);

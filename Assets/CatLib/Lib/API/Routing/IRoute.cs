@@ -30,7 +30,7 @@ namespace CatLib.API.Routing
         /// </summary>
         /// <param name="name">参数名</param>
         /// <param name="val">参数值</param>
-        IRoute Defaults(string name, string val);
+        IRoute Defaults(string name, string val , bool overrided = true);
 
         /// <summary>
         /// 约束指定参数必须符合正则表达式
@@ -38,7 +38,7 @@ namespace CatLib.API.Routing
         /// <param name="name"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        IRoute Where(string name, string pattern);
+        IRoute Where(string name, string pattern, bool overrided = true);
 
         /// <summary>
         /// 在路由中间件
