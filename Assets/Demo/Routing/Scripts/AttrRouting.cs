@@ -77,6 +77,12 @@ namespace CatLib.Demo.Routing
             Debug.Log("in class [" + typeof(AttrRouting).ToString() + "] , call function: OtherParam() , param : " + application.GetType().ToString());
             Debug.Log("this is from call in context : " + request.GetContext().ToString());
         }
+
+        // 手动注册路由，这个函数没有Routed属性标记所以不会自动加入路由条目，需要手动注册
+        public void RegRoute()
+        {
+            Debug.Log("this is reg route");
+        }
     }
 
 }
