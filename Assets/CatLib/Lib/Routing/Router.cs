@@ -249,7 +249,7 @@ namespace CatLib.Routing
         /// <returns></returns>
         public IEnumerator RouterCompiler()
         {
-            (new AttrRouteCompiler(this , container)).Complie();
+            (new AttrRouteCompiler(this)).Complie();
             yield break;
         }
 

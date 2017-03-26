@@ -90,9 +90,25 @@ public class TestController
     }
 }
 
-[Routed("home://",Defaults ="name=>100,hello=>10" ,Where = "hello=>[0-9]+")]
-public class TestController2 : IRouted
+[Routed("home://",Defaults ="name=>100,hello=>10" ,Where = "hello=>[0-9]+")] //这里写的所有内容会对类中的路由生效
+public class TestController2 : IRouted , IMiddleware //实现被路由接口
 {
+
+    public IFilterChain<IRequest, CatLib.API.Routing.IResponse> Middleware
+    {
+        get
+        {
+            var test = App.Instance.Make<IFilterChain>();
+            var f = test.Create<IRequest, CatLib.API.Routing.IResponse>();
+            f.Add((req, res , next) =>
+            {
+                Debug.Log("this is controller middleware");
+                next.Do(req, res);
+            });
+            return f;
+        }
+    }
+
     [Routed("test1.com/{hello?}/{name?}")]
     public void TestIsTest(IRequest request)
     {

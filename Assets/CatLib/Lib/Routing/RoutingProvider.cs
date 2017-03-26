@@ -44,8 +44,6 @@ namespace CatLib.Routing
 
             App.Singleton<Router>((app , param)=>
             {
-
-                UnityEngine.Debug.Log("debug!!!");
                 var router = new Router(App , app , app.Make<IFilterChain>());
                 router.SetDefaultScheme("catlib");
                 return router;

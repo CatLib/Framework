@@ -243,14 +243,9 @@ namespace CatLib.Routing
         public IResponse Run(Request request, Response response)
         {
             RouteParameterBinder.Parameters(this , request as Request);
-            if (action.Type == RouteAction.RouteTypes.CallBack)
-            {
-                action.Action(request, response);
-            }
-            else if (action.Type == RouteAction.RouteTypes.ControllerCall)
-            {
-                ControllerCall(request, response);
-            }
+
+            DispatchToAction(request, response);
+            
             return response;
         }
 
@@ -297,6 +292,22 @@ namespace CatLib.Routing
 
         }
 
+        /// <summary>
+        /// 调度到行为
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="response"></param>
+        protected void DispatchToAction(Request request , Response response)
+        {
+            if (action.Type == RouteAction.RouteTypes.CallBack)
+            {
+                action.Action(request, response);
+            }
+            else if (action.Type == RouteAction.RouteTypes.ControllerCall)
+            {
+                ControllerCall(request, response);
+            }
+        }
         
         /// <summary>
         /// 控制器调用
@@ -306,7 +317,24 @@ namespace CatLib.Routing
         protected void ControllerCall(Request request, Response response)
         {
             object controller = container.Make(action.Controller);
-            container.Call(controller, action.Func, request, response);
+
+            IMiddleware mid = null;
+            if (controller is IMiddleware)
+            {
+                mid = (controller as IMiddleware);
+            }
+
+            if(mid.Middleware != null)
+            {
+                mid.Middleware.Then((req, res) =>
+                {
+                    container.Call(controller, action.Func, req, res);
+                }).Do(request, response);
+            }else
+            {
+                container.Call(controller, action.Func, request, response);
+            }
+            
         }
 
         /// <summary>

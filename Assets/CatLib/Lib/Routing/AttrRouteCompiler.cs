@@ -31,11 +31,6 @@ namespace CatLib.Routing
         private Router router;
 
         /// <summary>
-        /// 容器
-        /// </summary>
-        private IContainer container;
-
-        /// <summary>
         /// 扫描目标
         /// </summary>
         private Type target = typeof(IRouted);
@@ -49,10 +44,9 @@ namespace CatLib.Routing
         /// 属性路由编译器
         /// </summary>
         /// <param name="router"></param>
-        public AttrRouteCompiler(Router router , IContainer container)
+        public AttrRouteCompiler(Router router)
         {
             this.router = router;
-            this.container = container;
         }
 
         /// <summary>
@@ -154,7 +148,7 @@ namespace CatLib.Routing
                 }
             }
 
-            IRoute route = router.Reg(path, WrapperCall(type , method));
+            IRoute route = router.Reg(path, type , method.Name);
 
             //编译标记中的属性路由中的配置到路由条目中
             ComplieOptions(route, routed);
@@ -241,24 +235,6 @@ namespace CatLib.Routing
             }
 
             return data;
-        }
-
-        /// <summary>
-        /// 包装调用
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        protected Action<IRequest, IResponse> WrapperCall(Type type, MethodInfo method)
-        {
-
-            return (request, response) =>
-            {
-
-                container.Call(container.Make(type), method, request, response);
-
-            };
-
         }
 
         /// <summary>
