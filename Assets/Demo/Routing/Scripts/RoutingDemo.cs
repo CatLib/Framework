@@ -1,4 +1,15 @@
-﻿using CatLib.API;
+﻿/*
+ * This file is part of the CatLib package.
+ *
+ * (c) Yu Bin <support@catlib.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Document: http://catlib.io/
+ */
+
+using CatLib.API;
 using CatLib.API.Routing;
 using UnityEngine;
 
@@ -15,7 +26,7 @@ namespace CatLib.Demo.Routing
 
                 IRouter router = App.Make<IRouter>();
 
-                router.Dispatch("attr-routing/class-static");
+                router.Dispatch("attr-routing/class-static#10");
                 Debug.Log(router.Dispatch("attr-routing/return-response/hello my name is anny").GetContext().ToString());
                 Debug.Log(router.Dispatch("catlib://attr-routing/options-param").GetContext().ToString());
                 router.Dispatch("attr-routing/other-param", "hello this is from context");

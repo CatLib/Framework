@@ -1,4 +1,15 @@
-﻿using CatLib.API;
+﻿/*
+ * This file is part of the CatLib package.
+ *
+ * (c) Yu Bin <support@catlib.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Document: http://catlib.io/
+ */
+
+using CatLib.API;
 using CatLib.API.FilterChain;
 using CatLib.API.Routing;
 using UnityEngine;
@@ -43,7 +54,7 @@ namespace CatLib.Demo.Routing
         [Routed("attr-routing/class-static")]
         public void ClassStatic(IRequest request , IResponse response)
         {
-            Debug.Log("in class [" + typeof(AttrRouting).ToString() + "] , call function: ClassStatic()");
+            Debug.Log("in class [" + typeof(AttrRouting).ToString() + "] , call function: ClassStatic() , fragment:" + request.Uri.Fragment);
         }
 
         //您也可以在路由方法中强制指定scheme，这样她会忽略来自class中定义的scheme。
