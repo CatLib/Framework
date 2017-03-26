@@ -144,7 +144,14 @@ namespace CatLib.Routing
             if (baseRouted != null && !HasScheme(routed.Path))
             {
                 //如果开发者提供了控制器的路由配置，那么将会合并控制器路由的全局部分
-                path = baseRouted.Path + "/" + path;
+                int index = baseRouted.Path.LastIndexOf("://");
+                if (index != -1 && (index + 3) == baseRouted.Path.Length)
+                {
+                    path = baseRouted.Path + path;
+                }else
+                {
+                    path = baseRouted.Path.TrimEnd('/') + "/" + path;
+                }
             }
 
             IRoute route = router.Reg(path, WrapperCall(type , method));

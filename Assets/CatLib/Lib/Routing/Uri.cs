@@ -49,7 +49,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 全路径(全路径不包含userinfo) eg: catlib://login/register?id=10
         /// </summary>
-        public string FullPath { get { return System.Uri.UnescapeDataString(uri.Scheme + "://" + uri.Host + uri.PathAndQuery); } }
+        public string FullPath { get { return System.Uri.UnescapeDataString(uri.Scheme + "://" + uri.Host + uri.PathAndQuery.TrimEnd('/')); } }
 
         /// <summary>
         /// 无参的全路径 eg:catlib://login/register
@@ -61,7 +61,7 @@ namespace CatLib.Routing
                 int index = FullPath.LastIndexOf('?');
                 if (index >= 0)
                 {
-                    return FullPath.Substring(0, index);
+                    return FullPath.Substring(0, index).TrimEnd('/');
                 }else
                 {
                     return FullPath;

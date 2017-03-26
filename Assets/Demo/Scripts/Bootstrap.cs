@@ -90,24 +90,26 @@ public class TestController
     }
 }
 
+[Routed("home://",Defaults ="name=>100,hello=>10" ,Where = "hello=>[0-9]+")]
 public class TestController2 : IRouted
 {
-    [Routed("hello:123@test1.com/{hello?}/{name?}")]
+    [Routed("test1.com/{hello?}/{name?}")]
     public void TestIsTest(IRequest request)
     {
+        Debug.Log(request.Uri.UserInfo);
         Debug.Log("TestIsTest 1" + request.Get("hello"));
     }
 
-    //[Routed("test://test2/{hello?}/{name?}")]
-    public void TestIsTest2()
+    [Routed("test://test2/{hello?}/{name?}")]
+    public void TestIsTest2(IRequest request)
     {
-        Debug.Log("TestIsTest 2");
+        Debug.Log("TestIsTest 2" + request.Get("hello"));
     }
 
-    //[Routed("test3/{hello?}/{name?}")]
-    public static void TestIsTest3()
+    [Routed("test3/{hello?}/{name?}")]
+    public static void TestIsTest3(IRequest request)
     {
-        Debug.Log("TestIsTest 3");
+        Debug.Log("TestIsTest 3 , " + request.Get("name"));
     }
 }
 
@@ -138,8 +140,12 @@ public class Bootstrap : ServiceProvider
           
 
             IRouter router = App.Make<IRouter>();
-            router.Dispatch("catlib://test1.com/thisishello/sometime");
-
+            router.Dispatch("catlib://home:199478@test1.com/thisishello/sometime");
+            router.Dispatch("test://test2?hello=123");
+            router.Dispatch("catlib://test3");
+            router.Dispatch("home://test3");
+            router.Dispatch("catlib://home/test3");
+            return;
 
             //return;
             /* 
