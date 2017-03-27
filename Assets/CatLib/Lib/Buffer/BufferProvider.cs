@@ -18,7 +18,7 @@ namespace CatLib.Buffer
     {
         public override void Register()
         {
-            App.Bind<BufferBuilder>().Alias<IBufferBuilder>().Alias("network.package.base");
+            App.Bind<BufferBuilder>().Alias<IBufferBuilder>().Alias("buffer");
         }
     }
 }
