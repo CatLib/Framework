@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections.Generic;
 using CatLib.API;
@@ -23,7 +23,7 @@ namespace CatLib
     public class MonoComponent : MonoObject, IEvent
     {
 
-        private IEventAchieve eventAchieve = null;
+        private IEventAchieve m_eventAchieve = null;
         /// <summary>
         /// 事件系统
         /// </summary>
@@ -31,8 +31,11 @@ namespace CatLib
         {
             get
             {
-                if (eventAchieve == null) { eventAchieve = App.Instance.Make<IEventAchieve>(); }
-                return eventAchieve;
+                if (m_eventAchieve == null)
+                {
+                    m_eventAchieve = App.Instance.Make<IEventAchieve>();
+                }
+                return m_eventAchieve;
             }
         }
 
@@ -47,31 +50,35 @@ namespace CatLib
         /// <summary>
         /// 注册到消息中心的句柄
         /// </summary>
-        private List<IEventHandler> handlers;
+        private List<IEventHandler> m_handlers;
 
         /// <summary>
         /// 注册事件到指定的对象
         /// </summary>
-        /// <param name="to">注册到的目标</param>
-        /// <param name="name">事件名字</param>
+        /// <param name="target">注册到的目标</param>
+        /// <param name="eventName">事件名字</param>
         /// <param name="handler">句柄</param>
-        protected IEventHandler On(IEvent to , string name , EventHandler handler , int lift = -1) 
+        /// <param name="lift"></param>
+        protected IEventHandler On(IEvent target, string eventName, EventHandler handler, int lift = -1)
         {
-            if(handlers == null){ handlers = new List<IEventHandler>(); }
-            IEventHandler eventHandler = to.Event.On(name , handler , lift);
-            handlers.Add(eventHandler);
+            if (m_handlers == null)
+            {
+                m_handlers = new List<IEventHandler>();
+            }
+            IEventHandler eventHandler = target.Event.On(eventName, handler, lift);
+            m_handlers.Add(eventHandler);
             return eventHandler;
         }
-    
+
         /// <summary>
         /// 注册事件到指定对象（执行一次后释放关联）
         /// </summary>
-        /// <param name="to"></param>
-        /// <param name="name"></param>
+        /// <param name="target"></param>
+        /// <param name="eventName"></param>
         /// <param name="handler"></param>
-        protected IEventHandler One(IEvent to , string name , EventHandler handler)
+        protected IEventHandler One(IEvent target, string eventName, EventHandler handler)
         {
-            return On(to , name , handler , 1);
+            return On(target, eventName, handler, 1);
         }
 
         /// <summary>
@@ -79,15 +86,14 @@ namespace CatLib
         /// </summary>
         private void ClearHandlers()
         {
-            if (handlers != null)
+            if (m_handlers != null)
             {
-                for(int i = 0; i < handlers.Count ; i++){
-
-                    handlers[i].Cancel();
-
+                for (int i = 0; i < m_handlers.Count; i++)
+                {
+                    m_handlers[i].Cancel();
                 }
-                handlers.Clear();
-                handlers = null;
+                m_handlers.Clear();
+                m_handlers = null;
             }
         }
 

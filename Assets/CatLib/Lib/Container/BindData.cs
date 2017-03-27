@@ -72,28 +72,28 @@ namespace CatLib.Container {
         /// <summary>
         /// 上下文
         /// </summary>
-        private Dictionary<string, string> contextual;
+        private Dictionary<string, string> m_contextual;
 
         /// <summary>
         /// 容器
         /// </summary>
-        private IContainer container;
+        private readonly IContainer m_container;
 
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , IBindData, object, object>> decorator;
+        private List<Func<IContainer , IBindData, object, object>> m_decorator;
 
         public BindData(IContainer container, string service , Func<IContainer, object[], object> concrete, bool isStatic)
         {
-            this.container = container;
+            this.m_container = container;
             Service = service;
             Concrete = concrete;
             IsStatic = isStatic;
         }
 
         /// <summary>
-        /// 需求某个服务                                                                                                                                                                                                                                                                                                                                                                                      
+        /// 需求某个服务                 
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
@@ -129,7 +129,7 @@ namespace CatLib.Container {
         /// <returns></returns>
         public IBindData Alias(string alias)
         {
-            container.Alias(alias, Service);
+            m_container.Alias(alias, Service);
             return this;
         }
 
@@ -140,8 +140,14 @@ namespace CatLib.Container {
         /// <returns></returns>
         public string GetContextual(string needs)
         {
-            if (contextual == null) { return needs; }
-            if (contextual.ContainsKey(needs)) { return contextual[needs]; }
+            if (m_contextual == null)
+            {
+                return needs;
+            }
+            if (m_contextual.ContainsKey(needs))
+            {
+                return m_contextual[needs];
+            }
             return needs;
         }
 
@@ -151,8 +157,11 @@ namespace CatLib.Container {
         /// <param name="func"></param>
         public IBindData Resolving(Func<IContainer , IBindData, object, object> func)
         {
-            if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
-            decorator.Add(func);
+            if (m_decorator == null)
+            {
+                m_decorator = new List<Func<IContainer , IBindData, object, object>>();
+            }
+            m_decorator.Add(func);
             return this;
         }
 
@@ -163,10 +172,17 @@ namespace CatLib.Container {
         /// <returns></returns>
         public object ExecDecorator(object obj)
         {
-            if (decorator == null) { return obj; }
-            foreach(Func<IContainer , IBindData, object, object> func in decorator)
+            if (m_decorator == null)
             {
-                obj = func(container , this , obj);
+                return obj;
+            }
+            for (int index = 0; index < m_decorator.Count; index++)
+            {
+                Func<IContainer, IBindData, object, object> func = m_decorator[index];
+                if (func != null)
+                {
+                    obj = func(m_container, this, obj);
+                }
             }
             return obj;
         }
@@ -178,8 +194,11 @@ namespace CatLib.Container {
         /// <param name="given">给与</param>
         protected BindData AddContextual(string needs , string given)
         {
-            if (contextual == null) { contextual = new Dictionary<string, string>(); }
-            contextual.Add(needs, given);
+            if (m_contextual == null)
+            {
+                m_contextual = new Dictionary<string, string>();
+            }
+            m_contextual.Add(needs, given);
             return this;
         }
     }

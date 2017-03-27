@@ -13,7 +13,9 @@ using System;
 
 namespace CatLib
 {
-    /// <summary>依赖标记</summary>
+    /// <summary>
+    /// 依赖标记
+    /// </summary>
     public class Dependency : Attribute
     {
 

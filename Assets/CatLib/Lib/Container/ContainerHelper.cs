@@ -14,7 +14,9 @@ using CatLib.API.Container;
 
 namespace CatLib
 {
-    ///<summary>容器拓展</summary>
+    ///<summary>
+    /// 容器拓展
+    /// </summary>
     public static class ContainerHelper
     {
 
