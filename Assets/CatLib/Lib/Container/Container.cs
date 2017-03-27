@@ -350,7 +350,7 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 当解决类型时触发的秀时期
+        /// 当解决类型时触发的事件
         /// </summary>
         /// <param name="func"></param>
         public IContainer Resolving(Func<IContainer , IBindData, object, object> func)
