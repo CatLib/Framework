@@ -77,6 +77,7 @@ namespace CatLib.Container
         /// <param name="service">服务名</param>
         public void Tag(string tag , params string[] service)
         {
+            if (service == null) { return; }
             if (service.Length <= 0) { return; }
             if (!tags.ContainsKey(tag)) { tags.Add(tag, new List<string>()); }
             tags[tag].AddRange(service);
@@ -163,7 +164,12 @@ namespace CatLib.Container
             {
                 alias = Normalize(alias);
                 service = Normalize(service);
-                if (this.alias.ContainsKey(alias)) { this.alias.Remove(alias); }
+                if (this.alias.ContainsKey(alias)) {
+
+                    // 覆盖别名是一个非常危险的操作，这会导致未知的注入，所以我们直接抛出一个异常。
+                    throw new CatLibException("alias [" + alias + "] is already exists!");
+                    //this.alias.Remove(alias);
+                }
 
                 this.alias.Add(alias, service);
             }
@@ -240,6 +246,10 @@ namespace CatLib.Container
 
                 BindData bindData = new BindData(this, service, concrete, isStatic);
 
+                if (binds.ContainsKey(service))
+                {
+                    throw new CatLibException("bind service [" + service + "] is already exists!");
+                }
 
                 binds.Add(service, bindData);
 
