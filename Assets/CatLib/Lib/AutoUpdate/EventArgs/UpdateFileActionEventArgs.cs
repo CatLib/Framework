@@ -10,6 +10,7 @@
  */
  
 using System;
+using UnityEngine.Experimental.Networking;
 using UnityEngine.Networking;
 
 namespace CatLib.AutoUpdate

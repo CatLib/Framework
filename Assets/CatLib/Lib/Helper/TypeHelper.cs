@@ -14,7 +14,9 @@ using System.Collections.Generic;
 
 namespace CatLib
 {
-    /// <summary>类型转换拓展方法</summary>
+    /// <summary>
+    /// 类型转换拓展方法
+    /// </summary>
     public static class TypeHelper
     {
 

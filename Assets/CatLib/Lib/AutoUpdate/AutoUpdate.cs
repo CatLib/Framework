@@ -16,6 +16,7 @@ using CatLib.API;
 using CatLib.API.AutoUpdate;
 using CatLib.API.IO;
 using CatLib.API.Hash;
+using UnityEngine.Experimental.Networking;
 
 namespace CatLib.AutoUpdate
 {

@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using UnityEngine;
 using CatLib.API;
 
@@ -18,7 +18,7 @@ namespace CatLib
     /// <summary>
     /// CatLib Mono Object
     /// </summary>
-    public class MonoObject : MonoBehaviour ,IGuid
+    public class MonoObject : MonoBehaviour, IGuid
     {
 
         protected Transform tran;
@@ -30,7 +30,10 @@ namespace CatLib
         {
             get
             {
-                if (!tran) { tran = transform; }
+                if (!tran)
+                {
+                    tran = transform;
+                }
                 return tran;
             }
         }
@@ -45,7 +48,10 @@ namespace CatLib
         {
             get
             {
-                if (!obj) { obj = gameObject; }
+                if (!obj)
+                {
+                    obj = gameObject;
+                }
                 return obj;
             }
         }
