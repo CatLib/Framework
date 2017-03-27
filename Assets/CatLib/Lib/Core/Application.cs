@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,7 +36,6 @@ namespace CatLib
         /// </summary>
         public enum StartProcess
         {
-
             /// <summary>
             /// 引导流程
             /// </summary>
@@ -61,7 +60,6 @@ namespace CatLib
             /// 启动完成
             /// </summary>
             OnComplete = 6,
-
         }
 
         /// <summary>
@@ -116,7 +114,7 @@ namespace CatLib
         /// <summary>
         /// 主线程调度队列锁
         /// </summary>
-        private object mainThreadDispatcherQueueLocker = new object();
+        private readonly object mainThreadDispatcherQueueLocker = new object();
 
         /// <summary>
         /// 时间系统
@@ -141,7 +139,7 @@ namespace CatLib
         {
             get
             {
-                if(process <= StartProcess.OnInit)
+                if (process <= StartProcess.OnInit)
                 {
                     throw new Exception("can not call Time , because framework is not inited");
                 }
@@ -153,9 +151,10 @@ namespace CatLib
             }
         }
 
-        public Application() : base()
+        public Application()
+            : base()
         {
-
+            // 获取主线程ID
             mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
             Resolving((container, bindData, obj) =>
@@ -196,8 +195,9 @@ namespace CatLib
             Alias(typeof(IApplication).ToString(), typeof(Application).ToString());
             Alias(typeof(App).ToString(), typeof(Application).ToString());
             IBootstrap bootstrap;
-            foreach (Type t in bootstraps)
+            for (int index = 0; index < bootstraps.Length; index++)
             {
+                Type t = bootstraps[index];
                 bootstrap = this.Make<IBootstrap>(t);
                 if (bootstrap != null)
                 {
@@ -216,40 +216,52 @@ namespace CatLib
         /// <param name="provider"></param>
         public void Init()
         {
-            if (inited) { return; }
-            if (!bootstrapped) { return; }
+            if (inited)
+            {
+                return;
+            }
+            if (!bootstrapped)
+            {
+                return;
+            }
 
             ServiceProvider[] providers = serviceProviders.ToArray();
 
             process = StartProcess.OnDepend;
-
-            foreach (ServiceProvider provider in providers)
+            // 检测依赖
+            for (int i = 0; i < providers.Length; i++)
             {
-
-                foreach (Type type in provider.ProviderDepend)
+                ServiceProvider provider = providers[i];
+                for (int index = 0; index < provider.ProviderDepend.Length; index++)
                 {
-
+                    Type type = provider.ProviderDepend[index];
+                    // 检测是否已经绑定过服务
                     if (!HasBind(type.ToString()))
                     {
-                        throw new Exception("service provider [" + provider.GetType().ToString() + "] depend service provider [" + type.ToString() + "]");
+                        throw new Exception("service provider [" + provider.GetType().ToString() +
+                                            "] depend service provider [" + type.ToString() + "]");
                     }
                 }
-
             }
+            // 依赖检测完成
 
             process = StartProcess.OnInit;
 
             Trigger(this).SetEventName(ApplicationEvents.ON_INITING).Trigger();
 
-            foreach (ServiceProvider serviceProvider in providers)
+            // 初始化全部的服务商
+            for (int index = 0; index < providers.Length; index++)
             {
+                ServiceProvider serviceProvider = providers[index];
                 serviceProvider.Init();
             }
-
+            // 初始化完成
             inited = true;
 
+            // 发送初始化完成服务商的事件消息
             Trigger(this).SetEventName(ApplicationEvents.ON_INITED).Trigger();
 
+            // 开始启动服务商
             StartCoroutine(StartProviderPorcess());
 
         }
@@ -260,14 +272,20 @@ namespace CatLib
         /// <param name="t"></param>
         public void Register(Type t)
         {
-            if (serviceProviders.ContainsKey(t)) { return; }
+            if (serviceProviders.ContainsKey(t))
+            {
+                return;
+            }
 
             ServiceProvider serviceProvider = this.Make<ServiceProvider>(t);
             if (serviceProvider != null)
             {
                 serviceProvider.Register();
                 this.serviceProviders.Add(t, serviceProvider);
-                if (this.inited) { serviceProvider.Init(); }
+                if (this.inited)
+                {
+                    serviceProvider.Init();
+                }
             }
 
         }
@@ -321,20 +339,25 @@ namespace CatLib
         {
             process = StartProcess.OnProviderProcess;
 
+            // 发送服务商启动中的消息
             Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSING).Trigger();
 
             List<ServiceProvider> providers = new List<ServiceProvider>(serviceProviders.Values);
-            providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess) );
+            // 对服务商的启动顺序进行排序
+            providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess));
 
-            foreach(ServiceProvider provider in providers)
+            foreach (ServiceProvider provider in providers)
             {
+                // 启动服务商
                 yield return provider.OnProviderProcess();
             }
 
+            // 发送服务商启动完成的消息
             Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSED).Trigger();
 
             process = StartProcess.OnComplete;
 
+            // 发送服务商启动完成的消息
             Trigger(this).SetEventName(ApplicationEvents.ON_APPLICATION_START_COMPLETE).Trigger();
 
         }
@@ -347,10 +370,15 @@ namespace CatLib
         /// <param name="action"></param>
         public void MainThread(IEnumerator action)
         {
-            if (IsMainThread) { StartCoroutine(action); return; }
+            if (IsMainThread)
+            {
+                StartCoroutine(action); 
+                return;
+            }
             lock (mainThreadDispatcherQueueLocker)
             {
-                mainThreadDispatcherQueue.Enqueue(() => {
+                mainThreadDispatcherQueue.Enqueue(() =>
+                {
                     StartCoroutine(action);
                 });
             }
@@ -362,7 +390,10 @@ namespace CatLib
         /// <param name="action"></param>
         public void MainThread(Action action)
         {
-            if (IsMainThread) { action.Invoke(); return; }
+            if (IsMainThread)
+            {
+                action.Invoke(); return;
+            }
             MainThread(ActionWrapper(action));
         }
 
@@ -384,10 +415,9 @@ namespace CatLib
             }
         }
 
-        public IGlobalEvent Trigger(object score){
-
+        public IGlobalEvent Trigger(object score)
+        {
             return new GlobalEvent(score);
-
         }
 
         public void Trigger(string eventName)
@@ -397,22 +427,22 @@ namespace CatLib
 
         public void Trigger(string eventName, EventArgs e)
         {
-            base.Event.Trigger(eventName , e);
+            base.Event.Trigger(eventName, e);
         }
 
         public void Trigger(string eventName, object sender)
         {
-            base.Event.Trigger(eventName , sender);
+            base.Event.Trigger(eventName, sender);
         }
 
         public void Trigger(string eventName, object sender, EventArgs e)
         {
-            base.Event.Trigger(eventName , sender , e);
+            base.Event.Trigger(eventName, sender, e);
         }
 
-        public IEventHandler On(string eventName, EventHandler handler , int life = -1)
+        public IEventHandler On(string eventName, EventHandler handler, int life = -1)
         {
-            return base.Event.On(eventName, handler , life);
+            return base.Event.On(eventName, handler, life);
         }
 
         public IEventHandler One(string eventName, EventHandler handler)
