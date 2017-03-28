@@ -8,12 +8,16 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_5_5_OR_NEWER
 using UnityEngine.Networking;
+#elif UNITY_5_2 || UNITY_5_3
+using UnityEngine.Experimental.Networking;
+#endif
 using CatLib.API.Network;
 using CatLib.API;
 using CatLib.API.Event;
@@ -53,13 +57,16 @@ namespace CatLib.Network
         private Dictionary<string, string> headers;
         public Dictionary<string, string> Headers { get { return headers; } }
 
-        public void SetConfig(Hashtable config){
+        public void SetConfig(Hashtable config)
+        {
 
-            if(config.ContainsKey("host")){
+            if (config.ContainsKey("host"))
+            {
                 url = config["host"].ToString().TrimEnd('/');
             }
 
-            if(config.ContainsKey("timeout")){
+            if (config.ContainsKey("timeout"))
+            {
                 throw new Exception(this.GetType().ToString() + " is not support [timeout] config");
             }
 
@@ -83,11 +90,11 @@ namespace CatLib.Network
             throw new Exception("this component is not support this features");
         }
 
-        public IConnectorHttp AppendHeader(string header , string val)
+        public IConnectorHttp AppendHeader(string header, string val)
         {
             if (headers == null) { headers = new Dictionary<string, string>(); }
             headers.Remove(header);
-            headers.Add(header , val);
+            headers.Add(header, val);
             return this;
         }
 
@@ -100,7 +107,7 @@ namespace CatLib.Network
 
         public void Restful(ERestful method, string action, WWWForm form)
         {
-            if(method == ERestful.Post)
+            if (method == ERestful.Post)
             {
                 UnityWebRequest request = UnityWebRequest.Post(url + action, form);
                 queue.Enqueue(request);
@@ -189,7 +196,7 @@ namespace CatLib.Network
                             headers.Walk((statu, val) => request.SetRequestHeader(statu.ToString(), val));
                         }
                         yield return request.Send();
-  
+
                         EventLevel level = EventLevel.All;
                         if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
                         {
