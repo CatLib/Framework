@@ -8,23 +8,28 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.IO;
 
 namespace CatLib.API.IO
 {
-
+    /// <summary>
+    /// 目录操作器
+    /// </summary>
     public interface IDirectory
     {
 
-        string Path{ get; }
+        /// <summary>
+        /// 路径
+        /// </summary>
+        string Path { get; }
 
         string Name { get; }
 
-        bool IsEmpty{ get; }
+        bool IsEmpty { get; }
 
-        IDirectory this[string directoryPath]{ get; }
+        IDirectory this[string directoryPath] { get; }
 
         bool Exists();
 
@@ -39,20 +44,20 @@ namespace CatLib.API.IO
         IDirectory Create(string directoryPath);
 
         IDirectory CopyTo(string targetDirectroy);
-        
+
         IFile File(string path);
 
         IFile[] GetFiles(SearchOption option = SearchOption.TopDirectoryOnly);
 
-        IFile[] GetFiles(string filter , SearchOption option);
+        IFile[] GetFiles(string filter, SearchOption option);
 
         void MoveTo(string targetDirectory);
 
         void Rename(string newName);
 
-        void Walk(Action<IFile> callBack , SearchOption option);
+        void Walk(Action<IFile> callBack, SearchOption option);
 
-        void Walk(Action<IFile> callBack , string filter = "*" , SearchOption option = SearchOption.AllDirectories);
+        void Walk(Action<IFile> callBack, string filter = "*", SearchOption option = SearchOption.AllDirectories);
 
     }
 
