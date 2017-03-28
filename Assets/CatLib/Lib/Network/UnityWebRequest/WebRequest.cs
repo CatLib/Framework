@@ -13,7 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_5_5_OR_NEWER
+#if UNITY_5_4_OR_NEWER
 using UnityEngine.Networking;
 #elif UNITY_5_2 || UNITY_5_3
 using UnityEngine.Experimental.Networking;
