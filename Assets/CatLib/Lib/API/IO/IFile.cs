@@ -108,6 +108,5 @@ namespace CatLib.API.IO
         /// </summary>
         /// <param name="callback"></param>
         void ReadAsync(Action<byte[]> callback);
-
     }
 }

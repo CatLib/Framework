@@ -121,5 +121,4 @@ namespace CatLib.API.IO
         void Walk(Action<IFile> callBack, string filter = "*", SearchOption option = SearchOption.AllDirectories);
 
     }
-
 }

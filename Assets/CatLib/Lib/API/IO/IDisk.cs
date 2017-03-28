@@ -53,5 +53,4 @@ namespace CatLib.API.IO
         void SetConfig(Hashtable config);
 
     }
-
 }
