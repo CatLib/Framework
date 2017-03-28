@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using CatLib.API;
 
@@ -26,11 +26,12 @@ namespace CatLib
             {
                 if (instance == null)
                 {
-                    #if UNITY_EDITOR
-                        if(!UnityEngine.Application.isPlaying){
-                            return instance = new Application().Bootstrap(Bootstrap.BootStrap);
-                        }
-                    #endif
+#if UNITY_EDITOR
+                    if (!UnityEngine.Application.isPlaying)
+                    {
+                        return instance = new Application().Bootstrap(Bootstrap.BootStrap);
+                    }
+#endif
                     throw new NullReferenceException("application not instance");
                 }
                 return instance;

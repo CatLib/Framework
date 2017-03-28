@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -141,7 +141,7 @@ namespace CatLib
         {
             get
             {
-                if(process <= StartProcess.OnInit)
+                if (process <= StartProcess.OnInit)
                 {
                     throw new Exception("can not call Time , because framework is not inited");
                 }
@@ -153,7 +153,8 @@ namespace CatLib
             }
         }
 
-        public Application() : base()
+        public Application()
+            : base()
         {
 
             mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
@@ -172,6 +173,7 @@ namespace CatLib
                     {
                         lateUpdate.Add(obj as ILateUpdate);
                     }
+
                     if (obj is IDestroy)
                     {
                         destroy.Add(obj as IDestroy);
@@ -213,11 +215,16 @@ namespace CatLib
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <param name="provider"></param>
         public void Init()
         {
-            if (inited) { return; }
-            if (!bootstrapped) { return; }
+            if (inited)
+            {
+                return;
+            }
+            if (!bootstrapped)
+            {
+                return;
+            }
 
             ServiceProvider[] providers = serviceProviders.ToArray();
 
@@ -260,14 +267,20 @@ namespace CatLib
         /// <param name="t"></param>
         public void Register(Type t)
         {
-            if (serviceProviders.ContainsKey(t)) { return; }
+            if (serviceProviders.ContainsKey(t))
+            {
+                return;
+            }
 
             ServiceProvider serviceProvider = this.Make<ServiceProvider>(t);
             if (serviceProvider != null)
             {
                 serviceProvider.Register();
                 this.serviceProviders.Add(t, serviceProvider);
-                if (this.inited) { serviceProvider.Init(); }
+                if (this.inited)
+                {
+                    serviceProvider.Init();
+                }
             }
 
         }
@@ -324,9 +337,9 @@ namespace CatLib
             Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSING).Trigger();
 
             List<ServiceProvider> providers = new List<ServiceProvider>(serviceProviders.Values);
-            providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess) );
+            providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess));
 
-            foreach(ServiceProvider provider in providers)
+            foreach (ServiceProvider provider in providers)
             {
                 yield return provider.OnProviderProcess();
             }
@@ -347,10 +360,15 @@ namespace CatLib
         /// <param name="action"></param>
         public void MainThread(IEnumerator action)
         {
-            if (IsMainThread) { StartCoroutine(action); return; }
+            if (IsMainThread)
+            {
+                StartCoroutine(action);
+                return;
+            }
             lock (mainThreadDispatcherQueueLocker)
             {
-                mainThreadDispatcherQueue.Enqueue(() => {
+                mainThreadDispatcherQueue.Enqueue(() =>
+                {
                     StartCoroutine(action);
                 });
             }
@@ -362,7 +380,11 @@ namespace CatLib
         /// <param name="action"></param>
         public void MainThread(Action action)
         {
-            if (IsMainThread) { action.Invoke(); return; }
+            if (IsMainThread)
+            {
+                action.Invoke();
+                return;
+            }
             MainThread(ActionWrapper(action));
         }
 
@@ -384,7 +406,8 @@ namespace CatLib
             }
         }
 
-        public IGlobalEvent Trigger(object score){
+        public IGlobalEvent Trigger(object score)
+        {
 
             return new GlobalEvent(score);
 
@@ -397,22 +420,22 @@ namespace CatLib
 
         public void Trigger(string eventName, EventArgs e)
         {
-            base.Event.Trigger(eventName , e);
+            base.Event.Trigger(eventName, e);
         }
 
         public void Trigger(string eventName, object sender)
         {
-            base.Event.Trigger(eventName , sender);
+            base.Event.Trigger(eventName, sender);
         }
 
         public void Trigger(string eventName, object sender, EventArgs e)
         {
-            base.Event.Trigger(eventName , sender , e);
+            base.Event.Trigger(eventName, sender, e);
         }
 
-        public IEventHandler On(string eventName, EventHandler handler , int life = -1)
+        public IEventHandler On(string eventName, EventHandler handler, int life = -1)
         {
-            return base.Event.On(eventName, handler , life);
+            return base.Event.On(eventName, handler, life);
         }
 
         public IEventHandler One(string eventName, EventHandler handler)
