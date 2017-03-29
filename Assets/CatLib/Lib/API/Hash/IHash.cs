@@ -8,10 +8,12 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.API.Hash{
 
-	public interface IHash  {
+namespace CatLib.API.Hash
+{
+
+    public interface IHash
+    {
 
         /// <summary>
         /// 对一个字符串进行Hash加密
@@ -35,6 +37,12 @@ namespace CatLib.API.Hash{
         /// <returns></returns>
         string FileHash(string path);
 
+        /// <summary>
+        /// 用户计算字符串的md5 
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <returns></returns>
+        string StringHash(string inputText);
     }
 
 }

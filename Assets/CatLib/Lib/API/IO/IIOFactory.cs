@@ -8,13 +8,21 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API.IO
 {
-	public interface IIOFactory{
+    /// <summary>
+    /// IO工厂
+    /// </summary>
+    public interface IIOFactory
+    {
 
-		IDisk Disk(string name = null);
+        /// <summary>
+        /// 获取文件驱动器
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        IDisk Disk(string name = null);
 
-	}
-
+    }
 }

@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API.IO
 {
 
