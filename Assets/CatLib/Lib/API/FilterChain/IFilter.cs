@@ -34,4 +34,16 @@ namespace CatLib.API.FilterChain
         void Do(TIn inData, TOut outData, IFilterChain<TIn, TOut> chain);
 
     }
+
+    /// <summary>
+    /// 过滤器
+    /// </summary>
+    /// <typeparam name="TIn"></typeparam>
+    /// <typeparam name="TOut"></typeparam>
+    public interface IFilter<TIn, TOut ,TException>
+    {
+
+        void Do(TIn inData, TOut outData , TException exception, IFilterChain<TIn, TOut , TException> chain);
+
+    }
 }
