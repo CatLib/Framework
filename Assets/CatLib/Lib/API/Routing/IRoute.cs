@@ -52,7 +52,7 @@ namespace CatLib.API.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        IRoute OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> onError);
+        IRoute OnError(Action<IRequest, IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> onError);
 
     }
 

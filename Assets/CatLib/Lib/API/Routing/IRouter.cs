@@ -57,7 +57,7 @@ namespace CatLib.API.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        IRouter OnError(Action<IRequest, Exception, IFilterChain<IRequest , Exception>> middleware);
+        IRouter OnError(Action<IRequest, IResponse, Exception, IFilterChain<IRequest, IResponse , Exception>> middleware);
 
         /// <summary>
         /// 调度路由

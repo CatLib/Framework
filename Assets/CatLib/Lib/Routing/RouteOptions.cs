@@ -36,7 +36,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 当路由出现异常时的过滤器链
         /// </summary>
-        protected IFilterChain<IRequest, Exception> onError;
+        protected IFilterChain<IRequest, IResponse, Exception> onError;
 
         /// <summary>
         /// 筛选条件
@@ -133,11 +133,11 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public RouteOptions OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
+        public RouteOptions OnError(Action<IRequest , IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> middleware)
         {
             if (onError == null)
             {
-                onError = filterChain.Create<IRequest, Exception>();
+                onError = filterChain.Create<IRequest, IResponse, Exception>();
             }
             onError.Add(middleware);
             return this;
@@ -148,11 +148,11 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public RouteOptions OnError(IFilter<IRequest, Exception> middleware)
+        public RouteOptions OnError(IFilter<IRequest, IResponse, Exception> middleware)
         {
             if (onError == null)
             {
-                onError = filterChain.Create<IRequest, Exception>();
+                onError = filterChain.Create<IRequest, IResponse, Exception>();
             }
             onError.Add(middleware);
             return this;
@@ -201,7 +201,7 @@ namespace CatLib.Routing
         /// 获取当出现错误时的过滤器链
         /// </summary>
         /// <returns></returns>
-        public IFilterChain<IRequest, Exception> GatherOnError()
+        public IFilterChain<IRequest, IResponse, Exception> GatherOnError()
         {
             return onError;
         }
@@ -247,7 +247,7 @@ namespace CatLib.Routing
         protected void MergeOnError(RouteOptions options)
         {
             if (onError == null) { return; }
-            IFilter<IRequest, Exception>[] filters = onError.FilterList;
+            IFilter<IRequest, IResponse, Exception>[] filters = onError.FilterList;
             for (int i = 0; i < filters.Length; i++)
             {
                 options.OnError(filters[i]);

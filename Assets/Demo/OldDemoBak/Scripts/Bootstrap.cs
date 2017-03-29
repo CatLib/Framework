@@ -214,7 +214,7 @@ public class Bootstrap : ServiceProvider
             router.Reg("test/controller", typeof(TestController), "TestAction");
             router.Reg("test/controller222", typeof(TestController), "TestAction222");
             router.Reg("test/controller333", typeof(TestController), "TestAction333");
-            router.OnError((req, err, next) =>
+            router.OnError((req, resp, err, next) =>
             {
                 Debug.Log("has some error:" + err.Message);
             });

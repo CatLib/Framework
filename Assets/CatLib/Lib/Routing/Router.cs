@@ -59,7 +59,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 当出现异常时的过滤器链
         /// </summary>
-        protected IFilterChain<IRequest , Exception> onError;
+        protected IFilterChain<IRequest ,IResponse , Exception> onError;
 
         /// <summary>
         /// 路由组
@@ -154,11 +154,11 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRouter OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
+        public IRouter OnError(Action<IRequest, IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> middleware)
         {
             if (onError == null)
             {
-                onError = filterChain.Create<IRequest , Exception>();
+                onError = filterChain.Create<IRequest, IResponse, Exception>();
             }
             onError.Add(middleware);
             return this;
@@ -199,11 +199,6 @@ namespace CatLib.Routing
             }catch(NotFoundRouteException)
             {
                 ThrowOnNotFound(request);
-                return null;
-            }
-            catch(Exception ex)
-            {
-                ThrowOnError(request, ex);
                 return null;
             }
 
@@ -315,11 +310,11 @@ namespace CatLib.Routing
         /// 触发异常
         /// </summary>
         /// <param name="request"></param>
-        protected void ThrowOnError(Request request , Exception ex)
+        protected void ThrowOnError(Request request , Response response , Exception ex)
         {
             if (onError != null)
             {
-                onError.Do(request , ex);
+                onError.Do(request ,response , ex);
             }
         }
 
@@ -331,9 +326,10 @@ namespace CatLib.Routing
         /// <returns></returns>
         protected IResponse RunRouteWithMiddleware(Route route, Request request)
         {
+            var response = new Response();
+
             try
             {
-                var response = new Response();
                 container.Instance(typeof(IResponse).ToString(), response);
                 var middleware = route.GatherMiddleware();
                 if (middleware != null)
@@ -354,13 +350,13 @@ namespace CatLib.Routing
                 var chain = route.GatherOnError();
                 if (chain != null)
                 {
-                    chain.Then((req, error) =>
+                    chain.Then((req, res, error) =>
                     {
-                        ThrowOnError(request, ex);
-                    }).Do(request, ex);
+                        ThrowOnError(request, response, ex);
+                    }).Do(request,response, ex);
                 } else
                 {
-                    ThrowOnError(request, ex);
+                    ThrowOnError(request, response, ex);
                 }
                 return null;
             }

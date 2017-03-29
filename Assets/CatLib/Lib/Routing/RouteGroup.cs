@@ -120,7 +120,7 @@ namespace CatLib.Routing{
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRouteGroup OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> onError){
+        public IRouteGroup OnError(Action<IRequest, IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> onError){
 
             options.OnError(onError);
             for (int i = 0; i < routes.Count; i++)

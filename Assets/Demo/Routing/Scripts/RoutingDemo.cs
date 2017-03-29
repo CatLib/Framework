@@ -63,7 +63,7 @@ namespace CatLib.Demo.Routing
                     router.Reg("group-callback-routing/error", (request, response) =>
                     {
                         throw new System.Exception("this throw exception");
-                    }).OnError((req, ex, next) =>
+                    }).OnError((req, res , ex, next) =>
                     {
                         Debug.Log("on error , this is route");
                     //next.Do(req, ex); 
@@ -71,16 +71,16 @@ namespace CatLib.Demo.Routing
                     // 异常是冒泡执行的，所以一旦被临近filter chain拦截那么全局异常也不会触发。
                 });
 
-                }).Defaults("param", "this is group default param").OnError((request, ex, next) =>
+                }).Defaults("param", "this is group default param").OnError((request,res , ex, next) =>
                 {
                     Debug.Log("on error , this is group");
-                    next.Do(request, ex);
+                    next.Do(request, res, ex);
                 });
 
-                router.OnError((request, ex, next) =>
+                router.OnError((request, res, ex, next) =>
                 {
                     Debug.Log("on error , this is router");
-                    next.Do(request, ex);
+                    next.Do(request , res, ex);
                 });
 
                 router.Dispatch("catlib://group-callback-routing/with-group-1");

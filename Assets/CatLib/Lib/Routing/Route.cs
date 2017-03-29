@@ -218,7 +218,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRoute OnError(Action<IRequest, Exception, IFilterChain<IRequest, Exception>> middleware)
+        public IRoute OnError(Action<IRequest , IResponse , Exception, IFilterChain<IRequest, IResponse, Exception>> middleware)
         {
             options.OnError(middleware);
             return this;
@@ -263,7 +263,7 @@ namespace CatLib.Routing
         /// 获取当出现错误时的过滤器链
         /// </summary>
         /// <returns></returns>
-        public IFilterChain<IRequest, Exception> GatherOnError()
+        public IFilterChain<IRequest, IResponse, Exception> GatherOnError()
         {
             return options.GatherOnError();
         }
