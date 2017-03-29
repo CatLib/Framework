@@ -17,7 +17,7 @@ namespace CatLib{
 
 	public class GlobalEvent : IGlobalEvent {
 
-		private object score;
+		private object source;
 
 		private string eventName;
 
@@ -25,9 +25,9 @@ namespace CatLib{
 
 		private EventLevel eventLevel = EventLevel.All;
 
-		public GlobalEvent(object score){
+		public GlobalEvent(object source){
 
-			this.score = score;
+			this.source = source;
 
 		}
 
@@ -67,18 +67,18 @@ namespace CatLib{
 
 			if ((eventLevel & EventLevel.Self) > 0)
             {
-				if(score != null){
+				if(source != null){
 					
-					if(score is IGuid){
-						App.Instance.Trigger(eventName + score.GetType().ToString() + (score as IGuid).Guid, score, args);
+					if(source is IGuid){
+						App.Instance.Trigger(eventName + source.GetType().ToString() + (source as IGuid).Guid, source, args);
 					}
 				}
             }
 
             if ((eventLevel & EventLevel.Type) > 0)
             {
-				if(score != null){
-                	App.Instance.Trigger(eventName + score.GetType().ToString(), score, args);
+				if(source != null){
+                	App.Instance.Trigger(eventName + source.GetType().ToString(), source, args);
 				}
             }
 
@@ -88,7 +88,7 @@ namespace CatLib{
 
 					for(int i = 0 ; i < classInterface.Count ; i++){
 
-						App.Instance.Trigger(eventName + classInterface[i], score, args);
+						App.Instance.Trigger(eventName + classInterface[i], source, args);
 
 					}
 
@@ -97,7 +97,7 @@ namespace CatLib{
 
             if ((eventLevel & EventLevel.Global) > 0)
             {
-                App.Instance.Trigger(eventName, score, args);
+                App.Instance.Trigger(eventName, source, args);
             }
 			
 		}
