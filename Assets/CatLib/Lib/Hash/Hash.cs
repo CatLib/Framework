@@ -8,21 +8,25 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Hash;
 
-namespace CatLib.Hash{
+namespace CatLib.Hash
+{
 
-	/// <summary>
-	/// Hash
-	/// </summary>
-	public class Hash : IHash{ 
+    /// <summary>
+    /// Hash
+    /// </summary>
+    public class Hash : IHash
+    {
 
-		private string generateSalt;
+        private string generateSalt;
 
-        public void SetGenerateSalt(string salt){
+        public void SetGenerateSalt(string salt)
+        {
 
-            if(!string.IsNullOrEmpty(salt)){
+            if (!string.IsNullOrEmpty(salt))
+            {
 
                 generateSalt = salt;
 
@@ -30,32 +34,45 @@ namespace CatLib.Hash{
 
         }
 
-        public void SetFactor(int factor){
+        public void SetFactor(int factor)
+        {
 
             generateSalt = BCrypt.Net.BCrypt.GenerateSalt(factor);
 
         }
 
-		public string Make(string password){
+        public string Make(string password)
+        {
 
-			if (string.IsNullOrEmpty(generateSalt))
+            if (string.IsNullOrEmpty(generateSalt))
             {
                 generateSalt = BCrypt.Net.BCrypt.GenerateSalt(6);
             }
-			return BCrypt.Net.BCrypt.HashPassword(password, generateSalt);
+            return BCrypt.Net.BCrypt.HashPassword(password, generateSalt);
 
-		}
+        }
 
-		public bool Check(string text, string hash){
+        public bool Check(string text, string hash)
+        {
 
-			return BCrypt.Net.BCrypt.Verify(text , hash);
+            return BCrypt.Net.BCrypt.Verify(text, hash);
 
-		}
+        }
 
         public string FileHash(string path)
         {
             return MD5.ParseFile(path);
         }
+
+        #region IHash 成员
+
+
+        public string StringHash(string inputText)
+        {
+            return MD5.ParseString(inputText);
+        }
+
+        #endregion
     }
 
 }
