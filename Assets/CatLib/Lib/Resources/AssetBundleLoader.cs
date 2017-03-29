@@ -153,16 +153,18 @@ namespace CatLib.Resources {
             if (protectedList.ContainsKey(assetbundlePath)) { return false; }
             if (loadAssetBundles.ContainsKey(assetbundlePath))
             {
-                foreach (string dependencies in assetBundleManifest.GetAllDependencies(assetbundlePath))
-                {
-                    UnloadDependenciesAssetBundle(dependencies);
-                }
                 //如果除了作为主包外还被其他包引用那么就不释放
                 if (!dependenciesBundles.ContainsKey(assetbundlePath))
                 {
                     loadAssetBundles[assetbundlePath].Bundle.Unload(true);
                 }
                 loadAssetBundles.Remove(assetbundlePath);
+
+                //释放依赖
+                foreach (string dependencies in assetBundleManifest.GetAllDependencies(assetbundlePath))
+                {
+                    UnloadDependenciesAssetBundle(dependencies);
+                }
             }
             return true;
         }
