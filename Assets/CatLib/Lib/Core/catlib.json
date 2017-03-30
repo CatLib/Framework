@@ -1,0 +1,10 @@
+{
+    "source": "catlib/core",
+    "folder" : "Core",
+    "require": {
+        "catlib/api":"~1.0",
+        "catlib/event":"~1.0",
+        "catlib/time":"~1.0",
+        "catlib/config":"~1.0"
+    }
+}

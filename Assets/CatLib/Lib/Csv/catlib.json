@@ -1,0 +1,8 @@
+{
+    "source": "catlib/csv",
+    "folder" : "Csv",
+    "require": {
+        "catlib/api":"~1.0",
+        "catlib/core":"~1.0"
+    }
+}
