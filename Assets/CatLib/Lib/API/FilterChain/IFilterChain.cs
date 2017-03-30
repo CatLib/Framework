@@ -23,6 +23,8 @@ namespace CatLib.API.FilterChain
         IFilterChain<TIn> Create<TIn>();
 
         IFilterChain<TIn, TOut> Create<TIn, TOut>();
+
+        IFilterChain<TIn, TOut , TException> Create<TIn, TOut, TException>();
     }
 
     /// <summary>
@@ -62,6 +64,26 @@ namespace CatLib.API.FilterChain
         IFilterChain<TIn, TOut> Then(Action<TIn, TOut> then);
 
         void Do(TIn inData, TOut outData);
+
+    }
+
+    /// <summary>
+    /// 过滤器链
+    /// </summary>
+    /// <typeparam name="TIn"></typeparam>
+    /// <typeparam name="TOut"></typeparam>
+    public interface IFilterChain<TIn, TOut, TException>
+    {
+
+        IFilter<TIn , TOut , TException>[] FilterList { get; }
+
+        IFilterChain<TIn, TOut , TException> Add(Action<TIn, TOut , TException, IFilterChain<TIn, TOut, TException>> filter);
+
+        IFilterChain<TIn, TOut , TException> Add(IFilter<TIn, TOut , TException> filter);
+
+        IFilterChain<TIn, TOut , TException> Then(Action<TIn, TOut , TException> then);
+
+        void Do(TIn inData, TOut outData , TException exception);
 
     }
 

@@ -29,6 +29,11 @@ namespace CatLib.FilterChain
             return new FilterChain<TIn, TOut>();
         }
 
+        public IFilterChain<TIn, TOut, TException> Create<TIn, TOut, TException>()
+        {
+            return new FilterChain<TIn, TOut, TException>();
+        }
+
     }
 
     public class FilterChain<TIn> : IFilterChain<TIn>
@@ -137,6 +142,62 @@ namespace CatLib.FilterChain
                 return;
             }
             filterList[index++].Do(inData , outData , this);
+        }
+
+    }
+
+
+    public class FilterChain<TIn, TOut,TException> : IFilterChain<TIn, TOut, TException>
+    {
+
+        protected class FilterChainWrapper : IFilter<TIn, TOut, TException>
+        {
+            protected Action<TIn, TOut, TException, IFilterChain<TIn, TOut , TException>> filter;
+
+            public FilterChainWrapper(Action<TIn, TOut, TException, IFilterChain<TIn, TOut , TException>> filter)
+            {
+                this.filter = filter;
+            }
+
+            public void Do(TIn inData , TOut outData, TException exception, IFilterChain<TIn, TOut , TException> chain)
+            {
+                filter(inData, outData , exception, chain);
+            }
+        }
+
+        protected List<IFilter<TIn, TOut, TException>> filterList = new List<IFilter<TIn, TOut, TException>>();
+
+        public IFilter<TIn, TOut, TException>[] FilterList { get { return filterList.ToArray(); } }
+
+        protected Action<TIn , TOut, TException> then;
+
+        protected int index = 0;
+
+        public IFilterChain<TIn, TOut , TException> Add(Action<TIn, TOut, TException, IFilterChain<TIn, TOut , TException>> filter)
+        {
+            return Add(new FilterChainWrapper(filter));
+        }
+
+        public IFilterChain<TIn, TOut, TException> Add(IFilter<TIn, TOut, TException> filter)
+        {
+            filterList.Add(filter);
+            return this;
+        }
+
+        public IFilterChain<TIn , TOut, TException> Then(Action<TIn , TOut, TException> then)
+        {
+            this.then = then;
+            return this;
+        }
+
+        public void Do(TIn inData, TOut outData, TException exception)
+        {
+            if (index >= filterList.Count)
+            {
+                if (then != null) { then.Invoke(inData , outData , exception); }
+                return;
+            }
+            filterList[index++].Do(inData , outData ,exception , this);
         }
 
     }
