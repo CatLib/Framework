@@ -9,9 +9,10 @@
  * Document: http://catlib.io/
  */
  
-using UnityEngine;
+using Object = UnityEngine.Object;
+using CatLib.API.Resources;
 
-namespace CatLib.API.Resources
+namespace CatLib.Resources
 {
     public interface IResourcesHosted
     {

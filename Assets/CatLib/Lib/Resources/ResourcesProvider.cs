@@ -27,17 +27,16 @@ namespace CatLib.Resources
 
         public override void Register()
         {
-            App.Singleton<ResourcesHosted>().Alias<IResourcesHosted>();
             App.Singleton<AssetBundleLoader>().Alias<IAssetBundle>();
             App.Singleton<Resources>().Alias<IResources>().Resolving((app , bind, obj)=>{
 
                 IConfigStore config = app.Make<IConfigStore>();
                 Resources resources = obj as Resources;
 
-                string service = config.Get<string>(typeof(Resources) , "hosted" , typeof(IResourcesHosted).ToString());
-                if(!string.IsNullOrEmpty(service)){
+                bool useHosted = config.Get<bool>(typeof(Resources) , "hosted" , true);
+                if(useHosted){
 
-                    resources.SetHosted(App.Make<IResourcesHosted>(service));
+                    resources.SetHosted(new ResourcesHosted());
 
                 }
 

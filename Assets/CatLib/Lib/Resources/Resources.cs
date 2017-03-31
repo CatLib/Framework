@@ -59,23 +59,31 @@ namespace CatLib.Resources {
             extensionDict.Add(type, extension);
         }
 
-        public IObjectInfo Load(string path)
+        public IObjectInfo Load(string path , LoadTypes loadType = LoadTypes.AssetBundle)
         {
-            return Load(path , typeof(Object));
+            return Load(path , typeof(Object) , loadType);
         }
 
-        public IObjectInfo Load<T>(string path) where T : Object
+        public IObjectInfo Load<T>(string path , LoadTypes loadType = LoadTypes.AssetBundle) where T : Object
         {
-            return Load(path, typeof(T));
+            return Load(path, typeof(T) , loadType);
         }
 
-        public IObjectInfo Load(string path, System.Type type)
+        public IObjectInfo Load(string path, System.Type type , LoadTypes loadType = LoadTypes.AssetBundle)
         {
+
+            if(loadType == LoadTypes.Resources){
+
+                return MakeDefaultObjectInfo(UnityEngine.Resources.Load(path , type));
+
+            }
+
             path = PathFormat(path, type);
+
             #if UNITY_EDITOR
             if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
             {
-                return new DefaultObjectInfo(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + Path.AltDirectorySeparatorChar + path, type));
+                return MakeDefaultObjectInfo(UnityEditor.AssetDatabase.LoadAssetAtPath("Assets" + Env.ResourcesBuildPath + Path.AltDirectorySeparatorChar + path, type));
             }
             #endif
 
@@ -94,18 +102,25 @@ namespace CatLib.Resources {
             }
             else
             {
-                hosted = new DefaultObjectInfo(obj);
+                hosted = MakeDefaultObjectInfo(obj);
             }
             return hosted;
         }
 
-        public IObjectInfo[] LoadAll<T>(string path) where T : Object
+        public IObjectInfo[] LoadAll<T>(string path , LoadTypes loadType = LoadTypes.AssetBundle) where T : Object
         {
-            return LoadAll(path);
+            return LoadAll(path , loadType);
         }
 
-        public IObjectInfo[] LoadAll(string path)
+        public IObjectInfo[] LoadAll(string path , LoadTypes loadType = LoadTypes.AssetBundle)
         {
+
+            if(loadType == LoadTypes.Resources){
+
+                return MakeDefaultObjectInfos(UnityEngine.Resources.LoadAll(path));
+
+            }
+
             #if UNITY_EDITOR
                 if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
                 {
@@ -114,28 +129,30 @@ namespace CatLib.Resources {
             #endif
             
             Object[] objs = assetBundleLoader.LoadAssetAll(path);
-            IObjectInfo[] hosted = new IObjectInfo[objs.Length];
-            for(int i = 0; i < objs.Length; i++)
-            {
-                hosted[i] = new DefaultObjectInfo(objs[i]);
+            return MakeDefaultObjectInfos(objs);
+        }
+
+        public UnityEngine.Coroutine LoadAsync(string path, System.Action<IObjectInfo> callback , LoadTypes loadType = LoadTypes.AssetBundle)
+        {
+            return LoadAsync(path , typeof(Object), callback ,loadType);
+        }
+
+        public UnityEngine.Coroutine LoadAsync<T>(string path, System.Action<IObjectInfo> callback , LoadTypes loadType = LoadTypes.AssetBundle) where T : Object
+        {
+            return LoadAsync(path, typeof(T), obj => callback(obj) , loadType);
+        }
+
+        public UnityEngine.Coroutine LoadAsync(string path, System.Type type, System.Action<IObjectInfo> callback , LoadTypes loadType = LoadTypes.AssetBundle)
+        {
+
+            if(loadType == LoadTypes.Resources){
+
+                return App.StartCoroutine(LoadAsyncWithUnityResources(path ,type , callback));
+
             }
 
-            return hosted;
-        }
-
-        public UnityEngine.Coroutine LoadAsync(string path, System.Action<IObjectInfo> callback)
-        {
-            return LoadAsync(path , typeof(Object), callback);
-        }
-
-        public UnityEngine.Coroutine LoadAsync<T>(string path, System.Action<IObjectInfo> callback) where T : Object
-        {
-            return LoadAsync(path, typeof(T), obj => callback(obj));
-        }
-
-        public UnityEngine.Coroutine LoadAsync(string path, System.Type type, System.Action<IObjectInfo> callback)
-        {
             path = PathFormat(path, type); 
+            
             #if UNITY_EDITOR
                 if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
                 {
@@ -164,19 +181,24 @@ namespace CatLib.Resources {
                 }
                 else
                 {
-                    hosted = new DefaultObjectInfo(obj);
+                    hosted = MakeDefaultObjectInfo(obj);
                 }
                 callback(hosted);
             }); 
         }
 
-        public UnityEngine.Coroutine LoadAllAsync<T>(string path, System.Action<IObjectInfo[]> callback) where T : Object
+        public UnityEngine.Coroutine LoadAllAsync<T>(string path, System.Action<IObjectInfo[]> callback , LoadTypes loadType = LoadTypes.AssetBundle) where T : Object
         {
-            return LoadAllAsync(path, obj => callback(obj));
+            return LoadAllAsync(path, obj => callback(obj) , loadType);
         }
 
-        public UnityEngine.Coroutine LoadAllAsync(string path, System.Action<IObjectInfo[]> callback)
+        public UnityEngine.Coroutine LoadAllAsync(string path, System.Action<IObjectInfo[]> callback , LoadTypes loadType = LoadTypes.AssetBundle)
         {
+            if(loadType == LoadTypes.Resources){
+
+                return App.StartCoroutine(LoadAllAsyncWithUnityResources(path , callback));
+
+            }
             #if UNITY_EDITOR
                 if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
                 {
@@ -185,12 +207,7 @@ namespace CatLib.Resources {
             #endif
             return assetBundleLoader.LoadAssetAllAsync(path, (objs)=>
             {
-                IObjectInfo[] hosted = new IObjectInfo[objs.Length];
-                for (int i = 0; i < objs.Length; i++)
-                {
-                    hosted[i] = new DefaultObjectInfo(objs[i]);
-                }
-                callback(hosted);
+                callback(MakeDefaultObjectInfos(objs));
             });
         }
 
@@ -213,6 +230,40 @@ namespace CatLib.Resources {
 
             return path;
 
+        }
+
+        protected IEnumerator LoadAsyncWithUnityResources(string path, System.Type type, System.Action<IObjectInfo> callback){
+
+            ResourceRequest request = UnityEngine.Resources.LoadAsync(path , type);
+            yield return request;
+
+            callback(MakeDefaultObjectInfo(request.asset));
+
+        }
+
+        protected IEnumerator LoadAllAsyncWithUnityResources(string path, System.Action<IObjectInfo[]> callback){
+
+            Object[] objs = UnityEngine.Resources.LoadAll(path);
+            callback(MakeDefaultObjectInfos(objs));
+            yield break;
+
+        }
+
+        protected IObjectInfo MakeDefaultObjectInfo(Object obj){
+
+            return new DefaultObjectInfo(obj);
+
+        }
+
+        protected IObjectInfo[] MakeDefaultObjectInfos(Object[] objs){
+
+            IObjectInfo[] hosted = new IObjectInfo[objs.Length];
+            for(int i = 0; i < objs.Length; i++)
+            {
+                hosted[i] = MakeDefaultObjectInfo(objs[i]);
+            }
+
+            return hosted;
         }
 
     }
