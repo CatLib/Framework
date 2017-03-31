@@ -36,15 +36,9 @@ namespace CatLib.Resources {
         [Dependency]
         public IApplication App { get; set; }
 
-        public void SetHosted(string service){
+        public void SetHosted(IResourcesHosted hosted){
 
-            if (!string.IsNullOrEmpty(service))
-            {
-                resourcesHosted = App.Make<IResourcesHosted>(service);
-            }else
-            {
-                resourcesHosted = null;
-            }
+            resourcesHosted = hosted;
 
         }
 
@@ -183,7 +177,6 @@ namespace CatLib.Resources {
 
         public UnityEngine.Coroutine LoadAllAsync(string path, System.Action<IObjectInfo[]> callback)
         {
-
             #if UNITY_EDITOR
                 if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
                 {

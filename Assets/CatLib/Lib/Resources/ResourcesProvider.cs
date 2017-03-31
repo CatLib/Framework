@@ -37,7 +37,7 @@ namespace CatLib.Resources
                 string service = config.Get<string>(typeof(Resources) , "hosted" , typeof(IResourcesHosted).ToString());
                 if(!string.IsNullOrEmpty(service)){
 
-                    resources.SetHosted(service);
+                    resources.SetHosted(App.Make<IResourcesHosted>(service));
 
                 }
 
