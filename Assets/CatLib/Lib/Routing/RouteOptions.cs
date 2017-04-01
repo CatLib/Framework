@@ -49,6 +49,11 @@ namespace CatLib.Routing
         protected Dictionary<string, string> defaults;
 
         /// <summary>
+        /// 当被编译的内容发生改变时
+        /// </summary>
+        public event Action OnCompiledChange;
+
+        /// <summary>
         /// 设定过滤器链生成器
         /// </summary>
         /// <param name="filterChain"></param>
@@ -102,6 +107,9 @@ namespace CatLib.Routing
                 wheres.Remove(name);
             }
             wheres[name] = pattern;
+            if(OnCompiledChange != null){
+                OnCompiledChange.Invoke();
+            }
             return this;
         }
 

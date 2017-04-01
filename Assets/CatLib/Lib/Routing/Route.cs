@@ -94,6 +94,7 @@ namespace CatLib.Routing
             this.uri = uri;
             this.action = action;
             options = new RouteOptions();
+            options.OnCompiledChange += ClearCompile;
         }
 
         /// <summary>
@@ -196,10 +197,8 @@ namespace CatLib.Routing
         /// <param name="val">默认值</param>
         public IRoute Defaults(string name, string val, bool overrided = true)
         {
-
             options.Defaults(name, val , overrided);
             return this;
-
         }
 
         /// <summary>
@@ -336,6 +335,15 @@ namespace CatLib.Routing
                 container.Call(controller, action.Func, request, response);
             }
             
+        }
+
+        /// <summary>
+        /// 清空路由编译条目
+        /// </summary>
+        protected void ClearCompile(){
+
+            compiled = null;
+
         }
 
         /// <summary>
