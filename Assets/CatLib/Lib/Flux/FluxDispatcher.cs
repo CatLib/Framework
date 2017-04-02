@@ -8,7 +8,7 @@ namespace CatLib.Flux
     /// <summary>
     /// 调度器
     /// </summary>
-    public class FluxDispatcher<TPayload>
+    public class FluxDispatcher<TPayload> : IFluxDispatcher<TPayload>
     {
 
         /// <summary>
