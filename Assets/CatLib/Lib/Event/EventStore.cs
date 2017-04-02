@@ -13,11 +13,15 @@ using System;
 using System.Collections.Generic;
 using CatLib.API.Event;
 
+using CatLib.API;
 namespace CatLib.Event
 {
 
     public class EventStore : IEventAchieve
     {
+
+        [Dependency]
+        public IApplication App;
 
         /// <summary>
         /// 事件地图
@@ -61,9 +65,9 @@ namespace CatLib.Event
         /// <param name="e">参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
-            if (!App.Instance.IsMainThread)
+            if (!App.IsMainThread)
             {
-                App.Instance.MainThread(() =>
+                App.MainThread(() =>
                 {
                     Trigger(eventName, sender, e);
                 });
@@ -109,9 +113,9 @@ namespace CatLib.Event
         public IEventHandler On(string eventName, System.EventHandler handler , int life = -1)
         {
             var callHandler = new EventHandler(this , eventName , handler , life);
-            if (!App.Instance.IsMainThread)
+            if (!App.IsMainThread)
             {
-                App.Instance.MainThread(() =>
+                App.MainThread(() =>
                 {
                     On(eventName , callHandler);
                 });
@@ -153,9 +157,9 @@ namespace CatLib.Event
 
             if (handlers == null) { return; }
 
-            if (!App.Instance.IsMainThread)
+            if (!App.IsMainThread)
             {
-                App.Instance.MainThread(() =>
+                App.MainThread(() =>
                 {
                     Off(eventName, handler);
                 });

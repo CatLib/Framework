@@ -8,8 +8,13 @@ namespace CatLib.Flux
     /// <summary>
     /// 调度器
     /// </summary>
-    public class Dispatcher<TPayload>
+    public class FluxDispatcher<TPayload>
     {
+
+        /// <summary>
+        /// 前缀
+        /// </summary>
+        private static string prefix = "id_";
 
         /// <summary>
         /// 调度列表
@@ -31,40 +36,69 @@ namespace CatLib.Flux
         /// </summary>
         private Dictionary<string, bool> isHandled;
 
+        /// <summary>
+        /// 末尾ID
+        /// </summary>
+        private int lastID;
+
         public Dispatcher()
         {
             callbacks = new Dictionary<string, Action<TPayload>>();
             isDispatching = false;
             isPending = new Dictionary<string, bool>();
             isHandled = new Dictionary<string, bool>();
+            lastID = 0;
+        }
+
+        /// <summary>
+        /// 是否处于调度中
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDispatching
+        {
+            get
+            {
+                return isDispatching;
+            }
+        }
+
+        /// <summary>
+        /// 注册一个匿名调度事件
+        /// </summary>
+        /// <param name="action"></param>
+        public string On(Action<TPayload> action)
+        {
+            var id = prefix + lastID++;
+            On(id, action);
+            return id;
         }
 
         /// <summary>
         /// 注册一个调度事件
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="token"></param>
         /// <param name="action"></param>
-        public void On(string key , Action<TPayload> action)
+        public void On(string token , Action<TPayload> action)
         {
-            if (callbacks.ContainsKey(key))
+            if (callbacks.ContainsKey(token))
             {
-                throw new CatLibException("catlib flux Dispatcher.On(...): " + key + " , key is alreay exists.");
+                throw new CatLibException("catlib flux Dispatcher.On(...): " + token + " , key is alreay exists.");
             }
-            callbacks.Add(key, action);
+            callbacks.Add(token, action);
         }
 
         /// <summary>
         /// 解除调度事件
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="token"></param>
         /// <param name="action"></param>
-        public void Off(string key)
+        public void Off(string token)
         {
-            if (callbacks.ContainsKey(key))
+            if (callbacks.ContainsKey(token))
             {
                 throw new CatLibException("catlib flux Dispatcher.Off(...): " + key + " , does not map to a registered callback.");
             }
-            callbacks.Remove(key);
+            callbacks.Remove(token);
         }
 
         /// <summary>
@@ -92,13 +126,13 @@ namespace CatLib.Flux
         /// <summary>
         /// 进行调度
         /// </summary>
-        /// <param name="key">key</param>
+        /// <param name="token">token</param>
         /// <param name="payload">附带物</param>
-        public void Dispatch(string key , TPayload payload)
+        public void Dispatch(string token , TPayload payload)
         {
             GuardDispatching();
-            StartDispatch(key, payload);
-            InvokeCallback(key, payload);
+            StartDispatch(token, payload);
+            InvokeCallback(token, payload);
             StopDispatch();
         }
 
@@ -117,13 +151,13 @@ namespace CatLib.Flux
         /// <summary>
         /// 开始调度
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="token"></param>
         /// <param name="payload"></param>
-        protected void StartDispatch(string key , TPayload payload)
+        protected void StartDispatch(string token , TPayload payload)
         {
-            GuardCallback(key);
-            isPending[key] = false;
-            isHandled[key] = false;
+            GuardCallback(token);
+            isPending[token] = false;
+            isHandled[token] = false;
             isDispatching  = true;
         }
 
@@ -144,13 +178,13 @@ namespace CatLib.Flux
         /// <summary>
         /// 触发回调
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="token"></param>
         /// <param name="payload"></param>
-        protected void InvokeCallback(string key , TPayload payload)
+        protected void InvokeCallback(string token , TPayload payload)
         {
-            isPending[key] = true;
-            callbacks[key].Invoke(payload);
-            isHandled[key] = true;
+            isPending[token] = true;
+            callbacks[token].Invoke(payload);
+            isHandled[token] = true;
         }
 
         /// <summary>
@@ -170,8 +204,6 @@ namespace CatLib.Flux
         /// <summary>
         /// 结束调度
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="payload"></param>
         protected void StopDispatch()
         {
             isDispatching = false;
@@ -180,12 +212,12 @@ namespace CatLib.Flux
         /// <summary>
         /// 验证回掉状态
         /// </summary>
-        /// <param name="key"></param>
-        protected void GuardCallback(string key)
+        /// <param name="token"></param>
+        protected void GuardCallback(string token)
         {
-            if (!callbacks.ContainsKey(key))
+            if (!callbacks.ContainsKey(token))
             {
-                throw new CatLibException("catlib flux Dispatcher.Dispatch(...): " + key + " , does not map to a registered callback.");
+                throw new CatLibException("catlib flux Dispatcher.Dispatch(...): " + token + " , does not map to a registered callback.");
             }
         }
 
