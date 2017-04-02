@@ -23,10 +23,8 @@ namespace CatLib.Demo.Flux
         {
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
-
                 var go = App.Make<IResources>().Load<GameObject>("flux", LoadTypes.Resources);
                 go.Instantiate();
-
             });
         }
 

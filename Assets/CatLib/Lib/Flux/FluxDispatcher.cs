@@ -19,7 +19,7 @@ namespace CatLib.Flux
     /// <summary>
     /// 调度器
     /// </summary>
-    public class FluxDispatcher<TPayload> : IFluxDispatcher<TPayload>
+    public class FluxDispatcher : IFluxDispatcher
     {
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 调度列表
         /// </summary>
-        private Dictionary<string , Action<TPayload>> callbacks;
+        private Dictionary<string , Action<INotification>> callbacks;
 
         /// <summary>
         /// 是否处于调度中
@@ -54,7 +54,7 @@ namespace CatLib.Flux
 
         public FluxDispatcher()
         {
-            callbacks = new Dictionary<string, Action<TPayload>>();
+            callbacks = new Dictionary<string, Action<INotification>>();
             isDispatching = false;
             isPending = new Dictionary<string, bool>();
             isHandled = new Dictionary<string, bool>();
@@ -77,7 +77,7 @@ namespace CatLib.Flux
         /// 注册一个匿名调度事件
         /// </summary>
         /// <param name="action"></param>
-        public string On(Action<TPayload> action)
+        public string On(Action<INotification> action)
         {
             var id = prefix + lastID++;
             On(id, action);
@@ -89,7 +89,7 @@ namespace CatLib.Flux
         /// </summary>
         /// <param name="token"></param>
         /// <param name="action"></param>
-        public void On(string token , Action<TPayload> action)
+        public void On(string token , Action<INotification> action)
         {
             if (callbacks.ContainsKey(token))
             {
@@ -116,8 +116,8 @@ namespace CatLib.Flux
         /// 在调度中执行
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="payload"></param>
-        public void WaitFor(string key, TPayload payload)
+        /// <param name="notification"></param>
+        public void WaitFor(string key, INotification notification)
         {
             if (!isDispatching)
             {
@@ -131,31 +131,31 @@ namespace CatLib.Flux
                 throw new CatLibException("Dispatcher.WaitFor(...): Circular dependency detected while waiting for : " + key + ".");
             }
      
-            InvokeCallback(key, payload);
+            InvokeCallback(key, notification);
         }
 
         /// <summary>
         /// 进行调度
         /// </summary>
         /// <param name="token">token</param>
-        /// <param name="payload">附带物</param>
-        public void Dispatch(string token , TPayload payload)
+        /// <param name="notification">通知</param>
+        public void Dispatch(string token , INotification notification)
         {
             GuardDispatching();
-            StartDispatch(token, payload);
-            InvokeCallback(token, payload);
+            StartDispatch(token);
+            InvokeCallback(token, notification);
             StopDispatch();
         }
 
         /// <summary>
         /// 进行调度
         /// </summary>
-        /// <param name="payload">附带物</param>
-        public void Dispatch(TPayload payload)
+        /// <param name="notification">通知</param>
+        public void Dispatch(INotification notification)
         {
             GuardDispatching();
-            StartDispatch(payload);
-            InvokeCallback(payload);
+            StartDispatch();
+            InvokeCallback(notification);
             StopDispatch();
         }
 
@@ -163,8 +163,8 @@ namespace CatLib.Flux
         /// 开始调度
         /// </summary>
         /// <param name="token"></param>
-        /// <param name="payload"></param>
-        protected void StartDispatch(string token , TPayload payload)
+        /// <param name="notification"></param>
+        protected void StartDispatch(string token)
         {
             GuardCallback(token);
             isPending[token] = false;
@@ -175,8 +175,8 @@ namespace CatLib.Flux
         /// <summary>
         /// 开始调度
         /// </summary>
-        /// <param name="payload"></param>
-        protected void StartDispatch(TPayload payload)
+        /// <param name="notification"></param>
+        protected void StartDispatch()
         {
             foreach(var kv in callbacks)
             {
@@ -190,24 +190,24 @@ namespace CatLib.Flux
         /// 触发回调
         /// </summary>
         /// <param name="token"></param>
-        /// <param name="payload"></param>
-        protected void InvokeCallback(string token , TPayload payload)
+        /// <param name="notification"></param>
+        protected void InvokeCallback(string token , INotification notification)
         {
             isPending[token] = true;
-            callbacks[token].Invoke(payload);
+            callbacks[token].Invoke(notification);
             isHandled[token] = true;
         }
 
         /// <summary>
         /// 触发回调
         /// </summary>
-        /// <param name="payload"></param>
-        protected void InvokeCallback(TPayload payload)
+        /// <param name="notification"></param>
+        protected void InvokeCallback(INotification notification)
         {
             foreach (var kv in callbacks)
             {
                 isPending[kv.Key] = true;
-                kv.Value.Invoke(payload);
+                kv.Value.Invoke(notification);
                 isHandled[kv.Key] = true;
             }
         }

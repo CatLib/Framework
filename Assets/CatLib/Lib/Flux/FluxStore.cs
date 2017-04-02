@@ -14,11 +14,17 @@ using CatLib.API;
 
 namespace CatLib.Flux
 {
+    
     /// <summary>
     /// 存储
     /// </summary>
-    public class FluxStore<TPayload>
+    public abstract class FluxStore
     {
+
+        /// <summary>
+        /// 存储名
+        /// </summary>
+        private string storeName;
 
         /// <summary>
         /// token
@@ -28,7 +34,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 调度器
         /// </summary>
-        protected IFluxDispatcher<TPayload> dispatcher;
+        protected IFluxDispatcher dispatcher;
 
         /// <summary>
         /// 是否被修改的
@@ -38,16 +44,27 @@ namespace CatLib.Flux
         /// <summary>
         /// 监听者
         /// </summary>
-        protected event Action listener;
+        protected event Action<INotification> listener;
+
+        /// <summary>
+        /// 通知名
+        /// </summary>
+        protected virtual string NotificationName { get { return GetType().Name; } }
 
         /// <summary>
         /// 构建一个存储块
         /// </summary>
         /// <param name="dispatcher"></param>
-        public FluxStore(IFluxDispatcher<TPayload> dispatcher)
+        public FluxStore(string storeName)
+        {
+            this.storeName = storeName;
+            changed = false;
+            
+        }
+
+        public void SetDispatcher(IFluxDispatcher dispatcher)
         {
             this.dispatcher = dispatcher;
-            changed = false;
             dispatchToken = this.dispatcher.On((payload) =>
             {
                 InvokeOnDispatch(payload);
@@ -58,7 +75,7 @@ namespace CatLib.Flux
         /// 增加监听者
         /// </summary>
         /// <param name="action"></param>
-        public void AddListener(Action action)
+        public void AddListener(Action<INotification> action)
         {
             listener += action;
         }
@@ -81,7 +98,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 调度器
         /// </summary>
-        public IFluxDispatcher<TPayload> Dispatcher
+        public IFluxDispatcher Dispatcher
         {
             get { return dispatcher; }
         }
@@ -104,19 +121,33 @@ namespace CatLib.Flux
                 throw new CatLibException(GetType().Name + ".TriggerChange() Must be invoked while dispatching.");
             }
             changed = true;
-        } 
+        }
 
-        private void InvokeOnDispatch(TPayload payload)
+        /// <summary>
+        /// 通知
+        /// </summary>
+        /// <returns></returns>
+        protected abstract INotification Notification();
+
+        /// <summary>
+        /// 触发调度
+        /// </summary>
+        /// <param name="payload"></param>
+        private void InvokeOnDispatch(INotification payload)
         {
             changed = false;
             OnDispatch(payload);
             if (changed && listener != null)
             {
-                listener.Invoke();
+                listener.Invoke(Notification());
             }
         }
 
-        protected virtual void OnDispatch(TPayload payload)
+        /// <summary>
+        /// 被调度
+        /// </summary>
+        /// <param name="payload"></param>
+        protected virtual void OnDispatch(INotification payload)
         {
             throw new CatLibException(GetType().Name + " has not overridden FluxStore.OnDispatch(), which is required");
         }

@@ -14,22 +14,22 @@ using System;
 namespace CatLib.Flux
 {
 
-    public interface IFluxDispatcher<TPayload>
+    public interface IFluxDispatcher
     {
 
         bool IsDispatching { get; }
 
-        string On(Action<TPayload> action);
+        string On(Action<INotification> action);
 
-        void On(string token, Action<TPayload> action);
+        void On(string token, Action<INotification> action);
 
         void Off(string token);
 
-        void WaitFor(string key, TPayload payload);
+        void WaitFor(string key, INotification payload);
 
-        void Dispatch(string token, TPayload payload);
+        void Dispatch(string token, INotification payload);
 
-        void Dispatch(TPayload payload);
+        void Dispatch(INotification payload);
 
     }
 
