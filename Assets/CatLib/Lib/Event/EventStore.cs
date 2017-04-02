@@ -21,7 +21,7 @@ namespace CatLib.Event
     {
 
         [Dependency]
-        public IApplication App;
+        public IApplication App { get; set; }
 
         /// <summary>
         /// 事件地图

@@ -43,24 +43,19 @@ namespace CatLib
             OnBootstrap = 1,
 
             /// <summary>
-            /// 依赖检测流程
-            /// </summary>
-            OnDepend = 3,
-
-            /// <summary>
             /// 初始化流程
             /// </summary>
-            OnInit = 4,
+            OnInit = 2,
 
             /// <summary>
             /// 服务提供商启动流程
             /// </summary>
-            OnProviderProcess = 5,
+            OnProviderProcess = 3,
 
             /// <summary>
             /// 启动完成
             /// </summary>
-            OnComplete = 6,
+            OnComplete = 4,
 
         }
 
@@ -227,22 +222,6 @@ namespace CatLib
             }
 
             ServiceProvider[] providers = serviceProviders.ToArray();
-
-            process = StartProcess.OnDepend;
-
-            foreach (ServiceProvider provider in providers)
-            {
-
-                foreach (Type type in provider.ProviderDepend)
-                {
-
-                    if (!HasBind(type.ToString()))
-                    {
-                        throw new Exception("service provider [" + provider.GetType().ToString() + "] depend service provider [" + type.ToString() + "]");
-                    }
-                }
-
-            }
 
             process = StartProcess.OnInit;
 

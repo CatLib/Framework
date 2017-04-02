@@ -11,7 +11,6 @@
  
 using CatLib.API.Buffer;
 using CatLib.API.Network;
-using System;
 using System.Collections;
 using CatLib.API.Config;
 
@@ -23,11 +22,6 @@ namespace CatLib.Network
     /// </summary>
     public class NetworkProvider : ServiceProvider
     {
-
-        public override Type[] ProviderDepend
-        {
-            get { return new Type[] { typeof(IPacking) , typeof(IBufferBuilder) }; }
-        }
 
         public override void Register()
         {

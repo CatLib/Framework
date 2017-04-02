@@ -27,8 +27,6 @@ namespace CatLib
 
         public virtual IEnumerator OnProviderProcess() { yield break; }
 
-        public virtual Type[] ProviderDepend { get { return new Type[] { }; } }
-
         public IApplication App { get { return CatLib.App.Instance; } }
 
         abstract public void Register();

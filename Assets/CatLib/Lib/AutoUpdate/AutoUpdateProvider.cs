@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
  
-using CatLib.API.IO;
 using CatLib.API.AutoUpdate;
-using System;
 using System.Collections;
 using CatLib.API.Config;
 
@@ -22,8 +20,6 @@ namespace CatLib.AutoUpdate
     /// </summary>
     public class AutoUpdateProvider : ServiceProvider
     {
-
-        public override Type[] ProviderDepend { get { return new Type[] { typeof(IIOFactory) }; } }
 
         public override ProviderProcess ProviderProcess
         {

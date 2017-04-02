@@ -93,7 +93,7 @@ namespace CatLib.Flux
                 throw new CatLibException(GetType().Name + ".TriggerChange() Must be invoked while dispatching.");
             }
             changed = true;
-        }
+        } 
 
         private void InvokeOnDispatch(TPayload payload)
         {

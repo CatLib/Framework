@@ -14,10 +14,6 @@ namespace CatLib.API
     public class ApplicationEvents
     {
 
-        public static readonly string ON_DEPENDING = "application.depending";
-
-        public static readonly string ON_DEPENDED = "application.depended";
-
         public static readonly string ON_INITING = "application.initing";
 
         public static readonly string ON_INITED = "application.inited";

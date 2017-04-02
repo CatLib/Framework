@@ -23,8 +23,6 @@ namespace CatLib.Resources
     public class ResourcesProvider : ServiceProvider
     {
 
-        public override Type[] ProviderDepend { get { return new Type[] { typeof(IIOFactory) }; } }
-
         public override void Register()
         {
             App.Singleton<AssetBundleLoader>().Alias<IAssetBundle>();

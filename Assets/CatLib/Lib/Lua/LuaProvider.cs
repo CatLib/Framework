@@ -11,8 +11,6 @@
  
 using System.Collections;
 using CatLib.API.Lua;
-using CatLib.API.IO;
-using System;
 using CatLib.API.Config;
 
 namespace CatLib.Lua
@@ -20,8 +18,6 @@ namespace CatLib.Lua
 
     public class LuaProvider : ServiceProvider
     {
-
-        public override Type[] ProviderDepend { get { return new Type[] { typeof(IIOFactory) }; } }
 
         public override ProviderProcess ProviderProcess
         {
