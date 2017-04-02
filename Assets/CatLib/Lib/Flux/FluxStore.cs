@@ -17,7 +17,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 调度器
         /// </summary>
-        protected Dispatcher<TPayload> dispatcher;
+        protected FluxDispatcher<TPayload> dispatcher;
 
         /// <summary>
         /// 是否被修改的
@@ -33,7 +33,7 @@ namespace CatLib.Flux
         /// 构建一个存储块
         /// </summary>
         /// <param name="dispatcher"></param>
-        public FluxStore(Dispatcher<TPayload> dispatcher)
+        public FluxStore(FluxDispatcher<TPayload> dispatcher)
         {
             this.dispatcher = dispatcher;
             changed = false;
@@ -70,7 +70,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 调度器
         /// </summary>
-        public Dispatcher<TPayload> Dispatcher
+        public FluxDispatcher<TPayload> Dispatcher
         {
             get { return dispatcher; }
         }

@@ -96,7 +96,7 @@ namespace CatLib.Flux
         {
             if (callbacks.ContainsKey(token))
             {
-                throw new CatLibException("catlib flux Dispatcher.Off(...): " + key + " , does not map to a registered callback.");
+                throw new CatLibException("catlib flux Dispatcher.Off(...): " + token + " , does not map to a registered callback.");
             }
             callbacks.Remove(token);
         }
