@@ -41,7 +41,7 @@ namespace CatLib.Flux
         /// </summary>
         private int lastID;
 
-        public Dispatcher()
+        public FluxDispatcher()
         {
             callbacks = new Dictionary<string, Action<TPayload>>();
             isDispatching = false;
