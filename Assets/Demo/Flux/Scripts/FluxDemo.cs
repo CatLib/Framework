@@ -10,6 +10,9 @@
  */
 
 using CatLib.API;
+using CatLib.API.Resources;
+using UnityEngine;
+
 namespace CatLib.Demo.Flux
 {
 
@@ -21,8 +24,8 @@ namespace CatLib.Demo.Flux
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
 
-                UnityEngine.Debug.Log("this is demo");
-                //todo:
+                var go = App.Make<IResources>().Load<GameObject>("flux", LoadTypes.Resources);
+                go.Instantiate();
 
             });
         }

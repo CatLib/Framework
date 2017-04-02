@@ -13,9 +13,25 @@ using System;
 using MonoBehaviour = UnityEngine.MonoBehaviour;
 using CatLib.API;
 using CatLib.Event;
+using CatLib.Resources;
 
 namespace CatLib.Demo.Flux
 {
+
+    /**
+     * 为了demo演示需要强制覆盖全局配置
+     */
+    public class OverrideConfig : ServiceProvider
+    {
+        public override void Init()
+        {
+            Env env = App[typeof(Env)] as Env;
+            env.SetResourcesBuildPath(Global.BasePath + "/Flux/Resources");
+            env.SetDebugLevel(DebugLevels.Dev);
+        }
+
+        public override void Register() { }
+    }
 
     /**
      * 这个类提供了当前demo演示时用到的组件 
@@ -26,7 +42,10 @@ namespace CatLib.Demo.Flux
         public void Bootstrap()
         {
             App.Instance.Register(typeof(EventProvider));
+            App.Instance.Register(typeof(ResourcesProvider));
+            App.Instance.Register(typeof(CoreProvider));
             App.Instance.Register(typeof(FluxDemo));
+            App.Instance.Register(typeof(OverrideConfig));
         }
 
     }

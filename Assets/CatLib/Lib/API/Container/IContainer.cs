@@ -127,6 +127,11 @@ namespace CatLib.API.Container
 		object this[string service]{ get; }
 
         /// <summary>
+        /// 生成一个绑定服务
+        /// </summary>
+		object this[Type service] { get; }
+
+        /// <summary>
         /// 别名
         /// </summary>
         /// <param name="alias">别名</param>

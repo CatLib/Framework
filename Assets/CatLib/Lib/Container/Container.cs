@@ -332,6 +332,11 @@ namespace CatLib.Container
         /// </summary>
         public object this[string service]{ get{ return Make(service); } }
 
+        /// <summary>
+        /// 构造服务
+        /// </summary>
+        public object this[Type service] { get { return Make(service.ToString()); } }
+
         /// <summary>添加到静态内容</summary>
         /// <param name="type">类型</param>
         /// <param name="alias">别名</param>

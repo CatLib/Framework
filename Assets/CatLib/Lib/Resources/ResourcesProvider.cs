@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
  
-using CatLib.API.IO;
 using CatLib.API.Resources;
-using System;
 using CatLib.API.Config;
 
 namespace CatLib.Resources
@@ -29,13 +27,15 @@ namespace CatLib.Resources
             App.Singleton<Resources>().Alias<IResources>().Resolving((app , bind, obj)=>{
 
                 IConfigStore config = app.Make<IConfigStore>();
-                Resources resources = obj as Resources;
 
-                bool useHosted = config.Get<bool>(typeof(Resources) , "hosted" , true);
-                if(useHosted){
-
-                    resources.SetHosted(new ResourcesHosted());
-
+                if (config != null)
+                {
+                    Resources resources = obj as Resources;
+                    bool useHosted = config.Get(typeof(Resources), "hosted", true);
+                    if (useHosted)
+                    {
+                        resources.SetHosted(new ResourcesHosted());
+                    }
                 }
 
                 return obj;

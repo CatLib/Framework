@@ -173,6 +173,15 @@ namespace CatLib
 
 		}
 
+        public Env()
+        {
+            SetDebugLevel(DebugLevels.Dev);
+            SetReleasePath(null);
+            SetResourcesBuildPath(null);
+            SetResourcesNoBuildPath(null);
+            SetAssetPath(null);
+        }
+
         #region Config
 
         public void SetDebugLevel(DebugLevels level){
@@ -190,7 +199,7 @@ namespace CatLib
             }
             else
             {
-                releasePath = Path.AltDirectorySeparatorChar + releasePath;
+                releasePath = Path.AltDirectorySeparatorChar + releasePath.Trim(Path.AltDirectorySeparatorChar);
             }
 
         }
@@ -204,7 +213,7 @@ namespace CatLib
             }
             else
             {
-                resourcesBuildPath = Path.AltDirectorySeparatorChar + resourcesBuildPath;
+                resourcesBuildPath = Path.AltDirectorySeparatorChar + resourcesBuildPath.Trim(Path.AltDirectorySeparatorChar);
             }
 
         }
@@ -219,7 +228,7 @@ namespace CatLib
             }
             else
             {
-                resourcesNoBuildPath = Path.AltDirectorySeparatorChar + resourcesNoBuildPath;
+                resourcesNoBuildPath = Path.AltDirectorySeparatorChar + resourcesNoBuildPath.Trim(Path.AltDirectorySeparatorChar);
             }
 
         }
@@ -234,7 +243,7 @@ namespace CatLib
             }
             else
             {
-                assetPath = PersistentDataPath + Path.AltDirectorySeparatorChar + assetPath;
+                assetPath = PersistentDataPath + Path.AltDirectorySeparatorChar + assetPath.Trim(Path.AltDirectorySeparatorChar);
             }
 
         }
