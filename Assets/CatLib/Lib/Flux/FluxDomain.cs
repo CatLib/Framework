@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
+
 namespace CatLib.Flux
 {
 
@@ -19,11 +21,28 @@ namespace CatLib.Flux
     {
 
         /// <summary>
+        /// 存储地图
+        /// </summary>
+        protected IDictionary<string, IStore>  storeMap = new Dictionary<string, IStore>();
+
+        /// <summary>
+        /// 视图地图
+        /// </summary>
+        protected IDictionary<string, IView> viewMap = new Dictionary<string, IView>();
+
+        /// <summary>
+        /// 调度器
+        /// </summary>
+        protected IFluxDispatcher dispatcher;
+
+        /// <summary>
         /// 注册一个存储块
         /// </summary>
         /// <param name="store"></param>
         public virtual void RegisterStore(IStore store)
         {
+
+
 
         }
 
