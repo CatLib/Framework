@@ -9,15 +9,23 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Flux
+namespace CatLib.Flux
 {
 
     /// <summary>
     /// 域
     /// </summary>
-    public class Domain
+    public class FluxDomain
     {
 
+        /// <summary>
+        /// 注册一个存储块
+        /// </summary>
+        /// <param name="store"></param>
+        public virtual void RegisterStore(IStore store)
+        {
+
+        }
 
     }
 

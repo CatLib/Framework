@@ -18,13 +18,33 @@ namespace CatLib.Flux
     /// <summary>
     /// 存储
     /// </summary>
-    public abstract class FluxStore
+    public abstract class FluxStore : IStore
     {
+
+        /// <summary>
+        /// 默认的存储名
+        /// </summary>
+        public static string DefaultName = "Store";
 
         /// <summary>
         /// 存储名
         /// </summary>
         private string storeName;
+
+        /// <summary>
+        /// 存储的名字
+        /// </summary>
+		public string Name { get { return storeName; } }
+
+        /// <summary>
+		/// 被管理的数据对象
+		/// </summary>
+		protected object data;
+
+        /// <summary>
+        /// 被管理的数据对象
+        /// </summary>
+        public object Data { get { return data; } set { data = value; } }
 
         /// <summary>
         /// token
@@ -55,13 +75,40 @@ namespace CatLib.Flux
         /// 构建一个存储块
         /// </summary>
         /// <param name="dispatcher"></param>
-        public FluxStore(string storeName)
+        public FluxStore()
+            : this(DefaultName, null)
         {
-            this.storeName = storeName;
-            changed = false;
-            
         }
 
+        /// <summary>
+        /// 构建一个存储块
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        public FluxStore(string storeName) 
+            : this(storeName, null)
+        {
+        }
+
+        /// <summary>
+        /// 构建一个存储块
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        public FluxStore(string storeName, object data)
+        {
+            this.storeName = storeName;
+            this.data = data;
+            changed = false;
+        }
+
+        /// <summary>
+        /// 当被移除时
+        /// </summary>
+        public virtual void OnRemove() { }
+
+        /// <summary>
+        /// 设定调度器
+        /// </summary>
+        /// <param name="dispatcher"></param>
         public void SetDispatcher(IFluxDispatcher dispatcher)
         {
             this.dispatcher = dispatcher;

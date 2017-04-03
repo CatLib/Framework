@@ -8,7 +8,17 @@ namespace CatLib.Flux
     public class Store : FluxStore
     {
 
-        protected Store(string storeName) : base(storeName)
+        protected Store() : base(DefaultName, null)
+        {
+
+        }
+
+        protected Store(string storeName) : base(storeName, null)
+        {
+
+        }
+
+        protected Store(string storeName , object data) : base(storeName , data)
         {
 
         }
