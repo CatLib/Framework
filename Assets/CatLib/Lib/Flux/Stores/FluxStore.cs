@@ -83,6 +83,15 @@ namespace CatLib.Flux
         }
 
         /// <summary>
+        /// 减少监听者
+        /// </summary>
+        /// <param name="action"></param>
+        public void RemoveListener(Action<INotification> action)
+        {
+            listener -= action;
+        }
+
+        /// <summary>
         /// 内容是否是被修改的
         /// </summary>
         public bool IsChanged
@@ -118,7 +127,7 @@ namespace CatLib.Flux
         /// </summary>
         protected void Change()
         {
-            if (dispatcher.IsDispatching)
+            if (!dispatcher.IsDispatching)
             {
                 throw new CatLibException(GetType().Name + ".TriggerChange() Must be invoked while dispatching.");
             }

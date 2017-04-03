@@ -58,6 +58,11 @@ namespace CatLib
             return container.Bind(service, concrete, false);
         }
 
+        public static To MakeParams<To>(this IContainer container , params object[] param)
+        {
+            return (To)container.Make(typeof(To).ToString(), param);
+        }
+
         public static To Make<To>(this IContainer container)
         {
             return (To)container.Make(typeof(To).ToString());

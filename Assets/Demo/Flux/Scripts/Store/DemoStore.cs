@@ -4,9 +4,11 @@ using CatLib.API.Flux;
 
 public class DemoStore : Store {
 
+    public const string ADD = "add";
+
     private static DemoStore instance;
 
-    public static DemoStore get(IFluxDispatcher dispatcher)
+    public static DemoStore Get(IFluxDispatcher dispatcher)
     {
         if (instance == null)
         {
@@ -26,11 +28,11 @@ public class DemoStore : Store {
     {
         switch(notification.Action) 
         {
-            case "add":
+            case ADD:
                 Add();
+                Change();
                 break;
         }
-        Change();
     }
 
     public int GetCount()
@@ -38,7 +40,7 @@ public class DemoStore : Store {
         return count;
     }
 
-    public void Add()
+    protected void Add()
     {
         count++;
     }
