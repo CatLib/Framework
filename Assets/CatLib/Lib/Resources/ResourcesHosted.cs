@@ -68,7 +68,7 @@ namespace CatLib.Resources
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public IObjectInfo Get(string path)
+        public IObject Get(string path)
         {
             var assetPath = Path.GetDirectoryName(path);
             var name = Path.GetFileName(path);
@@ -86,7 +86,7 @@ namespace CatLib.Resources
         /// </summary>
         /// <param name="path">资源路径</param>
         /// <param name="obj">生成的对象</param>
-        public IObjectInfo Hosted(string path, Object obj)
+        public IObject Hosted(string path, Object obj)
         {
             if (obj == null) { return null; }
 

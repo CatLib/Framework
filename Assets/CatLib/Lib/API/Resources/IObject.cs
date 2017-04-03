@@ -14,7 +14,7 @@ using UnityEngine;
 namespace CatLib.API.Resources
 {
     /// <summary>对象信息</summary>
-    public interface IObjectInfo
+    public interface IObject
     {
 
         GameObject Instantiate();
