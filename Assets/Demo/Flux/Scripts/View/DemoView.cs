@@ -43,8 +43,9 @@ namespace CatLib.Demo.Flux
 
             button.onClick.AddListener(()=>
             {
-                dispatcher.Dispatch(App.Instance.MakeParams<INotification>(DemoStore.ADD));
+                DemoAction.AddCount();
             });
+            Refresh();
         }
 
         protected override void OnChange(INotification notification)
@@ -53,6 +54,10 @@ namespace CatLib.Demo.Flux
             buttonText.text = "Click To Add (" + store.GetCount() + ")";
         }
 
+        protected void Refresh()
+        {
+            buttonText.text = "Click To Add (" + store.GetCount() + ")";
+        }
     }
 
 }
