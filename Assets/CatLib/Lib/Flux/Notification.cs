@@ -1,4 +1,7 @@
-﻿namespace CatLib.Flux
+﻿
+using CatLib.API.Flux;
+
+namespace CatLib.Flux
 {
 
     /// <summary>
@@ -8,9 +11,9 @@
     {
 
         /// <summary>
-        /// 通知名
+        /// 通知行为
         /// </summary>
-        private string name;
+        private string action;
 
         /// <summary>
         /// 附带物
@@ -18,16 +21,11 @@
         private object payload;
 
         /// <summary>
-        /// 通知发送者
+        /// 通知行为
         /// </summary>
-        private object sender;
-
-        /// <summary>
-        /// 通知名
-        /// </summary>
-        public virtual string Name
+        public virtual string Action
         {
-            get { return name; }
+            get { return action; }
         }
 
         /// <summary>
@@ -46,48 +44,21 @@
         }
 
         /// <summary>
-        /// 通知发送者
-        /// </summary>
-        public virtual object Sender
-        {
-            get
-            {
-                return sender;
-            }
-            set
-            {
-                sender = value;
-            }
-        }
-
-        /// <summary>
         /// 创建一个通知
         /// </summary>
-        /// <param name="name"></param>
-        public Notification(string name)
-            : this(name, null, null)
-        { }
-
-
-        /// <summary>
-        /// 创建一个通知
-        /// </summary>
-        /// <param name="name">通知名</param>
-        /// <param name="sender">发送者</param>
-        public Notification(string name, object sender)
-            : this(name, sender, null)
+        /// <param name="action">通知行为</param>
+        public Notification(string action)
+            : this(action, null)
         { }
 
         /// <summary>
         /// 创建一个通知
         /// </summary>
-        /// <param name="name">通知名</param>
-        /// <param name="sender">发送者</param>
+        /// <param name="action">通知行为</param>
         /// <param name="payload">附带物体</param>
-        public Notification(string name , object sender, object payload)
+        public Notification(string action, object payload)
         {
-            this.name = name;
-            this.sender = sender;
+            this.action = action;
             this.payload = payload;
         }
     }

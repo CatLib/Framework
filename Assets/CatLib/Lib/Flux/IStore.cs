@@ -13,16 +13,6 @@ namespace CatLib.Flux
         /// </summary>
 		string Name { get; }
 
-        /// <summary>
-        /// 被管理的数据对象
-        /// </summary>
-		object Data { get; set; }
-
-        /// <summary>
-        /// 当移除时
-        /// </summary>
-        void OnRemove();
-
     }
 
 }

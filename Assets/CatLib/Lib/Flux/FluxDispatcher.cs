@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API;
+using CatLib.API.Flux;
 
 namespace CatLib.Flux
 {

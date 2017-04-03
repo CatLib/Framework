@@ -14,6 +14,7 @@ using MonoBehaviour = UnityEngine.MonoBehaviour;
 using CatLib.API;
 using CatLib.Event;
 using CatLib.Resources;
+using CatLib.Flux;
 
 namespace CatLib.Demo.Flux
 {
@@ -44,6 +45,7 @@ namespace CatLib.Demo.Flux
             App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(ResourcesProvider));
             App.Instance.Register(typeof(CoreProvider));
+            App.Instance.Register(typeof(FluxProvider));
             App.Instance.Register(typeof(FluxDemo));
             App.Instance.Register(typeof(OverrideConfig));
         }

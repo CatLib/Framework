@@ -1,5 +1,5 @@
 ﻿
-namespace CatLib.Flux
+namespace CatLib.API.Flux
 {
 
     /// <summary>
@@ -7,21 +7,16 @@ namespace CatLib.Flux
     /// </summary>
     public interface INotification
     {
-        
+
         /// <summary>
-        /// 通知名
+        /// 通知行为
         /// </summary>
-		string Name { get; }
+        string Action { get; }
 
         /// <summary>
         /// 附加数据
         /// </summary>
 		object Payload { get; set; }
-
-        /// <summary>
-        /// 发送者
-        /// </summary>
-        object Sender { get; set; }
 
         /// <summary>
         /// 字符串化通知

@@ -1,4 +1,6 @@
 ﻿
+using CatLib.API.Flux;
+
 namespace CatLib.Flux
 {
 
@@ -8,24 +10,14 @@ namespace CatLib.Flux
     public class Store : FluxStore
     {
 
-        protected Store() : base(DefaultName, null)
-        {
-
-        }
-
-        protected Store(string storeName) : base(storeName, null)
-        {
-
-        }
-
-        protected Store(string storeName , object data) : base(storeName , data)
+        protected Store(IFluxDispatcher dispatcher) : base(dispatcher)
         {
 
         }
 
         protected override INotification Notification()
         {
-            return new Notification(NotificationName, this);
+            return new Notification(NotificationName);
         }
 
     }

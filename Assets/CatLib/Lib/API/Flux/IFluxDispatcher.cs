@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.Flux
+namespace CatLib.API.Flux
 {
 
     public interface IFluxDispatcher
