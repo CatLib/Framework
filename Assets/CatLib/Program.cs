@@ -25,6 +25,7 @@ public class Program : MonoBehaviour {
     {
         IApplication application = gameObject.AddComponent<CatLib.Application>();
         application.Bootstrap(CatLib.Bootstrap.BootStrap).Init();
+        GameObject.DontDestroyOnLoad(gameObject);
     }
 
 }

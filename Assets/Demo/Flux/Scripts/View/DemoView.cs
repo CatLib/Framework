@@ -15,6 +15,17 @@ namespace CatLib.Demo.Flux
         private IFluxDispatcher dispatcher;
         private DemoStore store;
 
+        /// <summary>
+        /// 关注的存储
+        /// </summary>
+        protected override IStore[] Observer
+        {
+            get
+            {
+                return new IStore[] { store };
+            }
+        }
+
         public void Awake()
         {
             dispatcher = App.Instance.Make<IFluxDispatcher>();
@@ -24,21 +35,6 @@ namespace CatLib.Demo.Flux
             {
                 dispatcher.Dispatch(App.Instance.MakeParams<INotification>(DemoStore.ADD));
             });
-        }
-
-        /// <summary>
-        /// 关注的容器
-        /// </summary>
-        protected override IStore[] Observer
-        {
-            get
-            {
-                return new IStore[] {
-
-                        store
-
-                    };
-            }
         }
 
         protected override void OnChange(INotification notification)
