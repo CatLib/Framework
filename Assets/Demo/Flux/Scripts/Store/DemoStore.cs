@@ -16,6 +16,8 @@ public class DemoStore : Store {
 
     public const string ADD = "add";
 
+    #region instance
+
     private static DemoStore instance;
 
     public static DemoStore Get(IFluxDispatcher dispatcher)
@@ -27,32 +29,44 @@ public class DemoStore : Store {
         return instance;
     }
 
+    #endregion
+
     private int count;
 
-    public DemoStore(IFluxDispatcher dispatcher) : base(dispatcher)
+    /// <summary>
+    /// 测试用的存储
+    /// </summary>
+    /// <param name="dispatcher"></param>
+    public DemoStore(IFluxDispatcher dispatcher) 
+        : base(dispatcher)
     {
         count = 0;
     }
 
+    /// <summary>
+    /// 当存储接受到调度时
+    /// </summary>
+    /// <param name="notification"></param>
     protected override void OnDispatch(INotification notification)
     {
         switch(notification.Action) 
         {
             case ADD:
                 Add();
-                Change();
+                Change(); // 表明这个存储已经发生变化
                 break;
         }
     }
 
-    public int GetCount()
-    {
-        return count;
-    }
+    /// <summary>
+    /// 获取计数
+    /// </summary>
+    /// <returns></returns>
+    public int GetCount(){ return count; }
 
-    protected void Add()
-    {
-        count++;
-    }
+    /// <summary>
+    /// 计数加1
+    /// </summary>
+    protected void Add(){ count++; }
 
 }
