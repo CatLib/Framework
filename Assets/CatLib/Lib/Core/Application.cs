@@ -14,7 +14,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
-using CatLib.API.Event;
 using CatLib.API.Time;
 
 namespace CatLib
@@ -23,7 +22,7 @@ namespace CatLib
     /// <summary>
     /// CatLib程序
     /// </summary>
-    public class Application : Container.Container, IApplication
+    public class Application : Driver, IApplication
     {
 
         /// <summary>
@@ -70,21 +69,6 @@ namespace CatLib
         protected Dictionary<Type, ServiceProvider> serviceProviders = new Dictionary<Type, ServiceProvider>();
 
         /// <summary>
-        /// 更新
-        /// </summary>
-        protected List<IUpdate> update = new List<IUpdate>();
-
-        /// <summary>
-        /// 延后更新
-        /// </summary>
-        protected List<ILateUpdate> lateUpdate = new List<ILateUpdate>();
-
-        /// <summary>
-        /// 释放时需要调用的
-        /// </summary>
-        protected List<IDestroy> destroy = new List<IDestroy>();
-
-        /// <summary>
         /// 是否已经完成引导程序
         /// </summary>
         protected bool bootstrapped = false;
@@ -105,34 +89,9 @@ namespace CatLib
         protected long guid = 0;
 
         /// <summary>
-        /// 主线程ID
-        /// </summary>
-        private int mainThreadID;
-
-        /// <summary>
-        /// 主线程调度队列
-        /// </summary>
-        private Queue<Action> mainThreadDispatcherQueue = new Queue<Action>();
-        /// <summary>
-        /// 主线程调度队列锁
-        /// </summary>
-        private object mainThreadDispatcherQueueLocker = new object();
-
-        /// <summary>
         /// 时间系统
         /// </summary>
         private ITime time;
-
-        /// <summary>
-        /// 是否是主线程
-        /// </summary>
-        public bool IsMainThread
-        {
-            get
-            {
-                return mainThreadID == System.Threading.Thread.CurrentThread.ManagedThreadId;
-            }
-        }
 
         /// <summary>
         /// 时间
@@ -153,36 +112,23 @@ namespace CatLib
             }
         }
 
-        public Application()
-            : base()
+        /// <summary>
+        /// 新建一个应用程序
+        /// </summary>
+        public Application() : base()
         {
 
-            mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
-
-            Resolving((container, bindData, obj) =>
-            {
-
-                if (bindData.IsStatic)
-                {
-                    if (obj is IUpdate)
-                    {
-                        update.Add(obj as IUpdate);
-                    }
-
-                    if (obj is ILateUpdate)
-                    {
-                        lateUpdate.Add(obj as ILateUpdate);
-                    }
-
-                    if (obj is IDestroy)
-                    {
-                        destroy.Add(obj as IDestroy);
-                    }
-                }
-                return obj;
-            });
         }
 
+        /// <summary>
+        /// 新建一个应用程序
+        /// </summary>
+        /// <param name="behaviour"></param>
+        public Application(UnityEngine.MonoBehaviour behaviour) 
+            : base(behaviour)
+        {
+
+        }
 
         /// <summary>
         /// 引导程序
@@ -285,38 +231,6 @@ namespace CatLib
 
         }
 
-        public void Update()
-        {
-            for (int i = 0; i < update.Count; i++)
-            {
-                update[i].Update();
-            }
-            lock (mainThreadDispatcherQueueLocker)
-            {
-                while (mainThreadDispatcherQueue.Count > 0)
-                {
-                    mainThreadDispatcherQueue.Dequeue().Invoke();
-                }
-            }
-        }
-
-        public void LateUpdate()
-        {
-            for (int i = 0; i < lateUpdate.Count; i++)
-            {
-                lateUpdate[i].LateUpdate();
-            }
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            for (int i = 0; i < destroy.Count; i++)
-            {
-                destroy[i].OnDestroy();
-            }
-        }
-
         /// <summary>
         /// 获取一个唯一id
         /// </summary>
@@ -351,105 +265,6 @@ namespace CatLib
             Trigger(this).SetEventName(ApplicationEvents.ON_APPLICATION_START_COMPLETE).Trigger();
 
         }
-
-        #region Main Thread Dispatcher
-
-        /// <summary>
-        /// 在主线程中调用
-        /// </summary>
-        /// <param name="action"></param>
-        public void MainThread(IEnumerator action)
-        {
-            if (IsMainThread)
-            {
-                StartCoroutine(action);
-                return;
-            }
-            lock (mainThreadDispatcherQueueLocker)
-            {
-                mainThreadDispatcherQueue.Enqueue(() =>
-                {
-                    StartCoroutine(action);
-                });
-            }
-        }
-
-        /// <summary>
-        /// 在主线程中调用
-        /// </summary>
-        /// <param name="action"></param>
-        public void MainThread(Action action)
-        {
-            if (IsMainThread)
-            {
-                action.Invoke();
-                return;
-            }
-            MainThread(ActionWrapper(action));
-        }
-
-        private IEnumerator ActionWrapper(Action action)
-        {
-            action.Invoke();
-            yield return null;
-        }
-
-        #endregion
-
-        #region Dispatcher
-
-        public override IEventAchieve Event
-        {
-            get
-            {
-                return this;
-            }
-        }
-
-        public IGlobalEvent Trigger(object score)
-        {
-
-            return new GlobalEvent(score);
-
-        }
-
-        public void Trigger(string eventName)
-        {
-            base.Event.Trigger(eventName);
-        }
-
-        public void Trigger(string eventName, EventArgs e)
-        {
-            base.Event.Trigger(eventName, e);
-        }
-
-        public void Trigger(string eventName, object sender)
-        {
-            base.Event.Trigger(eventName, sender);
-        }
-
-        public void Trigger(string eventName, object sender, EventArgs e)
-        {
-            base.Event.Trigger(eventName, sender, e);
-        }
-
-        public IEventHandler On(string eventName, EventHandler handler, int life = -1)
-        {
-            return base.Event.On(eventName, handler, life);
-        }
-
-        public IEventHandler One(string eventName, EventHandler handler)
-        {
-            return base.Event.One(eventName, handler);
-        }
-
-        public void Off(string eventName, IEventHandler handler)
-        {
-            base.Event.Off(eventName, handler);
-        }
-
-        #endregion
-
 
     }
 
