@@ -98,7 +98,7 @@ namespace CatLib.Flux
         {
             get
             {
-                if (dispatcher.IsDispatching)
+                if (!dispatcher.IsDispatching)
                 {
                     throw new CatLibException(GetType().Name + ".IsChanged Must be invoked while dispatching.");
                 }
