@@ -15,6 +15,7 @@ using CatLib.Resources;
 using CatLib.IO;
 using CatLib.FairyGUI;
 using CatLib.Event;
+using CatLib.Flux;
 
 namespace CatLib.Demo.FairyGUI
 {
@@ -46,6 +47,7 @@ namespace CatLib.Demo.FairyGUI
             App.Instance.Register(typeof(ResourcesProvider));
             App.Instance.Register(typeof(CoreProvider));
             App.Instance.Register(typeof(IOProvider));
+            App.Instance.Register(typeof(FluxProvider));
             App.Instance.Register(typeof(FairyGUIProvider));
             App.Instance.Register(typeof(FairyGUIDemo));
             App.Instance.Register(typeof(OverrideConfig));

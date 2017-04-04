@@ -10,6 +10,8 @@
  */
 
 using CatLib.API;
+using CatLib.API.Resources;
+using UnityEngine;
 
 namespace CatLib.Demo.FairyGUI
 {
@@ -22,7 +24,8 @@ namespace CatLib.Demo.FairyGUI
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
 
-                UnityEngine.Debug.Log("on loader");
+                var go = App.Make<IResources>().Load<GameObject>("fairy", LoadTypes.Resources);
+                go.Instantiate();
 
             });
         }
