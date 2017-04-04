@@ -21,7 +21,7 @@ namespace CatLib.Resources
     /// <summary>
     /// 对象信息
     /// </summary>
-    public class ObjectInfo : IObjectInfo
+    public class ObjectInfo : IObject
     {
 
         /// <summary>原对象</summary>

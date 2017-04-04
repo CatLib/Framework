@@ -40,8 +40,7 @@ namespace CatLib.Demo.Routing
     {
         public void Awake()
         {
-            IApplication application = gameObject.AddComponent<Application>();
-            application.Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
+            (new Application(this)).Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
         }
     }
 

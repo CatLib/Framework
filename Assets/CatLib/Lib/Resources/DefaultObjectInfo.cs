@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 namespace CatLib.Resources
 {
 
-    public class DefaultObjectInfo : IObjectInfo
+    public class DefaultObjectInfo : IObject
     {
 
         private Object obj;

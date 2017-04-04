@@ -8,28 +8,28 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.Collections;
-using CatLib.API.Container;
-using CatLib.API.Event;
 using System;
-using CatLib.API.Time;
 
 namespace CatLib.API
 {
 
-    public interface IApplication : IContainer, IEventAchieve , IDriver , IEvent
+    /// <summary>
+    /// 驱动器
+    /// </summary>
+    public interface IDriver
     {
 
-        IApplication Bootstrap(Type[] bootstraps);
+        bool IsMainThread { get; }
 
-        void Init();
+        void MainThread(IEnumerator action);
 
-        void Register(Type t);
+        void MainThread(Action action);
 
-        long GetGuid();
+        IGlobalEvent Trigger(object score);
 
-        ITime Time { get; }
+        UnityEngine.Coroutine StartCoroutine(IEnumerator routine);
 
     }
 

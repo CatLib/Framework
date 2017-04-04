@@ -22,14 +22,14 @@ namespace CatLib.Resources
         /// </summary>
         /// <param name="path">资源路径</param>
         /// <returns></returns>
-        IObjectInfo Get(string path);
+        IObject Get(string path);
 
         /// <summary>
         /// 托管内容一个内容
         /// </summary>
         /// <param name="path">资源路径</param>
         /// <param name="obj">托管对象</param>
-        IObjectInfo Hosted(string path, Object obj);
+        IObject Hosted(string path, Object obj);
 
     }
 

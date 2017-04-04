@@ -18,7 +18,7 @@ using CatLib.API;
 namespace CatLib.Container
 {
     ///<summary>容器</summary>
-    public class Container : MonoComponent, IContainer
+    public class Container : IContainer
     {
 
         /// <summary>

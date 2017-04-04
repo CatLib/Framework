@@ -10,7 +10,6 @@
  */
 
 using UnityEngine;
-using CatLib.API;
 
 /// <summary>
 /// 程序入口
@@ -23,9 +22,7 @@ public class Program : MonoBehaviour {
     /// </summary>
     public void Awake()
     {
-        IApplication application = gameObject.AddComponent<CatLib.Application>();
-        application.Bootstrap(CatLib.Bootstrap.BootStrap).Init();
-        GameObject.DontDestroyOnLoad(gameObject);
+        (new CatLib.Application(this)).Bootstrap(CatLib.Bootstrap.BootStrap).Init();
     }
 
 }
