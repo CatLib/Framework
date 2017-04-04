@@ -1,5 +1,6 @@
 ﻿using CatLib.Flux;
 using FairyGUI;
+using CatLib.API.FairyGUI;
 
 namespace CatLib.Demo.FairyGUI
 {
@@ -9,7 +10,8 @@ namespace CatLib.Demo.FairyGUI
 
         public void Awake()
         {
-            UIPackage.AddPackage("UI/DemoFairy");
+            IPackage package = App.Instance.Make<IPackage>();
+            package.AddPackage("UI/DemoFairy");
             GComponent comp = UIPackage.CreateObject("DemoFairy", "DemoComponent").asCom;
             GRoot.inst.AddChild(comp);
         }

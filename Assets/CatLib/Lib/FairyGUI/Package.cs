@@ -36,10 +36,10 @@ namespace CatLib.FairyGUI
         public UIPackage AddPackage(string assetPath)
         {
             IObject obj = null;
-            var package = UIPackage.AddPackage(assetPath, (name,  extension, type) =>
+            var package = UIPackage.AddPackage(assetPath, (name, extension, type) =>
            {
-                obj = Resources.Load(name + extension, type);
-                return obj.UnHostedGet();
+               obj = Resources.Load(name + extension, type);
+               return obj.UnHostedGet();
            });
             if (package != null && obj != null)
             {
