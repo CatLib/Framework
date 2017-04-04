@@ -201,8 +201,8 @@ namespace CatLib
             if (serviceProvider != null)
             {
                 serviceProvider.Register();
-                this.serviceProviders.Add(t, serviceProvider);
-                if (this.inited)
+                serviceProviders.Add(t, serviceProvider);
+                if (inited)
                 {
                     serviceProvider.Init();
                 }

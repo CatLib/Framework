@@ -106,7 +106,7 @@ namespace CatLib.Flux
         /// <param name="action"></param>
         public void Off(string token)
         {
-            if (callbacks.ContainsKey(token))
+            if (!callbacks.ContainsKey(token))
             {
                 throw new CatLibException("catlib flux Dispatcher.Off(...): " + token + " , does not map to a registered callback.");
             }

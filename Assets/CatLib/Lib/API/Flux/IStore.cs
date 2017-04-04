@@ -37,6 +37,16 @@ namespace CatLib.API.Flux
         /// </summary>
         string DispatchToken { get; }
 
+        /// <summary>
+        /// 是否被释放的
+        /// </summary>
+        bool IsDestroy { get; }
+
+        /// <summary>
+        /// 释放存储块
+        /// </summary>
+        void Destroy();
+
     }
 
 }

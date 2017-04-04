@@ -12,61 +12,68 @@
 using CatLib.Flux;
 using CatLib.API.Flux;
 
-public class DemoStore : Store {
+namespace CatLib.Demo.Flux
+{
 
-    public const string ADD = "add";
-
-    #region instance
-
-    private static DemoStore instance;
-
-    public static DemoStore Get(IFluxDispatcher dispatcher)
+    public class DemoStore : Store
     {
-        if (instance == null)
+
+        public const string ADD = "add";
+
+        #region instance
+
+        private static DemoStore instance;
+
+        public static DemoStore Get(IFluxDispatcher dispatcher)
         {
-            instance = new DemoStore(dispatcher);
+            if (instance == null)
+            {
+                UnityEngine.Debug.Log("create");
+                instance = new DemoStore(dispatcher);
+            }
+            return instance;
         }
-        return instance;
-    }
 
-    #endregion
+        #endregion
 
-    private int count;
+        private int count;
 
-    /// <summary>
-    /// 测试用的存储
-    /// </summary>
-    /// <param name="dispatcher"></param>
-    public DemoStore(IFluxDispatcher dispatcher) 
-        : base(dispatcher)
-    {
-        count = 0;
-    }
-
-    /// <summary>
-    /// 当存储接受到调度时
-    /// </summary>
-    /// <param name="notification"></param>
-    protected override void OnDispatch(INotification notification)
-    {
-        switch(notification.Action) 
+        /// <summary>
+        /// 测试用的存储
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        public DemoStore(IFluxDispatcher dispatcher)
+            : base(dispatcher)
         {
-            case ADD:
-                Add();
-                Change(); // 表明这个存储已经发生变化
-                break;
+            count = 0;
         }
+
+        /// <summary>
+        /// 当存储接受到调度时
+        /// </summary>
+        /// <param name="notification"></param>
+        protected override void OnDispatch(INotification notification)
+        {
+            switch (notification.Action)
+            {
+                case ADD:
+                    Add();
+                    Change(); // 表明这个存储已经发生变化
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 获取计数
+        /// </summary>
+        /// <returns></returns>
+        public int GetCount() { return count; }
+
+        /// <summary>
+        /// 计数加1
+        /// </summary>
+        protected void Add() { count++; }
+
     }
-
-    /// <summary>
-    /// 获取计数
-    /// </summary>
-    /// <returns></returns>
-    public int GetCount(){ return count; }
-
-    /// <summary>
-    /// 计数加1
-    /// </summary>
-    protected void Add(){ count++; }
 
 }

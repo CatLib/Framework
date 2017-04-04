@@ -56,7 +56,17 @@ namespace CatLib.Flux
         /// <summary>
         /// 通知名
         /// </summary>
-        protected virtual string NotificationName { get { return GetType().Name; } }
+        protected virtual string NotificationName { get { return Name; } }
+
+        /// <summary>
+        /// 是否是被释放的
+        /// </summary>
+        private bool isDestroy;
+
+        /// <summary>
+        /// 是否被释放的
+        /// </summary>
+        public bool IsDestroy { get { return IsDestroy; } }
 
         /// <summary>
         /// 构建一个存储块
@@ -66,6 +76,7 @@ namespace CatLib.Flux
         {
             storeName = GetType().Name;
             changed = false;
+            isDestroy = false;
             this.dispatcher = dispatcher;
             dispatchToken = this.dispatcher.On((payload) =>
             {
@@ -74,11 +85,28 @@ namespace CatLib.Flux
         }
 
         /// <summary>
+        /// 释放存储块
+        /// </summary>
+        public void Destroy()
+        {
+            if (dispatcher != null)
+            {
+                dispatcher.Off(dispatchToken);
+            }
+            listener = null;
+            isDestroy = true;
+        }
+
+        /// <summary>
         /// 增加监听者
         /// </summary>
         /// <param name="action"></param>
         public void AddListener(Action<INotification> action)
         {
+            if (isDestroy)
+            {
+                throw new CatLibException(GetType().Name + " is be destroy.");
+            }
             listener += action;
         }
 
@@ -88,6 +116,10 @@ namespace CatLib.Flux
         /// <param name="action"></param>
         public void RemoveListener(Action<INotification> action)
         {
+            if (isDestroy)
+            {
+                throw new CatLibException(GetType().Name + " is be destroy.");
+            }
             listener -= action;
         }
 
