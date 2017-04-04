@@ -15,9 +15,13 @@ namespace CatLib.API.Resources{
 
 	public interface IAssetBundle{
 
-		//string Variant{ get; set; }
+        //string Variant{ get; set; }
 
-		Object LoadAsset(string path);
+        AssetBundle LoadBundle(string path);
+
+        UnityEngine.Coroutine LoadBundleAsync(string path, System.Action<AssetBundle> callback);
+
+        Object LoadAsset(string path);
 
 		Object[] LoadAssetAll(string path);
 

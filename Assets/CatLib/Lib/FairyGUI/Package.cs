@@ -29,6 +29,12 @@ namespace CatLib.FairyGUI
         public IResources Resources { get; set; }
 
         /// <summary>
+        /// AssetBundle
+        /// </summary>
+        [Dependency]
+        public IAssetBundle AssetBundle { get; set; }
+
+        /// <summary>
         /// 增加一个包
         /// </summary>
         /// <param name="assetPath"></param>

@@ -69,6 +69,32 @@ namespace CatLib.Resources {
         protected Dictionary<string , int> protectedList = new Dictionary<string , int>();
 
         /// <summary>
+        /// 加载AB资源包
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public AssetBundle LoadBundle(string path)
+        {
+            LoadManifest();
+            string relPath, objName;
+            ParsePath(path, out relPath, out objName);
+
+            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath);
+            return assetTarget;
+        }
+
+        /// <summary>
+        /// 加载AB资源包（异步） 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public UnityEngine.Coroutine LoadBundleAsync(string path, System.Action<AssetBundle> callback)
+        {
+            return App.StartCoroutine(LoadBundleAsyncIEnumerator(path, callback));
+        }
+
+        /// <summary>
         /// 加载资源
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -177,6 +203,42 @@ namespace CatLib.Resources {
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// 加载AB包（异步）
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        protected IEnumerator LoadBundleAsyncIEnumerator(string path , System.Action<AssetBundle> callback)
+        {
+            LoadManifest();
+            string relPath, objName;
+            ParsePath(path, out relPath, out objName);
+
+            AssetBundle assetTarget = null;
+
+            //加入保护的列表
+            if (!protectedList.ContainsKey(relPath))
+            {
+                protectedList.Add(relPath, 1);
+            }
+            else
+            {
+                protectedList[relPath]++;
+            }
+
+            yield return LoadAssetBundleAsync(Env.AssetPath, relPath, (ab) =>
+            {
+                assetTarget = ab;
+            });
+
+            callback(assetTarget);
+
+            protectedList[relPath]--;
+            if (protectedList[relPath] <= 0) { protectedList.Remove(relPath); }
+
         }
 
         /// <summary>
