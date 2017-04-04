@@ -96,7 +96,7 @@ namespace CatLib.Resources {
 
             Object obj = assetBundleLoader.LoadAsset(path);
 
-            if (resourcesHosted != null)
+            if (resourcesHosted != null && obj != null)
             {
                 hosted = resourcesHosted.Hosted(path, obj);
             }
@@ -175,7 +175,7 @@ namespace CatLib.Resources {
 
             return assetBundleLoader.LoadAssetAsync(PathFormat(path , type), (obj)=>
             {
-                if (resourcesHosted != null)
+                if (resourcesHosted != null && obj != null)
                 {
                     hosted = resourcesHosted.Hosted(path, obj);
                 }
