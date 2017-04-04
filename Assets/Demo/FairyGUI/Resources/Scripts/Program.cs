@@ -10,14 +10,13 @@
  */
 
 using System;
-using MonoBehaviour = UnityEngine.MonoBehaviour;
 using CatLib.API;
-using CatLib.Event;
 using CatLib.Resources;
-using CatLib.Flux;
 using CatLib.IO;
+using CatLib.FairyGUI;
+using CatLib.Event;
 
-namespace CatLib.Demo.Flux
+namespace CatLib.Demo.FairyGUI
 {
 
     /**
@@ -28,7 +27,7 @@ namespace CatLib.Demo.Flux
         public override void Init()
         {
             Env env = App[typeof(Env)] as Env;
-            env.SetResourcesBuildPath(Global.BasePath + "/Flux/Resources");
+            env.SetResourcesBuildPath(Global.BasePath + "/FairyGUI/Resources");
             env.SetDebugLevel(DebugLevels.Dev);
         }
 
@@ -45,10 +44,10 @@ namespace CatLib.Demo.Flux
         {
             App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(ResourcesProvider));
-            App.Instance.Register(typeof(IOProvider));
             App.Instance.Register(typeof(CoreProvider));
-            App.Instance.Register(typeof(FluxProvider));
-            App.Instance.Register(typeof(FluxDemo));
+            App.Instance.Register(typeof(IOProvider));
+            App.Instance.Register(typeof(FairyGUIProvider));
+            App.Instance.Register(typeof(FairyGUIDemo));
             App.Instance.Register(typeof(OverrideConfig));
         }
 
@@ -57,7 +56,7 @@ namespace CatLib.Demo.Flux
     /**
      * 这个类是入口类用于启动框架 
      */
-    public class Program : MonoBehaviour
+    public class Program : UnityEngine.MonoBehaviour
     {
         public void Awake()
         {

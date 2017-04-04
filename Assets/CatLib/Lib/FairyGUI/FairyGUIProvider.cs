@@ -9,20 +9,19 @@
  * Document: http://catlib.io/
  */
 
-using FairyGUI;
-using UnityEngine;
+using CatLib.API.FairyGUI;
 
 namespace CatLib.FairyGUI
 {
-    /// <summary>
-    /// 加载器
-    /// </summary>
-    public class Loader : GLoader
+
+    public class FairyGUIProvider : ServiceProvider
     {
-        protected override void LoadExternal()
+
+        public override void Register()
         {
-            Debug.Log(url);
-            base.LoadExternal();
+            App.Singleton<Package>().Alias<IPackage>();
         }
+
     }
+
 }

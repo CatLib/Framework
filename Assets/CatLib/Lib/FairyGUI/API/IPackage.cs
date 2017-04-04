@@ -10,19 +10,15 @@
  */
 
 using FairyGUI;
-using UnityEngine;
 
-namespace CatLib.FairyGUI
+namespace CatLib.API.FairyGUI
 {
-    /// <summary>
-    /// 加载器
-    /// </summary>
-    public class Loader : GLoader
+
+    public interface IPackage
     {
-        protected override void LoadExternal()
-        {
-            Debug.Log(url);
-            base.LoadExternal();
-        }
+
+        UIPackage AddPackage(string assetPath);
+
     }
+
 }
