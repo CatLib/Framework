@@ -25,6 +25,10 @@ namespace CatLib.API.Resources
 
         Object UnHostedGet();
 
+        void Retain();
+
+        void Release();
+
     }
 
 }

@@ -27,26 +27,47 @@ namespace CatLib.Resources
         /// <summary>原对象</summary>
         protected Object Object {  get; set; }
 
+        /// <summary>
+        /// AssetBundle信息
+        /// </summary>
         public string AssetBundle { get; set; }
 
+        /// <summary>
+        /// 对象名字
+        /// </summary>
         public string Name { get; set; }
 
-        private bool isDestroy = false;
-        public bool IsDestroy
+        private bool isDestroying = false;
+
+        /// <summary>
+        /// 是否正在被释放的
+        /// </summary>
+        public bool IsDestroying
         {
-            get { return isDestroy; }
+            get { return isDestroying; }
             set
             {
-                if(isDestroy && !value)
+                if(isDestroying && !value)
                 {
                     protectedNum = 1;
                 }
-                isDestroy = value;
+                isDestroying = value;
             }
         }
 
+        /// <summary>
+        /// 保护计数
+        /// </summary>
         private int protectedNum = 1;
 
+        /// <summary>
+        /// 引用计数
+        /// </summary>
+        private int refCount = 0;
+
+        /// <summary>
+        /// 引用计数
+        /// </summary>
         private List<WeakReference> references = new List<WeakReference>();
 
         /// <summary>
@@ -58,6 +79,7 @@ namespace CatLib.Resources
             AssetBundle = assetBundleName;
             Name = name;
             Object = obj;
+            refCount = 0;
         }
 
         /// <summary>
@@ -112,6 +134,23 @@ namespace CatLib.Resources
         }
 
         /// <summary>
+        /// 引用计数强制加1
+        /// </summary>
+        public void Retain()
+        {
+            refCount++;
+        }
+
+        /// <summary>
+        /// 引用计数强制减1
+        /// </summary>
+        public void Release()
+        {
+            refCount--;
+            refCount = Math.Min(refCount, 0);
+        }
+
+        /// <summary>
         /// 托管一个对象
         /// </summary>
         /// <param name="hostedObject"></param>
@@ -131,12 +170,13 @@ namespace CatLib.Resources
             }
             WeakReference wr = new WeakReference(hostedObject);
             references.Add(wr);
-            IsDestroy = false;
+            refCount++;
+            IsDestroying = false;
         }
 
         public void Check()
         {
-            if (IsDestroy) { return; }
+            if (IsDestroying) { return; }
 
             if(protectedNum > 0)
             {
@@ -150,11 +190,12 @@ namespace CatLib.Resources
                 if (o == null)
                 {
                     references.RemoveAt(i);
+                    refCount--;
                 }
             }
-            if (references.Count <= 0)
+            if (refCount <= 0)
             {
-                IsDestroy = true;
+                IsDestroying = true;
                 protectedNum = 1;
             }
         }

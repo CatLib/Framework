@@ -41,6 +41,14 @@ namespace CatLib.Resources
             return null;
         }
 
+        public void Retain()
+        {
+        }
+
+        public void Release()
+        {
+        }
+
         public Object UnHostedGet()
         {
             return obj;

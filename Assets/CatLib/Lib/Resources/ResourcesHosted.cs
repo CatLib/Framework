@@ -75,7 +75,7 @@ namespace CatLib.Resources
             if (refDict.ContainsKey(assetPath) && refDict[assetPath].ContainsKey(name))
             {
                 ObjectInfo info = refDict[assetPath][name];
-                info.IsDestroy = false; 
+                info.IsDestroying = false; 
                 return info;
             }
             return null;
@@ -114,10 +114,10 @@ namespace CatLib.Resources
             {
                 for (int i = 0; i < refTraversal.Count; i++)
                 {
-                    if (!refTraversal[i].IsDestroy)
+                    if (!refTraversal[i].IsDestroying)
                     {
                         refTraversal[i].Check();
-                        if (refTraversal[i].IsDestroy)
+                        if (refTraversal[i].IsDestroying)
                         {
                             //防止处理卸载来不及不停的加入队列
                             if (!destroyQueue.Contains(refTraversal[i]))
@@ -148,7 +148,7 @@ namespace CatLib.Resources
                 }
      
                 info = destroyQueue.Dequeue();
-                if (!info.IsDestroy)
+                if (!info.IsDestroying)
                 {
                     yield return new WaitForEndOfFrame();
                     continue;
@@ -161,7 +161,7 @@ namespace CatLib.Resources
                     tmpDict = refDict[info.AssetBundle];
                     foreach (var val in tmpDict.Values)
                     {
-                        if (!val.IsDestroy) { needDestroy = false; }
+                        if (!val.IsDestroying) { needDestroy = false; }
                     }
                     if (needDestroy)
                     {
