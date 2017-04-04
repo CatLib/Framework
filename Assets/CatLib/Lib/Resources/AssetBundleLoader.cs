@@ -132,11 +132,17 @@ namespace CatLib.Resources {
             if (onLoadingAssetBundles.Count > 0) { return false; }
             foreach (var asset in loadAssetBundles)
             {
-                asset.Value.Bundle.Unload(true);
+                if (asset.Value.Bundle != null)
+                {
+                    asset.Value.Bundle.Unload(true);
+                }
             }
             foreach (var asset in dependenciesBundles)
             {
-                asset.Value.Bundle.Unload(true);
+                if (asset.Value.Bundle != null)
+                {
+                    asset.Value.Bundle.Unload(true);
+                }
             }
             loadAssetBundles.Clear();
             dependenciesBundles.Clear();
@@ -156,7 +162,11 @@ namespace CatLib.Resources {
                 //如果除了作为主包外还被其他包引用那么就不释放
                 if (!dependenciesBundles.ContainsKey(assetbundlePath))
                 {
-                    loadAssetBundles[assetbundlePath].Bundle.Unload(true);
+                    //防止assetbundle因为一些意外原因已经被释放了
+                    if (loadAssetBundles[assetbundlePath].Bundle != null)
+                    {
+                        loadAssetBundles[assetbundlePath].Bundle.Unload(true);
+                    }
                 }
                 loadAssetBundles.Remove(assetbundlePath);
 
@@ -292,7 +302,7 @@ namespace CatLib.Resources {
             LoadDependenciesAssetBundle(envPath, relPath);
 
             AssetBundle assetTarget;
-            if (!loadAssetBundles.ContainsKey(relPath))
+            if (!loadAssetBundles.ContainsKey(relPath) || loadAssetBundles[relPath].Bundle == null)
             {
 
                 if (Disk.IsCrypt)
@@ -305,6 +315,7 @@ namespace CatLib.Resources {
                     assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + relPath);
                 }
 
+                loadAssetBundles.Remove(relPath);
                 loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
 
             }
@@ -325,10 +336,11 @@ namespace CatLib.Resources {
             if (assetBundleManifest == null) { return; }
             foreach (string dependencies in assetBundleManifest.GetAllDependencies(relPath))
             {
-                if (!dependenciesBundles.ContainsKey(dependencies))
+                if (!dependenciesBundles.ContainsKey(dependencies) || dependenciesBundles[dependencies].Bundle == null)
                 {
 
                     AssetBundle assetBundle = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + dependencies);
+                    dependenciesBundles.Remove(dependencies);
                     dependenciesBundles.Add(dependencies, new DependenciesBundle(assetBundle));
 
                 }else{
@@ -366,16 +378,25 @@ namespace CatLib.Resources {
                     //如果被别的主包加载请求进行了加载的话直接返回
                     if (loadAssetBundles.ContainsKey(relPath))
                     {
-                        complete(loadAssetBundles[relPath].Bundle);
-                        yield break;
+                        //保证bundle是有效的
+                        if (loadAssetBundles[relPath].Bundle != null)
+                        {
+                            complete(loadAssetBundles[relPath].Bundle);
+                            yield break;
+                        }
                     }
 
                     //如果是其他依赖包建立的依赖加载,那么将依赖包加入主包列表
                     if (dependenciesBundles.ContainsKey(relPath))
                     {
-                        loadAssetBundles.Add(relPath, new MainBundle(dependenciesBundles[relPath].Bundle));
-                        complete(loadAssetBundles[relPath].Bundle);
-                        yield break;
+                        //保证bundle是有效的
+                        if (dependenciesBundles[relPath].Bundle != null)
+                        {
+                            loadAssetBundles.Remove(relPath);
+                            loadAssetBundles.Add(relPath, new MainBundle(dependenciesBundles[relPath].Bundle));
+                            complete(loadAssetBundles[relPath].Bundle);
+                            yield break;
+                        }
                     }
                 }
             }
@@ -404,6 +425,7 @@ namespace CatLib.Resources {
             AssetBundle assetTarget = assetTargetBundleRequest.assetBundle;
             if (assetTarget != null)
             {
+                loadAssetBundles.Remove(relPath);
                 loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
             }
             //从加载列表中移除
@@ -439,11 +461,11 @@ namespace CatLib.Resources {
                         break;
                     }
 
-                    //如果是其他依赖包发起的加载，那么直接开始下一个依赖包的加载
-                    if (dependenciesBundles.ContainsKey(dependencies)) { continue; }
+                    //如果是其他依赖包发起的加载同时保证asset bundle是有效的，那么直接开始下一个依赖包的加载
+                    if (dependenciesBundles.ContainsKey(dependencies) && dependenciesBundles[dependencies].Bundle != null) { continue; }
 
-                    //如果是主包发起的加载，那么这次请求只需要将主包拷贝入依赖列表
-                    if (loadAssetBundles.ContainsKey(dependencies))
+                    //如果是主包发起的加载同时保证asset bundle是有效的，那么这次请求只需要将主包拷贝入依赖列表
+                    if (loadAssetBundles.ContainsKey(dependencies) && loadAssetBundles[dependencies].Bundle != null)
                     {
                         dependenciesBundles.Add(dependencies, new DependenciesBundle(loadAssetBundles[dependencies].Bundle));
                         continue;
@@ -471,6 +493,7 @@ namespace CatLib.Resources {
                 //在依赖包中增加请求的asset bundle
                 if (assetBundleDependencies.assetBundle != null)
                 {
+                    dependenciesBundles.Remove(dependencies);
                     dependenciesBundles.Add(dependencies, new DependenciesBundle(assetBundleDependencies.assetBundle));
                 }
 
@@ -508,7 +531,11 @@ namespace CatLib.Resources {
                     //如果被依赖的资源包被当作主包，那么就不移除只删除依赖
                     if (!loadAssetBundles.ContainsKey(assetbundlePath))
                     {
-                        dependenciesBundles[assetbundlePath].Bundle.Unload(true);
+                        //防止assetbundle因为一些意外原因已经被释放了
+                        if (dependenciesBundles[assetbundlePath].Bundle != null)
+                        {
+                            dependenciesBundles[assetbundlePath].Bundle.Unload(true);
+                        }
                     }
                     dependenciesBundles.Remove(assetbundlePath);
                 }
