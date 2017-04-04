@@ -1,7 +1,7 @@
-haqr0.xml|223|<component size="1334,750">
+haqr0.xml|233|<component size="1334,750">
   <displayList>
-    <text id="n0" name="n0" xy="582,272" size="170,34" fontSize="30" text="Hello World"/>
-    <component id="n1" name="n1" src="haqr4" xy="622,348"/>
+    <text id="n0" name="labTitle" xy="582,272" size="170,34" fontSize="30" text="Hello World"/>
+    <component id="n1" name="btnAdd" src="haqr4" xy="622,348"/>
   </displayList>
 </component>haqr4.xml|708|<component size="90,90" extention="Button">
   <Button/>
@@ -19,12 +19,12 @@ haqr0.xml|223|<component size="1334,750">
       <relation target="" sidePair="width,height"/>
     </text>
   </displayList>
-</component>package.xml|424|<packageDescription id="cj4jc7li" name="DemoFairy">
+</component>package.xml|456|<packageDescription id="cj4jc7li" name="DemoFairy">
   <resources>
     <atlas id="atlas0" size="256,128" file="atlas0.png"/>
     <component id="haqr0" name="DemoComponent" exported="true" size="1334,750"/>
     <component id="haqr4" name="DemoButton" exported="true" size="90,90"/>
-    <image id="haqr1" name="button" size="90,90"/>
-    <image id="haqr2" name="button.click" size="90,90"/>
+    <image id="haqr1" name="button" size="90,90" exported="true"/>
+    <image id="haqr2" name="button.click" size="90,90" exported="true"/>
   </resources>
 </packageDescription>

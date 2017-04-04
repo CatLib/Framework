@@ -37,7 +37,7 @@ namespace CatLib.FairyGUI
         /// <summary>
         /// 增加一个包
         /// </summary>
-        /// <param name="assetPath"></param>
+        /// <param name="assetPath">资源包</param>
         /// <returns></returns>
         public UIPackage AddPackage(string assetPath)
         {
