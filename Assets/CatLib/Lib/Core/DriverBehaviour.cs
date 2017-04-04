@@ -26,6 +26,14 @@ namespace CatLib
         protected Driver driver;
 
         /// <summary>
+        /// Awake
+        /// </summary>
+        public void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
+        /// <summary>
         /// 设定驱动器
         /// </summary>
         /// <param name="driver"></param>
