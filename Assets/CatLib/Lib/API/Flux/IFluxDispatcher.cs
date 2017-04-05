@@ -19,17 +19,17 @@ namespace CatLib.API.Flux
 
         bool IsDispatching { get; }
 
-        string On(Action<INotification> action);
+        string On(Action<IAction> action);
 
-        void On(string token, Action<INotification> action);
+        void On(string token, Action<IAction> action);
 
         void Off(string token);
 
-        void WaitFor(string key, INotification payload);
+        void WaitFor(string key, IAction payload);
 
-        void Dispatch(string token, INotification payload);
+        void Dispatch(string token, IAction payload);
 
-        void Dispatch(INotification payload);
+        void Dispatch(IAction payload);
 
     }
 

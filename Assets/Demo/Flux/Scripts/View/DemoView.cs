@@ -48,9 +48,9 @@ namespace CatLib.Demo.Flux
             Refresh();
         }
 
-        protected override void OnChange(INotification notification)
+        protected override void OnChange(IAction action)
         {
-            UnityEngine.Debug.Log(notification.Action + " , count is: " + store.GetCount());
+            UnityEngine.Debug.Log(action.Action + " , count is: " + store.GetCount());
             buttonText.text = "Click To Add (" + store.GetCount() + ")";
         }
 

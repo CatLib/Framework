@@ -24,8 +24,8 @@ namespace CatLib.Demo.Flux
 
         public static void AddCount()
         {
-            //Dispatcher.Dispatch(App.Instance.MakeParams<INotification>(DemoStore.ADD));
-            Dispatcher.Dispatch(new Notification(DemoStore.ADD));
+            //Dispatcher.Dispatch(App.Instance.MakeParams<IAction>(DemoStore.ADD));
+            Dispatcher.Dispatch(new FluxAction(DemoStore.ADD));
         }
 
     }

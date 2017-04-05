@@ -24,18 +24,18 @@ namespace CatLib.Flux
                 return new FluxDispatcher();
             }).Alias<IFluxDispatcher>();
 
-            App.Bind<Notification>((app, param) =>
+            App.Bind<FluxAction>((app, param) =>
             {
                 if (param.Length <= 0) {
-                    return new Notification("undefined");
+                    return new FluxAction("undefined");
                 }else if(param.Length <= 1)
                 {
-                    return new Notification(param[0].ToString());
+                    return new FluxAction(param[0].ToString());
                 }else
                 {
-                    return new Notification(param[0].ToString(), param[1]);
+                    return new FluxAction(param[0].ToString(), param[1]);
                 }
-            }).Alias<INotification>();
+            }).Alias<IAction>();
         }
 
     }

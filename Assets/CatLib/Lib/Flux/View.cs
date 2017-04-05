@@ -56,8 +56,8 @@ namespace CatLib.Flux {
         /// <summary>
         /// 当存储发生变更时
         /// </summary>
-        /// <param name="notification"></param>
-        protected virtual void OnChange(INotification notification) { }
+        /// <param name="action"></param>
+        protected virtual void OnChange(IAction action) { }
 
     }
 
