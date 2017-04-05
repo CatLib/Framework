@@ -8,9 +8,12 @@
  *
  * Document: http://catlib.io/
  */
- 
+
+using System;
+using System.IO;
 using CatLib.API.INI;
 using CatLib.API.IO;
+using CatLib.API;
 
 namespace CatLib.INI
 {
@@ -27,7 +30,56 @@ namespace CatLib.INI
         /// <returns></returns>
         public IINIResult Load(IFile file)
         {
-            return new INIResult(file);
+
+            if (!file.Exists)
+            {
+                throw new IOException("file is not exists:" + file.FullName);
+            }
+
+            if (file.Extension != ".ini")
+            {
+                throw new ArgumentException("ini file path is invalid", "path");
+            }
+
+            var result = new INIResult(file.Read());
+
+            result.SetSaveCallback((data) =>{
+
+                file.Delete();
+                file.Create(data.ToByte());
+
+            });
+
+            return result;
+
+        }
+
+        public IINIResult Load(string iniData){
+
+            var result = new INIResult(iniData);
+
+            result.SetSaveCallback((data) =>{
+
+                throw new CatLibException("not support save with Load(string) loaded result");
+
+            });
+
+            return result;
+
+        }
+
+        public IINIResult Load(byte[] iniData){
+
+            var result = new INIResult(iniData);
+
+            result.SetSaveCallback((data) =>{
+
+                throw new CatLibException("not support save with Load(byte[]) loaded result");
+
+            });
+
+            return result;
+
         }
 
     }

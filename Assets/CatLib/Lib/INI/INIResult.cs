@@ -10,10 +10,8 @@
  */
  
 using System;
-using CatLib.API.IO;
 using CatLib.API.INI;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace CatLib.INI
@@ -24,16 +22,27 @@ namespace CatLib.INI
     /// </summary>
     public class INIResult : IINIResult
     {
+        
+        private event Action<string> OnSave;
 
         private static char[] IGNORE_CHAR = { '#', ';' };
 
-        private IFile file;
         private Dictionary<string, Dictionary<string, string>> iniDict = new Dictionary<string, Dictionary<string, string>>();
 
-        public INIResult(IFile file)
+        public INIResult(byte[] data)
         {
-            this.file = file;
-            LoadData();
+            ParseData(data);
+        }
+
+        public INIResult(string data)
+        {
+            ParseData(data);
+        }
+
+        public void SetSaveCallback(Action<string> action){
+
+            OnSave = action;
+
         }
 
         /// <summary>
@@ -119,25 +128,13 @@ namespace CatLib.INI
                     data.AppendLine(kv.Key + "=" + kv.Value);
                 }
             }
-            file.Delete();
-            file.Create(data.ToString().ToByte());
-        }
 
-        /// <summary>
-        /// 加载数据
-        /// </summary>
-        protected void LoadData()
-        {
-            if (!file.Exists)
-            {
-                throw new IOException("file is not exists:" + file.FullName);
-            }
+            if(OnSave != null){ 
 
-            if (file.Extension != ".ini")
-            {
-                throw new ArgumentException("ini file path is invalid", "path");
+                OnSave.Invoke(data.ToString());
+
             }
-            ParseData(file.Read());
+           
         }
 
         /// <summary>
@@ -147,8 +144,16 @@ namespace CatLib.INI
         protected void ParseData(byte[] data)
         {
             string fileString = Encoding.UTF8.GetString(data);
-            fileString = fileString.Replace("\r\n", "\n");
-            string[] fileArr = fileString.Split('\n');
+            ParseData(fileString);
+        }
+
+        /// <summary>
+        /// 解析数据
+        /// </summary>
+        protected void ParseData(string data){
+
+            data = data.Replace("\r\n", "\n");
+            string[] fileArr = data.Split('\n');
 
             string line;
             string section = string.Empty;
@@ -160,6 +165,7 @@ namespace CatLib.INI
                 section = ParseSection(section , line);
                 ParseKV(section, line);
             }
+
         }
 
         protected bool IsIgnore(string line)

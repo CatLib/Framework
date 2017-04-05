@@ -18,6 +18,11 @@ namespace CatLib.API.INI
     {
 
         IINIResult Load(IFile file);
+
+        IINIResult Load(string iniData);
+        
+        IINIResult Load(byte[] iniData);
+    
     }
 
 }
