@@ -21,6 +21,8 @@ CatLib是为Unity3D开发的全栈开发框架，我们通过集成常见的开�
 - [Json](http://catlib.io/?page=catlib.json.json), [Protobuf](http://catlib.io/?page=catlib.protobuf.protobuf)等主流协议的解析支持
 - [加密](http://catlib.io/?page=catlib.crypt.crypt), [哈希](http://catlib.io/?page=catlib.hash.hash), [压缩](http://catlib.io/?page=catlib.compress.compress)
 
+CatLib提供了构建一个游戏所必备的基础组件 , 您可以通过接口简单的调用就可以访问这些组件的特性. 您也可以根据业务需求自由组合搭配这些组件，来构建一个完整的项目。无论您是一个新的项目还是一个正在被开发的项目，您都可以轻松的嵌入CatLib。绝大多数的CatLib的组件都可以被单独使用，我们也欢迎其他的框架开发者来使用这些组件。
+
 ## 学习CatLib
 
 我们已经准备了各个组件的教程，您只需要进入 [CatLib 中文手册](http://catlib.io) 就可以看到她们。
