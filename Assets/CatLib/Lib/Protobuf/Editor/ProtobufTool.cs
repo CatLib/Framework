@@ -29,15 +29,20 @@ namespace CatLib.Protobuf
         [MenuItem("CatLib/Protobuf Builder/Build", false, 5)]
         public static void BuildProtobuf()
         {
+
+            string savekey = "_" + typeof(ProtobufTool).ToString() + ".BuildProtobuf";
+
             IEnv env = App.Instance.Make<IEnv>();
 
-            string protoPath = EditorUtility.OpenFilePanel("Choose .Proto File", UnityEngine.Application.dataPath, "proto");
+            string protoPath = EditorUtility.OpenFilePanel("Choose .Proto File", UnityEngine.PlayerPrefs.GetString(savekey, UnityEngine.Application.dataPath), "proto");
 
             if (string.IsNullOrEmpty(protoPath)) { return; }
 
             string saveTo = EditorUtility.SaveFilePanel("Save Proto File", protoPath, System.IO.Path.GetFileNameWithoutExtension(protoPath), "cs");
 
             if (string.IsNullOrEmpty(saveTo)) { return; }
+
+            UnityEngine.PlayerPrefs.SetString(savekey, System.IO.Path.GetDirectoryName(protoPath));
 
             string call = null;
             if(env.Platform == UnityEngine.RuntimePlatform.WindowsEditor)
@@ -50,12 +55,17 @@ namespace CatLib.Protobuf
             if (string.IsNullOrEmpty(call)) { UnityEngine.Debug.Log("not support this platform to build"); return; }
 
             ProcessStartInfo start = new ProcessStartInfo(call);
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
             start.Arguments = Arguments.Replace("{in}", protoPath).Replace("{out}", saveTo);
             start.CreateNoWindow = false;
             start.ErrorDialog = true;
             start.UseShellExecute = true;
 
             Process p = Process.Start(start);
+            p.WaitForExit();
+            UnityEngine.Debug.Log("protobuf build complete.");
+            AssetDatabase.Refresh();
 
         }
 
