@@ -9,11 +9,18 @@
  * Document: http://catlib.io/
  */
  
+using System;
+
 namespace CatLib.API.INI
 {
 
     public interface IINIResult
     {
+
+        /// <summary>
+        /// 当存储时
+        /// </summary>
+        void SetSaveCallback(Action<string> action);
 
         /// <summary>
         /// 获取一个ini配置
