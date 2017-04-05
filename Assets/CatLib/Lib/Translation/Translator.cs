@@ -8,9 +8,9 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.Collections.Generic;
-using CatLib.API.Translator;
+using CatLib.API.Translation;
 
 namespace CatLib.Translation{
 
@@ -100,7 +100,7 @@ namespace CatLib.Translation{
 
 			string line = Get(locale , key , replace);
 			if(line == null){ line = Get(fallback, key , replace); }
-			return line;
+			return line??string.Empty;
 
 		}
 
