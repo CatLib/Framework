@@ -25,9 +25,9 @@ namespace CatLib.Flux
 
         }
 
-        protected override INotification Notification()
+        protected override IAction StoreAction()
         {
-            return new Notification(NotificationName);
+            return new FluxAction(ActionName);
         }
 
     }

@@ -19,13 +19,13 @@ namespace CatLib.API.Flux
         /// 增加监听
         /// </summary>
         /// <param name="action"></param>
-        void AddListener(Action<INotification> action);
+        void AddListener(Action<IAction> action);
 
         /// <summary>
         /// 移除监听
         /// </summary>
         /// <param name="action"></param>
-        void RemoveListener(Action<INotification> action);
+        void RemoveListener(Action<IAction> action);
 
         /// <summary>
         /// 调度器

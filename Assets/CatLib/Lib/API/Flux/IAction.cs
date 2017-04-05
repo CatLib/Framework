@@ -3,13 +3,13 @@ namespace CatLib.API.Flux
 {
 
     /// <summary>
-    /// 通知
+    /// 行为
     /// </summary>
-    public interface INotification
+    public interface IAction
     {
 
         /// <summary>
-        /// 通知行为
+        /// 行为
         /// </summary>
         string Action { get; }
 
@@ -19,7 +19,7 @@ namespace CatLib.API.Flux
 		object Payload { get; set; }
 
         /// <summary>
-        /// 字符串化通知
+        /// 字符串化行为
         /// </summary>
         /// <returns></returns>
         string ToString();

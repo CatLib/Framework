@@ -15,13 +15,13 @@ namespace CatLib.Flux
 {
 
     /// <summary>
-    /// 通知
+    /// 行为
     /// </summary>
-    public class Notification : INotification
+    public class FluxAction : IAction
     {
 
         /// <summary>
-        /// 通知行为
+        /// 行为行为
         /// </summary>
         private string action;
 
@@ -31,7 +31,7 @@ namespace CatLib.Flux
         private object payload;
 
         /// <summary>
-        /// 通知行为
+        /// 行为
         /// </summary>
         public virtual string Action
         {
@@ -54,19 +54,19 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 创建一个通知
+        /// 创建一个行为
         /// </summary>
-        /// <param name="action">通知行为</param>
-        public Notification(string action)
+        /// <param name="action">行为</param>
+        public FluxAction(string action)
             : this(action, null)
         { }
 
         /// <summary>
-        /// 创建一个通知
+        /// 创建一个行为
         /// </summary>
-        /// <param name="action">通知行为</param>
+        /// <param name="action">行为</param>
         /// <param name="payload">附带物体</param>
-        public Notification(string action, object payload)
+        public FluxAction(string action, object payload)
         {
             this.action = action;
             this.payload = payload;

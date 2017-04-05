@@ -51,10 +51,10 @@ namespace CatLib.Demo.Flux
         /// <summary>
         /// 当存储接受到调度时
         /// </summary>
-        /// <param name="notification"></param>
-        protected override void OnDispatch(INotification notification)
+        /// <param name="action"></param>
+        protected override void OnDispatch(IAction action)
         {
-            switch (notification.Action)
+            switch (action.Action)
             {
                 case ADD:
                     Add();

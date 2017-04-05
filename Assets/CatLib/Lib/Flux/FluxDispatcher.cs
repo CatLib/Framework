@@ -31,7 +31,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 调度列表
         /// </summary>
-        private Dictionary<string , Action<INotification>> callbacks;
+        private Dictionary<string , Action<IAction>> callbacks;
 
         /// <summary>
         /// 是否处于调度中
@@ -55,7 +55,7 @@ namespace CatLib.Flux
 
         public FluxDispatcher()
         {
-            callbacks = new Dictionary<string, Action<INotification>>();
+            callbacks = new Dictionary<string, Action<IAction>>();
             isDispatching = false;
             isPending = new Dictionary<string, bool>();
             isHandled = new Dictionary<string, bool>();
@@ -78,7 +78,7 @@ namespace CatLib.Flux
         /// 注册一个匿名调度事件
         /// </summary>
         /// <param name="action"></param>
-        public string On(Action<INotification> action)
+        public string On(Action<IAction> action)
         {
             var id = prefix + lastID++;
             On(id, action);
@@ -90,7 +90,7 @@ namespace CatLib.Flux
         /// </summary>
         /// <param name="token"></param>
         /// <param name="action"></param>
-        public void On(string token , Action<INotification> action)
+        public void On(string token , Action<IAction> action)
         {
             if (callbacks.ContainsKey(token))
             {
@@ -117,8 +117,8 @@ namespace CatLib.Flux
         /// 在调度中执行
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="notification"></param>
-        public void WaitFor(string key, INotification notification)
+        /// <param name="action"></param>
+        public void WaitFor(string key, IAction action)
         {
             if (!isDispatching)
             {
@@ -132,31 +132,31 @@ namespace CatLib.Flux
                 throw new CatLibException("Dispatcher.WaitFor(...): Circular dependency detected while waiting for : " + key + ".");
             }
      
-            InvokeCallback(key, notification);
+            InvokeCallback(key, action);
         }
 
         /// <summary>
         /// 进行调度
         /// </summary>
         /// <param name="token">token</param>
-        /// <param name="notification">通知</param>
-        public void Dispatch(string token , INotification notification)
+        /// <param name="action">行为</param>
+        public void Dispatch(string token , IAction action)
         {
             GuardDispatching();
             StartDispatch(token);
-            InvokeCallback(token, notification);
+            InvokeCallback(token, action);
             StopDispatch();
         }
 
         /// <summary>
         /// 进行调度
         /// </summary>
-        /// <param name="notification">通知</param>
-        public void Dispatch(INotification notification)
+        /// <param name="action">行为</param>
+        public void Dispatch(IAction action)
         {
             GuardDispatching();
             StartDispatch();
-            InvokeCallback(notification);
+            InvokeCallback(action);
             StopDispatch();
         }
 
@@ -164,7 +164,6 @@ namespace CatLib.Flux
         /// 开始调度
         /// </summary>
         /// <param name="token"></param>
-        /// <param name="notification"></param>
         protected void StartDispatch(string token)
         {
             GuardCallback(token);
@@ -176,7 +175,6 @@ namespace CatLib.Flux
         /// <summary>
         /// 开始调度
         /// </summary>
-        /// <param name="notification"></param>
         protected void StartDispatch()
         {
             foreach(var kv in callbacks)
@@ -191,24 +189,24 @@ namespace CatLib.Flux
         /// 触发回调
         /// </summary>
         /// <param name="token"></param>
-        /// <param name="notification"></param>
-        protected void InvokeCallback(string token , INotification notification)
+        /// <param name="action"></param>
+        protected void InvokeCallback(string token , IAction action)
         {
             isPending[token] = true;
-            callbacks[token].Invoke(notification);
+            callbacks[token].Invoke(action);
             isHandled[token] = true;
         }
 
         /// <summary>
         /// 触发回调
         /// </summary>
-        /// <param name="notification"></param>
-        protected void InvokeCallback(INotification notification)
+        /// <param name="action"></param>
+        protected void InvokeCallback(IAction action)
         {
             foreach (var kv in callbacks)
             {
                 isPending[kv.Key] = true;
-                kv.Value.Invoke(notification);
+                kv.Value.Invoke(action);
                 isHandled[kv.Key] = true;
             }
         }

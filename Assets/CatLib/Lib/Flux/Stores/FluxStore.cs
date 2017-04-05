@@ -51,12 +51,12 @@ namespace CatLib.Flux
         /// <summary>
         /// 监听者
         /// </summary>
-        protected event Action<INotification> listener;
+        protected event Action<IAction> listener;
 
         /// <summary>
-        /// 通知名
+        /// 行为名
         /// </summary>
-        protected virtual string NotificationName { get { return Name; } }
+        protected virtual string ActionName { get { return Name; } }
 
         /// <summary>
         /// 是否是被释放的
@@ -101,7 +101,7 @@ namespace CatLib.Flux
         /// 增加监听者
         /// </summary>
         /// <param name="action"></param>
-        public void AddListener(Action<INotification> action)
+        public void AddListener(Action<IAction> action)
         {
             if (isDestroy)
             {
@@ -114,7 +114,7 @@ namespace CatLib.Flux
         /// 减少监听者
         /// </summary>
         /// <param name="action"></param>
-        public void RemoveListener(Action<INotification> action)
+        public void RemoveListener(Action<IAction> action)
         {
             if (isDestroy)
             {
@@ -167,22 +167,22 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 通知
+        /// 行为
         /// </summary>
         /// <returns></returns>
-        protected abstract INotification Notification();
+        protected abstract IAction StoreAction();
 
         /// <summary>
         /// 触发调度
         /// </summary>
         /// <param name="payload"></param>
-        private void InvokeOnDispatch(INotification payload)
+        private void InvokeOnDispatch(IAction payload)
         {
             changed = false;
             OnDispatch(payload);
             if (changed && listener != null)
             {
-                listener.Invoke(Notification());
+                listener.Invoke(StoreAction());
             }
         }
 
@@ -190,7 +190,7 @@ namespace CatLib.Flux
         /// 被调度
         /// </summary>
         /// <param name="payload"></param>
-        protected virtual void OnDispatch(INotification payload)
+        protected virtual void OnDispatch(IAction payload)
         {
             throw new CatLibException(GetType().Name + " has not overridden FluxStore.OnDispatch(), which is required");
         }
