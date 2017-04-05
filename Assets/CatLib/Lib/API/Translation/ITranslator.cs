@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Translator{
+namespace CatLib.API.Translation{
 
 	/// <summary>
 	/// 翻译(国际化)

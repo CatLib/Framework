@@ -27,9 +27,13 @@ namespace CatLib.IO
             App.Singleton<IO>().Alias<IIOFactory>().Resolving((app , bind, obj)=>{
 
                 IConfigStore config = app.Make<IConfigStore>();
-                IO io = obj as IO;
 
-                io.SetQuery((name) => config.Get<Hashtable>(typeof(IO) , name , null));
+                if(config != null){
+
+                    IO io = obj as IO;
+                    io.SetQuery((name) => config.Get<Hashtable>(typeof(IO) , name , null));
+                    
+                }
 
                 return obj;
 

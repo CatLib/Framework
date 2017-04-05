@@ -13,7 +13,7 @@ using CatLib.API;
 using CatLib.API.TimeQueue;
 using CatLib.API.INI;
 using CatLib.API.IO;
-using CatLib.API.Translator;
+using CatLib.API.Translation;
 using CatLib.API.Json;
 using CatLib.API.Compress;
 using CatLib.API.DataTable;
