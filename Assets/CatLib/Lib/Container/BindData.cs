@@ -22,39 +22,6 @@ namespace CatLib.Container {
     {
 
         /// <summary>
-        /// 绑定关系临时数据
-        /// </summary>
-        public class GivenData : IGivenData
-        {
-
-            protected BindData bindData;
-
-            protected string needs;
-
-            public GivenData(BindData bindData , string needs)
-            {
-                this.bindData = bindData;
-                this.needs = needs;
-            }
-
-            public IBindData Given(string service)
-            {
-                return bindData.AddContextual(needs, service);
-            }
-
-            /// <summary>
-            /// 给与什么服务
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <returns></returns>
-            public IBindData Given<T>()
-            {
-                return Given(typeof(T).ToString());
-            }
-
-        }
-
-        /// <summary>
         /// 服务名
         /// </summary>
         public string Service { get; protected set; }
@@ -110,6 +77,15 @@ namespace CatLib.Container {
         public IGivenData Needs<T>()
         {
             return Needs(typeof(T).ToString());
+        }
+
+        /// <summary>
+        /// 拦截器
+        /// </summary>
+        public IBindData Interceptor<T>(){
+
+            return this;
+
         }
 
         /// <summary>
@@ -176,7 +152,7 @@ namespace CatLib.Container {
         /// </summary>
         /// <param name="needs">需求</param>
         /// <param name="given">给与</param>
-        protected BindData AddContextual(string needs , string given)
+        public BindData AddContextual(string needs , string given)
         {
             if (contextual == null) { contextual = new Dictionary<string, string>(); }
             contextual.Add(needs, given);

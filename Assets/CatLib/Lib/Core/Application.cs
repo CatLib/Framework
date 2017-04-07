@@ -122,7 +122,7 @@ namespace CatLib
         public Application(UnityEngine.MonoBehaviour behaviour) 
             : base(behaviour)
         {
-
+            
         }
 
         /// <summary>

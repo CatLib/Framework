@@ -52,9 +52,14 @@ namespace CatLib.Container
         private List<Func<IContainer , IBindData, object, object>> decorator = new List<Func<IContainer , IBindData, object , object>>();
 
         /// <summary>
-        /// 锁定器
+        /// locker
         /// </summary>
         private object locker = new object();
+
+        /// <summary>
+        /// AOP代理
+        /// </summary>
+        private IBoundProxy proxy;
 
         public Container(){
 
@@ -67,6 +72,8 @@ namespace CatLib.Container
                     }
                 }
             }
+
+            proxy = new BoundProxy();
 
         }
 
@@ -356,9 +363,6 @@ namespace CatLib.Container
                     instances.Remove(service);
                 }
 
-                var bindData = GetBindData(service);
-                objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
-
                 instances.Add(service, objectData);
 
             }
@@ -411,8 +415,17 @@ namespace CatLib.Container
 
             if (!withConcrete || (withConcrete && bindData.Concrete != null))
             {
+
                 DIAttr(bindData, objectData);
 
+                if(proxy != null){
+
+                    objectData = proxy.Bound(objectData , bindData);
+
+                }
+
+                objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
+                
                 if (bindData.IsStatic)
                 {
                     Instance(service, objectData);
