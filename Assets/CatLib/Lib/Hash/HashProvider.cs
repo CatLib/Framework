@@ -20,9 +20,9 @@ namespace CatLib.Hash
 
         public override void Register()
         {
-            App.Singleton<Hash>().Alias<IHash>().OnResolving((app , bind, obj)=>{
+            App.Singleton<Hash>().Alias<IHash>().OnResolving((obj)=>{
 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
                 Hash hash = obj as Hash;
 
                 hash.SetFactor(config.Get<int>(typeof(Hash) , "factor" , 6));

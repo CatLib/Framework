@@ -24,9 +24,9 @@ namespace CatLib.Resources
         public override void Register()
         {
             App.Singleton<AssetBundleLoader>().Alias<IAssetBundle>();
-            App.Singleton<Resources>().Alias<IResources>().OnResolving((app , bind, obj)=>{
+            App.Singleton<Resources>().Alias<IResources>().OnResolving((obj)=>{
 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
 
                 if (config != null)
                 {

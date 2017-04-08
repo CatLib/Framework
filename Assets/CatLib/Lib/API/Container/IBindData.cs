@@ -60,7 +60,7 @@ namespace CatLib.API.Container
         /// <summary>
         /// 当解决这个服务时
         /// </summary>
-        IBindData OnResolving(Func<IContainer, IBindData, object, object> func);
+        IBindData OnResolving(Func<object, object> func);
 
     }
 }

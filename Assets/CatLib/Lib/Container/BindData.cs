@@ -54,7 +54,7 @@ namespace CatLib.Container {
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , IBindData, object, object>> decorator;
+        private List<Func<object, object>> decorator;
 
         public BindData(IContainer container, string service , Func<IContainer, object[], object> concrete, bool isStatic)
         {
@@ -141,9 +141,9 @@ namespace CatLib.Container {
         /// 解决问题时触发的回掉
         /// </summary>
         /// <param name="func"></param>
-        public IBindData OnResolving(Func<IContainer , IBindData, object, object> func)
+        public IBindData OnResolving(Func<object, object> func)
         {
-            if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
+            if (decorator == null) { decorator = new List<Func<object, object>>(); }
             decorator.Add(func);
             return this;
         }
@@ -156,9 +156,9 @@ namespace CatLib.Container {
         public object ExecDecorator(object obj)
         {
             if (decorator == null) { return obj; }
-            foreach(Func<IContainer , IBindData, object, object> func in decorator)
+            foreach(Func<object, object> func in decorator)
             {
-                obj = func(container , this , obj);
+                obj = func(obj);
             }
             return obj;
         }

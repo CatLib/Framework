@@ -49,7 +49,7 @@ namespace CatLib.Container
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , IBindData, object, object>> decorator;
+        private List<Func<IBindData, object, object>> decorator;
 
         /// <summary>
         /// locker
@@ -361,16 +361,16 @@ namespace CatLib.Container
         /// 当解决类型时触发的事件
         /// </summary>
         /// <param name="func"></param>
-        public IContainer OnResolving(Func<IContainer , IBindData, object, object> func)
+        public IContainer OnResolving(Func<IBindData, object, object> func)
         {
             lock (locker)
             {
-                if (decorator == null) { decorator = new List<Func<IContainer, IBindData, object, object>>(); }
+                if (decorator == null) { decorator = new List<Func<IBindData, object, object>>(); }
                 decorator.Add(func);
                 foreach (KeyValuePair<string, object> data in instances)
                 {
                     var bindData = GetBindData(data.Key);
-                    instances[data.Key] = func(this, bindData, data.Value);
+                    instances[data.Key] = func(bindData, data.Value);
                 }
                 return this;
             }
@@ -386,9 +386,9 @@ namespace CatLib.Container
         {
             if (decorator != null)
             {
-                foreach (Func<IContainer , IBindData, object, object> func in decorator)
+                foreach (Func<IBindData, object, object> func in decorator)
                 {
-                    obj = func(this , bindData, obj);
+                    obj = func(bindData, obj);
                 }
             }
             return obj;
@@ -642,7 +642,7 @@ namespace CatLib.Container
             typeDict = new Dictionary<string, Type>();
             instances = new Dictionary<string, object>();
             binds = new Dictionary<string, BindData>();
-            decorator = new List<Func<IContainer, IBindData, object, object>>();
+            decorator = new List<Func<IBindData, object, object>>();
             proxy = new BoundProxy();
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())

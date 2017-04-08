@@ -22,11 +22,11 @@ namespace CatLib.CsvStore{
 		public override void Register()
         {
 
-            App.Singleton<CsvStore>().Alias<ICsvStore>().Alias("csv.store").OnResolving((app , bind, obj)=>{
+            App.Singleton<CsvStore>().Alias<ICsvStore>().Alias("csv.store").OnResolving((obj)=>{
 
 				CsvStore store = obj as CsvStore;
 
-				IConfigStore confStore = app.Make<IConfigStore>();
+				IConfigStore confStore = App.Make<IConfigStore>();
 				
 				if(confStore != null){
 
@@ -34,8 +34,8 @@ namespace CatLib.CsvStore{
 
 					if(root != null){
 						
-						IEnv env = app.Make<IEnv>();
-						IIOFactory io = app.Make<IIOFactory>();
+						IEnv env = App.Make<IEnv>();
+						IIOFactory io = App.Make<IIOFactory>();
 						IDisk disk = io.Disk();
 
 						#if UNITY_EDITOR

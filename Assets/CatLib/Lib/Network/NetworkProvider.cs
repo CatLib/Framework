@@ -25,9 +25,9 @@ namespace CatLib.Network
 
         public override void Register()
         {
-            App.Singleton<Network>().Alias<INetworkFactory>().OnResolving((app , bind , obj)=>{
+            App.Singleton<Network>().Alias<INetworkFactory>().OnResolving((obj)=>{
 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
                 Network network = obj as Network;
 
                 network.SetQuery((name) => config.Get<Hashtable>(typeof(Network) , name , null));

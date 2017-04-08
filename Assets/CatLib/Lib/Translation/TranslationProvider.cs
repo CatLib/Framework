@@ -26,13 +26,13 @@ namespace CatLib.Translation{
 			RegisterLoader();
 			RegisterSelector();
 
-		App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving((app , bind , obj)=>{
+		App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving((obj)=>{
 
-				IConfigStore config = app.Make<IConfigStore>();
+				IConfigStore config = App.Make<IConfigStore>();
 				Translator tran = obj as Translator;
 				
-				IFileLoader loader = app.Make("translation.loader") as IFileLoader;
-				ISelector selector = app.Make("translation.selector") as ISelector;
+				IFileLoader loader = App.Make("translation.loader") as IFileLoader;
+				ISelector selector = App.Make("translation.selector") as ISelector;
 
 				tran.SetFileLoader(loader);
 				tran.SetSelector(selector);

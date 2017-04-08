@@ -19,7 +19,7 @@ namespace CatLib.LocalSetting
 
         public override void Register()
         {
-            App.Singleton<LocalSetting>().Alias<ILocalSetting>().Alias("local-setting").OnResolving((app, bind, obj) =>
+            App.Singleton<LocalSetting>().Alias<ILocalSetting>().Alias("local-setting").OnResolving((obj) =>
             {
                 (obj as LocalSetting).SetSettingStore(new UnitySetting());
                 return obj;

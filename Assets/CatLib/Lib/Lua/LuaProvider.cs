@@ -35,9 +35,9 @@ namespace CatLib.Lua
 
         public override void Register()
         {
-            App.Singleton<LuaStore>().Alias<ILua>().OnResolving((app , bind , obj)=>{
+            App.Singleton<LuaStore>().Alias<ILua>().OnResolving((obj)=>{
 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
                 LuaStore store = obj as LuaStore;
 
                 store.SetHotfixPath(config.Get<string[]>(typeof(LuaStore) , "lua.hotfix.path" , null));

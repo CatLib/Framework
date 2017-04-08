@@ -105,7 +105,7 @@ namespace CatLib {
 
             mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
-            OnResolving((container, bindData, obj) =>
+            OnResolving((bindData , obj) =>
             {
                 if (bindData.IsStatic){ Load(obj); }
                 return obj;
