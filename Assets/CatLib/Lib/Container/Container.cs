@@ -439,7 +439,7 @@ namespace CatLib.Container
             {
                 return bindData.Concrete(this, param);
             }
-            return NormalMake(bindData.Service , false , param); //Build(bindData , bindData.Service, param);
+            return NormalMake(bindData.Service , false , param); //Build(bindData , bindData.Service, param); 这句语句之前导致了没有正确给定注入实体。但是我们先保留一段时间后再删除
         }
 
         /// <summary>构造服务</summary>
