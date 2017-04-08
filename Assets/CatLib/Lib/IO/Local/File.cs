@@ -259,7 +259,7 @@ namespace CatLib.IO
                 throw new System.IO.IOException("file is not exists : " + FullName);
 
             }
-
+            
             using (System.IO.FileStream fs = new System.IO.FileStream(FullName , System.IO.FileMode.Open))
             {
                 byte[] data = new byte[fs.Length];

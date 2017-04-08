@@ -27,30 +27,33 @@ namespace CatLib.CsvStore{
 				CsvStore store = obj as CsvStore;
 
 				IConfigStore confStore = app.Make<IConfigStore>();
+				
+				if(confStore != null){
 
-				string root = confStore.Get(typeof(CsvStore), "root", null);
+					string root = confStore.Get(typeof(CsvStore), "root", null);
 
-				if(root != null){
-					
-					IEnv env = app.Make<IEnv>();
-					IIOFactory io = app.Make<IIOFactory>();
-					IDisk disk = io.Disk();
+					if(root != null){
+						
+						IEnv env = app.Make<IEnv>();
+						IIOFactory io = app.Make<IIOFactory>();
+						IDisk disk = io.Disk();
 
-					#if UNITY_EDITOR
-					if(env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev){
+						#if UNITY_EDITOR
+						if(env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev){
 
-						disk.SetConfig(new Hashtable(){
+							disk.SetConfig(new Hashtable(){
 
-							{"root" , env.AssetPath + env.ResourcesNoBuildPath}
-							
-						});
+								{"root" , env.AssetPath + env.ResourcesNoBuildPath}
+								
+							});
+
+						}
+						#endif
+
+						store.SetDirctory(disk.Directory(root));
 
 					}
-					#endif
 
-
-					store.SetDirctory(disk.Directory(root));
-				
 				}
 
 				return store;
