@@ -13,6 +13,12 @@ namespace CatLib.Container{
 
     public interface IBoundProxy{
 
+        /// <summary>
+        /// 构建代理
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="bindData"></param>
+        /// <returns></returns>
         object Bound(object target , BindData bindData);
 
     }

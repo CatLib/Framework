@@ -12,6 +12,20 @@ namespace CatLib.Container
     public class InterceptionPipeline
     {
 
+        public InterceptionPipeline Then(Func<object> action)
+        {
+            return this;
+        }
+
+        public object Do()
+        {
+            return null;
+        }
+        
+        public void Add(IInterception interceptor)
+        {
+
+        }
 
     }
 

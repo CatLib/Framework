@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.ObjectModel;
-using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 using CatLib.API.Container;
@@ -11,22 +9,37 @@ namespace CatLib.Container{
     /// <summary>
     /// 拦截动态代理
     /// </summary>
-	public class InterceptingRealProxy : RealProxy
+	public class InterceptingRealProxy : RealProxy , IInterceptingProxy
     {
 
+        /// <summary>
+        /// 拦截器管道
+        /// </summary>
+        private InterceptionPipeline interceptors;
+
+        /// <summary>
+        /// 代理对象
+        /// </summary>
 		private readonly object target;
 		
+        /// <summary>
+        /// 代理类型
+        /// </summary>
 		private string typeName;
 
-		public InterceptingRealProxy(object target, Type classToProxy)
-            : base(classToProxy)
+        /// <summary>
+        /// 构建一个动态代理
+        /// </summary>
+        /// <param name="target"></param>
+		public InterceptingRealProxy(object target)
+            : base(target.GetType())
         {
             this.target = target;
             typeName = target.GetType().FullName;
         }
 
         /// <summary>
-        /// 拦截
+        /// 增加拦截
         /// </summary>
         /// <param name="interceptor"></param>
         public void AddInterception(IInterception interceptor)
@@ -35,7 +48,7 @@ namespace CatLib.Container{
             {
                 throw new ArgumentNullException("interceptor", "can not be null");
             }
-            //this.interceptorsPipeline.Add(interceptor);
+            interceptors.Add(interceptor);
         }
         
         /// <summary>
@@ -46,10 +59,32 @@ namespace CatLib.Container{
 		public override IMessage Invoke(IMessage msg)
         {
 			IMethodCallMessage callMessage = (IMethodCallMessage)msg;
-			UnityEngine.Debug.Log("before Invoke");
-            var ret = ((IMethodCallMessage)msg).MethodBase.Invoke(target, callMessage.InArgs);
-            UnityEngine.Debug.Log("after Invoke");
-            return new ReturnMessage(ret, null, 0, null, null);
+
+            MethodInvoke methodInvoke = new MethodInvoke(callMessage, target);
+
+            try
+            {
+
+                var ret = interceptors.Then(() =>
+                {
+
+                    return ((IMethodCallMessage)msg).MethodBase.Invoke(target, callMessage.InArgs);
+
+                });
+
+                return new ReturnMessage(ret,
+                                    methodInvoke.Arguments,
+                                    methodInvoke.Arguments.Length,
+                                    callMessage.LogicalCallContext,
+                                    callMessage);
+
+            }
+            catch(Exception ex)
+            {
+                return new ReturnMessage(ex, callMessage);
+            }
+
+           
 		}
 
 	}

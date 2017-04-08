@@ -1,8 +1,9 @@
 ﻿
 using System.Reflection;
 using System.Collections.Generic;
-
+using System.Collections;
 using System;
+using CatLib.API.Container;
 
 namespace CatLib.Container
 {
@@ -10,9 +11,12 @@ namespace CatLib.Container
     /// <summary>
     /// 参数容器
     /// </summary>
-    public class ParameterCollection
+    public class ParameterCollection : IParameters
     {
 
+        /// <summary>
+        /// 参数信息
+        /// </summary>
         private struct ArgumentInfo
         {
             public int Index;
@@ -27,8 +31,14 @@ namespace CatLib.Container
             }
         }
 
+        /// <summary>
+        /// 参数信息
+        /// </summary>
         private readonly List<ArgumentInfo> argumentInfo;
 
+        /// <summary>
+        /// 参数实体
+        /// </summary>
         private readonly object[] arguments;
 
         /// <summary>
@@ -36,14 +46,14 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="arguments"></param>
         /// <param name="argumentInfo"></param>
-        /// <param name="isArgumentPartOfCollection"></param>
-        public ParameterCollection(object[] arguments, ParameterInfo[] argumentInfo, Predicate<ParameterInfo> isArgumentPartOfCollection)
+        /// <param name="isEffective">参数是否生效</param>
+        public ParameterCollection(object[] arguments, ParameterInfo[] argumentInfo, Predicate<ParameterInfo> isEffective)
         {
             this.arguments = arguments;
             this.argumentInfo = new List<ArgumentInfo>();
             for (int argumentNumber = 0; argumentNumber < argumentInfo.Length; ++argumentNumber)
             {
-                if (isArgumentPartOfCollection(argumentInfo[argumentNumber]))
+                if (isEffective(argumentInfo[argumentNumber]))
                 {
                     this.argumentInfo.Add(new ArgumentInfo(argumentNumber, argumentInfo[argumentNumber]));
                 }
@@ -51,7 +61,7 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 根据下标获取参数
+        /// 根据下标获取参数内容
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -62,7 +72,7 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 根据参数名获取对象
+        /// 根据参数名获取参数内容
         /// </summary>
         /// <param name="parameterName"></param>
         /// <returns></returns>
@@ -73,6 +83,81 @@ namespace CatLib.Container
             set { arguments[argumentInfo[IndexForInputParameterName(parameterName)].Index] = value; }
         }
 
+        /// <summary>
+        /// 获取参数信息
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ParameterInfo GetParameterInfo(int index)
+        {
+            return argumentInfo[index].ParameterInfo;
+        }
+
+        /// <summary>
+        /// 获取参数信息
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        public ParameterInfo GetParameterInfo(string parameterName)
+        {
+            return argumentInfo[IndexForInputParameterName(parameterName)].ParameterInfo;
+        }
+
+        /// <summary>
+        /// 根据下标获取参数名
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public string GetParameterName(int index)
+        {
+            return argumentInfo[index].Name;
+        }
+
+        /// <summary>
+        /// 是否包含参数
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        public bool Contains(string parameterName)
+        {
+            for(int i = 0; i < argumentInfo.Count; i++)
+            {
+                if(argumentInfo[i].Name == parameterName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 是否包含
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool Contains(object value)
+        {
+            return argumentInfo.Exists((ArgumentInfo info) =>
+                    {
+                        var argument = arguments[info.Index];
+
+                        if (argument == null)
+                        {
+                            return value == null;
+                        }
+
+                        return argument.Equals(value);
+                    });
+        }
+
+
+        public IEnumerator GetEnumerator()
+        {
+            for (int i = 0; i < argumentInfo.Count; ++i)
+            {
+                yield return arguments[argumentInfo[i].Index];
+            }
+        }
 
 
         /// <summary>

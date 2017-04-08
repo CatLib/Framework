@@ -10,7 +10,6 @@
  */
 
 using System;
-using System.Runtime.Remoting.Proxies;
 using CatLib.API.Container;
 
 namespace CatLib.Container{
@@ -28,10 +27,17 @@ namespace CatLib.Container{
             IInterception[] interceptors = bindData.GetInterceptors();
             if (interceptors == null) { return target; }
 
-            if(target is MarshalByRefObject) {
+            IInterceptingProxy proxy = null;
+            if (target is MarshalByRefObject) {
 
-                return CreateRealProxy(interceptors, target.GetType(), target);
+                proxy = CreateRealProxy(interceptors, target);
 
+            }
+
+            if (proxy != null)
+            {
+                AddInterceptions(proxy, interceptors);
+                return proxy.GetTransparentProxy();
             }
 
             return target;
@@ -45,18 +51,24 @@ namespace CatLib.Container{
         /// <param name="target"></param>
         /// <param name="additionalInterfaces"></param>
         /// <returns></returns>
-        public object CreateRealProxy(IInterception[] interceotors, Type t, object target)
+        public IInterceptingProxy CreateRealProxy(IInterception[] interceotors, object target)
         {
+            return new InterceptingRealProxy(target);
+        }
 
-            InterceptingRealProxy realProxy = new InterceptingRealProxy(target, t);
-
-            for(int i = 0; i < interceotors.Length; i++)
+        /// <summary>
+        /// 增加拦截器
+        /// </summary>
+        /// <param name="proxy">代理</param>
+        /// <param name="interceotors">要增加的拦截器</param>
+        /// <returns></returns>
+        private IInterceptingProxy AddInterceptions(IInterceptingProxy proxy , IInterception[] interceotors)
+        {
+            for (int i = 0; i < interceotors.Length; i++)
             {
-                realProxy.AddInterception(interceotors[i]);
+                proxy.AddInterception(interceotors[i]);
             }
-
-            return realProxy.GetTransparentProxy();
-
+            return proxy;
         }
 
     }
