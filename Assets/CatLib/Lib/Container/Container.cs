@@ -22,34 +22,76 @@ namespace CatLib.Container
     {
 
         /// <summary>
+        /// 扩展上下文
+        /// </summary>
+        private class ExtensionContextImpl : ExtensionContext
+        {
+
+            /// <summary>
+            /// 容器
+            /// </summary>
+            private readonly Container container;
+
+            /// <summary>
+            /// 扩展上下文
+            /// </summary>
+            /// <param name="container"></param>
+            public ExtensionContextImpl(Container container)
+            {
+                this.container = container;
+            }
+
+            /// <summary>
+            /// 编译策略链
+            /// </summary>
+            public override BuildStrategyChain<BuildStages> BuildStrategy { get { return container.buildStages; } }
+
+            /// <summary>
+            /// 容器
+            /// </summary>
+            public override IContainer Container { get { return container; } }
+
+        }
+
+        /// <summary>
+        /// 编译策略
+        /// </summary>
+        private BuildStrategyChain<BuildStages> buildStages;
+
+        /// <summary>
+        /// 容器扩展
+        /// </summary>
+        private List<ContainerExtension> extensions;
+
+        /// <summary>
         /// 绑定数据
         /// </summary>
-        private Dictionary<string , BindData> binds = new Dictionary<string, BindData>();
+        private Dictionary<string , BindData> binds;
 
         ///<summary>
         /// 静态化内容
         ///</summary>
-        private Dictionary<string, object> instances = new Dictionary<string, object>();
+        private Dictionary<string, object> instances;
 
         ///<summary>
         /// 别名(key: 别名 , value: 服务名)
         ///</summary>
-        private Dictionary<string, string> alias = new Dictionary<string, string>();
+        private Dictionary<string, string> alias;
 
         /// <summary>
         /// 标记
         /// </summary>
-        private Dictionary<string, List<string>> tags = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> tags;
 
         ///<summary>
         /// 类型字典
         ///</summary>
-        private Dictionary<string, Type> typeDict = new Dictionary<string, Type>();
+        private Dictionary<string, Type> typeDict;
 
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , IBindData, object, object>> decorator = new List<Func<IContainer , IBindData, object , object>>();
+        private List<Func<IContainer , IBindData, object, object>> decorator;
 
         /// <summary>
         /// locker
@@ -61,21 +103,10 @@ namespace CatLib.Container
         /// </summary>
         private IBoundProxy proxy;
 
-        public Container(){
-
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if(!typeDict.ContainsKey(type.ToString())){
-                        typeDict.Add(type.ToString() , type);
-                    }
-                }
-            }
-
-            proxy = new BoundProxy();
-
-        }
+        /// <summary>
+        /// 构造一个容器
+        /// </summary>
+        public Container(){ Initialize(); }
 
         /// <summary>
         /// 为一个及以上的服务定义一个标记
@@ -641,6 +672,32 @@ namespace CatLib.Container
 
             return Type.GetType(service);
 
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        private void Initialize()
+        {
+            extensions = new List<ContainerExtension>();
+            buildStages = new BuildStrategyChain<BuildStages>();
+            tags = new Dictionary<string, List<string>>();
+            alias = new Dictionary<string, string>();
+            typeDict = new Dictionary<string, Type>();
+            instances = new Dictionary<string, object>();
+            binds = new Dictionary<string, BindData>();
+            decorator = new List<Func<IContainer, IBindData, object, object>>();
+
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var type in assembly.GetTypes())
+                {
+                    if (!typeDict.ContainsKey(type.ToString()))
+                    {
+                        typeDict.Add(type.ToString(), type);
+                    }
+                }
+            }
         }
 
     }
