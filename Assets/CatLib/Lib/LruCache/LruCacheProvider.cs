@@ -14,7 +14,7 @@ using CatLib.API.LruCache;
 namespace CatLib.LruCache
 {
 
-    public class LruProvider : ServiceProvider
+    public class LruCacheProvider : ServiceProvider
     {
         public override void Register()
         {

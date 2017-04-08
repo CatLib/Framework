@@ -64,7 +64,7 @@ public class Providers{
                 typeof(LocalSettingProvider),
                 typeof(FilterChainProvider),
                 typeof(RoutingProvider),
-                typeof(LruProvider),
+                typeof(LruCacheProvider),
 
                 //以下是测试的提供商,框架本体并不会带有这些提供商
                 typeof(Bootstrap),
