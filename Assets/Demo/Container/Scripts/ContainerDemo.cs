@@ -29,16 +29,16 @@ namespace CatLib.Demo.Container
 
             CatLib.Container.Container container = new CatLib.Container.Container();
 
-            container.Resolving((app, bind, obj) =>
+            container.OnResolving((app, bind, obj) =>
             {
 
-                //Debug.Log("(Global) Container.Resolving() , " + obj.GetType());
+                Debug.Log("(Global) Container.Resolving() , " + obj.GetType());
                 return obj;
 
             });
 
-            NormalBindDemo(container);
-            //AopDemo(container);
+            //NormalBindDemo(container);
+            AopDemo(container);
 
         }
 
@@ -53,10 +53,10 @@ namespace CatLib.Demo.Container
         private void NormalBindDemo(IContainer container)
         {
 
-            container.Bind<NormalBindDemoClass>().Resolving((app, bind, obj) =>
+            container.Bind<NormalBindDemoClass>().OnResolving((app, bind, obj) =>
             {
                 Debug.Log(obj);
-                //Debug.Log("(Local) Container.Resolving() , " + obj.GetType());
+                Debug.Log("(Local) Container.Resolving() , " + obj.GetType());
                 return obj;
 
             }).Alias("normal-bind-demo");
@@ -74,23 +74,28 @@ namespace CatLib.Demo.Container
         {
 
             public void Call() { Debug.Log("NormalBindDemoClass.Call();"); }
+            public void Call(string str) { Debug.Log("NormalBindDemoClass.Call(string); " + str); }
+
+        }
+
+        public class Intercepting : IInterception
+        {
 
         }
 
         private void AopDemo(IContainer container)
         {
-            container.Bind<AopBindDemoClass>().Resolving((app, bind, obj) =>
+            container.Bind<AopBindDemoClass>().OnResolving((app, bind, obj) =>
             {
-                Debug.Log(obj);
-                //Debug.Log("(Local) Container.Resolving() , " + obj.GetType());
+                Debug.Log("(Local) Container.Resolving() , " + obj.GetType());
                 return obj;
 
-            }).Alias("aop-bind-demo");
+            }).Alias("aop-bind-demo").AddInterceptor<Intercepting>();
 
             AopBindDemoClass cls = container.Make("aop-bind-demo") as AopBindDemoClass;
 
-            //cls.Call();
-
+            cls.Call();
+            cls.Call("hello world!");
         }
 
     }

@@ -11,23 +11,52 @@
 
 using System;
 using System.Runtime.Remoting.Proxies;
+using CatLib.API.Container;
 
 namespace CatLib.Container{
 
     class BoundProxy : IBoundProxy{
 
+        /// <summary>
+        /// 创建代理类
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="bindData"></param>
+        /// <returns></returns>
         public object Bound(object target , BindData bindData){
 
-            if(!(target is MarshalByRefObject)) { return target; }
-            RealProxy proxy = CreateProxy(target.GetType(), target);
-            return proxy.GetTransparentProxy();
+            IInterception[] interceptors = bindData.GetInterceptors();
+            if (interceptors == null) { return target; }
+
+            if(target is MarshalByRefObject) {
+
+                return CreateRealProxy(interceptors, target.GetType(), target);
+
+            }
+
+            return target;
 
         }
 
-        public RealProxy CreateProxy(Type t, object target, params Type[] additionalInterfaces)
+        /// <summary>
+        /// 创建动态代理
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="target"></param>
+        /// <param name="additionalInterfaces"></param>
+        /// <returns></returns>
+        public object CreateRealProxy(IInterception[] interceotors, Type t, object target)
         {
-            RealProxy realProxy = new InterceptingRealProxy(target, t, additionalInterfaces);
-            return realProxy;
+
+            InterceptingRealProxy realProxy = new InterceptingRealProxy(target, t);
+
+            for(int i = 0; i < interceotors.Length; i++)
+            {
+                realProxy.AddInterception(interceotors[i]);
+            }
+
+            return realProxy.GetTransparentProxy();
+
         }
 
     }

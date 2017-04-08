@@ -361,7 +361,7 @@ namespace CatLib.Container
         /// 当解决类型时触发的事件
         /// </summary>
         /// <param name="func"></param>
-        public IContainer Resolving(Func<IContainer , IBindData, object, object> func)
+        public IContainer OnResolving(Func<IContainer , IBindData, object, object> func)
         {
             lock (locker)
             {

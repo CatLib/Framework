@@ -43,9 +43,9 @@ namespace CatLib.API.Container
         IGivenData Needs<T>();
 
         /// <summary>
-        /// 设定拦截器
+        /// 添加拦截器
         /// </summary>
-        IBindData Interceptor<T>();
+        IBindData AddInterceptor<T>() where T : IInterception, new();
 
         /// <summary>
         /// 服务别名
@@ -60,7 +60,7 @@ namespace CatLib.API.Container
         /// <summary>
         /// 当解决这个服务时
         /// </summary>
-        IBindData Resolving(Func<IContainer, IBindData, object, object> func);
+        IBindData OnResolving(Func<IContainer, IBindData, object, object> func);
 
     }
 }

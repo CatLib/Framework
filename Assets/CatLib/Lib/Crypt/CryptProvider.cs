@@ -18,7 +18,7 @@ namespace CatLib.Crypt{
 
 		public override void Register()
         {
-            App.Singleton<Crypt>().Alias<ICrypt>().Resolving((app, bind , obj)=>{
+            App.Singleton<Crypt>().Alias<ICrypt>().OnResolving((app, bind , obj)=>{
                 
                 IConfigStore config = app.Make<IConfigStore>();
                 Crypt crypt = obj as Crypt;

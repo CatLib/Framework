@@ -42,6 +42,11 @@ namespace CatLib.Container {
         private Dictionary<string, string> contextual;
 
         /// <summary>
+        /// 拦截器
+        /// </summary>
+        private List<IInterception> interception;
+
+        /// <summary>
         /// 容器
         /// </summary>
         private IContainer container;
@@ -82,10 +87,21 @@ namespace CatLib.Container {
         /// <summary>
         /// 拦截器
         /// </summary>
-        public IBindData Interceptor<T>(){
-
+        public IBindData AddInterceptor<T>() where T : IInterception , new()
+        {
+            if (interception == null) { interception = new List<IInterception>(); }
+            interception.Add(new T());
             return this;
+        }
 
+        /// <summary>
+        /// 获取拦截器
+        /// </summary>
+        /// <returns></returns>
+        public IInterception[] GetInterceptors()
+        {
+            if (interception == null) { return null; }
+            return interception.ToArray();
         }
 
         /// <summary>
@@ -125,7 +141,7 @@ namespace CatLib.Container {
         /// 解决问题时触发的回掉
         /// </summary>
         /// <param name="func"></param>
-        public IBindData Resolving(Func<IContainer , IBindData, object, object> func)
+        public IBindData OnResolving(Func<IContainer , IBindData, object, object> func)
         {
             if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
             decorator.Add(func);

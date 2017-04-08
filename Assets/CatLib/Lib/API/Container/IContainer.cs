@@ -144,7 +144,7 @@ namespace CatLib.API.Container
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        IContainer Resolving(Func<IContainer, IBindData, object, object> func);
+        IContainer OnResolving(Func<IContainer, IBindData, object, object> func);
 
     }
 }
