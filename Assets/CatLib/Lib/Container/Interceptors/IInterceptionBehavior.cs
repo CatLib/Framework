@@ -3,14 +3,11 @@ namespace CatLib.Container
 {
 
     /// <summary>
-    /// 编译上下文
+    /// 拦截器脚本
     /// </summary>
-    public interface IBuilderContext
+    public interface IInterceptionBehavior
     {
-    
-
-
-
+        
     }
 
 }

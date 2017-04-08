@@ -9,15 +9,25 @@
  * Document: http://catlib.io/
  */
 
+using System;
+using System.Runtime.Remoting.Proxies;
+
 namespace CatLib.Container{
 
     class BoundProxy : IBoundProxy{
 
         public object Bound(object target , BindData bindData){
 
-            UnityEngine.Debug.Log("Bound Proxy");
-            return target;
+            if(!(target is MarshalByRefObject)) { return target; }
+            RealProxy proxy = CreateProxy(target.GetType(), target);
+            return proxy.GetTransparentProxy();
 
+        }
+
+        public RealProxy CreateProxy(Type t, object target, params Type[] additionalInterfaces)
+        {
+            RealProxy realProxy = new InterceptingRealProxy(target, t, additionalInterfaces);
+            return realProxy;
         }
 
     }

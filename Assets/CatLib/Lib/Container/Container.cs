@@ -22,48 +22,6 @@ namespace CatLib.Container
     {
 
         /// <summary>
-        /// 扩展上下文
-        /// </summary>
-        private class ExtensionContextImpl : ExtensionContext
-        {
-
-            /// <summary>
-            /// 容器
-            /// </summary>
-            private readonly Container container;
-
-            /// <summary>
-            /// 扩展上下文
-            /// </summary>
-            /// <param name="container"></param>
-            public ExtensionContextImpl(Container container)
-            {
-                this.container = container;
-            }
-
-            /// <summary>
-            /// 编译策略链
-            /// </summary>
-            public override BuildStrategyChain<BuildStages> BuildStrategy { get { return container.buildStages; } }
-
-            /// <summary>
-            /// 容器
-            /// </summary>
-            public override IContainer Container { get { return container; } }
-
-        }
-
-        /// <summary>
-        /// 编译策略
-        /// </summary>
-        private BuildStrategyChain<BuildStages> buildStages;
-
-        /// <summary>
-        /// 容器扩展
-        /// </summary>
-        private List<ContainerExtension> extensions;
-
-        /// <summary>
         /// 绑定数据
         /// </summary>
         private Dictionary<string , BindData> binds;
@@ -128,6 +86,7 @@ namespace CatLib.Container
         /// <returns></returns>
         public object[] Tagged(string tag)
         {
+
             if (!tags.ContainsKey(tag)){ return new object[] { }; }
 
             List<object> result = new List<object>();
@@ -385,7 +344,6 @@ namespace CatLib.Container
 
             lock (locker)
             {
-
                 service = Normalize(service);
                 service = GetAlias(service);
 
@@ -418,6 +376,12 @@ namespace CatLib.Container
             }
         }
 
+        /// <summary>
+        /// 执行全局修饰器
+        /// </summary>
+        /// <param name="bindData"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private object ExecDecorator(BindData bindData, object obj)
         {
             if (decorator != null)
@@ -434,26 +398,23 @@ namespace CatLib.Container
         /// 构造服务
         /// </summary>
         /// <param name="service">服务名</param>
-        /// <param name="withConcrete">是否允许从Concrete获取</param>
+        /// <param name="isFromMake">是否直接调用自Make函数</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        private object NormalMake(string service , bool withConcrete , params object[] param)
+        private object NormalMake(string service , bool isFromMake , params object[] param)
         {
             if (instances.ContainsKey(service)) { return instances[service]; }
 
             var bindData = GetBindData(service);
-            object objectData = withConcrete ? NormalBuild(bindData, param) : Build(bindData , service, param);
+            object objectData = isFromMake ? NormalBuild(bindData, param) : Build(bindData , service, param);
 
-            if (!withConcrete || (withConcrete && bindData.Concrete != null))
+            //只有是来自于make函数的调用时才执行di
+            if (isFromMake /*|| (isFromMake && bindData.Concrete != null)*/) //如果是以闭包形式的bind 那么被屏蔽的语句会导致2次di 但我们依旧先不急着去除等一段时间后再删除
             {
 
                 DIAttr(bindData, objectData);
 
-                if(proxy != null){
-
-                    objectData = proxy.Bound(objectData , bindData);
-
-                }
+                if (proxy != null) { objectData = proxy.Bound(objectData, bindData); }
 
                 objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
                 
@@ -522,7 +483,7 @@ namespace CatLib.Container
         /// <returns></returns>
         private string Normalize(string service)
         {
-            return service;
+            return service.Trim();
         }
 
         /// <summary>属性注入</summary>
@@ -630,7 +591,6 @@ namespace CatLib.Container
             return Make(bindData.GetContextual(info.ParameterType.ToString()), null);
         }
 
-
         /// <summary>
         /// 获取别名最终对应的服务名
         /// </summary>
@@ -645,7 +605,6 @@ namespace CatLib.Container
             return service;
         }
 
-
         /// <summary>获取服务绑定数据</summary>
         /// <param name="service">服务名</param>
         /// <returns></returns>
@@ -657,7 +616,6 @@ namespace CatLib.Container
             }
             return binds[service];
         }
-
 
         /// <summary>获取类型映射</summary>
         /// <param name="service">服务名</param>
@@ -679,14 +637,13 @@ namespace CatLib.Container
         /// </summary>
         private void Initialize()
         {
-            extensions = new List<ContainerExtension>();
-            buildStages = new BuildStrategyChain<BuildStages>();
             tags = new Dictionary<string, List<string>>();
             alias = new Dictionary<string, string>();
             typeDict = new Dictionary<string, Type>();
             instances = new Dictionary<string, object>();
             binds = new Dictionary<string, BindData>();
             decorator = new List<Func<IContainer, IBindData, object, object>>();
+            proxy = new BoundProxy();
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
