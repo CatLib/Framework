@@ -149,7 +149,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRouter OnNotFound(Action<IRequest , IFilterChain<IRequest>> middleware)
+        public IRouter OnNotFound(Action<IRequest , Action<IRequest>> middleware)
         {
             if(onNotFound == null)
             {
@@ -164,7 +164,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRouter OnError(Action<IRequest, IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> middleware)
+        public IRouter OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> middleware)
         {
             if (onError == null)
             {
@@ -344,10 +344,10 @@ namespace CatLib.Routing
                 var middleware = route.GatherMiddleware();
                 if (middleware != null)
                 {
-                    middleware.Then((req, res) =>
+                    middleware.Do(request, response, (req, res) =>
                     {
                         PrepareResponse(req, route.Run(req as Request, res as Response));
-                    }).Do(request, response);
+                    });
                 }
                 else
                 {
@@ -360,10 +360,10 @@ namespace CatLib.Routing
                 var chain = route.GatherOnError();
                 if (chain != null)
                 {
-                    chain.Then((req, res, error) =>
+                    chain.Do(request,response, ex, (req, res, error) =>
                     {
                         ThrowOnError(request, response, ex);
-                    }).Do(request,response, ex);
+                    });
                 } else
                 {
                     ThrowOnError(request, response, ex);

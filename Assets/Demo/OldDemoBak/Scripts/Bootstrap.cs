@@ -103,7 +103,7 @@ public class TestController2 : IMiddleware //实现被路由接口
             f.Add((req, res , next) =>
             {
                 Debug.Log("this is controller middleware");
-                next.Do(req, res);
+                next(req, res);
             });
             return f;
         }
@@ -205,7 +205,7 @@ public class Bootstrap : ServiceProvider
             },"testgroup").Middleware((req, resp, filter) =>
             {
                 Debug.Log("this is group middleware 1");
-                filter.Do(req, resp); //所有中间件必须do不do意味着请求被拦截
+                filter(req, resp); //所有中间件必须do不do意味着请求被拦截
                 Debug.Log("this is group middleware 1 back");
             }).Defaults("say", "this is say"); //只有是请求参数时default才会生效
 
@@ -287,23 +287,21 @@ public class Bootstrap : ServiceProvider
             {
                 Debug.Log("first:" + inData);
                 inData = "zzzz";
-                chain.Do(inData);
+                chain(inData);
                 Debug.Log("first:" + inData);
             });
             bb.Add((inData, chain) =>
             {
                 Debug.Log("second:" + inData);
-                chain.Do(inData);
+                chain(inData);
                 Debug.Log("second:" + inData); //string的不变性
             });
 
-            bb.Then((inData) =>
+            bb.Do("hello" , (inData) =>
             {
                 inData = "end";
                 Debug.Log("end");
             });
-
-            bb.Do("hello");
 
             return;
             var abs = new Foosub() { Hello = 100 , IsTrue = true };

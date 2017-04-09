@@ -141,22 +141,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public RouteOptions OnError(Action<IRequest , IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> middleware)
-        {
-            if (onError == null)
-            {
-                onError = filterChain.Create<IRequest, IResponse, Exception>();
-            }
-            onError.Add(middleware);
-            return this;
-        }
-
-        /// <summary>
-        /// 当路由出现错误时
-        /// </summary>
-        /// <param name="middleware"></param>
-        /// <returns></returns>
-        public RouteOptions OnError(IFilter<IRequest, IResponse, Exception> middleware)
+        public RouteOptions OnError(Action<IRequest , IResponse, Exception, Action<IRequest, IResponse, Exception>> middleware)
         {
             if (onError == null)
             {
@@ -171,22 +156,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public RouteOptions Middleware(Action<IRequest, IResponse, IFilterChain<IRequest, IResponse>> middleware)
-        {
-            if (this.middleware == null)
-            {
-                this.middleware = filterChain.Create<IRequest, IResponse>();
-            }
-            this.middleware.Add(middleware);
-            return this;
-        }
-
-        /// <summary>
-        /// 路由中间件
-        /// </summary>
-        /// <param name="middleware"></param>
-        /// <returns></returns>
-        public RouteOptions Middleware(IFilter<IRequest ,IResponse> middleware)
+        public RouteOptions Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
         {
             if (this.middleware == null)
             {
@@ -240,7 +210,7 @@ namespace CatLib.Routing
         protected void MergeMiddleware(RouteOptions options)
         {
             if (middleware == null) { return; }
-            IFilter<IRequest, IResponse>[] filters = middleware.FilterList;
+            Action<IRequest, IResponse, Action<IRequest, IResponse>>[] filters = middleware.FilterList;
             for (int i = 0; i< filters.Length; i++)
             {
                 options.Middleware(filters[i]);
@@ -255,7 +225,7 @@ namespace CatLib.Routing
         protected void MergeOnError(RouteOptions options)
         {
             if (onError == null) { return; }
-            IFilter<IRequest, IResponse, Exception>[] filters = onError.FilterList;
+            Action<IRequest, IResponse, Exception , Action<IRequest, IResponse, Exception>>[] filters = onError.FilterList;
             for (int i = 0; i < filters.Length; i++)
             {
                 options.OnError(filters[i]);
