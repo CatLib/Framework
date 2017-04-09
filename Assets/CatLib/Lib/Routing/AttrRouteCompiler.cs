@@ -41,6 +41,11 @@ namespace CatLib.Routing
         private Dictionary<string, bool> buildRecord = new Dictionary<string, bool>();
 
         /// <summary>
+        /// 控制器编译记录
+        /// </summary>
+        private Dictionary<string, bool> controllerFuncBuildRecord = new Dictionary<string, bool>();
+
+        /// <summary>
         /// 属性路由编译器
         /// </summary>
         /// <param name="router"></param>
@@ -81,7 +86,8 @@ namespace CatLib.Routing
             object[] obj = type.GetCustomAttributes(this.routed, false);
             if (obj.Length <= 0) { return; }
 
-            Dictionary<string, bool> controllerFuncBuildRecord = new Dictionary<string, bool>();
+            controllerFuncBuildRecord.Clear();
+
             Routed routed = null;
             for (int i = 0; i < obj.Length; i++)
             {
@@ -94,7 +100,7 @@ namespace CatLib.Routing
                     routed.Path = router.GetDefaultScheme() + "://" + ClassOrFunctionNameToRouteName(type.Name);
                 }
 
-                ComplieController(type, routed , controllerFuncBuildRecord);
+                ComplieController(type, routed);
             }
             
         }
@@ -104,7 +110,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="type"></param>
         /// <param name="routed"></param>
-        protected void ComplieController(Type type , Routed baseRouted , Dictionary<string, bool> controllerFuncBuildRecord)
+        protected void ComplieController(Type type , Routed baseRouted)
         {
 
             //类的属性标记中的基础路径
@@ -114,7 +120,7 @@ namespace CatLib.Routing
             IRoute[] routes;
             foreach (MethodInfo method in methods)
             {
-                if((routes = ComplieFunction(type , method, baseRouted, controllerFuncBuildRecord)) != null)
+                if((routes = ComplieFunction(type , method, baseRouted)) != null)
                 {
                     routeList.AddRange(routes);
                 }
@@ -139,7 +145,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="method"></param>
         /// <param name="baseRouted"></param>
-        protected IRoute[] ComplieFunction(Type type , MethodInfo method, Routed baseRouted, Dictionary<string, bool> controllerFuncBuildRecord)
+        protected IRoute[] ComplieFunction(Type type , MethodInfo method, Routed baseRouted)
         {
 
             object[] routeds = method.GetCustomAttributes(this.routed, false);
