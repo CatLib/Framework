@@ -23,8 +23,12 @@ namespace CatLib.Demo.Routing
         {
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
-
+                
                 IRouter router = App.Make<IRouter>();
+
+                router.Dispatch("attr-routing-simple/call");
+
+                router.Dispatch("catlib://hello-world/call");
 
                 router.Dispatch("attr-routing/class-static#10");
                 Debug.Log(router.Dispatch("attr-routing/return-response/hello my name is anny").GetContext().ToString());

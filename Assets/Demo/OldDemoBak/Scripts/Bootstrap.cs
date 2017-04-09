@@ -91,7 +91,7 @@ public class TestController
 }
 
 [Routed("home://",Defaults ="name=>100,hello=>10" ,Where = "hello=>[0-9]+")] //这里写的所有内容会对类中的路由生效
-public class TestController2 : IRouted , IMiddleware //实现被路由接口
+public class TestController2 : IMiddleware //实现被路由接口
 {
 
     public IFilterChain<IRequest, CatLib.API.Routing.IResponse> Middleware
