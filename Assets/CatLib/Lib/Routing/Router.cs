@@ -103,6 +103,16 @@ namespace CatLib.Routing
         }
 
         /// <summary>
+        /// 获取默认的scheme
+        /// </summary>
+        /// <param name="scheme"></param>
+        /// <returns></returns>
+        public string GetDefaultScheme()
+        {
+            return defaultScheme;
+        }
+
+        /// <summary>
         /// 根据回调行为注册一个路由
         /// </summary>
         /// <param name="uris">统一资源标识符</param>

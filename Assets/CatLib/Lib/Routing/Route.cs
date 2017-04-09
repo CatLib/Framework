@@ -324,7 +324,7 @@ namespace CatLib.Routing
                 mid = (controller as IMiddleware);
             }
 
-            if(mid.Middleware != null)
+            if(mid != null && mid.Middleware != null)
             {
                 mid.Middleware.Then((req, res) =>
                 {
