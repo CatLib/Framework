@@ -1,8 +1,8 @@
-/Library/*
-/obj/*
-/Temp/*
-/*.csproj
-/*.sln
-/Assets/Release/*
+/Library
+/obj
+/Temp
+*.csproj
+*.sln
+/Assets/Release
 .vscode
-.vs/CatLibU3D/v14/.suo
+/.vs
