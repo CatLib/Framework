@@ -73,15 +73,27 @@ namespace CatLib.Demo.Container
         public class AopBindDemoClass : MarshalByRefObject
         {
 
-            public void Call() { Debug.Log("NormalBindDemoClass.Call();"); }
+            public void Call()
+            {
+                Debug.Log("NormalBindDemoClass.Call();");
+                aopDemo.Call("abcdefghijklmn");
+            }
             public void Call(string str) { Debug.Log("NormalBindDemoClass.Call(string); " + str); }
 
         }
 
         public class Intercepting : IInterception
         {
-
+            public object Interception(IMethodInvoke methodInvoke, Func<object> next)
+            {
+                Debug.Log("befor intercepting");
+                var ret = next();
+                Debug.Log("after intercepting");
+                return ret;
+            }
         }
+
+        public static AopBindDemoClass aopDemo;
 
         private void AopDemo(IContainer container)
         {
@@ -93,7 +105,7 @@ namespace CatLib.Demo.Container
             }).Alias("aop-bind-demo").AddInterceptor<Intercepting>();
 
             AopBindDemoClass cls = container.Make("aop-bind-demo") as AopBindDemoClass;
-
+            aopDemo = cls;
             cls.Call();
             cls.Call("hello world!");
         }

@@ -36,6 +36,7 @@ namespace CatLib.Container{
         {
             this.target = target;
             typeName = target.GetType().FullName;
+            interceptors = new InterceptionPipeline();
         }
 
         /// <summary>
@@ -65,10 +66,10 @@ namespace CatLib.Container{
             try
             {
 
-                var ret = interceptors.Then(() =>
+                var ret = interceptors.Do(methodInvoke, () =>
                 {
 
-                    return ((IMethodCallMessage)msg).MethodBase.Invoke(target, callMessage.InArgs);
+                    return ((IMethodCallMessage)msg).MethodBase.Invoke(methodInvoke.Target, methodInvoke.Arguments);
 
                 });
 

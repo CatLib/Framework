@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace CatLib.API.Container
 {
 
@@ -7,7 +9,9 @@ namespace CatLib.API.Container
     /// </summary>
     public interface IInterception
     {
-        
+
+        object Interception(IMethodInvoke methodInvoke, Func<object> next);
+
     }
 
 }
