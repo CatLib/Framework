@@ -39,54 +39,96 @@ namespace CatLib.FilterChain
     public class FilterChain<TIn> : IFilterChain<TIn>
     {
 
-        protected class FilterChainWrapper : IFilter<TIn>
+        /// <summary>
+        /// 过滤器链
+        /// </summary>
+        private List<Action<TIn, Action<TIn>>> filterList;
+
+        /// <summary>
+        /// 过滤器链
+        /// </summary>
+        public Action<TIn, Action<TIn>>[] FilterList { get { return filterList.ToArray(); } }
+
+        /// <summary>
+        /// 堆栈 用于解决内部递归调用过滤器链所出现的问题
+        /// </summary>
+        private Stack<int> stack;
+
+        /// <summary>
+        /// 构建一个过滤器链
+        /// </summary>
+        public FilterChain()
         {
-            protected Action<TIn, IFilterChain<TIn>> filter;
-
-            public FilterChainWrapper(Action<TIn, IFilterChain<TIn>> filter)
-            {
-                this.filter = filter;
-            }
-
-            public void Do(TIn inData, IFilterChain<TIn> chain)
-            {
-                filter(inData, chain);
-            }
+            stack = new Stack<int>();
+            filterList = new List<Action<TIn, Action<TIn>>>();
         }
 
-        protected List<IFilter<TIn>> filterList = new List<IFilter<TIn>>();
-
-        public IFilter<TIn>[] FilterList { get { return filterList.ToArray(); } }
-
-        protected Action<TIn> then;
-
-        protected int index = 0;
-
-        public IFilterChain<TIn> Add(Action<TIn, IFilterChain<TIn>> filter)
-        {
-            return Add(new FilterChainWrapper(filter));
-        }
-
-        public IFilterChain<TIn> Add(IFilter<TIn> filter)
+        /// <summary>
+        /// 增加一个过滤器链
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public IFilterChain<TIn> Add(Action<TIn, Action<TIn>> filter)
         {
             filterList.Add(filter);
             return this;
         }
 
-        public IFilterChain<TIn> Then(Action<TIn> then)
-        {
-            this.then = then;
-            return this;
-        }
-
+        /// <summary>
+        /// 执行过滤器链
+        /// </summary>
+        /// <param name="inData"></param>
         public void Do(TIn inData)
         {
-            if (index >= filterList.Count)
+            Do(inData, null);
+        }
+
+        /// <summary>
+        /// 执行过滤器链
+        /// </summary>
+        /// <param name="inData"></param>
+        /// <param name="then"></param>
+        public void Do(TIn inData, Action<TIn> then)
+        {
+
+            if(filterList.Count <= 0)
             {
-                if (then != null) { then.Invoke(inData); }
+                if (then != null)
+                {
+                    then.Invoke(inData);
+                }
                 return;
             }
-            filterList[index++].Do(inData , this);
+
+            stack.Push(0);
+
+            filterList[0].Invoke(inData, Next(then));
+
+            stack.Pop();
+
+        }
+
+        /// <summary>
+        /// 下一步
+        /// </summary>
+        /// <param name="inData"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
+        private Action<TIn> Next(Action<TIn> then)
+        {
+            return (inData) => {
+
+                int index = stack.Pop();
+                stack.Push(++index);
+                if (index >= filterList.Count)
+                {
+                    then.Invoke(inData);
+                    return;
+                }
+                filterList[index].Invoke(inData, Next(then));
+
+            };
+            
         }
 
     }
@@ -94,54 +136,96 @@ namespace CatLib.FilterChain
     public class FilterChain<TIn, TOut> : IFilterChain<TIn, TOut>
     {
 
-        protected class FilterChainWrapper : IFilter<TIn, TOut>
+        /// <summary>
+        /// 过滤器链
+        /// </summary>
+        private List<Action<TIn, TOut, Action<TIn, TOut>>> filterList;
+
+        /// <summary>
+        /// 过滤器链
+        /// </summary>
+        public Action<TIn, TOut, Action<TIn, TOut>>[] FilterList { get { return filterList.ToArray(); } }
+
+        /// <summary>
+        /// 堆栈 用于解决内部递归调用过滤器链所出现的问题
+        /// </summary>
+        private Stack<int> stack;
+
+        /// <summary>
+        /// 构建一个过滤器链
+        /// </summary>
+        public FilterChain()
         {
-            protected Action<TIn, TOut, IFilterChain<TIn, TOut>> filter;
-
-            public FilterChainWrapper(Action<TIn, TOut, IFilterChain<TIn, TOut>> filter)
-            {
-                this.filter = filter;
-            }
-
-            public void Do(TIn inData , TOut outData, IFilterChain<TIn, TOut> chain)
-            {
-                filter(inData, outData, chain);
-            }
+            stack = new Stack<int>();
+            filterList = new List<Action<TIn, TOut, Action<TIn, TOut>>>();
         }
 
-        protected List<IFilter<TIn, TOut>> filterList = new List<IFilter<TIn, TOut>>();
-
-        public IFilter<TIn, TOut>[] FilterList { get { return filterList.ToArray(); } }
-
-        protected Action<TIn , TOut> then;
-
-        protected int index = 0;
-
-        public IFilterChain<TIn, TOut> Add(Action<TIn , TOut, IFilterChain<TIn, TOut>> filter)
-        {
-            return Add(new FilterChainWrapper(filter));
-        }
-
-        public IFilterChain<TIn, TOut> Add(IFilter<TIn, TOut> filter)
+        /// <summary>
+        /// 增加一个过滤器链
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public IFilterChain<TIn, TOut> Add(Action<TIn, TOut, Action<TIn, TOut>> filter)
         {
             filterList.Add(filter);
             return this;
         }
 
-        public IFilterChain<TIn , TOut> Then(Action<TIn , TOut> then)
-        {
-            this.then = then;
-            return this;
-        }
-
+        /// <summary>
+        /// 执行过滤器链
+        /// </summary>
+        /// <param name="inData"></param>
         public void Do(TIn inData, TOut outData)
         {
-            if (index >= filterList.Count)
+            Do(inData , outData, null);
+        }
+
+        /// <summary>
+        /// 执行过滤器链
+        /// </summary>
+        /// <param name="inData"></param>
+        /// <param name="then"></param>
+        public void Do(TIn inData, TOut outData, Action<TIn, TOut> then)
+        {
+
+            if (filterList.Count <= 0)
             {
-                if (then != null) { then.Invoke(inData , outData); }
+                if (then != null)
+                {
+                    then.Invoke(inData , outData);
+                }
                 return;
             }
-            filterList[index++].Do(inData , outData , this);
+
+            stack.Push(0);
+
+            filterList[0].Invoke(inData , outData, Next(then));
+
+            stack.Pop();
+
+        }
+
+        /// <summary>
+        /// 下一步
+        /// </summary>
+        /// <param name="inData"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
+        private Action<TIn, TOut> Next(Action<TIn, TOut> then)
+        {
+            return (inData , outData) => {
+
+                int index = stack.Pop();
+                stack.Push(++index);
+                if (index >= filterList.Count)
+                {
+                    then.Invoke(inData , outData);
+                    return;
+                }
+                filterList[index].Invoke(inData , outData, Next(then));
+
+            };
+
         }
 
     }
@@ -150,54 +234,96 @@ namespace CatLib.FilterChain
     public class FilterChain<TIn, TOut,TException> : IFilterChain<TIn, TOut, TException>
     {
 
-        protected class FilterChainWrapper : IFilter<TIn, TOut, TException>
+        /// <summary>
+        /// 过滤器链
+        /// </summary>
+        private List<Action<TIn, TOut , TException, Action<TIn, TOut , TException>>> filterList;
+
+        /// <summary>
+        /// 过滤器链
+        /// </summary>
+        public Action<TIn, TOut , TException, Action<TIn, TOut , TException>>[] FilterList { get { return filterList.ToArray(); } }
+
+        /// <summary>
+        /// 堆栈 用于解决内部递归调用过滤器链所出现的问题
+        /// </summary>
+        private Stack<int> stack;
+
+        /// <summary>
+        /// 构建一个过滤器链
+        /// </summary>
+        public FilterChain()
         {
-            protected Action<TIn, TOut, TException, IFilterChain<TIn, TOut , TException>> filter;
-
-            public FilterChainWrapper(Action<TIn, TOut, TException, IFilterChain<TIn, TOut , TException>> filter)
-            {
-                this.filter = filter;
-            }
-
-            public void Do(TIn inData , TOut outData, TException exception, IFilterChain<TIn, TOut , TException> chain)
-            {
-                filter(inData, outData , exception, chain);
-            }
+            stack = new Stack<int>();
+            filterList = new List<Action<TIn, TOut , TException, Action<TIn, TOut , TException>>>();
         }
 
-        protected List<IFilter<TIn, TOut, TException>> filterList = new List<IFilter<TIn, TOut, TException>>();
-
-        public IFilter<TIn, TOut, TException>[] FilterList { get { return filterList.ToArray(); } }
-
-        protected Action<TIn , TOut, TException> then;
-
-        protected int index = 0;
-
-        public IFilterChain<TIn, TOut , TException> Add(Action<TIn, TOut, TException, IFilterChain<TIn, TOut , TException>> filter)
-        {
-            return Add(new FilterChainWrapper(filter));
-        }
-
-        public IFilterChain<TIn, TOut, TException> Add(IFilter<TIn, TOut, TException> filter)
+        /// <summary>
+        /// 增加一个过滤器链
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public IFilterChain<TIn, TOut, TException> Add(Action<TIn, TOut , TException, Action<TIn, TOut , TException>> filter)
         {
             filterList.Add(filter);
             return this;
         }
 
-        public IFilterChain<TIn , TOut, TException> Then(Action<TIn , TOut, TException> then)
+        /// <summary>
+        /// 执行过滤器链
+        /// </summary>
+        /// <param name="inData"></param>
+        public void Do(TIn inData, TOut outData , TException exception)
         {
-            this.then = then;
-            return this;
+            Do(inData, outData ,exception, null);
         }
 
-        public void Do(TIn inData, TOut outData, TException exception)
+        /// <summary>
+        /// 执行过滤器链
+        /// </summary>
+        /// <param name="inData"></param>
+        /// <param name="then"></param>
+        public void Do(TIn inData, TOut outData , TException exception, Action<TIn, TOut , TException> then)
         {
-            if (index >= filterList.Count)
+
+            if (filterList.Count <= 0)
             {
-                if (then != null) { then.Invoke(inData , outData , exception); }
+                if (then != null)
+                {
+                    then.Invoke(inData, outData , exception);
+                }
                 return;
             }
-            filterList[index++].Do(inData , outData ,exception , this);
+
+            stack.Push(0);
+
+            filterList[0].Invoke(inData, outData , exception, Next(then));
+
+            stack.Pop();
+
+        }
+
+        /// <summary>
+        /// 下一步
+        /// </summary>
+        /// <param name="inData"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
+        private Action<TIn, TOut , TException> Next(Action<TIn, TOut , TException> then)
+        {
+            return (inData, outData , exception) => {
+
+                int index = stack.Pop();
+                stack.Push(++index);
+                if (index >= filterList.Count)
+                {
+                    then.Invoke(inData, outData , exception);
+                    return;
+                }
+                filterList[index].Invoke(inData, outData , exception, Next(then));
+
+            };
+
         }
 
     }

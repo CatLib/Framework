@@ -21,12 +21,54 @@ namespace CatLib.Demo.Routing
      * 这个Demo演示了属性路由
      */
 
+    // 路由的最简使用方式
+    // 如果类或者方法没有给定名字那么会自动使用类名或者方法名作为路由路径
+    // 如下面的路由会被默认给定名字：attr-routing-simple/call 
+    [Routed]
+    public class AttrRoutingSimple
+    {
+        [Routed]
+        public void Call(IRequest request, IResponse response)
+        {
+            Debug.Log("this is simple routed");
+        }
+
+        //连续的大写会被视作一个整体最终的路由路径就是：catlib://attr-routing-simple/call-mtest
+        [Routed]
+        public void CallMTest(IRequest request, IResponse response)
+        {
+            Debug.Log("this is CallMTest()");
+        }
+    }
+
+    // CatLib 路由系统允许添加多个路由名
+    [Routed] // catlib://mult-attr-routing-simple
+    [Routed("hello-world")] // catlib://hello-world
+    [Routed("cat://mult-arrt-routing-simple")] // cat://mult-attr-routing-simple
+    public class MultAttrRoutingSimple
+    {
+        // catlib://mult-attr-routing-simple/call
+        // catlib://hello-world/call
+        // cat://mult-attr-routing-simple/call
+        [Routed]
+        // catlib://mult-attr-routing-simple/my-hello
+        // catlib://hello-world/my-hello
+        // cat://mult-attr-routing-simple/my-hello
+        [Routed("my-hello")]
+        // dog://myname/call
+        [Routed("dog://myname/call")]
+        public void Call(IRequest request, IResponse response)
+        {
+            Debug.Log("this is mult simple routed");
+        }
+    }
+
     // 您可以为整个类制定统一的路由规则，他将会对类中的所有路由生效。这是一个可选的操作。
     // 来自函数路由条目的配置优先级总是高于来自全局的配置
+    // 类必须被标记为Routed才能够进行路由
     [Routed("catlib://", Defaults = "desc=>desc from class,age=>18")]
-    // 必须实现接口 IRouted 在框架启动时才会加入路由的编译序列
     // 如果实现了 IMiddleware 接口那么所有指向位这个类的路由将会通过指定的中间件，中间件可以拦截，修改请求。 
-    public class AttrRouting : IRouted, IMiddleware
+    public class AttrRouting : IMiddleware
     {
 
         /// <summary>
@@ -42,7 +84,7 @@ namespace CatLib.Demo.Routing
                 filter.Add((req, res, next) =>
                 {
                     Debug.Log("through controller middleware in");
-                    next.Do(req, res);
+                    next(req, res);
                     Debug.Log("through controller middleware out");
                 });
                 return filter;

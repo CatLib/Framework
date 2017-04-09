@@ -511,6 +511,7 @@ namespace XLua
             throw new LuaException(reason);
         }
 
+#if !XLUA_GENERAL
         [MonoPInvokeCallback(typeof(LuaCSFunction))]
         internal static int Print(RealStatePtr L)
         {
@@ -546,6 +547,7 @@ namespace XLua
                 return LuaAPI.luaL_error(L, "c# exception in print:" + e);
             }
         }
+#endif
 
         [MonoPInvokeCallback(typeof(LuaCSFunction))]
         internal static int LoadSocketCore(RealStatePtr L)
@@ -581,6 +583,7 @@ namespace XLua
             }
         }
 
+#if !XLUA_GENERAL
         [MonoPInvokeCallback(typeof(LuaCSFunction))]
         internal static int LoadFromResource(RealStatePtr L)
         {
@@ -597,7 +600,7 @@ namespace XLua
                 }
                 else
                 {
-                    if (LuaAPI.luaL_loadbuffer(L, file.text, "@" + filename) != 0)
+                    if (LuaAPI.xluaL_loadbuffer(L, file.bytes, file.bytes.Length, "@" + filename) != 0)
                     {
                         return LuaAPI.luaL_error(L, String.Format("error loading module {0} from resource, {1}",
                             LuaAPI.lua_tostring(L, 1), LuaAPI.lua_tostring(L, -1)));
@@ -634,7 +637,7 @@ namespace XLua
                         else
                         {
                             UnityEngine.Debug.LogWarning("load lua file from StreamingAssets is obsolete, filename:" + filename);
-                            if (LuaAPI.luaL_loadbuffer(L, www.text, "@" + filename) != 0)
+                            if (LuaAPI.xluaL_loadbuffer(L, www.bytes, www.bytes.Length , "@" + filename) != 0)
                             {
                                 return LuaAPI.luaL_error(L, String.Format("error loading module {0} from streamingAssetsPath, {1}",
                                     LuaAPI.lua_tostring(L, 1), LuaAPI.lua_tostring(L, -1)));
@@ -646,13 +649,11 @@ namespace XLua
 #else
                 if (File.Exists(filepath))
                 {
-                    Stream stream = File.Open(filepath, FileMode.Open, FileAccess.Read);
-                    StreamReader reader = new StreamReader(stream);
-                    string text = reader.ReadToEnd();
-                    stream.Close();
+                    // string text = File.ReadAllText(filepath);
+                    var bytes = File.ReadAllBytes(filepath);
 
                     UnityEngine.Debug.LogWarning("load lua file from StreamingAssets is obsolete, filename:" + filename);
-                    if (LuaAPI.luaL_loadbuffer(L, text, "@" + filename) != 0)
+                    if (LuaAPI.xluaL_loadbuffer(L, bytes, bytes.Length, "@" + filename) != 0)
                     {
                         return LuaAPI.luaL_error(L, String.Format("error loading module {0} from streamingAssetsPath, {1}",
                             LuaAPI.lua_tostring(L, 1), LuaAPI.lua_tostring(L, -1)));
@@ -671,6 +672,7 @@ namespace XLua
                 return LuaAPI.luaL_error(L, "c# exception in LoadFromStreamingAssetsPath:" + e);
             }
         }
+#endif
 
         [MonoPInvokeCallback(typeof(LuaCSFunction))]
         internal static int LoadFromCustomLoaders(RealStatePtr L)
@@ -708,6 +710,9 @@ namespace XLua
         [MonoPInvokeCallback(typeof(LuaCSFunction))]
         public static int LoadAssembly(RealStatePtr L)
         {
+#if UNITY_WSA && !UNITY_EDITOR
+            return LuaAPI.luaL_error(L, "xlua.load_assembly no support in uwp!");
+#else
             try
             {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
@@ -739,6 +744,7 @@ namespace XLua
             {
                 return LuaAPI.luaL_error(L, "c# exception in xlua.load_assembly:" + e);
             }
+#endif
         }
 
 

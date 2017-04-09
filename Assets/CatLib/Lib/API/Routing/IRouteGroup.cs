@@ -46,14 +46,14 @@ namespace CatLib.API.Routing{
         /// </summary>
         /// <param name="middleware">中间件</param>
         /// <returns></returns>
-        IRouteGroup Middleware(Action<IRequest, IResponse, IFilterChain<IRequest, IResponse>> middleware);
+        IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware);
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        IRouteGroup OnError(Action<IRequest, IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> onError);
+        IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError);
 
 	}
 

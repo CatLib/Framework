@@ -217,7 +217,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRoute OnError(Action<IRequest , IResponse , Exception, IFilterChain<IRequest, IResponse, Exception>> middleware)
+        public IRoute OnError(Action<IRequest , IResponse , Exception, Action<IRequest, IResponse, Exception>> middleware)
         {
             options.OnError(middleware);
             return this;
@@ -228,7 +228,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRoute Middleware(Action<IRequest, IResponse , IFilterChain<IRequest, IResponse>> middleware)
+        public IRoute Middleware(Action<IRequest, IResponse , Action<IRequest, IResponse>> middleware)
         {
             options.Middleware(middleware);
             return this;
@@ -324,12 +324,12 @@ namespace CatLib.Routing
                 mid = (controller as IMiddleware);
             }
 
-            if(mid.Middleware != null)
+            if(mid != null && mid.Middleware != null)
             {
-                mid.Middleware.Then((req, res) =>
+                mid.Middleware.Do(request, response, (req, res) =>
                 {
                     container.Call(controller, action.Func, req, res);
-                }).Do(request, response);
+                });
             }else
             {
                 container.Call(controller, action.Func, request, response);
