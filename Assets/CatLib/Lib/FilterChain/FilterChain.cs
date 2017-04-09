@@ -81,7 +81,7 @@ namespace CatLib.FilterChain
 
         public void Do(TIn inData)
         {
-            if (index >= filterList.Count)
+            if (index >= filterList.Count || filterList.Count <= 0)
             {
                 if (then != null) { then.Invoke(inData); }
                 return;
@@ -136,7 +136,7 @@ namespace CatLib.FilterChain
 
         public void Do(TIn inData, TOut outData)
         {
-            if (index >= filterList.Count)
+            if (index >= filterList.Count || filterList.Count <= 0)
             {
                 if (then != null) { then.Invoke(inData , outData); }
                 return;
@@ -192,7 +192,7 @@ namespace CatLib.FilterChain
 
         public void Do(TIn inData, TOut outData, TException exception)
         {
-            if (index >= filterList.Count)
+            if (index >= filterList.Count || filterList.Count <= 0)
             {
                 if (then != null) { then.Invoke(inData , outData , exception); }
                 return;
