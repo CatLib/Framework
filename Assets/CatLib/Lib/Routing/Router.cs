@@ -72,6 +72,16 @@ namespace CatLib.Routing
         protected Stack<IRouteGroup> routeGroupStack;
 
         /// <summary>
+        /// 请求堆栈
+        /// </summary>
+        protected Stack<IRequest> requestStack;
+
+        /// <summary>
+        /// 响应堆栈
+        /// </summary>
+        protected Stack<IResponse> responseStack;
+
+        /// <summary>
         /// 默认的scheme
         /// </summary>
         protected string defaultScheme;
@@ -89,6 +99,8 @@ namespace CatLib.Routing
             this.filterChain = filterChain;
             schemes = new Dictionary<string, Scheme>();
             routeGroupStack = new Stack<IRouteGroup>();
+            requestStack = new Stack<IRequest>();
+            responseStack = new Stack<IResponse>();
         }
 
         /// <summary>
@@ -194,11 +206,14 @@ namespace CatLib.Routing
                 return null;
             }
 
+            Route route = FindRoute(request);
+            if (route == null) { return null; }
+
+            container.Instance(typeof(IRequest).ToString(), route);
+            requestStack.Push(request);
+
             try
             {
-
-                Route route = FindRoute(request);
-                if (route == null) { return null; }
 
                 request.SetRoute(route);
 
@@ -210,6 +225,15 @@ namespace CatLib.Routing
             {
                 ThrowOnNotFound(request);
                 return null;
+            }
+            finally
+            {
+                requestStack.Pop();
+                if (requestStack.Count > 0)
+                {
+                    container.Instance(typeof(IRequest).ToString(), requestStack.Peek());
+                }
+                else { container.Instance(typeof(IRequest).ToString(), null); }
             }
 
         }
@@ -341,6 +365,8 @@ namespace CatLib.Routing
             try
             {
                 container.Instance(typeof(IResponse).ToString(), response);
+                responseStack.Push(response);
+
                 var middleware = route.GatherMiddleware();
                 if (middleware != null)
                 {
@@ -369,6 +395,18 @@ namespace CatLib.Routing
                     ThrowOnError(request, response, ex);
                 }
                 return null;
+            }
+            finally
+            {
+                responseStack.Pop();
+                if (responseStack.Count > 0)
+                {
+                    container.Instance(typeof(IResponse).ToString(), responseStack.Peek());
+                }
+                else
+                {
+                    container.Instance(typeof(IResponse).ToString(), null);
+                }
             }
         }
 
@@ -402,7 +440,6 @@ namespace CatLib.Routing
         protected Route FindRoute(Request request)
         {
             Route route = schemes[request.CatLibUri.Scheme].Match(request);
-            container.Instance(typeof(IRequest).ToString(), route);
             return route;
         }
 

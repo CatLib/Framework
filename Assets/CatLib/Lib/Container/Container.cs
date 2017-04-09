@@ -343,10 +343,14 @@ namespace CatLib.Container
         /// <param name="objectData">实体数据</param>
         public void Instance(string service, object objectData)
         {
-            if (objectData == null) { return; }
-
             lock (locker)
             {
+
+                if (objectData == null)
+                {
+                    instances.Remove(service);
+                    return;
+                }
 
                 service = Normalize(service);
                 service = GetAlias(service);
