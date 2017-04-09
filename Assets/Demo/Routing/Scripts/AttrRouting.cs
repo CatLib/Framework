@@ -32,6 +32,13 @@ namespace CatLib.Demo.Routing
         {
             Debug.Log("this is simple routed");
         }
+
+        //连续的大写会被视作一个整体最终的路由路径就是：catlib://attr-routing-simple/call-mtest
+        [Routed]
+        public void CallMTest(IRequest request, IResponse response)
+        {
+            Debug.Log("this is CallMTest()");
+        }
     }
 
     // CatLib 路由系统允许添加多个路由名

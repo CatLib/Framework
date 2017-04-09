@@ -329,7 +329,7 @@ namespace CatLib.Routing
             {
                 if(name[i] > 'A' && name[i] < 'Z')
                 {
-                    if(i > 0)
+                    if(i > 0 && !(name[i - 1] > 'A' && name[i - 1] < 'Z'))
                     {
                         builder.Append("-");
                     }
