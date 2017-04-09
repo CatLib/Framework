@@ -27,26 +27,28 @@ namespace CatLib.Demo.FilterChain
 
                 var filters = filterChain.Create<string>();
 
+                bool isCall = true;
                 filters.Add((data, next) =>
                 {
+                    //这里模拟一个递归调用
+                    if (isCall)
+                    {
+                        isCall = false;
+                        filters.Do("sub", (d) => UnityEngine.Debug.Log("filter end , " + d));
+                    }
                     UnityEngine.Debug.Log("hello this is filter chain 1 , " + data);
-                    next.Do(data);
+                    next(data);
                     UnityEngine.Debug.Log("back filter chain 1");
                 });
 
                 filters.Add((data, next) =>
                 {
                     UnityEngine.Debug.Log("hello this is filter chain 2 , " + data);
-                    next.Do(data);
+                    next(data);
                     UnityEngine.Debug.Log("back filter chain 2");
                 });
 
-                filters.Then((data) =>
-                {
-                    UnityEngine.Debug.Log("filter end , " + data);
-                });
-
-                filters.Do("hello world");
+                filters.Do("hello world", (data) => UnityEngine.Debug.Log("filter end , " + data));
 
             });
         }

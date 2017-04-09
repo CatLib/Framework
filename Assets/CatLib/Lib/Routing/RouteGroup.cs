@@ -104,7 +104,7 @@ namespace CatLib.Routing{
         /// </summary>
         /// <param name="middleware">中间件</param>
         /// <returns></returns>
-        public IRouteGroup Middleware(Action<IRequest, IResponse, IFilterChain<IRequest, IResponse>> middleware){
+        public IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware){
 
             options.Middleware(middleware);
             for (int i = 0; i < routes.Count; i++)
@@ -120,7 +120,7 @@ namespace CatLib.Routing{
         /// </summary>
         /// <param name="middleware"></param>
         /// <returns></returns>
-        public IRouteGroup OnError(Action<IRequest, IResponse, Exception, IFilterChain<IRequest, IResponse, Exception>> onError){
+        public IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError){
 
             options.OnError(onError);
             for (int i = 0; i < routes.Count; i++)

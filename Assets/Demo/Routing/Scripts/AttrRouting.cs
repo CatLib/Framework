@@ -84,7 +84,7 @@ namespace CatLib.Demo.Routing
                 filter.Add((req, res, next) =>
                 {
                     Debug.Log("through controller middleware in");
-                    next.Do(req, res);
+                    next(req, res);
                     Debug.Log("through controller middleware out");
                 });
                 return filter;

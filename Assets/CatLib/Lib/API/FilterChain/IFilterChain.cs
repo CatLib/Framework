@@ -35,15 +35,13 @@ namespace CatLib.API.FilterChain
     public interface IFilterChain<TIn>
     {
 
-        IFilter<TIn>[] FilterList { get; }
+        Action<TIn, Action<TIn>>[] FilterList { get; }
 
-        IFilterChain<TIn> Add(Action<TIn, IFilterChain<TIn>> filter);
-
-        IFilterChain<TIn> Add(IFilter<TIn> filter);
-
-        IFilterChain<TIn> Then(Action<TIn> then);
+        IFilterChain<TIn> Add(Action<TIn, Action<TIn>> filter);
 
         void Do(TIn inData);
+
+        void Do(TIn inData, Action<TIn> then);
 
     }
 
@@ -55,15 +53,13 @@ namespace CatLib.API.FilterChain
     public interface IFilterChain<TIn, TOut>
     {
 
-        IFilter<TIn , TOut>[] FilterList { get; }
+        Action<TIn, TOut, Action<TIn, TOut>>[] FilterList { get; }
 
-        IFilterChain<TIn, TOut> Add(Action<TIn, TOut, IFilterChain<TIn, TOut>> filter);
+        IFilterChain<TIn, TOut> Add(Action<TIn, TOut, Action<TIn, TOut>> filter);
 
-        IFilterChain<TIn, TOut> Add(IFilter<TIn, TOut> filter);
+        void Do(TIn inData , TOut outData);
 
-        IFilterChain<TIn, TOut> Then(Action<TIn, TOut> then);
-
-        void Do(TIn inData, TOut outData);
+        void Do(TIn inData , TOut outData, Action<TIn, TOut> then);
 
     }
 
@@ -75,15 +71,13 @@ namespace CatLib.API.FilterChain
     public interface IFilterChain<TIn, TOut, TException>
     {
 
-        IFilter<TIn , TOut , TException>[] FilterList { get; }
+        Action<TIn, TOut , TException, Action<TIn, TOut , TException>>[] FilterList { get; }
 
-        IFilterChain<TIn, TOut , TException> Add(Action<TIn, TOut , TException, IFilterChain<TIn, TOut, TException>> filter);
-
-        IFilterChain<TIn, TOut , TException> Add(IFilter<TIn, TOut , TException> filter);
-
-        IFilterChain<TIn, TOut , TException> Then(Action<TIn, TOut , TException> then);
+        IFilterChain<TIn, TOut , TException> Add(Action<TIn, TOut, TException, Action<TIn, TOut , TException>> filter);
 
         void Do(TIn inData, TOut outData , TException exception);
+
+        void Do(TIn inData, TOut outData , TException exception, Action<TIn, TOut , TException> then);
 
     }
 

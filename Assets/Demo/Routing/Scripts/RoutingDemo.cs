@@ -79,13 +79,13 @@ namespace CatLib.Demo.Routing
                 }).Defaults("param", "this is group default param").OnError((request,res , ex, next) =>
                 {
                     Debug.Log("on error , this is group");
-                    next.Do(request, res, ex);
+                    next(request, res, ex);
                 });
 
                 router.OnError((request, res, ex, next) =>
                 {
                     Debug.Log("on error , this is router");
-                    next.Do(request , res, ex);
+                    next(request , res, ex);
                 });
 
                 router.Dispatch("catlib://group-callback-routing/with-group-1");
