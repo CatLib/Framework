@@ -62,7 +62,7 @@ ForEachCsList(setters, function(setter)
 end)
 
 %>
-namespace CSObjectWrap
+namespace XLua.CSObjectWrap
 {
     using Utils = XLua.Utils;
     public class <%=CSVariableName(type)%>Wrap
@@ -103,20 +103,18 @@ namespace CSObjectWrap
         static int __CreateInstance(RealStatePtr L)
         {
             <% 
-            if constructors.Count == 0  then 
-			   if type.IsValueType then
-			%>ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			<%=GetPushStatement(type, "default(" .. CsFullTypeName(type).. ")")%>;
-			return 1;
-			<%
-			   else
+            if constructors.Count == 0 and (not type.IsValueType)  then 
             %>return LuaAPI.luaL_error(L, "<%=CsFullTypeName(type)%> does not have a constructor!");<% 
-			   end
             else %>
             ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			try {
-				<% ForEachCsList(constructors, function(constructor, ci)
+				<% 
+				local hasZeroParamsCtor = false
+				ForEachCsList(constructors, function(constructor, ci)
 					local parameters = constructor:GetParameters()
+					if parameters.Length == 0 then
+					    hasZeroParamsCtor = true
+					end
 					local def_count = constructor_def_vals[ci]
 					local param_count = parameters.Length
 					local real_param_count = param_count - def_count
@@ -135,7 +133,15 @@ namespace CSObjectWrap
 					<%=GetPushStatement(type, "__cl_gen_ret")%>;
 					return 1;
 				}
-				<%end)%>
+				<%end)
+				if (not hasZeroParamsCtor) and type.IsValueType then
+				%>
+				if (LuaAPI.lua_gettop(L) == 1)
+				{
+				    <%=GetPushStatement(type, "default(" .. CsFullTypeName(type).. ")")%>;
+			        return 1;
+				}
+				<%end%>
 			}
 			catch(System.Exception __gen_e) {
 				return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
@@ -330,9 +336,9 @@ namespace CSObjectWrap
                         %>    <%=CsFullTypeName(overload.ReturnType)%> __cl_gen_ret = <%
                     end
                     %><%if method.IsStatic then
-                    %><%=CsFullTypeName(type).."."..overload.Name%><%
+                    %><%=CsFullTypeName(type).."."..UnK(overload.Name)%><%
                     else
-                    %>__cl_gen_to_be_invoked.<%=overload.Name%><%
+                    %>__cl_gen_to_be_invoked.<%=UnK(overload.Name)%><%
                     end%>( <%ForEachCsList(parameters, function(parameter, pi) 
                         if pi >= real_param_count then return end
                         if pi ~= 0 then %>, <% end; if parameter.IsOut and parameter.ParameterType.IsByRef then %>out <% elseif parameter.ParameterType.IsByRef then %>ref <% end %><%=parameter.Name%><% end) %> );
@@ -383,7 +389,7 @@ namespace CSObjectWrap
             try {
 			<%if not getter.IsStatic then%>
                 <%=GetSelfStatement(type)%>;
-                <%=GetPushStatement(getter.Type, "__cl_gen_to_be_invoked."..getter.Name)%>;<% else %>    <%=GetPushStatement(getter.Type, CsFullTypeName(type).."."..getter.Name)%>;<% end%>
+                <%=GetPushStatement(getter.Type, "__cl_gen_to_be_invoked."..UnK(getter.Name))%>;<% else %>    <%=GetPushStatement(getter.Type, CsFullTypeName(type).."."..UnK(getter.Name))%>;<% end%>
             } catch(System.Exception __gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + __gen_e);
             }
@@ -402,12 +408,12 @@ namespace CSObjectWrap
 			<%if not setter.IsStatic then %>
                 <%=GetSelfStatement(type)%>;
                 <%if is_struct then %><%=GetCasterStatement(setter.Type, 2, "__cl_gen_value", true)%>;
-				__cl_gen_to_be_invoked.<%=setter.Name%> = __cl_gen_value;<% else 
-              %><%=GetCasterStatement(setter.Type, 2, "__cl_gen_to_be_invoked." .. setter.Name)%>;<%end
+				__cl_gen_to_be_invoked.<%=UnK(setter.Name)%> = __cl_gen_value;<% else 
+              %><%=GetCasterStatement(setter.Type, 2, "__cl_gen_to_be_invoked." .. UnK(setter.Name))%>;<%end
             else 
 				if is_struct then %><%=GetCasterStatement(setter.Type, 1, "__cl_gen_value", true)%>;
-				<%=CsFullTypeName(type)%>.<%=setter.Name%> = __cl_gen_value;<%else
-          %>    <%=GetCasterStatement(setter.Type, 1, CsFullTypeName(type) .."." .. setter.Name)%>;<%end
+				<%=CsFullTypeName(type)%>.<%=UnK(setter.Name)%> = __cl_gen_value;<%else
+          %>    <%=GetCasterStatement(setter.Type, 1, CsFullTypeName(type) .."." .. UnK(setter.Name))%>;<%end
             end%>
             <%if NeedUpdate(type) and not setter.IsStatic then%>
                 <%=GetUpdateStatement(type, 1, "__cl_gen_to_be_invoked")%>;
@@ -444,13 +450,13 @@ namespace CSObjectWrap
 					
 						<%if event.CanAdd then%>
 						if (op == (byte)'+') {
-							__cl_gen_to_be_invoked.<%=event.Name%> += __gen_delegate;
+							__cl_gen_to_be_invoked.<%=UnK(event.Name)%> += __gen_delegate;
 							return 0;
 						} 
 						<%end%>
 						<%if event.CanRemove then%>
 						if (op == (byte)'-') {
-							__cl_gen_to_be_invoked.<%=event.Name%> -= __gen_delegate;
+							__cl_gen_to_be_invoked.<%=UnK(event.Name)%> -= __gen_delegate;
 							return 0;
 						} 
 						<%end%>
@@ -478,13 +484,13 @@ namespace CSObjectWrap
                 
 				<%if event.CanAdd then%>
 				if (__gen_param_count == 2 && LuaAPI.lua_tostring(L, 1) == "+") {
-					<%=CsFullTypeName(type)%>.<%=event.Name%> += __gen_delegate;
+					<%=CsFullTypeName(type)%>.<%=UnK(event.Name)%> += __gen_delegate;
 					return 0;
 				} 
 				<%end%>
 				<%if event.CanRemove then%>
 				if (__gen_param_count == 2 && LuaAPI.lua_tostring(L, 1) == "-") {
-					<%=CsFullTypeName(type)%>.<%=event.Name%> -= __gen_delegate;
+					<%=CsFullTypeName(type)%>.<%=UnK(event.Name)%> -= __gen_delegate;
 					return 0;
 				} 
 				<%end%>

@@ -6,7 +6,7 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || XLUA_GENERAL
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Reflection;
@@ -32,13 +32,14 @@ namespace XLua
 
         private MethodInfo LuaEnv_ThrowExceptionFromError = typeof(LuaEnv).GetMethod("ThrowExceptionFromError");
         private FieldInfo LuaBase_luaEnv = typeof(LuaBase).GetField("luaEnv", BindingFlags.NonPublic | BindingFlags.Instance);
-        private MethodInfo DelegateBridgeBase_errorFuncRef_getter = typeof(DelegateBridgeBase).GetProperty("_errorFuncRef", BindingFlags.NonPublic | BindingFlags.Instance).GetGetMethod(true);
+        private MethodInfo DelegateBridgeBase_errorFuncRef_getter = typeof(LuaBase).GetProperty("_errorFuncRef", BindingFlags.NonPublic | BindingFlags.Instance).GetGetMethod(true);
         private MethodInfo LuaAPI_load_error_func = typeof(LuaAPI).GetMethod("load_error_func");
         private MethodInfo LuaBase_translator_getter  = typeof(LuaBase).GetProperty("_translator", BindingFlags.NonPublic | BindingFlags.Instance).GetGetMethod(true);
         private FieldInfo LuaBase_luaReference = typeof(LuaBase).GetField("luaReference", BindingFlags.NonPublic | BindingFlags.Instance);
         private MethodInfo LuaAPI_lua_getref = typeof(LuaAPI).GetMethod("lua_getref");
         private MethodInfo Type_GetTypeFromHandle = typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
         private MethodInfo ObjectTranslator_PushAny = typeof(ObjectTranslator).GetMethod("PushAny");
+        private MethodInfo ObjectTranslator_PushParams = typeof(ObjectTranslator).GetMethod("PushParams");
         private MethodInfo LuaBase_L_getter = typeof(LuaBase).GetProperty("_L", BindingFlags.NonPublic | BindingFlags.Instance).GetGetMethod(true);
         private MethodInfo LuaAPI_lua_pcall = typeof(LuaAPI).GetMethod("lua_pcall");
         private MethodInfo ObjectTranslator_GetObject = typeof(ObjectTranslator).GetMethod("GetObject", new Type[] { typeof(RealStatePtr),
@@ -138,6 +139,7 @@ namespace XLua
                 int in_param_count = 0;
                 int out_param_count = 0;
                 //translator.PushAny(L, param_in)
+                bool has_params = false;
                 for (int i = 0; i < parameters.Length; ++i)
                 {
                     var pinfo = parameters[i];
@@ -165,9 +167,16 @@ namespace XLua
                         {
                             g.Emit(OpCodes.Box, ptype);
                         }
-                        g.Emit(OpCodes.Callvirt, ObjectTranslator_PushAny);
-
-                        ++in_param_count;
+                        if (pinfo.IsDefined(typeof(System.ParamArrayAttribute), false))
+                        {
+                            g.Emit(OpCodes.Callvirt, ObjectTranslator_PushParams);
+                            has_params = true;
+                        }
+                        else
+                        {
+                            g.Emit(OpCodes.Callvirt, ObjectTranslator_PushAny);
+                            ++in_param_count;
+                        }
                     }
 
                     if (pinfo.ParameterType.IsByRef)
@@ -178,6 +187,18 @@ namespace XLua
 
                 g.Emit(OpCodes.Ldloc_0);
                 g.Emit(OpCodes.Ldc_I4, in_param_count);
+                if (has_params)
+                {
+                    Label l1 = g.DefineLabel();
+
+                    g.Emit(OpCodes.Ldarg, (short)parameters.Length);
+                    g.Emit(OpCodes.Brfalse, l1);
+
+                    g.Emit(OpCodes.Ldarg, (short)parameters.Length);
+                    g.Emit(OpCodes.Ldlen);
+                    g.Emit(OpCodes.Add);
+                    g.MarkLabel(l1);
+                }
                 g.Emit(OpCodes.Ldc_I4, out_param_count + (has_return ? 1 : 0));
                 g.Emit(OpCodes.Ldloc_1);
                 g.Emit(OpCodes.Call, LuaAPI_lua_pcall);
@@ -426,6 +447,7 @@ namespace XLua
 
                     int in_param_count = 0;
                     int out_param_count = 0;
+                    bool has_params = false;
                     //translator.PushAny(L, param_in)
                     for (int i = 0; i < parameters.Length; ++i)
                     {
@@ -454,9 +476,16 @@ namespace XLua
                             {
                                 g.Emit(OpCodes.Box, ptype);
                             }
-                            g.Emit(OpCodes.Callvirt, ObjectTranslator_PushAny);
-
-                            ++in_param_count;
+                            if (pinfo.IsDefined(typeof(System.ParamArrayAttribute), false))
+                            {
+                                g.Emit(OpCodes.Callvirt, ObjectTranslator_PushParams);
+                                has_params = true;
+                            }
+                            else
+                            {
+                                g.Emit(OpCodes.Callvirt, ObjectTranslator_PushAny);
+                                ++in_param_count;
+                            }
                         }
 
                         if (pinfo.ParameterType.IsByRef)
@@ -467,6 +496,18 @@ namespace XLua
 
                     g.Emit(OpCodes.Ldloc_0);
                     g.Emit(OpCodes.Ldc_I4, in_param_count + 1);
+                    if (has_params)
+                    {
+                        Label l1 = g.DefineLabel();
+
+                        g.Emit(OpCodes.Ldarg, (short)parameters.Length);
+                        g.Emit(OpCodes.Brfalse, l1);
+
+                        g.Emit(OpCodes.Ldarg, (short)parameters.Length);
+                        g.Emit(OpCodes.Ldlen);
+                        g.Emit(OpCodes.Add);
+                        g.MarkLabel(l1);
+                    }
                     g.Emit(OpCodes.Ldc_I4, out_param_count + (has_return ? 1 : 0));
                     g.Emit(OpCodes.Ldloc_1);
                     g.Emit(OpCodes.Call, LuaAPI_lua_pcall);
