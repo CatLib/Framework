@@ -33,7 +33,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 被路由的属性
         /// </summary>
-        private Type routed = typeof(Routed);
+        private Type routed = typeof(RoutedAttribute);
 
         /// <summary>
         /// 编译记录
@@ -88,10 +88,10 @@ namespace CatLib.Routing
 
             controllerFuncBuildRecord.Clear();
 
-            Routed routed = null;
+            RoutedAttribute routed = null;
             for (int i = 0; i < obj.Length; i++)
             {
-                routed = obj[i] as Routed;
+                routed = obj[i] as RoutedAttribute;
 
                 if (routed == null) { continue; }
 
@@ -110,7 +110,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="type"></param>
         /// <param name="routed"></param>
-        protected void ComplieController(Type type , Routed baseRouted)
+        protected void ComplieController(Type type , RoutedAttribute baseRouted)
         {
 
             //类的属性标记中的基础路径
@@ -145,17 +145,17 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="method"></param>
         /// <param name="baseRouted"></param>
-        protected IRoute[] ComplieFunction(Type type , MethodInfo method, Routed baseRouted)
+        protected IRoute[] ComplieFunction(Type type , MethodInfo method, RoutedAttribute baseRouted)
         {
 
             object[] routeds = method.GetCustomAttributes(this.routed, false);
             if (routeds.Length <= 0) { return null; }
 
             List<IRoute> ret = new List<IRoute>();
-            Routed routed = null;
+            RoutedAttribute routed = null;
             for (int i = 0; i < routeds.Length; i++)
             {
-                routed = routeds[i] as Routed;
+                routed = routeds[i] as RoutedAttribute;
 
                 //如果没有给定方法路由名则默认提供
                 if (string.IsNullOrEmpty(routed.Path))
@@ -223,7 +223,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="route"></param>
         /// <param name="routed"></param>
-        protected void ComplieOptions(IRoute route , Routed routed)
+        protected void ComplieOptions(IRoute route , RoutedAttribute routed)
         {
             ComplieOptionsGroup(route, routed);
             ComplieOptionsWhere(route, ComplieDirection(routed.Where));
@@ -235,7 +235,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="route"></param>
         /// <param name="routed"></param>
-        protected void ComplieOptionsGroup(IRoute route, Routed routed)
+        protected void ComplieOptionsGroup(IRoute route, RoutedAttribute routed)
         {
             if (!string.IsNullOrEmpty(routed.Group))
             {

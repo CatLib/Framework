@@ -24,13 +24,18 @@ namespace CatLib.Container{
         /// <returns></returns>
         public object Bound(object target , BindData bindData){
 
+            if (target == null) { return null; }
+
             IInterception[] interceptors = bindData.GetInterceptors();
             if (interceptors == null) { return target; }
 
             IInterceptingProxy proxy = null;
             if (target is MarshalByRefObject) {
 
-                proxy = CreateRealProxy(interceptors, target);
+                if(target.GetType().IsDefined(typeof(AOPAttribute) , false))
+                {
+                    proxy = CreateRealProxy(interceptors, target);
+                }
 
             }
 

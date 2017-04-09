@@ -61,6 +61,15 @@ namespace CatLib.Container{
         {
 			IMethodCallMessage callMessage = (IMethodCallMessage)msg;
 
+            if(!callMessage.MethodBase.IsDefined(typeof(AOPAttribute) , false))
+            {
+                return new ReturnMessage(callMessage.MethodBase.Invoke(target, callMessage.Args),
+                                        callMessage.Args,
+                                        callMessage.Args.Length,
+                                        callMessage.LogicalCallContext,
+                                        callMessage);
+            }
+
             MethodInvoke methodInvoke = new MethodInvoke(callMessage, target);
 
             try

@@ -7,7 +7,7 @@ namespace CatLib.API.Routing
     /// 优先级标记
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
-    public class Priority : Attribute
+    public class PriorityAttribute : Attribute
     {
 
         /// <summary>
@@ -15,7 +15,7 @@ namespace CatLib.API.Routing
         /// </summary>
         public int Priorities { get; protected set; }
 
-        public Priority(int priority)
+        public PriorityAttribute(int priority)
         {
             Priorities = priority;
         }

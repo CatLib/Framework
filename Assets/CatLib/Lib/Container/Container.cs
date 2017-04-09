@@ -502,10 +502,10 @@ namespace CatLib.Container
             {
 
                 if (!property.CanWrite) { continue; }
-                object[] propertyAttrs = property.GetCustomAttributes(typeof(Dependency), true);
+                object[] propertyAttrs = property.GetCustomAttributes(typeof(DependencyAttribute), true);
                 if (propertyAttrs.Length <= 0) { continue; }
 
-                Dependency dependency = propertyAttrs[0] as Dependency;
+                DependencyAttribute dependency = propertyAttrs[0] as DependencyAttribute;
                 if (string.IsNullOrEmpty(dependency.Alias))
                 {
                     typeName = property.PropertyType.ToString(); 

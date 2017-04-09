@@ -35,9 +35,9 @@ namespace CatLib.Container
                 return then.Invoke();
             }
 
-            stack.Push(0);
+            stack.Push(-1);
 
-            object ret = interceptionBehaviors[0].Interception(methodInvoke, Next(methodInvoke , then));
+            object ret = WhileToCanCall(methodInvoke, then);
 
             stack.Pop();
 
@@ -51,18 +51,56 @@ namespace CatLib.Container
         /// <param name="methodInvoke"></param>
         /// <param name="then"></param>
         /// <returns></returns>
-        private Func<object> Next(IMethodInvoke methodInvoke, Func<object> then)
+        private Func<object> NextWrapper(IMethodInvoke methodInvoke, Func<object> then)
         {
             return () =>
             {
-                int index = stack.Pop();
+                return WhileToCanCall(methodInvoke, then);
+            };
+        }
+
+        /// <summary>
+        /// 循环到第一个可以调用的拦截器并调用
+        /// </summary>
+        /// <param name="methodInvoke"></param>
+        /// <param name="then"></param>
+        /// <returns></returns>
+        private object WhileToCanCall(IMethodInvoke methodInvoke, Func<object> then)
+        {
+            int index = 0;
+            do
+            {
+                index = stack.Pop();
                 stack.Push(++index);
+
                 if (index >= interceptionBehaviors.Count)
                 {
                     return then.Invoke();
                 }
-                return interceptionBehaviors[index].Interception(methodInvoke, Next(methodInvoke, then));
-            };
+
+            } while (!IsEnable(methodInvoke, interceptionBehaviors[index]));
+
+            return interceptionBehaviors[index].Interception(methodInvoke, NextWrapper(methodInvoke, then));
+        }
+
+        /// <summary>
+        /// 是否是生效的
+        /// </summary>
+        /// <param name="interception"></param>
+        /// <returns></returns>
+        private bool IsEnable(IMethodInvoke methodInvoke, IInterception interception)
+        {
+            if (!interception.Enable) { return false; }
+
+            foreach(var ret in interception.GetRequiredAttr())
+            {
+                if (!methodInvoke.MethodBase.IsDefined(ret, false))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>

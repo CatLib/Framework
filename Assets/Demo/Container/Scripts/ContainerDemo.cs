@@ -12,6 +12,7 @@
 using System;
 using UnityEngine;
 using CatLib.API.Container;
+using System.Collections.Generic;
 
 namespace CatLib.Demo.Container
 {
@@ -70,20 +71,50 @@ namespace CatLib.Demo.Container
         }
 
 
+        [AOP]
         public class AopBindDemoClass : MarshalByRefObject
         {
 
+            //[AOP]
             public void Call()
             {
                 Debug.Log("NormalBindDemoClass.Call();");
                 aopDemo.Call("abcdefghijklmn");
             }
+
+            [AOP]
             public void Call(string str) { Debug.Log("NormalBindDemoClass.Call(string); " + str); }
 
         }
 
+        public class Test : System.Attribute { }
+
+        /// <summary>
+        /// 拦截器
+        /// </summary>
         public class Intercepting : IInterception
         {
+
+            /// <summary>
+            /// 是否生效
+            /// </summary>
+            public bool Enable { get { return true; } }
+
+            /// <summary>
+            /// 必须的特性类型（只有被标记这里列出的特性这个拦截器才会生效）
+            /// </summary>
+            /// <returns></returns>
+            public IEnumerable<Type> GetRequiredAttr()
+            {
+                return Type.EmptyTypes;
+            }
+
+            /// <summary>
+            /// 拦截器
+            /// </summary>
+            /// <param name="methodInvoke"></param>
+            /// <param name="next"></param>
+            /// <returns></returns>
             public object Interception(IMethodInvoke methodInvoke, Func<object> next)
             {
                 Debug.Log("befor intercepting");
