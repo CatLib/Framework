@@ -27,6 +27,7 @@ namespace CatLib.Demo.Routing
                 IRouter router = App.Make<IRouter>();
 
                 router.Dispatch("attr-routing-simple/call");
+                router.Dispatch("attr-routing-simple/call-mtest");
 
                 router.Dispatch("catlib://hello-world/call");
 
