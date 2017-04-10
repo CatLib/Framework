@@ -43,6 +43,7 @@ issues 不仅仅只是用于bug跟踪 , 如果您有好的意见或者想法，�
 
 CatLib使用的开源许可是：[MIT license](http://opensource.org/licenses/MIT).
 
-## 交流QQ群
+## 技术支持
 
-* CatLib：150371044
+* QQ群：150371044
+* email: support@catlib.io
