@@ -21,9 +21,9 @@ namespace CatLib
 
         public override void Register()
         {
-            App.Singleton<Env>().Alias<IEnv>().Resolving((app, bind, obj)=>{
+            App.Singleton<Env>().Alias<IEnv>().OnResolving((obj)=>{
 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
 
                 if (config != null)
                 {

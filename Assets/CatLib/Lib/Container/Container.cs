@@ -24,51 +24,47 @@ namespace CatLib.Container
         /// <summary>
         /// 绑定数据
         /// </summary>
-        private Dictionary<string , BindData> binds = new Dictionary<string, BindData>();
+        private Dictionary<string , BindData> binds;
 
         ///<summary>
         /// 静态化内容
         ///</summary>
-        private Dictionary<string, object> instances = new Dictionary<string, object>();
+        private Dictionary<string, object> instances;
 
         ///<summary>
         /// 别名(key: 别名 , value: 服务名)
         ///</summary>
-        private Dictionary<string, string> alias = new Dictionary<string, string>();
+        private Dictionary<string, string> alias;
 
         /// <summary>
         /// 标记
         /// </summary>
-        private Dictionary<string, List<string>> tags = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> tags;
 
         ///<summary>
         /// 类型字典
         ///</summary>
-        private Dictionary<string, Type> typeDict = new Dictionary<string, Type>();
+        private Dictionary<string, Type> typeDict;
 
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , IBindData, object, object>> decorator = new List<Func<IContainer , IBindData, object , object>>();
+        private List<Func<IBindData, object, object>> decorator;
 
         /// <summary>
-        /// 锁定器
+        /// locker
         /// </summary>
         private object locker = new object();
 
-        public Container(){
+        /// <summary>
+        /// AOP代理
+        /// </summary>
+        private IBoundProxy proxy;
 
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if(!typeDict.ContainsKey(type.ToString())){
-                        typeDict.Add(type.ToString() , type);
-                    }
-                }
-            }
-
-        }
+        /// <summary>
+        /// 构造一个容器
+        /// </summary>
+        public Container(){ Initialize(); }
 
         /// <summary>
         /// 为一个及以上的服务定义一个标记
@@ -90,6 +86,7 @@ namespace CatLib.Container
         /// <returns></returns>
         public object[] Tagged(string tag)
         {
+
             if (!tags.ContainsKey(tag)){ return new object[] { }; }
 
             List<object> result = new List<object>();
@@ -360,9 +357,6 @@ namespace CatLib.Container
                     instances.Remove(service);
                 }
 
-                var bindData = GetBindData(service);
-                objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
-
                 instances.Add(service, objectData);
 
             }
@@ -372,28 +366,34 @@ namespace CatLib.Container
         /// 当解决类型时触发的事件
         /// </summary>
         /// <param name="func"></param>
-        public IContainer Resolving(Func<IContainer , IBindData, object, object> func)
+        public IContainer OnResolving(Func<IBindData, object, object> func)
         {
             lock (locker)
             {
-                if (decorator == null) { decorator = new List<Func<IContainer, IBindData, object, object>>(); }
+                if (decorator == null) { decorator = new List<Func<IBindData, object, object>>(); }
                 decorator.Add(func);
                 foreach (KeyValuePair<string, object> data in instances)
                 {
                     var bindData = GetBindData(data.Key);
-                    instances[data.Key] = func(this, bindData, data.Value);
+                    instances[data.Key] = func(bindData, data.Value);
                 }
                 return this;
             }
         }
 
+        /// <summary>
+        /// 执行全局修饰器
+        /// </summary>
+        /// <param name="bindData"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private object ExecDecorator(BindData bindData, object obj)
         {
             if (decorator != null)
             {
-                foreach (Func<IContainer , IBindData, object, object> func in decorator)
+                foreach (Func<IBindData, object, object> func in decorator)
                 {
-                    obj = func(this , bindData, obj);
+                    obj = func(bindData, obj);
                 }
             }
             return obj;
@@ -403,20 +403,26 @@ namespace CatLib.Container
         /// 构造服务
         /// </summary>
         /// <param name="service">服务名</param>
-        /// <param name="withConcrete">是否允许从Concrete获取</param>
+        /// <param name="isFromMake">是否直接调用自Make函数</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        private object NormalMake(string service , bool withConcrete , params object[] param)
+        private object NormalMake(string service , bool isFromMake , params object[] param)
         {
             if (instances.ContainsKey(service)) { return instances[service]; }
 
             var bindData = GetBindData(service);
-            object objectData = withConcrete ? NormalBuild(bindData, param) : Build(bindData , service, param);
+            object objectData = isFromMake ? NormalBuild(bindData, param) : Build(bindData , service, param);
 
-            if (!withConcrete || (withConcrete && bindData.Concrete != null))
+            //只有是来自于make函数的调用时才执行di
+            if (isFromMake /*|| (isFromMake && bindData.Concrete != null)*/) //如果是以闭包形式的bind 那么被屏蔽的语句会导致2次di 但我们依旧先不急着去除等一段时间后再删除
             {
+
                 DIAttr(bindData, objectData);
 
+                if (proxy != null) { objectData = proxy.Bound(objectData, bindData); }
+
+                objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
+                
                 if (bindData.IsStatic)
                 {
                     Instance(service, objectData);
@@ -438,7 +444,7 @@ namespace CatLib.Container
             {
                 return bindData.Concrete(this, param);
             }
-            return NormalMake(bindData.Service , false , param); //Build(bindData , bindData.Service, param);
+            return NormalMake(bindData.Service , false , param); //Build(bindData , bindData.Service, param); 这句语句之前导致了没有正确给定注入实体。但是我们先保留一段时间后再删除
         }
 
         /// <summary>构造服务</summary>
@@ -482,7 +488,7 @@ namespace CatLib.Container
         /// <returns></returns>
         private string Normalize(string service)
         {
-            return service;
+            return service.Trim();
         }
 
         /// <summary>属性注入</summary>
@@ -496,10 +502,10 @@ namespace CatLib.Container
             {
 
                 if (!property.CanWrite) { continue; }
-                object[] propertyAttrs = property.GetCustomAttributes(typeof(Dependency), true);
+                object[] propertyAttrs = property.GetCustomAttributes(typeof(DependencyAttribute), true);
                 if (propertyAttrs.Length <= 0) { continue; }
 
-                Dependency dependency = propertyAttrs[0] as Dependency;
+                DependencyAttribute dependency = propertyAttrs[0] as DependencyAttribute;
                 if (string.IsNullOrEmpty(dependency.Alias))
                 {
                     typeName = property.PropertyType.ToString(); 
@@ -590,7 +596,6 @@ namespace CatLib.Container
             return Make(bindData.GetContextual(info.ParameterType.ToString()), null);
         }
 
-
         /// <summary>
         /// 获取别名最终对应的服务名
         /// </summary>
@@ -605,7 +610,6 @@ namespace CatLib.Container
             return service;
         }
 
-
         /// <summary>获取服务绑定数据</summary>
         /// <param name="service">服务名</param>
         /// <returns></returns>
@@ -617,7 +621,6 @@ namespace CatLib.Container
             }
             return binds[service];
         }
-
 
         /// <summary>获取类型映射</summary>
         /// <param name="service">服务名</param>
@@ -632,6 +635,31 @@ namespace CatLib.Container
 
             return Type.GetType(service);
 
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        private void Initialize()
+        {
+            tags = new Dictionary<string, List<string>>();
+            alias = new Dictionary<string, string>();
+            typeDict = new Dictionary<string, Type>();
+            instances = new Dictionary<string, object>();
+            binds = new Dictionary<string, BindData>();
+            decorator = new List<Func<IBindData, object, object>>();
+            proxy = new BoundProxy();
+
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var type in assembly.GetTypes())
+                {
+                    if (!typeDict.ContainsKey(type.ToString()))
+                    {
+                        typeDict.Add(type.ToString(), type);
+                    }
+                }
+            }
         }
 
     }

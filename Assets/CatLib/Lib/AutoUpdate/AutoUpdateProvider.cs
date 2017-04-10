@@ -36,9 +36,9 @@ namespace CatLib.AutoUpdate
 
         public override void Register()
         {
-            App.Singleton<AutoUpdate>().Alias<IAutoUpdate>().Resolving((app , bind , obj)=>{
+            App.Singleton<AutoUpdate>().Alias<IAutoUpdate>().OnResolving((obj)=>{
                 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
                 AutoUpdate autoupdate = obj as AutoUpdate;
 
                 autoupdate.SetUpdateAPI(config.Get(typeof(AutoUpdate) , "update.api" , null));

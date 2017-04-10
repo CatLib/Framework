@@ -22,39 +22,6 @@ namespace CatLib.Container {
     {
 
         /// <summary>
-        /// 绑定关系临时数据
-        /// </summary>
-        public class GivenData : IGivenData
-        {
-
-            protected BindData bindData;
-
-            protected string needs;
-
-            public GivenData(BindData bindData , string needs)
-            {
-                this.bindData = bindData;
-                this.needs = needs;
-            }
-
-            public IBindData Given(string service)
-            {
-                return bindData.AddContextual(needs, service);
-            }
-
-            /// <summary>
-            /// 给与什么服务
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <returns></returns>
-            public IBindData Given<T>()
-            {
-                return Given(typeof(T).ToString());
-            }
-
-        }
-
-        /// <summary>
         /// 服务名
         /// </summary>
         public string Service { get; protected set; }
@@ -75,6 +42,11 @@ namespace CatLib.Container {
         private Dictionary<string, string> contextual;
 
         /// <summary>
+        /// 拦截器
+        /// </summary>
+        private List<IInterception> interception;
+
+        /// <summary>
         /// 容器
         /// </summary>
         private IContainer container;
@@ -82,7 +54,7 @@ namespace CatLib.Container {
         /// <summary>
         /// 修饰器
         /// </summary>
-        private List<Func<IContainer , IBindData, object, object>> decorator;
+        private List<Func<object, object>> decorator;
 
         public BindData(IContainer container, string service , Func<IContainer, object[], object> concrete, bool isStatic)
         {
@@ -110,6 +82,26 @@ namespace CatLib.Container {
         public IGivenData Needs<T>()
         {
             return Needs(typeof(T).ToString());
+        }
+
+        /// <summary>
+        /// 拦截器
+        /// </summary>
+        public IBindData AddInterceptor<T>() where T : IInterception , new()
+        {
+            if (interception == null) { interception = new List<IInterception>(); }
+            interception.Add(new T());
+            return this;
+        }
+
+        /// <summary>
+        /// 获取拦截器
+        /// </summary>
+        /// <returns></returns>
+        public IInterception[] GetInterceptors()
+        {
+            if (interception == null) { return null; }
+            return interception.ToArray();
         }
 
         /// <summary>
@@ -149,9 +141,9 @@ namespace CatLib.Container {
         /// 解决问题时触发的回掉
         /// </summary>
         /// <param name="func"></param>
-        public IBindData Resolving(Func<IContainer , IBindData, object, object> func)
+        public IBindData OnResolving(Func<object, object> func)
         {
-            if (decorator == null) { decorator = new List<Func<IContainer , IBindData, object, object>>(); }
+            if (decorator == null) { decorator = new List<Func<object, object>>(); }
             decorator.Add(func);
             return this;
         }
@@ -164,9 +156,9 @@ namespace CatLib.Container {
         public object ExecDecorator(object obj)
         {
             if (decorator == null) { return obj; }
-            foreach(Func<IContainer , IBindData, object, object> func in decorator)
+            foreach(Func<object, object> func in decorator)
             {
-                obj = func(container , this , obj);
+                obj = func(obj);
             }
             return obj;
         }
@@ -176,7 +168,7 @@ namespace CatLib.Container {
         /// </summary>
         /// <param name="needs">需求</param>
         /// <param name="given">给与</param>
-        protected BindData AddContextual(string needs , string given)
+        public BindData AddContextual(string needs , string given)
         {
             if (contextual == null) { contextual = new Dictionary<string, string>(); }
             contextual.Add(needs, given);

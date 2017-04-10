@@ -24,9 +24,9 @@ namespace CatLib.IO
 
         public override void Register()
         {
-            App.Singleton<IO>().Alias<IIOFactory>().Resolving((app , bind, obj)=>{
+            App.Singleton<IO>().Alias<IIOFactory>().OnResolving((obj)=>{
 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
 
                 if(config != null){
 
