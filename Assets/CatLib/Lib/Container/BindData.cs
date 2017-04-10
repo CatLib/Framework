@@ -16,7 +16,7 @@ using CatLib.API.Container;
 namespace CatLib.Container
 {
     /// <summary>
-    /// 绑定关系
+    /// 服务绑定关系
     /// </summary>
     public class BindData : IBindData
     {
@@ -26,7 +26,7 @@ namespace CatLib.Container
         public string Service { get; protected set; }
 
         /// <summary>
-        /// 服务实体
+        /// 服务实现
         /// </summary>
         public Func<IContainer, object[], object> Concrete { get; protected set; }
 
@@ -36,7 +36,7 @@ namespace CatLib.Container
         public bool IsStatic { get; protected set; }
 
         /// <summary>
-        /// 上下文
+        /// 服务关系上下文
         /// </summary>
         private Dictionary<string, string> contextual;
 
@@ -51,17 +51,17 @@ namespace CatLib.Container
         private readonly IContainer container;
 
         /// <summary>
-        /// 修饰器
+        /// 服务修饰器
         /// </summary>
         private List<Func<object, object>> decorator;
 
         /// <summary>
-        /// 绑定数据
+        /// 构建一个绑定数据
         /// </summary>
-        /// <param name="container"></param>
-        /// <param name="service"></param>
-        /// <param name="concrete"></param>
-        /// <param name="isStatic"></param>
+        /// <param name="container">服务容器</param>
+        /// <param name="service">服务名</param>
+        /// <param name="concrete">服务实现</param>
+        /// <param name="isStatic">服务是否是静态的</param>
         public BindData(IContainer container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
             this.container = container;
@@ -71,20 +71,20 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 需求某个服务                                                                                                                                                                                                                                                                                                                                                                                      
+        /// 当需求某个服务                                                                                                                                                                                                                                                                                                                                                                                  
         /// </summary>
-        /// <param name="service"></param>
-        /// <returns></returns>
+        /// <param name="service">服务名</param>
+        /// <returns>绑定关系临时数据</returns>
         public IGivenData Needs(string service)
         {
             return new GivenData(this, service);
         }
 
         /// <summary>
-        /// 需求某个服务
+        /// 当需求某个服务
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">服务类型</typeparam>
+        /// <returns>绑定关系临时数据</returns>
         public IGivenData Needs<T>()
         {
             return Needs(typeof(T).ToString());
@@ -93,6 +93,8 @@ namespace CatLib.Container
         /// <summary>
         /// 拦截器
         /// </summary>
+        /// <typeparam name="T">服务类型</typeparam>
+        /// <returns>服务绑定数据</returns>
         public IBindData AddInterceptor<T>() where T : IInterception, new()
         {
             if (interception == null) { interception = new List<IInterception>(); }
@@ -101,29 +103,29 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 获取拦截器
+        /// 获取服务的拦截器
         /// </summary>
-        /// <returns></returns>
+        /// <returns>当前服务的拦截器</returns>
         public IInterception[] GetInterceptors()
         {
             return interception == null ? null : interception.ToArray();
         }
 
         /// <summary>
-        /// 别名
+        /// 为服务设定一个别名
         /// </summary>
         /// <typeparam name="T">别名</typeparam>
-        /// <returns></returns>
+        /// <returns>服务绑定数据</returns>
         public IBindData Alias<T>()
         {
             return Alias(typeof(T).ToString());
         }
 
         /// <summary>
-        /// 别名
+        /// 为服务设定一个别名
         /// </summary>
         /// <param name="alias">别名</param>
-        /// <returns></returns>
+        /// <returns>服务绑定数据</returns>
         public IBindData Alias(string alias)
         {
             container.Alias(alias, Service);
@@ -134,7 +136,7 @@ namespace CatLib.Container
         /// 获取上下文的需求关系
         /// </summary>
         /// <param name="needs">需求的服务</param>
-        /// <returns></returns>
+        /// <returns>给与的服务</returns>
         public string GetContextual(string needs)
         {
             if (contextual == null) { return needs; }
@@ -142,9 +144,9 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 解决问题时触发的回掉
+        /// 解决服务时触发的回调
         /// </summary>
-        /// <param name="func"></param>
+        /// <param name="func">解决事件</param>
         public IBindData OnResolving(Func<object, object> func)
         {
             if (decorator == null) { decorator = new List<Func<object, object>>(); }
@@ -153,10 +155,10 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 执行修饰器
+        /// 执行服务修饰器
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">服务实例</param>
+        /// <returns>修饰后的服务实例</returns>
         public object ExecDecorator(object obj)
         {
             if (decorator == null) { return obj; }
@@ -168,10 +170,11 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 增加上下文
+        /// 为服务增加上下文
         /// </summary>
-        /// <param name="needs">需求</param>
-        /// <param name="given">给与</param>
+        /// <param name="needs">需求什么服务</param>
+        /// <param name="given">给与什么服务</param>
+        /// <returns>服务绑定数据</returns>
         public BindData AddContextual(string needs, string given)
         {
             if (contextual == null) { contextual = new Dictionary<string, string>(); }

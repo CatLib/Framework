@@ -31,6 +31,8 @@ namespace CatLib.Container
         /// <summary>
         /// 绑定关系临时数据
         /// </summary>
+        /// <param name="bindData">服务绑定数据</param>
+        /// <param name="needs">需求什么服务</param>
         public GivenData(BindData bindData, string needs)
         {
             this.bindData = bindData;
@@ -41,7 +43,7 @@ namespace CatLib.Container
         /// 给与什么服务
         /// </summary>
         /// <param name="service">服务名或别名</param>
-        /// <returns></returns>
+        /// <returns>服务绑定数据</returns>
         public IBindData Given(string service)
         {
             return bindData.AddContextual(needs, service);
@@ -50,8 +52,8 @@ namespace CatLib.Container
         /// <summary>
         /// 给与什么服务
         /// </summary>
-        /// <typeparam name="T">服务</typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">服务名</typeparam>
+        /// <returns>服务绑定数据</returns>
         public IBindData Given<T>()
         {
             return Given(typeof(T).ToString());
