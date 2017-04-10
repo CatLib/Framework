@@ -45,5 +45,6 @@ CatLib使用的开源许可是：[MIT license](http://opensource.org/licenses/MI
 
 ## 技术支持
 
-* QQ群：150371044
+* QQ群: 150371044
 * email: support@catlib.io
+* slack: [catlib.slack](https://catlib.slack.com/messages/internals/)
