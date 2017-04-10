@@ -23,22 +23,22 @@ namespace CatLib.Demo.Compress
         {
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
-                //IIOFactory fac = App.Make<IIOFactory>();
-                //IDisk disk = fac.Disk();
-                //IFile file = disk.File("hello.gz");
-                ICompress comp = App.Make<ICompress>();
-                byte[] byt = comp.Compress("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte());
+                string str = @"helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld
+                                helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld
+                                helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld
+                                helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld
+                                helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld";
 
-                UnityEngine.Debug.Log("UnCompress: " + "helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte().Length);
-                UnityEngine.Debug.Log("Compress: " + byt.Length);
-                //file.Create(byt);
+                UnityEngine.Debug.Log("Compress String before: " + str);
+                UnityEngine.Debug.Log("Compress Length before: " + str.ToByte().Length);
+
+                ICompress comp = App.Make<ICompress>();
+                byte[] byt = comp.Compress(str.ToByte());
+
+                UnityEngine.Debug.Log("Compress Length: " + byt.Length);
 
                 byt = comp.UnCompress(byt);
-                UnityEngine.Debug.Log(System.Text.Encoding.UTF8.GetString(byt));
-
-                //byte[] debyt = comp.Expand(byt);
-
-                //Debug.Log(System.Text.Encoding.UTF8.GetString(debyt));
+                UnityEngine.Debug.Log("UnCompress String" +  System.Text.Encoding.UTF8.GetString(byt));
             });
         }
 
