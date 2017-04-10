@@ -15,15 +15,13 @@ using System.Collections.Generic;
 
 namespace CatLib.Container
 {
-
     /// <summary>
     /// 拦截器管道
     /// </summary>
     public class InterceptionPipeline
     {
-
         private readonly List<IInterception> interceptionBehaviors;
-        private Stack<int> stack;
+        private readonly Stack<int> stack;
 
         public InterceptionPipeline()
         {
@@ -37,9 +35,8 @@ namespace CatLib.Container
         /// <param name="methodInvoke"></param>
         /// <param name="then"></param>
         /// <returns></returns>
-        public object Do(IMethodInvoke methodInvoke , Func<object> then)
+        public object Do(IMethodInvoke methodInvoke, Func<object> then)
         {
-
             if (interceptionBehaviors.Count <= 0)
             {
                 return then.Invoke();
@@ -47,12 +44,11 @@ namespace CatLib.Container
 
             stack.Push(-1);
 
-            object ret = WhileToCanCall(methodInvoke, then);
+            var ret = WhileToCanCall(methodInvoke, then);
 
             stack.Pop();
 
             return ret;
-
         }
 
         /// <summary>
@@ -63,10 +59,7 @@ namespace CatLib.Container
         /// <returns></returns>
         private Func<object> NextWrapper(IMethodInvoke methodInvoke, Func<object> then)
         {
-            return () =>
-            {
-                return WhileToCanCall(methodInvoke, then);
-            };
+            return () => WhileToCanCall(methodInvoke, then);
         }
 
         /// <summary>
@@ -77,7 +70,7 @@ namespace CatLib.Container
         /// <returns></returns>
         private object WhileToCanCall(IMethodInvoke methodInvoke, Func<object> then)
         {
-            int index = 0;
+            int index;
             do
             {
                 index = stack.Pop();
@@ -87,7 +80,6 @@ namespace CatLib.Container
                 {
                     return then.Invoke();
                 }
-
             } while (!IsEnable(methodInvoke, interceptionBehaviors[index]));
 
             return interceptionBehaviors[index].Interception(methodInvoke, NextWrapper(methodInvoke, then));
@@ -96,13 +88,12 @@ namespace CatLib.Container
         /// <summary>
         /// 是否是生效的
         /// </summary>
-        /// <param name="interception"></param>
         /// <returns></returns>
         private bool IsEnable(IMethodInvoke methodInvoke, IInterception interception)
         {
             if (!interception.Enable) { return false; }
 
-            foreach(var ret in interception.GetRequiredAttr())
+            foreach (var ret in interception.GetRequiredAttr())
             {
                 if (!methodInvoke.MethodBase.IsDefined(ret, false))
                 {
@@ -121,7 +112,5 @@ namespace CatLib.Container
         {
             interceptionBehaviors.Add(interceptor);
         }
-
     }
-
 }

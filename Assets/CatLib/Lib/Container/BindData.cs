@@ -8,19 +8,18 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections.Generic;
 using CatLib.API.Container;
 
-namespace CatLib.Container {
-
+namespace CatLib.Container
+{
     /// <summary>
     /// 绑定关系
     /// </summary>
     public class BindData : IBindData
     {
-
         /// <summary>
         /// 服务名
         /// </summary>
@@ -49,14 +48,21 @@ namespace CatLib.Container {
         /// <summary>
         /// 容器
         /// </summary>
-        private IContainer container;
+        private readonly IContainer container;
 
         /// <summary>
         /// 修饰器
         /// </summary>
         private List<Func<object, object>> decorator;
 
-        public BindData(IContainer container, string service , Func<IContainer, object[], object> concrete, bool isStatic)
+        /// <summary>
+        /// 绑定数据
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="service"></param>
+        /// <param name="concrete"></param>
+        /// <param name="isStatic"></param>
+        public BindData(IContainer container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
             this.container = container;
             Service = service;
@@ -87,7 +93,7 @@ namespace CatLib.Container {
         /// <summary>
         /// 拦截器
         /// </summary>
-        public IBindData AddInterceptor<T>() where T : IInterception , new()
+        public IBindData AddInterceptor<T>() where T : IInterception, new()
         {
             if (interception == null) { interception = new List<IInterception>(); }
             interception.Add(new T());
@@ -100,8 +106,7 @@ namespace CatLib.Container {
         /// <returns></returns>
         public IInterception[] GetInterceptors()
         {
-            if (interception == null) { return null; }
-            return interception.ToArray();
+            return interception == null ? null : interception.ToArray();
         }
 
         /// <summary>
@@ -133,8 +138,7 @@ namespace CatLib.Container {
         public string GetContextual(string needs)
         {
             if (contextual == null) { return needs; }
-            if (contextual.ContainsKey(needs)) { return contextual[needs]; }
-            return needs;
+            return contextual.ContainsKey(needs) ? contextual[needs] : needs;
         }
 
         /// <summary>
@@ -156,7 +160,7 @@ namespace CatLib.Container {
         public object ExecDecorator(object obj)
         {
             if (decorator == null) { return obj; }
-            foreach(Func<object, object> func in decorator)
+            foreach (var func in decorator)
             {
                 obj = func(obj);
             }
@@ -168,12 +172,11 @@ namespace CatLib.Container {
         /// </summary>
         /// <param name="needs">需求</param>
         /// <param name="given">给与</param>
-        public BindData AddContextual(string needs , string given)
+        public BindData AddContextual(string needs, string given)
         {
             if (contextual == null) { contextual = new Dictionary<string, string>(); }
             contextual.Add(needs, given);
             return this;
         }
     }
-
 }

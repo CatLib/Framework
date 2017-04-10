@@ -10,53 +10,49 @@
  */
 
 using System;
+using System.Collections.Generic;
 using CatLib.API.Container;
 
-namespace CatLib.Container{
-
-    class BoundProxy : IBoundProxy{
-
+namespace CatLib.Container
+{
+    /// <summary>
+    /// 代理
+    /// </summary>
+    internal class BoundProxy : IBoundProxy
+    {
         /// <summary>
         /// 创建代理类
         /// </summary>
         /// <param name="target"></param>
         /// <param name="bindData"></param>
         /// <returns></returns>
-        public object Bound(object target , BindData bindData){
-
+        public object Bound(object target, BindData bindData)
+        {
             if (target == null) { return null; }
 
-            IInterception[] interceptors = bindData.GetInterceptors();
+            var interceptors = bindData.GetInterceptors();
             if (interceptors == null) { return target; }
 
             IInterceptingProxy proxy = null;
-            if (target is MarshalByRefObject) {
-
-                if(target.GetType().IsDefined(typeof(AOPAttribute) , false))
-                {
-                    proxy = CreateRealProxy(interceptors, target);
-                }
-
-            }
-
-            if (proxy != null)
+            if (target is MarshalByRefObject)
             {
-                AddInterceptions(proxy, interceptors);
-                return proxy.GetTransparentProxy();
+                if (target.GetType().IsDefined(typeof(AOPAttribute), false))
+                {
+                    proxy = CreateRealProxy(target);
+                }
             }
 
-            return target;
+            if (proxy == null) { return target; }
 
+            AddInterceptions(proxy, interceptors);
+            return proxy.GetTransparentProxy();
         }
 
         /// <summary>
         /// 创建动态代理
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="target"></param>
-        /// <param name="additionalInterfaces"></param>
         /// <returns></returns>
-        public IInterceptingProxy CreateRealProxy(IInterception[] interceotors, object target)
+        private IInterceptingProxy CreateRealProxy(object target)
         {
             return new InterceptingRealProxy(target);
         }
@@ -67,15 +63,13 @@ namespace CatLib.Container{
         /// <param name="proxy">代理</param>
         /// <param name="interceotors">要增加的拦截器</param>
         /// <returns></returns>
-        private IInterceptingProxy AddInterceptions(IInterceptingProxy proxy , IInterception[] interceotors)
+        private void AddInterceptions(IInterceptingProxy proxy, IList<IInterception> interceotors)
         {
-            for (int i = 0; i < interceotors.Length; i++)
+            for (var i = 0; i < interceotors.Count; i++)
             {
                 proxy.AddInterception(interceotors[i]);
             }
-            return proxy;
         }
-
     }
 
 }

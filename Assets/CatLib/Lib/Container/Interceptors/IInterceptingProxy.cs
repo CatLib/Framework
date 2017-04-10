@@ -13,14 +13,12 @@ using CatLib.API.Container;
 
 namespace CatLib.Container
 {
-
     /// <summary>
     /// 拦截代理
     /// 用于增加拦截操作
     /// </summary>
     public interface IInterceptingProxy
     {
-
         /// <summary>
         /// 增加一个拦截器
         /// </summary>
@@ -32,7 +30,5 @@ namespace CatLib.Container
         /// </summary>
         /// <returns></returns>
         object GetTransparentProxy();
-
     }
-
 }

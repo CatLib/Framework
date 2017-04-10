@@ -17,21 +17,19 @@ using CatLib.API.Container;
 
 namespace CatLib.Container
 {
-
     /// <summary>
     /// 参数容器
     /// </summary>
     public class ParameterCollection : IParameters
     {
-
         /// <summary>
         /// 参数信息
         /// </summary>
         private struct ArgumentInfo
         {
-            public int Index;
-            public string Name;
-            public ParameterInfo ParameterInfo;
+            public readonly int Index;
+            public readonly string Name;
+            public readonly ParameterInfo ParameterInfo;
 
             public ArgumentInfo(int index, ParameterInfo parameterInfo)
             {
@@ -57,11 +55,11 @@ namespace CatLib.Container
         /// <param name="arguments"></param>
         /// <param name="argumentInfo"></param>
         /// <param name="isEffective">参数是否生效</param>
-        public ParameterCollection(object[] arguments, ParameterInfo[] argumentInfo, Predicate<ParameterInfo> isEffective)
+        public ParameterCollection(object[] arguments, IList<ParameterInfo> argumentInfo, Predicate<ParameterInfo> isEffective)
         {
             this.arguments = arguments;
             this.argumentInfo = new List<ArgumentInfo>();
-            for (int argumentNumber = 0; argumentNumber < argumentInfo.Length; ++argumentNumber)
+            for (var argumentNumber = 0; argumentNumber < argumentInfo.Count; ++argumentNumber)
             {
                 if (isEffective(argumentInfo[argumentNumber]))
                 {
@@ -130,7 +128,7 @@ namespace CatLib.Container
         /// <returns></returns>
         public bool Contains(string parameterName)
         {
-            for (int i = 0; i < argumentInfo.Count; i++)
+            for (var i = 0; i < argumentInfo.Count; i++)
             {
                 if (argumentInfo[i].Name == parameterName)
                 {
@@ -147,7 +145,7 @@ namespace CatLib.Container
         /// <returns></returns>
         public bool Contains(object value)
         {
-            return argumentInfo.Exists((ArgumentInfo info) =>
+            return argumentInfo.Exists(info =>
                     {
                         var argument = arguments[info.Index];
 
@@ -160,15 +158,13 @@ namespace CatLib.Container
                     });
         }
 
-
         public IEnumerator GetEnumerator()
         {
-            for (int i = 0; i < argumentInfo.Count; ++i)
+            for (var i = 0; i < argumentInfo.Count; ++i)
             {
                 yield return arguments[argumentInfo[i].Index];
             }
         }
-
 
         /// <summary>
         /// 获取输入参数的下表
@@ -177,7 +173,7 @@ namespace CatLib.Container
         /// <returns></returns>
         private int IndexForInputParameterName(string paramName)
         {
-            for (int i = 0; i < argumentInfo.Count; ++i)
+            for (var i = 0; i < argumentInfo.Count; ++i)
             {
                 if (argumentInfo[i].Name == paramName)
                 {
@@ -186,7 +182,5 @@ namespace CatLib.Container
             }
             throw new ArgumentException("Invalid parameter Name", "paramName");
         }
-
     }
-
 }

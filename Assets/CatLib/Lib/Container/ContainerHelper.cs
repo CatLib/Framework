@@ -14,43 +14,44 @@ using CatLib.API.Container;
 
 namespace CatLib
 {
-    ///<summary>容器拓展</summary>
+    ///<summary>
+    /// 容器拓展
+    /// </summary>
     public static class ContainerHelper
     {
-
         public static IBindData Singleton(this IContainer container,string service , Func<IContainer, object[], object> concrete)
         {
             return container.Bind(service, concrete, true);
         }
 
-        public static IBindData Singleton<Service, Concrete>(this IContainer container) where Concrete : class
+        public static IBindData Singleton<TService, TConcrete>(this IContainer container) where TConcrete : class
         {
-            return container.Bind(typeof(Service).ToString(), typeof(Concrete).ToString(), true);
+            return container.Bind(typeof(TService).ToString(), typeof(TConcrete).ToString(), true);
         }
 
-        public static IBindData Singleton<Service>(this IContainer container) where Service : class
+        public static IBindData Singleton<TService>(this IContainer container) where TService : class
         {
-            return container.Bind(typeof(Service).ToString(), typeof(Service).ToString() , true);
+            return container.Bind(typeof(TService).ToString(), typeof(TService).ToString() , true);
         }
 
-        public static IBindData Singleton<Service>(this IContainer container , Func<IContainer, object[], object> concrete) where Service : class
+        public static IBindData Singleton<TService>(this IContainer container , Func<IContainer, object[], object> concrete) where TService : class
         {
-            return container.Bind(typeof(Service).ToString(), concrete , true);
+            return container.Bind(typeof(TService).ToString(), concrete , true);
         }
 
-        public static IBindData Bind<Service , Concrete>(this IContainer container) where Concrete : class
+        public static IBindData Bind<TService , TConcrete>(this IContainer container) where TConcrete : class
         {
-            return container.Bind(typeof(Service).ToString(), typeof(Concrete).ToString(), false);
+            return container.Bind(typeof(TService).ToString(), typeof(TConcrete).ToString(), false);
         }
 
-        public static IBindData Bind<Service>(this IContainer container) where Service : class
+        public static IBindData Bind<TService>(this IContainer container) where TService : class
         {
-            return container.Bind(typeof(Service).ToString(), typeof(Service).ToString(), false);
+            return container.Bind(typeof(TService).ToString(), typeof(TService).ToString(), false);
         }
 
-        public static IBindData Bind<Service>(this IContainer container , Func<IContainer, object[], object> concrete) where Service : class
+        public static IBindData Bind<TService>(this IContainer container , Func<IContainer, object[], object> concrete) where TService : class
         {
-            return container.Bind(typeof(Service).ToString(), concrete, false);
+            return container.Bind(typeof(TService).ToString(), concrete, false);
         }
 
         public static IBindData Bind(this IContainer container ,string service , Func<IContainer, object[], object> concrete)
@@ -58,24 +59,24 @@ namespace CatLib
             return container.Bind(service, concrete, false);
         }
 
-        public static To MakeParams<To>(this IContainer container , params object[] param)
+        public static TService MakeParams<TService>(this IContainer container , params object[] param)
         {
-            return (To)container.Make(typeof(To).ToString(), param);
+            return (TService)container.Make(typeof(TService).ToString(), param);
         }
 
-        public static To Make<To>(this IContainer container)
+        public static TService Make<TService>(this IContainer container)
         {
-            return (To)container.Make(typeof(To).ToString());
+            return (TService)container.Make(typeof(TService).ToString());
         }
 
-        public static To Make<To>(this IContainer container , string service)
+        public static TService Make<TService>(this IContainer container , string service)
         {
-            return (To)container.Make(service.ToString());
+            return (TService)container.Make(service);
         }
 
-        public static To Make<To>(this IContainer container , Type service)
+        public static TService Make<TService>(this IContainer container , Type service)
         {
-            return (To)container.Make(service.ToString());
+            return (TService)container.Make(service.ToString());
         }
 
         public static object Make(this IContainer container , Type service)
@@ -83,9 +84,9 @@ namespace CatLib
             return container.Make(service.ToString());
         }
 
-        public static IContainer Alias<AliasName, Service>(this IContainer container) where Service : class
+        public static IContainer Alias<TAliasName, TService>(this IContainer container) where TService : class
         {
-            return container.Alias(typeof(AliasName).ToString(), typeof(Service).ToString());
+            return container.Alias(typeof(TAliasName).ToString(), typeof(TService).ToString());
         }
     }
 }

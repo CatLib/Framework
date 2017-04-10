@@ -17,10 +17,11 @@ using CatLib.API.Container;
 
 namespace CatLib.Container
 {
-    ///<summary>容器</summary>
+    ///<summary>
+    /// 容器
+    /// </summary>
     public class Container : IContainer
     {
-
         /// <summary>
         /// 绑定数据
         /// </summary>
@@ -351,7 +352,7 @@ namespace CatLib.Container
             {
                 if (decorator == null) { decorator = new List<Func<IBindData, object, object>>(); }
                 decorator.Add(func);
-                foreach (KeyValuePair<string, object> data in instances)
+                foreach (var data in instances)
                 {
                     var bindData = GetBindData(data.Key);
                     instances[data.Key] = func(bindData, data.Value);
@@ -393,19 +394,17 @@ namespace CatLib.Container
             var objectData = isFromMake ? NormalBuild(bindData, param) : Build(bindData, service, param);
 
             //只有是来自于make函数的调用时才执行di
-            if (isFromMake /*|| (isFromMake && bindData.Concrete != null)*/) //如果是以闭包形式的bind 那么被屏蔽的语句会导致2次di 但我们依旧先不急着去除等一段时间后再删除
+            if (!isFromMake) { return objectData; }
+
+            DIAttr(bindData, objectData);
+
+            if (proxy != null) { objectData = proxy.Bound(objectData, bindData); }
+
+            objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
+
+            if (bindData.IsStatic)
             {
-
-                DIAttr(bindData, objectData);
-
-                if (proxy != null) { objectData = proxy.Bound(objectData, bindData); }
-
-                objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
-
-                if (bindData.IsStatic)
-                {
-                    Instance(service, objectData);
-                }
+                Instance(service, objectData);
             }
 
             return objectData;
@@ -476,7 +475,6 @@ namespace CatLib.Container
             string typeName;
             foreach (var property in cls.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-
                 if (!property.CanWrite) { continue; }
                 var propertyAttrs = property.GetCustomAttributes(typeof(DependencyAttribute), true);
                 if (propertyAttrs.Length <= 0) { continue; }
@@ -614,6 +612,5 @@ namespace CatLib.Container
                 }
             }
         }
-
     }
 }
