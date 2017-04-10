@@ -23,9 +23,9 @@ namespace CatLib.Container
         /// <summary>
         /// 创建代理类
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="bindData"></param>
-        /// <returns></returns>
+        /// <param name="target">服务实例</param>
+        /// <param name="bindData">服务绑定数据</param>
+        /// <returns>如果构建成功则返回服务透明代理实例，否则返回服务实例</returns>
         public object Bound(object target, BindData bindData)
         {
             if (target == null) { return null; }
@@ -51,7 +51,8 @@ namespace CatLib.Container
         /// <summary>
         /// 创建动态代理
         /// </summary>
-        /// <returns></returns>
+        /// <param name="target">服务实例</param>
+        /// <returns>动态代理</returns>
         private IInterceptingProxy CreateRealProxy(object target)
         {
             return new InterceptingRealProxy(target);
@@ -60,9 +61,8 @@ namespace CatLib.Container
         /// <summary>
         /// 增加拦截器
         /// </summary>
-        /// <param name="proxy">代理</param>
+        /// <param name="proxy">动态代理</param>
         /// <param name="interceotors">要增加的拦截器</param>
-        /// <returns></returns>
         private void AddInterceptions(IInterceptingProxy proxy, IList<IInterception> interceotors)
         {
             for (var i = 0; i < interceotors.Count; i++)

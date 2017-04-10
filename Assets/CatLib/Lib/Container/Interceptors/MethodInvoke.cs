@@ -52,10 +52,10 @@ namespace CatLib.Container
         private readonly ParameterCollection inputParams;
 
         /// <summary>
-        /// 方法调用
+        /// 构造一个方法调用
         /// </summary>
-        /// <param name="callMessage"></param>
-        /// <param name="target"></param>
+        /// <param name="callMessage">函数调用消息</param>
+        /// <param name="target">服务实例</param>
         public MethodInvoke(IMethodCallMessage callMessage, object target)
         {
             this.callMessage = callMessage;
@@ -67,17 +67,17 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 方法函数的参数（不包含输出参数）
+        /// 函数的参数（不包含输出参数）
         /// </summary>
         public IParameters Inputs { get { return inputParams; } }
 
         /// <summary>
-        /// 方法函数的参数（包含输出参数）
+        /// 函数的参数（包含输出out参数）
         /// </summary>
         IParameters IMethodInvoke.Arguments { get { return allParams; } }
 
         /// <summary>
-        /// 目标对象(代理中的原始对象)
+        /// 服务实例(代理中的原始对象)
         /// </summary>
         public object Target { get { return target; } }
 

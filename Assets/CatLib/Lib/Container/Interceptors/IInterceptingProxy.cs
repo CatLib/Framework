@@ -17,18 +17,18 @@ namespace CatLib.Container
     /// 拦截代理
     /// 用于增加拦截操作
     /// </summary>
-    public interface IInterceptingProxy
+    internal interface IInterceptingProxy
     {
         /// <summary>
         /// 增加一个拦截器
         /// </summary>
-        /// <param name="interceptor"></param>
+        /// <param name="interceptor">拦截器</param>
         void AddInterception(IInterception interceptor);
 
         /// <summary>
         /// 获取透明代理
         /// </summary>
-        /// <returns></returns>
+        /// <returns>透明代理实例</returns>
         object GetTransparentProxy();
     }
 }
