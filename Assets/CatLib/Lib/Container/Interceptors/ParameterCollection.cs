@@ -1,8 +1,18 @@
-﻿
-using System.Reflection;
-using System.Collections.Generic;
-using System.Collections;
+﻿/*
+ * This file is part of the CatLib package.
+ *
+ * (c) Yu Bin <support@catlib.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Document: http://catlib.io/
+ */
+
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using CatLib.API.Container;
 
 namespace CatLib.Container
@@ -120,9 +130,9 @@ namespace CatLib.Container
         /// <returns></returns>
         public bool Contains(string parameterName)
         {
-            for(int i = 0; i < argumentInfo.Count; i++)
+            for (int i = 0; i < argumentInfo.Count; i++)
             {
-                if(argumentInfo[i].Name == parameterName)
+                if (argumentInfo[i].Name == parameterName)
                 {
                     return true;
                 }
