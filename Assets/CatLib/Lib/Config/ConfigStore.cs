@@ -12,17 +12,29 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API.Config;
-using CatLib.API;
+using CatLib.API.Container;
 
 namespace CatLib.Config
 {
-    public class ConfigStore : IConfigStore
+    /// <summary>
+    /// 配置容器
+    /// </summary>
+    public sealed class ConfigStore : IConfigStore
     {
+        /// <summary>
+        /// 服务容器
+        /// </summary>
         [Dependency]
-        public IApplication App { get; set; }
+        public IContainer App { get; set; }
 
+        /// <summary>
+        /// 配置字典，key为指定类型，其中的值为配置的键值对
+        /// </summary>
         private readonly Dictionary<string, Dictionary<string, object>> configs;
 
+        /// <summary>
+        /// 构造一个配置容器
+        /// </summary>
         public ConfigStore()
         {
             configs = new Dictionary<string, Dictionary<string, object>>();
@@ -31,18 +43,34 @@ namespace CatLib.Config
         /// <summary>
         /// 增加配置
         /// </summary>
-        /// <param name="config"></param>
+        /// <param name="config">配置信息</param>
         public void AddConfig(IConfig config)
         {
             configs.Remove(config.Name.ToString());
             configs.Add(config.Name.ToString(), ParseConfig(config));
         }
 
-        public T Get<T>(Type name, string field, T def = default(T))
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <typeparam name="T">配置最终转换到的类型</typeparam>
+        /// <param name="type">配置所属类型</param>
+        /// <param name="field">配置字段</param>
+        /// <param name="def">当找不到配置时的默认值</param>
+        /// <returns>配置的值，如果找不到则返回默认值</returns>
+        public T Get<T>(Type type, string field, T def = default(T))
         {
-            return Get(name.ToString(), field, def);
+            return Get(type.ToString(), field, def);
         }
 
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <typeparam name="T">配置最终转换到的类型</typeparam>
+        /// <param name="name">配置所属类型的名字</param>
+        /// <param name="field">配置的字段名</param>
+        /// <param name="def">当找不到配置时的默认值</param>
+        /// <returns>配置的值，如果找不到则返回默认值</returns>
         public T Get<T>(string name, string field, T def = default(T))
         {
             try
@@ -63,28 +91,36 @@ namespace CatLib.Config
             catch { throw new ArgumentException(" field [" + field + "] is can not conversion to " + typeof(T)); }
         }
 
-        public string Get(Type name, string field, string def)
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <param name="type">配置所属类型的名字</param>
+        /// <param name="field">配置的字段名</param>
+        /// <param name="def">当找不到配置时的默认值</param>
+        /// <returns>配置的值，如果找不到则返回默认值</returns>
+        public string Get(Type type, string field, string def)
         {
-            return Get(name.ToString(), field, def);
+            return Get(type.ToString(), field, def);
         }
 
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <param name="name">配置所属类型的名字</param>
+        /// <param name="field">配置的字段名</param>
+        /// <param name="def">当找不到配置时的默认值</param>
+        /// <returns>配置的值，如果找不到则返回默认值</returns>
         public string Get(string name, string field, string def)
         {
             return Get<string>(name, field, def);
         }
 
-        public object Get(Type name, string field, object def)
-        {
-            return Get(name.ToString(), field, def);
-        }
-
-        public object Get(string name, string field, object def)
-        {
-            if (!configs.ContainsKey(name)) { return def; }
-            return !configs[name].ContainsKey(field) ? def : configs[name][field];
-        }
-
-        protected Dictionary<string, object> ParseConfig(IConfig config)
+        /// <summary>
+        /// 解析配置
+        /// </summary>
+        /// <param name="config">配置信息</param>
+        /// <returns>解析完的配置</returns>
+        private Dictionary<string, object> ParseConfig(IConfig config)
         {
             if (config.Config.Length <= 0) { return new Dictionary<string, object>(); }
             if (config.Config.Length % 2 != 0) { throw new ArgumentException("param is not incorrect"); }

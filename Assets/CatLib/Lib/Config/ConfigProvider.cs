@@ -8,19 +8,24 @@
  *
  * Document: http://catlib.io/
  */
-using System;
 using CatLib.API.Config;
 
 namespace CatLib.Config
 {
-    public class ConfigProvider : ServiceProvider
+    /// <summary>
+    /// 配置服务提供商
+    /// </summary>
+    public sealed class ConfigProvider : ServiceProvider
     {
+        /// <summary>
+        /// 注册配置服务
+        /// </summary>
         public override void Register()
         {
             App.Singleton<ConfigStore>().Alias<IConfigStore>().Alias("config").OnResolving((obj) =>
             {
                 var store = obj as ConfigStore;
-                if (store == null){ return store; }
+                if (store == null) { return store; }
 
                 var types = typeof(IConfig).GetChildTypesWithInterface();
 

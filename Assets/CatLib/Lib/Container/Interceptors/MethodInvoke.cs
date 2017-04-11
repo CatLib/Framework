@@ -19,7 +19,7 @@ namespace CatLib.Container
     /// <summary>
     /// 函数调用
     /// </summary>
-    public class MethodInvoke : IMethodInvoke
+    public sealed class MethodInvoke : IMethodInvoke
     {
         /// <summary>
         /// 方法调用消息

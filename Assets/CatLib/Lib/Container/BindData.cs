@@ -18,22 +18,22 @@ namespace CatLib.Container
     /// <summary>
     /// 服务绑定关系
     /// </summary>
-    public class BindData : IBindData
+    public sealed class BindData : IBindData
     {
         /// <summary>
         /// 服务名
         /// </summary>
-        public string Service { get; protected set; }
+        public string Service { get; private set; }
 
         /// <summary>
         /// 服务实现
         /// </summary>
-        public Func<IContainer, object[], object> Concrete { get; protected set; }
+        public Func<IContainer, object[], object> Concrete { get; private set; }
 
         /// <summary>
         /// 是否是静态服务
         /// </summary>
-        public bool IsStatic { get; protected set; }
+        public bool IsStatic { get; private set; }
 
         /// <summary>
         /// 服务关系上下文

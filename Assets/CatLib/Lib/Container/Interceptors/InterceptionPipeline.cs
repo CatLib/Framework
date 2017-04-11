@@ -18,7 +18,7 @@ namespace CatLib.Container
     /// <summary>
     /// 拦截器管道
     /// </summary>
-    internal class InterceptionPipeline
+    internal sealed class InterceptionPipeline
     {
         /// <summary>
         /// 拦截器列表
@@ -59,6 +59,15 @@ namespace CatLib.Container
             stack.Pop();
 
             return ret;
+        }
+
+        /// <summary>
+        /// 增加一个拦截器
+        /// </summary>
+        /// <param name="interceptor">拦截器</param>
+        public void Add(IInterception interceptor)
+        {
+            interceptionBehaviors.Add(interceptor);
         }
 
         /// <summary>
@@ -114,15 +123,6 @@ namespace CatLib.Container
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// 增加一个拦截器
-        /// </summary>
-        /// <param name="interceptor">拦截器</param>
-        public void Add(IInterception interceptor)
-        {
-            interceptionBehaviors.Add(interceptor);
         }
     }
 }

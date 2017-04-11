@@ -16,7 +16,7 @@ namespace CatLib.Container
     /// <summary>
     /// 绑定关系临时数据
     /// </summary>
-    public class GivenData : IGivenData
+    public sealed class GivenData : IGivenData
     {
         /// <summary>
         /// 绑定数据

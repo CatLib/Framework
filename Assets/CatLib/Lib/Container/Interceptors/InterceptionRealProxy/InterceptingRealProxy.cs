@@ -14,38 +14,31 @@ using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 using CatLib.API.Container;
 
-namespace CatLib.Container{
-
+namespace CatLib.Container
+{
     /// <summary>
     /// 拦截动态代理
     /// </summary>
-	public class InterceptingRealProxy : RealProxy , IInterceptingProxy
+	public sealed class InterceptingRealProxy : RealProxy, IInterceptingProxy
     {
-
         /// <summary>
         /// 拦截器管道
         /// </summary>
-        private InterceptionPipeline interceptors;
+        private readonly InterceptionPipeline interceptors;
 
         /// <summary>
         /// 代理对象
         /// </summary>
 		private readonly object target;
-		
-        /// <summary>
-        /// 代理类型
-        /// </summary>
-		private string typeName;
 
         /// <summary>
         /// 构建一个动态代理
         /// </summary>
         /// <param name="target"></param>
-		public InterceptingRealProxy(object target)
+        public InterceptingRealProxy(object target)
             : base(target.GetType())
         {
             this.target = target;
-            typeName = target.GetType().FullName;
             interceptors = new InterceptionPipeline();
         }
 
@@ -55,23 +48,23 @@ namespace CatLib.Container{
         /// <param name="interceptor"></param>
         public void AddInterception(IInterception interceptor)
         {
-            if(interceptor == null)
+            if (interceptor == null)
             {
                 throw new ArgumentNullException("interceptor", "can not be null");
             }
             interceptors.Add(interceptor);
         }
-        
+
         /// <summary>
         /// 代理调用时
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-		public override IMessage Invoke(IMessage msg)
+        public override IMessage Invoke(IMessage msg)
         {
-			IMethodCallMessage callMessage = (IMethodCallMessage)msg;
+            IMethodCallMessage callMessage = (IMethodCallMessage)msg;
 
-            if(!callMessage.MethodBase.IsDefined(typeof(AOPAttribute) , false))
+            if (!callMessage.MethodBase.IsDefined(typeof(AOPAttribute), false))
             {
                 return new ReturnMessage(callMessage.MethodBase.Invoke(target, callMessage.Args),
                                         callMessage.Args,
@@ -84,12 +77,9 @@ namespace CatLib.Container{
 
             try
             {
-
                 var ret = interceptors.Do(methodInvoke, () =>
                 {
-
                     return ((IMethodCallMessage)msg).MethodBase.Invoke(methodInvoke.Target, methodInvoke.Arguments);
-
                 });
 
                 return new ReturnMessage(ret,
@@ -97,16 +87,11 @@ namespace CatLib.Container{
                                     methodInvoke.Arguments.Length,
                                     callMessage.LogicalCallContext,
                                     callMessage);
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ReturnMessage(ex, callMessage);
             }
-
-           
-		}
-
-	}
-
+        }
+    }
 }

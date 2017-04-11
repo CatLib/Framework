@@ -18,7 +18,7 @@ namespace CatLib.Container
     /// <summary>
     /// 代理
     /// </summary>
-    internal class BoundProxy : IBoundProxy
+    internal sealed class BoundProxy : IBoundProxy
     {
         /// <summary>
         /// 创建代理类
