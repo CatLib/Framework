@@ -17,22 +17,36 @@ using CatLib.API.Container;
 
 namespace CatLib.Container
 {
-
     /// <summary>
     /// 参数容器
     /// </summary>
     public class ParameterCollection : IParameters
     {
-
         /// <summary>
         /// 参数信息
         /// </summary>
         private struct ArgumentInfo
         {
-            public int Index;
-            public string Name;
-            public ParameterInfo ParameterInfo;
+            /// <summary>
+            /// 参数下标
+            /// </summary>
+            public readonly int Index;
 
+            /// <summary>
+            /// 参数名
+            /// </summary>
+            public readonly string Name;
+
+            /// <summary>
+            /// 参数信息
+            /// </summary>
+            public readonly ParameterInfo ParameterInfo;
+
+            /// <summary>
+            /// 构建一个参数信息
+            /// </summary>
+            /// <param name="index">参数下标</param>
+            /// <param name="parameterInfo">参数信息</param>
             public ArgumentInfo(int index, ParameterInfo parameterInfo)
             {
                 Index = index;
@@ -42,26 +56,26 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 参数信息
+        /// 参数信息列表
         /// </summary>
         private readonly List<ArgumentInfo> argumentInfo;
 
         /// <summary>
-        /// 参数实体
+        /// 参数内容列表
         /// </summary>
         private readonly object[] arguments;
 
         /// <summary>
         /// 构建一个参数容器
         /// </summary>
-        /// <param name="arguments"></param>
-        /// <param name="argumentInfo"></param>
+        /// <param name="arguments">参数内容</param>
+        /// <param name="argumentInfo">参数信息</param>
         /// <param name="isEffective">参数是否生效</param>
-        public ParameterCollection(object[] arguments, ParameterInfo[] argumentInfo, Predicate<ParameterInfo> isEffective)
+        public ParameterCollection(object[] arguments, IList<ParameterInfo> argumentInfo, Predicate<ParameterInfo> isEffective)
         {
             this.arguments = arguments;
             this.argumentInfo = new List<ArgumentInfo>();
-            for (int argumentNumber = 0; argumentNumber < argumentInfo.Length; ++argumentNumber)
+            for (var argumentNumber = 0; argumentNumber < argumentInfo.Count; ++argumentNumber)
             {
                 if (isEffective(argumentInfo[argumentNumber]))
                 {
@@ -73,8 +87,8 @@ namespace CatLib.Container
         /// <summary>
         /// 根据下标获取参数内容
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">参数下标</param>
+        /// <returns>参数内容</returns>
         public object this[int index]
         {
             get { return arguments[argumentInfo[index].Index]; }
@@ -84,8 +98,8 @@ namespace CatLib.Container
         /// <summary>
         /// 根据参数名获取参数内容
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <returns></returns>
+        /// <param name="parameterName">参数名</param>
+        /// <returns>参数内容</returns>
         public object this[string parameterName]
         {
             get { return arguments[argumentInfo[IndexForInputParameterName(parameterName)].Index]; }
@@ -96,8 +110,8 @@ namespace CatLib.Container
         /// <summary>
         /// 获取参数信息
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">参数下标</param>
+        /// <returns>参数信息</returns>
         public ParameterInfo GetParameterInfo(int index)
         {
             return argumentInfo[index].ParameterInfo;
@@ -106,8 +120,8 @@ namespace CatLib.Container
         /// <summary>
         /// 获取参数信息
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <returns></returns>
+        /// <param name="parameterName">参数名</param>
+        /// <returns>参数信息</returns>
         public ParameterInfo GetParameterInfo(string parameterName)
         {
             return argumentInfo[IndexForInputParameterName(parameterName)].ParameterInfo;
@@ -116,8 +130,8 @@ namespace CatLib.Container
         /// <summary>
         /// 根据下标获取参数名
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">参数下标</param>
+        /// <returns>参数名</returns>
         public string GetParameterName(int index)
         {
             return argumentInfo[index].Name;
@@ -126,11 +140,11 @@ namespace CatLib.Container
         /// <summary>
         /// 是否包含参数
         /// </summary>
-        /// <param name="parameterName"></param>
-        /// <returns></returns>
+        /// <param name="parameterName">参数名</param>
+        /// <returns>是否包含指定参数名的参数</returns>
         public bool Contains(string parameterName)
         {
-            for (int i = 0; i < argumentInfo.Count; i++)
+            for (var i = 0; i < argumentInfo.Count; i++)
             {
                 if (argumentInfo[i].Name == parameterName)
                 {
@@ -141,13 +155,13 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 是否包含
+        /// 是否包含参数
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">参数内容</param>
+        /// <returns>是否包含指定参数内容的参数</returns>
         public bool Contains(object value)
         {
-            return argumentInfo.Exists((ArgumentInfo info) =>
+            return argumentInfo.Exists(info =>
                     {
                         var argument = arguments[info.Index];
 
@@ -160,24 +174,26 @@ namespace CatLib.Container
                     });
         }
 
-
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator GetEnumerator()
         {
-            for (int i = 0; i < argumentInfo.Count; ++i)
+            for (var i = 0; i < argumentInfo.Count; ++i)
             {
                 yield return arguments[argumentInfo[i].Index];
             }
         }
 
-
         /// <summary>
-        /// 获取输入参数的下表
+        /// 获取输入参数的下标
         /// </summary>
-        /// <param name="paramName"></param>
-        /// <returns></returns>
+        /// <param name="paramName">参数名</param>
+        /// <returns>参数下标</returns>
         private int IndexForInputParameterName(string paramName)
         {
-            for (int i = 0; i < argumentInfo.Count; ++i)
+            for (var i = 0; i < argumentInfo.Count; ++i)
             {
                 if (argumentInfo[i].Name == paramName)
                 {
@@ -186,7 +202,5 @@ namespace CatLib.Container
             }
             throw new ArgumentException("Invalid parameter Name", "paramName");
         }
-
     }
-
 }
