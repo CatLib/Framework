@@ -25,7 +25,7 @@ namespace CatLib.Config
             App.Singleton<ConfigStore>().Alias<IConfigStore>().Alias("config").OnResolving((obj) =>
             {
                 var store = obj as ConfigStore;
-                if (store == null) { return store; }
+                if (store == null) { return null; }
 
                 var types = typeof(IConfig).GetChildTypesWithInterface();
 

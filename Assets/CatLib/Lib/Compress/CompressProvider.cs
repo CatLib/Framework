@@ -8,31 +8,31 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Compress;
 
-namespace CatLib.Compress{
+namespace CatLib.Compress
+{
+    /// <summary>
+    /// 压缩服务提供商
+    /// </summary>
+    public sealed class CompressProvider : ServiceProvider
+    {
+        /// <summary>
+        /// 注册压缩服务
+        /// </summary>
+        public override void Register()
+        {
+            RegisterParse();
+            App.Singleton<CompressService>().Alias<ICompress>().Alias("compress");
+        }
 
-	public class CompressProvider : ServiceProvider {
-
-		public override void Register()
-		{
-
-			RegisterParse();
-			App.Singleton<CompressStore>().Alias<ICompress>().Alias("compress");
-
-		}
-
-		protected void RegisterParse(){
-
-			App.Singleton<ICompressAdapter>((app , param) => {
-
-				return new ShareZipLibAdapter();
-
-			}).Alias("compress.parse");
-
-		}
-		
-	}
-
+        /// <summary>
+        /// 注册解析器
+        /// </summary>
+        private void RegisterParse()
+        {
+            App.Singleton<ICompressAdapter>((app, param) => new ShareZipLibAdapter()).Alias("compress.parse");
+        }
+    }
 }
