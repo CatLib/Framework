@@ -65,7 +65,10 @@ namespace CatLib.Container
         /// <summary>
         /// 构造一个容器
         /// </summary>
-        public Container() { Initialize(); }
+        public Container()
+        {
+            Initialize(); 
+        }
 
         /// <summary>
         /// 为一个及以上的服务定义一个标记
@@ -74,9 +77,18 @@ namespace CatLib.Container
         /// <param name="service">服务名</param>
         public void Tag(string tag, params string[] service)
         {
-            if (service == null) { return; }
-            if (service.Length <= 0) { return; }
-            if (!tags.ContainsKey(tag)) { tags.Add(tag, new List<string>()); }
+            if (service == null)
+            {
+                return;
+            }
+            if (service.Length <= 0)
+            {
+                return;
+            }
+            if (!tags.ContainsKey(tag))
+            {
+                tags.Add(tag, new List<string>());
+            }
             tags[tag].AddRange(service);
         }
 
@@ -87,7 +99,10 @@ namespace CatLib.Container
         /// <returns>将会返回标记所对应的所有服务实例</returns>
         public object[] Tagged(string tag)
         {
-            if (!tags.ContainsKey(tag)) { return new object[] { }; }
+            if (!tags.ContainsKey(tag))
+            {
+                return new object[] {};
+            }
 
             var result = new List<object>();
 
@@ -130,7 +145,10 @@ namespace CatLib.Container
         /// <returns>返回一个bool值代表服务是否是静态的,如果服务不存在也将返回false</returns>
         public bool IsStatic(string service)
         {
-            if (!HasBind(service)) { return false; }
+            if (!HasBind(service))
+            {
+                return false;
+            }
 
             service = Normalize(service);
             service = GetAlias(service);
@@ -310,14 +328,20 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="service">服务名或者别名</param>
         /// <returns>服务实例，如果构造失败那么返回null</returns>
-        public object this[string service] { get { return Make(service); } }
+        public object this[string service]
+        {
+            get { return Make(service); }
+        }
 
         /// <summary>
         /// 构造服务
         /// </summary>
         /// <param name="service">服务类型</param>
         /// <returns>服务实例，如果构造失败那么返回null</returns>
-        public object this[Type service] { get { return Make(service.ToString()); } }
+        public object this[Type service]
+        {
+            get { return Make(service.ToString()); }
+        }
 
         /// <summary>
         /// 静态化一个服务
@@ -393,17 +417,26 @@ namespace CatLib.Container
         /// <returns>服务实例</returns>
         private object NormalMake(string service, bool isFromMake, params object[] param)
         {
-            if (instances.ContainsKey(service)) { return instances[service]; }
+            if (instances.ContainsKey(service))
+            {
+                return instances[service];
+            }
 
             var bindData = GetBindData(service);
             var objectData = isFromMake ? NormalBuild(bindData, param) : Build(bindData, service, param);
 
             //只有是来自于make函数的调用时才执行di
-            if (!isFromMake) { return objectData; }
+            if (!isFromMake)
+            {
+                return objectData;
+            }
 
             DIAttr(bindData, objectData);
 
-            if (proxy != null) { objectData = proxy.Bound(objectData, bindData); }
+            if (proxy != null)
+            {
+                objectData = proxy.Bound(objectData, bindData);
+            }
 
             objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
 
@@ -439,16 +472,27 @@ namespace CatLib.Container
         /// <returns>服务实例</returns>
         private object Build(BindData bindData, string service, object[] param)
         {
-            if (param == null) { param = new object[] { }; }
+            if (param == null)
+            {
+                param = new object[] {};
+            }
+
             var type = GetType(bindData.Service);
-            if (type == null) { return null; }
+
+            if (type == null)
+            {
+                return null;
+            }
 
             if (type.IsAbstract || type.IsInterface)
             {
                 if (service != bindData.Service)
                 {
                     type = Type.GetType(service);
-                    if (type == null) { return null; }
+                    if (type == null)
+                    {
+                        return null;
+                    }
                 }
                 else
                 {
@@ -464,7 +508,10 @@ namespace CatLib.Container
             var parameter = new List<ParameterInfo>(constructor[constructor.Length - 1].GetParameters());
             parameter.RemoveRange(0, param.Length);
 
-            if (parameter.Count > 0) { param = GetDependencies(bindData, type, parameter, param); }
+            if (parameter.Count > 0)
+            {
+                param = GetDependencies(bindData, type, parameter, param);
+            }
 
             return Activator.CreateInstance(type, param);
         }
@@ -487,14 +534,23 @@ namespace CatLib.Container
         /// <returns>服务实例</returns>
         private void DIAttr(BindData bindData, object obj)
         {
-            if (obj == null) { return; }
+            if (obj == null)
+            {
+                return;
+            }
 
             string typeName;
             foreach (var property in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (!property.CanWrite) { continue; }
+                if (!property.CanWrite)
+                {
+                    continue;
+                }
                 var propertyAttrs = property.GetCustomAttributes(typeof(DependencyAttribute), true);
-                if (propertyAttrs.Length <= 0) { continue; }
+                if (propertyAttrs.Length <= 0)
+                {
+                    continue;
+                }
 
                 var dependency = propertyAttrs[0] as DependencyAttribute;
 

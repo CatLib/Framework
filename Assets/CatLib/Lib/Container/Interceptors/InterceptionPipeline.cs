@@ -112,7 +112,10 @@ namespace CatLib.Container
         /// <returns>返回一个bool表示拦截器是否生效</returns>
         private bool IsEnable(IMethodInvoke methodInvoke, IInterception interception)
         {
-            if (!interception.Enable) { return false; }
+            if (!interception.Enable)
+            {
+                return false;
+            }
 
             foreach (var ret in interception.GetRequiredAttr())
             {

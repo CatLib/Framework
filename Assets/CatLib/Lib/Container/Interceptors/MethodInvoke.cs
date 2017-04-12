@@ -69,27 +69,42 @@ namespace CatLib.Container
         /// <summary>
         /// 函数的参数（不包含输出参数）
         /// </summary>
-        public IParameters Inputs { get { return inputParams; } }
+        public IParameters Inputs
+        {
+            get { return inputParams; }
+        }
 
         /// <summary>
         /// 函数的参数（包含输出out参数）
         /// </summary>
-        IParameters IMethodInvoke.Arguments { get { return allParams; } }
+        IParameters IMethodInvoke.Arguments
+        {
+            get { return allParams; }
+        }
 
         /// <summary>
         /// 服务实例(代理中的原始对象)
         /// </summary>
-        public object Target { get { return target; } }
+        public object Target
+        {
+            get { return target; }
+        }
 
         /// <summary>
         /// 基础方法
         /// </summary>
-        public MethodBase MethodBase { get { return callMessage.MethodBase; } }
+        public MethodBase MethodBase
+        {
+            get { return callMessage.MethodBase; }
+        }
 
         /// <summary>
         /// 上下文（用于aop方法间额外的参数传递）
         /// </summary>
-        public IDictionary<string, object> Context { get { return context; } }
+        public IDictionary<string, object> Context
+        {
+            get { return context; }
+        }
 
         /// <summary>
         /// 方法函数的参数（包含输出参数）

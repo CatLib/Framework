@@ -103,7 +103,6 @@ namespace CatLib.Container
         public object this[string parameterName]
         {
             get { return arguments[argumentInfo[IndexForInputParameterName(parameterName)].Index]; }
-
             set { arguments[argumentInfo[IndexForInputParameterName(parameterName)].Index] = value; }
         }
 

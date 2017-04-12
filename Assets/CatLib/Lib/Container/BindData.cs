@@ -97,7 +97,10 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData AddInterceptor<T>() where T : IInterception, new()
         {
-            if (interception == null) { interception = new List<IInterception>(); }
+            if (interception == null)
+            {
+                interception = new List<IInterception>();
+            }
             interception.Add(new T());
             return this;
         }
@@ -139,7 +142,10 @@ namespace CatLib.Container
         /// <returns>给与的服务</returns>
         public string GetContextual(string needs)
         {
-            if (contextual == null) { return needs; }
+            if (contextual == null)
+            {
+                return needs;
+            }
             return contextual.ContainsKey(needs) ? contextual[needs] : needs;
         }
 
@@ -149,7 +155,10 @@ namespace CatLib.Container
         /// <param name="func">解决事件</param>
         public IBindData OnResolving(Func<object, object> func)
         {
-            if (decorator == null) { decorator = new List<Func<object, object>>(); }
+            if (decorator == null)
+            {
+                decorator = new List<Func<object, object>>();
+            }
             decorator.Add(func);
             return this;
         }
@@ -161,7 +170,10 @@ namespace CatLib.Container
         /// <returns>修饰后的服务实例</returns>
         public object ExecDecorator(object obj)
         {
-            if (decorator == null) { return obj; }
+            if (decorator == null)
+            {
+                return obj;
+            }
             foreach (var func in decorator)
             {
                 obj = func(obj);
@@ -177,7 +189,10 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public BindData AddContextual(string needs, string given)
         {
-            if (contextual == null) { contextual = new Dictionary<string, string>(); }
+            if (contextual == null)
+            {
+                contextual = new Dictionary<string, string>();
+            }
             contextual.Add(needs, given);
             return this;
         }

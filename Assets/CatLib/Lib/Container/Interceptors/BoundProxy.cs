@@ -28,10 +28,16 @@ namespace CatLib.Container
         /// <returns>如果构建成功则返回服务透明代理实例，否则返回服务实例</returns>
         public object Bound(object target, BindData bindData)
         {
-            if (target == null) { return null; }
+            if (target == null)
+            {
+                return null;
+            }
 
             var interceptors = bindData.GetInterceptors();
-            if (interceptors == null) { return target; }
+            if (interceptors == null)
+            {
+                return target;
+            }
 
             IInterceptingProxy proxy = null;
             if (target is MarshalByRefObject)
@@ -42,7 +48,10 @@ namespace CatLib.Container
                 }
             }
 
-            if (proxy == null) { return target; }
+            if (proxy == null)
+            {
+                return target;
+            }
 
             AddInterceptions(proxy, interceptors);
             return proxy.GetTransparentProxy();

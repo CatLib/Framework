@@ -49,10 +49,7 @@ namespace CatLib.Buffer
         /// </summary>
         public byte[] Byte
         {
-            get
-            {
-                return buffer;
-            }
+            get { return buffer; }
             set
             {
                 if (value == null)
@@ -71,20 +68,32 @@ namespace CatLib.Buffer
         /// <returns>如果要检索的字节序值没有出现，则该方法返回 -1</returns>
         public int IndexOf(params byte[] data)
         {
-            if (data.Length <= 0) { return -1; }
+            if (data.Length <= 0)
+            {
+                return -1;
+            }
 
             bool isFinded;
             for (int i = 0, n; i < buffer.Length; i++)
             {
-                if (buffer[i] != data[0]) { continue; }
+                if (buffer[i] != data[0])
+                {
+                    continue;
+                }
                 isFinded = true;
                 for (n = 0; n < data.Length; n++)
                 {
-                    if (buffer[i + n] == data[n]) { continue; }
+                    if (buffer[i + n] == data[n])
+                    {
+                        continue;
+                    }
                     isFinded = false;
                     break;
                 }
-                if (isFinded) { return i; }
+                if (isFinded)
+                {
+                    return i;
+                }
             }
 
             return -1;
@@ -110,7 +119,10 @@ namespace CatLib.Buffer
         public byte[] Pop(int count = 1)
         {
             count = Math.Max(1, count);
-            if (count > buffer.Length) { throw new ArgumentOutOfRangeException("count"); }
+            if (count > buffer.Length)
+            {
+                throw new ArgumentOutOfRangeException("count");
+            }
 
             var returnBuffer = new byte[count];
             System.Buffer.BlockCopy(buffer, buffer.Length - returnBuffer.Length, returnBuffer, 0, returnBuffer.Length);
@@ -156,7 +168,10 @@ namespace CatLib.Buffer
         public byte[] Peek(int count = 1)
         {
             count = Math.Max(1, count);
-            if (count > buffer.Length) { throw new ArgumentOutOfRangeException("count"); }
+            if (count > buffer.Length)
+            {
+                throw new ArgumentOutOfRangeException("count");
+            }
 
             var newBuffer = new byte[count];
             System.Buffer.BlockCopy(buffer, 0, newBuffer, 0, newBuffer.Length);
@@ -176,10 +191,7 @@ namespace CatLib.Buffer
         /// </summary>
         public int Length
         {
-            get
-            {
-                return buffer.Length;
-            }
+            get { return buffer.Length; }
         }
     }
 }

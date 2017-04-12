@@ -40,7 +40,10 @@ namespace CatLib.Compress
         /// <returns>被压缩后的字节序</returns>
         public byte[] Compress(byte[] bytes, int level = 6)
         {
-            if (bytes == null) { return null; }
+            if (bytes == null)
+            {
+                return null;
+            }
             return bytes.Length <= 0 ? bytes : compress.Compress(bytes, level);
         }
 
@@ -51,7 +54,10 @@ namespace CatLib.Compress
         /// <returns>被解压的字节序</returns>
         public byte[] UnCompress(byte[] bytes)
         {
-            if (bytes == null) { return null; }
+            if (bytes == null)
+            {
+                return null;
+            }
             return bytes.Length <= 0 ? bytes : compress.UnCompress(bytes);
         }
     }

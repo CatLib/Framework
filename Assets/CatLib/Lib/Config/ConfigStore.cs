@@ -76,8 +76,10 @@ namespace CatLib.Config
             try
             {
                 var obj = Get(name, field, (object)def);
-                if (obj == null) { return def; }
-
+                if (obj == null)
+                {
+                    return def;
+                }
                 if (typeof(T) == typeof(int))
                 {
                     return (T)Convert.ChangeType(obj, typeof(int));
@@ -122,8 +124,14 @@ namespace CatLib.Config
         /// <returns>解析完的配置</returns>
         private Dictionary<string, object> ParseConfig(IConfig config)
         {
-            if (config.Config.Length <= 0) { return new Dictionary<string, object>(); }
-            if (config.Config.Length % 2 != 0) { throw new ArgumentException("param is not incorrect"); }
+            if (config.Config.Length <= 0)
+            {
+                return new Dictionary<string, object>();
+            }
+            if (config.Config.Length%2 != 0)
+            {
+                throw new ArgumentException("param is not incorrect");
+            }
 
             var fields = new Dictionary<string, object>();
             var param = config.Config;
