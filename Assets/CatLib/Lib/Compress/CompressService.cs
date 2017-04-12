@@ -16,7 +16,7 @@ namespace CatLib.Compress
     /// <summary>
     /// 压缩服务
     /// </summary>
-    public class CompressService : ICompress
+    public sealed class CompressService : ICompress
     {
         /// <summary>
         /// 压缩服务适配器，接入第三方的压缩组件
