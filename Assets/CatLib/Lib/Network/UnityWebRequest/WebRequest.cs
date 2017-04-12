@@ -193,7 +193,10 @@ namespace CatLib.Network
                         request = queue.Dequeue();
                         if (headers != null)
                         {
-                            headers.Walk((statu, val) => request.SetRequestHeader(statu.ToString(), val));
+                            foreach (var kv in headers)
+                            {
+                                request.SetRequestHeader(kv.Key, kv.Value);
+                            }
                         }
                         yield return request.Send();
 

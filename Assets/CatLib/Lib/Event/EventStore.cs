@@ -108,8 +108,8 @@ namespace CatLib.Event
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="handler">事件句柄</param>
-        /// <param name="life">活性</param>
-        /// <returns></returns>
+        /// <param name="life">在几次后事件会被自动释放</param>
+        /// <returns>事件句柄</returns>
         public IEventHandler On(string eventName, System.EventHandler handler , int life = -1)
         {
             var callHandler = new EventHandler(this , eventName , handler , life);
@@ -130,6 +130,7 @@ namespace CatLib.Event
         /// </summary>
         /// <param name="eventName">事件名</param>
         /// <param name="handler">事件句柄</param>
+        /// <returns></returns>
         public IEventHandler One(string eventName , System.EventHandler handler)
         {
             return On(eventName , handler , 1);

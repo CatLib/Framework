@@ -43,7 +43,7 @@ namespace CatLib {
 
         protected LuaEnv LuaEnv
         {
-            get { return Application.Make<ILua>().LuaEnv; }
+            get { return App.Make<ILua>().LuaEnv; }
         }
 
         void Awake()
@@ -62,7 +62,7 @@ namespace CatLib {
                 scriptEnv.Set(injection.name, injection.value);
             }
 
-            TextAsset text = Application.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>(scriptEnv);
+            TextAsset text = App.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>(scriptEnv);
 
             LuaEnv.DoString(text.text, "LuaBehaviour", scriptEnv);
 

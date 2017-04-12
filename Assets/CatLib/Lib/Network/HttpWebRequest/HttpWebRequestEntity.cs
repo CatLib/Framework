@@ -111,7 +111,10 @@ namespace CatLib.Network
 
             if (headers != null)
             {
-                headers.Walk(webRequest.Headers.Add);
+                foreach (var kv in headers)
+                {
+                    webRequest.Headers.Add(kv.Key, kv.Value);
+                }
             }
 
             if (requestBytes != null)

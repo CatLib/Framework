@@ -42,7 +42,7 @@ namespace CatLib.AssetBuilder
             {
                 if (!filter.Contains(file.Extension))
                 {
-                    releaseFile.Add(file.FullName.Substring(context.ReleasePath.Length).Trim(Path.AltDirectorySeparatorChar, '\\').Standard());
+                    releaseFile.Add(Util.StandardPath(file.FullName.Substring(context.ReleasePath.Length).Trim(Path.AltDirectorySeparatorChar, '\\')));
                 }
             }, SearchOption.AllDirectories);
 

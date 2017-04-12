@@ -11,6 +11,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 using CatLib.API.INI;
 using CatLib.API.IO;
 using CatLib.API;
@@ -46,7 +47,7 @@ namespace CatLib.INI
             result.SetSaveCallback((data) =>{
 
                 file.Delete();
-                file.Create(data.ToByte());
+                file.Create(Encoding.UTF8.GetBytes(data));
 
             });
 

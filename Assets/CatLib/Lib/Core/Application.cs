@@ -18,13 +18,11 @@ using CatLib.API.Time;
 
 namespace CatLib
 {
-
     /// <summary>
     /// CatLib程序
     /// </summary>
     public class Application : Driver, IApplication
     {
-
         /// <summary>
         /// CatLib框架版本
         /// </summary>
@@ -35,7 +33,6 @@ namespace CatLib
         /// </summary>
         public enum StartProcess
         {
-
             /// <summary>
             /// 引导流程
             /// </summary>
@@ -55,7 +52,6 @@ namespace CatLib
             /// 启动完成
             /// </summary>
             OnComplete = 4,
-
         }
 
         /// <summary>
@@ -66,12 +62,12 @@ namespace CatLib
         /// <summary>
         /// 是否已经完成引导程序
         /// </summary>
-        protected bool bootstrapped = false;
+        protected bool bootstrapped;
 
         /// <summary>
         /// 是否已经完成初始化
         /// </summary>
-        protected bool inited = false;
+        protected bool inited;
 
         /// <summary>
         /// 启动流程
@@ -81,7 +77,7 @@ namespace CatLib
         /// <summary>
         /// 全局唯一自增
         /// </summary>
-        protected long guid = 0;
+        protected long guid;
 
         /// <summary>
         /// 时间系统
@@ -99,37 +95,33 @@ namespace CatLib
                 {
                     throw new Exception("can not call Time , because framework is not inited");
                 }
-                if (time == null)
-                {
-                    time = Make(typeof(ITime).ToString()) as ITime;
-                }
-                return time;
+                return time ?? (time = Make(typeof(ITime).ToString()) as ITime);
             }
         }
 
         /// <summary>
-        /// 新建一个应用程序
+        /// 构建一个CatLib实例
         /// </summary>
-        public Application() : base()
+        public Application()
         {
 
         }
 
         /// <summary>
-        /// 新建一个应用程序
+        /// 构建一个CatLib实例
         /// </summary>
-        /// <param name="behaviour"></param>
-        public Application(UnityEngine.MonoBehaviour behaviour) 
+        /// <param name="behaviour">驱动脚本</param>
+        public Application(UnityEngine.MonoBehaviour behaviour)
             : base(behaviour)
         {
-            
+
         }
 
         /// <summary>
         /// 引导程序
         /// </summary>
         /// <param name="bootstraps">引导文件</param>
-        /// <returns></returns>
+        /// <returns>CatLib实例</returns>
         public IApplication Bootstrap(Type[] bootstraps)
         {
             process = StartProcess.OnBootstrap;
@@ -167,13 +159,13 @@ namespace CatLib
                 return;
             }
 
-            ServiceProvider[] providers = serviceProviders.ToArray();
+            var providers = new List<ServiceProvider>(serviceProviders.Values).ToArray();
 
             process = StartProcess.OnInit;
 
             Trigger(this).SetEventName(ApplicationEvents.ON_INITING).Trigger();
 
-            foreach (ServiceProvider serviceProvider in providers)
+            foreach (var serviceProvider in providers)
             {
                 serviceProvider.Init();
             }
@@ -183,13 +175,12 @@ namespace CatLib
             Trigger(this).SetEventName(ApplicationEvents.ON_INITED).Trigger();
 
             StartCoroutine(StartProviderPorcess());
-
         }
 
         /// <summary>
         /// 注册服务提供者
         /// </summary>
-        /// <param name="t"></param>
+        /// <param name="t">注册类型</param>
         public void Register(Type t)
         {
             if (serviceProviders.ContainsKey(t))
@@ -197,17 +188,17 @@ namespace CatLib
                 return;
             }
 
-            ServiceProvider serviceProvider = this.Make<ServiceProvider>(t);
-            if (serviceProvider != null)
+            var serviceProvider = this.Make<ServiceProvider>(t);
+            if (serviceProvider == null)
             {
-                serviceProvider.Register();
-                serviceProviders.Add(t, serviceProvider);
-                if (inited)
-                {
-                    serviceProvider.Init();
-                }
+                return;
             }
-
+            serviceProvider.Register();
+            serviceProviders.Add(t, serviceProvider);
+            if (inited)
+            {
+                serviceProvider.Init();
+            }
         }
 
         /// <summary>
@@ -242,9 +233,6 @@ namespace CatLib
             process = StartProcess.OnComplete;
 
             Trigger(this).SetEventName(ApplicationEvents.ON_APPLICATION_START_COMPLETE).Trigger();
-
         }
-
     }
-
 }

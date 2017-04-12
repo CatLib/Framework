@@ -28,7 +28,7 @@ namespace CatLib.AssetBuilder
         {
             var strategys = new List<IBuildStrategy>();
 
-            foreach (var t in typeof(IBuildStrategy).GetChildTypesWithInterface())
+            foreach (var t in Util.FindTypesWithInterface(typeof(IBuildStrategy)))
             {
                 strategys.Add(App.Instance.Make(t.ToString()) as IBuildStrategy);
             }

@@ -171,7 +171,10 @@ namespace CatLib.Container
                 {
                     throw new CatLibException("alias [" + alias + "] is already exists!");
                 }
-
+                if (!binds.ContainsKey(service) && !instances.ContainsKey(service))
+                {
+                    throw new CatLibException("bind [" + service + "] is not exists!");
+                }
                 aliases.Add(alias, service);
             }
             return this;
@@ -242,16 +245,15 @@ namespace CatLib.Container
             {
                 service = Normalize(service);
 
-                instances.Remove(service);
-                aliases = aliases.RemoveValue(service);
-                aliases.Remove(service);
-
-                var bindData = new BindData(this, service, concrete, isStatic);
-
                 if (binds.ContainsKey(service))
                 {
                     throw new CatLibException("bind service [" + service + "] is already exists!");
                 }
+
+                instances.Remove(service);
+                aliases.Remove(service);
+
+                var bindData = new BindData(this, service, concrete, isStatic);
 
                 binds.Add(service, bindData);
 

@@ -76,7 +76,7 @@ namespace CatLib.AutoUpdate
         {
             var file = Disk.File(path + Path.AltDirectorySeparatorChar + FILE_NAME, PathTypes.Absolute);
             file.Delete();
-            file.Create(updateFile.Data.ToByte());
+            file.Create(Encoding.UTF8.GetBytes(updateFile.Data));
         }
     }
 }

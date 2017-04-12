@@ -219,11 +219,11 @@ namespace CatLib.AutoUpdate
             Disk.Root.Create();
             Disk.Root.Walk((file) =>
             {
-                if (file.FullName.Standard().EndsWith(".meta"))
+                if (Util.StandardPath(file.FullName).EndsWith(".meta"))
                 {
                     return;
                 }
-                var fullName = file.FullName.Standard();
+                var fullName = Util.StandardPath(file.FullName);
                 var assetName = fullName.Substring(Env.AssetPath.Length);
                 oldLst.Append(assetName, Hash.FileHash(file.FullName), file.Length);
             });

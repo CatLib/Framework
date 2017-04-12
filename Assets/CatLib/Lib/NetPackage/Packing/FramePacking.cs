@@ -11,6 +11,7 @@
  
 using System;
 using System.Collections.Generic;
+using System.Text;
 using CatLib.API.Network;
 using CatLib.API.Buffer;
 
@@ -70,7 +71,7 @@ namespace CatLib.NetPackage
         public byte[] Encode(byte[] bytes){
 
             EncodeBuffer.Byte = bytes;
-            EncodeBuffer.Unshift((EncodeBuffer.Length + 4).ToString().ToByte());
+            EncodeBuffer.Unshift(Encoding.UTF8.GetBytes((EncodeBuffer.Length + 4).ToString()));
             return EncodeBuffer.Byte;
 
         }

@@ -446,9 +446,9 @@ public class Bootstrap : ServiceProvider
 
             IFile file = disk.File("hello.gz");
             ICompress comp = App.Make<ICompress>();
-            byte[] byt = comp.Compress("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte());
+            byte[] byt = comp.Compress(Encoding.UTF8.GetBytes("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld"));
 
-            Debug.Log("UnCompress: "+ "helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte().Length);
+            Debug.Log("UnCompress: "+ Encoding.UTF8.GetBytes("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld").Length);
             Debug.Log("Compress: "+ byt.Length);
             //file.Create(byt);
 
@@ -699,12 +699,12 @@ public class Bootstrap : ServiceProvider
 
             
             tcpConnect.Connect();
-            tcpConnect.Send("hello this is tcp msg with [text]".ToByte());
+            tcpConnect.Send(Encoding.UTF8.GetBytes("hello this is tcp msg with [text]"));
 
             
             IConnectorTcp tcpConnect2 = network.Create<IConnectorTcp>("tcp.frame");
             tcpConnect2.Connect();
-            tcpConnect2.Send("hello this is tcp msg with [frame]".ToByte());
+            tcpConnect2.Send(Encoding.UTF8.GetBytes("hello this is tcp msg with [frame]"));
             /* 
             IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.text");
             udpConnect.Connect();
@@ -718,7 +718,7 @@ public class Bootstrap : ServiceProvider
             
             IConnectorUdp udpConnect2 = network.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
-            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
+            udpConnect2.Send(Encoding.UTF8.GetBytes("hello world(client udp)") , "pvp.gift", 3301);
 
 
         });

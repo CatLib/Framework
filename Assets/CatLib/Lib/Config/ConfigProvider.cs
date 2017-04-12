@@ -30,7 +30,7 @@ namespace CatLib.Config
                     return null;
                 }
 
-                var types = typeof(IConfig).GetChildTypesWithInterface();
+                var types = Util.FindTypesWithInterface(typeof(IConfig));
 
                 IConfig conf;
                 for (var i = 0; i < types.Length; i++)

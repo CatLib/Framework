@@ -69,7 +69,7 @@ namespace CatLib.AssetBuilder
         private void BuildFileBundleName(IFile file, string basePath)
         {
             var extension = file.Extension;
-            var fullName = file.FullName.Standard();
+            var fullName = Util.StandardPath(file.FullName);
             var fileName = file.Name;
             var baseFileName = fileName.Substring(0, fileName.Length - extension.Length);
             var assetName = fullName.Substring(basePath.Length);
