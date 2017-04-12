@@ -379,7 +379,10 @@ namespace CatLib.Container
         {
             lock (locker)
             {
-                if (decorator == null) { decorator = new List<Func<IBindData, object, object>>(); }
+                if (decorator == null)
+                {
+                    decorator = new List<Func<IBindData, object, object>>();
+                }
                 decorator.Add(func);
                 foreach (var data in instances)
                 {
