@@ -8,16 +8,14 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib
 {
-
     /// <summary>
     /// 服务提供者启动流程（服务提供商级流程）
     /// </summary>
     public enum ProviderProcess
     {
-
         /// <summary>
         /// 顶级初始化流程
         /// </summary>
@@ -26,7 +24,7 @@ namespace CatLib
         /// <summary>
         /// 程序自动更新流程
         /// </summary>
-        ProgramAutoUpdate= 5,
+        ProgramAutoUpdate = 5,
 
         /// <summary>
         /// 资源自动更新流程
@@ -52,7 +50,5 @@ namespace CatLib
         /// 延迟标准流程
         /// </summary>
         LateNormal = 200,
-
     }
-
 }

@@ -90,7 +90,7 @@ namespace CatLib
         /// <summary>
         /// Application行为驱动器
         /// </summary>
-        public Driver(MonoBehaviour mainBehavior)
+        public Driver(Component mainBehavior)
         {
             Initialization(mainBehavior);
 
@@ -271,13 +271,24 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 触发一个事件
+        /// 触发一个全局事件
         /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <returns>全局事件</returns>
+        public IGlobalEvent TriggerGlobal(string eventName)
+        {
+            return TriggerGlobal(eventName, null);
+        }
+
+        /// <summary>
+        /// 触发一个全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
         /// <param name="source">触发事件的源</param>
         /// <returns>全局事件</returns>
-        public IGlobalEvent Trigger(object source)
+        public IGlobalEvent TriggerGlobal(string eventName,object source)
         {
-            return new GlobalEvent(source);
+            return new GlobalEvent(eventName , source);
         }
 
         /// <summary>

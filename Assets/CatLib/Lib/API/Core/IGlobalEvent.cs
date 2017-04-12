@@ -8,25 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 
-namespace CatLib.API{
+namespace CatLib.API
+{
+    /// <summary>
+    /// 全局事件接口
+    /// </summary>
+    public interface IGlobalEvent
+    {
+        IGlobalEvent AppendInterface<T>();
 
-	/// <summary>
-	/// 全局事件接口
-	/// </summary>
-	public interface IGlobalEvent{
+        IGlobalEvent AppendInterface(Type t);
 
-		IGlobalEvent SetEventName(string name);
+        IGlobalEvent SetEventLevel(EventLevel level);
 
-		IGlobalEvent AppendInterface<T>();
-		IGlobalEvent AppendInterface(Type t);
-
-		IGlobalEvent SetEventLevel(EventLevel level);
-
-		void Trigger(EventArgs args = null);
-
-	}
-
+        void Trigger(EventArgs args = null);
+    }
 }

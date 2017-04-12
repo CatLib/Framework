@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Buffer;
 using CatLib.API.Network;
 using System;
@@ -197,7 +197,7 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public void Send(byte[] bytes , string host , int port)
+        public void Send(byte[] bytes, string host, int port)
         {
             lock (locker)
             {
@@ -244,14 +244,15 @@ namespace CatLib.Network
                     if (udpConnector != null && udpConnector.CurrentStatus == UdpConnector.Status.Establish)
                     {
                         object[] data = queue.Dequeue();
-                        if(data.Length == 1)
+                        if (data.Length == 1)
                         {
                             udpConnector.Send(data[0] as byte[]);
-                        }else if(data.Length == 3)
+                        }
+                        else if (data.Length == 3)
                         {
                             udpConnector.SendTo(data[0] as byte[], data[1] as string, int.Parse(data[2].ToString()));
                         }
-                        
+
                     }
                     else { break; }
                 }
@@ -385,8 +386,7 @@ namespace CatLib.Network
             }
 
             Event.Trigger(eventName, this, args);
-            App.Trigger(this)
-               .SetEventName(eventName)
+            App.TriggerGlobal(eventName, this)
                .SetEventLevel(level)
                .AppendInterface<IConnectorUdp>()
                .AppendInterface<IConnectorSocket>()

@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API;
 using CatLib.API.Thread;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace CatLib.Thread
     /// <summary>
     /// 多线程运行器
     /// </summary>
-    public class ThreadRuner : IThread , IUpdate
+    public class ThreadRuner : IThread, IUpdate
     {
 
         [Dependency]
@@ -80,7 +80,8 @@ namespace CatLib.Thread
             try
             {
                 this.taskRunner.Remove(taskRunner);
-            }finally
+            }
+            finally
             {
                 taskRunnerLocker.ExitWriteLock();
             }
@@ -126,7 +127,7 @@ namespace CatLib.Thread
                 if (typeof(ThreadTask) == state.GetType()) { RunTaskThread((ThreadTask)state); }
                 else
                 {
-                    App.Trigger(this).SetEventName(ThreadEvents.ON_THREAD_EXECURE_ERROR).Trigger(
+                    App.TriggerGlobal(ThreadEvents.ON_THREAD_EXECURE_ERROR, this).Trigger(
                                         new ErrorEventArgs(
                                             new System.Exception(string.Format("type '{0}' not supported!", state.GetType())
                                         )));
@@ -134,7 +135,7 @@ namespace CatLib.Thread
             }
             catch (System.Exception exception)
             {
-                App.Trigger(this).SetEventName(ThreadEvents.ON_THREAD_EXECURE_ERROR).Trigger(new ErrorEventArgs(exception));
+                App.TriggerGlobal(ThreadEvents.ON_THREAD_EXECURE_ERROR, this).Trigger(new ErrorEventArgs(exception));
             }
         }
 

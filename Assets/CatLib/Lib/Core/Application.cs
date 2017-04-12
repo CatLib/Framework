@@ -131,7 +131,7 @@ namespace CatLib
             Alias(typeof(IApplication).ToString(), typeof(Application).ToString());
             Alias(typeof(App).ToString(), typeof(Application).ToString());
             IBootstrap bootstrap;
-            foreach (Type t in bootstraps)
+            foreach (var t in bootstraps)
             {
                 bootstrap = this.Make<IBootstrap>(t);
                 if (bootstrap != null)
@@ -163,7 +163,7 @@ namespace CatLib
 
             process = StartProcess.OnInit;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_INITING).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_INITING, this).Trigger();
 
             foreach (var serviceProvider in providers)
             {
@@ -172,7 +172,7 @@ namespace CatLib
 
             inited = true;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_INITED).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_INITED, this).Trigger();
 
             StartCoroutine(StartProviderPorcess());
         }
@@ -218,21 +218,21 @@ namespace CatLib
         {
             process = StartProcess.OnProviderProcess;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSING).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_PROVIDER_PROCESSING, this).Trigger();
 
-            List<ServiceProvider> providers = new List<ServiceProvider>(serviceProviders.Values);
+            var providers = new List<ServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess));
 
-            foreach (ServiceProvider provider in providers)
+            foreach (var provider in providers)
             {
                 yield return provider.OnProviderProcess();
             }
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSED).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_PROVIDER_PROCESSED, this).Trigger();
 
             process = StartProcess.OnComplete;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_APPLICATION_START_COMPLETE).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_APPLICATION_START_COMPLETE, this).Trigger();
         }
     }
 }

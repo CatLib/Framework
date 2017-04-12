@@ -209,8 +209,7 @@ namespace CatLib.Network
                         var args = new WebRequestEventArgs(request);
 
                         Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
-                        App.Trigger(this)
-                           .SetEventName(HttpRequestEvents.ON_MESSAGE)
+                        App.TriggerGlobal(HttpRequestEvents.ON_MESSAGE, this)
                            .SetEventLevel(level)
                            .AppendInterface<IConnectorHttp>()
                            .Trigger(args);

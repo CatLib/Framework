@@ -15,72 +15,95 @@ using CatLib.API;
 
 namespace CatLib
 {
-
-    public class GlobalEvent : IGlobalEvent
+    /// <summary>
+    /// 全局事件
+    /// </summary>
+    public sealed class GlobalEvent : IGlobalEvent
     {
+        /// <summary>
+        /// 事件源
+        /// </summary>
+        private readonly object source;
 
-        private object source;
+        /// <summary>
+        /// 事件名称
+        /// </summary>
+        private readonly string eventName;
 
-        private string eventName;
-
+        /// <summary>
+        /// 触发接口级事件的接口
+        /// </summary>
         private List<string> classInterface;
 
+        /// <summary>
+        /// 事件广播级别
+        /// </summary>
         private EventLevel eventLevel = EventLevel.All;
 
-        public GlobalEvent(object source)
+        /// <summary>
+        /// 构造一个全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="source">事件源</param>
+        public GlobalEvent(string eventName , object source)
         {
-
+            this.eventName = eventName;
             this.source = source;
-
         }
 
-        public IGlobalEvent SetEventName(string name)
-        {
-
-            eventName = name;
-            return this;
-
-        }
-
+        /// <summary>
+        /// 增加事件响应接口
+        /// </summary>
+        /// <typeparam name="T">接口类型</typeparam>
+        /// <returns>全局事件实例</returns>
         public IGlobalEvent AppendInterface<T>()
         {
-
             AppendInterface(typeof(T));
             return this;
         }
+
+        /// <summary>
+        /// 增加事件响应接口
+        /// </summary>
+        /// <param name="t">接口类型</param>
+        /// <returns>全局事件实例</returns>
         public IGlobalEvent AppendInterface(Type t)
         {
-
-            if (classInterface == null) { classInterface = new List<string>(); }
+            if (classInterface == null)
+            {
+                classInterface = new List<string>();
+            }
             classInterface.Add(t.ToString());
             return this;
         }
 
+        /// <summary>
+        /// 设定事件等级
+        /// </summary>
+        /// <param name="level">事件等级</param>
+        /// <returns>全局事件实例</returns>
         public IGlobalEvent SetEventLevel(EventLevel level)
         {
-
             eventLevel = level;
             return this;
-
         }
 
+        /// <summary>
+        /// 触发一个全局事件
+        /// </summary>
+        /// <param name="args">事件参数</param>
         public void Trigger(EventArgs args = null)
         {
-
             if (string.IsNullOrEmpty(eventName))
             {
-
                 throw new RuntimeException("global event , event name can not be null");
-
             }
 
             if ((eventLevel & EventLevel.Self) > 0)
             {
-                IGuid guid = source as IGuid;
-
+                var guid = source as IGuid;
                 if (guid != null)
                 {
-
                     App.Instance.Trigger(eventName + source.GetType() + guid.Guid, source, args);
                 }
             }
@@ -92,7 +115,7 @@ namespace CatLib
 
             if (classInterface != null && (eventLevel & EventLevel.Interface) > 0)
             {
-                for (int i = 0; i < classInterface.Count; i++)
+                for (var i = 0; i < classInterface.Count; i++)
                 {
                     App.Instance.Trigger(eventName + classInterface[i], source, args);
                 }
@@ -102,9 +125,6 @@ namespace CatLib
             {
                 App.Instance.Trigger(eventName, source, args);
             }
-
         }
-
     }
-
 }

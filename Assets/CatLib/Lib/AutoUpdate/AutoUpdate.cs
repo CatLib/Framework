@@ -110,7 +110,7 @@ namespace CatLib.AutoUpdate
         }
 
         #endregion
-        
+
         /// <summary>
         /// 更新Asset
         /// </summary>
@@ -173,7 +173,7 @@ namespace CatLib.AutoUpdate
                 }
                 else
                 {
-                    App.Trigger(this).SetEventName(AutoUpdateEvents.ON_GET_UPDATE_URL_FAILD)
+                    App.TriggerGlobal(AutoUpdateEvents.ON_GET_UPDATE_URL_FAILD, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
                     yield break;
@@ -190,7 +190,7 @@ namespace CatLib.AutoUpdate
         /// <returns>迭代器</returns>
         private IEnumerator UpdateList(string resUrl)
         {
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_START)
+            App.TriggerGlobal(AutoUpdateEvents.ON_UPDATE_START, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
 
@@ -202,13 +202,13 @@ namespace CatLib.AutoUpdate
             if (request.isError || request.responseCode != 200)
             {
                 isUpdate = false;
-                App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_LIST_FAILED)
+                App.TriggerGlobal(AutoUpdateEvents.ON_UPDATE_LIST_FAILED, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
                 yield break;
             }
 
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_START)
+            App.TriggerGlobal(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_START, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
 
@@ -228,7 +228,7 @@ namespace CatLib.AutoUpdate
                 oldLst.Append(assetName, Hash.FileHash(file.FullName), file.Length);
             });
 
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_END)
+            App.TriggerGlobal(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_END, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
 
@@ -241,7 +241,7 @@ namespace CatLib.AutoUpdate
 
             fileStore.Save(Env.AssetPath, newLst);
 
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_COMPLETE)
+            App.TriggerGlobal(AutoUpdateEvents.ON_UPDATE_COMPLETE, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
         }
@@ -253,7 +253,7 @@ namespace CatLib.AutoUpdate
         /// <returns>迭代器</returns>
         private IEnumerator DeleteOldAsset(UpdateFile needDeleteLst)
         {
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_START)
+            App.TriggerGlobal(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_START, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
             IFile file;
@@ -264,7 +264,7 @@ namespace CatLib.AutoUpdate
                 {
                     continue;
                 }
-                App.Trigger(this).SetEventName(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION)
+                App.TriggerGlobal(AutoUpdateEvents.ON_DELETE_DISK_OLD_FIELD_ACTION, this)
                     .SetEventLevel(EventLevel.Global)
                     .Trigger();
                 file.Delete();
@@ -272,7 +272,7 @@ namespace CatLib.AutoUpdate
 
             yield return null;
 
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_END)
+            App.TriggerGlobal(AutoUpdateEvents.ON_DELETE_DISK_OLD_FILE_END, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
         }
@@ -294,7 +294,7 @@ namespace CatLib.AutoUpdate
                 updatePath[i++] = field.Path;
             }
 
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_START)
+            App.TriggerGlobal(AutoUpdateEvents.ON_UPDATE_FILE_START, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger(new UpdateFileStartEventArgs(updatePath));
 
@@ -307,7 +307,7 @@ namespace CatLib.AutoUpdate
 
                 using (var request = UnityWebRequest.Get(downloadPath))
                 {
-                    App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_ACTION)
+                    App.TriggerGlobal(AutoUpdateEvents.ON_UPDATE_FILE_ACTION, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger(new UpdateFileActionEventArgs(updatePath[i], request));
 
@@ -315,7 +315,7 @@ namespace CatLib.AutoUpdate
 
                     if (request.isError || request.responseCode != 200)
                     {
-                        App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_FAILD)
+                        App.TriggerGlobal(AutoUpdateEvents.ON_UPDATE_FILE_FAILD, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
                         yield break;
@@ -327,7 +327,7 @@ namespace CatLib.AutoUpdate
                 }
             }
 
-            App.Trigger(this).SetEventName(AutoUpdateEvents.ON_UPDATE_FILE_END)
+            App.TriggerGlobal(AutoUpdateEvents.ON_UPDATE_FILE_END, this)
                                      .SetEventLevel(EventLevel.Global)
                                      .Trigger();
         }

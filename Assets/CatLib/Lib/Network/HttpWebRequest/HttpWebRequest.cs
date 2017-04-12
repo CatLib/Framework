@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Network;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace CatLib.Network
     {
 
         [Dependency]
-        public IEventAchieve Event{ get; set;  }
+        public IEventAchieve Event { get; set; }
 
         [Dependency]
         public IApplication App { get; set; }
@@ -65,13 +65,16 @@ namespace CatLib.Network
         private Dictionary<string, string> headers;
         public Dictionary<string, string> Headers { get { return headers; } }
 
-        public void SetConfig(Hashtable config){
+        public void SetConfig(Hashtable config)
+        {
 
-            if(config.ContainsKey("host")){
+            if (config.ContainsKey("host"))
+            {
                 url = config["host"].ToString().TrimEnd('/');
             }
 
-            if(config.ContainsKey("timeout")){
+            if (config.ContainsKey("timeout"))
+            {
                 timeout = Convert.ToInt32(config["timeout"].ToString());
             }
 
@@ -100,18 +103,18 @@ namespace CatLib.Network
 
         public void Restful(ERestful method, string action)
         {
-            HttpWebRequestEntity request = new HttpWebRequestEntity(url + action , method);
+            HttpWebRequestEntity request = new HttpWebRequestEntity(url + action, method);
             queue.Enqueue(request);
         }
 
-        public void Restful(ERestful method, string action , WWWForm form)
+        public void Restful(ERestful method, string action, WWWForm form)
         {
             HttpWebRequestEntity request = new HttpWebRequestEntity(url + action, method);
             request.SetBody(form.data).SetContentType("application/x-www-form-urlencoded");
             queue.Enqueue(request);
         }
 
-        public void Restful(ERestful method , string action , byte[] body)
+        public void Restful(ERestful method, string action, byte[] body)
         {
             HttpWebRequestEntity request = new HttpWebRequestEntity(url + action, method);
             request.SetBody(body).SetContentType("application/octet-stream");
@@ -130,7 +133,7 @@ namespace CatLib.Network
 
         public void Post(string action, WWWForm form)
         {
-            Restful(ERestful.Post , action, form);
+            Restful(ERestful.Post, action, form);
         }
 
         public void Post(string action, byte[] body)
@@ -192,12 +195,11 @@ namespace CatLib.Network
                         var args = new HttpRequestEventArgs(request);
 
                         Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
-                        App.Trigger(this)
-                           .SetEventName(HttpRequestEvents.ON_MESSAGE)
+                        App.TriggerGlobal(HttpRequestEvents.ON_MESSAGE, this)
                            .SetEventLevel(level)
                            .AppendInterface<IConnectorHttp>()
                            .Trigger(args);
-                                        
+
                     }
                 }
                 yield return new WaitForEndOfFrame();

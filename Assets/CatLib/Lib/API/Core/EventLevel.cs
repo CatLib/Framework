@@ -8,12 +8,15 @@
  *
  * Document: http://catlib.io/
  */
- 
+
+using System;
+
 namespace CatLib.API
 {
     /// <summary>
     /// 事件等级
     /// </summary>
+    [Flags]
     public enum EventLevel
     {
 

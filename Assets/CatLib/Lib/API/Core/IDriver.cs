@@ -27,7 +27,9 @@ namespace CatLib.API
 
         void MainThread(Action action);
 
-        IGlobalEvent Trigger(object score);
+        IGlobalEvent TriggerGlobal(string eventName);
+
+        IGlobalEvent TriggerGlobal(string eventName, object score);
 
         UnityEngine.Coroutine StartCoroutine(IEnumerator routine);
 
