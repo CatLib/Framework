@@ -67,19 +67,17 @@ namespace CatLib{
 
 			if ((eventLevel & EventLevel.Self) > 0)
             {
-				if(source != null){
-					
-					if(source is IGuid){
-						App.Instance.Trigger(eventName + source.GetType().ToString() + (source as IGuid).Guid, source, args);
-					}
+                IGuid guid = source as IGuid;
+
+                if (guid != null){
+
+					App.Instance.Trigger(eventName + source.GetType().ToString() + guid.Guid, source, args);
 				}
             }
 
             if ((eventLevel & EventLevel.Type) > 0)
             {
-				if(source != null){
-                	App.Instance.Trigger(eventName + source.GetType().ToString(), source, args);
-				}
+            	App.Instance.Trigger(eventName + source.GetType().ToString(), source, args);
             }
 
             if ((eventLevel & EventLevel.Interface) > 0)
