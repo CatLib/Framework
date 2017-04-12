@@ -19,7 +19,7 @@ namespace CatLib.Container
     /// <summary>
     /// 拦截动态代理
     /// </summary>
-	public sealed class InterceptingRealProxy : RealProxy, IInterceptingProxy
+    public sealed class InterceptingRealProxy : RealProxy, IInterceptingProxy
     {
         /// <summary>
         /// 拦截器管道
@@ -29,7 +29,7 @@ namespace CatLib.Container
         /// <summary>
         /// 代理对象
         /// </summary>
-		private readonly object target;
+        private readonly object target;
 
         /// <summary>
         /// 构建一个动态代理
@@ -77,10 +77,7 @@ namespace CatLib.Container
 
             try
             {
-                var ret = interceptors.Do(methodInvoke, () =>
-                {
-                    return ((IMethodCallMessage)msg).MethodBase.Invoke(methodInvoke.Target, methodInvoke.Arguments);
-                });
+                var ret = interceptors.Do(methodInvoke, () => ((IMethodCallMessage)msg).MethodBase.Invoke(methodInvoke.Target, methodInvoke.Arguments));
 
                 return new ReturnMessage(ret,
                                     methodInvoke.Arguments,

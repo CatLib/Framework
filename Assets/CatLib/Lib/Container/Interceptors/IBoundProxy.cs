@@ -11,6 +11,9 @@
 
 namespace CatLib.Container
 {
+    /// <summary>
+    /// 代理包装器
+    /// </summary>
     internal interface IBoundProxy
     {
         /// <summary>
