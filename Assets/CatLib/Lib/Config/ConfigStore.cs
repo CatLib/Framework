@@ -73,9 +73,15 @@ namespace CatLib.Config
         /// <returns>配置的值，如果找不到则返回默认值</returns>
         public T Get<T>(string name, string field, T def = default(T))
         {
+            if (!configs.ContainsKey(name) || !configs[name].ContainsKey((name)))
+            {
+                return def;
+            }
+            
             try
             {
-                var obj = Get(name, field, (object)def);
+                var obj = configs[name][field];
+
                 if (obj == null)
                 {
                     return def;
@@ -90,7 +96,10 @@ namespace CatLib.Config
                 }
                 return (T)obj;
             }
-            catch { throw new ArgumentException(" field [" + field + "] is can not conversion to " + typeof(T)); }
+            catch
+            {
+                throw new ArgumentException(" field [" + field + "] is can not conversion to " + typeof(T));
+            }
         }
 
         /// <summary>
@@ -128,7 +137,7 @@ namespace CatLib.Config
             {
                 return new Dictionary<string, object>();
             }
-            if (config.Config.Length%2 != 0)
+            if (config.Config.Length % 2 != 0)
             {
                 throw new ArgumentException("param is not incorrect");
             }
