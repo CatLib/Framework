@@ -71,26 +71,21 @@ namespace CatLib{
 
                 if (guid != null){
 
-					App.Instance.Trigger(eventName + source.GetType().ToString() + guid.Guid, source, args);
+					App.Instance.Trigger(eventName + source.GetType() + guid.Guid, source, args);
 				}
             }
 
-            if ((eventLevel & EventLevel.Type) > 0)
+            if (source != null && (eventLevel & EventLevel.Type) > 0)
             {
-            	App.Instance.Trigger(eventName + source.GetType().ToString(), source, args);
+            	App.Instance.Trigger(eventName + source.GetType(), source, args);
             }
 
-            if ((eventLevel & EventLevel.Interface) > 0)
+            if (classInterface != null && (eventLevel & EventLevel.Interface) > 0)
             {
-				if(classInterface != null){
-
-					for(int i = 0 ; i < classInterface.Count ; i++){
-
-						App.Instance.Trigger(eventName + classInterface[i], source, args);
-
-					}
-
-				}  
+                for (int i = 0; i < classInterface.Count; i++)
+                {
+                    App.Instance.Trigger(eventName + classInterface[i], source, args);
+                }
             }
 
             if ((eventLevel & EventLevel.Global) > 0)
