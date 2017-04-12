@@ -8,76 +8,86 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections.Generic;
 using CatLib.API;
 
-namespace CatLib{
+namespace CatLib
+{
 
-	public class GlobalEvent : IGlobalEvent {
+    public class GlobalEvent : IGlobalEvent
+    {
 
-		private object source;
+        private object source;
 
-		private string eventName;
+        private string eventName;
 
-		private List<string> classInterface;
+        private List<string> classInterface;
 
-		private EventLevel eventLevel = EventLevel.All;
+        private EventLevel eventLevel = EventLevel.All;
 
-		public GlobalEvent(object source){
+        public GlobalEvent(object source)
+        {
 
-			this.source = source;
+            this.source = source;
 
-		}
+        }
 
-		public IGlobalEvent SetEventName(string name){
+        public IGlobalEvent SetEventName(string name)
+        {
 
-			eventName = name;
-			return this;
+            eventName = name;
+            return this;
 
-		}
+        }
 
-		public IGlobalEvent AppendInterface<T>(){
-			
-			AppendInterface(typeof(T));
-			return this;
-		}
-		public IGlobalEvent AppendInterface(Type t){
+        public IGlobalEvent AppendInterface<T>()
+        {
 
-			if(classInterface == null){ classInterface = new List<string>(); }
-			classInterface.Add(t.ToString());
-			return this;
-		}
+            AppendInterface(typeof(T));
+            return this;
+        }
+        public IGlobalEvent AppendInterface(Type t)
+        {
 
-		public IGlobalEvent SetEventLevel(EventLevel level){
+            if (classInterface == null) { classInterface = new List<string>(); }
+            classInterface.Add(t.ToString());
+            return this;
+        }
 
-			eventLevel = level;
-			return this;
+        public IGlobalEvent SetEventLevel(EventLevel level)
+        {
 
-		}
+            eventLevel = level;
+            return this;
 
-		public void Trigger(EventArgs args = null){
+        }
 
-			if(string.IsNullOrEmpty(eventName)){
+        public void Trigger(EventArgs args = null)
+        {
 
-				throw new RuntimeException("global event , event name can not be null");
+            if (string.IsNullOrEmpty(eventName))
+            {
 
-			}
+                throw new RuntimeException("global event , event name can not be null");
 
-			if ((eventLevel & EventLevel.Self) > 0)
+            }
+
+            if ((eventLevel & EventLevel.Self) > 0)
             {
                 IGuid guid = source as IGuid;
 
-                if (guid != null){
+                if (guid != null)
+                {
 
-					App.Instance.Trigger(eventName + source.GetType() + guid.Guid, source, args);
-				}
+                    App.Instance.Trigger(eventName + source.GetType() + guid.Guid, source, args);
+                }
             }
 
             if (source != null && (eventLevel & EventLevel.Type) > 0)
             {
-            	App.Instance.Trigger(eventName + source.GetType(), source, args);
+                App.Instance.Trigger(eventName + source.GetType(), source, args);
             }
 
             if (classInterface != null && (eventLevel & EventLevel.Interface) > 0)
@@ -92,9 +102,9 @@ namespace CatLib{
             {
                 App.Instance.Trigger(eventName, source, args);
             }
-			
-		}
-		
-	}
+
+        }
+
+    }
 
 }

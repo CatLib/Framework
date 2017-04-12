@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using UnityEditor;
 using System.IO;
 using CatLib.API.AssetBuilder;
@@ -17,39 +18,47 @@ using CatLib.API.IO;
 
 namespace CatLib.AssetBuilder
 {
-
-    public class PrecompiledStrategy : IBuildStrategy
+    /// <summary>
+    /// 在编译之前执行的策略
+    /// </summary>
+    public sealed class PrecompiledStrategy : IBuildStrategy
     {
-
-
+        /// <summary>
+        /// 环境配置
+        /// </summary>
         [Dependency]
         public IEnv Env { get; set; }
 
-        public BuildProcess Process { get { return BuildProcess.Precompiled; } }
+        /// <summary>
+        /// 配置的编译流程
+        /// </summary>
+        public BuildProcess Process
+        {
+            get { return BuildProcess.Precompiled; }
+        }
 
+        /// <summary>
+        /// 执行编译时
+        /// </summary>
+        /// <param name="context">编译上下文</param>
         public void Build(IBuildContext context)
         {
-
             BuildAssetBundleName(context);
-
         }
 
         /// <summary>
         /// 编译AssetBundle标记的名字
         /// </summary>
-        protected void BuildAssetBundleName(IBuildContext context)
+        private void BuildAssetBundleName(IBuildContext context)
         {
-
-            IDirectory directory = context.Disk.Directory(context.BuildPath, PathTypes.Absolute);
-            directory.Walk((file) => {
-
+            var directory = context.Disk.Directory(context.BuildPath, PathTypes.Absolute);
+            directory.Walk((file) =>
+            {
                 if (!file.Name.EndsWith(".meta"))
                 {
                     BuildFileBundleName(file, context.BuildPath);
                 }
-
             }, SearchOption.AllDirectories);
-
         }
 
         /// <summary>
@@ -57,42 +66,34 @@ namespace CatLib.AssetBuilder
         /// </summary>
         /// <param name="file">文件信息</param>
         /// <param name="basePath">基础路径</param>
-
-        protected void BuildFileBundleName(IFile file, string basePath)
+        private void BuildFileBundleName(IFile file, string basePath)
         {
-
-            string extension = file.Extension;
-            string fullName = file.FullName.Standard();
-            string fileName = file.Name;
-            string baseFileName = fileName.Substring(0, fileName.Length - extension.Length);
-            string assetName = fullName.Substring(basePath.Length);
+            var extension = file.Extension;
+            var fullName = file.FullName.Standard();
+            var fileName = file.Name;
+            var baseFileName = fileName.Substring(0, fileName.Length - extension.Length);
+            var assetName = fullName.Substring(basePath.Length);
             assetName = assetName.Substring(0, assetName.Length - fileName.Length).TrimEnd(Path.AltDirectorySeparatorChar);
 
-            if (baseFileName + extension == ".DS_Store") { return; }
+            if (baseFileName + extension == ".DS_Store")
+            {
+                return;
+            }
 
-            int variantIndex = baseFileName.LastIndexOf(".");
-            string variantName = string.Empty;
+            var variantIndex = baseFileName.LastIndexOf(".", StringComparison.Ordinal);
+            var variantName = string.Empty;
 
             if (variantIndex > 0)
             {
-
                 variantName = baseFileName.Substring(variantIndex + 1);
-
             }
 
-            AssetImporter assetImporter = AssetImporter.GetAtPath("Assets" + Env.ResourcesBuildPath + assetName + Path.AltDirectorySeparatorChar + baseFileName + extension);
+            var assetImporter = AssetImporter.GetAtPath("Assets" + Env.ResourcesBuildPath + assetName + Path.AltDirectorySeparatorChar + baseFileName + extension);
             assetImporter.assetBundleName = assetName.TrimStart(Path.AltDirectorySeparatorChar);
             if (variantName != string.Empty)
             {
-
                 assetImporter.assetBundleVariant = variantName;
-
             }
-
         }
-
-
-
     }
-
 }

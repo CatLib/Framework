@@ -8,39 +8,48 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using UnityEditor;
-using System.IO;
 using CatLib.API;
 using CatLib.API.IO;
-using CatLib.API.Resources;
 using CatLib.API.AssetBuilder;
 
 namespace CatLib.AssetBuilder
 {
-
-	public class BuildStrategy : IBuildStrategy {
-
-
+    /// <summary>
+    /// 编译策略
+    /// </summary>
+    public sealed class BuildStrategy : IBuildStrategy
+    {
+        /// <summary>
+        /// 环境配置
+        /// </summary>
         [Dependency]
         public IEnv Env { get; set; }
 
-        public BuildProcess Process{ get { return BuildProcess.Build; } }
+        /// <summary>
+        /// 配置的编译流程
+        /// </summary>
+        public BuildProcess Process
+        {
+            get { return BuildProcess.Build; }
+        }
 
-		public void Build(IBuildContext context){
-
-			IDirectory copyDir = context.Disk.Directory(context.NoBuildPath, PathTypes.Absolute);
+        /// <summary>
+        /// 执行编译时
+        /// </summary>
+        /// <param name="context">编译上下文</param>
+        public void Build(IBuildContext context)
+        {
+            var copyDir = context.Disk.Directory(context.NoBuildPath, PathTypes.Absolute);
             if (copyDir.Exists())
             {
                 copyDir.CopyTo(context.ReleasePath);
             }
 
-			BuildPipeline.BuildAssetBundles("Assets" + context.ReleasePath.Substring(Env.DataPath.Length), 
-												BuildAssetBundleOptions.None ,
+            BuildPipeline.BuildAssetBundles("Assets" + context.ReleasePath.Substring(Env.DataPath.Length),
+                                                BuildAssetBundleOptions.None,
                                                 context.BuildTarget);
-
-		}
-
-	}
-
+        }
+    }
 }
