@@ -19,7 +19,7 @@ namespace CatLib.Container
     /// <summary>
     /// 拦截动态代理
     /// </summary>
-	public sealed class InterceptingRealProxy : RealProxy, IInterceptingProxy
+    public sealed class InterceptingRealProxy : RealProxy, IInterceptingProxy
     {
         /// <summary>
         /// 拦截器管道
@@ -29,12 +29,12 @@ namespace CatLib.Container
         /// <summary>
         /// 代理对象
         /// </summary>
-		private readonly object target;
+        private readonly object target;
 
         /// <summary>
         /// 构建一个动态代理
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="target">代理的原始对象</param>
         public InterceptingRealProxy(object target)
             : base(target.GetType())
         {
@@ -45,7 +45,7 @@ namespace CatLib.Container
         /// <summary>
         /// 增加拦截
         /// </summary>
-        /// <param name="interceptor"></param>
+        /// <param name="interceptor">拦截器实例</param>
         public void AddInterception(IInterception interceptor)
         {
             if (interceptor == null)
@@ -58,7 +58,7 @@ namespace CatLib.Container
         /// <summary>
         /// 代理调用时
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">函数调用消息</param>
         /// <returns></returns>
         public override IMessage Invoke(IMessage msg)
         {
@@ -77,10 +77,7 @@ namespace CatLib.Container
 
             try
             {
-                var ret = interceptors.Do(methodInvoke, () =>
-                {
-                    return ((IMethodCallMessage)msg).MethodBase.Invoke(methodInvoke.Target, methodInvoke.Arguments);
-                });
+                var ret = interceptors.Do(methodInvoke, () => ((IMethodCallMessage)msg).MethodBase.Invoke(methodInvoke.Target, methodInvoke.Arguments));
 
                 return new ReturnMessage(ret,
                                     methodInvoke.Arguments,

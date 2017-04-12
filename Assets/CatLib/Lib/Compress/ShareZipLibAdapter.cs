@@ -17,7 +17,7 @@ namespace CatLib.Compress
     /// <summary>
     /// ShareZipLib 适配器
     /// </summary>
-    public class ShareZipLibAdapter : ICompressAdapter
+    public sealed class ShareZipLibAdapter : ICompressAdapter
     {
         /// <summary>
         /// 对字节序进行压缩

@@ -176,7 +176,7 @@ namespace CatLib.Container
         /// <summary>
         /// 迭代器
         /// </summary>
-        /// <returns></returns>
+        /// <returns>迭代器</returns>
         public IEnumerator GetEnumerator()
         {
             for (var i = 0; i < argumentInfo.Count; ++i)
