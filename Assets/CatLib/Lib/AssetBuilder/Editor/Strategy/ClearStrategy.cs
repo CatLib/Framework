@@ -18,7 +18,7 @@ namespace CatLib.AssetBuilder
     /// <summary>
     /// 清理策略
     /// </summary>
-	public sealed class ClearStrategy : IBuildStrategy
+    public sealed class ClearStrategy : IBuildStrategy
     {
         /// <summary>
         /// 配置的编译流程
