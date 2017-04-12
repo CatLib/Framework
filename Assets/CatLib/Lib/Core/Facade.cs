@@ -8,16 +8,17 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib
 {
-
     /// <summary>
-    /// 门面基类
+    /// 门面
     /// </summary>
-    public class Facade<T>
+    public abstract class Facade<T>
     {
-
+        /// <summary>
+        /// 门面实例
+        /// </summary>
         public static T Instance
         {
             get
@@ -26,5 +27,4 @@ namespace CatLib
             }
         }
     }
-
 }

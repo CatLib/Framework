@@ -644,7 +644,9 @@ public class Bootstrap : ServiceProvider
 
             });
 
-            IConnectorHttp http = FNetwork.Instance.Create<IConnectorHttp>("http");
+            INetworkFactory network = App.Make<INetworkFactory>();
+
+            IConnectorHttp http = network.Create<IConnectorHttp>("http");
             //http.SetConfig(new System.Collections.Hashtable() { { "host", "http://www.qidian.com/" } });
             http.Get(string.Empty);
 
@@ -679,7 +681,7 @@ public class Bootstrap : ServiceProvider
 
             //链接配置见 NetworkConfig 配置文件
 
-            IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("tcp.text");
+            IConnectorTcp tcpConnect = network.Create<IConnectorTcp>("tcp.text");
 
             
             (tcpConnect as IEvent).Event.One(SocketRequestEvents.ON_MESSAGE, (s1, e1) =>
@@ -700,7 +702,7 @@ public class Bootstrap : ServiceProvider
             tcpConnect.Send("hello this is tcp msg with [text]".ToByte());
 
             
-            IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("tcp.frame");
+            IConnectorTcp tcpConnect2 = network.Create<IConnectorTcp>("tcp.frame");
             tcpConnect2.Connect();
             tcpConnect2.Send("hello this is tcp msg with [frame]".ToByte());
             /* 
@@ -714,7 +716,7 @@ public class Bootstrap : ServiceProvider
             udpConnectFrame.Send("hello this is udp msg with [frame]".ToByte());*/
            
             
-            IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
+            IConnectorUdp udpConnect2 = network.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
             udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
 
