@@ -13,9 +13,9 @@ namespace CatLib.API.Crypt{
 
 	public interface ICrypt{
 
-        string Encrypt(string toEncrypt);
+        string Encrypt(string str);
 
-        string Decrypt(string toDecrypt);
+        string Decrypt(string str);
 
 
     }

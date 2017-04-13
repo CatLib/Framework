@@ -8,27 +8,36 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Config;
 using CatLib.API.Crypt;
 
-namespace CatLib.Crypt{
-
-	public class CryptProvider : ServiceProvider {
-
-		public override void Register()
+namespace CatLib.Crypt
+{
+    /// <summary>
+    /// 加密服务提供商
+    /// </summary>
+    public class CryptProvider : ServiceProvider
+    {
+        /// <summary>
+        /// 注册一个加密服务
+        /// </summary>
+        public override void Register()
         {
-            App.Singleton<Crypt>().Alias<ICrypt>().OnResolving((obj)=>{
-                
-                IConfigStore config = App.Make<IConfigStore>();
-                Crypt crypt = obj as Crypt;
+            App.Singleton<Crypt>().Alias<ICrypt>().OnResolving((obj) =>
+            {
+                var config = App.Make<IConfigStore>();
+                var crypt = obj as Crypt;
 
-                crypt.SetKey(config.Get(typeof(Crypt) , "key" , null));
+                crypt.SetAdapter(new HMacAes256());
+
+                if (config != null)
+                {
+                    crypt.SetKey(config.Get(typeof(Crypt), "key", null));
+                }
 
                 return obj;
-                
             });
         }
-	}
-
+    }
 }
