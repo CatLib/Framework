@@ -8,20 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.DataTable;
 
-namespace CatLib.DataTable{
-
-	public class DataTableProvider : ServiceProvider {
-
-		public override void Register()
+namespace CatLib.DataTable
+{
+    /// <summary>
+    /// Datatable服务提供商
+    /// </summary>
+    public sealed class DataTableProvider : ServiceProvider
+    {
+        /// <summary>
+        /// 注册Datatable服务
+        /// </summary>
+        public override void Register()
         {
-
             App.Singleton<DataTableFactory>().Alias<IDataTableFactory>().Alias("datatable");
-
         }
-
-	}
-
+    }
 }

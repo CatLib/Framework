@@ -8,44 +8,67 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.DataTable;
 
-namespace CatLib.DataTable{
+namespace CatLib.DataTable
+{
+    /// <summary>
+    /// 结果集中的一条数据
+    /// </summary>
+    public sealed class DataTableResult : IDataTableResult
+    {
+        /// <summary>
+        /// 所属数据表
+        /// </summary>
+        private readonly DataTable table;
 
-	public class DataTableResult : IDataTableResult{
+        /// <summary>
+        /// 列
+        /// </summary>
+        private readonly string[] column;
 
-		private DataTable table;
+        /// <summary>
+        /// 列
+        /// </summary>
+        public string[] Column
+        {
+            get { return column; }
+        }
 
-		private string[] row;
+        /// <summary>
+        /// 创建一条记录
+        /// </summary>
+        /// <param name="table">所属数据表</param>
+        /// <param name="column">一条记录</param>
+        public DataTableResult(DataTable table, string[] column)
+        {
+            this.table = table;
+            this.column = column;
+        }
 
-        public string[] Row { get { return row; } }
+        /// <summary>
+        /// 获取指定字段的记录
+        /// </summary>
+        /// <param name="field">字段名</param>
+        /// <returns>字段中的值</returns>
+        public string Get(string field)
+        {
+            var index = table.GetIndex(field);
+            return index == -1 ? null : column[index];
+        }
 
-		public DataTableResult(DataTable table , string[] row){
-
-			this.table = table;
-			this.row = row;
-
-		}
-
-		public string Get(string field){
-			
-			int index = table.GetIndex(field);
-			if(index == -1){ return null; }
-			return row[index];
-
-		}
-
-        public string this[string field]{ 
-			
-			get{
-
-				return Get(field);
-
-			} 
-
-		}
-
-	}
-
+        /// <summary>
+        /// 获取指定字段的记录
+        /// </summary>
+        /// <param name="field">字段名</param>
+        /// <returns>字段中的值</returns>
+        public string this[string field]
+        {
+            get
+            {
+                return Get(field);
+            }
+        }
+    }
 }

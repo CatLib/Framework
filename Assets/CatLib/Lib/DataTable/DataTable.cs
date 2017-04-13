@@ -8,260 +8,314 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections.Generic;
 using CatLib.API.DataTable;
 
-namespace CatLib.DataTable{
-
-	public class DataTable : IDataTable{
-		
-		/// <summary>
+namespace CatLib.DataTable
+{
+    /// <summary>
+    /// DataTable
+    /// </summary>
+    public sealed class DataTable : IDataTable
+    {
+        /// <summary>
         /// 标题
         /// </summary>
-		private Dictionary<string , int> title;
+        private Dictionary<string, int> title;
 
-		/// <summary>
+        /// <summary>
         /// 查询集合(不含头)
         /// </summary>
-		private List<DataTableResult> dataTableResult;
+        private List<DataTableResult> dataTableResult;
 
-		/// <summary>
+        /// <summary>
         /// 选择器
         /// </summary>
-		private DataTableSelector selector;
+        private DataTableSelector selector;
 
-		public DataTable(string[][] result){
-
-			GuardResult(result);
-			ExtractionTitle(result);
-			ExtractionContent(result);
-			
-		}
+        /// <summary>
+        /// 新建一个数据表
+        /// </summary>
+        /// <param name="result">结果集</param>
+        public DataTable(string[][] result)
+        {
+            GuardResult(result);
+            ExtractionTitle(result);
+            ExtractionContent(result);
+        }
 
         /// <summary>
         /// 将数据表转为数组
         /// </summary>
-        /// <returns></returns>
+        /// <returns>将数据表转为数组</returns>
         public string[][] ToArray()
         {
-            if (this.title == null || this.dataTableResult == null) { return null; }
-            List<string[]> returnData = new List<string[]>();
-
-            string[] title = new string[this.title.Keys.Count];
-            this.title.Keys.CopyTo(title, 0);
-            returnData.Add(title);
-
-            for(int i = 0; i < dataTableResult.Count; i++)
+            if (title == null || dataTableResult == null)
             {
-                returnData.Add(dataTableResult[i].Row);
+                return null;
+            }
+
+            var returnData = new List<string[]>();
+            var head = new string[title.Keys.Count];
+
+            title.Keys.CopyTo(head, 0);
+            returnData.Add(head);
+
+            for (var i = 0; i < dataTableResult.Count; i++)
+            {
+                returnData.Add(dataTableResult[i].Column);
             }
 
             return returnData.ToArray();
         }
 
-		/// <summary>
+        /// <summary>
         /// 获取标题对应的下标
         /// </summary>
-		public int GetIndex(string field){
-			
-			if(title == null){ return -1; }
-			if(title.ContainsKey(field)){
+        /// <param name="field">标题</param>
+        /// <returns>下标</returns>
+        public int GetIndex(string field)
+        {
+            if (title == null)
+            {
+                return -1;
+            }
 
-				return title[field];
-			
-			}
-			return -1;
+            if (title.ContainsKey(field))
+            {
+                return title[field];
+            }
 
-		}
+            return -1;
+        }
 
-
-		/// <summary>
-        /// 提取标题
+        /// <summary>
+        /// 从结果集提取标题
         /// </summary>
-		private void ExtractionTitle(string[][] result){
+        /// <param name="result">结果集</param>
+        private void ExtractionTitle(IList<string[]> result)
+        {
+            title = new Dictionary<string, int>();
+            var titleRow = result[0];
 
-			title = new Dictionary<string , int>();
-			string[] titleRow = result[0];
-			
-			for(int i = 0; i < titleRow.Length ; i++){
-				title.Add(titleRow[i] , i);
-			}
+            for (var i = 0; i < titleRow.Length; i++)
+            {
+                title.Add(titleRow[i], i);
+            }
+        }
 
-		}
-
-		/// <summary>
-        /// 提取内容
+        /// <summary>
+        /// 从结果集提取内容
         /// </summary>
-		private void ExtractionContent(string[][] result){
+        /// <param name="result">结果集</param>
+        private void ExtractionContent(IList<string[]> result)
+        {
+            dataTableResult = new List<DataTableResult>();
+            for (var i = 1; i < result.Count; i++)
+            {
+                if (result[i].Length != title.Count)
+                {
+                    continue;
+                }
+                dataTableResult.Add(new DataTableResult(this, result[i]));
+            }
+        }
 
-			dataTableResult = new List<DataTableResult>();
-			for(int i = 1; i < result.Length ; i++){
-				if(result[i].Length != title.Count){ continue; }
-				dataTableResult.Add( new DataTableResult(this ,  result[i]));
-			}
-		}
+        /// <summary>
+        /// 建立一个Where查询
+        /// </summary>
+        /// <param name="field">字段名</param>
+        /// <param name="operators">操作符</param>
+        /// <param name="val">值</param>
+        /// <param name="linker">语句链接符</param>
+        /// <returns>查询器</returns>
+        public IDataTableSelector Where(string field, string operators, string val, SelectorLinker linker = SelectorLinker.And)
+        {
+            selector = new DataTableSelector(this);
+            return selector.Where(field, operators, val, linker);
+        }
 
-		/// <summary>
-		/// 建立一个Where查询
-		/// </summary>
-		public IDataTableSelector Where(string field, string operators, string val, SelectorLinker linker = SelectorLinker.And){
+        /// <summary>
+        /// 建立一个Where嵌套查询
+        /// </summary>
+        /// <param name="nested">嵌套查询</param>
+        /// <param name="linker">链接标识</param>
+        /// <returns>查询器</returns>
+        public IDataTableSelector Where(Action<IDataTableSelector> nested, SelectorLinker linker = SelectorLinker.And)
+        {
+            selector = new DataTableSelector(this);
+            return selector.Where(nested, linker);
+        }
 
-			this.selector = new DataTableSelector(this);
-			return this.selector.Where(field , operators , val , linker);
+        /// <summary>
+        /// 执行一个查询获取查询结果集
+        /// </summary>
+        public IDataTableResult[] Get()
+        {
+            if (selector == null)
+            {
+                return dataTableResult.ToArray();
+            }
 
-		}
+            var result = Parser();
+            selector = null;
+            return result;
+        }
 
-		/// <summary>
-		/// 建立一个Where嵌套查询
-		/// </summary>
-		public IDataTableSelector Where(Action<IDataTableSelector> nested, SelectorLinker linker = SelectorLinker.And){
+        /// <summary>
+        /// 根据下标获取一行记录
+        /// </summary>
+        /// <param name="index">下标</param>
+        /// <returns>一行记录</returns>
+        public IDataTableResult Get(int index)
+        {
+            return dataTableResult.Count <= index ? null : dataTableResult[index];
+        }
 
-			this.selector = new DataTableSelector(this);
-			return this.selector.Where(nested , linker);
+        /// <summary>
+        /// 执行一个查询获取结果集
+        /// </summary>
+        private IDataTableResult[] Parser()
+        {
+            var result = new List<DataTableResult>();
+            var wheres = selector.Wheres;
+            for (var i = 0; i < dataTableResult.Count; i++)
+            {
+                if (Filter(dataTableResult[i], wheres))
+                {
+                    result.Add(dataTableResult[i]);
+                }
+            }
+            return result.ToArray();
+        }
 
-		}
+        /// <summary>
+        /// 检查结果集是否符合条件如果不符合应该返回false
+        /// </summary>
+        private bool Filter(DataTableResult row, DataTableSelectorData[] wheres)
+        {
+            bool statu = true, statuNext;
+            for (var i = 0; i < wheres.Length; i++)
+            {
+                statuNext = QueryWhere(row, wheres[i]);
+                switch (wheres[i].Linker)
+                {
+                    case SelectorLinker.And:
+                        statu = statu && statuNext;
+                        break;
+                    case SelectorLinker.Or:
+                        if (statu) { return true; }
+                        statu = statuNext;
+                        break;
+                    default:
+                        throw new Exception("undefined selector linker :" + wheres[i].Linker);
+                }
+            }
+            return statu;
+        }
 
-		/// <summary>
-		/// 执行一个查询获取结果集
-		/// </summary>
-		public IDataTableResult[] Get(){
+        /// <summary>
+        /// 执行Where
+        /// </summary>
+        /// <param name="row">一行记录</param>
+        /// <param name="wheres">查询条件</param>
+        /// <returns>是否符合条件</returns>
+        private bool QueryWhere(DataTableResult row, DataTableSelectorData wheres)
+        {
+            switch (wheres.SelectType)
+            {
+                case "Nested":
+                    return WhereNested(row, wheres);
+                case "Basic":
+                    return WhereBasic(row, wheres);
+                case "NotNull":
+                    return WhereNotNull(row, wheres);
+                case "Null":
+                    return WhereNull(row, wheres);
+                default:
+                    return false;
+            }
+        }
 
-			if(selector == null){
-				
-				return dataTableResult.ToArray();
+        /// <summary>
+        /// 嵌套查询
+        /// </summary>
+        /// <param name="row">一行记录</param>
+        /// <param name="wheres">查询条件</param>
+        /// <returns>是否符合条件</returns>
+        private bool WhereNested(DataTableResult row, DataTableSelectorData wheres)
+        {
+            return Filter(row, wheres.Selector.Wheres);
+        }
 
-			}
+        /// <summary>
+        /// 基础操作符查询
+        /// </summary>
+        /// <param name="row">一行记录</param>
+        /// <param name="wheres">查询条件</param>
+        /// <returns>是否符合条件</returns>
+        private bool WhereBasic(DataTableResult row, DataTableSelectorData wheres)
+        {
+            switch (wheres.Operator)
+            {
+                case "==":
+                case "=":
+                    return row[wheres.Field] == wheres.Value;
+                case "<":
+                    return int.Parse(row[wheres.Field]) < int.Parse(wheres.Value);
+                case ">":
+                    return int.Parse(row[wheres.Field]) > int.Parse(wheres.Value);
+                case "<=":
+                    return int.Parse(row[wheres.Field]) <= int.Parse(wheres.Value);
+                case ">=":
+                    return int.Parse(row[wheres.Field]) >= int.Parse(wheres.Value);
+                case "<>":
+                case "!=":
+                    return row[wheres.Field] != wheres.Value;
+                default:
+                    return false;
+            }
+        }
 
-			var result = Parser();
+        /// <summary>
+        /// 空查询
+        /// </summary>
+        /// <param name="row">一行记录</param>
+        /// <param name="wheres">查询条件</param>
+        /// <returns>是否符合条件</returns>
+        private bool WhereNull(DataTableResult row, DataTableSelectorData wheres)
+        {
+            return string.IsNullOrEmpty(row[wheres.Field]);
+        }
 
-			selector = null;
-			
-			return result;
+        /// <summary>
+        /// 非空查询
+        /// </summary>
+        /// <param name="row">一行记录</param>
+        /// <param name="wheres">查询条件</param>
+        /// <returns>是否符合条件</returns>
+        private bool WhereNotNull(DataTableResult row, DataTableSelectorData wheres)
+        {
+            return !WhereNull(row, wheres);
+        }
 
-		}
+        /// <summary>
+        /// 结果集验证
+        /// </summary>
+        /// <param name="result">结果集</param>
+        private void GuardResult(string[][] result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("illegal result", "result");
+            }
 
-		/// <summary>
-		/// 根据下标获取一个结果集
-		/// </summary>
-		public IDataTableResult Get(int index){
-
-			if(dataTableResult.Count <= index){
-				return null;
-			}
-			return dataTableResult[index];
-
-		}
-
-		/// <summary>
-		/// 执行一个查询获取结果集
-		/// </summary>
-		private IDataTableResult[] Parser(){
-
-			List<DataTableResult> result = new List<DataTableResult>();
-			DataTableSelectorData[] wheres = selector.Wheres;
-			for(int i = 0; i < dataTableResult.Count ; i++){
-
-				if(Filter(dataTableResult[i] , wheres)){
-					
-					result.Add(dataTableResult[i]);
-
-				}
-
-			}			
-			
-    		return result.ToArray();
-
-		}
-
-		/// <summary>
-		/// 检查结果集是否符合条件如果不符合应该返回false
-		/// </summary>
-		private bool Filter(DataTableResult row , DataTableSelectorData[] wheres){
-
-			bool statu = true , statuNext;
-			for(int i = 0; i < wheres.Length ; i++){
-
-				statuNext = QueryWhere(row , wheres[i]);
-				if(wheres[i].Linker == SelectorLinker.And){
-					statu = statu && statuNext;
-				}else if(wheres[i].Linker == SelectorLinker.Or){
-					if(statu){ return statu; }
-					statu = statu || statuNext;
-				}
-			}
-			return statu;
-
-		}
-
-		private bool QueryWhere(DataTableResult row , DataTableSelectorData wheres){
-
-			switch(wheres.SelectType){
-
-				case "Nested":return WhereNested(row , wheres);
-				case "Basic": return WhereBasic(row , wheres);
-				case "NotNull": return WhereNotNull(row , wheres);
-				case "Null": return WhereNull(row , wheres);
-				default: return false;
-
-			}
-
-		}
-
-		private bool WhereNested(DataTableResult row , DataTableSelectorData wheres){
-
-			return Filter(row , wheres.Selector.Wheres);
-
-		}
-
-		private bool WhereBasic(DataTableResult row , DataTableSelectorData wheres){
-
-			switch(wheres.Operator){
-
-				case "==":
-				case "=": return row[wheres.Field] == wheres.Value;
-				case "<": return int.Parse(row[wheres.Field]) < int.Parse(wheres.Value);
-				case ">": return int.Parse(row[wheres.Field]) > int.Parse(wheres.Value);
-				case "<=": return int.Parse(row[wheres.Field]) <= int.Parse(wheres.Value);
-				case ">=": return int.Parse(row[wheres.Field]) >= int.Parse(wheres.Value);
-				case "<>":
-				case "!=": return row[wheres.Field] != wheres.Value;
-				default: return false;
-
-			}
-
-
-		}
-
-		private bool WhereNull(DataTableResult row , DataTableSelectorData wheres){
-
-			return string.IsNullOrEmpty(row[wheres.Field]);
-
-		}
-
-		private bool WhereNotNull(DataTableResult row , DataTableSelectorData wheres){
-
-			return !WhereNull(row, wheres);
-
-		}
-		
-		private void GuardResult(string[][] result){
-
-			if(result == null){
-
-				throw new ArgumentNullException("illegal result" , "result");
-			
-			}
-
-			if(result.Length <= 0){
-
-				throw new ArgumentException("illegal result" , "result");
-			
-			}
-
-		}
-
-	}
-
+            if (result.Length <= 0)
+            {
+                throw new ArgumentException("illegal result", "result");
+            }
+        }
+    }
 }

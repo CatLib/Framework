@@ -8,19 +8,24 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.DataTable;
 
-namespace CatLib.DataTable{
-
-	public class DataTableFactory : IDataTableFactory {
-
-		public IDataTable Make(string[][] result){
-
-			return new DataTable(result);
-
-		}
-		
-	}
-
+namespace CatLib.DataTable
+{
+    /// <summary>
+    /// Datatable构建器
+    /// </summary>
+    public sealed class DataTableFactory : IDataTableFactory
+    {
+        /// <summary>
+        /// 构建Datatable
+        /// </summary>
+        /// <param name="result">结果集</param>
+        /// <returns>数据表</returns>
+        public IDataTable Make(string[][] result)
+        {
+            return new DataTable(result);
+        }
+    }
 }
