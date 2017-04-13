@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections.Generic;
 using CatLib.API.Csv;
@@ -16,66 +16,87 @@ using CatLib.API.CsvStore;
 using CatLib.API.DataTable;
 using CatLib.API.IO;
 
-namespace CatLib.CsvStore{
+namespace CatLib.CsvStore
+{
+    /// <summary>
+    /// Csv存储容器
+    /// </summary>
+    public sealed class CsvStore : ICsvStore
+    {
+        /// <summary>
+        /// Csv数据表
+        /// </summary>
+        private readonly Dictionary<string, IDataTable> tables = new Dictionary<string, IDataTable>();
 
-	/// <summary>
-	/// CSV存储容器
-	/// </summary>
-	public class CsvStore : ICsvStore{
+        /// <summary>
+        /// 文件夹
+        /// </summary>
+        private IDirectory directory;
 
-		private Dictionary<string , IDataTable> tables = new Dictionary<string , IDataTable>();
+        /// <summary>
+        /// Csv解析器
+        /// </summary>
+        [Dependency]
+        public ICsvParser Parser { get; set; }
 
-		private IDirectory directory;
+        /// <summary>
+        /// 数据表构建器
+        /// </summary>
+        [Dependency]
+        public IDataTableFactory DataTableFactory { get; set; }
 
-		[Dependency]
-		public ICsvParser Parser{ get; set; }
+        /// <summary>
+        /// 设定Csv存储容器的文件夹
+        /// </summary>
+        /// <param name="dir">以这个文件夹作为根目录</param>
+        public void SetDirctory(IDirectory dir)
+        {
+            directory = dir;
+        }
 
-		[Dependency]
-		public IDataTableFactory DataTableFactory{ get;set; }
+        /// <summary>
+        /// 获取一个数据表
+        /// </summary>
+        /// <param name="table">数据表表名</param>
+        /// <returns>数据表</returns>
+        public IDataTable Get(string table)
+        {
+            if (!tables.ContainsKey(table))
+            {
+                LoadCsvFile(table);
+            }
+            return tables[table];
+        }
 
-		public void SetDirctory(IDirectory dir){
+        /// <summary>
+        /// 获取一个数据表
+        /// </summary>
+        /// <param name="table">数据表表名</param>
+        /// <returns>数据表</returns>
+        public IDataTable this[string table]
+        {
+            get
+            {
+                return Get(table);
+            }
+        }
 
-			directory = dir;
+        /// <summary>
+        /// 加载Csv文件
+        /// </summary>
+        /// <param name="filename">文件名</param>
+        private void LoadCsvFile(string filename)
+        {
+            if (directory == null)
+            {
+                throw new ArgumentNullException("directory", "not set csv file directory");
+            }
 
-		}
+            var path = System.IO.Path.GetFileNameWithoutExtension(filename) + ".csv";
+            var csvFile = directory.File(path);
+            var csvData = Parser.Parser(System.Text.Encoding.UTF8.GetString(csvFile.Read()));
 
-		public IDataTable Get(string table){
-
-			if(!tables.ContainsKey(table)){
-				LoadCsvFile(table);
-			}
-			return tables[table];
-
-		}
-
-		public IDataTable this[string table]{ 
-			
-			get{
-
-				return Get(table);
-
-			} 
-
-		}
-
-		private void LoadCsvFile(string filename){
-
-			if(directory == null){
-
-				throw new ArgumentNullException("not set csv file directory");
-
-			}
-
-			string path = System.IO.Path.GetFileNameWithoutExtension(filename) + ".csv";
-
-			IFile csvFile = directory.File(path);
-
-			string[][] csvData = Parser.Parser(System.Text.Encoding.UTF8.GetString(csvFile.Read()));
-			
-			tables.Add( filename, DataTableFactory.Make(csvData) );
-			
-		}
-		
-	}
-
+            tables.Add(filename, DataTableFactory.Make(csvData));
+        }
+    }
 }

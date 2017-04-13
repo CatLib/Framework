@@ -8,60 +8,60 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.CsvStore;
 using CatLib.API.Config;
 using CatLib.API.IO;
 using CatLib.API;
 using System.Collections;
 
-namespace CatLib.CsvStore{
-
-	public class CsvStoreProvider : ServiceProvider{
-
-		public override void Register()
+namespace CatLib.CsvStore
+{
+    /// <summary>
+    /// Csv容器服务提供商
+    /// </summary>
+    public class CsvStoreProvider : ServiceProvider
+    {
+        /// <summary>
+        /// 注册一个Csv容器服务提供商
+        /// </summary>
+        public override void Register()
         {
+            App.Singleton<CsvStore>().Alias<ICsvStore>().Alias("csv.store").OnResolving((obj) =>
+            {
+                var store = obj as CsvStore;
+                var confStore = App.Make<IConfigStore>();
 
-            App.Singleton<CsvStore>().Alias<ICsvStore>().Alias("csv.store").OnResolving((obj)=>{
+                if (confStore == null)
+                {
+                    return store;
+                }
 
-				CsvStore store = obj as CsvStore;
+                var root = confStore.Get(typeof(CsvStore), "root", null);
 
-				IConfigStore confStore = App.Make<IConfigStore>();
-				
-				if(confStore != null){
+                if (root == null)
+                {
+                    return store;
+                }
 
-					string root = confStore.Get(typeof(CsvStore), "root", null);
+                var env = App.Make<IEnv>();
+                var io = App.Make<IIOFactory>();
+                var disk = io.Disk();
 
-					if(root != null){
-						
-						IEnv env = App.Make<IEnv>();
-						IIOFactory io = App.Make<IIOFactory>();
-						IDisk disk = io.Disk();
+#if UNITY_EDITOR
+                if (env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev)
+                {
+                    disk.SetConfig(new Hashtable
+                    {
 
-						#if UNITY_EDITOR
-						if(env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev){
+                        {"root" , env.AssetPath + env.ResourcesNoBuildPath}
 
-							disk.SetConfig(new Hashtable(){
-
-								{"root" , env.AssetPath + env.ResourcesNoBuildPath}
-								
-							});
-
-						}
-						#endif
-
-						store.SetDirctory(disk.Directory(root));
-
-					}
-
-				}
-
-				return store;
-
-			});;
-
+                    });
+                }
+#endif
+                store.SetDirctory(disk.Directory(root));
+                return store;
+            });
         }
-
-	}
-
+    }
 }
