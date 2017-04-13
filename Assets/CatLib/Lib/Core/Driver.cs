@@ -31,17 +31,22 @@ namespace CatLib
         /// <summary>
         /// 更新
         /// </summary>
-        private readonly List<IUpdate> update = new List<IUpdate>();
+        private readonly LinkedList<IUpdate> update = new LinkedList<IUpdate>();
 
         /// <summary>
         /// 延后更新
         /// </summary>
-        private readonly List<ILateUpdate> lateUpdate = new List<ILateUpdate>();
+        private readonly LinkedList<ILateUpdate> lateUpdate = new LinkedList<ILateUpdate>();
 
         /// <summary>
         /// 释放时需要调用的
         /// </summary>
-        private readonly List<IDestroy> destroy = new List<IDestroy>();
+        private readonly LinkedList<IDestroy> destroy = new LinkedList<IDestroy>();
+
+        /// <summary>
+        /// 优先标记
+        /// </summary>
+        private readonly Type priority = typeof(PriorityAttribute);
 
         /// <summary>
         /// 事件实体
@@ -128,18 +133,73 @@ namespace CatLib
         {
             if (obj is IUpdate)
             {
-                update.Add(obj as IUpdate);
+                AddWidthPriorities(update, obj as IUpdate, "Update");
             }
 
             if (obj is ILateUpdate)
             {
-                lateUpdate.Add(obj as ILateUpdate);
+                AddWidthPriorities(lateUpdate, obj as ILateUpdate, "LateUpdate");
             }
 
             if (obj is IDestroy)
             {
-                destroy.Add(obj as IDestroy);
+                AddWidthPriorities(destroy, obj as IDestroy, "OnDestroy");
             }
+        }
+
+        /// <summary>
+        /// 根据优先级增加到列表
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="list">列表</param>
+        /// <param name="val">增加的内容</param>
+        /// <param name="method">识别的方法</param>
+        private void AddWidthPriorities<T>(LinkedList<T> list, T val, string method)
+        {
+            var current = list.First;
+            while (current != null)
+            {
+                var currentPriorities = GetPriorities(current.Value.GetType(), method);
+                var valPriorities = GetPriorities(val.GetType(), method);
+
+                if (currentPriorities > valPriorities)
+                {
+                    break;
+                }
+
+                current = current.Next;
+            }
+            if (current != null)
+            {
+                list.AddBefore(current, val);
+            }
+            else
+            {
+                list.AddLast(val);
+            }
+        }
+
+        /// <summary>
+        /// 获取优先级
+        /// </summary>
+        /// <param name="type">识别的类型</param>
+        /// <param name="method">识别的方法</param>
+        /// <returns>优先级</returns>
+        private int GetPriorities(Type type, string method)
+        {
+            var currentPriority = int.MaxValue;
+            var methodInfo = type.GetMethod(method);
+
+            if (methodInfo.IsDefined(priority, false))
+            {
+                currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities; ;
+            }
+            else if (type.IsDefined(priority, false))
+            {
+                currentPriority = (type.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
+            }
+
+            return currentPriority;
         }
 
         #region Action
@@ -149,9 +209,11 @@ namespace CatLib
         /// </summary>
         public void Update()
         {
-            for (var i = 0; i < update.Count; i++)
+            var current = update.First;
+            while (current != null)
             {
-                update[i].Update();
+                current.Value.Update();
+                current = current.Next;
             }
             lock (mainThreadDispatcherQueueLocker)
             {
@@ -167,9 +229,11 @@ namespace CatLib
         /// </summary>
         public void LateUpdate()
         {
-            for (var i = 0; i < lateUpdate.Count; i++)
+            var current = lateUpdate.First;
+            while (current != null)
             {
-                lateUpdate[i].LateUpdate();
+                current.Value.LateUpdate();
+                current = current.Next;
             }
         }
 
@@ -178,9 +242,11 @@ namespace CatLib
         /// </summary>
         public void OnDestroy()
         {
-            for (var i = 0; i < destroy.Count; i++)
+            var current = destroy.First;
+            while (current != null)
             {
-                destroy[i].OnDestroy();
+                current.Value.OnDestroy();
+                current = current.Next;
             }
         }
 
@@ -286,9 +352,9 @@ namespace CatLib
         /// <param name="eventName">事件名</param>
         /// <param name="source">触发事件的源</param>
         /// <returns>全局事件</returns>
-        public IGlobalEvent TriggerGlobal(string eventName,object source)
+        public IGlobalEvent TriggerGlobal(string eventName, object source)
         {
-            return new GlobalEvent(eventName , source);
+            return new GlobalEvent(eventName, source);
         }
 
         /// <summary>
