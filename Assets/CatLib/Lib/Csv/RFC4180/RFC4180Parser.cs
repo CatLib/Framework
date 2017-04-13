@@ -8,22 +8,35 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.IO;
 
 namespace CatLib.Csv
 {
-
-    public class RFC4180Parser : IStandard
+    /// <summary>
+    /// RFC4180解析器
+    /// </summary>
+    internal sealed class RFC4180Parser : IStandard
     {
+        /// <summary>
+        /// 数据渲染器
+        /// </summary>
+        private readonly Rfc4180Reader render;
 
-        private RFC4180Reader render;
-
-        public RFC4180Parser(RFC4180Options options)
+        /// <summary>
+        /// 构建一个解析器
+        /// </summary>
+        /// <param name="options">解析配置</param>
+        public RFC4180Parser(Rfc4180Options options)
         {
-            render = new RFC4180Reader(options);
+            render = new Rfc4180Reader(options);
         }
 
+        /// <summary>
+        /// 解析每一行数据
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         public string[] Parse(string line)
         {
             using (var sr = new StringReader(line))
@@ -31,7 +44,5 @@ namespace CatLib.Csv
                 return render.Parse(sr);
             }
         }
-
     }
-
 }

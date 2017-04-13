@@ -8,20 +8,28 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.Text;
 using System.IO;
 using System.Collections.Generic;
 
 namespace CatLib.Csv
 {
-
-    public class RFC4180Reader
+    /// <summary>
+    /// RFC4180渲染器
+    /// </summary>
+    internal sealed class Rfc4180Reader
     {
+        /// <summary>
+        /// 配置
+        /// </summary>
+        private readonly Rfc4180Options options;
 
-        private RFC4180Options options;
-
-        public RFC4180Reader(RFC4180Options options)
+        /// <summary>
+        /// 构建一个RFC4180规则的渲染器
+        /// </summary>
+        /// <param name="options">渲染器配置</param>
+        public Rfc4180Reader(Rfc4180Options options)
         {
             this.options = options;
         }
@@ -29,14 +37,16 @@ namespace CatLib.Csv
         /// <summary>
         /// 解析内容
         /// </summary>
+        /// <param name="reader">输入的一行内容</param>
+        /// <returns>数组的每个元素为行中的列</returns>
         public string[] Parse(StringReader reader)
         {
-            bool isContinue = true;
+            var isContinue = true;
             string content;
             var cols = new List<string>();
             while (isContinue)
             {
-                content = NextBlock(reader , out isContinue);
+                content = NextBlock(reader, out isContinue);
 
                 if (content != null)
                 {
@@ -49,15 +59,13 @@ namespace CatLib.Csv
         /// <summary>
         /// 下一个区块
         /// </summary>
-        /// <param name="reader">字符串</param>
+        /// <param name="reader">输入的一行内容</param>
         /// <param name="isContinue">是否继续循环</param>
-        /// <returns></returns>
-        private string NextBlock(StringReader reader , out bool isContinue)
+        /// <returns>每列的数据</returns>
+        private string NextBlock(StringReader reader, out bool isContinue)
         {
-
-            string result = string.Empty;
-
-            int c = reader.Peek();
+            string result;
+            var c = reader.Peek();
 
             if (c == options.DelimiterChar)
             {
@@ -66,67 +74,62 @@ namespace CatLib.Csv
                 isContinue = true;
                 return string.Empty;
             }
-            else
+
+            //如果是引用字符那么读取引用
+            if (c == options.QuoteChar)
             {
-                //如果是引用字符那么读取引用
-                if (c == options.QuoteChar)
-                {
-                    result = ReadQuoted(reader);
+                result = ReadQuoted(reader);
 
-                    if (IsEndOfStream(reader.Peek()))
-                    {
-                        isContinue = false;
-                        return result;
-                    }
-
-                    if (IsDelimiter(reader.Peek()))
-                    {
-                        reader.Read();
-                    }
-
-                    isContinue = true;
-                    return result;
-                }
-
-                if (IsEndOfStream(c))
+                if (IsEndOfStream(reader.Peek()))
                 {
                     isContinue = false;
-                    return null;
-                }
-                else
-                {
-                    result = ReadTo(reader , options.DelimiterChar);
-
-                    if (IsEndOfStream(reader.Peek()))
-                    {
-                        isContinue = false;
-                        return result;
-                    }
-
-                    if (IsDelimiter(reader.Peek()))
-                    {
-                        reader.Read();
-                    }
-
-                    isContinue = true;
                     return result;
                 }
 
+                if (IsDelimiter(reader.Peek()))
+                {
+                    reader.Read();
+                }
+
+                isContinue = true;
+                return result;
             }
+
+            if (IsEndOfStream(c))
+            {
+                isContinue = false;
+                return null;
+            }
+
+            result = ReadTo(reader, options.DelimiterChar);
+
+            if (IsEndOfStream(reader.Peek()))
+            {
+                isContinue = false;
+                return result;
+            }
+
+            if (IsDelimiter(reader.Peek()))
+            {
+                reader.Read();
+            }
+
+            isContinue = true;
+            return result;
         }
 
         /// <summary>
         /// 读取引用字符
         /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
+        /// <param name="reader">输入的一行内容</param>
+        /// <returns>引用内的字符串</returns>
         private string ReadQuoted(StringReader reader)
         {
             //去除第1个引用标记
             reader.Read();
 
             //读取到第2个引用标记的内容
-            string result = ReadTo(reader , options.QuoteChar);
+            var result = ReadTo(reader, options.QuoteChar);
 
             //去除第2个引用标记
             reader.Read();
@@ -138,7 +141,7 @@ namespace CatLib.Csv
             }
 
             //如果连续引用则说明引用转义
-            StringBuilder buffer = new StringBuilder(result);
+            var buffer = new StringBuilder(result);
             do
             {
                 //一直循环直到没有引用转义的内容
@@ -155,7 +158,7 @@ namespace CatLib.Csv
         /// 是否是分隔符
         /// </summary>
         /// <param name="c">字符</param>
-        /// <returns></returns>
+        /// <returns>是否是分隔符</returns>
         private bool IsDelimiter(int c)
         {
             return c == options.DelimiterChar;
@@ -165,7 +168,7 @@ namespace CatLib.Csv
         /// 是否是结束位置
         /// </summary>
         /// <param name="c">字符</param>
-        /// <returns></returns>
+        /// <returns>是否是结尾</returns>
         private bool IsEndOfStream(int c)
         {
             return c == -1;
@@ -176,17 +179,15 @@ namespace CatLib.Csv
         /// </summary>
         /// <param name="reader">字符流</param>
         /// <param name="readTo">字符</param>
-        /// <returns></returns>
+        /// <returns>在指定字符前的字符串</returns>
         private string ReadTo(StringReader reader, char readTo)
         {
-            StringBuilder buffer = new StringBuilder();
+            var buffer = new StringBuilder();
             while (reader.Peek() != -1 && reader.Peek() != readTo)
             {
                 buffer.Append((char)reader.Read());
             }
             return buffer.ToString();
         }
-
     }
-
 }

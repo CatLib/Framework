@@ -8,16 +8,14 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.Csv
 {
-
     /// <summary>
     /// Csv选项
     /// </summary>
-    public class CsvParserOptions
+    public sealed class CsvParserOptions
     {
-
         /// <summary>
         /// 是否跳过头
         /// </summary>
@@ -33,13 +31,15 @@ namespace CatLib.Csv
         /// </summary>
         public IStandard Standard { get; set; }
 
+        /// <summary>
+        /// 构建一个解析配置
+        /// </summary>
+        /// <param name="standard">解析标准</param>
         public CsvParserOptions(IStandard standard)
         {
             Standard = standard;
             SkipHeader = false;
             AnnotationChar = ';';
         }
-
     }
-
 }

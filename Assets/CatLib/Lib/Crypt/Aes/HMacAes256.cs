@@ -46,9 +46,9 @@ namespace CatLib.Crypt
 
             var aesBufferString = Convert.ToBase64String(buffer);
             var ivString = Convert.ToBase64String(aes.IV);
-            var aesIVString = Convert.ToBase64String(Encoding.UTF8.GetBytes(aesBufferString + "$" + ivString));
+            var aesIvString = Convert.ToBase64String(Encoding.UTF8.GetBytes(aesBufferString + "$" + ivString));
 
-            return aesIVString + "$" + HMac(aesIVString, key);
+            return aesIvString + "$" + HMac(aesIvString, key);
         }
 
         /// <summary>
@@ -69,15 +69,15 @@ namespace CatLib.Crypt
                 throw new DecryptException("mac is invalid");
             }
 
-            var aesIVString = Encoding.UTF8.GetString(Convert.FromBase64String(hmac[0]));
-            var aesIVStringArr = aesIVString.Split('$');
-            if (aesIVStringArr.Length < 2)
+            var aesIvString = Encoding.UTF8.GetString(Convert.FromBase64String(hmac[0]));
+            var aesIvStringArr = aesIvString.Split('$');
+            if (aesIvStringArr.Length < 2)
             {
                 throw new DecryptException("mac is invalid");
             }
 
-            var aesBuffer = Convert.FromBase64String(aesIVStringArr[0]);
-            var ivBuffer = Convert.FromBase64String(aesIVStringArr[1]);
+            var aesBuffer = Convert.FromBase64String(aesIvStringArr[0]);
+            var ivBuffer = Convert.FromBase64String(aesIvStringArr[1]);
 
             var aes = new RijndaelManaged
             {

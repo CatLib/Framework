@@ -8,39 +8,27 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Csv;
 
 namespace CatLib.Csv
 {
-
     /// <summary>
     /// Csv服务提供商
     /// </summary>
-    public class CsvParserProvider : ServiceProvider
+    public sealed class CsvParserProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册Csv服务
+        /// </summary>
         public override void Register()
         {
-
-            RegisterParseOptions();
-            App.Singleton<CsvParser>().Alias<ICsvParser>().Alias("csv.parser");
-
-        }
-
-        protected void RegisterParseOptions()
-        {
-
-            App.Singleton<CsvParserOptions>((app, param) => {
-
-                RFC4180Options rfcOptions = new RFC4180Options();
+            App.Singleton<CsvParser>((app, param) =>
+            {
+                var rfcOptions = new Rfc4180Options();
                 var options = new CsvParserOptions(new RFC4180Parser(rfcOptions));
-                return options;
-
-            }).Alias("csv.parser.options");
-
+                return new CsvParser(options);
+            }).Alias<ICsvParser>().Alias("csv.parser");
         }
-
     }
-
 }

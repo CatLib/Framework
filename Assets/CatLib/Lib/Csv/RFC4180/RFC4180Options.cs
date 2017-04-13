@@ -8,23 +8,31 @@
  *
  * Document: http://catlib.io/
  */
- 
- public class RFC4180Options{
 
+namespace CatLib.Csv
+{
     /// <summary>
-    /// 引用字符
+    /// RFC4180规则配置
     /// </summary>
-    public char QuoteChar { get; set; }
-    
-    /// <summary>
-    /// 分隔符
-    /// </summary>
-    public char DelimiterChar { get; set; }
-
-    public RFC4180Options()
+    internal sealed class Rfc4180Options
     {
-        QuoteChar = '"';
-        DelimiterChar = ',';
-    }
+        /// <summary>
+        /// 引用字符
+        /// </summary>
+        public char QuoteChar { get; set; }
 
+        /// <summary>
+        /// 分隔符
+        /// </summary>
+        public char DelimiterChar { get; set; }
+
+        /// <summary>
+        /// 构建一个RFC4180规则配置
+        /// </summary>
+        public Rfc4180Options()
+        {
+            QuoteChar = '"';
+            DelimiterChar = ',';
+        }
+    }
 }
