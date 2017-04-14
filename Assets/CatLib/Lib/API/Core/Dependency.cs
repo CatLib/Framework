@@ -8,23 +8,33 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 
 namespace CatLib
 {
-    /// <summary>依赖标记</summary>
-    public class DependencyAttribute : Attribute
+    /// <summary>
+    /// 依赖标记
+    /// </summary>
+    public sealed class DependencyAttribute : Attribute
     {
+        /// <summary>
+        /// 依赖服务的别名或者服务名
+        /// </summary>
+        public string Alias { get; protected set; }
 
-        public string Alias { get; protected set; } 
-
+        /// <summary>
+        /// 声明依赖
+        /// </summary>
+        /// <param name="alias">依赖服务的别名或者服务名</param>
         public DependencyAttribute(string alias)
         {
             Alias = alias;
         }
 
+        /// <summary>
+        /// 声明依赖
+        /// </summary>
         public DependencyAttribute() { }
-
     }
 }

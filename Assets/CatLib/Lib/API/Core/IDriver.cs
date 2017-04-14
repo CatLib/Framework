@@ -14,25 +14,53 @@ using System;
 
 namespace CatLib.API
 {
-
     /// <summary>
     /// 驱动器
     /// </summary>
     public interface IDriver
     {
-
+        /// <summary>
+        /// 是否是主线程
+        /// </summary>
         bool IsMainThread { get; }
 
+        /// <summary>
+        /// 在主线程中调用
+        /// </summary>
+        /// <param name="action">协程，执行会处于主线程</param>
         void MainThread(IEnumerator action);
 
+        /// <summary>
+        /// 在主线程中调用
+        /// </summary>
+        /// <param name="action">回调，回调的内容会处于主线程</param>
         void MainThread(Action action);
 
+        /// <summary>
+        /// 触发一个全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <returns>全局事件</returns>
         IGlobalEvent TriggerGlobal(string eventName);
 
-        IGlobalEvent TriggerGlobal(string eventName, object score);
+        /// <summary>
+        /// 触发一个全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="source">触发事件的源</param>
+        /// <returns>全局事件</returns>
+        IGlobalEvent TriggerGlobal(string eventName, object source);
 
+        /// <summary>
+        /// 启动协程
+        /// </summary>
+        /// <param name="routine">协程</param>
         UnityEngine.Coroutine StartCoroutine(IEnumerator routine);
 
+        /// <summary>
+        /// 停止协程
+        /// </summary>
+        /// <param name="routine">协程</param>
+        void StopCoroutine(IEnumerator routine);
     }
-
 }

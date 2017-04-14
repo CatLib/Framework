@@ -19,7 +19,6 @@ namespace CatLib.API
     [Flags]
     public enum EventLevel
     {
-
         /// <summary>
         /// 不通知
         /// </summary>
@@ -49,8 +48,5 @@ namespace CatLib.API
         /// 全部通知
         /// </summary>
         All = int.MaxValue,
-        
-
     }
-
 }

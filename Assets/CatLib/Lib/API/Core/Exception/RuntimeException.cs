@@ -8,13 +8,18 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.API{
 
-	public class RuntimeException : System.Exception {
-
-		public RuntimeException(string message) : base(message){}
-		
-	}
-
+namespace CatLib.API
+{
+    /// <summary>
+    /// 运行时异常
+    /// </summary>
+    public class RuntimeException : System.Exception
+    {
+        /// <summary>
+        /// 运行时异常
+        /// </summary>
+        /// <param name="message"></param>
+        public RuntimeException(string message) : base(message) { }
+    }
 }

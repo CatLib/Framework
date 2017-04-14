@@ -118,13 +118,13 @@ namespace CatLib.Network
 
             if (string.IsNullOrEmpty(host))
             {
-                OnError(this, new ErrorEventArgs(new ArgumentNullException("host", GetType().ToString() + ", Name:" + Name + " , host is invalid")));
+                OnError(this, new ExceptionEventArgs(new ArgumentNullException("host", GetType().ToString() + ", Name:" + Name + " , host is invalid")));
                 return;
             }
 
             if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
             {
-                OnError(this, new ErrorEventArgs(new ArgumentOutOfRangeException("port", GetType().ToString() + ", Name:" + Name + " , port is invalid")));
+                OnError(this, new ExceptionEventArgs(new ArgumentOutOfRangeException("port", GetType().ToString() + ", Name:" + Name + " , port is invalid")));
                 return;
             }
 
@@ -202,7 +202,7 @@ namespace CatLib.Network
             }
             catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 return null;
             }
         }
@@ -301,14 +301,14 @@ namespace CatLib.Network
                         }
                         catch (Exception ex)
                         {
-                            Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                            Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 Disconnect();
             }
 

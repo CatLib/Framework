@@ -128,14 +128,14 @@ namespace CatLib.Thread
                 else
                 {
                     App.TriggerGlobal(ThreadEvents.ON_THREAD_EXECURE_ERROR, this).Trigger(
-                                        new ErrorEventArgs(
+                                        new ExceptionEventArgs(
                                             new System.Exception(string.Format("type '{0}' not supported!", state.GetType())
                                         )));
                 }
             }
             catch (System.Exception exception)
             {
-                App.TriggerGlobal(ThreadEvents.ON_THREAD_EXECURE_ERROR, this).Trigger(new ErrorEventArgs(exception));
+                App.TriggerGlobal(ThreadEvents.ON_THREAD_EXECURE_ERROR, this).Trigger(new ExceptionEventArgs(exception));
             }
         }
 

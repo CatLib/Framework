@@ -11,9 +11,15 @@
  
 namespace CatLib.API
 {
+    /// <summary>
+    /// CatLib异常
+    /// </summary>
     public class CatLibException : System.Exception
     {
+        /// <summary>
+        /// CatLib异常
+        /// </summary>
+        /// <param name="message">异常消息</param>
         public CatLibException(string message) : base(message) { }
     }
-
 }

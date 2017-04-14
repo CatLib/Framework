@@ -675,7 +675,7 @@ public class Bootstrap : ServiceProvider
             App.On(SocketRequestEvents.ON_ERROR, (obj1, obj2) =>
             {
 
-                Debug.Log("on tcp error:" + (obj2 as ErrorEventArgs).Error.Message);
+                Debug.Log("on tcp error:" + (obj2 as ExceptionEventArgs).Exception.Message);
 
             });
 

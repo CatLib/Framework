@@ -91,7 +91,7 @@ namespace CatLib.Network
             }
             catch(Exception ex){
 
-                OnError(this ,new ErrorEventArgs(ex));
+                OnError(this ,new ExceptionEventArgs(ex));
                 Dispose();
 
             }
@@ -114,7 +114,7 @@ namespace CatLib.Network
             }
             catch(Exception ex){
 
-                OnError(this, new ErrorEventArgs(ex));
+                OnError(this, new ExceptionEventArgs(ex));
                 Dispose();
 
             }
@@ -150,7 +150,7 @@ namespace CatLib.Network
 
             }catch(Exception ex){
                 
-                OnError(this, new ErrorEventArgs(ex));
+                OnError(this, new ExceptionEventArgs(ex));
                 Dispose();
 
             }

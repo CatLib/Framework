@@ -229,7 +229,7 @@ namespace CatLib.Network
             }
             catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 return null;
             }
         }
@@ -358,14 +358,14 @@ namespace CatLib.Network
                         }
                         catch (Exception ex)
                         {
-                            Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                            Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 Disconnect();
             }
 

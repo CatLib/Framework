@@ -8,15 +8,17 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API
 {
-
-    
+    /// <summary>
+    /// 引导程序接口
+    /// </summary>
     public interface IBootstrap
     {
-
+        /// <summary>
+        /// 引导程序接口
+        /// </summary>
         void Bootstrap();
-
     }
 }

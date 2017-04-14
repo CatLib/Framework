@@ -12,13 +12,20 @@
 namespace CatLib.API
 {
     /// <summary>
-    /// 在Update之后调用
+    /// 异常事件
     /// </summary>
-    public interface ILateUpdate
+    public class ExceptionEventArgs : System.EventArgs
     {
         /// <summary>
-        /// LateUpdate时调用
+        /// 异常
         /// </summary>
-        void LateUpdate();
+        public System.Exception Exception { get; protected set; }
+
+        public ExceptionEventArgs(System.Exception ex)
+        {
+            Exception = ex;
+        }
+
     }
+
 }
