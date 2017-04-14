@@ -8,59 +8,70 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 
 namespace CatLib.API.Container
 {
-
+    /// <summary>
+    /// 服务绑定数据
+    /// </summary>
     public interface IBindData
     {
-
         /// <summary>
         /// 服务名
         /// </summary>
         string Service { get; }
 
         /// <summary>
-        /// 服务实体
+        /// 服务实现
         /// </summary>
         Func<IContainer, object[], object> Concrete { get; }
 
         /// <summary>
-        /// 是否是静态的
+        /// 是否是静态服务
         /// </summary>
         bool IsStatic { get; }
 
         /// <summary>
-        /// 当需求什么服务
+        /// 当需求某个服务                                                                                                                                                                                                                                                                                                                                                                                  
         /// </summary>
+        /// <param name="service">服务名</param>
+        /// <returns>绑定关系临时数据</returns>
         IGivenData Needs(string service);
 
         /// <summary>
-        /// 当需求什么服务
+        /// 当需求某个服务
         /// </summary>
+        /// <typeparam name="T">服务类型</typeparam>
+        /// <returns>绑定关系临时数据</returns>
         IGivenData Needs<T>();
 
         /// <summary>
-        /// 添加拦截器
+        /// 拦截器
         /// </summary>
+        /// <typeparam name="T">服务类型</typeparam>
+        /// <returns>服务绑定数据</returns>
         IBindData AddInterceptor<T>() where T : IInterception, new();
 
         /// <summary>
-        /// 服务别名
+        /// 为服务设定一个别名
         /// </summary>
+        /// <typeparam name="T">别名</typeparam>
+        /// <returns>服务绑定数据</returns>
         IBindData Alias<T>();
 
         /// <summary>
-        /// 服务别名
+        /// 为服务设定一个别名
         /// </summary>
+        /// <param name="alias">别名</param>
+        /// <returns>服务绑定数据</returns>
         IBindData Alias(string alias);
 
         /// <summary>
-        /// 当解决这个服务时
+        /// 解决服务时触发的回调
         /// </summary>
+        /// <param name="func">解决事件</param>
         IBindData OnResolving(Func<object, object> func);
-
     }
 }

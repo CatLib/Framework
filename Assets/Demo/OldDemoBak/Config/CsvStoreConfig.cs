@@ -9,11 +9,11 @@ public class CsvStoreConfig : IConfig
     /// <summary>
     /// 类
     /// </summary>
-    public object Name
+    public string Name
     {
         get
         {
-            return typeof(CsvStore);
+            return typeof(CsvStore).ToString();
         }
     }
 

@@ -34,7 +34,7 @@ namespace CatLib.AutoUpdate
         /// <returns></returns>
         public override IEnumerator OnProviderProcess()
         {
-            yield return App.Make<IAutoUpdate>().UpdateAsset();
+            yield return App.Make<AutoUpdate>().UpdateAsset();
         }
 
         /// <summary>

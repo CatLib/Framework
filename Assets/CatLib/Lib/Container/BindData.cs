@@ -16,7 +16,7 @@ using CatLib.API.Container;
 namespace CatLib.Container
 {
     /// <summary>
-    /// 服务绑定关系
+    /// 服务绑定数据
     /// </summary>
     public sealed class BindData : IBindData
     {

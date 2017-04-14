@@ -14,7 +14,7 @@ using System;
 namespace CatLib.API.Container
 {
     /// <summary>
-    /// AOP标记
+    /// Aop标记
     /// </summary>
     public class AopAttribute : Attribute
     {

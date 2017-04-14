@@ -6,11 +6,11 @@ public class TransConfig : IConfig {
 	/// <summary>
     /// 类
     /// </summary>
-    public object Name
+    public string Name
     {
         get
         {
-            return typeof(Translator);
+            return typeof(Translator).ToString();
         }
     }
 

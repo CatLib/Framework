@@ -64,7 +64,7 @@ namespace CatLib
         /// <summary>
         /// 主线程ID
         /// </summary>
-        private readonly int mainThreadID;
+        private readonly int mainThreadId;
 
         /// <summary>
         /// 是否是主线程
@@ -73,7 +73,7 @@ namespace CatLib
         {
             get
             {
-                return mainThreadID == System.Threading.Thread.CurrentThread.ManagedThreadId;
+                return mainThreadId == System.Threading.Thread.CurrentThread.ManagedThreadId;
             }
         }
 
@@ -99,7 +99,7 @@ namespace CatLib
         {
             Initialization(mainBehavior);
 
-            mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
             OnResolving((bindData, obj) =>
             {

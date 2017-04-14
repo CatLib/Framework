@@ -67,7 +67,7 @@ namespace CatLib.Container
         /// </summary>
         public Container()
         {
-            Initialize(); 
+            Initialize();
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace CatLib.Container
         {
             if (!tags.ContainsKey(tag))
             {
-                return new object[] {};
+                return new object[] { };
             }
 
             var result = new List<object>();
@@ -349,15 +349,15 @@ namespace CatLib.Container
         /// 静态化一个服务
         /// </summary>
         /// <param name="service">服务名或者别名</param>
-        /// <param name="objectData">服务实例</param>
-        public void Instance(string service, object objectData)
+        /// <param name="instance">服务实例</param>
+        public void Instance(string service, object instance)
         {
             lock (locker)
             {
                 service = Normalize(service);
                 service = GetAlias(service);
 
-                if (objectData == null)
+                if (instance == null)
                 {
                     instances.Remove(service);
                     return;
@@ -368,7 +368,7 @@ namespace CatLib.Container
                     instances.Remove(service);
                 }
 
-                instances.Add(service, objectData);
+                instances.Add(service, instance);
             }
         }
 
@@ -479,7 +479,7 @@ namespace CatLib.Container
         {
             if (param == null)
             {
-                param = new object[] {};
+                param = new object[] { };
             }
 
             var type = GetType(bindData.Service);
@@ -606,7 +606,7 @@ namespace CatLib.Container
         /// <returns>服务所需参数的解决结果</returns>
         private object[] GetDependencies(BindData bindData, Type type, IList<ParameterInfo> paramInfo, IList<object> param)
         {
-            var  myParam = new List<object>();
+            var myParam = new List<object>();
 
             ParameterInfo info;
             for (var i = 0; i < paramInfo.Count; i++)

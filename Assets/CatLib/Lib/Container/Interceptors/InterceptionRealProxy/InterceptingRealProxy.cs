@@ -64,7 +64,7 @@ namespace CatLib.Container
         {
             IMethodCallMessage callMessage = (IMethodCallMessage)msg;
 
-            if (!callMessage.MethodBase.IsDefined(typeof(AOPAttribute), false))
+            if (!callMessage.MethodBase.IsDefined(typeof(AopAttribute), false))
             {
                 return new ReturnMessage(callMessage.MethodBase.Invoke(target, callMessage.Args),
                                         callMessage.Args,

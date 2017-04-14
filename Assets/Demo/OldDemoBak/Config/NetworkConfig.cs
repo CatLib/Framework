@@ -9,11 +9,11 @@ public class NetworkConfig : IConfig {
     /// <summary>
     /// 类
     /// </summary>
-    public object Name
+    public string Name
     {
         get
         {
-            return typeof(Network);
+            return typeof(Network).ToString();
         }
     }
 

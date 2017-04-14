@@ -46,8 +46,8 @@ namespace CatLib.Config
         /// <param name="config">配置信息</param>
         public void AddConfig(IConfig config)
         {
-            configs.Remove(config.Name.ToString());
-            configs.Add(config.Name.ToString(), ParseConfig(config));
+            configs.Remove(config.Name);
+            configs.Add(config.Name, ParseConfig(config));
         }
 
         /// <summary>

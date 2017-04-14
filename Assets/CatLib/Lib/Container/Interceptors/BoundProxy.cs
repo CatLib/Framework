@@ -42,7 +42,7 @@ namespace CatLib.Container
             IInterceptingProxy proxy = null;
             if (target is MarshalByRefObject)
             {
-                if (target.GetType().IsDefined(typeof(AOPAttribute), false))
+                if (target.GetType().IsDefined(typeof(AopAttribute), false))
                 {
                     proxy = CreateRealProxy(target);
                 }

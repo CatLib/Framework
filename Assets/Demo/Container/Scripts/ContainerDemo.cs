@@ -71,7 +71,7 @@ namespace CatLib.Demo.Container
         }
 
 
-        [AOP]
+        [Aop]
         public class AopBindDemoClass : MarshalByRefObject
         {
 
@@ -82,7 +82,7 @@ namespace CatLib.Demo.Container
                 aopDemo.Call("abcdefghijklmn");
             }
 
-            [AOP]
+            [Aop]
             public void Call(string str) { Debug.Log("NormalBindDemoClass.Call(string); " + str); }
 
         }

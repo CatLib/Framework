@@ -14,32 +14,28 @@ using System.Collections.Generic;
 
 namespace CatLib.API.Container
 {
-
     /// <summary>
     /// 拦截器脚本
     /// </summary>
     public interface IInterception
     {
-
         /// <summary>
-        /// 是否生效
+        /// 拦截器是否生效
         /// </summary>
         bool Enable { get; }
 
         /// <summary>
-        /// 必须的属性类型
+        /// 必须的属性类型才会被拦截
         /// </summary>
-        /// <returns></returns>
+        /// <returns>属性列表</returns>
         IEnumerable<Type> GetRequiredAttr();
 
         /// <summary>
-        /// 拦截器
+        /// 拦截器方案
         /// </summary>
-        /// <param name="methodInvoke"></param>
-        /// <param name="next"></param>
-        /// <returns></returns>
+        /// <param name="methodInvoke">方法调用</param>
+        /// <param name="next">下一个拦截器</param>
+        /// <returns>拦截返回值</returns>
         object Interception(IMethodInvoke methodInvoke, Func<object> next);
-
     }
-
 }

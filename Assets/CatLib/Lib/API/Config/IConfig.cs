@@ -8,14 +8,19 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.API.Config{
-	public interface IConfig{
 
-		object Name{ get; }
-		
-		object[] Config { get; }
+namespace CatLib.API.Config
+{
+    public interface IConfig
+    {
+        /// <summary>
+        /// 配置名
+        /// </summary>
+        string Name { get; }
 
-	}
-
+        /// <summary>
+        /// 配置内容
+        /// </summary>
+        object[] Config { get; }
+    }
 }
