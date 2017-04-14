@@ -13,15 +13,10 @@ using System;
 
 namespace CatLib.API.Container
 {
-
     /// <summary>
     /// AOP标记
     /// </summary>
-    public class AOPAttribute : Attribute
+    public class AopAttribute : Attribute
     {
-
-        public AOPAttribute() { }
-
     }
-
 }
