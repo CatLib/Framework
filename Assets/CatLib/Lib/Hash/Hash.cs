@@ -13,66 +13,88 @@ using CatLib.API.Hash;
 
 namespace CatLib.Hash
 {
-
     /// <summary>
-    /// Hash
+    /// 哈希
     /// </summary>
     public class Hash : IHash
     {
-
+        /// <summary>
+        /// 生成的盐
+        /// </summary>
         private string generateSalt;
 
+        /// <summary>
+        /// 盐
+        /// </summary>
+        public string GenerateSalt
+        {
+            get { return generateSalt; }
+        }
+
+        /// <summary>
+        /// 设定盐
+        /// </summary>
+        /// <param name="salt">盐</param>
         public void SetGenerateSalt(string salt)
         {
-
             if (!string.IsNullOrEmpty(salt))
             {
-
                 generateSalt = salt;
-
             }
-
         }
 
+        /// <summary>
+        /// 设定加密因子并获得盐
+        /// </summary>
+        /// <param name="factor">加密因子</param>
         public void SetFactor(int factor)
         {
-
             generateSalt = BCrypt.Net.BCrypt.GenerateSalt(factor);
-
         }
 
-        public string Make(string password)
+        /// <summary>
+        /// 哈希一个输入值
+        /// </summary>
+        /// <param name="input">输入值</param>
+        /// <returns></returns>
+        public string Make(string input)
         {
-
             if (string.IsNullOrEmpty(generateSalt))
             {
-                generateSalt = BCrypt.Net.BCrypt.GenerateSalt(6);
+                SetFactor(6);
             }
-            return BCrypt.Net.BCrypt.HashPassword(password, generateSalt);
-
+            return BCrypt.Net.BCrypt.HashPassword(input, generateSalt);
         }
 
-        public bool Check(string text, string hash)
+        /// <summary>
+        /// 检查是否匹配
+        /// </summary>
+        /// <param name="input">输入值</param>
+        /// <param name="hash">需要验证的hash</param>
+        /// <returns>是否匹配</returns>
+        public bool Check(string input, string hash)
         {
-
-            return BCrypt.Net.BCrypt.Verify(text, hash);
-
+            return BCrypt.Net.BCrypt.Verify(input, hash);
         }
 
-        public string FileHash(string path)
+        /// <summary>
+        /// 用于计算文件的md5，您不应该用它进行密码等高敏感的hash加密
+        /// </summary>
+        /// <param name="path">文件路径</param>
+        /// <returns>md5加密的值</returns>
+        public string FileMd5(string path)
         {
-            return MD5.ParseFile(path);
+            return Md5.ParseFile(path);
         }
 
-        #region IHash 成员
-
-
-        public string StringHash(string inputText)
+        /// <summary>
+        /// 字符串md5，您不应该用它进行密码等高敏感的hash加密
+        /// </summary>
+        /// <param name="input">输入的字符串</param>
+        /// <returns>md5加密的值</returns>
+        public string StringMd5(string input)
         {
-            return MD5.ParseString(inputText);
+            return Md5.ParseString(input);
         }
-
-        #endregion
     }
-
 }

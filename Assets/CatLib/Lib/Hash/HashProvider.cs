@@ -25,7 +25,7 @@ namespace CatLib.Hash
                 IConfigStore config = App.Make<IConfigStore>();
                 Hash hash = obj as Hash;
 
-                hash.SetFactor(config.Get<int>(typeof(Hash) , "factor" , 6));
+                hash.SetFactor(config.Get(typeof(Hash) , "factor" , 6));
                 hash.SetGenerateSalt(config.Get(typeof(Hash) , "salt" , null));
 
                 return obj;

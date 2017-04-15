@@ -225,7 +225,7 @@ namespace CatLib.AutoUpdate
                 }
                 var fullName = Util.StandardPath(file.FullName);
                 var assetName = fullName.Substring(Env.AssetPath.Length);
-                oldLst.Append(assetName, Hash.FileHash(file.FullName), file.Length);
+                oldLst.Append(assetName, Hash.FileMd5(file.FullName), file.Length);
             });
 
             App.TriggerGlobal(AutoUpdateEvents.ON_SCANNING_DISK_FILE_HASH_END, this)

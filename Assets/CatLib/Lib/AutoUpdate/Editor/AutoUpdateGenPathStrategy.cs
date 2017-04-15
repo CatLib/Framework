@@ -50,7 +50,7 @@ namespace CatLib.AutoUpdate
             for (var i = 0; i < context.ReleaseFiles.Length; i++)
             {
                 file = context.Disk.File(context.ReleasePath + Path.AltDirectorySeparatorChar + context.ReleaseFiles[i], PathTypes.Absolute);
-                lst.Append(context.ReleaseFiles[i], MD5.ParseFile(file.FullName), file.Length);
+                lst.Append(context.ReleaseFiles[i], Md5.ParseFile(file.FullName), file.Length);
             }
 
             var store = App.Instance.Make(typeof(UpdateFileStore).ToString()) as UpdateFileStore;
