@@ -154,7 +154,7 @@ namespace CatLib.FilterChain
     /// </summary>
     /// <typeparam name="TIn">输入参数</typeparam>
     /// <typeparam name="TOut">输出参数</typeparam>
-    public class FilterChain<TIn, TOut> : IFilterChain<TIn, TOut>
+    public sealed class FilterChain<TIn, TOut> : IFilterChain<TIn, TOut>
     {
         /// <summary>
         /// 过滤器链
@@ -253,7 +253,7 @@ namespace CatLib.FilterChain
     /// <typeparam name="TIn">输入参数</typeparam>
     /// <typeparam name="TOut">输出参数</typeparam>
     /// <typeparam name="TException">输入异常</typeparam>
-    public class FilterChain<TIn, TOut, TException> : IFilterChain<TIn, TOut, TException>
+    public sealed class FilterChain<TIn, TOut, TException> : IFilterChain<TIn, TOut, TException>
     {
         /// <summary>
         /// 过滤器链

@@ -16,71 +16,61 @@ using CatLib.API.Flux;
 
 namespace CatLib.Flux
 {
-
     /// <summary>
     /// 调度器
     /// </summary>
-    public class FluxDispatcher : IFluxDispatcher
+    public sealed class FluxDispatcher : IFluxDispatcher
     {
+        /// <summary>
+        /// last id生成时给定的前缀
+        /// </summary>
+        private static readonly string prefix = "id_";
 
         /// <summary>
-        /// 前缀
+        /// 调度列表，store接受来自调度器的调度
         /// </summary>
-        private static string prefix = "id_";
-
-        /// <summary>
-        /// 调度列表
-        /// </summary>
-        private Dictionary<string , Action<IAction>> callbacks;
-
-        /// <summary>
-        /// 是否处于调度中
-        /// </summary>
-        private bool isDispatching;
+        private readonly Dictionary<string, Action<IAction>> callbacks;
 
         /// <summary>
         /// 是否是待处理的
         /// </summary>
-        private Dictionary<string, bool> isPending;
+        private readonly Dictionary<string, bool> isPending;
 
         /// <summary>
         /// 是否是已经处理的
         /// </summary>
-        private Dictionary<string, bool> isHandled;
-
-        /// <summary>
-        /// 末尾ID
-        /// </summary>
-        private int lastID;
-
-        public FluxDispatcher()
-        {
-            callbacks = new Dictionary<string, Action<IAction>>();
-            isDispatching = false;
-            isPending = new Dictionary<string, bool>();
-            isHandled = new Dictionary<string, bool>();
-            lastID = 0;
-        }
+        private readonly Dictionary<string, bool> isHandled;
 
         /// <summary>
         /// 是否处于调度中
         /// </summary>
-        /// <returns></returns>
-        public bool IsDispatching
+        /// <returns>是否处于调度中</returns>
+        public bool IsDispatching { get; private set; }
+
+        /// <summary>
+        /// Id 计数器
+        /// </summary>
+        private int lastId;
+
+        /// <summary>
+        /// 构建一个调度器
+        /// </summary>
+        public FluxDispatcher()
         {
-            get
-            {
-                return isDispatching;
-            }
+            callbacks = new Dictionary<string, Action<IAction>>();
+            IsDispatching = false;
+            isPending = new Dictionary<string, bool>();
+            isHandled = new Dictionary<string, bool>();
+            lastId = 0;
         }
 
         /// <summary>
         /// 注册一个匿名调度事件
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">响应调度事件的回调</param>
         public string On(Action<IAction> action)
         {
-            var id = prefix + lastID++;
+            var id = prefix + lastId++;
             On(id, action);
             return id;
         }
@@ -88,13 +78,13 @@ namespace CatLib.Flux
         /// <summary>
         /// 注册一个调度事件
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="action"></param>
-        public void On(string token , Action<IAction> action)
+        /// <param name="token">标识符</param>
+        /// <param name="action">响应调度事件的回调</param>
+        public void On(string token, Action<IAction> action)
         {
             if (callbacks.ContainsKey(token))
             {
-                throw new CatLibException("catlib flux Dispatcher.On(...): " + token + " , key is alreay exists.");
+                throw new CatLibException("catlib flux Dispatcher.On(...): " + token + " , token is alreay exists.");
             }
             callbacks.Add(token, action);
         }
@@ -102,8 +92,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 解除调度事件
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="action"></param>
+        /// <param name="token">标识符</param>
         public void Off(string token)
         {
             if (!callbacks.ContainsKey(token))
@@ -114,33 +103,36 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 在调度中执行
+        /// 等待调度器完成另外的调度
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="action"></param>
-        public void WaitFor(string key, IAction action)
+        /// <param name="token">标识符</param>
+        /// <param name="action">行为</param>
+        public void WaitFor(string token, IAction action)
         {
-            if (!isDispatching)
+            if (!IsDispatching)
             {
                 throw new CatLibException("Dispatcher.WaitFor(...): Must be invoked while dispatching.");
             }
 
-            GuardCallback(key);
+            GuardCallback(token);
 
-            if (isPending[key])
+            if (isPending[token])
             {
-                throw new CatLibException("Dispatcher.WaitFor(...): Circular dependency detected while waiting for : " + key + ".");
+                if (isHandled[token])
+                {
+                    throw new CatLibException("Dispatcher.WaitFor(...): circular dependency detected while waiting for : " + token + ".");
+                }
             }
-     
-            InvokeCallback(key, action);
+
+            InvokeCallback(token, action);
         }
 
         /// <summary>
-        /// 进行调度
+        /// 将行为调度到指定标识符的Store中
         /// </summary>
-        /// <param name="token">token</param>
+        /// <param name="token">标识符</param>
         /// <param name="action">行为</param>
-        public void Dispatch(string token , IAction action)
+        public void Dispatch(string token, IAction action)
         {
             GuardDispatching();
             StartDispatch(token);
@@ -149,7 +141,7 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 进行调度
+        /// 调度行为
         /// </summary>
         /// <param name="action">行为</param>
         public void Dispatch(IAction action)
@@ -161,36 +153,36 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 开始调度
+        /// 通过标识符来调度
         /// </summary>
-        /// <param name="token"></param>
-        protected void StartDispatch(string token)
+        /// <param name="token">标识符</param>
+        private void StartDispatch(string token)
         {
             GuardCallback(token);
             isPending[token] = false;
             isHandled[token] = false;
-            isDispatching  = true;
+            IsDispatching = true;
         }
 
         /// <summary>
         /// 开始调度
         /// </summary>
-        protected void StartDispatch()
+        private void StartDispatch()
         {
-            foreach(var kv in callbacks)
+            foreach (var kv in callbacks)
             {
                 isPending[kv.Key] = false;
                 isHandled[kv.Key] = false;
             }
-            isDispatching = true;
+            IsDispatching = true;
         }
 
         /// <summary>
-        /// 触发回调
+        /// 调度到指定的Store
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="action"></param>
-        protected void InvokeCallback(string token , IAction action)
+        /// <param name="token">标识符</param>
+        /// <param name="action">行为</param>
+        private void InvokeCallback(string token, IAction action)
         {
             isPending[token] = true;
             callbacks[token].Invoke(action);
@@ -198,10 +190,10 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 触发回调
+        /// 调度到全体Store
         /// </summary>
-        /// <param name="action"></param>
-        protected void InvokeCallback(IAction action)
+        /// <param name="action">行为</param>
+        private void InvokeCallback(IAction action)
         {
             foreach (var kv in callbacks)
             {
@@ -214,16 +206,16 @@ namespace CatLib.Flux
         /// <summary>
         /// 结束调度
         /// </summary>
-        protected void StopDispatch()
+        private void StopDispatch()
         {
-            isDispatching = false;
+            IsDispatching = false;
         }
 
         /// <summary>
-        /// 验证回掉状态
+        /// 验证回调状态
         /// </summary>
-        /// <param name="token"></param>
-        protected void GuardCallback(string token)
+        /// <param name="token">标识符</param>
+        private void GuardCallback(string token)
         {
             if (!callbacks.ContainsKey(token))
             {
@@ -234,13 +226,12 @@ namespace CatLib.Flux
         /// <summary>
         /// 验证调度状态
         /// </summary>
-        protected void GuardDispatching()
+        private void GuardDispatching()
         {
-            if (isDispatching)
+            if (IsDispatching)
             {
                 throw new CatLibException("Dispatch.Dispatch(...): Cannot dispatch in the middle of a dispatch.");
             }
         }
     }
-
 }
