@@ -8,14 +8,19 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API.Csv
 {
+    /// <summary>
+    /// Csv解析器
+    /// </summary>
     public interface ICsvParser
     {
-
+        /// <summary>
+        /// 解析Csv数据
+        /// </summary>
+        /// <param name="data">需要被解析的字符串</param>
+        /// <returns>返回的二维数组为行和列的数据</returns>
         string[][] Parser(string data);
-
     }
-
 }

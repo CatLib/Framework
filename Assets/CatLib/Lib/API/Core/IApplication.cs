@@ -20,7 +20,7 @@ namespace CatLib.API
     /// <summary>
     /// 应用程序接口
     /// </summary>
-    public interface IApplication : IContainer, IEventAchieve, IEvent
+    public interface IApplication : IContainer, IEventImpl, IEvent
     {
         /// <summary>
         /// 引导程序类型

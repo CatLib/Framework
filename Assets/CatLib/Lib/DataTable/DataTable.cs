@@ -36,14 +36,15 @@ namespace CatLib.DataTable
         private DataTableSelector selector;
 
         /// <summary>
-        /// 新建一个数据表
+        /// 设定数据
         /// </summary>
         /// <param name="result">结果集</param>
-        public DataTable(string[][] result)
+        public IDataTable SetData(string[][] result)
         {
             GuardResult(result);
             ExtractionTitle(result);
             ExtractionContent(result);
+            return this;
         }
 
         /// <summary>
@@ -154,6 +155,11 @@ namespace CatLib.DataTable
         /// </summary>
         public IDataTableResult[] Get()
         {
+            if (dataTableResult == null)
+            {
+                return null;
+            }
+
             if (selector == null)
             {
                 return dataTableResult.ToArray();
@@ -171,6 +177,10 @@ namespace CatLib.DataTable
         /// <returns>一行记录</returns>
         public IDataTableResult Get(int index)
         {
+            if (dataTableResult == null)
+            {
+                return null;
+            }
             return dataTableResult.Count <= index ? null : dataTableResult[index];
         }
 

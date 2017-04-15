@@ -26,7 +26,7 @@ namespace CatLib.Network
     {
 
         [Dependency]
-        public IEventAchieve Event { get; set; }
+        public IEventImpl Event { get; set; }
 
         [Dependency]
         public IApplication App { get; set; }

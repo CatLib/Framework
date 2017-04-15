@@ -8,23 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Event;
 
 namespace CatLib.Event
 {
-
     /// <summary>
     /// 事件服务
     /// </summary>
     public class EventProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册事件服务
+        /// </summary>
         public override void Register()
         {
-            App.Bind<EventStore>().Alias<IEventAchieve>();
+            App.Bind<EventImpl>().Alias<IEventImpl>();
         }
-
     }
-
 }

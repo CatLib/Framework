@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API.Container;
 using CatLib.API.Csv;
 using CatLib.API.CsvStore;
 using CatLib.API.DataTable;
@@ -40,10 +41,10 @@ namespace CatLib.CsvStore
         public ICsvParser Parser { get; set; }
 
         /// <summary>
-        /// 数据表构建器
+        /// 容器
         /// </summary>
         [Dependency]
-        public IDataTableFactory DataTableFactory { get; set; }
+        public IContainer Container { get; set; }
 
         /// <summary>
         /// 设定Csv存储容器的文件夹
@@ -96,7 +97,7 @@ namespace CatLib.CsvStore
             var csvFile = directory.File(path);
             var csvData = Parser.Parser(System.Text.Encoding.UTF8.GetString(csvFile.Read()));
 
-            tables.Add(filename, DataTableFactory.Make(csvData));
+            tables.Add(filename, Container.Make<IDataTable>().SetData(csvData));
         }
     }
 }

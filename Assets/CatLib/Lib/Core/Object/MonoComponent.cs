@@ -24,7 +24,7 @@ namespace CatLib
         /// <summary>
         /// 事件实现
         /// </summary>
-        private IEventAchieve eventAchieve;
+        private IEventImpl eventImpl;
 
         /// <summary>
         /// 注册到消息中心的句柄
@@ -34,9 +34,9 @@ namespace CatLib
         /// <summary>
         /// 事件系统
         /// </summary>
-        public virtual IEventAchieve Event
+        public virtual IEventImpl Event
         {
-            get { return eventAchieve ?? (eventAchieve = App.Make<IEventAchieve>()); }
+            get { return eventImpl ?? (eventImpl = App.Make<IEventImpl>()); }
         }
 
         /// <summary>

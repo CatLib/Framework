@@ -36,7 +36,7 @@ namespace CatLib.Lua
         public IResources Resources { get; set; }
 
         [Dependency]
-        public IEventAchieve Event { get; set; }
+        public IEventImpl Event { get; set; }
 
         [Dependency]
         public IApplication App { get; set; }

@@ -8,15 +8,21 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.API.DataTable{
 
-	public enum SelectorLinker{
-
-		And,
-
-		Or,
-
-	}
-	
+namespace CatLib.API.DataTable
+{
+    /// <summary>
+    /// 链接操作符
+    /// </summary>
+    public enum SelectorLinker
+    {
+        /// <summary>
+        /// And操作符
+        /// </summary>
+        And,
+        /// <summary>
+        /// Or操作符
+        /// </summary>
+        Or,
+    }
 }

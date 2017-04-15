@@ -9,12 +9,17 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Crypt{
-
-	public class DecryptException : RuntimeException {
-
-		public DecryptException(string message) : base(message){}
-
-	}
-
+namespace CatLib.API.Crypt
+{
+    /// <summary>
+    /// 解析异常
+    /// </summary>
+    public class DecryptException : RuntimeException
+    {
+        /// <summary>
+        /// 解析异常
+        /// </summary>
+        /// <param name="message">异常消息</param>
+        public DecryptException(string message) : base(message) { }
+    }
 }

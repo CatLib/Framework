@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.API.DataTable;
 
 namespace CatLib.DataTable
@@ -23,7 +24,7 @@ namespace CatLib.DataTable
         /// </summary>
         public override void Register()
         {
-            App.Singleton<DataTableFactory>().Alias<IDataTableFactory>().Alias("datatable");
+            App.Bind<DataTable>((app, param) => new DataTable()).Alias<IDataTable>().Alias("datatable");
         }
     }
 }

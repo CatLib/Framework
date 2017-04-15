@@ -21,7 +21,7 @@ namespace CatLib
     /// <summary>
     /// Application行为驱动器
     /// </summary>
-    public class Driver : Container.Container, IEventAchieve
+    public class Driver : Container.Container, IEventImpl
     {
         /// <summary>
         /// 主线程调度队列锁
@@ -51,14 +51,14 @@ namespace CatLib
         /// <summary>
         /// 事件实体
         /// </summary>
-        private IEventAchieve eventAchieve;
+        private IEventImpl eventImpl;
 
         /// <summary>
         /// 事件系统
         /// </summary>
-        private IEventAchieve EventSystem
+        private IEventImpl EventSystem
         {
-            get { return eventAchieve ?? (eventAchieve = this.Make<IEventAchieve>()); }
+            get { return eventImpl ?? (eventImpl = this.Make<IEventImpl>()); }
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace CatLib
         /// <summary>
         /// 事件系统
         /// </summary>
-        public IEventAchieve Event
+        public IEventImpl Event
         {
             get
             {

@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
+using CatLib.API.Container;
 using CatLib.API.Time;
 
 namespace CatLib
@@ -127,9 +128,12 @@ namespace CatLib
             process = StartProcess.OnBootstrap;
 
             App.Instance = this;
+
             Instance(typeof(Application).ToString(), this);
             Alias(typeof(IApplication).ToString(), typeof(Application).ToString());
             Alias(typeof(App).ToString(), typeof(Application).ToString());
+            Alias(typeof(IContainer).ToString(), typeof(Application).ToString());
+
             IBootstrap bootstrap;
             foreach (var t in bootstraps)
             {

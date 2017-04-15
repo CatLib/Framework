@@ -8,16 +8,26 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.API.DataTable{
 
-    public interface IDataTableResult{
-
+namespace CatLib.API.DataTable
+{
+    /// <summary>
+    /// 数据表查询结果
+    /// </summary>
+    public interface IDataTableResult
+    {
+        /// <summary>
+        /// 获取指定字段的记录
+        /// </summary>
+        /// <param name="field">字段名</param>
+        /// <returns>字段中的值</returns>
         string Get(string field);
 
-        string this[string field]{ get; }
-
+        /// <summary>
+        /// 获取指定字段的记录
+        /// </summary>
+        /// <param name="field">字段名</param>
+        /// <returns>字段中的值</returns>
+        string this[string field] { get; }
     }
-
-
 }

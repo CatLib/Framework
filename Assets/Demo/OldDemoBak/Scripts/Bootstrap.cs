@@ -394,13 +394,13 @@ public class Bootstrap : ServiceProvider
                 Debug.Log(v[0] + "|" + v[1] + "|" + v[2]);
 
             }*/
-            
-            
 
-            IDataTableFactory dataTable = App.Make<IDataTableFactory>();
-            IDataTable table = dataTable.Make(parser);
 
-            foreach(var v in table.Where((selector)=>
+
+            IDataTable dataTable = App.Make<IDataTable>();
+            dataTable.SetData(parser);
+
+            foreach(var v in dataTable.Where((selector)=>
             {
 
                 selector.Where("name", "=", "小兔子").OrWhere("tag", "<", "3");
