@@ -14,7 +14,6 @@ using System.IO;
 using System.Collections;
 using XLua;
 using CatLib.API;
-using CatLib.API.Lua;
 using CatLib.API.Resources;
 using CatLib.API.IO;
 using CatLib.API.Event;

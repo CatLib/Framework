@@ -12,7 +12,7 @@
 using UnityEngine;
 using XLua;
 using System;
-using CatLib.API.Lua;
+using CatLib.Lua;
 using CatLib.API.Resources;
 
 namespace CatLib {

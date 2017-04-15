@@ -21,7 +21,7 @@ namespace CatLib
     /// <summary>
     /// Application行为驱动器
     /// </summary>
-    public class Driver : Container.Container, IEventAchieve, IDriver
+    public class Driver : Container.Container, IEventAchieve
     {
         /// <summary>
         /// 主线程调度队列锁

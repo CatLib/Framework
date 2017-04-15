@@ -10,7 +10,6 @@
  */
  
 using System.Collections;
-using CatLib.API.Lua;
 using CatLib.API.Config;
 
 namespace CatLib.Lua

@@ -1,7 +1,8 @@
 ﻿
 using System;
+using CatLib.API.Flux;
 
-namespace CatLib.API.Flux
+namespace CatLib.Flux
 {
 
     /// <summary>

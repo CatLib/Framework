@@ -9,18 +9,22 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Config
+namespace CatLib.API.AssetBuilder
 {
-    public interface IConfig
+    /// <summary>
+    /// 编译策略
+    /// </summary>
+    public interface IBuildStrategy
     {
         /// <summary>
-        /// 配置名
+        /// 编译流水线位置
         /// </summary>
-        string Name { get; }
+        BuildProcess Process { get; }
 
         /// <summary>
-        /// 配置内容
+        /// 当编译时
         /// </summary>
-        object[] Config { get; }
+        /// <param name="context">上下文</param>
+        void Build(IBuildContext context);
     }
 }

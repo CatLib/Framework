@@ -9,17 +9,17 @@
  * Document: http://catlib.io/
  */
  
-namespace CatLib.API.AssetBuilder
+using XLua;
+
+namespace CatLib.Lua
 {
 
+    public interface ILua
+    {
 
-	public interface IBuildStrategy {
+        LuaEnv LuaEnv{ get; }
 
-		BuildProcess Process{ get; }
-
-		void Build(IBuildContext context);
-
-	}
+    }
 
 
 }

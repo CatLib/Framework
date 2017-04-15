@@ -30,7 +30,6 @@ namespace CatLib.Config
                     typeof(API.Container.IContainer),
                     typeof(API.Container.IGivenData),
                     typeof(API.Event.IEvent),
-                    typeof(API.Lua.ILua),
                     typeof(API.Network.IConnector),
                     typeof(API.Network.IConnectorHttp),
                     typeof(API.Network.IConnectorSocket),
