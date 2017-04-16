@@ -17,7 +17,7 @@ namespace CatLib.Protobuf
     /// <summary>
     /// Protobuf-net 版本的protobuf适配器
     /// </summary>
-    public class ProtobufNetAdapter : IProtobufAdapter
+    internal class ProtobufNetAdapter : IProtobufAdapter
     {
         /// <summary>
         /// 序列化

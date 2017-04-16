@@ -16,7 +16,7 @@ namespace CatLib.Protobuf
     /// <summary>
     /// Protobuf服务提供商
     /// </summary>
-    public class ProtobufProvider : ServiceProvider
+    public sealed class ProtobufProvider : ServiceProvider
     {
         /// <summary>
         /// 注册Protobuf服务
@@ -30,7 +30,7 @@ namespace CatLib.Protobuf
         /// <summary>
         /// 注册适配器
         /// </summary>
-        protected void RegisterProtobufAdapter()
+        private void RegisterProtobufAdapter()
         {
             App.Singleton<ProtobufNetAdapter>().Alias<IProtobufAdapter>();
         }
