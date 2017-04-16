@@ -11,10 +11,15 @@
 
 namespace CatLib.API.Routing
 {
-
+    /// <summary>
+    /// 未定义默认的Scheme
+    /// </summary>
     public class UndefinedDefaultSchemeException : CatLibException
     {
+        /// <summary>
+        /// 未定义默认的Scheme
+        /// </summary>
+        /// <param name="message">异常消息</param>
         public UndefinedDefaultSchemeException(string message) : base(message) { }
     }
-
 }

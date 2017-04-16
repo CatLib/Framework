@@ -9,12 +9,17 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Routing {
-
-    public class NotFoundRouteException : CatLibException {
-
+namespace CatLib.API.Routing
+{
+    /// <summary>
+    /// 未能找到路由条目
+    /// </summary>
+    public class NotFoundRouteException : CatLibException
+    {
+        /// <summary>
+        /// 未能找到路由条目
+        /// </summary>
+        /// <param name="message">异常消息</param>
         public NotFoundRouteException(string message) : base(message) { }
-
     }
-
 }

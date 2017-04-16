@@ -16,37 +16,35 @@ using System.Collections.Generic;
 
 namespace CatLib.Routing
 {
-
     /// <summary>
     /// 路由配置
     /// </summary>
-    public class RouteOptions
+    internal sealed class RouteOptions
     {
-
         /// <summary>
         /// 过滤器链生成器
         /// </summary>
-        protected IFilterChain filterChain;
+        private IFilterChain filterChain;
 
         /// <summary>
         /// 路由请求过滤链
         /// </summary>
-        protected IFilterChain<IRequest, IResponse> middleware;
+        private IFilterChain<IRequest, IResponse> middleware;
 
         /// <summary>
         /// 当路由出现异常时的过滤器链
         /// </summary>
-        protected IFilterChain<IRequest, IResponse, Exception> onError;
+        private IFilterChain<IRequest, IResponse, Exception> onError;
 
         /// <summary>
         /// 筛选条件
         /// </summary>
-        protected Dictionary<string, string> wheres;
+        private Dictionary<string, string> wheres;
 
         /// <summary>
         /// 默认值
         /// </summary>
-        protected Dictionary<string, string> defaults;
+        private Dictionary<string, string> defaults;
 
         /// <summary>
         /// 当被编译的内容发生改变时
@@ -56,8 +54,8 @@ namespace CatLib.Routing
         /// <summary>
         /// 设定过滤器链生成器
         /// </summary>
-        /// <param name="filterChain"></param>
-        /// <returns></returns>
+        /// <param name="filterChain">过滤器链</param>
+        /// <returns>当前路由配置实例</returns>
         public RouteOptions SetFilterChain(IFilterChain filterChain)
         {
             this.filterChain = filterChain;
@@ -68,46 +66,55 @@ namespace CatLib.Routing
         /// 获取参数默认值
         /// </summary>
         /// <param name="name">参数名</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>默认值</returns>
         public string GetDefaults(string name, string defaultValue = null)
         {
-
-            if (defaults == null) { return defaultValue; }
-            if (!defaults.ContainsKey(name)) { return defaultValue; }
-            return defaults[name];
-
+            if (defaults == null)
+            {
+                return defaultValue;
+            }
+            return !defaults.ContainsKey(name) ? defaultValue : defaults[name];
         }
 
         /// <summary>
         /// 获取筛选条件
         /// </summary>
-        /// <param name="varName"></param>
-        /// <returns></returns>
+        /// <param name="varName">变量名</param>
+        /// <returns>筛选条件,如果不存在则返回null</returns>
         public string GetWhere(string varName)
         {
-            if (wheres == null) { return null; }
-            if (wheres.ContainsKey(varName))
+            if (wheres == null)
             {
-                return wheres[varName];
+                return null;
             }
-            return null;
+            return wheres.ContainsKey(varName) ? wheres[varName] : null;
         }
 
         /// <summary>
         /// 约束指定参数必须符合指定模式才会被路由
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="pattern"></param>
-        /// <returns></returns>
+        /// <param name="name">名字</param>
+        /// <param name="pattern">约束条件</param>
+        /// <param name="overrided">是否覆盖配置</param>
+        /// <returns>当前路由配置实例</returns>
         public RouteOptions Where(string name, string pattern, bool overrided = true)
         {
-            if (wheres == null) { wheres = new Dictionary<string, string>(); }
+            if (wheres == null)
+            {
+                wheres = new Dictionary<string, string>();
+            }
             if (wheres.ContainsKey(name))
             {
-                if (!overrided) { return this; }
+                if (!overrided)
+                {
+                    return this;
+                }
                 wheres.Remove(name);
             }
             wheres[name] = pattern;
-            if(OnCompiledChange != null){
+            if (OnCompiledChange != null)
+            {
                 OnCompiledChange.Invoke();
             }
             return this;
@@ -118,44 +125,47 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="name">参数名</param>
         /// <param name="val">默认值</param>
+        /// <param name="overrided">是否覆盖配置</param>
+        /// <returns>当前路由配置实例</returns>
         public RouteOptions Defaults(string name, string val, bool overrided = true)
         {
-
             if (defaults == null)
             {
                 defaults = new Dictionary<string, string>();
             }
             if (defaults.ContainsKey(name))
             {
-                if (!overrided) { return this; }
+                if (!overrided)
+                {
+                    return this;
+                }
                 defaults.Remove(name);
             }
             defaults.Add(name, val);
 
             return this;
-
         }
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
-        /// <param name="middleware"></param>
-        /// <returns></returns>
-        public RouteOptions OnError(Action<IRequest , IResponse, Exception, Action<IRequest, IResponse, Exception>> middleware)
+        /// <param name="onError">错误处理函数</param>
+        /// <returns>当前路由配置实例</returns>
+        public RouteOptions OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
         {
-            if (onError == null)
+            if (this.onError == null)
             {
-                onError = filterChain.Create<IRequest, IResponse, Exception>();
+                this.onError = filterChain.Create<IRequest, IResponse, Exception>();
             }
-            onError.Add(middleware);
+            this.onError.Add(onError);
             return this;
         }
 
         /// <summary>
         /// 路由中间件
         /// </summary>
-        /// <param name="middleware"></param>
-        /// <returns></returns>
+        /// <param name="middleware">中间件</param>
+        /// <returns>当前路由配置实例</returns>
         public RouteOptions Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
         {
             if (this.middleware == null)
@@ -169,7 +179,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 获取路由的中间件
         /// </summary>
-        /// <returns></returns>
+        /// <returns>中间件过滤器链</returns>
         public IFilterChain<IRequest, IResponse> GatherMiddleware()
         {
             return middleware;
@@ -178,7 +188,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 获取当出现错误时的过滤器链
         /// </summary>
-        /// <returns></returns>
+        /// <returns>错误处理过滤器链</returns>
         public IFilterChain<IRequest, IResponse, Exception> GatherOnError()
         {
             return onError;
@@ -187,11 +197,10 @@ namespace CatLib.Routing
         /// <summary>
         /// 将当前路由配置中的信息合并到给定的路由配置中
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
+        /// <param name="options">路由配置</param>
+        /// <returns>当前路由配置实例</returns>
         public RouteOptions Merge(RouteOptions options)
         {
-
             //合并的过程是一个平级的过程，所以遵循以下原则：
             //当key不允许重复时，如果已经有值则不进行赋值
             //当key是允许重复时，所有的合并操作追加在原始key list之后
@@ -206,27 +215,32 @@ namespace CatLib.Routing
         /// <summary>
         /// 合并中间件
         /// </summary>
-        /// <param name="options"></param>
-        protected void MergeMiddleware(RouteOptions options)
+        /// <param name="options">外部路由配置</param>
+        private void MergeMiddleware(RouteOptions options)
         {
-            if (middleware == null) { return; }
-            Action<IRequest, IResponse, Action<IRequest, IResponse>>[] filters = middleware.FilterList;
-            for (int i = 0; i< filters.Length; i++)
+            if (middleware == null)
+            {
+                return;
+            }
+            var filters = middleware.FilterList;
+            for (var i = 0; i < filters.Length; i++)
             {
                 options.Middleware(filters[i]);
             }
         }
 
-
         /// <summary>
         /// 合并错误时的调度
         /// </summary>
-        /// <param name="options"></param>
-        protected void MergeOnError(RouteOptions options)
+        /// <param name="options">外部路由配置</param>
+        private void MergeOnError(RouteOptions options)
         {
-            if (onError == null) { return; }
-            Action<IRequest, IResponse, Exception , Action<IRequest, IResponse, Exception>>[] filters = onError.FilterList;
-            for (int i = 0; i < filters.Length; i++)
+            if (onError == null)
+            {
+                return;
+            }
+            var filters = onError.FilterList;
+            for (var i = 0; i < filters.Length; i++)
             {
                 options.OnError(filters[i]);
             }
@@ -235,31 +249,33 @@ namespace CatLib.Routing
         /// <summary>
         /// 合并where
         /// </summary>
-        /// <param name="options"></param>
-        protected void MergeWhere(RouteOptions options)
+        /// <param name="options">外部路由配置</param>
+        private void MergeWhere(RouteOptions options)
         {
-            if (wheres == null) { return; }
-
-            foreach(var kv in wheres)
+            if (wheres == null)
             {
-                options.Where(kv.Key, kv.Value , false);
+                return;
+            }
+            foreach (var kv in wheres)
+            {
+                options.Where(kv.Key, kv.Value, false);
             }
         }
 
         /// <summary>
         /// 合并默认值
         /// </summary>
-        /// <param name="options"></param>
-        protected void MergeDefaults(RouteOptions options)
+        /// <param name="options">外部路由配置</param>
+        private void MergeDefaults(RouteOptions options)
         {
-            if (defaults == null) { return; }
-
+            if (defaults == null)
+            {
+                return;
+            }
             foreach (var kv in defaults)
             {
-                options.Defaults(kv.Key, kv.Value , false);
+                options.Defaults(kv.Key, kv.Value, false);
             }
         }
-
     }
-
 }

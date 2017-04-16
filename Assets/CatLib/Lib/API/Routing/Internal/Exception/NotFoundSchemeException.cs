@@ -11,13 +11,15 @@
 
 namespace CatLib.API.Routing
 {
-
     /// <summary>
-    /// can not find scheme
+    /// 未能找到 Scheme
     /// </summary>
     public class NotFoundSchemeException : CatLibException
     {
+        /// <summary>
+        /// 未能找到 Scheme
+        /// </summary>
+        /// <param name="message">异常消息</param>
         public NotFoundSchemeException(string message) : base(message) { }
     }
-
 }

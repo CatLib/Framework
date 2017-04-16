@@ -13,14 +13,11 @@ using System;
 
 namespace CatLib.API.Routing
 {
-
     /// <summary>
     /// 请求
     /// </summary>
     public interface IRequest
     {
-
-
         /// <summary>
         /// Uri
         /// </summary>
@@ -118,7 +115,5 @@ namespace CatLib.API.Routing
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         bool GetBoolean(string key, bool defaultValue = false);
-
     }
-
 }

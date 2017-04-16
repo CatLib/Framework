@@ -11,17 +11,15 @@
 
 namespace CatLib.API.Routing
 {
-
     /// <summary>
     /// 响应
     /// </summary>
     public interface IResponse
     {
-
         /// <summary>
-        /// 设定上下文
+        /// 获取上下文
         /// </summary>
-        /// <param name="context"></param>
+        /// <returns>上下文</returns>
         object GetContext();
 
         /// <summary>
@@ -29,7 +27,5 @@ namespace CatLib.API.Routing
         /// </summary>
         /// <param name="context"></param>
         void SetContext(object context);
-
     }
-
 }

@@ -15,42 +15,32 @@ using System.Collections;
 
 namespace CatLib.Routing
 {
-
-    public class RoutingProvider : ServiceProvider
+    /// <summary>
+    /// 路由服务
+    /// </summary>
+    public sealed class RoutingProvider : ServiceProvider
     {
-
-        public override ProviderProcess ProviderProcess
-        {
-            get
-            {
-                return base.ProviderProcess;
-            }
-        }
-
+        /// <summary>
+        /// 服务提供商流程
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerator OnProviderProcess()
         {
-            return (App.Make<IRouter>() as Router).RouterCompiler();
+            return App.Make<Router>().RouterCompiler();
         }
 
+        /// <summary>
+        /// 注册路由条目
+        /// </summary>
         public override void Register()
         {
-
-            RegisterRouter();
-
-        }
-
-        protected void RegisterRouter()
-        {
-
-            App.Singleton<Router>((app , param)=>
+            App.Singleton<Router>((app, param) =>
             {
-                var router = new Router(App , app , app.Make<IFilterChain>());
+                var router = new Router(App, app, app.Make<IFilterChain>());
                 router.SetDefaultScheme("catlib");
                 return router;
 
             }).Alias<IRouter>();
-
         }
     }
-
 }

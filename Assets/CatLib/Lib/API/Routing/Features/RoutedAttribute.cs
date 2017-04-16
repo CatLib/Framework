@@ -16,10 +16,9 @@ namespace CatLib.API.Routing
     /// <summary>
     /// 路由标记
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false , AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public class RoutedAttribute : Attribute
     {
-
         /// <summary>
         /// 路由组
         /// </summary>
@@ -56,7 +55,5 @@ namespace CatLib.API.Routing
         {
             Path = path;
         }
-
     }
-
 }
