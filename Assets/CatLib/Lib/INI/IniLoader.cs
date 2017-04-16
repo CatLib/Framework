@@ -18,71 +18,74 @@ using CatLib.API;
 
 namespace CatLib.INI
 {
-
     /// <summary>
-    /// INI加载器
+    /// ini加载器
     /// </summary>
-    public class INILoader : IINILoader
+    public class IniLoader : IIniLoader
     {
         /// <summary>
-        /// 加载一个INI文件
+        /// 加载一个ini文件
         /// </summary>
         /// <param name="file">文件</param>
-        /// <returns></returns>
-        public IINIResult Load(IFile file)
+        /// <returns>ini结果集</returns>
+        public IIniResult Load(IFile file)
         {
-
             if (!file.Exists)
             {
                 throw new IOException("file is not exists:" + file.FullName);
             }
-
             if (file.Extension != ".ini")
             {
-                throw new ArgumentException("ini file path is invalid", "path");
+                throw new ArgumentException("ini file path is invalid", "file");
             }
 
-            var result = new INIResult(file.Read());
+            var result = new IniResult(file.Read());
 
-            result.SetSaveCallback((data) =>{
-
+            result.OnSave += (data) =>
+            {
                 file.Delete();
                 file.Create(Encoding.UTF8.GetBytes(data));
-
-            });
+            };
 
             return result;
-
         }
 
-        public IINIResult Load(string iniData){
+        /// <summary>
+        /// 加载Ini文件
+        /// </summary>
+        /// <param name="iniData">要被解析成ini结果的字符串</param>
+        /// <returns>ini结果集</returns>
+        public IIniResult Load(string iniData)
+        {
+            var result = new IniResult(iniData);
 
-            var result = new INIResult(iniData);
-
-            result.SetSaveCallback((data) =>{
+            result.OnSave += (data) =>
+            {
 
                 throw new CatLibException("not support save with Load(string) loaded result");
 
-            });
+            };
 
             return result;
-
         }
 
-        public IINIResult Load(byte[] iniData){
+        /// <summary>
+        /// 加载ini文件
+        /// </summary>
+        /// <param name="iniData">要被解析成ini结果的字节数据</param>
+        /// <returns>ini结果集</returns>
+        public IIniResult Load(byte[] iniData)
+        {
+            var result = new IniResult(iniData);
 
-            var result = new INIResult(iniData);
-
-            result.SetSaveCallback((data) =>{
+            result.OnSave += (data) =>
+            {
 
                 throw new CatLibException("not support save with Load(byte[]) loaded result");
 
-            });
+            };
 
             return result;
-
         }
-
     }
-
 }

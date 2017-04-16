@@ -496,7 +496,7 @@ public class Bootstrap : ServiceProvider
 
             //IEnv env = App.Make<IEnv>();
             //IDisk disk = App.Make<IIOFactory>().Disk();
-            //IINIResult result = App.Make<IINILoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "/lang/cn/test.ini"));
+            //IIniResult result = App.Make<IIniLoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "/lang/cn/test.ini"));
             //result.Set("helloworld", "mynameisyb", "yb");
             //result.Remove("myname");
             //result.Save();

@@ -9,20 +9,22 @@
  * Document: http://catlib.io/
  */
  
-using CatLib.API.IO;
+using CatLib.API.INI;
 
-namespace CatLib.API.INI
+namespace CatLib.INI
 {
 
-    public interface IINILoader
+    /// <summary>
+    /// ini服务提供商
+    /// </summary>
+    public class IniProvider : ServiceProvider
     {
 
-        IINIResult Load(IFile file);
+        public override void Register()
+        {
+            App.Singleton<IniLoader>().Alias<IIniLoader>();
+        }
 
-        IINIResult Load(string iniData);
-        
-        IINIResult Load(byte[] iniData);
-    
     }
 
 }

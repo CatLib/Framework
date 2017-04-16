@@ -52,7 +52,7 @@ public class Providers{
                 typeof(HashProvider),
                 typeof(CoreProvider),
                 typeof(TimeQueueProvider),
-                typeof(INIProvider),
+                typeof(IniProvider),
                 typeof(TranslationProvider),
                 typeof(JSONProvider),
                 typeof(CompressProvider),

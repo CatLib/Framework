@@ -15,9 +15,9 @@ namespace CatLib.Translation{
 
 	public class INIMapping : IFileMapping {
 
-		private IINIResult result;
+		private IIniResult result;
 
-		public INIMapping(IINIResult result){
+		public INIMapping(IIniResult result){
 
 			this.result = result;
 

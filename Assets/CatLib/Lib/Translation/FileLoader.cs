@@ -18,9 +18,9 @@ namespace CatLib.Translation{
 
 		protected IDisk disk;
 
-		protected IINILoader iniLoader;
+		protected IIniLoader iniLoader;
 
-		public FileLoader(IDisk disk , IINILoader iniLoader){
+		public FileLoader(IDisk disk , IIniLoader iniLoader){
 
 			this.disk = disk;
 			this.iniLoader = iniLoader;
@@ -39,7 +39,7 @@ namespace CatLib.Translation{
 			if(!iniFile.Exists){
 				return null;
 			}
-			IINIResult result = iniLoader.Load(iniFile);
+			IIniResult result = iniLoader.Load(iniFile);
 			return new INIMapping(result);
 
 		}

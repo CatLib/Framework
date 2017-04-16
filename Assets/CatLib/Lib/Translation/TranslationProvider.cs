@@ -81,7 +81,7 @@ namespace CatLib.Translation{
 				}
 				#endif
 
-				return new FileLoader(disk, app.Make<IINILoader>());
+				return new FileLoader(disk, app.Make<IIniLoader>());
 
 			});
 		}

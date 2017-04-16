@@ -53,7 +53,7 @@ namespace CatLib.Demo.Translation
             App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(CoreProvider));
 			App.Instance.Register(typeof(TranslationProvider));
-			App.Instance.Register(typeof(INIProvider));
+			App.Instance.Register(typeof(IniProvider));
 			App.Instance.Register(typeof(IOProvider));
 			App.Instance.Register(typeof(TranslationDemo));
             App.Instance.Register(typeof(OverrideConfig));
