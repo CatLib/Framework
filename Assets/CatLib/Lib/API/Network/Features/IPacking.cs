@@ -8,16 +8,14 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API.Network
 {
-
     /// <summary>
     /// 拆封包器
     /// </summary>
     public interface IPacking
     {
-
         /// <summary>
         /// 拆包
         /// </summary>
@@ -36,7 +34,5 @@ namespace CatLib.API.Network
         /// 清空缓存数据
         /// </summary>
         void Clear();
-        
     }
-
 }

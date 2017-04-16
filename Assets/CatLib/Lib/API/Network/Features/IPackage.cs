@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API.Network
 {
     /// <summary>
@@ -16,7 +16,6 @@ namespace CatLib.API.Network
     /// </summary>
     public interface IPackage
     {
-
         /// <summary>
         /// 数据包
         /// </summary>
@@ -26,6 +25,5 @@ namespace CatLib.API.Network
         /// 数据包字节流
         /// </summary>
         byte[] ToByte();
-    
     }
 }

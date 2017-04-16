@@ -16,11 +16,10 @@ namespace CatLib.API.Network
     /// </summary>
     public interface IConnectorSocket : IConnector
     {
-
         /// <summary>
         /// 发送内容
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">发送数据</param>
         void Send(byte[] data);
 
         /// <summary>
@@ -35,9 +34,8 @@ namespace CatLib.API.Network
         void Connect();
 
         /// <summary>
-        /// 释放连接
+        /// 断开连接
         /// </summary>
         void Disconnect();
-
     }
 }

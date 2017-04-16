@@ -99,15 +99,15 @@ namespace CatLib.Network
         }
 
 
-        public void Restful(ERestful method, string action)
+        public void Restful(Restfuls method, string action)
         {
             UnityWebRequest request = new UnityWebRequest(url + action, method.ToString());
             queue.Enqueue(request);
         }
 
-        public void Restful(ERestful method, string action, WWWForm form)
+        public void Restful(Restfuls method, string action, WWWForm form)
         {
-            if (method == ERestful.Post)
+            if (method == Restfuls.Post)
             {
                 UnityWebRequest request = UnityWebRequest.Post(url + action, form);
                 queue.Enqueue(request);
@@ -118,15 +118,15 @@ namespace CatLib.Network
             }
         }
 
-        public void Restful(ERestful method, string action, byte[] body)
+        public void Restful(Restfuls method, string action, byte[] body)
         {
             UnityWebRequest request = null;
             switch (method)
             {
-                case ERestful.Get: request = UnityWebRequest.Get(url + action); break;
-                case ERestful.Put: request = UnityWebRequest.Put(url + action, body); break;
-                case ERestful.Delete: request = UnityWebRequest.Delete(url + action); break;
-                case ERestful.Head: request = UnityWebRequest.Head(url + action); break;
+                case Restfuls.Get: request = UnityWebRequest.Get(url + action); break;
+                case Restfuls.Put: request = UnityWebRequest.Put(url + action, body); break;
+                case Restfuls.Delete: request = UnityWebRequest.Delete(url + action); break;
+                case Restfuls.Head: request = UnityWebRequest.Head(url + action); break;
                 default: throw new Exception("this component is not support [" + method.ToString() + "] restful");
             }
             queue.Enqueue(request);
@@ -134,37 +134,37 @@ namespace CatLib.Network
 
         public void Get(string action)
         {
-            Restful(ERestful.Get, action);
+            Restful(Restfuls.Get, action);
         }
 
         public void Head(string action)
         {
-            Restful(ERestful.Head, action);
+            Restful(Restfuls.Head, action);
         }
 
         public void Post(string action, WWWForm form)
         {
-            Restful(ERestful.Post, action, form);
+            Restful(Restfuls.Post, action, form);
         }
 
         public void Post(string action, byte[] body)
         {
-            Restful(ERestful.Post, action, body);
+            Restful(Restfuls.Post, action, body);
         }
 
         public void Put(string action, WWWForm form)
         {
-            Restful(ERestful.Put, action, form);
+            Restful(Restfuls.Put, action, form);
         }
 
         public void Put(string action, byte[] body)
         {
-            Restful(ERestful.Put, action, body);
+            Restful(Restfuls.Put, action, body);
         }
 
         public void Delete(string action)
         {
-            Restful(ERestful.Delete, action);
+            Restful(Restfuls.Delete, action);
         }
 
         /// <summary>

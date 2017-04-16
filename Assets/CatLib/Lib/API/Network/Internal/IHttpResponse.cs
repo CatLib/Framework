@@ -11,9 +11,11 @@
 
 namespace CatLib.API.Network
 {
+    /// <summary>
+    /// Http请求
+    /// </summary>
     public interface IHttpResponse
     {
-
         /// <summary>
         /// 请求对象
         /// </summary>
@@ -42,8 +44,6 @@ namespace CatLib.API.Network
         /// <summary>
         /// 谓词
         /// </summary>
-        ERestful Restful { get; }
-
+        Restfuls Restful { get; }
     }
-
 }

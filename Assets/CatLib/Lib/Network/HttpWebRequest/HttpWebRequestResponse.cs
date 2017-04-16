@@ -8,96 +8,182 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using System.IO;
 
 namespace CatLib.Network
 {
-
-    public class HttpWebRequestResponse : IEnumerator
+    /// <summary>
+    /// 请求响应数据
+    /// </summary>
+    public sealed class HttpWebRequestResponse : IEnumerator
     {
+        /// <summary>
+        /// 请求
+        /// </summary>
+        private readonly System.Net.HttpWebRequest webRequest;
 
-        private System.Net.HttpWebRequest webRequest;
-        public System.Net.HttpWebRequest WebRequest { get { return webRequest; } }
+        /// <summary>
+        /// 请求
+        /// </summary>
+        public System.Net.HttpWebRequest WebRequest
+        {
+            get { return webRequest; }
+        }
 
-        private volatile bool isDone = false;
-        public bool IsDone { get { return isDone; } }
+        /// <summary>
+        /// 是否完成
+        /// </summary>
+        private volatile bool isDone;
 
-        private volatile bool isError = false;
-        public bool IsError { get { return isError; } }
+        /// <summary>
+        /// 是否完成
+        /// </summary>
+        public bool IsDone
+        {
+            get { return isDone; }
+        }
 
+        /// <summary>
+        /// 是否是错误的
+        /// </summary>
+        private volatile bool isError;
+
+        /// <summary>
+        /// 是否发生了错误
+        /// </summary>
+        public bool IsError
+        {
+            get { return isError; }
+        }
+
+        /// <summary>
+        /// 错误描述字符串
+        /// </summary>
         private volatile string error;
-        public string Error { get { return error; } }
 
-        private volatile int responseCode = 0;
-        public int ResponseCode { get { return responseCode; } }
+        /// <summary>
+        /// 错误描述字符串
+        /// </summary>
+        public string Error
+        {
+            get { return error; }
+        }
 
+        /// <summary>
+        /// 响应代码
+        /// </summary>
+        private volatile int responseCode;
+
+        /// <summary>
+        /// 响应代码
+        /// </summary>
+        public int ResponseCode
+        {
+            get { return responseCode; }
+        }
+
+        /// <summary>
+        /// 请求字节
+        /// </summary>
         private byte[] requestBytes;
 
+        /// <summary>
+        /// 响应的字节
+        /// </summary>
+        private byte[] responseBytes;
+
+        /// <summary>
+        /// 响应的字符串内容
+        /// </summary>
         public string Text
         {
-            get
-            {
-                if (responseBytes != null)
-                {
-                    return Encoding.UTF8.GetString(responseBytes);
-                }
-                return string.Empty;
-            }
+            get { return responseBytes != null ? Encoding.UTF8.GetString(responseBytes) : string.Empty; }
         }
 
+        /// <summary>
+        /// 响应的字节
+        /// </summary>
         public byte[] Bytes
         {
-            get
-            {
-                return responseBytes;
-            }
+            get { return responseBytes; }
         }
 
-        private byte[] responseBytes;
+        /// <summary>
+        /// 响应数据
+        /// </summary>
         private List<byte> responseLst = new List<byte>();
 
+        /// <summary>
+        /// 构建一个响应实例
+        /// </summary>
+        /// <param name="request">请求</param>
         public HttpWebRequestResponse(System.Net.HttpWebRequest request)
         {
             webRequest = request;
         }
 
+        /// <summary>
+        /// 发送数据
+        /// </summary>
         public void Send()
         {
-            HttpRequestState requestState = new HttpRequestState();
-            requestState.Request = webRequest;
+            var requestState = new HttpRequestState { Request = webRequest };
 
             if (requestBytes != null)
             {
                 webRequest.BeginGetRequestStream(RequestStreamData, requestState);
-            }else
+            }
+            else
             {
                 webRequest.BeginGetResponse(ReceivedData, requestState);
             }
         }
 
+        /// <summary>
+        /// 设定请求字节数据
+        /// </summary>
+        /// <param name="bytes">请求字节</param>
         public void SetRequestBytes(byte[] bytes)
         {
             requestBytes = bytes;
         }
 
-        public object Current { get { return 0; } }
+        /// <summary>
+        /// 用于协程
+        /// </summary>
+        public object Current
+        {
+            get { return 0; }
+        }
 
-        public bool MoveNext() { return !IsDone; }
+        /// <summary>
+        /// 用于协程
+        /// </summary>
+        public bool MoveNext()
+        {
+            return !IsDone;
+        }
 
-        public void Reset() { return; }
+        /// <summary>
+        /// 用于协程
+        /// </summary>
+        public void Reset() { }
 
+        /// <summary>
+        /// 请求数据
+        /// </summary>
+        /// <param name="asyncResult">异步结果</param>
         private void RequestStreamData(IAsyncResult asyncResult)
         {
             try
             {
-                HttpRequestState requestState = (HttpRequestState)asyncResult.AsyncState;
-                System.Net.HttpWebRequest httpWebRequest = requestState.Request;
+                var requestState = (HttpRequestState)asyncResult.AsyncState;
+                var httpWebRequest = requestState.Request;
 
                 var stream = httpWebRequest.EndGetRequestStream(asyncResult);
                 stream.Write(requestBytes, 0, requestBytes.Length);
@@ -114,44 +200,48 @@ namespace CatLib.Network
             }
         }
 
+        /// <summary>
+        /// 接受数据
+        /// </summary>
+        /// <param name="asyncResult">异步结果</param>
         private void ReceivedData(IAsyncResult asyncResult)
         {
             try
             {
-
-                HttpRequestState requestState = (HttpRequestState)asyncResult.AsyncState;
-
-                System.Net.HttpWebRequest httpWebRequest = requestState.Request;
+                var requestState = (HttpRequestState)asyncResult.AsyncState;
+                var httpWebRequest = requestState.Request;
 
                 requestState.Response = (HttpWebResponse)httpWebRequest.EndGetResponse(asyncResult);
-                Stream responseStream = requestState.Response.GetResponseStream();
+                var responseStream = requestState.Response.GetResponseStream();
                 requestState.StreamResponse = responseStream;
 
                 responseStream.BeginRead(requestState.BufferRead, 0, HttpRequestState.BUFFER_SIZE, new AsyncCallback(ReadCallBack), requestState);
-
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 error = ex.Message;
                 isDone = true;
                 isError = true;
                 responseCode = 0;
             }
-
         }
 
+        /// <summary>
+        /// 读取回调
+        /// </summary>
+        /// <param name="asyncResult">异步结果</param>
         private void ReadCallBack(IAsyncResult asyncResult)
         {
-
             try
             {
-                HttpRequestState requestState = (HttpRequestState)asyncResult.AsyncState;
-                Stream responseStream = requestState.StreamResponse;
-                int read = responseStream.EndRead(asyncResult);
+                var requestState = (HttpRequestState)asyncResult.AsyncState;
+                var responseStream = requestState.StreamResponse;
+                var read = responseStream.EndRead(asyncResult);
 
                 if (read > 0)
                 {
                     responseLst.AddRange(requestState.BufferRead);
-                    responseStream.BeginRead(requestState.BufferRead, 0, HttpRequestState.BUFFER_SIZE, new AsyncCallback(ReadCallBack), requestState);
+                    responseStream.BeginRead(requestState.BufferRead, 0, HttpRequestState.BUFFER_SIZE, ReadCallBack, requestState);
                 }
                 else
                 {
@@ -160,22 +250,18 @@ namespace CatLib.Network
                     responseLst.Clear();
                     responseLst = null;
                     isDone = true;
-                    isError = false;
-                    if (responseCode < 200 || responseCode >= 300) { isError = true; }
+                    isError = (responseCode < 200 || responseCode >= 300);
                     responseStream.Close();
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 error = ex.Message;
                 isDone = true;
                 isError = true;
                 responseCode = 0;
             }
-
         }
-
     }
-
 }

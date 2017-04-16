@@ -50,7 +50,7 @@ namespace CatLib.Network
         private IRender[] render;
         private IProtocol protocol;
 
-        private bool stopMark = false;
+        private bool stopMark;
 
         private Hashtable triggerLevel;
 
@@ -62,7 +62,6 @@ namespace CatLib.Network
         /// <param name="config"></param>
         public void SetConfig(Hashtable config)
         {
-
             if (packer == null && config.ContainsKey("packing"))
             {
                 packer = App.Make(config["packing"].ToString()) as IPacking;
@@ -81,7 +80,7 @@ namespace CatLib.Network
                 }
                 else
                 {
-                    render = new IRender[] { App.Make(config["render"].ToString()) as IRender };
+                    render = new [] { App.Make(config["render"].ToString()) as IRender };
                 }
             }
 

@@ -8,15 +8,16 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API.Network
 {
-
-    public enum ERestful
+    /// <summary>
+    /// 协议谓词
+    /// </summary>
+    public enum Restfuls
     {
-
         //HTTP 1.1 协议谓词
-        Get, 
+        Get,
         Post,
         Put,
         Delete,
@@ -33,7 +34,5 @@ namespace CatLib.API.Network
         UnLock,
         Proffind,
         View
-
     }
-
 }
