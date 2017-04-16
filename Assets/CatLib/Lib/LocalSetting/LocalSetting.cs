@@ -16,7 +16,7 @@ namespace CatLib.LocalSetting
     /// <summary>
     /// 本地设置
     /// </summary>
-    public class LocalSetting : ILocalSetting
+    public sealed class LocalSetting : ILocalSetting
     {
         /// <summary>
         /// 配置容器

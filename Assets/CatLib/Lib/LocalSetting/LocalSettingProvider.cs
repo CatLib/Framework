@@ -16,7 +16,7 @@ namespace CatLib.LocalSetting
     /// <summary>
     /// 本地配置服务提供商
     /// </summary>
-    public class LocalSettingProvider : ServiceProvider
+    public sealed class LocalSettingProvider : ServiceProvider
     {
         /// <summary>
         /// 当注册本地配置服务时

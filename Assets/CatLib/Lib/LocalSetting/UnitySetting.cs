@@ -21,7 +21,7 @@ namespace CatLib.LocalSetting
     /// <summary>
     /// Unity设置
     /// </summary>
-    public class UnitySetting : ILocalSetting
+    public sealed class UnitySetting : ILocalSetting
     {
         /// <summary>
         /// 保存设置
