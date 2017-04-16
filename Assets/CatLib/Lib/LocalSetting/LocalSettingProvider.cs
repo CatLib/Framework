@@ -8,15 +8,19 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.LocalSetting;
 
 namespace CatLib.LocalSetting
 {
-
+    /// <summary>
+    /// 本地配置服务提供商
+    /// </summary>
     public class LocalSettingProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 当注册本地配置服务时
+        /// </summary>
         public override void Register()
         {
             App.Singleton<LocalSetting>().Alias<ILocalSetting>().Alias("local-setting").OnResolving((obj) =>
@@ -25,7 +29,5 @@ namespace CatLib.LocalSetting
                 return obj;
             });
         }
-
     }
-
 }
