@@ -21,7 +21,7 @@ namespace CatLib.INI
     /// <summary>
     /// ini加载器
     /// </summary>
-    public class IniLoader : IIniLoader
+    public sealed class IniLoader : IIniLoader
     {
         /// <summary>
         /// 加载一个ini文件

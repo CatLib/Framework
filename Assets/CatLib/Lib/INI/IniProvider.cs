@@ -8,23 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.INI;
 
 namespace CatLib.INI
 {
-
     /// <summary>
     /// ini服务提供商
     /// </summary>
-    public class IniProvider : ServiceProvider
+    public sealed class IniProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册ini服务
+        /// </summary>
         public override void Register()
         {
             App.Singleton<IniLoader>().Alias<IIniLoader>();
         }
-
     }
-
 }
