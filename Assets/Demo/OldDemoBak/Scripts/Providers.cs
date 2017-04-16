@@ -54,7 +54,7 @@ public class Providers{
                 typeof(TimeQueueProvider),
                 typeof(IniProvider),
                 typeof(TranslationProvider),
-                typeof(JSONProvider),
+                typeof(JsonProvider),
                 typeof(CompressProvider),
                 typeof(ConfigProvider),
                 typeof(ProtobufProvider),

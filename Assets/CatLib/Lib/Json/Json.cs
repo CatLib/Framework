@@ -8,47 +8,53 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Json;
 
-namespace CatLib.Json{
+namespace CatLib.Json
+{
+    /// <summary>
+    /// json工具
+    /// </summary>
+    public sealed class Json : IJson
+    {
+        /// <summary>
+        /// Json适配器
+        /// </summary>
+        private readonly IJsonAdapter adapter;
 
-    public class Json : IJson {
-
-        private IJsonAdapter jsonParse;
-
-        public Json(IJsonAdapter adapter){
-
-            jsonParse = adapter;
-
+        /// <summary>
+        /// 构建一个json工具
+        /// </summary>
+        /// <param name="adapter">适配器</param>
+        public Json(IJsonAdapter adapter)
+        {
+            this.adapter = adapter;
         }
 
-        public T Decode<T>(string json){
-
-            if(string.IsNullOrEmpty(json)){
-
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="json">json数据</param>
+        /// <returns>反序列化的类型</returns>
+        public T Decode<T>(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
                 return default(T);
-                
             }
-
-            if(jsonParse != null){
-
-                return jsonParse.Decode<T>(json);
-
-            }
-            return default(T);
-
+            return adapter != null ? adapter.Decode<T>(json) : default(T);
         }
 
-		public string Encode(object item){
-
-            if(item == null){ return null; }
-
-            return jsonParse.Encode(item);
-
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="item">需要序列化的对象</param>
+        /// <returns>json数据</returns>
+        public string Encode(object item)
+        {
+            return item == null ? null : adapter.Encode(item);
         }
-        
-
     }
-
 }

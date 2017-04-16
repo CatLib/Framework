@@ -19,7 +19,7 @@ namespace CatLib.IO
     /// <summary>
     /// 文件服务
     /// </summary>
-    public class IO : IIOFactory
+    public sealed class IO : IIOFactory
     {
         /// <summary>
         /// 容器

@@ -8,32 +8,31 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Json;
 
-namespace CatLib.Json{
+namespace CatLib.Json
+{
+    /// <summary>
+    /// json服务提供商
+    /// </summary>
+    public class JsonProvider : ServiceProvider
+    {
+        /// <summary>
+        /// 注册json服务
+        /// </summary>
+        public override void Register()
+        {
+            RegisterParse();
+            App.Singleton<Json>().Alias<IJson>().Alias("json");
+        }
 
-	public class JSONProvider : ServiceProvider {
-
-		public override void Register()
-		{
-
-			RegisterParse();
-			App.Singleton<Json>().Alias<IJson>().Alias("json");
-
-		}
-
-		protected void RegisterParse(){
-
-			App.Singleton<IJsonAdapter>((app , param) => {
-
-				return new TinyJsonAdapter();
-
-			}).Alias("json.parse");
-
-		}
-
-
-	}
-
+        /// <summary>
+        /// 注册解析器
+        /// </summary>
+        protected void RegisterParse()
+        {
+            App.Singleton<IJsonAdapter>((app, param) => new TinyJsonAdapter()).Alias("json.parse");
+        }
+    }
 }

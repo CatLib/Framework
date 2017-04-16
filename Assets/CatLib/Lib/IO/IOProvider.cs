@@ -18,7 +18,7 @@ namespace CatLib.IO
     /// <summary>
     /// IO服务提供商
     /// </summary>
-    public class IOProvider : ServiceProvider
+    public sealed class IOProvider : ServiceProvider
     {
         /// <summary>
         /// 注册IO服务
