@@ -95,7 +95,7 @@ namespace CatLib.Lua
 
         protected byte[] AutoLoader(ref string filepath)
         {
-            TextAsset text = Resources.Load<TextAsset>(filepath).UnHostedGet() as TextAsset;
+            TextAsset text = Resources.Load<TextAsset>(filepath).Original() as TextAsset;
             return text.bytes;
         }
 
@@ -133,7 +133,7 @@ namespace CatLib.Lua
                 {
                     if (!info.Name.EndsWith(".manifest"))
                     {
-                        yield return resources.LoadAllAsync<TextAsset>(filePath + "/" + info.Name, (textAssets) =>
+                        yield return resources.LoadAllAsync(filePath + "/" + info.Name, (textAssets) =>
                         {
                             Event.Trigger(LuaEvents.ON_HOT_FIXED_ACTION);
                             foreach (TextAsset text in textAssets)
