@@ -8,15 +8,21 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.Translation{
 
-	public interface IFileLoader{
-
-
-		IFileMapping Load(string root , string locale, string file);
-
-
-	}
-
+namespace CatLib.Translation
+{
+    /// <summary>
+    /// 文件加载器
+    /// </summary>
+    public interface IFileLoader
+    {
+        /// <summary>
+        /// 加载资源
+        /// </summary>
+        /// <param name="root">根目录</param>
+        /// <param name="locale">语言</param>
+        /// <param name="file">文件名</param>
+        /// <returns>文件映射</returns>
+        IFileMapping Load(string root, string locale, string file);
+    }
 }

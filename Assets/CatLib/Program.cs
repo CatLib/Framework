@@ -11,18 +11,21 @@
 
 using UnityEngine;
 
-/// <summary>
-/// 程序入口
-/// Program Entry
-/// </summary>
-public class Program : MonoBehaviour {
-
+namespace CatLib
+{
     /// <summary>
-    /// 初始化程序
+    /// 程序入口
+    /// Program Entry
     /// </summary>
-    public void Awake()
+    public sealed class Program : MonoBehaviour
     {
-        (new CatLib.Application(this)).Bootstrap(CatLib.Bootstrap.BootStrap).Init();
+        /// <summary>
+        /// 初始化程序
+        /// </summary>
+        public void Awake()
+        {
+            new Application(this).Bootstrap(Bootstrap.BootStrap).Init();
+        }
     }
-
 }
+

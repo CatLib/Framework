@@ -8,12 +8,21 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.Translation{
-	public interface ISelector{
 
-		string Choose(string line , int number, string locale);
-
-	}
-
+namespace CatLib.Translation
+{
+    /// <summary>
+    /// 选择器
+    /// </summary>
+    public interface ISelector
+    {
+        /// <summary>
+        /// 对翻译进行处理
+        /// </summary>
+        /// <param name="line">语言字符串</param>
+        /// <param name="number">数量</param>
+        /// <param name="locale">语言</param>
+        /// <returns>处理后的字符串</returns>
+        string Choose(string line, int number, string locale);
+    }
 }
