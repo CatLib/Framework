@@ -8,21 +8,37 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.TimeQueue{
 
-	public enum TimeTaskActionTypes{
+namespace CatLib.TimeQueue
+{
+    /// <summary>
+    /// 时间任务类型
+    /// </summary>
+    internal enum TimeTaskActionTypes
+    {
+        /// <summary>
+        /// 延迟时间执行
+        /// </summary>
+        DelayTime,
 
-		DelayTime,
+        /// <summary>
+        /// 延迟帧数执行
+        /// </summary>
+        DelayFrame,
 
-		DelayFrame,
+        /// <summary>
+        /// 循环执行指定时间
+        /// </summary>
+        LoopTime,
 
-		LoopTime,
+        /// <summary>
+        /// 循环执行直到函数返回false
+        /// </summary>
+        LoopFunc,
 
-		LoopFunc,
-		
-		LoopFrame,
-
-	}
-
+        /// <summary>
+        /// 循环执行指定帧数
+        /// </summary>
+        LoopFrame,
+    }
 }
