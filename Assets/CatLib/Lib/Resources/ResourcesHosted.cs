@@ -15,6 +15,7 @@ using CatLib.API.Resources;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
+using CatLib.API.Time;
 
 namespace CatLib.Resources
 {
@@ -28,6 +29,12 @@ namespace CatLib.Resources
         /// </summary>
         [Dependency]
         public AssetBundleLoader AssetBundleLoader { get; set; }
+
+        /// <summary>
+        /// 时间组件
+        /// </summary>
+        [Dependency]
+        public ITime Time { get; set; }
 
         /// <summary>
         /// 自检间隔
@@ -118,7 +125,7 @@ namespace CatLib.Resources
         /// </summary>
         public void Update()
         {
-            if (!((time -= App.Instance.Time.DeltaTime) <= 0))
+            if (!((time -= Time.DeltaTime) <= 0))
             {
                 return;
             }

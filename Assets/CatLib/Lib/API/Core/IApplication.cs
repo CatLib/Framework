@@ -47,11 +47,6 @@ namespace CatLib.API
         long GetGuid();
 
         /// <summary>
-        /// 程序时间
-        /// </summary>
-        ITime Time { get; }
-
-        /// <summary>
         /// 是否是主线程
         /// </summary>
         bool IsMainThread { get; }

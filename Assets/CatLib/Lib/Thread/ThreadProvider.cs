@@ -8,19 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Thread;
 
 namespace CatLib.Thread
 {
-
+    /// <summary>
+    /// 线程服务提供商
+    /// </summary>
     public class ThreadProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册线程服务
+        /// </summary>
         public override void Register()
         {
             App.Singleton<ThreadRuner>().Alias<IThread>();
         }
     }
-
 }

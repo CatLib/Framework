@@ -81,26 +81,6 @@ namespace CatLib
         protected long guid;
 
         /// <summary>
-        /// 时间系统
-        /// </summary>
-        private ITime time;
-
-        /// <summary>
-        /// 时间
-        /// </summary>
-        public ITime Time
-        {
-            get
-            {
-                if (process <= StartProcess.OnInit)
-                {
-                    throw new Exception("can not call Time , because framework is not inited");
-                }
-                return time ?? (time = Make(typeof(ITime).ToString()) as ITime);
-            }
-        }
-
-        /// <summary>
         /// 构建一个CatLib实例
         /// </summary>
         public Application()

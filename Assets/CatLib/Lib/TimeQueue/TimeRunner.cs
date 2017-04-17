@@ -13,6 +13,7 @@ using CatLib.API;
 using CatLib.API.TimeQueue;
 using System.Collections.Generic;
 using System.Threading;
+using CatLib.API.Time;
 
 namespace CatLib.TimeQueue {
 
@@ -21,12 +22,15 @@ namespace CatLib.TimeQueue {
         [Dependency]
         public IApplication App { get; set; }
 
+        [Dependency]
+        public ITime Time { get; set; }
+
         private List<TimeQueue> timeRuner = new List<TimeQueue>();
         private ReaderWriterLockSlim timeRunnerLocker = new ReaderWriterLockSlim();
 
         public ITimeQueue CreateQueue()
         {
-            return new TimeQueue(){ Runner = this , App = App };
+            return new TimeQueue {Runner = this, App = App, Time = Time};
         }
 
         public bool Runner(TimeQueue runner)

@@ -17,6 +17,7 @@ using CatLib.API;
 using CatLib.API.Resources;
 using CatLib.API.IO;
 using CatLib.API.Event;
+using CatLib.API.Time;
 
 namespace CatLib.Lua
 {
@@ -40,6 +41,9 @@ namespace CatLib.Lua
 
         [Dependency]
         public IApplication App { get; set; }
+
+        [Dependency]
+        public ITime Time { get; set; }
 
         private IDisk disk;
 
@@ -86,10 +90,10 @@ namespace CatLib.Lua
 
         public void Update()
         {
-            if (App.Time.Time - lastGC > GC_INTERVAL)
+            if (Time.Time - lastGC > GC_INTERVAL)
             {
                 LuaEnv.Tick();
-                lastGC = App.Time.Time;
+                lastGC = Time.Time;
             }
         }
 

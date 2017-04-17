@@ -13,18 +13,26 @@ using CatLib.API;
 using CatLib.API.Thread;
 using System.Collections.Generic;
 using System.Threading;
+using CatLib.API.Time;
 
 namespace CatLib.Thread
 {
-
     /// <summary>
     /// 多线程运行器
     /// </summary>
     public class ThreadRuner : IThread, IUpdate
     {
-
+        /// <summary>
+        /// 应用程序
+        /// </summary>
         [Dependency]
         public IApplication App { get; set; }
+
+        /// <summary>
+        /// 时间组件
+        /// </summary>
+        [Dependency]
+        public ITime Time { get; set; }
 
         private List<ThreadTask> taskRunner = new List<ThreadTask>();
         private ReaderWriterLockSlim taskRunnerLocker = new ReaderWriterLockSlim();
@@ -54,7 +62,7 @@ namespace CatLib.Thread
 
         public ITaskHandler AddTask(ThreadTask taskRunner)
         {
-            taskRunner.StartTime = App.Time.Time;
+            taskRunner.StartTime = Time.Time;
             if (taskRunner.DelayTime > 0)
             {
                 taskRunnerLocker.EnterWriteLock();
@@ -69,7 +77,7 @@ namespace CatLib.Thread
             }
             else
             {
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadExecuter), taskRunner);
+                ThreadPool.QueueUserWorkItem(ThreadExecuter, taskRunner);
             }
             return taskRunner;
         }
@@ -97,9 +105,9 @@ namespace CatLib.Thread
                 for (var i = 0; i < taskRunner.Count; ++i)
                 {
                     var runner = taskRunner[i];
-                    if ((runner.StartTime + runner.DelayTime) <= App.Time.Time)
+                    if ((runner.StartTime + runner.DelayTime) <= Time.Time)
                     {
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadExecuter), runner);
+                        ThreadPool.QueueUserWorkItem(ThreadExecuter, runner);
                         handlersToRemove[i] = true;
                     }
                 }

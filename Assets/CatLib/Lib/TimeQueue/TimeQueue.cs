@@ -13,6 +13,7 @@ using CatLib.API.TimeQueue;
 using System;
 using System.Collections.Generic;
 using CatLib.API;
+using CatLib.API.Time;
 
 namespace CatLib.TimeQueue
 {
@@ -21,6 +22,8 @@ namespace CatLib.TimeQueue
     {
 
         public IApplication App { get; set; }
+
+        public ITime Time { get; set; }
 
         private Action queueOnComplete;
         private Action<object> queueOnCompleteWithContext;
@@ -124,7 +127,7 @@ namespace CatLib.TimeQueue
         {
 
             bool isAllComplete = true;
-            float deltaTime = App.Time.DeltaTime;
+            float deltaTime = Time.DeltaTime;
             bool jumpFlag;
             for (int i = 0; i < queueTasks.Count; ++i)
             {
