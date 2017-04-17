@@ -14,7 +14,7 @@ namespace CatLib.Thread
     /// <summary>
     /// 线程事件
     /// </summary>
-    public class ThreadEvents
+    public sealed class ThreadEvents
     {
         /// <summary>
         /// 当线程执行遇到异常

@@ -16,7 +16,7 @@ namespace CatLib.Thread
     /// <summary>
     /// 线程服务提供商
     /// </summary>
-    public class ThreadProvider : ServiceProvider
+    public sealed class ThreadProvider : ServiceProvider
     {
         /// <summary>
         /// 注册线程服务

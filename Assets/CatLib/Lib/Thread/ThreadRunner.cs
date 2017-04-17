@@ -20,7 +20,7 @@ namespace CatLib.Thread
     /// <summary>
     /// 多线程运行器
     /// </summary>
-    public class ThreadRuner : IThread, IUpdate
+    public sealed class ThreadRuner : IThread, IUpdate
     {
         /// <summary>
         /// 应用程序
@@ -34,41 +34,58 @@ namespace CatLib.Thread
         [Dependency]
         public ITime Time { get; set; }
 
-        private List<ThreadTask> taskRunner = new List<ThreadTask>();
-        private ReaderWriterLockSlim taskRunnerLocker = new ReaderWriterLockSlim();
+        /// <summary>
+        /// 任务列表
+        /// </summary>
+        private readonly List<ThreadTask> taskRunner = new List<ThreadTask>();
 
+        /// <summary>
+        /// 任务读写锁
+        /// </summary>
+        private readonly ReaderWriterLockSlim taskRunnerLocker = new ReaderWriterLockSlim();
+
+        /// <summary>
+        /// 新建一个多线程任务
+        /// </summary>
+        /// <param name="task">任务内容</param>
+        /// <returns>任务</returns>
         public ITask Task(System.Action task)
         {
-            var taskRunner = new ThreadTask(this)
+            return new ThreadTask(this)
             {
                 Task = task,
                 ReturnResult = false,
             };
-            return taskRunner;
         }
 
+        /// <summary>
+        /// 新建一个多线程任务允许产生回调
+        /// </summary>
+        /// <param name="task">任务内容</param>
+        /// <returns>任务</returns>
         public ITask Task(System.Func<object> task)
         {
-
-            var taskRunner = new ThreadTask(this)
+            return new ThreadTask(this)
             {
                 TaskWithResult = task,
                 ReturnResult = true,
             };
-
-            return taskRunner;
-
         }
 
-        public ITaskHandler AddTask(ThreadTask taskRunner)
+        /// <summary>
+        /// 添加任务
+        /// </summary>
+        /// <param name="task">任务</param>
+        /// <returns>任务句柄</returns>
+        public ITaskHandler AddTask(ThreadTask task)
         {
-            taskRunner.StartTime = Time.Time;
-            if (taskRunner.DelayTime > 0)
+            task.StartTime = Time.Time;
+            if (task.DelayTime > 0)
             {
                 taskRunnerLocker.EnterWriteLock();
                 try
                 {
-                    this.taskRunner.Add(taskRunner);
+                    taskRunner.Add(task);
                 }
                 finally
                 {
@@ -77,17 +94,21 @@ namespace CatLib.Thread
             }
             else
             {
-                ThreadPool.QueueUserWorkItem(ThreadExecuter, taskRunner);
+                ThreadPool.QueueUserWorkItem(ThreadExecuter, task);
             }
-            return taskRunner;
+            return task;
         }
 
-        public void Cancel(ThreadTask taskRunner)
+        /// <summary>
+        /// 撤销任务
+        /// </summary>
+        /// <param name="task">任务</param>
+        public void Cancel(ThreadTask task)
         {
             taskRunnerLocker.EnterWriteLock();
             try
             {
-                this.taskRunner.Remove(taskRunner);
+                taskRunner.Remove(task);
             }
             finally
             {
@@ -95,6 +116,9 @@ namespace CatLib.Thread
             }
         }
 
+        /// <summary>
+        /// 更新
+        /// </summary>
         public void Update()
         {
             taskRunnerLocker.EnterReadLock();
@@ -105,14 +129,18 @@ namespace CatLib.Thread
                 for (var i = 0; i < taskRunner.Count; ++i)
                 {
                     var runner = taskRunner[i];
-                    if ((runner.StartTime + runner.DelayTime) <= Time.Time)
+                    if (!((runner.StartTime + runner.DelayTime) <= Time.Time))
                     {
-                        ThreadPool.QueueUserWorkItem(ThreadExecuter, runner);
-                        handlersToRemove[i] = true;
+                        continue;
                     }
+                    ThreadPool.QueueUserWorkItem(ThreadExecuter, runner);
+                    handlersToRemove[i] = true;
                 }
             }
-            finally { taskRunnerLocker.ExitReadLock(); }
+            finally
+            {
+                taskRunnerLocker.ExitReadLock();
+            }
 
             taskRunnerLocker.EnterWriteLock();
             try
@@ -125,14 +153,24 @@ namespace CatLib.Thread
                     }
                 }
             }
-            finally { taskRunnerLocker.ExitWriteLock(); }
+            finally
+            {
+                taskRunnerLocker.ExitWriteLock();
+            }
         }
 
+        /// <summary>
+        /// 线程执行器
+        /// </summary>
+        /// <param name="state">线程任务</param>
         private void ThreadExecuter(object state)
         {
             try
             {
-                if (typeof(ThreadTask) == state.GetType()) { RunTaskThread((ThreadTask)state); }
+                if (typeof(ThreadTask) == state.GetType())
+                {
+                    RunTaskThread((ThreadTask)state);
+                }
                 else
                 {
                     App.TriggerGlobal(ThreadEvents.ON_THREAD_EXECURE_ERROR, this).Trigger(
@@ -147,50 +185,50 @@ namespace CatLib.Thread
             }
         }
 
-        private void RunTaskThread(ThreadTask taskRunner)
+        /// <summary>
+        /// 运行任务线程
+        /// </summary>
+        /// <param name="task">任务</param>
+        private void RunTaskThread(ThreadTask task)
         {
             try
             {
                 object result = null;
-                if (taskRunner.ReturnResult)
+                if (task.ReturnResult)
                 {
-                    result = taskRunner.TaskWithResult();
+                    result = task.TaskWithResult();
                 }
                 else
                 {
-                    taskRunner.Task();
+                    task.Task();
                 }
 
-                if (taskRunner.Complete != null)
+                if (task.Complete != null)
                 {
                     App.MainThread(() =>
                     {
-                        taskRunner.Complete();
+                        task.Complete();
                     });
                 }
 
-                if (taskRunner.CompleteWithResult != null)
+                if (task.CompleteWithResult != null)
                 {
                     App.MainThread(() =>
                     {
-                        taskRunner.CompleteWithResult(result);
+                        task.CompleteWithResult(result);
                     });
                 }
-
             }
             catch (System.Exception exception)
             {
-                if (taskRunner.Error != null)
+                if (task.Error != null)
                 {
                     App.MainThread(() =>
                     {
-                        taskRunner.Error(exception);
+                        task.Error(exception);
                     });
                 }
             }
         }
-
     }
-
-
 }

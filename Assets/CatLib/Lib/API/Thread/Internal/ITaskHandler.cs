@@ -8,13 +8,17 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.API.Thread{
 
-	public interface ITaskHandler{
-
-		void Cancel();
-
-	}
-
+namespace CatLib.API.Thread
+{
+    /// <summary>
+    /// 线程任务句柄
+    /// </summary>
+    public interface ITaskHandler
+    {
+        /// <summary>
+        /// 撤销线程执行，只有在delay状态才能撤销
+        /// </summary>
+        void Cancel();
+    }
 }
