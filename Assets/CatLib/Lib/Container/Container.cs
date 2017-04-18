@@ -42,11 +42,6 @@ namespace CatLib.Container
         /// </summary>
         private Dictionary<string, List<string>> tags;
 
-        ///<summary>
-        /// 全局类型字典
-        ///</summary>
-        private Dictionary<string, Type> typeDict;
-
         /// <summary>
         /// 服务构建时的修饰器
         /// </summary>
@@ -685,7 +680,7 @@ namespace CatLib.Container
         /// <returns>服务类型</returns>
         private Type GetType(string service)
         {
-            return typeDict.ContainsKey(service) ? typeDict[service] : Type.GetType(service);
+            return Type.GetType(service);
         }
 
         /// <summary>
@@ -695,22 +690,10 @@ namespace CatLib.Container
         {
             tags = new Dictionary<string, List<string>>();
             aliases = new Dictionary<string, string>();
-            typeDict = new Dictionary<string, Type>();
             instances = new Dictionary<string, object>();
             binds = new Dictionary<string, BindData>();
             decorator = new List<Func<IBindData, object, object>>();
             proxy = new BoundProxy();
-
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if (!typeDict.ContainsKey(type.ToString()))
-                    {
-                        typeDict.Add(type.ToString(), type);
-                    }
-                }
-            }
         }
     }
 }
