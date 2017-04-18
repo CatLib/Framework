@@ -47,10 +47,7 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData Given(string service)
         {
-            if (string.IsNullOrEmpty(service))
-            {
-                throw new ArgumentNullException("service", "Parameter can not be empty or null");
-            }
+            Guard.NotEmptyOrNull(service , "service");
             return bindData.AddContextual(needs, service);
         }
 

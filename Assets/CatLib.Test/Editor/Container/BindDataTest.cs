@@ -34,7 +34,7 @@ namespace CatLib.Test.Container
 
             var needs = bindData.Needs("TestService");
             var needsWithType = bindData.Needs<BindDataTest>();
-
+           
             Assert.AreNotEqual(null, needs);
             Assert.AreNotEqual(null, needsWithType);
         }

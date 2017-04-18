@@ -78,10 +78,7 @@ namespace CatLib.Container
         /// <returns>绑定关系临时数据</returns>
         public IGivenData Needs(string service)
         {
-            if (string.IsNullOrEmpty(service))
-            {
-                throw new ArgumentNullException("service", "Parameter can not be empty or null");
-            }
+            Guard.NotEmptyOrNull(service, "service");
             return new GivenData(this, service);
         }
 
@@ -112,10 +109,7 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData AddInterceptor(IInterception interceptor)
         {
-            if (interceptor == null)
-            {
-                throw new ArgumentNullException("interceptor", "Parameter can not be empty or null");
-            }
+            Guard.NotNull(interceptor , "interceptor");
             if (interception == null)
             {
                 interception = new List<IInterception>();
@@ -141,10 +135,7 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData Alias(string alias)
         {
-            if (string.IsNullOrEmpty(alias))
-            {
-                throw new ArgumentNullException("alias", "Parameter can not be empty or null");
-            }
+            Guard.NotEmptyOrNull(alias, "alias");
             container.Alias(alias, Service);
             return this;
         }
@@ -155,10 +146,7 @@ namespace CatLib.Container
         /// <param name="func">解决事件</param>
         public IBindData OnResolving(Func<object, object> func)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException("func", "Parameter can not be empty or null");
-            }
+            Guard.NotNull(func, "func");
             if (decorator == null)
             {
                 decorator = new List<Func<object, object>>();

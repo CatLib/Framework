@@ -14,38 +14,39 @@ using System.Collections.Generic;
 using System.Reflection;
 using CatLib.API;
 using CatLib.API.Container;
+using NUnit.Framework;
 
 namespace CatLib.Container
 {
     ///<summary>
-    /// 容器
+    /// 依赖注入容器
     /// </summary>
     public class Container : IContainer
     {
         /// <summary>
         /// 服务所绑定的相关数据
         /// </summary>
-        private Dictionary<string, BindData> binds;
+        private readonly Dictionary<string, BindData> binds;
 
         ///<summary>
         /// 如果所属服务是静态的那么构建后将会储存在这里
         ///</summary>
-        private Dictionary<string, object> instances;
+        private readonly Dictionary<string, object> instances;
 
         ///<summary>
         /// 服务的别名(key: 别名 , value: 映射的服务名)
         ///</summary>
-        private Dictionary<string, string> aliases;
+        private readonly Dictionary<string, string> aliases;
 
         /// <summary>
         /// 服务标记，一个标记允许标记多个服务
         /// </summary>
-        private Dictionary<string, List<string>> tags;
+        private readonly Dictionary<string, List<string>> tags;
 
         /// <summary>
         /// 服务构建时的修饰器
         /// </summary>
-        private List<Func<IBindData, object, object>> decorator;
+        private readonly List<Func<IBindData, object, object>> decorator;
 
         /// <summary>
         /// locker
@@ -55,14 +56,19 @@ namespace CatLib.Container
         /// <summary>
         /// AOP代理包装器
         /// </summary>
-        private IBoundProxy proxy;
+        private readonly IBoundProxy proxy;
 
         /// <summary>
         /// 构造一个容器
         /// </summary>
         public Container()
         {
-            Initialize();
+            tags = new Dictionary<string, List<string>>();
+            aliases = new Dictionary<string, string>();
+            instances = new Dictionary<string, object>();
+            binds = new Dictionary<string, BindData>();
+            decorator = new List<Func<IBindData, object, object>>();
+            proxy = new BoundProxy();
         }
 
         /// <summary>
@@ -72,14 +78,9 @@ namespace CatLib.Container
         /// <param name="service">服务名</param>
         public void Tag(string tag, params string[] service)
         {
-            if (service == null)
-            {
-                return;
-            }
-            if (service.Length <= 0)
-            {
-                return;
-            }
+            Guard.NotNull(service , "service");
+            Guard.CountGreaterZero(service, "service");
+            Guard.ElementNotEmptyOrNull(service, "service");
             if (!tags.ContainsKey(tag))
             {
                 tags.Add(tag, new List<string>());
@@ -96,7 +97,7 @@ namespace CatLib.Container
         {
             if (!tags.ContainsKey(tag))
             {
-                return new object[] { };
+                throw new RuntimeException("tag [" + tag + "] is not exist");
             }
 
             var result = new List<object>();
@@ -218,7 +219,6 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData Bind(string service, string concrete, bool isStatic)
         {
-            service = Normalize(service);
             concrete = Normalize(concrete);
             return Bind(service, (c, param) =>
             {
@@ -376,10 +376,6 @@ namespace CatLib.Container
         {
             lock (locker)
             {
-                if (decorator == null)
-                {
-                    decorator = new List<Func<IBindData, object, object>>();
-                }
                 decorator.Add(func);
                 foreach (var data in instances)
                 {
@@ -398,12 +394,9 @@ namespace CatLib.Container
         /// <returns>被修饰器修饰后的服务实例</returns>
         private object ExecDecorator(BindData bindData, object obj)
         {
-            if (decorator != null)
+            foreach (var func in decorator)
             {
-                foreach (var func in decorator)
-                {
-                    obj = func(bindData, obj);
-                }
+                obj = func(bindData, obj);
             }
             return obj;
         }
@@ -681,19 +674,6 @@ namespace CatLib.Container
         private Type GetType(string service)
         {
             return Type.GetType(service);
-        }
-
-        /// <summary>
-        /// 初始化容器
-        /// </summary>
-        private void Initialize()
-        {
-            tags = new Dictionary<string, List<string>>();
-            aliases = new Dictionary<string, string>();
-            instances = new Dictionary<string, object>();
-            binds = new Dictionary<string, BindData>();
-            decorator = new List<Func<IBindData, object, object>>();
-            proxy = new BoundProxy();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace CatLib.API
     /// <summary>
     /// 运行时异常
     /// </summary>
-    public class RuntimeException : CatLibException
+    public class RuntimeException : Exception
     {
         /// <summary>
         /// CatLib组件异常
