@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Container;
 
 namespace CatLib.Container
@@ -49,12 +50,22 @@ namespace CatLib.Container
         /// <summary>
         /// 父级容器
         /// </summary>
-        private readonly IContainer container;
+        private readonly Container container;
 
         /// <summary>
         /// 服务构造修饰器
         /// </summary>
         private List<Func<object, object>> decorator;
+
+        /// <summary>
+        /// 是否被释放
+        /// </summary>
+        private bool isDestroy;
+
+        /// <summary>
+        /// 同步锁
+        /// </summary>
+        private readonly object syncRoot = new object();
 
         /// <summary>
         /// 构建一个绑定数据
@@ -63,12 +74,13 @@ namespace CatLib.Container
         /// <param name="service">服务名</param>
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否是静态的</param>
-        internal BindData(IContainer container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
+        internal BindData(Container container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
             this.container = container;
             Service = service;
             Concrete = concrete;
             IsStatic = isStatic;
+            isDestroy = false;
         }
 
         /// <summary>
@@ -110,11 +122,14 @@ namespace CatLib.Container
         public IBindData AddInterceptor(IInterception interceptor)
         {
             Guard.NotNull(interceptor , "interceptor");
-            if (interception == null)
+            lock (syncRoot)
             {
-                interception = new List<IInterception>();
+                if (interception == null)
+                {
+                    interception = new List<IInterception>();
+                }
+                interception.Add(interceptor);
             }
-            interception.Add(interceptor);
             return this;
         }
 
@@ -135,9 +150,16 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData Alias(string alias)
         {
-            Guard.NotEmptyOrNull(alias, "alias");
-            container.Alias(alias, Service);
-            return this;
+            lock (syncRoot)
+            {
+                if (isDestroy)
+                {
+                    return this;
+                }
+                Guard.NotEmptyOrNull(alias, "alias");
+                container.Alias(alias, Service);
+                return this;
+            }
         }
 
         /// <summary>
@@ -147,12 +169,27 @@ namespace CatLib.Container
         public IBindData OnResolving(Func<object, object> func)
         {
             Guard.NotNull(func, "func");
-            if (decorator == null)
+            lock (syncRoot)
             {
-                decorator = new List<Func<object, object>>();
+                if (decorator == null)
+                {
+                    decorator = new List<Func<object, object>>();
+                }
+                decorator.Add(func);
             }
-            decorator.Add(func);
             return this;
+        }
+
+        /// <summary>
+        /// 移除绑定服务 , 在解除绑定时如果是静态化物体将会触发释放
+        /// </summary>
+        public void UnBind()
+        {
+            lock (syncRoot)
+            {
+                isDestroy = true;
+                container.UnBind(Service);
+            }
         }
 
         /// <summary>
@@ -204,12 +241,19 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         internal BindData AddContextual(string needs, string given)
         {
-            if (contextual == null)
+            lock (syncRoot)
             {
-                contextual = new Dictionary<string, string>();
+                if (contextual == null)
+                {
+                    contextual = new Dictionary<string, string>();
+                }
+                if (contextual.ContainsKey(needs))
+                {
+                    throw new RuntimeException("needs [" + needs + "] is already exist");
+                }
+                contextual.Add(needs, given);
+                return this;
             }
-            contextual.Add(needs, given);
-            return this;
         }
     }
 }

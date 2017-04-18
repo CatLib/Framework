@@ -80,5 +80,10 @@ namespace CatLib.API.Container
         /// </summary>
         /// <param name="func">解决事件</param>
         IBindData OnResolving(Func<object, object> func);
+
+        /// <summary>
+        /// 移除绑定服务 , 在解除绑定时如果是静态化物体将会触发释放
+        /// </summary>
+        void UnBind();
     }
 }

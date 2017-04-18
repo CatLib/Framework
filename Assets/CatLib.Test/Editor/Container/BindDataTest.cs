@@ -215,5 +215,21 @@ namespace CatLib.Test.Container
             });
         }
         #endregion
+
+        #region UnBind
+        /// <summary>
+        /// 能够正常解除绑定
+        /// </summary>
+        [Test]
+        public void CanUnBind()
+        {
+            var container = new CatLib.Container.Container();
+            var bindData = container.Bind("CanUnBind", (app, param) => "hello world", false);
+
+            Assert.AreEqual("hello world", container.Make("CanUnBind").ToString());
+            bindData.UnBind();
+            Assert.AreEqual(null, container.Make("CanUnBind"));
+        }
+        #endregion
     }
 }

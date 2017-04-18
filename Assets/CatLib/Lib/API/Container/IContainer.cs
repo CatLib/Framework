@@ -34,13 +34,6 @@ namespace CatLib.API.Container
         bool HasBind(string service);
 
         /// <summary>
-        /// 服务是否是静态的
-        /// </summary>
-        /// <param name="service">服务名</param>
-        /// <returns>返回一个bool值代表服务是否是静态的,如果服务不存在也将返回false</returns>
-        bool IsStatic(string service);
-
-        /// <summary>
         /// 绑定一个服务
         /// </summary>
         /// <param name="service">服务名</param>
@@ -96,6 +89,18 @@ namespace CatLib.API.Container
         /// <param name="service">服务名或者别名</param>
         /// <param name="instance">服务实例</param>
         void Instance(string service, object instance);
+
+        /// <summary>
+        /// 释放某个静态化实例
+        /// </summary>
+        /// <param name="service">服务名或别名</param>
+        void Release(string service);
+
+        /// <summary>
+        /// 当静态服务被释放时
+        /// </summary>
+        /// <param name="action">处理释放时的回调</param>
+        IContainer OnRelease(Action<IBindData, object> action);
 
         /// <summary>
         /// 以依赖注入形式调用一个方法

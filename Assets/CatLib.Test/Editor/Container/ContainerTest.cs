@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -20,6 +21,60 @@ namespace CatLib.Test.Container
     [TestFixture]
     public class ContainerTest
     {
+
+        #region Tag
+
+        /// <summary>
+        /// 是否可以标记服务
+        /// </summary>
+        [Test]
+        public void CanTagService()
+        {
+            var container = MakeContainer();
+            Assert.DoesNotThrow(() =>
+            {
+                container.Tag("TestTag", "service1", "service2");
+            });
+        }
+
+        /// <summary>
+        /// 检测无效的Tag输入
+        /// </summary>
+        [Test]
+        public void CheckIllegalTagInput()
+        {
+            var container = MakeContainer();
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Tag("TestTag");
+                container.Tag("TestTag", null);
+            });
+        }
+
+        /// <summary>
+        /// 是否可以根据标签生成服务
+        /// </summary>
+        [Test]
+        public void CanMakeWithTaged()
+        {
+            var container = MakeContainer();
+            container.Bind("TestService1", (app, param) => "hello");
+            container.Bind("TestService2", (app, param) => "world");
+
+            container.Tag("TestTag", "TestService1", "TestService2");
+
+            Assert.DoesNotThrow(() =>
+            {
+                var obj = container.Tagged("TestTag");
+                Assert.AreEqual(2, obj.Length);
+                Assert.AreEqual("hello", obj[0]);
+                Assert.AreEqual("world", obj[1]);
+            });
+        }
+
+        #endregion
+
+
         /// <summary>
         /// 静态绑定方法
         /// </summary>

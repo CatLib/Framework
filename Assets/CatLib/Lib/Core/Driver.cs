@@ -109,6 +109,14 @@ namespace CatLib
                 }
                 return obj;
             });
+
+            OnRelease((bindData, obj) =>
+            {
+                if (bindData.IsStatic)
+                {
+                    UnLoad(obj);
+                }
+            });
         }
 
         /// <summary>
@@ -126,6 +134,29 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 卸载
+        /// </summary>
+        /// <param name="obj">卸载的对象</param>
+        private void UnLoad(object obj)
+        {
+            if (obj is IUpdate)
+            {
+                update.Remove((IUpdate)obj);
+            }
+
+            if (obj is ILateUpdate)
+            {
+                lateUpdate.Remove((ILateUpdate)obj);
+            }
+
+            if (obj is IDestroy)
+            {
+                destroy.Remove((IDestroy)obj);
+                ((IDestroy)obj).OnDestroy();
+            }
+        }
+
+        /// <summary>
         /// 装载
         /// </summary>
         /// <param name="obj">加载的对象</param>
@@ -133,17 +164,17 @@ namespace CatLib
         {
             if (obj is IUpdate)
             {
-                AddWidthPriorities(update, obj as IUpdate, "Update");
+                AddWidthPriorities(update, (IUpdate)obj, "Update");
             }
 
             if (obj is ILateUpdate)
             {
-                AddWidthPriorities(lateUpdate, obj as ILateUpdate, "LateUpdate");
+                AddWidthPriorities(lateUpdate, (ILateUpdate)obj, "LateUpdate");
             }
 
             if (obj is IDestroy)
             {
-                AddWidthPriorities(destroy, obj as IDestroy, "OnDestroy");
+                AddWidthPriorities(destroy, (IDestroy)obj, "OnDestroy");
             }
         }
 
