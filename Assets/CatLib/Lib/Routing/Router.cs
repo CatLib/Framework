@@ -201,33 +201,30 @@ namespace CatLib.Routing
                 ThrowOnNotFound(request);
                 return null;
             }
-
-            var route = FindRoute(request);
-            if (route == null)
-            {
-                return null;
-            }
-
-            container.Instance(typeof(IRequest).ToString(), route);
-            requestStack.Push(request);
-
             try
             {
-                request.SetRoute(route);
+                var route = FindRoute(request);
+                try
+                {
+                    container.Instance(typeof(IRequest).ToString(), route);
+                    requestStack.Push(request);
 
-                //todo: dispatch event
+                    request.SetRoute(route);
 
-                return RunRouteWithMiddleware(route, request);
+                    //todo: dispatch event
+
+                    return RunRouteWithMiddleware(route, request);
+                }
+                finally
+                {
+                    requestStack.Pop();
+                    container.Instance(typeof(IRequest).ToString(), requestStack.Count > 0 ? requestStack.Peek() : null);
+                }
             }
-            catch (NotFoundRouteException)
+            catch(NotFoundRouteException)
             {
                 ThrowOnNotFound(request);
                 return null;
-            }
-            finally
-            {
-                requestStack.Pop();
-                container.Instance(typeof(IRequest).ToString(), requestStack.Count > 0 ? requestStack.Peek() : null);
             }
         }
 
