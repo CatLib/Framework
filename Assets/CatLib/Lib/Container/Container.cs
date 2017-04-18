@@ -149,7 +149,27 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 service = Normalize(service);
+                service = GetAlias(service);
                 return binds.ContainsKey(service) || aliases.ContainsKey(service);
+            }
+        }
+
+        /// <summary>
+        /// 服务是否是静态化的,如果服务不存在也将返回false
+        /// </summary>
+        /// <param name="service">服务名或者别名</param>
+        /// <returns>是否是静态化的</returns>
+        public bool IsStatic(string service)
+        {
+            lock (syncRoot)
+            {
+                if (!HasBind(service))
+                {
+                    return false;
+                }
+                service = Normalize(service);
+                service = GetAlias(service);
+                return binds[service].IsStatic;
             }
         }
 
