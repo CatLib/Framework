@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using CatLib.API;
 using CatLib.API.Container;
-using NUnit.Framework;
 
 namespace CatLib.Container
 {
@@ -102,9 +101,9 @@ namespace CatLib.Container
 
             var result = new List<object>();
 
-            for (var i = 0; i < tags[tag].Count; ++i)
+            foreach (var tagService in tags[tag])
             {
-                result.Add(Make(tags[tag][i]));
+                result.Add(Make(tagService));
             }
 
             return result.ToArray();
