@@ -48,11 +48,18 @@ namespace CatLib.API.Container
         IGivenData Needs<T>();
 
         /// <summary>
-        /// 拦截器
+        /// 增加拦截器
         /// </summary>
-        /// <typeparam name="T">服务类型</typeparam>
+        /// <typeparam name="T">拦截器类型</typeparam>
         /// <returns>服务绑定数据</returns>
         IBindData AddInterceptor<T>() where T : IInterception, new();
+
+        /// <summary>
+        /// 增加拦截器
+        /// </summary>
+        /// <param name="interceptor">拦截器</param>
+        /// <returns>服务绑定数据</returns>
+        IBindData AddInterceptor(IInterception interceptor);
 
         /// <summary>
         /// 为服务设定一个别名

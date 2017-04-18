@@ -9,14 +9,15 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Container;
 
 namespace CatLib.Container
 {
     /// <summary>
-    /// 绑定关系临时数据
+    /// 绑定关系临时数据,用于支持链式调用
     /// </summary>
-    public sealed class GivenData : IGivenData
+    internal sealed class GivenData : IGivenData
     {
         /// <summary>
         /// 绑定数据
@@ -33,7 +34,7 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="bindData">服务绑定数据</param>
         /// <param name="needs">需求什么服务</param>
-        public GivenData(BindData bindData, string needs)
+        internal GivenData(BindData bindData, string needs)
         {
             this.bindData = bindData;
             this.needs = needs;
@@ -42,17 +43,21 @@ namespace CatLib.Container
         /// <summary>
         /// 给与什么服务
         /// </summary>
-        /// <param name="service">服务名或别名</param>
+        /// <param name="service">给与的服务名或别名</param>
         /// <returns>服务绑定数据</returns>
         public IBindData Given(string service)
         {
+            if (string.IsNullOrEmpty(service))
+            {
+                throw new ArgumentNullException("service", "Parameter can not be empty or null");
+            }
             return bindData.AddContextual(needs, service);
         }
 
         /// <summary>
         /// 给与什么服务
         /// </summary>
-        /// <typeparam name="T">服务名</typeparam>
+        /// <typeparam name="T">给与的服务名或别名</typeparam>
         /// <returns>服务绑定数据</returns>
         public IBindData Given<T>()
         {

@@ -17,52 +17,53 @@ namespace CatLib.Container
 {
     /// <summary>
     /// 服务绑定数据
-    /// </summary>
-    public sealed class BindData : IBindData
+    /// </summary>    
+    internal sealed class BindData : IBindData
     {
         /// <summary>
-        /// 服务名
+        /// 当前绑定服务的服务名
         /// </summary>
         public string Service { get; private set; }
 
         /// <summary>
-        /// 服务实现
+        /// 服务实现，执行这个委托将会获得服务实例
         /// </summary>
         public Func<IContainer, object[], object> Concrete { get; private set; }
 
         /// <summary>
-        /// 是否是静态服务
+        /// 当前绑定的服务是否是静态服务
         /// </summary>
         public bool IsStatic { get; private set; }
 
         /// <summary>
         /// 服务关系上下文
+        /// 当前服务需求某个服务时可以指定给与什么服务
         /// </summary>
         private Dictionary<string, string> contextual;
 
         /// <summary>
-        /// 拦截器
+        /// 拦截器列表
         /// </summary>
         private List<IInterception> interception;
 
         /// <summary>
-        /// 容器
+        /// 父级容器
         /// </summary>
         private readonly IContainer container;
 
         /// <summary>
-        /// 服务修饰器
+        /// 服务构造修饰器
         /// </summary>
         private List<Func<object, object>> decorator;
 
         /// <summary>
         /// 构建一个绑定数据
         /// </summary>
-        /// <param name="container">服务容器</param>
+        /// <param name="container">服务父级容器</param>
         /// <param name="service">服务名</param>
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否是静态的</param>
-        public BindData(IContainer container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
+        internal BindData(IContainer container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
             this.container = container;
             Service = service;
@@ -77,6 +78,10 @@ namespace CatLib.Container
         /// <returns>绑定关系临时数据</returns>
         public IGivenData Needs(string service)
         {
+            if (string.IsNullOrEmpty(service))
+            {
+                throw new ArgumentNullException("service", "Parameter can not be empty or null");
+            }
             return new GivenData(this, service);
         }
 
@@ -97,21 +102,26 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData AddInterceptor<T>() where T : IInterception, new()
         {
+            return AddInterceptor(new T());
+        }
+
+        /// <summary>
+        /// 拦截器
+        /// </summary>
+        /// <param name="interceptor">拦截器</param>
+        /// <returns>服务绑定数据</returns>
+        public IBindData AddInterceptor(IInterception interceptor)
+        {
+            if (interceptor == null)
+            {
+                throw new ArgumentNullException("interceptor", "Parameter can not be empty or null");
+            }
             if (interception == null)
             {
                 interception = new List<IInterception>();
             }
-            interception.Add(new T());
+            interception.Add(interceptor);
             return this;
-        }
-
-        /// <summary>
-        /// 获取服务的拦截器
-        /// </summary>
-        /// <returns>当前服务的拦截器</returns>
-        public IInterception[] GetInterceptors()
-        {
-            return interception == null ? null : interception.ToArray();
         }
 
         /// <summary>
@@ -131,22 +141,12 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData Alias(string alias)
         {
+            if (string.IsNullOrEmpty(alias))
+            {
+                throw new ArgumentNullException("alias", "Parameter can not be empty or null");
+            }
             container.Alias(alias, Service);
             return this;
-        }
-
-        /// <summary>
-        /// 获取上下文的需求关系
-        /// </summary>
-        /// <param name="needs">需求的服务</param>
-        /// <returns>给与的服务</returns>
-        public string GetContextual(string needs)
-        {
-            if (contextual == null)
-            {
-                return needs;
-            }
-            return contextual.ContainsKey(needs) ? contextual[needs] : needs;
         }
 
         /// <summary>
@@ -155,6 +155,10 @@ namespace CatLib.Container
         /// <param name="func">解决事件</param>
         public IBindData OnResolving(Func<object, object> func)
         {
+            if (func == null)
+            {
+                throw new ArgumentNullException("func", "Parameter can not be empty or null");
+            }
             if (decorator == null)
             {
                 decorator = new List<Func<object, object>>();
@@ -164,11 +168,34 @@ namespace CatLib.Container
         }
 
         /// <summary>
+        /// 获取服务的拦截器
+        /// </summary>
+        /// <returns>当前服务的拦截器</returns>
+        internal IInterception[] GetInterceptors()
+        {
+            return interception == null ? null : interception.ToArray();
+        }
+
+        /// <summary>
+        /// 获取上下文的需求关系
+        /// </summary>
+        /// <param name="needs">需求的服务</param>
+        /// <returns>给与的服务</returns>
+        internal string GetContextual(string needs)
+        {
+            if (contextual == null)
+            {
+                return needs;
+            }
+            return contextual.ContainsKey(needs) ? contextual[needs] : needs;
+        }
+
+        /// <summary>
         /// 执行服务修饰器
         /// </summary>
         /// <param name="obj">服务实例</param>
         /// <returns>修饰后的服务实例</returns>
-        public object ExecDecorator(object obj)
+        internal object ExecDecorator(object obj)
         {
             if (decorator == null)
             {
@@ -187,7 +214,7 @@ namespace CatLib.Container
         /// <param name="needs">需求什么服务</param>
         /// <param name="given">给与什么服务</param>
         /// <returns>服务绑定数据</returns>
-        public BindData AddContextual(string needs, string given)
+        internal BindData AddContextual(string needs, string given)
         {
             if (contextual == null)
             {

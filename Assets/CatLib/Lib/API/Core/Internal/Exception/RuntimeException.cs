@@ -9,17 +9,30 @@
  * Document: http://catlib.io/
  */
 
+using System;
+
 namespace CatLib.API
 {
     /// <summary>
     /// 运行时异常
     /// </summary>
-    public class RuntimeException : System.Exception
+    public class RuntimeException : CatLibException
     {
+        /// <summary>
+        /// CatLib组件异常
+        /// </summary>
+        /// <param name="message">异常消息</param>
+        public RuntimeException(string message) : base(message)
+        {
+        }
+
         /// <summary>
         /// 运行时异常
         /// </summary>
-        /// <param name="message"></param>
-        public RuntimeException(string message) : base(message) { }
+        /// <param name="message">异常消息</param>
+        /// <param name="innerException">内部异常</param>
+        public RuntimeException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }
