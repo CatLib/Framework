@@ -225,7 +225,7 @@ namespace CatLib.Container
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否是静态的</param>
         /// <returns>服务绑定数据</returns>
-        public IBindData BindIf(string service, string concrete, bool isStatic)
+        public IBindData BindIf(string service, Type concrete, bool isStatic)
         {
             var bind = GetBind(service);
             return bind ?? Bind(service, concrete, isStatic);
@@ -239,14 +239,13 @@ namespace CatLib.Container
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns>服务绑定数据</returns>
         /// <exception cref="concrete"><paramref name="concrete"/>为<c>null</c>或者空字符串</exception>
-        public IBindData Bind(string service, string concrete, bool isStatic)
+        public IBindData Bind(string service, Type concrete, bool isStatic)
         {
-            Guard.NotEmptyOrNull(concrete, "concrete");
-            concrete = Normalize(concrete);
+            Guard.NotNull(concrete, "concrete");
             return Bind(service, (c, param) =>
             {
                 var container = (Container)c;
-                return container.BuildMake(concrete, false, param);
+                return container.BuildMake(service, concrete, false, param);
             }, isStatic);
         }
 
@@ -343,7 +342,7 @@ namespace CatLib.Container
             {
                 service = Normalize(service);
                 service = GetAlias(service);
-                return instances.ContainsKey(service) ? instances[service] : BuildMake(service, true, param);
+                return instances.ContainsKey(service) ? instances[service] : BuildMake(service , null, true, param);
             }
         }
 
@@ -512,13 +511,14 @@ namespace CatLib.Container
         /// 构造服务
         /// </summary>
         /// <param name="service">服务名</param>
+        /// <param name="type">服务类型</param>
         /// <param name="isFromMake">是否直接调用自Make函数</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例</returns>
-        private object BuildMake(string service, bool isFromMake, params object[] param)
+        private object BuildMake(string service , Type type, bool isFromMake, params object[] param)
         {
             var bindData = GetBindData(service);
-            var objectData = isFromMake ? BuildUseConcrete(bindData, param) : Build(bindData, service, param);
+            var objectData = isFromMake ? BuildUseConcrete(bindData, param) : Build(bindData, type ?? GetType(bindData.Service), param);
 
             //只有是来自于make函数的调用时才执行di，包装，以及修饰
             if (!isFromMake)
@@ -553,21 +553,19 @@ namespace CatLib.Container
             {
                 return bindData.Concrete(this, param);
             }
-            return BuildMake(bindData.Service, false, param);
+            return BuildMake(bindData.Service , null, false, param);
         }
 
         /// <summary>
         /// 构造服务 - 实现
         /// </summary>
         /// <param name="bindData">服务绑定数据</param>
-        /// <param name="service">服务名</param>
+        /// <param name="type">服务类型</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例</returns>
-        private object Build(BindData bindData, string service, object[] param)
+        private object Build(BindData bindData, Type type, object[] param)
         {
             param = param ?? new object[] { };
-
-            var type = GetType(bindData.Service);
 
             if (type == null)
             {
@@ -576,18 +574,7 @@ namespace CatLib.Container
 
             if (type.IsAbstract || type.IsInterface)
             {
-                if (service != bindData.Service)
-                {
-                    type = Type.GetType(service);
-                    if (type == null)
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
 
             var constructor = type.GetConstructors();

@@ -103,6 +103,10 @@ namespace CatLib
 
             OnResolving((bindData, obj) =>
             {
+                if (obj == null)
+                {
+                    return null;
+                }
                 if (bindData.IsStatic)
                 {
                     Load(obj);
@@ -112,6 +116,10 @@ namespace CatLib
 
             OnRelease((bindData, obj) =>
             {
+                if (obj == null)
+                {
+                    return;
+                }
                 if (bindData.IsStatic)
                 {
                     UnLoad(obj);

@@ -103,21 +103,6 @@ namespace CatLib.Test.Container
         }
 
         /// <summary>
-        /// 检测无效的字符串实现是否能绑定
-        /// </summary>
-        [Test]
-        public void CheckIllegalStringConcrete()
-        {
-            var container = MakeContainer();
-            container.Bind("CheckIllegalStringConcrete", (cont, param) => "HelloWorld", true);
-
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                container.Bind("CheckIllegalStringConcrete", string.Empty, false);
-            });
-        }
-
-        /// <summary>
         /// 检测无效的绑定
         /// </summary>
         [Test]
@@ -330,6 +315,123 @@ namespace CatLib.Test.Container
             {
                 container.Alias("AliasNameOther3", null);
             });
+        }
+        #endregion
+
+        #region Call
+        /// <summary>
+        /// 被注入的测试类
+        /// </summary>
+        public class CallTestClassInject
+        {
+            public object GetNumber()
+            {
+                return 2;
+            }
+        }
+        /// <summary>
+        /// 调用测试类
+        /// </summary>
+        public class CallTestClass
+        {
+            public object GetNumber(CallTestClassInject cls)
+            {
+                return cls != null ? cls.GetNumber() : 1;
+            }
+        }
+
+        /// <summary>
+        /// 调用测试类
+        /// </summary>
+        public class CallTestClassLoopDependency
+        {
+            public object GetNumber(LoopDependencyClass cls)
+            {
+                return 1;
+            }
+        }
+
+        public class LoopDependencyClass
+        {
+            public LoopDependencyClass(LoopDependencyClass2 cls)
+            {
+        
+            }
+        }
+
+        public class LoopDependencyClass2
+        {
+            public LoopDependencyClass2(LoopDependencyClass cls)
+            {
+        
+            }
+        }
+
+        /// <summary>
+        /// 循环依赖测试
+        /// </summary>
+        [Test]
+        public void CheckLoopDependency()
+        {
+            Assert.Fail();
+            var container = MakeContainer();
+            container.Bind<LoopDependencyClass>();
+            container.Bind<LoopDependencyClass2>();
+
+            var cls = new CallTestClassLoopDependency();
+            var result = container.Call(cls, "GetNumber");
+        }
+
+        /// <summary>
+        /// 可以调用方法
+        /// </summary>
+        [Test]
+        public void CanCallMethod()
+        {
+            var container = MakeContainer();
+            container.Bind<CallTestClassInject>();
+            var cls = new CallTestClass();
+
+            var result = container.Call(cls, "GetNumber");
+            Assert.AreEqual(2, result);
+        }
+
+        /// <summary>
+        /// 测试无效的调用方法
+        /// </summary>
+        [Test]
+        public void CheckIllegalCallMethod()
+        {
+            var container = MakeContainer();
+            container.Bind<CallTestClassInject>();
+            var cls = new CallTestClass();
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Call(null, "GetNumber");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Call(cls, "GetNumberIllegal");
+            });
+        }
+
+        /// <summary>
+        /// 测试无效的传入参数
+        /// </summary>
+        [Test]
+        public void CheckIllegalCallMethodParam()
+        {
+            var container = MakeContainer();
+            container.Bind<CallTestClassInject>();
+            var cls = new CallTestClass();
+
+            var result = container.Call(cls, "GetNumber" , "illegal param");
+            Assert.AreEqual(2, result);
+
+            result = container.Call(cls, "GetNumber", null);
+            Assert.AreEqual(2, result);
         }
         #endregion
 

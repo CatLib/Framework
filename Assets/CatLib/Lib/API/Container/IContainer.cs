@@ -56,7 +56,7 @@ namespace CatLib.API.Container
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns>服务绑定数据</returns>
-        IBindData Bind(string service, string concrete, bool isStatic);
+        IBindData Bind(string service, Type concrete, bool isStatic);
 
         /// <summary>
         /// 如果服务不存在那么则绑定服务
@@ -74,7 +74,7 @@ namespace CatLib.API.Container
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否是静态的</param>
         /// <returns>服务绑定数据</returns>
-        IBindData BindIf(string service, string concrete, bool isStatic);
+        IBindData BindIf(string service, Type concrete, bool isStatic);
 
         /// <summary>
         /// 为一个及以上的服务定义一个标记

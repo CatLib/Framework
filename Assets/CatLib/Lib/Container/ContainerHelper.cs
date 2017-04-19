@@ -40,7 +40,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Singleton<TService, TConcrete>(this IContainer container) where TConcrete : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TConcrete).ToString(), true);
+            return container.Bind(typeof(TService).ToString(), typeof(TConcrete), true);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Singleton<TService>(this IContainer container) where TService : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TService).ToString() , true);
+            return container.Bind(typeof(TService).ToString(), typeof(TService) , true);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Bind<TService , TConcrete>(this IContainer container) where TConcrete : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TConcrete).ToString(), false);
+            return container.Bind(typeof(TService).ToString(), typeof(TConcrete), false);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Bind<TService>(this IContainer container) where TService : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TService).ToString(), false);
+            return container.Bind(typeof(TService).ToString(), typeof(TService), false);
         }
 
         /// <summary>
