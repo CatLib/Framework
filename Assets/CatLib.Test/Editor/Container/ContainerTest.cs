@@ -90,6 +90,19 @@ namespace CatLib.Test.Container
 
         #region Bind
         /// <summary>
+        /// 是否能够进行如果不存在则绑定的操作
+        /// </summary>
+        [Test]
+        public void CanBindIf()
+        {
+            var container = MakeContainer();
+            var bind = container.BindIf("CanBindIf", (cont, param) => "Hello", true);
+            var bind2 = container.BindIf("CanBindIf", (cont, param) => "World", false);
+
+            Assert.AreSame(bind , bind2);
+        }
+
+        /// <summary>
         /// 检测无效的字符串实现是否能绑定
         /// </summary>
         [Test]

@@ -120,7 +120,7 @@ namespace CatLib.Container
             {
                 if (!tags.ContainsKey(tag))
                 {
-                    throw new RuntimeException("Tag [" + tag + "] is not exist");
+                    throw new RuntimeException("Tag [" + tag + "] is not exist.");
                 }
 
                 var result = new List<object>();
@@ -192,7 +192,7 @@ namespace CatLib.Container
             {
                 if (aliases.ContainsKey(alias))
                 {
-                    throw new RuntimeException("Alias [" + alias + "] is already exists.");
+                    throw new RuntimeException("[" + alias + "] in Alias is already exists.");
                 }
                 if (!binds.ContainsKey(service) && !instances.ContainsKey(service))
                 {
@@ -268,17 +268,17 @@ namespace CatLib.Container
             {
                 if (binds.ContainsKey(service))
                 {
-                    throw new RuntimeException("Service [" + service + "] Bind is already exists!");
+                    throw new RuntimeException("[" + service + "] in Bind is already exists.");
                 }
 
                 if (instances.ContainsKey(service))
                 {
-                    throw new RuntimeException("Service [" + service + "] Instances is already exists!");
+                    throw new RuntimeException("[" + service + "] in Instances is already exists.");
                 }
 
                 if (aliases.ContainsKey(service))
                 {
-                    throw new RuntimeException("Service [" + service + "] Aliase is already exists!");
+                    throw new RuntimeException("[" + service + "] in Aliase is already exists.");
                 }
 
                 var bindData = new BindData(this, service, concrete, isStatic);
@@ -392,7 +392,7 @@ namespace CatLib.Container
                 {
                     if (!bindData.IsStatic)
                     {
-                        throw new RuntimeException("Bind [" + service + "] is not Static bind");
+                        throw new RuntimeException("[" + service + "] is not Static bind.");
                     }
                     instance = ((BindData)bindData).ExecDecorator(instance);
                 }
