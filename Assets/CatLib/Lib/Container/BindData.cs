@@ -68,6 +68,11 @@ namespace CatLib.Container
         private readonly object syncRoot = new object();
 
         /// <summary>
+        /// 给与数据
+        /// </summary>
+        private GivenData given;
+
+        /// <summary>
         /// 构建一个绑定数据
         /// </summary>
         /// <param name="container">服务父级容器</param>
@@ -91,7 +96,12 @@ namespace CatLib.Container
         public IGivenData Needs(string service)
         {
             Guard.NotEmptyOrNull(service, "service");
-            return new GivenData(this, service);
+            if (given == null)
+            {
+                given = new GivenData(this);
+            }
+            given.Needs(service);
+            return given;
         }
 
         /// <summary>

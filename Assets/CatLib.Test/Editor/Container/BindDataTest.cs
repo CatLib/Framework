@@ -51,6 +51,10 @@ namespace CatLib.Test.Container
             Assert.Throws<ArgumentNullException>(() =>
             {
                 bindData.Needs(null);
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
                 bindData.Needs(string.Empty);
             });
         }
@@ -179,6 +183,9 @@ namespace CatLib.Test.Container
             Assert.Throws<ArgumentNullException>(() =>
             {
                 bindData.Alias(null);
+            });
+            Assert.Throws<ArgumentNullException>(() =>
+            {
                 bindData.Alias(string.Empty);
             });
         }

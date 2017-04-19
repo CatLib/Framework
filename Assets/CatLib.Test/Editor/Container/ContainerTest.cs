@@ -12,6 +12,7 @@
 using System;
 using NUnit.Framework;
 using System.Collections.Generic;
+using CatLib.API;
 
 namespace CatLib.Test.Container
 {
@@ -23,7 +24,6 @@ namespace CatLib.Test.Container
     {
 
         #region Tag
-
         /// <summary>
         /// 是否可以标记服务
         /// </summary>
@@ -47,7 +47,21 @@ namespace CatLib.Test.Container
             Assert.Throws<ArgumentNullException>(() =>
             {
                 container.Tag("TestTag");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
                 container.Tag("TestTag", null);
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Tag(null, "service1", "service2");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Tag(string.Empty, "service1", "service2");
             });
         }
 
@@ -74,19 +88,78 @@ namespace CatLib.Test.Container
 
         #endregion
 
+        #region Bind
+        /// <summary>
+        /// 检测无效的字符串实现是否能绑定
+        /// </summary>
+        [Test]
+        public void CheckIllegalStringConcrete()
+        {
+            var container = MakeContainer();
+            container.Bind("CheckIllegalStringConcrete", (cont, param) => "HelloWorld", true);
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Bind("CheckIllegalStringConcrete", string.Empty, false);
+            });
+        }
+
+        /// <summary>
+        /// 检测无效的绑定
+        /// </summary>
+        [Test]
+        public void CheckIllegalBind()
+        {
+            var container = MakeContainer();
+            container.Bind("CheckIllegalBind", (cont, param) => "HelloWorld", true);
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Bind("CheckIllegalBind", (cont, param) => "Repeat Bind");
+            });
+
+            container.Instance("InstanceBind", "hello world");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Bind("InstanceBind", (cont, param) => "Instance Repeat Bind");
+            });
+
+            container.Alias("Hello", "CheckIllegalBind");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Bind("Hello", (cont, param) => "Alias Repeat Bind");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Bind(string.Empty, (cont, param) => "HelloWorld");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Bind(null, (cont, param) => "HelloWorld");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Bind("NoConcrete", null);
+            });
+        }
 
         /// <summary>
         /// 静态绑定方法
         /// </summary>
         [Test]
-        public void BindFuncStatic()
+        public void CanBindFuncStatic()
         {
             var container = MakeContainer();
-            container.Bind("BindFuncStatic", (cont, param) => "HelloWorld", true);
+            container.Bind("CanBindFuncStatic", (cont, param) => "HelloWorld", true);
 
-            var bind = container.GetBind("BindFuncStatic");
-            var hasBind = container.HasBind("BindFuncStatic");
-            var obj = container.Make("BindFuncStatic");
+            var bind = container.GetBind("CanBindFuncStatic");
+            var hasBind = container.HasBind("CanBindFuncStatic");
+            var obj = container.Make("CanBindFuncStatic");
 
             Assert.AreNotEqual(null, bind);
             Assert.AreEqual(true, hasBind);
@@ -98,17 +171,154 @@ namespace CatLib.Test.Container
         /// 非静态绑定
         /// </summary>
         [Test]
-        public void BindFunc()
+        public void CanBindFunc()
         {
             var container = MakeContainer();
-            container.Bind("BindFunc", (cont, param) => new List<string>());
+            container.Bind("CanBindFunc", (cont, param) => new List<string>());
 
-            var bind = container.Make("BindFunc");
-            var bind2 = container.Make("BindFunc");
+            var bind = container.Make("CanBindFunc");
+            var bind2 = container.Make("CanBindFunc");
 
             Assert.AreNotEqual(null, bind);
             Assert.AreNotSame(bind, bind2);
         }
+
+        /// <summary>
+        /// 检测获取绑定
+        /// </summary>
+        [Test]
+        public void CanGetBind()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind("CanGetBind", (cont, param) => "hello world");
+            var getBind = container.GetBind("CanGetBind");
+            Assert.AreSame(bind, getBind);
+
+            var getBindNull = container.GetBind("CanGetBindNull");
+            Assert.AreEqual(null, getBindNull);
+
+            bind.Alias("AliasName");
+            var aliasBind = container.GetBind("AliasName");
+            Assert.AreSame(bind, aliasBind);
+        }
+
+        /// <summary>
+        /// 检测非法的获取绑定
+        /// </summary>
+        [Test]
+        public void CheckIllegalGetBind()
+        {
+            var container = MakeContainer();
+            container.Bind("CheckIllegalGetBind", (cont, param) => "hello world");
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.GetBind(string.Empty);
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.GetBind(null);
+            });
+        }
+
+        /// <summary>
+        /// 检测是否拥有绑定
+        /// </summary>
+        [Test]
+        public void CanHasBind()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind("CanHasBind", (cont, param) => "hello world");
+            bind.Alias("AliasName");
+            Assert.IsTrue(container.HasBind("CanHasBind"));
+            Assert.IsTrue(container.HasBind("AliasName"));
+            Assert.IsFalse(container.HasBind(typeof(ContainerTest).ToString()));
+            bind.Alias<ContainerTest>();
+            Assert.IsTrue(container.HasBind(typeof(ContainerTest).ToString()));
+        }
+
+        /// <summary>
+        /// 检查是否是静态的函数
+        /// </summary>
+        [Test]
+        public void CanIsStatic()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind("CanIsStatic", (cont, param) => "hello world", true);
+            container.Bind("CanIsStaticNotStatic", (cont, param) => "hello world not static");
+
+            bind.Alias("AliasName");
+            Assert.IsTrue(container.IsStatic("CanIsStatic"));
+            Assert.IsTrue(container.IsStatic("AliasName"));
+            Assert.IsFalse(container.IsStatic("NoAliasName"));
+            Assert.IsFalse(container.IsStatic("CanIsStaticNotStatic"));
+            Assert.IsTrue(container.HasBind("CanIsStaticNotStatic"));
+        }
+        #endregion
+
+        #region Alias
+        /// <summary>
+        /// 正常的设定别名
+        /// </summary>
+        [Test]
+        public void CheckNormalAlias()
+        {
+            var container = MakeContainer();
+            container.Bind("CheckNormalAlias", (cont, param) => "hello world");
+
+            container.Instance("StaticService", "hello");
+            Assert.DoesNotThrow(() =>
+            {
+                container.Alias("AliasName1", "CheckNormalAlias");
+            });
+            Assert.DoesNotThrow(() =>
+            {
+                container.Alias("AliasName2", "StaticService");
+            });
+        }
+
+        /// <summary>
+        /// 检测非法的别名输入
+        /// </summary>
+        [Test]
+        public void CheckIllegalAlias()
+        {
+            var container = MakeContainer();
+            container.Bind("CheckIllegalAlias", (cont, param) => "hello world");
+            container.Alias("AliasName", "CheckIllegalAlias");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Alias("AliasName", "CheckIllegalAlias");
+            });
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Alias("AliasNameOther", "CheckNormalAliasNotExist");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Alias(string.Empty, "CheckIllegalAlias");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Alias(null, "CheckIllegalAlias");
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Alias("AliasNameOther2", string.Empty);
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Alias("AliasNameOther3", null);
+            });
+        }
+        #endregion
 
         /// <summary>
         /// 生成容器

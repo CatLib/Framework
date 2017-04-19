@@ -91,6 +91,7 @@ namespace CatLib.Container
         /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者<paramref name="service"/>中的元素为<c>null</c>或者空字符串</exception>
         public void Tag(string tag, params string[] service)
         {
+            Guard.NotEmptyOrNull(tag, "tag");
             Guard.NotNull(service, "service");
             Guard.CountGreaterZero(service, "service");
             Guard.ElementNotEmptyOrNull(service, "service");
@@ -110,9 +111,11 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="tag">标记名</param>
         /// <returns>将会返回标记所对应的所有服务实例</returns>
-        /// <exception cref="RuntimeException"><paramref name="tag"/>不存在时会引发这个异常</exception>
+        /// <exception cref="RuntimeException"><paramref name="tag"/>不存在</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="tag"/>为<c>null</c>或者空字符串</exception>
         public object[] Tagged(string tag)
         {
+            Guard.NotEmptyOrNull(tag, "tag");
             lock (syncRoot)
             {
                 if (!tags.ContainsKey(tag))
@@ -136,8 +139,10 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="service">服务名或别名</param>
         /// <returns>服务绑定数据或者null</returns>
+        /// <exception cref="service"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
         public IBindData GetBind(string service)
         {
+            Guard.NotEmptyOrNull(service, "service");
             lock (syncRoot)
             {
                 service = Normalize(service);
@@ -174,8 +179,12 @@ namespace CatLib.Container
         /// <param name="service">映射到的服务名</param>
         /// <returns>当前容器对象</returns>
         /// <exception cref="RuntimeException"><paramref name="alias"/>别名冲突或者<paramref name="service"/>的绑定与实例都不存在</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="alias"/>,<paramref name="service"/>为<c>null</c>或者空字符串</exception>
         public IContainer Alias(string alias, string service)
         {
+            Guard.NotEmptyOrNull(alias, "alias");
+            Guard.NotEmptyOrNull(service, "service");
+
             alias = Normalize(alias);
             service = Normalize(service);
 
@@ -183,11 +192,11 @@ namespace CatLib.Container
             {
                 if (aliases.ContainsKey(alias))
                 {
-                    throw new RuntimeException("Alias [" + alias + "] is already exists!");
+                    throw new RuntimeException("Alias [" + alias + "] is already exists.");
                 }
                 if (!binds.ContainsKey(service) && !instances.ContainsKey(service))
                 {
-                    throw new RuntimeException("Bind or Instance service [" + service + "] is not exists!");
+                    throw new RuntimeException("[" + service + "] must be Bind or Instance.");
                 }
 
                 aliases.Add(alias, service);
@@ -229,8 +238,10 @@ namespace CatLib.Container
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns>服务绑定数据</returns>
+        /// <exception cref="concrete"><paramref name="concrete"/>为<c>null</c>或者空字符串</exception>
         public IBindData Bind(string service, string concrete, bool isStatic)
         {
+            Guard.NotEmptyOrNull(concrete, "concrete");
             concrete = Normalize(concrete);
             return Bind(service, (c, param) =>
             {
@@ -250,6 +261,7 @@ namespace CatLib.Container
         /// <exception cref="ArgumentNullException"><paramref name="concrete"/>为<c>null</c></exception>
         public IBindData Bind(string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
+            Guard.NotEmptyOrNull(service, "service");
             Guard.NotNull(concrete , "concrete");
             service = Normalize(service);
             lock (syncRoot)
@@ -361,6 +373,7 @@ namespace CatLib.Container
         /// <param name="service">服务名或别名</param>
         /// <param name="instance">服务实例</param>
         /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
+        /// <exception cref="RuntimeException"><paramref name="service"/>的服务在绑定设置中不是静态的</exception>
         public void Instance(string service, object instance)
         {
             Guard.NotEmptyOrNull(service, "service");
@@ -369,8 +382,23 @@ namespace CatLib.Container
                 service = Normalize(service);
                 service = GetAlias(service);
 
+                var bindData = GetBind(service);
+                if (bindData != null)
+                {
+                    if (!bindData.IsStatic)
+                    {
+                        throw new RuntimeException("Bind [" + service + "] is not Static bind");
+                    }
+                    instance = ((BindData) bindData).ExecDecorator(instance);
+                }
+                else
+                {
+                    bindData = MakeEmptyBindData(service);
+                }
+
                 Release(service);
 
+                instance = ExecOnResolvingDecorator(bindData, instance);
                 instances.Add(service, instance);
             }
         }
@@ -437,6 +465,9 @@ namespace CatLib.Container
         {
             lock (syncRoot)
             {
+                service = Normalize(service);
+                service = GetAlias(service);
+
                 Release(service);
                 aliases.Remove(service);
                 binds.Remove(service);
@@ -496,8 +527,6 @@ namespace CatLib.Container
             {
                 objectData = proxy.Bound(objectData, bindData);
             }
-
-            objectData = ExecOnResolvingDecorator(bindData, bindData.ExecDecorator(objectData));
 
             if (bindData.IsStatic)
             {
@@ -726,7 +755,17 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         private BindData GetBindData(string service)
         {
-            return !binds.ContainsKey(service) ? new BindData(this, service, null, false) : binds[service];
+            return !binds.ContainsKey(service) ? MakeEmptyBindData(service) : binds[service];
+        }
+
+        /// <summary>
+        /// 制作一个空的绑定数据
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <returns>空绑定数据</returns>
+        private BindData MakeEmptyBindData(string service)
+        {
+            return new BindData(this, service, null, false);
         }
 
         /// <summary>

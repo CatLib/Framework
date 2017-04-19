@@ -27,17 +27,26 @@ namespace CatLib.Container
         /// <summary>
         /// 需求什么服务
         /// </summary>
-        private readonly string needs;
+        private string needs;
 
         /// <summary>
         /// 绑定关系临时数据
         /// </summary>
         /// <param name="bindData">服务绑定数据</param>
-        /// <param name="needs">需求什么服务</param>
-        internal GivenData(BindData bindData, string needs)
+        internal GivenData(BindData bindData)
         {
             this.bindData = bindData;
+        }
+
+        /// <summary>
+        /// 需求什么服务
+        /// </summary>
+        /// <param name="needs">需求什么服务</param>
+        /// <returns>绑定关系实例</returns>
+        internal IGivenData Needs(string needs)
+        {
             this.needs = needs;
+            return this;
         }
 
         /// <summary>
