@@ -245,7 +245,7 @@ namespace CatLib.Container
             concrete = Normalize(concrete);
             return Bind(service, (c, param) =>
             {
-                var container =(Container)c;
+                var container = (Container)c;
                 return container.BuildMake(concrete, false, param);
             }, isStatic);
         }
@@ -262,7 +262,7 @@ namespace CatLib.Container
         public IBindData Bind(string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
             Guard.NotEmptyOrNull(service, "service");
-            Guard.NotNull(concrete , "concrete");
+            Guard.NotNull(concrete, "concrete");
             service = Normalize(service);
             lock (syncRoot)
             {
@@ -298,9 +298,9 @@ namespace CatLib.Container
         /// <exception cref="ArgumentNullException"><paramref name="instance"/>,<paramref name="method"/>为<c>null</c>或者空字符串</exception>
         public object Call(object instance, string method, params object[] param)
         {
-            Guard.NotNull(instance , "instance");
-            Guard.NotEmptyOrNull(method , "method");
-       
+            Guard.NotNull(instance, "instance");
+            Guard.NotEmptyOrNull(method, "method");
+
             var methodInfo = instance.GetType().GetMethod(method);
             return Call(instance, methodInfo, param);
         }
@@ -362,16 +362,21 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="service">服务类型</param>
         /// <returns>服务实例，如果构造失败那么返回null</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c></exception>
         public object this[Type service]
         {
-            get { return Make(service.ToString()); }
+            get
+            {
+                Guard.NotNull(service, "service");
+                return Make(service.ToString());
+            }
         }
 
         /// <summary>
         /// 静态化一个服务
         /// </summary>
         /// <param name="service">服务名或别名</param>
-        /// <param name="instance">服务实例</param>
+        /// <param name="instance">服务实例，<c>null</c>也是合法的实例值</param>
         /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
         /// <exception cref="RuntimeException"><paramref name="service"/>的服务在绑定设置中不是静态的</exception>
         public void Instance(string service, object instance)
@@ -389,7 +394,7 @@ namespace CatLib.Container
                     {
                         throw new RuntimeException("Bind [" + service + "] is not Static bind");
                     }
-                    instance = ((BindData) bindData).ExecDecorator(instance);
+                    instance = ((BindData)bindData).ExecDecorator(instance);
                 }
                 else
                 {
@@ -420,7 +425,7 @@ namespace CatLib.Container
                 }
 
                 var bindData = GetBindData(service);
-                ExecOnReleaseDecorator(bindData , instances[service]);
+                ExecOnReleaseDecorator(bindData, instances[service]);
                 instances.Remove(service);
             }
         }
