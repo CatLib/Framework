@@ -30,14 +30,14 @@ namespace CatLib.Demo.CsvStore
         public override void Init()
         {
             //由于是demo需要所以强制更改默认路径
-            Env env = App[typeof(Env)] as Env;
+            Env env = App[typeof(Env).ToString()] as Env;
             env.SetResourcesBuildPath(Global.BasePath + "/CsvStore/Resources");
 			env.SetResourcesNoBuildPath(Global.BasePath + "/CsvStore/Resources");
             env.SetDebugLevel(DebugLevels.Dev);
 
 			//单纯由于是demo所以强制更改全局配置的路径，正常项目请不要这样用
 			IIOFactory io = App.Make<IIOFactory>();
-			Store.CsvStore csvStore = App[typeof(Store.CsvStore)] as Store.CsvStore;
+			Store.CsvStore csvStore = App[typeof(Store.CsvStore).ToString()] as Store.CsvStore;
 			csvStore.SetDirctory(io.Disk().Directory(Global.BasePath + "/CsvStore/Resources"));
         }
 

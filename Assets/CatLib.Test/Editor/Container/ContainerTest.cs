@@ -373,13 +373,16 @@ namespace CatLib.Test.Container
         [Test]
         public void CheckLoopDependency()
         {
-            Assert.Fail();
             var container = MakeContainer();
             container.Bind<LoopDependencyClass>();
             container.Bind<LoopDependencyClass2>();
 
             var cls = new CallTestClassLoopDependency();
-            var result = container.Call(cls, "GetNumber");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Call(cls, "GetNumber");
+            });
         }
 
         /// <summary>

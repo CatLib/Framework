@@ -28,13 +28,13 @@ namespace CatLib.Demo.Translation
         public override void Init()
         {
             //由于是demo需要所以强制更改默认路径
-            Env env = App[typeof(Env)] as Env;
+            Env env = App[typeof(Env).ToString()] as Env;
             env.SetResourcesBuildPath(Global.BasePath + "/Translation/Resources");
 			env.SetResourcesNoBuildPath(Global.BasePath + "/Translation/Resources");
             env.SetDebugLevel(DebugLevels.Dev);
 
             //通过配置可以指定翻译文件所在位置（这一步正常应该在配置中配置，但是由于是demo所以我们显式声明）
-            Translator tran = App[typeof(Translator)] as Translator;
+            Translator tran = App[typeof(Translator).ToString()] as Translator;
             tran.SetRoot("lang");
             tran.SetFallback("zh");
         }

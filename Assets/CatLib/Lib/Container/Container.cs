@@ -68,6 +68,11 @@ namespace CatLib.Container
         private readonly Type injectTarget;
 
         /// <summary>
+        /// 编译堆栈
+        /// </summary>
+        private readonly Stack<string> buildStack;
+
+        /// <summary>
         /// 构造一个容器
         /// </summary>
         public Container()
@@ -80,6 +85,7 @@ namespace CatLib.Container
             release = new List<Action<IBindData, object>>();
             proxy = new BoundProxy();
             injectTarget = typeof(DependencyAttribute);
+            buildStack = new Stack<string>();
         }
 
         /// <summary>
@@ -342,7 +348,21 @@ namespace CatLib.Container
             {
                 service = Normalize(service);
                 service = GetAlias(service);
-                return instances.ContainsKey(service) ? instances[service] : BuildMake(service , null, true, param);
+
+                if (buildStack.Contains(service))
+                {
+                    throw new RuntimeException("Circular dependency detected while for [" + service + "]");
+                }
+
+                buildStack.Push(service);
+                try
+                {
+                    return instances.ContainsKey(service) ? instances[service] : BuildMake(service, null, true, param);
+                }
+                finally
+                {
+                    buildStack.Pop();
+                }
             }
         }
 
@@ -357,22 +377,7 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 构造服务
-        /// </summary>
-        /// <param name="service">服务类型</param>
-        /// <returns>服务实例，如果构造失败那么返回null</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c></exception>
-        public object this[Type service]
-        {
-            get
-            {
-                Guard.NotNull(service, "service");
-                return Make(service.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 静态化一个服务
+        /// 静态化一个服务,实例值会经过解决修饰器
         /// </summary>
         /// <param name="service">服务名或别名</param>
         /// <param name="instance">服务实例，<c>null</c>也是合法的实例值</param>
@@ -443,7 +448,7 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 当服务被解决时触发的事件
+        /// 当服务被解决时，生成的服务会经过注册的回调函数
         /// </summary>
         /// <param name="func">回调函数</param>
         /// <returns>当前容器对象</returns>
@@ -479,7 +484,7 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 执行全局修饰器
+        /// 执行全局解决修饰器
         /// </summary>
         /// <param name="bindData">服务绑定数据</param>
         /// <param name="obj">服务实例</param>
@@ -494,7 +499,7 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 执行全局修饰器
+        /// 执行全局释放修饰器
         /// </summary>
         /// <param name="bindData">服务绑定数据</param>
         /// <param name="obj">服务实例</param>

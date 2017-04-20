@@ -143,13 +143,6 @@ namespace CatLib.API.Container
 		object this[string service] { get; }
 
         /// <summary>
-        /// 构造服务
-        /// </summary>
-        /// <param name="service">服务类型</param>
-        /// <returns>服务实例，如果构造失败那么返回null</returns>
-		object this[Type service] { get; }
-
-        /// <summary>
         /// 为服务设定一个别名
         /// </summary>
         /// <param name="alias">别名</param>
