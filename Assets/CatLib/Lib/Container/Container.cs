@@ -542,6 +542,10 @@ namespace CatLib.Container
             {
                 Instance(makeService, objectData);
             }
+            else
+            {
+                objectData = ExecOnResolvingDecorator(bindData, bindData.ExecDecorator(objectData));
+            }
 
             return objectData;
         }
@@ -612,11 +616,11 @@ namespace CatLib.Container
         /// <summary>
         /// 属性注入
         /// </summary>
-        /// <param name="makeSerivceBindData">服务绑定数据</param>
+        /// <param name="makeServiceBindData">服务绑定数据</param>
         /// <param name="makeServiceInstance">服务实例</param>
         /// <returns>服务实例</returns>
         /// <exception cref="RuntimeException">属性是必须的或者注入类型和需求类型不一致</exception>
-        private void AttrInject(BindData makeSerivceBindData, object makeServiceInstance)
+        private void AttrInject(BindData makeServiceBindData, object makeServiceInstance)
         {
             if (makeServiceInstance == null)
             {
@@ -641,21 +645,21 @@ namespace CatLib.Container
                 object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
-                    instance = ResloveClassAttr(makeSerivceBindData, makeServiceInstance.GetType(), typeName);
+                    instance = ResloveClassAttr(makeServiceBindData, makeServiceInstance.GetType(), typeName);
                 }
                 else
                 {
-                    instance = ResolveNonClassAttr(makeSerivceBindData, makeServiceInstance.GetType(), typeName);
+                    instance = ResolveNonClassAttr(makeServiceBindData, makeServiceInstance.GetType(), typeName);
                 }
 
                 if (dependency.Required && instance == null)
                 {
-                    throw new RuntimeException("Attr required ["+ makeSerivceBindData.Service + "] service");
+                    throw new RuntimeException("Attr required ["+ makeServiceBindData.Service + "] service");
                 }
 
-                if (instance != null && instance.GetType() != property.PropertyType)
+                if (instance != null && !property.PropertyType.IsInstanceOfType(instance))
                 {
-                    throw new RuntimeException("Attr type is not same,injection type must be [" + property.PropertyType + "],Make Service [" + makeSerivceBindData.Service + "],Attr Target Service [" + typeName + "]");
+                    throw new RuntimeException("Attr type is not same,injection type must be [" + property.PropertyType + "],Make Service [" + makeServiceBindData.Service + "],Attr Target Service [" + typeName + "],Make Attr Target Service [" + instance.GetType() + "]");
                 }
 
                 property.SetValue(makeServiceInstance, instance, null);
@@ -694,6 +698,7 @@ namespace CatLib.Container
         /// <param name="paramInfo">服务实例的参数信息</param>
         /// <param name="param">输入的构造参数列表</param>
         /// <returns>服务所需参数的解决结果</returns>
+        /// <exception cref="RuntimeException">生成的实例类型和需求类型不一致</exception>
         private object[] GetDependencies(BindData makeServiceBindData, Type makeServiceType, IList<ParameterInfo> paramInfo, IList<object> param)
         {
             var myParam = new List<object>();
@@ -710,14 +715,22 @@ namespace CatLib.Container
                     }
                 }
 
+                object instance;
                 if (info.ParameterType.IsClass || info.ParameterType.IsInterface)
                 {
-                    myParam.Add(ResloveClass(makeServiceBindData, makeServiceType, info));
+                    instance = ResloveClass(makeServiceBindData, makeServiceType, info);
                 }
                 else
                 {
-                    myParam.Add(ResolveNonClass(makeServiceBindData, makeServiceType, info));
+                    instance = ResolveNonClass(makeServiceBindData, makeServiceType, info);
                 }
+
+                if (instance != null && !info.ParameterType.IsInstanceOfType(instance))
+                {
+                    throw new RuntimeException("Attr type is not same,injection type must be [" + info.ParameterType + "],Make Service [" + makeServiceBindData.Service + "],Make Attr Target Service [" + instance.GetType() + "]");
+                }
+
+                myParam.Add(instance);
             }
 
             return myParam.ToArray();

@@ -498,10 +498,27 @@ namespace CatLib.Test.Container
         }
 
         /// <summary>
+        /// 引发一个类型不一致的异常
+        /// </summary>
+        [Test]
+        public void CheckIllegalMakeTypeIsNotSame()
+        {
+            var container = MakeContainer();
+            container.Singleton<MakeTestClass>();
+            container.Singleton<MakeTestClassDependency2>().Alias("AliasNameRequired");
+            container.Singleton<MakeTestClassDependency>().Alias("AliasName");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make<MakeTestClass>();
+            });
+        }
+
+        /// <summary>
         /// 可以生成静态的对象
         /// </summary>
         [Test]
-        public void CanMakeStatic()
+        public void CanMakeStaticAlias()
         {
             var container = MakeContainer();
             container.Singleton<MakeTestClass>();
@@ -587,6 +604,48 @@ namespace CatLib.Test.Container
                 container.Make(string.Empty);
             });
         }
+
+        /// <summary>
+        /// 解决器是否有效
+        /// </summary>
+        [Test]
+        public void CanMakeWithResolve()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind<MakeTestClassDependency>();
+
+            bind.OnResolving((obj) => "local resolve");
+            container.OnResolving((bindData, obj) => obj + " global resolve");
+
+            var result = container.Make(typeof(MakeTestClassDependency).ToString());
+
+            Assert.AreEqual("local resolve global resolve", result);
+        }
+
+        /// <summary>
+        /// 给与了错误的解决器,导致不正确的返回值
+        /// </summary>
+        [Test]
+        public void CheckMakeWithErrorResolve()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency2>().Alias("AliasName");
+            var bind2 = container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            bind.OnResolving((obj) => "local resolve");
+            container.OnResolving((bindData, obj) => obj + " global resolve");
+            bind2.OnResolving((obj) => "bind2");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make(typeof(MakeTestClass).ToString());
+            });
+        }
+        #endregion
+
+        #region Instance
+
         #endregion
 
         /// <summary>
