@@ -20,7 +20,7 @@ namespace CatLib.Hash
 
         public override void Register()
         {
-            App.Singleton<Hash>().Alias<IHash>().OnResolving((obj)=>{
+            App.Singleton<Hash>().Alias<IHash>().OnResolving((bind, obj) =>{
 
                 IConfigStore config = App.Make<IConfigStore>();
                 Hash hash = obj as Hash;

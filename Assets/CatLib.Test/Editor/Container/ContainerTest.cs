@@ -614,7 +614,7 @@ namespace CatLib.Test.Container
             var container = MakeContainer();
             var bind = container.Bind<MakeTestClassDependency>();
 
-            bind.OnResolving((obj) => "local resolve");
+            bind.OnResolving((bindData, obj) => "local resolve");
             container.OnResolving((bindData, obj) => obj + " global resolve");
 
             var result = container.Make(typeof(MakeTestClassDependency).ToString());
@@ -633,9 +633,9 @@ namespace CatLib.Test.Container
             container.Bind<MakeTestClassDependency2>().Alias("AliasName");
             var bind2 = container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
 
-            bind.OnResolving((obj) => "local resolve");
+            bind.OnResolving((bindData, obj) => "local resolve");
             container.OnResolving((bindData, obj) => obj + " global resolve");
-            bind2.OnResolving((obj) => "bind2");
+            bind2.OnResolving((bindData, obj) => "bind2");
 
             Assert.Throws<RuntimeException>(() =>
             {
@@ -645,7 +645,68 @@ namespace CatLib.Test.Container
         #endregion
 
         #region Instance
+        /// <summary>
+        /// 可以正确的给定静态实例
+        /// </summary>
+        [Test]
+        public void CanInstance()
+        {
+            var container = MakeContainer();
+            var data = new List<string> { "hello world" };
+            var data2 = new List<string> { "hello world" };
+            container.Instance("TestInstance" , data);
+            var result = container.Make("TestInstance");
 
+            Assert.AreSame(data , result);
+            Assert.AreNotSame(data2 , result);
+        }
+
+        /// <summary>
+        /// 测试无效的实例
+        /// </summary>
+        [Test]
+        public void CheckIllegalInstance()
+        {
+            var container = MakeContainer();
+            container.Bind("TestInstance", (app, param) => "hello world", false);
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Instance("TestInstance", "online");
+            });
+        }
+
+        /// <summary>
+        /// 能够通过release
+        /// </summary>
+        [Test]
+        public void CanInstanceWithRelease()
+        {
+            var container = MakeContainer();
+            var bindData = container.Bind("TestInstance", (app, param) => string.Empty, true);
+
+            bool isComplete = false , isComplete2 = false;
+            bindData.OnRelease((bind, obj) =>
+            {
+                Assert.AreEqual("hello world", obj);
+                Assert.AreSame(bindData, bind);
+                isComplete = true;
+            });
+
+            container.OnRelease((bind, obj) =>
+            {
+                Assert.AreEqual("hello world" , obj);
+                Assert.AreSame(bindData, bind);
+                isComplete2 = true;
+            });
+            container.Instance("TestInstance", "hello world");
+            container.Release("TestInstance");
+
+            if (isComplete && isComplete2)
+            {
+                return;
+            }
+            Assert.Fail();
+        }
         #endregion
 
         /// <summary>

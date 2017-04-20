@@ -34,7 +34,7 @@ namespace CatLib.Lua
 
         public override void Register()
         {
-            App.Singleton<LuaStore>().Alias<ILua>().OnResolving((obj)=>{
+            App.Singleton<LuaStore>().Alias<ILua>().OnResolving((bind, obj) =>{
 
                 IConfigStore config = App.Make<IConfigStore>();
                 LuaStore store = obj as LuaStore;

@@ -22,7 +22,7 @@ namespace CatLib.Config
         /// </summary>
         public override void Register()
         {
-            App.Singleton<ConfigStore>().Alias<IConfigStore>().Alias("config").OnResolving((obj) =>
+            App.Singleton<ConfigStore>().Alias<IConfigStore>().Alias("config").OnResolving((bind, obj) =>
             {
                 var store = obj as ConfigStore;
                 if (store == null)

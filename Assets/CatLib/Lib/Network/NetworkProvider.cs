@@ -25,7 +25,7 @@ namespace CatLib.Network
         /// </summary>
         public override void Register()
         {
-            App.Singleton<Network>().Alias<INetworkFactory>().OnResolving((obj) =>
+            App.Singleton<Network>().Alias<INetworkFactory>().OnResolving((bind, obj) =>
             {
                 var config = App.Make<IConfigStore>();
                 var network = obj as Network;

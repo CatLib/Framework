@@ -398,7 +398,7 @@ namespace CatLib.Container
                     {
                         throw new RuntimeException("[" + service + "] is not Static bind.");
                     }
-                    instance = ((BindData)bindData).ExecDecorator(instance);
+                    instance = ((BindData)bindData).ExecResolvingDecorator(instance);
                 }
                 else
                 {
@@ -429,6 +429,7 @@ namespace CatLib.Container
                 }
 
                 var bindData = GetBindData(service);
+                bindData.ExecReleaseDecorator(instances[service]);
                 ExecOnReleaseDecorator(bindData, instances[service]);
                 instances.Remove(service);
             }
@@ -523,31 +524,31 @@ namespace CatLib.Container
         private object BuildMake(string makeService , Type makeServiceType, bool isFromMake, params object[] param)
         {
             var bindData = GetBindData(makeService);
-            var objectData = isFromMake ? BuildUseConcrete(bindData, param) : Build(bindData, makeServiceType ?? GetType(bindData.Service), param);
+            var buildInstance = isFromMake ? BuildUseConcrete(bindData, param) : Build(bindData, makeServiceType ?? GetType(bindData.Service), param);
 
             //只有是来自于make函数的调用时才执行di，包装，以及修饰
             if (!isFromMake)
             {
-                return objectData;
+                return buildInstance;
             }
 
-            AttrInject(bindData, objectData);
+            AttrInject(bindData, buildInstance);
 
             if (proxy != null)
             {
-                objectData = proxy.Bound(objectData, bindData);
+                buildInstance = proxy.Bound(buildInstance, bindData);
             }
 
             if (bindData.IsStatic)
             {
-                Instance(makeService, objectData);
+                Instance(makeService, buildInstance);
             }
             else
             {
-                objectData = ExecOnResolvingDecorator(bindData, bindData.ExecDecorator(objectData));
+                buildInstance = ExecOnResolvingDecorator(bindData, bindData.ExecResolvingDecorator(buildInstance));
             }
 
-            return objectData;
+            return buildInstance;
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace CatLib.Translation
             RegisterLoader();
             RegisterSelector();
 
-            App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving(obj =>
+            App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving((bind, obj) =>
             {
                 var config = App.Make<IConfigStore>();
                 var tran = obj as Translator;
