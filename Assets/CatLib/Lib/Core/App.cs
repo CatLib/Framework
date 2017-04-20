@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Reflection;
 using CatLib.API;
 
 namespace CatLib
@@ -38,7 +39,20 @@ namespace CatLib
 #if UNITY_EDITOR
                 if (!UnityEngine.Application.isPlaying)
                 {
-                    return instance = new Application().Bootstrap(Bootstrap.BootStrap);
+                    instance = new Application().Bootstrap(Bootstrap.BootStrap);
+
+                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        if (IsStripping(assembly))
+                        {
+                            continue;
+                        }
+                        foreach (var type in assembly.GetTypes())
+                        {
+                            instance.Bind(type.ToString(), type, false);
+                        }
+                    }
+                    return instance;
                 }
 #endif
                 throw new NullReferenceException("application not instance");
@@ -51,5 +65,25 @@ namespace CatLib
                 }
             }
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// 程序集是否是被剥离的
+        /// </summary>
+        /// <param name="assembly">资源集</param>
+        /// <returns>是否过滤</returns>
+        private static bool IsStripping(Assembly assembly)
+        {
+            string[] notStripping = { "Assembly-CSharp-Editor" };
+            for (var i = 0; i < notStripping.Length; i++)
+            {
+                if (assembly.GetName().Name == notStripping[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+#endif
     }
 }
