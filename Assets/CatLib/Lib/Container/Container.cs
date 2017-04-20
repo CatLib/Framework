@@ -636,17 +636,24 @@ namespace CatLib.Container
                 }
 
                 var dependency = (DependencyAttribute)propertyAttrs[0];
-
                 var typeName = string.IsNullOrEmpty(dependency.Alias) ? property.PropertyType.ToString() : GetAlias(dependency.Alias);
-
+                object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
-                    property.SetValue(obj, ResloveClassAttr(bindData, obj.GetType(), typeName), null);
+                    instance = ResloveClassAttr(bindData, obj.GetType(), typeName);
+                    
                 }
                 else
                 {
-                    property.SetValue(obj, ResolveNonClassAttr(bindData, obj.GetType(), typeName), null);
+                    instance = ResolveNonClassAttr(bindData, obj.GetType(), typeName);
                 }
+
+                if (dependency.Required && instance == null)
+                {
+                    throw new RuntimeException("Attr required ["+ bindData.Service + "] service");
+                }
+
+                property.SetValue(obj, instance, null);
             }
         }
 
