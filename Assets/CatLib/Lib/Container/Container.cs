@@ -615,6 +615,7 @@ namespace CatLib.Container
         /// <param name="makeSerivceBindData">服务绑定数据</param>
         /// <param name="makeServiceInstance">服务实例</param>
         /// <returns>服务实例</returns>
+        /// <exception cref="RuntimeException">属性是必须的或者注入类型和需求类型不一致</exception>
         private void AttrInject(BindData makeSerivceBindData, object makeServiceInstance)
         {
             if (makeServiceInstance == null)
@@ -641,7 +642,6 @@ namespace CatLib.Container
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
                     instance = ResloveClassAttr(makeSerivceBindData, makeServiceInstance.GetType(), typeName);
-                    
                 }
                 else
                 {
@@ -651,6 +651,11 @@ namespace CatLib.Container
                 if (dependency.Required && instance == null)
                 {
                     throw new RuntimeException("Attr required ["+ makeSerivceBindData.Service + "] service");
+                }
+
+                if (instance != null && instance.GetType() != property.PropertyType)
+                {
+                    throw new RuntimeException("Attr type is not same,injection type must be [" + property.PropertyType + "],Make Service [" + makeSerivceBindData.Service + "],Attr Target Service [" + typeName + "]");
                 }
 
                 property.SetValue(makeServiceInstance, instance, null);

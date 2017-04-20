@@ -99,7 +99,7 @@ namespace CatLib.Test.Container
             var bind = container.BindIf("CanBindIf", (cont, param) => "Hello", true);
             var bind2 = container.BindIf("CanBindIf", (cont, param) => "World", false);
 
-            Assert.AreSame(bind , bind2);
+            Assert.AreSame(bind, bind2);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace CatLib.Test.Container
         {
             public LoopDependencyClass(LoopDependencyClass2 cls)
             {
-        
+
             }
         }
 
@@ -363,7 +363,7 @@ namespace CatLib.Test.Container
         {
             public LoopDependencyClass2(LoopDependencyClass cls)
             {
-        
+
             }
         }
 
@@ -430,11 +430,162 @@ namespace CatLib.Test.Container
             container.Bind<CallTestClassInject>();
             var cls = new CallTestClass();
 
-            var result = container.Call(cls, "GetNumber" , "illegal param");
+            var result = container.Call(cls, "GetNumber", "illegal param");
             Assert.AreEqual(2, result);
 
             result = container.Call(cls, "GetNumber", null);
             Assert.AreEqual(2, result);
+        }
+        #endregion
+
+        #region Make
+
+        public class MakeTestClass
+        {
+            private readonly MakeTestClassDependency dependency;
+
+            [Dependency]
+            public MakeTestClassDependency Dependency { get; set; }
+
+            [Dependency(Required = true)]
+            public MakeTestClassDependency DependencyRequired { get; set; }
+
+            [Dependency("AliasName")]
+            public MakeTestClassDependency2 DependencyAlias { get; set; }
+
+            [Dependency("AliasNameRequired",Required = true)]
+            public MakeTestClassDependency DependencyAliasRequired { get; set; }
+
+            public MakeTestClass(MakeTestClassDependency dependency)
+            {
+                this.dependency = dependency;
+            }
+
+            public string GetMsg()
+            {
+                return dependency.GetMsg();
+            }
+        }
+
+        public class MakeTestClassDependency
+        {
+            public string GetMsg()
+            {
+                return "hello";
+            }
+        }
+
+        public class MakeTestClassDependency2
+        {
+            public string GetMsg()
+            {
+                return "world";
+            }
+        }
+
+        /// <summary>
+        /// 是否能正常生成服务
+        /// </summary>
+        [Test]
+        public void CanMake()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result = container.Make<MakeTestClass>();
+            Assert.AreEqual(typeof(MakeTestClass), result.GetType());
+        }
+
+        /// <summary>
+        /// 可以生成静态的对象
+        /// </summary>
+        [Test]
+        public void CanMakeStatic()
+        {
+            var container = MakeContainer();
+            container.Singleton<MakeTestClass>();
+            container.Singleton<MakeTestClassDependency2>().Alias("AliasName");
+            container.Singleton<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result1 = container.Make<MakeTestClass>();
+            var result2 = container.Make<MakeTestClass>();
+
+            Assert.AreSame(result1, result2);
+            Assert.AreSame(result1.DependencyAliasRequired, result2.DependencyAliasRequired);
+            Assert.AreNotSame(result1.DependencyAlias, result2.DependencyAliasRequired);
+        }
+
+        /// <summary>
+        /// 可以根据别名来生成对应不同的实例
+        /// </summary>
+        [Test]
+        public void CanMakeWithAlias()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency2>().Alias("AliasName");
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result = container.Make<MakeTestClass>();
+
+            Assert.AreEqual("world", result.DependencyAlias.GetMsg());
+            Assert.AreEqual("hello" , result.DependencyAliasRequired.GetMsg());
+        }
+
+        /// <summary>
+        /// 能够生成常规绑定
+        /// </summary>
+        [Test]
+        public void CanMakeNormalBind()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result1 = container.Make<MakeTestClass>();
+            var result2 = container.Make<MakeTestClass>();
+
+            Assert.AreNotSame(result1, result2);
+            Assert.AreNotSame(result1.Dependency , result1.DependencyRequired);
+            Assert.AreNotSame(null, result1.DependencyRequired);
+            Assert.AreNotSame(null, result1.DependencyAliasRequired);
+            Assert.AreSame(null , result1.DependencyAlias);
+        }
+
+        /// <summary>
+        /// 必须参数约束
+        /// </summary>
+        [Test]
+        public void CheckMakeRequired()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make<MakeTestClass>();
+            });
+        }
+
+        /// <summary>
+        /// 无效的生成服务
+        /// </summary>
+        [Test]
+        public void CheckIllegalMake()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Make(null);
+            });
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Make(string.Empty);
+            });
         }
         #endregion
 
