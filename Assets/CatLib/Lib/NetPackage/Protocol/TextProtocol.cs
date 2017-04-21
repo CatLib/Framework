@@ -34,7 +34,7 @@ namespace CatLib.NetPackage{
         /// <returns></returns>
         public byte[] Encode(IPackage package){
 
-            return package.Package.ToString().ToByte();
+            return Encoding.UTF8.GetBytes(package.Package.ToString());
 
 		}
 

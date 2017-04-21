@@ -8,22 +8,28 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 
 namespace CatLib.AutoUpdate
 {
-
-    public class UpdateFileStartEventArgs : EventArgs
+    /// <summary>
+    /// 文件启动更新前事件
+    /// </summary>
+    public sealed class UpdateFileStartEventArgs : EventArgs
     {
+        /// <summary>
+        /// 需要更新的文件列表
+        /// </summary>
+        public string[] UpdateList { get; private set; }
 
-        public string[] UpdateList { get; protected set; }
-
+        /// <summary>
+        /// 创建一个文件启动更新事件
+        /// </summary>
+        /// <param name="list"></param>
         public UpdateFileStartEventArgs(string[] list)
         {
             UpdateList = list;
         }
-
     }
-
 }

@@ -8,15 +8,17 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API
 {
-	
-	///<summary>延迟刷新</summary>
-	public interface ILateUpdate{
-
-		void LateUpdate();
-		
-	}
-
+    /// <summary>
+    /// 在Update之后调用
+    /// </summary>
+    public interface ILateUpdate
+    {
+        /// <summary>
+        /// LateUpdate时调用
+        /// </summary>
+        void LateUpdate();
+    }
 }

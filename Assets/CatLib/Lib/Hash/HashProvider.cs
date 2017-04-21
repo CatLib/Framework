@@ -20,12 +20,12 @@ namespace CatLib.Hash
 
         public override void Register()
         {
-            App.Singleton<Hash>().Alias<IHash>().Resolving((app , bind, obj)=>{
+            App.Singleton<Hash>().Alias<IHash>().OnResolving((bind, obj) =>{
 
-                IConfigStore config = app.Make<IConfigStore>();
+                IConfigStore config = App.Make<IConfigStore>();
                 Hash hash = obj as Hash;
 
-                hash.SetFactor(config.Get<int>(typeof(Hash) , "factor" , 6));
+                hash.SetFactor(config.Get(typeof(Hash) , "factor" , 6));
                 hash.SetGenerateSalt(config.Get(typeof(Hash) , "salt" , null));
 
                 return obj;

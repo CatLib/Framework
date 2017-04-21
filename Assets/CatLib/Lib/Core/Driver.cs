@@ -16,58 +16,55 @@ using CatLib.API;
 using CatLib.API.Event;
 using UnityEngine;
 
-namespace CatLib {
-
+namespace CatLib
+{
     /// <summary>
     /// Application行为驱动器
     /// </summary>
-    public class Driver :  Container.Container , IEventAchieve , IDriver
+    public class Driver : Container.Container, IEventImpl
     {
-
         /// <summary>
         /// 主线程调度队列锁
         /// </summary>
-        protected object mainThreadDispatcherQueueLocker = new object();
+        private readonly object mainThreadDispatcherQueueLocker = new object();
 
         /// <summary>
         /// 更新
         /// </summary>
-        protected List<IUpdate> update = new List<IUpdate>();
+        private readonly LinkedList<IUpdate> update = new LinkedList<IUpdate>();
 
         /// <summary>
         /// 延后更新
         /// </summary>
-        protected List<ILateUpdate> lateUpdate = new List<ILateUpdate>();
+        private readonly LinkedList<ILateUpdate> lateUpdate = new LinkedList<ILateUpdate>();
 
         /// <summary>
         /// 释放时需要调用的
         /// </summary>
-        protected List<IDestroy> destroy = new List<IDestroy>();
+        private readonly LinkedList<IDestroy> destroy = new LinkedList<IDestroy>();
+
+        /// <summary>
+        /// 优先标记
+        /// </summary>
+        private readonly Type priority = typeof(PriorityAttribute);
 
         /// <summary>
         /// 事件实体
         /// </summary>
-        private IEventAchieve eventAchieve;
+        private IEventImpl eventImpl;
 
         /// <summary>
         /// 事件系统
         /// </summary>
-        private IEventAchieve EventSystem
+        private IEventImpl EventSystem
         {
-            get
-            {
-                if (eventAchieve == null)
-                {
-                    eventAchieve = this.Make<IEventAchieve>();
-                }
-                return eventAchieve;
-            }
+            get { return eventImpl ?? (eventImpl = this.Make<IEventImpl>()); }
         }
 
         /// <summary>
         /// 主线程ID
         /// </summary>
-        private int mainThreadID;
+        private readonly int mainThreadId;
 
         /// <summary>
         /// 是否是主线程
@@ -76,7 +73,7 @@ namespace CatLib {
         {
             get
             {
-                return mainThreadID == System.Threading.Thread.CurrentThread.ManagedThreadId;
+                return mainThreadId == System.Threading.Thread.CurrentThread.ManagedThreadId;
             }
         }
 
@@ -88,7 +85,7 @@ namespace CatLib {
         /// <summary>
         /// 主线程调度队列
         /// </summary>
-        private Queue<Action> mainThreadDispatcherQueue = new Queue<Action>();
+        private readonly Queue<Action> mainThreadDispatcherQueue = new Queue<Action>();
 
         /// <summary>
         /// Application行为驱动器
@@ -98,63 +95,164 @@ namespace CatLib {
         /// <summary>
         /// Application行为驱动器
         /// </summary>
-        public Driver(MonoBehaviour mainBehavior) : base()
+        public Driver(Component mainBehavior)
         {
-
             Initialization(mainBehavior);
 
-            mainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
-            Resolving((container, bindData, obj) =>
+            OnResolving((bindData, obj) =>
             {
-                if (bindData.IsStatic){ Load(obj); }
+                if (obj == null)
+                {
+                    return null;
+                }
+                if (bindData.IsStatic)
+                {
+                    Load(obj);
+                }
                 return obj;
             });
 
+            OnRelease((bindData, obj) =>
+            {
+                if (obj == null)
+                {
+                    return;
+                }
+                if (bindData.IsStatic)
+                {
+                    UnLoad(obj);
+                }
+            });
         }
 
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <param name="mainObject"></param>
-        private void Initialization(MonoBehaviour mainBehavior)
+        /// <param name="mainBehavior">mono脚本</param>
+        private void Initialization(Component mainBehavior)
         {
-            if (mainBehavior != null)
+            if (mainBehavior == null)
             {
-                driverBehaviour = mainBehavior.gameObject.AddComponent<DriverBehaviour>();
-                driverBehaviour.SetDriver(this);
+                return;
+            }
+            driverBehaviour = mainBehavior.gameObject.AddComponent<DriverBehaviour>();
+            driverBehaviour.SetDriver(this);
+        }
+
+        /// <summary>
+        /// 卸载
+        /// </summary>
+        /// <param name="obj">卸载的对象</param>
+        private void UnLoad(object obj)
+        {
+            if (obj is IUpdate)
+            {
+                update.Remove((IUpdate)obj);
+            }
+
+            if (obj is ILateUpdate)
+            {
+                lateUpdate.Remove((ILateUpdate)obj);
+            }
+
+            if (obj is IDestroy)
+            {
+                destroy.Remove((IDestroy)obj);
+                ((IDestroy)obj).OnDestroy();
             }
         }
 
         /// <summary>
         /// 装载
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">加载的对象</param>
         private void Load(object obj)
         {
             if (obj is IUpdate)
             {
-                update.Add(obj as IUpdate);
+                AddWidthPriorities(update, (IUpdate)obj, "Update");
             }
 
             if (obj is ILateUpdate)
             {
-                lateUpdate.Add(obj as ILateUpdate);
+                AddWidthPriorities(lateUpdate, (ILateUpdate)obj, "LateUpdate");
             }
 
             if (obj is IDestroy)
             {
-                destroy.Add(obj as IDestroy);
+                AddWidthPriorities(destroy, (IDestroy)obj, "OnDestroy");
             }
+        }
+
+        /// <summary>
+        /// 根据优先级增加到列表
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="list">列表</param>
+        /// <param name="val">增加的内容</param>
+        /// <param name="method">识别的方法</param>
+        private void AddWidthPriorities<T>(LinkedList<T> list, T val, string method)
+        {
+            var current = list.First;
+            while (current != null)
+            {
+                var currentPriorities = GetPriorities(current.Value.GetType(), method);
+                var valPriorities = GetPriorities(val.GetType(), method);
+
+                if (currentPriorities > valPriorities)
+                {
+                    break;
+                }
+
+                current = current.Next;
+            }
+            if (current != null)
+            {
+                list.AddBefore(current, val);
+            }
+            else
+            {
+                list.AddLast(val);
+            }
+        }
+
+        /// <summary>
+        /// 获取优先级
+        /// </summary>
+        /// <param name="type">识别的类型</param>
+        /// <param name="method">识别的方法</param>
+        /// <returns>优先级</returns>
+        private int GetPriorities(Type type, string method)
+        {
+            var currentPriority = int.MaxValue;
+            var methodInfo = type.GetMethod(method);
+
+            if (methodInfo.IsDefined(priority, false))
+            {
+                currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities; ;
+            }
+            else if (type.IsDefined(priority, false))
+            {
+                currentPriority = (type.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
+            }
+
+            return currentPriority;
         }
 
         #region Action
 
+        /// <summary>
+        /// 每帧更新
+        /// </summary>
         public void Update()
         {
-            for (int i = 0; i < update.Count; i++)
+            var current = update.First;
+            while (current != null)
             {
-                update[i].Update();
+                current.Value.Update();
+                current = current.Next;
             }
             lock (mainThreadDispatcherQueueLocker)
             {
@@ -165,19 +263,29 @@ namespace CatLib {
             }
         }
 
+        /// <summary>
+        /// 每帧更新后
+        /// </summary>
         public void LateUpdate()
         {
-            for (int i = 0; i < lateUpdate.Count; i++)
+            var current = lateUpdate.First;
+            while (current != null)
             {
-                lateUpdate[i].LateUpdate();
+                current.Value.LateUpdate();
+                current = current.Next;
             }
         }
 
+        /// <summary>
+        /// 当释放时
+        /// </summary>
         public void OnDestroy()
         {
-            for (int i = 0; i < destroy.Count; i++)
+            var current = destroy.First;
+            while (current != null)
             {
-                destroy[i].OnDestroy();
+                current.Value.OnDestroy();
+                current = current.Next;
             }
         }
 
@@ -188,7 +296,7 @@ namespace CatLib {
         /// <summary>
         /// 在主线程中调用
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">协程，执行会处于主线程</param>
         public void MainThread(IEnumerator action)
         {
             if (IsMainThread)
@@ -208,7 +316,7 @@ namespace CatLib {
         /// <summary>
         /// 在主线程中调用
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">回调，回调的内容会处于主线程</param>
         public void MainThread(Action action)
         {
             if (IsMainThread)
@@ -222,7 +330,7 @@ namespace CatLib {
         /// <summary>
         /// 包装器
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">回调函数</param>
         /// <returns></returns>
         private IEnumerator ActionWrapper(Action action)
         {
@@ -235,18 +343,18 @@ namespace CatLib {
         #region Coroutine
 
         /// <summary>
-        /// 启动协同
+        /// 启动协程
         /// </summary>
-        /// <param name="routine"></param>
+        /// <param name="routine">协程</param>
         public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
         {
             return driverBehaviour.StartCoroutine(routine);
         }
 
         /// <summary>
-        /// 停止协同
+        /// 停止协程
         /// </summary>
-        /// <param name="routine"></param>
+        /// <param name="routine">协程</param>
         public void StopCoroutine(IEnumerator routine)
         {
             driverBehaviour.StopCoroutine(routine);
@@ -256,7 +364,10 @@ namespace CatLib {
 
         #region Dispatcher
 
-        public IEventAchieve Event
+        /// <summary>
+        /// 事件系统
+        /// </summary>
+        public IEventImpl Event
         {
             get
             {
@@ -264,48 +375,100 @@ namespace CatLib {
             }
         }
 
-        public IGlobalEvent Trigger(object score)
+        /// <summary>
+        /// 触发一个全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <returns>全局事件</returns>
+        public IGlobalEvent TriggerGlobal(string eventName)
         {
-            return new GlobalEvent(score);
+            return TriggerGlobal(eventName, null);
         }
 
+        /// <summary>
+        /// 触发一个全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="source">触发事件的源</param>
+        /// <returns>全局事件</returns>
+        public IGlobalEvent TriggerGlobal(string eventName, object source)
+        {
+            return new GlobalEvent(eventName, source);
+        }
+
+        /// <summary>
+        /// 触发一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
         public void Trigger(string eventName)
         {
             EventSystem.Trigger(eventName);
         }
 
+        /// <summary>
+        /// 触发一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="e">事件参数</param>
         public void Trigger(string eventName, EventArgs e)
         {
             EventSystem.Trigger(eventName, e);
         }
 
+        /// <summary>
+        /// 触发一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="sender">事件发送者</param>
         public void Trigger(string eventName, object sender)
         {
             EventSystem.Trigger(eventName, sender);
         }
 
+        /// <summary>
+        /// 触发一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="sender">事件发送者</param>
+        /// <param name="e">事件参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
             EventSystem.Trigger(eventName, sender, e);
         }
 
+        /// <summary>
+        /// 注册一个全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="handler">事件回调</param>
+        /// <param name="life">事件生命，当生命为0则自动释放</param>
+        /// <returns>事件句柄</returns>
         public IEventHandler On(string eventName, EventHandler handler, int life = -1)
         {
             return EventSystem.On(eventName, handler, life);
         }
 
+        /// <summary>
+        /// 注册一个一次性的全局事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="handler">事件回调</param>
+        /// <returns>事件句柄</returns>
         public IEventHandler One(string eventName, EventHandler handler)
         {
             return EventSystem.One(eventName, handler);
         }
 
+        /// <summary>
+        /// 释放一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="handler">事件句柄</param>
         public void Off(string eventName, IEventHandler handler)
         {
             EventSystem.Off(eventName, handler);
         }
 
         #endregion
-
     }
-
 }

@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -22,10 +22,10 @@ namespace CatLib.Network
 
         public enum Status
         {
-            Initial    = 1,
+            Initial = 1,
             Connecting = 2,
             Establish = 3,
-            Closed     = 4, 
+            Closed = 4,
         }
 
         protected volatile Status status = Status.Initial;
@@ -37,7 +37,7 @@ namespace CatLib.Network
 
         protected string remoteAddress;
         protected int remotePort;
-      
+
         public EventHandler OnConnect;
         public EventHandler OnClose;
         public EventHandler OnError;
@@ -64,7 +64,7 @@ namespace CatLib.Network
 
         }
 
-        public void Connect(string host , int port)
+        public void Connect(string host, int port)
         {
             if (status != Status.Initial && status != Status.Closed) { return; }
             remoteAddress = host;
@@ -72,7 +72,7 @@ namespace CatLib.Network
             status = Status.Connecting;
 
             socket = new UdpClient();
-            socket.Connect(host , port);
+            socket.Connect(host, port);
 
             status = Status.Establish;
             OnConnect(this, EventArgs.Empty);
@@ -80,16 +80,16 @@ namespace CatLib.Network
             socket.BeginReceive(OnReadCallBack, null);
         }
 
-        public void SendTo(byte[] bytes , string host , int port)
+        public void SendTo(byte[] bytes, string host, int port)
         {
             if (status != Status.Establish) { return; }
-            socket.BeginSend(bytes, bytes.Length , host, port, OnSendCallBack, null);
+            socket.BeginSend(bytes, bytes.Length, host, port, OnSendCallBack, null);
         }
 
         public void Send(byte[] bytes)
         {
             if (status != Status.Establish) { return; }
-            socket.BeginSend(bytes, bytes.Length, OnSendCallBack , null);
+            socket.BeginSend(bytes, bytes.Length, OnSendCallBack, null);
         }
 
         public void Dispose()
@@ -114,9 +114,10 @@ namespace CatLib.Network
 
                 socket.BeginReceive(OnReadCallBack, null);
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                OnError(this, new ErrorEventArgs(ex));
+                OnError(this, new ExceptionEventArgs(ex));
                 Dispose();
             }
 
@@ -132,14 +133,14 @@ namespace CatLib.Network
             catch (Exception ex)
             {
 
-                OnError(this, new ErrorEventArgs(ex));
+                OnError(this, new ExceptionEventArgs(ex));
                 Dispose();
 
             }
 
         }
 
-        
+
 
     }
 

@@ -8,41 +8,41 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Resources;
 using CatLib.API.Config;
 
 namespace CatLib.Resources
 {
-
     /// <summary>
     /// 资源服务提供商
     /// </summary>
-    public class ResourcesProvider : ServiceProvider
+    public sealed class ResourcesProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册资源服务
+        /// </summary>
         public override void Register()
         {
             App.Singleton<AssetBundleLoader>().Alias<IAssetBundle>();
-            App.Singleton<Resources>().Alias<IResources>().Resolving((app , bind, obj)=>{
+            App.Singleton<Resources>().Alias<IResources>().OnResolving((bind, obj) =>
+            {
+                var config = App.Make<IConfigStore>();
 
-                IConfigStore config = app.Make<IConfigStore>();
-
-                if (config != null)
+                if (config == null)
                 {
-                    Resources resources = obj as Resources;
-                    bool useHosted = config.Get(typeof(Resources), "hosted", true);
-                    if (useHosted)
-                    {
-                        resources.SetHosted(new ResourcesHosted());
-                    }
+                    return obj;
+                }
+
+                var resources = obj as Resources;
+                var useHosted = config.Get(typeof(Resources), "hosted", true);
+                if (useHosted)
+                {
+                    resources.SetHosted(new ResourcesHosted());
                 }
 
                 return obj;
-
             });
         }
-
     }
-
 }

@@ -13,31 +13,26 @@ using CatLib.API.Flux;
 
 namespace CatLib.Flux
 {
-
-    public class FluxProvider : ServiceProvider
+    /// <summary>
+    /// Flux服务提供商
+    /// </summary>
+    public sealed class FluxProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册Flux服务
+        /// </summary>
         public override void Register()
         {
-            App.Singleton<FluxDispatcher>((app , param) =>
-            {
-                return new FluxDispatcher();
-            }).Alias<IFluxDispatcher>();
+            App.Singleton<FluxDispatcher>((app, param) => new FluxDispatcher()).Alias<IFluxDispatcher>();
 
             App.Bind<FluxAction>((app, param) =>
             {
-                if (param.Length <= 0) {
+                if (param == null || param.Length <= 0)
+                {
                     return new FluxAction("undefined");
-                }else if(param.Length <= 1)
-                {
-                    return new FluxAction(param[0].ToString());
-                }else
-                {
-                    return new FluxAction(param[0].ToString(), param[1]);
                 }
+                return param.Length <= 1 ? new FluxAction(param[0].ToString()) : new FluxAction(param[0].ToString(), param[1]);
             }).Alias<IAction>();
         }
-
     }
-
 }

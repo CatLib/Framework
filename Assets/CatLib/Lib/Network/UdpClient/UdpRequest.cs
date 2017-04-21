@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Buffer;
 using CatLib.API.Network;
 using System;
@@ -25,18 +25,18 @@ namespace CatLib.Network
     public class UdpRequest : IEvent, IConnectorUdp
     {
 
-        [Dependency]
-        public IEventAchieve Event { get; set; }
+        [Inject]
+        public IEventImpl Event { get; set; }
 
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         public string Name { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder DecodeRenderBuffer { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder EncodeRenderBuffer { get; set; }
 
         private Queue<object[]> queue = new Queue<object[]>();
@@ -197,7 +197,7 @@ namespace CatLib.Network
         /// <param name="bytes"></param>
         /// <param name="host"></param>
         /// <param name="port"></param>
-        public void Send(byte[] bytes , string host , int port)
+        public void Send(byte[] bytes, string host, int port)
         {
             lock (locker)
             {
@@ -229,7 +229,7 @@ namespace CatLib.Network
             }
             catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 return null;
             }
         }
@@ -244,14 +244,15 @@ namespace CatLib.Network
                     if (udpConnector != null && udpConnector.CurrentStatus == UdpConnector.Status.Establish)
                     {
                         object[] data = queue.Dequeue();
-                        if(data.Length == 1)
+                        if (data.Length == 1)
                         {
                             udpConnector.Send(data[0] as byte[]);
-                        }else if(data.Length == 3)
+                        }
+                        else if (data.Length == 3)
                         {
                             udpConnector.SendTo(data[0] as byte[], data[1] as string, int.Parse(data[2].ToString()));
                         }
-                        
+
                     }
                     else { break; }
                 }
@@ -357,14 +358,14 @@ namespace CatLib.Network
                         }
                         catch (Exception ex)
                         {
-                            Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                            Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 Disconnect();
             }
 
@@ -385,8 +386,7 @@ namespace CatLib.Network
             }
 
             Event.Trigger(eventName, this, args);
-            App.Trigger(this)
-               .SetEventName(eventName)
+            App.TriggerGlobal(eventName, this)
                .SetEventLevel(level)
                .AppendInterface<IConnectorUdp>()
                .AppendInterface<IConnectorSocket>()

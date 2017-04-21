@@ -11,36 +11,36 @@
 
 using System.Collections.Generic;
 
-namespace CatLib.LruCache{
-
-	/// <summary>
+namespace CatLib.LruCache
+{
+    /// <summary>
     /// 缓存节点
     /// </summary>
-	public class CacheNode<TKey, TVal>{
+    internal sealed class CacheNode<TKey, TVal>
+    {
+        /// <summary>
+        /// 键值
+        /// </summary>
+        public KeyValuePair<TKey, TVal> KeyValue { get; private set; }
 
-		/// <summary>
-		/// 键值
-		/// </summary>
-		public KeyValuePair<TKey , TVal> KeyValue{ get; private set; }
-		
-		/// <summary>
-		/// 上一个节点
-		/// </summary>
+        /// <summary>
+        /// 上一个节点
+        /// </summary>
         public CacheNode<TKey, TVal> Previous { get; set; }
-        
-		/// <summary>
-		/// 下一个节点
-		/// </summary>
-		public CacheNode<TKey, TVal> Next { get; set; }
 
-		/// <summary>
-		/// 创建一个缓存节点
-		/// </summary>
-        public CacheNode(TKey key , TVal val)
-        {	
-			KeyValue = new KeyValuePair<TKey , TVal>(key , val);
+        /// <summary>
+        /// 下一个节点
+        /// </summary>
+        public CacheNode<TKey, TVal> Next { get; set; }
+
+        /// <summary>
+        /// 创建一个缓存节点
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="val">值</param>
+        public CacheNode(TKey key, TVal val)
+        {
+            KeyValue = new KeyValuePair<TKey, TVal>(key, val);
         }
-
-	}
-
+    }
 }

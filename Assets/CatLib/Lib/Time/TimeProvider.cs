@@ -8,19 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Time;
 
 namespace CatLib.Time
 {
-
+    /// <summary>
+    /// 时间服务
+    /// </summary>
     public class TimeProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册时间服务
+        /// </summary>
         public override void Register()
         {
             App.Singleton<TimeSystem>().Alias<ITime>();
         }
     }
-
 }

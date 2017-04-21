@@ -11,17 +11,15 @@
 
 namespace CatLib.Routing
 {
-
     /// <summary>
     /// Uri
     /// </summary>
-    public class Uri
+    internal sealed class Uri
     {
-
         /// <summary>
         /// 原始uri
         /// </summary>
-        private System.Uri uri;
+        private readonly System.Uri uri;
 
         /// <summary>
         /// 原始Uri信息
@@ -31,7 +29,7 @@ namespace CatLib.Routing
         /// <summary>
         /// Uri
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">uri</param>
         public Uri(string uri)
         {
             this.uri = new System.Uri(uri);
@@ -40,7 +38,7 @@ namespace CatLib.Routing
         /// <summary>
         /// Uri
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">uri</param>
         public Uri(System.Uri uri)
         {
             this.uri = uri;
@@ -49,7 +47,10 @@ namespace CatLib.Routing
         /// <summary>
         /// 全路径(全路径不包含userinfo) eg: catlib://login/register?id=10
         /// </summary>
-        public string FullPath { get { return System.Uri.UnescapeDataString(uri.Scheme + "://" + uri.Host + uri.PathAndQuery.TrimEnd('/')); } }
+        public string FullPath
+        {
+            get { return System.Uri.UnescapeDataString(uri.Scheme + "://" + uri.Host + uri.PathAndQuery.TrimEnd('/')); }
+        }
 
         /// <summary>
         /// 无参的全路径 eg:catlib://login/register
@@ -58,37 +59,41 @@ namespace CatLib.Routing
         {
             get
             {
-                int index = FullPath.LastIndexOf('?');
-                if (index >= 0)
-                {
-                    return FullPath.Substring(0, index).TrimEnd('/');
-                }else
-                {
-                    return FullPath;
-                }
+                var index = FullPath.LastIndexOf('?');
+                return index >= 0 ? FullPath.Substring(0, index).TrimEnd('/') : FullPath;
             }
         }
 
         /// <summary>
         /// 方案 eg: catlib
         /// </summary>
-        public string Scheme { get { return uri.Scheme; } }
+        public string Scheme
+        {
+            get { return uri.Scheme; }
+        }
 
         /// <summary>
         /// host eg: login
         /// </summary>
-        public string Host { get { return uri.Host; } }
+        public string Host
+        {
+            get { return uri.Host; }
+        }
 
         /// <summary>
         /// 请求中附带的用户信息
         /// </summary>
-        public string UserInfo { get { return uri.UserInfo; } }
+        public string UserInfo
+        {
+            get { return uri.UserInfo; }
+        }
 
         /// <summary>
         /// 片段
         /// </summary>
-        public string[] Segments { get { return uri.Segments; } }
-
+        public string[] Segments
+        {
+            get { return uri.Segments; }
+        }
     }
-
 }

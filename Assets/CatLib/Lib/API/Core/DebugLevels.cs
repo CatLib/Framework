@@ -8,21 +8,21 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.API { 
 
+namespace CatLib.API
+{
     /// <summary>
     /// 调试等级
     /// </summary>
-    public enum DebugLevels{
-
+    public enum DebugLevels
+    {
         /// <summary>
-        /// 线上 
+        /// 生产环境
         /// </summary>
-        Online,
+        Prod,
 
         /// <summary>
-        /// 仿真模拟
+        /// 仿真环境
         /// </summary>
         Staging,
 
@@ -32,10 +32,8 @@ namespace CatLib.API {
         Dev,
 
         /// <summary>
-        /// 自动模式（如果在编辑器模式下则使用开发者模式（非仿真模拟）如果发布则使用线上模式）
+        /// 自动模式（如果在编辑器模式下则使用开发者模式（非仿真环境）如果发布则使用生产环境）
         /// </summary>
         Auto,
-
     }
-
 }

@@ -14,37 +14,47 @@ using CatLib.API.AssetBuilder;
 using CatLib.API.IO;
 using CatLib.Hash;
 
-namespace CatLib.AutoUpdate{
+namespace CatLib.AutoUpdate
+{
+    /// <summary>
+    /// 自动更新路径生成策略
+    /// </summary>
+    public sealed class AutoUpdateGenPathStrategy : IBuildStrategy
+    {
+        /// <summary>
+        /// 配置的编译流程
+        /// </summary>
+        public BuildProcess Process
+        {
+            get { return BuildProcess.GenPath; }
+        }
 
-	public class AutoUpdateGenPathStrategy : IBuildStrategy {
+        /// <summary>
+        /// 执行编译时
+        /// </summary>
+        /// <param name="context">编译上下文</param>
+        public void Build(IBuildContext context)
+        {
+            BuildListFile(context);
+        }
 
-		public BuildProcess Process{ get { return BuildProcess.GenPath; } }
-
-		public void Build(IBuildContext context){
-
-			BuildListFile(context);
-
-		}
-
-		/// <summary>
-		/// 编译列表文件
-		/// </summary>
-		/// <param name="path">路径</param>
-		protected void BuildListFile(IBuildContext context){
-
-			UpdateFile lst = new UpdateFile();
+        /// <summary>
+        /// 编译列表文件
+        /// </summary>
+        /// <param name="context">编译上下文</param>
+        private void BuildListFile(IBuildContext context)
+        {
+            var lst = new UpdateFile();
 
             IFile file;
-            for(int i = 0; i < context.ReleaseFiles.Length; i++)
+            for (var i = 0; i < context.ReleaseFiles.Length; i++)
             {
-                file = context.Disk.File(context.ReleasePath + Path.AltDirectorySeparatorChar + context.ReleaseFiles[i] , PathTypes.Absolute);
-                lst.Append(context.ReleaseFiles[i], MD5.ParseFile(file.FullName), file.Length);
+                file = context.Disk.File(context.ReleasePath + Path.AltDirectorySeparatorChar + context.ReleaseFiles[i], PathTypes.Absolute);
+                lst.Append(context.ReleaseFiles[i], Md5.ParseFile(file.FullName), file.Length);
             }
 
             var store = App.Instance.Make(typeof(UpdateFileStore).ToString()) as UpdateFileStore;
-			store.Save(context.ReleasePath, lst);
-			
-		}
-	}
-
+            store.Save(context.ReleasePath, lst);
+        }
+    }
 }

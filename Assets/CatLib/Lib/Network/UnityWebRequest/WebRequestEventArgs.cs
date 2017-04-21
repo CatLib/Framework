@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 #if UNITY_5_4_OR_NEWER
 using UnityEngine.Networking;
@@ -19,12 +19,10 @@ using CatLib.API.Network;
 
 namespace CatLib.Network
 {
-
-
     /// <summary>
     /// 请求参数
     /// </summary>
-    public class WebRequestEventArgs : EventArgs , IHttpResponse
+    public class WebRequestEventArgs : EventArgs, IHttpResponse
     {
 
         public UnityWebRequest WebRequest { get; set; }
@@ -41,7 +39,7 @@ namespace CatLib.Network
 
         public long ResponseCode { get { return WebRequest.responseCode; } }
 
-        public ERestful Restful { get { return (ERestful)Enum.Parse(typeof(ERestful), WebRequest.method); } }
+        public Restfuls Restful { get { return (Restfuls)Enum.Parse(typeof(Restfuls), WebRequest.method); } }
 
         public WebRequestEventArgs(UnityWebRequest request)
         {

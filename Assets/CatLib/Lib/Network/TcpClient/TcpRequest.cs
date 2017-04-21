@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using UnityEngine;
 using System.Collections;
@@ -25,18 +25,18 @@ namespace CatLib.Network
     public class TcpRequest : IEvent, IConnectorTcp
     {
 
-        [Dependency]
-        public IEventAchieve Event { get; set; }
+        [Inject]
+        public IEventImpl Event { get; set; }
 
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         public string Name { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder DecodeRenderBuffer { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder EncodeRenderBuffer { get; set; }
 
         private Queue<byte[]> queue = new Queue<byte[]>();
@@ -50,53 +50,58 @@ namespace CatLib.Network
         private IRender[] render;
         private IProtocol protocol;
 
-        private bool stopMark = false;
+        private bool stopMark;
 
         private Hashtable triggerLevel;
 
         private object locker = new object();
-        
+
         /// <summary>
         /// 设定配置
         /// </summary>
         /// <param name="config"></param>
-        public void SetConfig(Hashtable config){
-
-            if(packer == null && config.ContainsKey("packing")){
+        public void SetConfig(Hashtable config)
+        {
+            if (packer == null && config.ContainsKey("packing"))
+            {
                 packer = App.Make(config["packing"].ToString()) as IPacking;
             }
 
             if (render == null && config.ContainsKey("render"))
             {
-                if(config["render"] is Array)
+                if (config["render"] is Array)
                 {
                     List<IRender> renders = new List<IRender>();
-                    foreach(object obj in config["render"] as Array)
+                    foreach (object obj in config["render"] as Array)
                     {
                         renders.Add(App.Make(obj.ToString()) as IRender);
                     }
                     render = renders.ToArray();
-                }else
+                }
+                else
                 {
-                    render = new IRender[] { App.Make(config["render"].ToString()) as IRender };
+                    render = new [] { App.Make(config["render"].ToString()) as IRender };
                 }
             }
 
-            if (protocol == null && config.ContainsKey("protocol")){
+            if (protocol == null && config.ContainsKey("protocol"))
+            {
                 protocol = App.Make(config["protocol"].ToString()) as IProtocol;
             }
-            
-            if(config.ContainsKey("host")){
+
+            if (config.ContainsKey("host"))
+            {
                 host = config["host"].ToString();
             }
 
-            if(config.ContainsKey("port")){
+            if (config.ContainsKey("port"))
+            {
                 port = Convert.ToInt32(config["port"].ToString());
             }
 
             if (config.ContainsKey("event.level"))
             {
-                if(config["event.level"] is Hashtable)
+                if (config["event.level"] is Hashtable)
                 {
                     triggerLevel = config["event.level"] as Hashtable;
                 }
@@ -109,15 +114,16 @@ namespace CatLib.Network
         /// </summary>
         public void Connect()
         {
-            
-            if(string.IsNullOrEmpty(host)){
-                OnError(this, new ErrorEventArgs(new ArgumentNullException("host" , GetType().ToString() + ", Name:" + Name + " , host is invalid")));
+
+            if (string.IsNullOrEmpty(host))
+            {
+                OnError(this, new ExceptionEventArgs(new ArgumentNullException("host", GetType().ToString() + ", Name:" + Name + " , host is invalid")));
                 return;
             }
 
             if (port < IPEndPoint.MinPort || port > IPEndPoint.MaxPort)
             {
-                OnError(this, new ErrorEventArgs(new ArgumentOutOfRangeException("port" , GetType().ToString() + ", Name:" + Name + " , port is invalid")));
+                OnError(this, new ExceptionEventArgs(new ArgumentOutOfRangeException("port", GetType().ToString() + ", Name:" + Name + " , port is invalid")));
                 return;
             }
 
@@ -140,7 +146,8 @@ namespace CatLib.Network
         /// 加入发送队列
         /// </summary>
         /// <param name="bytes"></param>
-        public void Send(IPackage package){
+        public void Send(IPackage package)
+        {
 
             lock (locker)
             {
@@ -194,7 +201,7 @@ namespace CatLib.Network
             }
             catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 return null;
             }
         }
@@ -213,7 +220,7 @@ namespace CatLib.Network
                     else { break; }
                 }
                 yield return new WaitForEndOfFrame();
-            } 
+            }
         }
 
         /// <summary>
@@ -221,7 +228,7 @@ namespace CatLib.Network
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void OnConnect(object sender , EventArgs args)
+        private void OnConnect(object sender, EventArgs args)
         {
             Trigger(SocketRequestEvents.ON_CONNECT, args);
         }
@@ -251,10 +258,10 @@ namespace CatLib.Network
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void OnMessage(object sender , EventArgs args)
+        private void OnMessage(object sender, EventArgs args)
         {
 
-            if(packer == null)
+            if (packer == null)
             {
                 Trigger(SocketRequestEvents.ON_MESSAGE, args);
                 return;
@@ -293,14 +300,14 @@ namespace CatLib.Network
                         }
                         catch (Exception ex)
                         {
-                            Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                            Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                         }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Trigger(SocketRequestEvents.ON_ERROR, new ErrorEventArgs(ex));
+                Trigger(SocketRequestEvents.ON_ERROR, new ExceptionEventArgs(ex));
                 Disconnect();
             }
 
@@ -332,18 +339,17 @@ namespace CatLib.Network
         /// </summary>
         /// <param name="eventName">事件名字</param>
         /// <param name="args">参数</param>
-        private void Trigger(string eventName , EventArgs args)
+        private void Trigger(string eventName, EventArgs args)
         {
 
             EventLevel level = EventLevel.All;
-            if(triggerLevel != null && triggerLevel.ContainsKey(eventName))
+            if (triggerLevel != null && triggerLevel.ContainsKey(eventName))
             {
                 level = (EventLevel)triggerLevel[eventName];
             }
 
-            Event.Trigger(eventName , this, args);
-            App.Trigger(this)
-               .SetEventName(eventName)
+            Event.Trigger(eventName, this, args);
+            App.TriggerGlobal(eventName, this)
                .SetEventLevel(level)
                .AppendInterface<IConnectorTcp>()
                .AppendInterface<IConnectorSocket>()

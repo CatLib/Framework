@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -17,26 +17,27 @@ using CatLib.API;
 namespace CatLib.Network
 {
 
-    public class TcpConnector : IDisposable 
+    public class TcpConnector : IDisposable
     {
 
         public enum Status
         {
-            Initial    = 1,
+            Initial = 1,
             Connecting = 2,
             Establish = 3,
-            Closed     = 4,            
+            Closed = 4,
         }
 
         protected TcpClient socket;
-
         protected string remoteAddress;
         protected int remotePort;
-
         protected int readBufferLength = 1024;
-
         protected volatile Status status = Status.Initial;
-        public Status CurrentStatus{ get { return status; } }
+
+        public Status CurrentStatus
+        {
+            get { return status; }
+        }
 
         protected NetworkStream networkStream;
 
@@ -50,25 +51,34 @@ namespace CatLib.Network
         public TcpConnector(string host, int port)
         {
             remoteAddress = host;
-            remotePort    = port;
+            remotePort = port;
         }
 
         public void Connect()
         {
-            if (status != Status.Initial && status != Status.Closed) { return; }
+            if (status != Status.Initial && status != Status.Closed)
+            {
+                return;
+            }
             status = Status.Connecting;
             Dns.BeginGetHostAddresses(remoteAddress, OnDnsGetHostAddressesComplete, null);
         }
 
         public void Send(byte[] bytes)
         {
-            if (status != Status.Establish) { return; }
+            if (status != Status.Establish)
+            {
+                return;
+            }
             networkStream.BeginWrite(bytes, 0, bytes.Length, OnSendCallBack, socket);
         }
 
         public void Dispose()
         {
-            if (status == Status.Closed) { return; }
+            if (status == Status.Closed)
+            {
+                return;
+            }
             if (networkStream != null)
             {
                 networkStream.Close();
@@ -89,11 +99,10 @@ namespace CatLib.Network
                 socket = new TcpClient();
                 socket.BeginConnect(ipAddress, remotePort, OnConnectComplete, socket);
             }
-            catch(Exception ex){
-
-                OnError(this ,new ErrorEventArgs(ex));
+            catch (Exception ex)
+            {
+                OnError(this, new ExceptionEventArgs(ex));
                 Dispose();
-
             }
         }
 
@@ -101,7 +110,6 @@ namespace CatLib.Network
         {
             try
             {
-
                 socket.EndConnect(result);
 
                 networkStream = socket.GetStream();
@@ -110,21 +118,17 @@ namespace CatLib.Network
 
                 status = Status.Establish;
                 OnConnect(this, EventArgs.Empty);
-
             }
-            catch(Exception ex){
-
-                OnError(this, new ErrorEventArgs(ex));
+            catch (Exception ex)
+            {
+                OnError(this, new ExceptionEventArgs(ex));
                 Dispose();
-
             }
-
         }
 
         protected void OnReadCallBack(IAsyncResult result)
         {
-          
-            int read = networkStream.EndRead(result);
+            var read = networkStream.EndRead(result);
             if (read <= 0)
             {
                 status = Status.Closed;
@@ -138,25 +142,20 @@ namespace CatLib.Network
 
             readBuffer = new byte[readBufferLength];
             networkStream.BeginRead(readBuffer, 0, readBuffer.Length, OnReadCallBack, readBuffer);
-
         }
 
         protected void OnSendCallBack(IAsyncResult result)
         {
-
-            try{
-                
+            try
+            {
                 networkStream.EndWrite(result);
 
-            }catch(Exception ex){
-                
-                OnError(this, new ErrorEventArgs(ex));
-                Dispose();
-
             }
-            
+            catch (Exception ex)
+            {
+                OnError(this, new ExceptionEventArgs(ex));
+                Dispose();
+            }
         }
-
     }
-
 }

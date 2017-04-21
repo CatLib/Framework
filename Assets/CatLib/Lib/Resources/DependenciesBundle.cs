@@ -8,24 +8,32 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.Resources{
 
-	public class DependenciesBundle {
+namespace CatLib.Resources
+{
+    /// <summary>
+    /// 依赖资源包
+    /// </summary>
+    internal sealed class DependenciesBundle
+    {
+        /// <summary>
+        /// 引用计数
+        /// </summary>
+        public int RefCount { get; set; }
 
-		private int refCount = 0;
+        /// <summary>
+        /// AssetBundle
+        /// </summary>
+        public UnityEngine.AssetBundle Bundle { get; set; }
 
-		public int RefCount{ get { return refCount; } set{ refCount = value; } }
-		
-    	public UnityEngine.AssetBundle Bundle{ get; set; }
-
-		public DependenciesBundle(UnityEngine.AssetBundle assetBundle){
-
-			Bundle = assetBundle;
-			refCount = 1;
-
-		}
-
-	}
-
+        /// <summary>
+        /// 构建一个依赖资源包
+        /// </summary>
+        /// <param name="assetBundle">AssetBundle</param>
+        public DependenciesBundle(UnityEngine.AssetBundle assetBundle)
+        {
+            Bundle = assetBundle;
+            RefCount = 1;
+        }
+    }
 }

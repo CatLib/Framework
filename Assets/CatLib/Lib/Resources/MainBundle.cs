@@ -8,25 +8,28 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using UnityEngine;
 
-namespace CatLib.Resources{
-
-	public class MainBundle {
-
+namespace CatLib.Resources
+{
+    /// <summary>
+    /// 主资源包
+    /// </summary>
+    internal sealed class MainBundle
+    {
         /// <summary>
         /// 资源包
         /// </summary>
-		public AssetBundle Bundle{ get; set; }
+		public AssetBundle Bundle { get; set; }
 
-        public MainBundle(AssetBundle bundle){
-
-			Bundle = bundle;
-
+        /// <summary>
+        /// 构建一个主资源包
+        /// </summary>
+        /// <param name="bundle">资源包</param>
+        public MainBundle(AssetBundle bundle)
+        {
+            Bundle = bundle;
         }
-
-
     }
-
 }

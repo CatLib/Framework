@@ -25,13 +25,13 @@ namespace CatLib.FairyGUI
         /// <summary>
         /// 应用程序
         /// </summary>
-        [Dependency]
+        [Inject]
         public IResources Resources { get; set; }
 
         /// <summary>
         /// AssetBundle
         /// </summary>
-        [Dependency]
+        [Inject]
         public IAssetBundle AssetBundle { get; set; }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace CatLib.FairyGUI
             var package = UIPackage.AddPackage(assetPath, (name, extension, type) =>
            {
                obj = Resources.Load(name + extension, type);
-               return obj.UnHostedGet();
+               return obj.Original;
            });
             if (package != null && obj != null)
             {

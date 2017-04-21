@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Resources;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -24,6 +24,14 @@ namespace CatLib.Resources
         public DefaultObjectInfo(Object obj)
         {
             this.obj = obj;
+        }
+
+        /// <summary>
+        /// 原始对象，注意这个访问将不会引用计数
+        /// </summary>
+        public Object Original
+        {
+            get { return obj; }
         }
 
         public GameObject Instantiate()

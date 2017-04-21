@@ -8,24 +8,26 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.LocalSetting;
 
 namespace CatLib.LocalSetting
 {
-
-    public class LocalSettingProvider : ServiceProvider
+    /// <summary>
+    /// 本地配置服务提供商
+    /// </summary>
+    public sealed class LocalSettingProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 当注册本地配置服务时
+        /// </summary>
         public override void Register()
         {
-            App.Singleton<LocalSetting>().Alias<ILocalSetting>().Alias("local-setting").Resolving((app, bind, obj) =>
+            App.Singleton<LocalSetting>().Alias<ILocalSetting>().Alias("local-setting").OnResolving((bind, obj) =>
             {
                 (obj as LocalSetting).SetSettingStore(new UnitySetting());
                 return obj;
             });
         }
-
     }
-
 }

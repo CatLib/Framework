@@ -7,11 +7,11 @@ public class LuaConfig : IConfig
     /// <summary>
     /// 类
     /// </summary>
-    public object Name
+    public string Name
     {
         get
         {
-            return typeof(LuaStore);
+            return typeof(LuaStore).ToString();
         }
     }
 

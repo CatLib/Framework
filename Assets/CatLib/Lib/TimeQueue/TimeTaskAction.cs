@@ -8,22 +8,34 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 
-namespace CatLib.TimeQueue{
-
-	public class TimeTaskAction
+namespace CatLib.TimeQueue
+{
+    /// <summary>
+    /// 时间任务行为
+    /// </summary>
+    internal sealed class TimeTaskAction
     {
+        /// <summary>
+        /// 任务类型
+        /// </summary>
+        public TimeTaskActionTypes Type { get; set; }
 
-		public TimeTaskActionTypes Type{ get ; set; }
-		
-		public int[] IntArgs{ get; set; }
+        /// <summary>
+        /// 整型参数
+        /// </summary>
+        public int[] IntArgs { get; set; }
 
-		public float[] FloatArgs { get; set; }
+        /// <summary>
+        /// 浮点型参数
+        /// </summary>
+        public float[] FloatArgs { get; set; }
 
-		public Func<bool> FuncBoolArg { get; set; }
-
-	}
-
+        /// <summary>
+        /// 布尔回调函数
+        /// </summary>
+        public Func<bool> FuncBoolArg { get; set; }
+    }
 }

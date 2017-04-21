@@ -14,10 +14,10 @@ using System.IO;
 using System.Collections;
 using XLua;
 using CatLib.API;
-using CatLib.API.Lua;
 using CatLib.API.Resources;
 using CatLib.API.IO;
 using CatLib.API.Event;
+using CatLib.API.Time;
 
 namespace CatLib.Lua
 {
@@ -27,20 +27,23 @@ namespace CatLib.Lua
     public class LuaStore :  IUpdate , ILua
     {
 
-        [Dependency]
+        [Inject]
         public IIOFactory IO{ get; set; }
 
-        [Dependency]
+        [Inject]
         public IEnv Env { get; set; }
 
-        [Dependency]
+        [Inject]
         public IResources Resources { get; set; }
 
-        [Dependency]
-        public IEventAchieve Event { get; set; }
+        [Inject]
+        public IEventImpl Event { get; set; }
 
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
+
+        [Inject]
+        public ITime Time { get; set; }
 
         private IDisk disk;
 
@@ -87,16 +90,16 @@ namespace CatLib.Lua
 
         public void Update()
         {
-            if (App.Time.Time - lastGC > GC_INTERVAL)
+            if (Time.Time - lastGC > GC_INTERVAL)
             {
                 LuaEnv.Tick();
-                lastGC = App.Time.Time;
+                lastGC = Time.Time;
             }
         }
 
         protected byte[] AutoLoader(ref string filepath)
         {
-            TextAsset text = Resources.Load<TextAsset>(filepath).UnHostedGet() as TextAsset;
+            TextAsset text = Resources.Load<TextAsset>(filepath).Original as TextAsset;
             return text.bytes;
         }
 
@@ -134,7 +137,7 @@ namespace CatLib.Lua
                 {
                     if (!info.Name.EndsWith(".manifest"))
                     {
-                        yield return resources.LoadAllAsync<TextAsset>(filePath + "/" + info.Name, (textAssets) =>
+                        yield return resources.LoadAllAsync(filePath + "/" + info.Name, (textAssets) =>
                         {
                             Event.Trigger(LuaEvents.ON_HOT_FIXED_ACTION);
                             foreach (TextAsset text in textAssets)

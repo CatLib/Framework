@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Network;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,14 +20,21 @@ using CatLib.API.Event;
 
 namespace CatLib.Network
 {
-
-    public class HttpWebRequest : IEvent, IConnectorHttp
+    /// <summary>
+    /// HttpWeb请求
+    /// </summary>
+    public sealed class HttpWebRequest : IEvent, IConnectorHttp
     {
+        /// <summary>
+        /// 事件系统
+        /// </summary>
+        [Inject]
+        public IEventImpl Event { get; set; }
 
-        [Dependency]
-        public IEventAchieve Event{ get; set;  }
-
-        [Dependency]
+        /// <summary>
+        /// 应用程序
+        /// </summary>
+        [Inject]
         public IApplication App { get; set; }
 
         /// <summary>
@@ -38,12 +45,12 @@ namespace CatLib.Network
         /// <summary>
         /// Cookie容器
         /// </summary>
-        private CookieContainer cookieContainer = new CookieContainer();
+        private readonly CookieContainer cookieContainer = new CookieContainer();
 
         /// <summary>
         /// 停止标记
         /// </summary>
-        private bool stopMark = false;
+        private bool stopMark;
 
         /// <summary>
         /// 服务器地址
@@ -58,20 +65,36 @@ namespace CatLib.Network
         /// <summary>
         /// 发送队列
         /// </summary>
-        private Queue<HttpWebRequestEntity> queue = new Queue<HttpWebRequestEntity>();
+        private readonly Queue<HttpWebRequestEntity> queue = new Queue<HttpWebRequestEntity>();
 
+        /// <summary>
+        /// 事件等级
+        /// </summary>
         private Hashtable triggerLevel;
 
+        /// <summary>
+        /// 头信息
+        /// </summary>
         private Dictionary<string, string> headers;
+
+        /// <summary>
+        /// 头信息
+        /// </summary>
         public Dictionary<string, string> Headers { get { return headers; } }
 
-        public void SetConfig(Hashtable config){
-
-            if(config.ContainsKey("host")){
+        /// <summary>
+        /// 设定配置
+        /// </summary>
+        /// <param name="config">配置信息</param>
+        public void SetConfig(Hashtable config)
+        {
+            if (config.ContainsKey("host"))
+            {
                 url = config["host"].ToString().TrimEnd('/');
             }
 
-            if(config.ContainsKey("timeout")){
+            if (config.ContainsKey("timeout"))
+            {
                 timeout = Convert.ToInt32(config["timeout"].ToString());
             }
 
@@ -84,12 +107,23 @@ namespace CatLib.Network
             }
         }
 
+        /// <summary>
+        /// 设定头
+        /// </summary>
+        /// <param name="headers">头信息</param>
+        /// <returns>当前实例</returns>
         public IConnectorHttp SetHeader(Dictionary<string, string> headers)
         {
             this.headers = headers;
             return this;
         }
 
+        /// <summary>
+        /// 追加头
+        /// </summary>
+        /// <param name="header">头</param>
+        /// <param name="val">值</param>
+        /// <returns>当前实例</returns>
         public IConnectorHttp AppendHeader(string header, string val)
         {
             if (headers == null) { headers = new Dictionary<string, string>(); }
@@ -98,59 +132,108 @@ namespace CatLib.Network
             return this;
         }
 
-        public void Restful(ERestful method, string action)
+        /// <summary>
+        /// 以Restful请求
+        /// </summary>
+        /// <param name="method">方法类型</param>
+        /// <param name="action">请求行为</param>
+        public void Restful(Restfuls method, string action)
         {
-            HttpWebRequestEntity request = new HttpWebRequestEntity(url + action , method);
+            var request = new HttpWebRequestEntity(url + action, method);
             queue.Enqueue(request);
         }
 
-        public void Restful(ERestful method, string action , WWWForm form)
+        /// <summary>
+        /// 以Restful请求
+        /// </summary>
+        /// <param name="method">方法类型</param>
+        /// <param name="action">请求行为</param>
+        /// <param name="form">包体数据</param>
+        public void Restful(Restfuls method, string action, WWWForm form)
         {
-            HttpWebRequestEntity request = new HttpWebRequestEntity(url + action, method);
+            var request = new HttpWebRequestEntity(url + action, method);
             request.SetBody(form.data).SetContentType("application/x-www-form-urlencoded");
             queue.Enqueue(request);
         }
 
-        public void Restful(ERestful method , string action , byte[] body)
+        /// <summary>
+        /// 以Restful进行请求
+        /// </summary>
+        /// <param name="method">方法类型</param>
+        /// <param name="action">请求行为</param>
+        /// <param name="body">包体数据</param>
+        public void Restful(Restfuls method, string action, byte[] body)
         {
-            HttpWebRequestEntity request = new HttpWebRequestEntity(url + action, method);
+            var request = new HttpWebRequestEntity(url + action, method);
             request.SetBody(body).SetContentType("application/octet-stream");
             queue.Enqueue(request);
         }
 
+        /// <summary>
+        /// 以Get请求数据
+        /// </summary>
+        /// <param name="action">请求行为</param>
         public void Get(string action)
         {
-            Restful(ERestful.Get, action);
+            Restful(Restfuls.Get, action);
         }
 
+        /// <summary>
+        /// 以Head请求数据
+        /// </summary>
+        /// <param name="action">请求行为</param>
         public void Head(string action)
         {
-            Restful(ERestful.Head, action);
+            Restful(Restfuls.Head, action);
         }
 
+        /// <summary>
+        /// 以Post请求数据
+        /// </summary>
+        /// <param name="action">请求行为</param>
+        /// <param name="form">post数据</param>
         public void Post(string action, WWWForm form)
         {
-            Restful(ERestful.Post , action, form);
+            Restful(Restfuls.Post, action, form);
         }
 
+        /// <summary>
+        /// 以Post请求数据
+        /// </summary>
+        /// <param name="action">请求行为</param>
+        /// <param name="body">post数据</param>
         public void Post(string action, byte[] body)
         {
-            Restful(ERestful.Post, action, body);
+            Restful(Restfuls.Post, action, body);
         }
 
+        /// <summary>
+        /// 以Put请求数据
+        /// </summary>
+        /// <param name="action">请求行为</param>
+        /// <param name="form">post数据</param>
         public void Put(string action, WWWForm form)
         {
-            Restful(ERestful.Put, action, form);
+            Restful(Restfuls.Put, action, form);
         }
 
+        /// <summary>
+        /// 以Put请求数据
+        /// </summary>
+        /// <param name="action">请求行为</param>
+        /// <param name="body">post数据</param>
         public void Put(string action, byte[] body)
         {
-            Restful(ERestful.Put, action, body);
+            Restful(Restfuls.Put, action, body);
         }
 
+        /// <summary>
+        /// 以Delete请求数据
+        /// </summary>
+        /// <param name="action">请求行为</param>
         public void Delete(string action)
         {
-            Restful(ERestful.Delete, action);
+            Restful(Restfuls.Delete, action);
         }
 
         /// <summary>
@@ -162,20 +245,26 @@ namespace CatLib.Network
         }
 
         /// <summary>
-        /// 请求到服务器
+        /// 启动服务
         /// </summary>
-        /// <returns></returns>
+        /// <returns>协程</returns>
         public IEnumerator StartServer()
         {
             while (true)
             {
-                if (stopMark) { break; }
+                if (stopMark)
+                {
+                    break;
+                }
                 if (queue.Count > 0)
                 {
                     HttpWebRequestEntity request;
                     while (queue.Count > 0)
                     {
-                        if (stopMark) { break; }
+                        if (stopMark)
+                        {
+                            break;
+                        }
                         request = queue.Dequeue();
                         request.SetContainer(cookieContainer);
                         request.SetHeader(headers);
@@ -183,7 +272,7 @@ namespace CatLib.Network
 
                         yield return request.Send();
 
-                        EventLevel level = EventLevel.All;
+                        var level = EventLevel.All;
                         if (triggerLevel != null && triggerLevel.ContainsKey(HttpRequestEvents.ON_MESSAGE))
                         {
                             level = (EventLevel)triggerLevel[HttpRequestEvents.ON_MESSAGE];
@@ -192,19 +281,15 @@ namespace CatLib.Network
                         var args = new HttpRequestEventArgs(request);
 
                         Event.Trigger(HttpRequestEvents.ON_MESSAGE, this, args);
-                        App.Trigger(this)
-                           .SetEventName(HttpRequestEvents.ON_MESSAGE)
+                        App.TriggerGlobal(HttpRequestEvents.ON_MESSAGE, this)
                            .SetEventLevel(level)
                            .AppendInterface<IConnectorHttp>()
                            .Trigger(args);
-                                        
+
                     }
                 }
                 yield return new WaitForEndOfFrame();
             }
-
         }
-
     }
-
 }

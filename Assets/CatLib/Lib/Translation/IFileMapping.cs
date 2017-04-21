@@ -8,13 +8,20 @@
  *
  * Document: http://catlib.io/
  */
- 
-namespace CatLib.Translation{
-	
-	public interface IFileMapping{
 
-		 string Get(string key, string def = null);
-
-	}
-
+namespace CatLib.Translation
+{
+    /// <summary>
+    /// 文件映射
+    /// </summary>
+    public interface IFileMapping
+    {
+        /// <summary>
+        /// 获取映射
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="def">默认值</param>
+        /// <returns>值</returns>
+        string Get(string key, string def = null);
+    }
 }

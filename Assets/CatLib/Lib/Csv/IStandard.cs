@@ -8,19 +8,19 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.Csv
 {
-
     /// <summary>
     /// 使用的标准
     /// </summary>
     public interface IStandard
     {
-
+        /// <summary>
+        /// 解析一行数据
+        /// </summary>
+        /// <param name="line">一行数据的数据内容</param>
+        /// <returns>数组的每个元素为行中的列</returns>
         string[] Parse(string line);
-
     }
-
-
 }

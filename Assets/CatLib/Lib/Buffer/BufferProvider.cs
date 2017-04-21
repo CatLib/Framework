@@ -8,14 +8,19 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Buffer;
 
 namespace CatLib.Buffer
 {
-
-    public class BufferProvider : ServiceProvider
+    /// <summary>
+    /// buffer构建器服务提供商
+    /// </summary>
+    public sealed class BufferProvider : ServiceProvider
     {
+        /// <summary>
+        /// 注册buffer构建器
+        /// </summary>
         public override void Register()
         {
             App.Bind<BufferBuilder>().Alias<IBufferBuilder>().Alias("buffer");

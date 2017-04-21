@@ -8,22 +8,29 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using CatLib.API.Network;
 
-namespace CatLib.Network {
-
-    public class SocketResponseEventArgs : EventArgs , IResponse
+namespace CatLib.Network
+{
+    /// <summary>
+    /// Socket响应参数
+    /// </summary>
+    public class SocketResponseEventArgs : EventArgs, IResponse
     {
-
+        /// <summary>
+        /// 响应数据
+        /// </summary>
         public byte[] Response { get; protected set; }
 
+        /// <summary>
+        /// 构建一个Socket响应参数
+        /// </summary>
+        /// <param name="bytes">字节数据</param>
         public SocketResponseEventArgs(byte[] bytes)
         {
             Response = bytes;
         }
-
     }
-
 }

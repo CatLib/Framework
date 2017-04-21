@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,37 +17,46 @@ using CatLib.API.Network;
 
 namespace CatLib.Network
 {
-    
     /// <summary>
     /// 网络服务
     /// </summary>
-    public class Network :  IDestroy , INetworkFactory
+    public sealed class Network : IDestroy, INetworkFactory
     {
-
-        [Dependency]
+        /// <summary>
+        /// 应用程序
+        /// </summary>
+        [Inject]
         public IApplication App { get; set; }
 
         /// <summary>
-        /// 连接器
+        /// 建立出的连接器
         /// </summary>
-        private Dictionary<string, IConnector> connector = new Dictionary<string, IConnector>();
+        private readonly Dictionary<string, IConnector> connector = new Dictionary<string, IConnector>();
 
-        private Func<string , Hashtable> configSearch;
+        /// <summary>
+        /// 配置查询器
+        /// </summary>
+        private Func<string, Hashtable> configSearch;
 
-        public void SetQuery(Func<string , Hashtable> search){
-
+        /// <summary>
+        /// 设定配置查询器
+        /// </summary>
+        /// <param name="search">查询配置</param>
+        public void SetQuery(Func<string, Hashtable> search)
+        {
             configSearch = search;
-
         }
-
 
         /// <summary>
         /// 创建一个网络链接
         /// </summary>
-        /// <param name="name">通道</param>
+        /// <param name="name">连接名</param>
         public T Create<T>(string name) where T : IConnector
         {
-            if (this.connector.ContainsKey(name)) { return (T)this.connector[name]; }
+            if (this.connector.ContainsKey(name))
+            {
+                return (T)this.connector[name];
+            }
             IConnector connector = null;
             Hashtable table = null;
             if (configSearch != null)
@@ -58,21 +67,20 @@ namespace CatLib.Network
                     connector = App.Make<T>(table["driver"].ToString());
                 }
             }
-            if(connector == null)
+            if (connector == null)
             {
                 connector = App.Make<T>();
             }
             this.connector.Add(name, connector);
-            InitConnector(connector, name , table);
+            InitConnector(connector, name, table);
             App.StartCoroutine(connector.StartServer());
             return (T)connector;
-
         }
 
         /// <summary>
-        /// 断开一个网络链接
+        /// 释放一个网络链接
         /// </summary>
-        /// <param name="name">通道</param>
+        /// <param name="name">连接名</param>
         public void Destroy(string name)
         {
             if (connector.ContainsKey(name))
@@ -85,9 +93,9 @@ namespace CatLib.Network
         /// <summary>
         /// 获取一个链接器
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name">通道</param>
-        /// <returns></returns>
+        /// <typeparam name="T">连接类型</typeparam>
+        /// <param name="name">连接名</param>
+        /// <returns>连接器</returns>
         public T Get<T>(string name) where T : IConnector
         {
             if (connector.ContainsKey(name))
@@ -102,19 +110,26 @@ namespace CatLib.Network
         /// </summary>
         public void OnDestroy()
         {
-            foreach(KeyValuePair<string , IConnector> conn in connector)
+            foreach (var conn in connector)
             {
                 conn.Value.Destroy();
             }
             connector.Clear();
         }
 
-        private void InitConnector(IConnector connector, string name , Hashtable table)
+        /// <summary>
+        /// 初始化连接器
+        /// </summary>
+        /// <param name="connector">连接器</param>
+        /// <param name="name">连接名</param>
+        /// <param name="table">配置表</param>
+        private void InitConnector(IConnector connector, string name, Hashtable table)
         {
-            if(table == null){ return; }
-            connector.SetConfig(table); 
+            if (table == null)
+            {
+                return;
+            }
+            connector.SetConfig(table);
         }
-
     }
-
 }

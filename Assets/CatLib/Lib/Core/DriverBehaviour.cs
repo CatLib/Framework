@@ -13,17 +13,15 @@ using UnityEngine;
 
 namespace CatLib
 {
-
     /// <summary>
     /// 驱动脚本
     /// </summary>
-    public class DriverBehaviour : MonoBehaviour
+    public sealed class DriverBehaviour : MonoBehaviour
     {
-
         /// <summary>
         /// 驱动器
         /// </summary>
-        protected Driver driver;
+        private Driver driver;
 
         /// <summary>
         /// Awake
@@ -36,7 +34,7 @@ namespace CatLib
         /// <summary>
         /// 设定驱动器
         /// </summary>
-        /// <param name="driver"></param>
+        /// <param name="driver">驱动器</param>
         public void SetDriver(Driver driver)
         {
             this.driver = driver;
@@ -47,7 +45,7 @@ namespace CatLib
         /// </summary>
         public void Update()
         {
-            if(driver != null)
+            if (driver != null)
             {
                 driver.Update();
             }
@@ -74,7 +72,5 @@ namespace CatLib
                 driver.OnDestroy();
             }
         }
-
     }
-
 }

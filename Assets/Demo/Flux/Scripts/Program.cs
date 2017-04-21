@@ -27,7 +27,7 @@ namespace CatLib.Demo.Flux
     {
         public override void Init()
         {
-            Env env = App[typeof(Env)] as Env;
+            Env env = App[typeof(Env).ToString()] as Env;
             env.SetResourcesBuildPath(Global.BasePath + "/Flux/Resources");
             env.SetDebugLevel(DebugLevels.Dev);
         }

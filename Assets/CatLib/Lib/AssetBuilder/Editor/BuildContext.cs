@@ -15,33 +15,35 @@ using CatLib.API.IO;
 
 namespace CatLib.AssetBuilder
 {
-
-	public class BuildContext : IBuildContext {
-
-		/// <summary>
+    /// <summary>
+    /// AssetBuilder编译上下文
+    /// </summary>
+    public class BuildContext : IBuildContext
+    {
+        /// <summary>
         /// 当前编译目标平台
         /// </summary>
-		public BuildTarget BuildTarget{ get; set; }
+        public BuildTarget BuildTarget { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 目标平台的名字
         /// </summary>
-		public string PlatformName{ get; set; }
+        public string PlatformName { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 需要编译的文件路径
         /// </summary>
-		public string BuildPath{ get; set; }
+        public string BuildPath { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 不需要编译的文件路径
         /// </summary>
-		public string NoBuildPath{ get; set; }
+        public string NoBuildPath { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// 最终发布的路径
         /// </summary>
-		public string ReleasePath{ get; set; }
+        public string ReleasePath { get; set; }
 
         /// <summary>
         /// 最终发布的文件列表
@@ -51,13 +53,11 @@ namespace CatLib.AssetBuilder
         /// <summary>
         /// 被加密的文件列表
         /// </summary>
-        public string[] EncryptionFiles{ get; set; }
+        public string[] EncryptionFiles { get; set; }
 
         /// <summary>
-        /// 文件系统
+        /// 文件系统中对应的磁盘
         /// </summary>
-        public IDisk Disk{ get; set; }
-
+        public IDisk Disk { get; set; }
     }
-
 }

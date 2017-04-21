@@ -12,17 +12,17 @@
 using UnityEngine;
 using CatLib.API.Flux;
 
-namespace CatLib.Flux {
-
+namespace CatLib.Flux
+{
     /// <summary>
     /// 视图
     /// </summary>
-    public abstract class View : MonoBehaviour {
-
+    public abstract class View : MonoBehaviour
+    {
         /// <summary>
-        /// 关注的容器
+        /// 关注的容器列表
         /// </summary>
-        /// <returns></returns>
+        /// <returns>关注的容器列表</returns>
         protected virtual IStore[] Observer
         {
             get
@@ -32,22 +32,22 @@ namespace CatLib.Flux {
         }
 
         /// <summary>
-        /// 当起始时
+        /// 当起始时调用
         /// </summary>
         public void Start()
         {
-            for(int i = 0; i < Observer.Length; i++)
+            for (var i = 0; i < Observer.Length; i++)
             {
                 Observer[i].AddListener(OnChange);
             }
         }
 
         /// <summary>
-        /// 当释放时
+        /// 当释放时调用
         /// </summary>
         public void OnDestroy()
         {
-            for (int i = 0; i < Observer.Length; i++)
+            for (var i = 0; i < Observer.Length; i++)
             {
                 Observer[i].RemoveListener(OnChange);
             }
@@ -56,9 +56,7 @@ namespace CatLib.Flux {
         /// <summary>
         /// 当存储发生变更时
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">行为</param>
         protected virtual void OnChange(IAction action) { }
-
     }
-
 }

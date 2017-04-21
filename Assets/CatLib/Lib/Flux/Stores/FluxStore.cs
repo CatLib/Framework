@@ -15,18 +15,16 @@ using CatLib.API.Flux;
 
 namespace CatLib.Flux
 {
-    
     /// <summary>
     /// 存储
     /// 我们一般情况下建议每个store都是单例的
     /// </summary>
     public abstract class FluxStore : IStore
     {
-
         /// <summary>
         /// 存储名
         /// </summary>
-        private string storeName;
+        private readonly string storeName;
 
         /// <summary>
         /// 存储的名字
@@ -34,24 +32,24 @@ namespace CatLib.Flux
 		public string Name { get { return storeName; } }
 
         /// <summary>
-        /// token
+        /// 调度器中注册的token
         /// </summary>
-        private string dispatchToken;
+        private readonly string dispatchToken;
 
         /// <summary>
         /// 调度器
         /// </summary>
-        protected IFluxDispatcher dispatcher;
+        private readonly IFluxDispatcher dispatcher;
 
         /// <summary>
         /// 是否被修改的
         /// </summary>
-        protected bool changed;
+        private bool changed;
 
         /// <summary>
         /// 监听者
         /// </summary>
-        protected event Action<IAction> listener;
+        private event Action<IAction> listener;
 
         /// <summary>
         /// 行为名
@@ -72,20 +70,17 @@ namespace CatLib.Flux
         /// 构建一个存储块
         /// </summary>
         /// <param name="dispatcher"></param>
-        public FluxStore(IFluxDispatcher dispatcher)
+        protected FluxStore(IFluxDispatcher dispatcher)
         {
             storeName = GetType().Name;
             changed = false;
             isDestroy = false;
             this.dispatcher = dispatcher;
-            dispatchToken = this.dispatcher.On((payload) =>
-            {
-                InvokeOnDispatch(payload);
-            });
+            dispatchToken = this.dispatcher.On(InvokeOnDispatch);
         }
 
         /// <summary>
-        /// 释放存储块
+        /// 释放存储
         /// </summary>
         public void Destroy()
         {
@@ -124,7 +119,7 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 内容是否是被修改的
+        /// 存储是否是被修改的
         /// </summary>
         public bool IsChanged
         {
@@ -139,7 +134,7 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 调度器
+        /// 存储归属的调度器
         /// </summary>
         public IFluxDispatcher Dispatcher
         {
@@ -147,7 +142,7 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 调度token
+        /// 调度器中该存储注册的token
         /// </summary>
         public string DispatchToken
         {
@@ -155,7 +150,7 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 内容发生修改
+        /// 触发存储发生修改
         /// </summary>
         protected void Change()
         {
@@ -167,19 +162,19 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 行为
+        /// 构建一个存储行为
         /// </summary>
         /// <returns></returns>
         protected abstract IAction StoreAction();
 
         /// <summary>
-        /// 触发调度
+        /// 收到来自调度器的调度
         /// </summary>
-        /// <param name="payload"></param>
-        private void InvokeOnDispatch(IAction payload)
+        /// <param name="action">行为</param>
+        private void InvokeOnDispatch(IAction action)
         {
             changed = false;
-            OnDispatch(payload);
+            OnDispatch(action);
             if (changed && listener != null)
             {
                 listener.Invoke(StoreAction());
@@ -187,10 +182,10 @@ namespace CatLib.Flux
         }
 
         /// <summary>
-        /// 被调度
+        /// 进行调度
         /// </summary>
-        /// <param name="payload"></param>
-        protected virtual void OnDispatch(IAction payload)
+        /// <param name="action">行为</param>
+        protected virtual void OnDispatch(IAction action)
         {
             throw new CatLibException(GetType().Name + " has not overridden FluxStore.OnDispatch(), which is required");
         }

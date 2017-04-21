@@ -13,22 +13,20 @@ using CatLib.API.Routing;
 
 namespace CatLib.Routing
 {
-
     /// <summary>
     /// 响应
     /// </summary>
-    public class Response : IResponse
+    internal sealed class Response : IResponse
     {
-
         /// <summary>
         /// 上下文
         /// </summary>
-        protected object context;
+        private object context;
 
         /// <summary>
         /// 设定上下文
         /// </summary>
-        /// <param name="context"></param>
+        /// <returns>上下文</returns>
         public object GetContext()
         {
             return context;
@@ -37,12 +35,10 @@ namespace CatLib.Routing
         /// <summary>
         /// 设定上下文
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">上下文</param>
         public void SetContext(object context)
         {
             this.context = context;
         }
-
     }
-
 }

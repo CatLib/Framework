@@ -8,52 +8,82 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Crypt;
 
-namespace CatLib.Crypt{
+namespace CatLib.Crypt
+{   
+    /// <summary>
+    /// 加密
+    /// </summary>
+    public sealed class Crypt : ICrypt
+    {
+        /// <summary>
+        /// 加密算法
+        /// </summary>
+        private ICryptAdapter adapter;
 
-
-	public class Crypt : ICrypt{
-
-        private HMacAes256 hMacAes256 = new HMacAes256();
-
+        /// <summary>
+        /// 密钥
+        /// </summary>
         private string key;
 
-        #region config
+        /// <summary>
+        /// 设定加密适配器
+        /// </summary>
+        /// <param name="adapter">适配器</param>
+        public void SetAdapter(ICryptAdapter adapter)
+        {
+            this.adapter = adapter;
+        }
 
-        public void SetKey(string key){
-
+        /// <summary>
+        /// 设定密钥
+        /// </summary>
+        /// <param name="key">32位密钥</param>
+        public void SetKey(string key)
+        {
             this.key = key;
             if (this.key.Length != 32)
             {
                 this.key = null;
             }
-
         }
-        
-        #endregion
-        public string Encrypt(string toEncrypt)
+
+        /// <summary>
+        /// 加密字符串
+        /// </summary>
+        /// <param name="str">需要被加密的字符串</param>
+        /// <returns>加密后的字符串</returns>
+        public string Encrypt(string str)
         {
             if (string.IsNullOrEmpty(key))
             {
                 throw new System.Exception("crypt key is invalid");
             }
-            return hMacAes256.Encrypt(toEncrypt , key);
-
+            if (adapter == null)
+            {
+                throw new System.Exception("undefined crypt adapter");
+            }
+            return adapter.Encrypt(str, key);
         }
 
-        public string Decrypt(string toDecrypt)
+        /// <summary>
+        /// 解密被加密的字符串
+        /// </summary>
+        /// <param name="str">需要被解密的字符串</param>
+        /// <returns>解密后的字符串</returns>
+        public string Decrypt(string str)
         {
             if (string.IsNullOrEmpty(key))
             {
                 throw new System.Exception("crypt key is invalid");
             }
-            return hMacAes256.Decrypt(toDecrypt, key);
-
+            if (adapter == null)
+            {
+                throw new System.Exception("undefined crypt adapter");
+            }
+            return adapter.Decrypt(str, key);
         }
-
-
     }
-
 }

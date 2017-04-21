@@ -8,24 +8,31 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.Protobuf;
 
 namespace CatLib.Protobuf
 {
-
-    public class ProtobufProvider : ServiceProvider
+    /// <summary>
+    /// Protobuf服务提供商
+    /// </summary>
+    public sealed class ProtobufProvider : ServiceProvider
     {
+        /// <summary>
+        /// 注册Protobuf服务
+        /// </summary>
         public override void Register()
         {
             RegisterProtobufAdapter();
             App.Singleton<Protobuf>().Alias<IProtobuf>().Alias("protobuf");
         }
 
-        protected void RegisterProtobufAdapter()
+        /// <summary>
+        /// 注册适配器
+        /// </summary>
+        private void RegisterProtobufAdapter()
         {
             App.Singleton<ProtobufNetAdapter>().Alias<IProtobufAdapter>();
         }
     }
-
 }

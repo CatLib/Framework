@@ -8,20 +8,31 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using UnityEngine;
 using CatLib.API;
 
 namespace CatLib
 {
-
     /// <summary>
     /// CatLib Mono Object
     /// </summary>
-    public class MonoObject : MonoBehaviour ,IGuid
+    public class MonoObject : MonoBehaviour, IGuid
     {
+        /// <summary>
+        /// Transform
+        /// </summary>
+        private Transform tran;
 
-        protected Transform tran;
+        /// <summary>
+        /// GameObject
+        /// </summary>
+        private GameObject obj;
+
+        /// <summary>
+        /// Guid
+        /// </summary>
+        private long guid;
 
         /// <summary>
         /// Transform
@@ -30,13 +41,13 @@ namespace CatLib
         {
             get
             {
-                if (!tran) { tran = transform; }
+                if (!tran)
+                {
+                    tran = transform;
+                }
                 return tran;
             }
         }
-
-
-        protected GameObject obj;
 
         /// <summary>
         /// GameObject
@@ -45,12 +56,13 @@ namespace CatLib
         {
             get
             {
-                if (!obj) { obj = gameObject; }
+                if (!obj)
+                {
+                    obj = gameObject;
+                }
                 return obj;
             }
         }
-
-        private long guid;
 
         /// <summary>
         /// 唯一标识符
@@ -66,8 +78,5 @@ namespace CatLib
                 return guid;
             }
         }
-
-
     }
-
 }
