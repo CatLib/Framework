@@ -28,10 +28,10 @@ namespace CatLib.Network
     public class WebRequest : IEvent, IConnectorHttp
     {
 
-        [Dependency]
+        [Inject]
         public IEventImpl Event { get; set; }
 
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         public string Name { get; set; }

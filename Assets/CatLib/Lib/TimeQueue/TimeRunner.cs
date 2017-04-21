@@ -25,7 +25,7 @@ namespace CatLib.TimeQueue
         /// <summary>
         /// 时间
         /// </summary>
-        [Dependency]
+        [Inject]
         public ITime Time { get; set; }
 
         /// <summary>

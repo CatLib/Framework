@@ -24,7 +24,7 @@ namespace CatLib.Config
         /// <summary>
         /// 服务容器
         /// </summary>
-        [Dependency]
+        [Inject]
         public IContainer App { get; set; }
 
         /// <summary>

@@ -37,13 +37,13 @@ namespace CatLib.CsvStore
         /// <summary>
         /// Csv解析器
         /// </summary>
-        [Dependency]
+        [Inject]
         public ICsvParser Parser { get; set; }
 
         /// <summary>
         /// 容器
         /// </summary>
-        [Dependency]
+        [Inject]
         public IContainer Container { get; set; }
 
         /// <summary>

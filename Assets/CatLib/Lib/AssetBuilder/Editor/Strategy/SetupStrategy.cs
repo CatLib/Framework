@@ -27,7 +27,7 @@ namespace CatLib.AssetBuilder
         /// <summary>
         /// 环境配置
         /// </summary>
-        [Dependency]
+        [Inject]
         public IEnv Env { get; set; }
 
         /// <summary>

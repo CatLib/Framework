@@ -25,18 +25,18 @@ namespace CatLib.Network
     public class TcpRequest : IEvent, IConnectorTcp
     {
 
-        [Dependency]
+        [Inject]
         public IEventImpl Event { get; set; }
 
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         public string Name { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder DecodeRenderBuffer { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder EncodeRenderBuffer { get; set; }
 
         private Queue<byte[]> queue = new Queue<byte[]>();

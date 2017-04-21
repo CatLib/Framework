@@ -20,7 +20,7 @@ namespace CatLib.Container
     /// <summary>
     /// 参数容器
     /// </summary>
-    public class ParameterCollection : IParameters
+    internal class ParameterCollection : IParameters
     {
         /// <summary>
         /// 参数信息
@@ -71,7 +71,7 @@ namespace CatLib.Container
         /// <param name="arguments">参数内容</param>
         /// <param name="argumentInfo">参数信息</param>
         /// <param name="isEffective">参数是否生效</param>
-        public ParameterCollection(object[] arguments, IList<ParameterInfo> argumentInfo, Predicate<ParameterInfo> isEffective)
+        internal ParameterCollection(object[] arguments, IList<ParameterInfo> argumentInfo, Predicate<ParameterInfo> isEffective)
         {
             this.arguments = arguments;
             this.argumentInfo = new List<ArgumentInfo>();

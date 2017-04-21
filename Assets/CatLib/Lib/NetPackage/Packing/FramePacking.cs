@@ -25,10 +25,10 @@ namespace CatLib.NetPackage
     public class FramePacking : IPacking
     {
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder Buffer { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder EncodeBuffer { get; set; }
 
         /// <summary>

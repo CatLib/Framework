@@ -444,16 +444,16 @@ namespace CatLib.Test.Container
         {
             private readonly MakeTestClassDependency dependency;
 
-            [Dependency]
+            [Inject]
             public MakeTestClassDependency Dependency { get; set; }
 
-            [Dependency(Required = true)]
+            [Inject(Required = true)]
             public MakeTestClassDependency DependencyRequired { get; set; }
 
-            [Dependency("AliasName")]
+            [Inject("AliasName")]
             public MakeTestClassDependency2 DependencyAlias { get; set; }
 
-            [Dependency("AliasNameRequired",Required = true)]
+            [Inject("AliasNameRequired",Required = true)]
             public MakeTestClassDependency DependencyAliasRequired { get; set; }
 
             public MakeTestClass(MakeTestClassDependency dependency)
@@ -467,7 +467,12 @@ namespace CatLib.Test.Container
             }
         }
 
-        public class MakeTestClassDependency
+        public interface IMsg
+        {
+            string GetMsg();
+        }
+
+        public class MakeTestClassDependency : IMsg
         {
             public string GetMsg()
             {
@@ -475,12 +480,32 @@ namespace CatLib.Test.Container
             }
         }
 
-        public class MakeTestClassDependency2
+        public class MakeTestClassDependency2 : IMsg
         {
             public string GetMsg()
             {
                 return "world";
             }
+        }
+
+        /// <summary>
+        /// 跨域生成没有绑定的服务
+        /// </summary>
+        [Test]
+        public void MakeNoBindType()
+        {
+            var container = MakeContainer();
+
+            //container.OnFindType(Type.GetType); 不要使用这种写法否则域将不是这个程序集
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+            var result = container.Make<MakeTestClass>();
+
+            Assert.AreNotEqual(null, result);
         }
 
         /// <summary>
@@ -596,11 +621,6 @@ namespace CatLib.Test.Container
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                container.Make(null);
-            });
-
-            Assert.Throws<ArgumentNullException>(() =>
-            {
                 container.Make(string.Empty);
             });
         }
@@ -641,6 +661,160 @@ namespace CatLib.Test.Container
             {
                 container.Make(typeof(MakeTestClass).ToString());
             });
+        }
+
+        /// <summary>
+        /// 参数注入标记测试类
+        /// </summary>
+        public class TestMakeParamInjectAttrClass
+        {
+            private IMsg msg;
+            public TestMakeParamInjectAttrClass(
+                [Inject("AliasName")]IMsg msg)
+            {
+                this.msg = msg;
+            }
+
+            public string GetMsg()
+            {
+                return msg.GetMsg();
+            }
+        }
+
+        /// <summary>
+        /// 参数可以使用注入标记
+        /// </summary>
+        [Test]
+        public void CanParamUseInjectAttr()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind<TestMakeParamInjectAttrClass>();
+            container.Bind<MakeTestClassDependency>();
+            var subBind = container.Bind<MakeTestClassDependency2>().Alias("AliasName");
+
+            bind.Needs<IMsg>().Given<MakeTestClassDependency>();
+            var cls = container.Make<TestMakeParamInjectAttrClass>();
+            Assert.AreEqual("world", cls.GetMsg());
+
+            bind.Needs("AliasName").Given<MakeTestClassDependency>();
+            cls = container.Make<TestMakeParamInjectAttrClass>();
+            Assert.AreEqual("world", cls.GetMsg());
+
+            subBind.UnBind();
+            cls = container.Make<TestMakeParamInjectAttrClass>();
+            Assert.AreEqual("hello", cls.GetMsg());
+        }
+
+
+        /// <summary>
+        /// 参数注入是必须的
+        /// </summary>
+        public class TestMakeParamInjectAttrRequiredClass
+        {
+            private IMsg msg;
+            public TestMakeParamInjectAttrRequiredClass(
+                [Inject(Required = true)]IMsg msg)
+            {
+                this.msg = msg;
+            }
+
+            public string GetMsg()
+            {
+                return msg.GetMsg();
+            }
+        }
+
+        /// <summary>
+        /// 参数可以使用注入标记
+        /// </summary>
+        [Test]
+        public void CanParamUseInjectAttrRequired()
+        {
+            var container = MakeContainer();
+            container.Bind<TestMakeParamInjectAttrRequiredClass>();
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make<TestMakeParamInjectAttrRequiredClass>();
+            });
+
+            container.Bind<IMsg, MakeTestClassDependency>();
+            var result = container.Make<TestMakeParamInjectAttrRequiredClass>();
+            Assert.AreEqual("hello", result.GetMsg());
+        }
+
+        public struct TestStruct
+        {
+            public int X;
+            public int Y;
+        }
+
+        /// <summary>
+        /// 测试结构体注入
+        /// </summary>
+        class TestMakeStructInject
+        {
+            [Inject]
+            public TestStruct Struct { get; set; }
+
+            [Inject]
+            public MakeTestClassDependency Dependency { get; set; }
+        }
+
+        /// <summary>
+        /// 可以进行结构体注入
+        /// </summary>
+        [Test]
+        public void CanMakeStructInject()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            var result = container.Make<TestMakeStructInject>();
+            Assert.AreNotEqual(null, result.Struct);
+            Assert.AreNotEqual(null, result.Dependency);
+        }
+
+        class GenericClass<T>
+        {
+            public string GetMsg()
+            {
+                return typeof(T).ToString();
+            }
+        }
+
+        /// <summary>
+        /// 测试泛型注入
+        /// </summary>
+        class TestMakeGenericInject
+        {
+            [Inject]
+            public GenericClass<string> Cls { get; set; }
+        }
+
+        /// <summary>
+        /// 可以进行泛型注入
+        /// </summary>
+        [Test]
+        public void CanMakeGenericInject()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            var result = container.Make<TestMakeGenericInject>();
+            Assert.AreNotEqual(null, result.Cls);
+            Assert.AreEqual(typeof(string).ToString(),result.Cls.GetMsg());
+
+            container.Bind<GenericClass<string>>((app, param) => null);
+            result = container.Make<TestMakeGenericInject>();
+            Assert.AreEqual(null, result.Cls);
+
         }
         #endregion
 

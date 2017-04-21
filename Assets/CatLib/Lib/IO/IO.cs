@@ -24,7 +24,7 @@ namespace CatLib.IO
         /// <summary>
         /// 容器
         /// </summary>
-        [Dependency]
+        [Inject]
         public IContainer Conatiner { get; set; }
 
         /// <summary>

@@ -27,13 +27,13 @@ namespace CatLib.Resources
         /// <summary>
         /// AssetBundle加载器
         /// </summary>
-        [Dependency]
+        [Inject]
         public AssetBundleLoader AssetBundleLoader { get; set; }
 
         /// <summary>
         /// 时间组件
         /// </summary>
-        [Dependency]
+        [Inject]
         public ITime Time { get; set; }
 
         /// <summary>
