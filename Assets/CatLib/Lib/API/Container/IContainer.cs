@@ -154,7 +154,14 @@ namespace CatLib.API.Container
         /// 当服务被解决时触发的事件
         /// </summary>
         /// <param name="func">回调函数</param>
-        /// <returns>当前容器对象</returns>
+        /// <returns>当前容器实例</returns>
         IContainer OnResolving(Func<IBindData, object, object> func);
+
+        /// <summary>
+        /// 当查找类型无法找到时会尝试去调用开发者提供的查找类型函数
+        /// </summary>
+        /// <param name="func">查找类型的回调</param>
+        /// <returns>当前容器实例</returns>
+        IContainer OnFindType(Func<string, Type> func);
     }
 }

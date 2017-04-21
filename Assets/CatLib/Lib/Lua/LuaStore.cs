@@ -27,22 +27,22 @@ namespace CatLib.Lua
     public class LuaStore :  IUpdate , ILua
     {
 
-        [Dependency]
+        [Inject]
         public IIOFactory IO{ get; set; }
 
-        [Dependency]
+        [Inject]
         public IEnv Env { get; set; }
 
-        [Dependency]
+        [Inject]
         public IResources Resources { get; set; }
 
-        [Dependency]
+        [Inject]
         public IEventImpl Event { get; set; }
 
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
-        [Dependency]
+        [Inject]
         public ITime Time { get; set; }
 
         private IDisk disk;

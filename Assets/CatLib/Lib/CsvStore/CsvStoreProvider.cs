@@ -27,7 +27,7 @@ namespace CatLib.CsvStore
         /// </summary>
         public override void Register()
         {
-            App.Singleton<CsvStore>().Alias<ICsvStore>().Alias("csv.store").OnResolving((obj) =>
+            App.Singleton<CsvStore>().Alias<ICsvStore>().Alias("csv.store").OnResolving((bind, obj) =>
             {
                 var store = obj as CsvStore;
                 var confStore = App.Make<IConfigStore>();

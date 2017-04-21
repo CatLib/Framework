@@ -54,7 +54,7 @@ namespace CatLib.Demo.Container
         private void NormalBindDemo(IContainer container)
         {
 
-            container.Bind<NormalBindDemoClass>().OnResolving((obj) =>
+            container.Bind<NormalBindDemoClass>().OnResolving((bind, obj) =>
             {
                 Debug.Log(obj);
                 Debug.Log("(Local) Container.Resolving() , " + obj.GetType());
@@ -128,7 +128,7 @@ namespace CatLib.Demo.Container
 
         private void AopDemo(IContainer container)
         {
-            container.Bind<AopBindDemoClass>().OnResolving((obj) =>
+            container.Bind<AopBindDemoClass>().OnResolving((bind, obj) =>
             {
                 Debug.Log("(Local) Container.Resolving() , " + obj.GetType());
                 return obj;

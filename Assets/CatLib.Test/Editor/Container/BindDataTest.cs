@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Container;
 using NUnit.Framework;
 
@@ -191,6 +192,52 @@ namespace CatLib.Test.Container
         }
         #endregion
 
+        #region OnRelease
+        /// <summary>
+        /// 是否能追加到释放事件
+        /// </summary>
+        [Test]
+        public void CanOnRelease()
+        {
+            var container = new CatLib.Container.Container();
+            var bindData = new CatLib.Container.BindData(container, "CanAddOnRelease", (app, param) => "hello world", true);
+
+            bindData.OnRelease((bind, obj) =>
+            {
+                Assert.AreEqual("Test", obj);
+                Assert.AreSame(bindData, bind);
+            });
+
+            container.Instance("CanAddOnRelease" , "Test");
+            container.Release("CanAddOnRelease");
+        }
+        /// <summary>
+        /// 检查无效的解决事件传入参数
+        /// </summary>
+        [Test]
+        public void CheckIllegalRelease()
+        {
+            var container = new CatLib.Container.Container();
+            var bindData = new CatLib.Container.BindData(container, "CheckIllegalRelease", (app, param) => "hello world", false);
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                bindData.OnRelease(null);
+            });
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                bindData.OnRelease((bind, obj) =>
+                {
+                    Assert.Fail();
+                });
+                container.Instance("CheckIllegalRelease", "Test");
+                container.Release("CheckIllegalRelease");
+            });
+        }
+
+        #endregion
+
         #region OnResolving
         /// <summary>
         /// 是否能追加到解决事件
@@ -201,9 +248,9 @@ namespace CatLib.Test.Container
             var container = new CatLib.Container.Container();
             var bindData = new CatLib.Container.BindData(container, "CanAddOnResolving", (app, param) => "hello world", false);
 
-            bindData.OnResolving(obj => null);
+            bindData.OnResolving((bind, obj) => null);
 
-            var data = bindData.ExecDecorator(new CatLib.Container.Container());
+            var data = bindData.ExecResolvingDecorator(new CatLib.Container.Container());
             Assert.AreEqual(null, data);
         }
 
@@ -236,6 +283,22 @@ namespace CatLib.Test.Container
             Assert.AreEqual("hello world", container.Make("CanUnBind").ToString());
             bindData.UnBind();
             Assert.AreEqual(null, container.Make("CanUnBind"));
+        }
+
+        /// <summary>
+        /// 能够正常解除绑定
+        /// </summary>
+        [Test]
+        public void CheckIllegalUnBindInput()
+        {
+            var container = new CatLib.Container.Container();
+            var bindData = container.Bind("CanUnBind", (app, param) => "hello world", false);
+            bindData.UnBind();
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                bindData.Alias("hello");
+            });
         }
         #endregion
     }

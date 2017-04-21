@@ -24,7 +24,7 @@ namespace CatLib.Event
         /// <summary>
         /// 应用程序
         /// </summary>
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         /// <summary>

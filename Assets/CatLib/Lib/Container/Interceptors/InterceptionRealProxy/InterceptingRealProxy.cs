@@ -19,7 +19,7 @@ namespace CatLib.Container
     /// <summary>
     /// 拦截动态代理
     /// </summary>
-    public sealed class InterceptingRealProxy : RealProxy, IInterceptingProxy
+    internal sealed class InterceptingRealProxy : RealProxy, IInterceptingProxy
     {
         /// <summary>
         /// 拦截器管道
@@ -35,7 +35,7 @@ namespace CatLib.Container
         /// 构建一个动态代理
         /// </summary>
         /// <param name="target">代理的原始对象</param>
-        public InterceptingRealProxy(object target)
+        internal InterceptingRealProxy(object target)
             : base(target.GetType())
         {
             this.target = target;
@@ -62,7 +62,7 @@ namespace CatLib.Container
         /// <returns></returns>
         public override IMessage Invoke(IMessage msg)
         {
-            IMethodCallMessage callMessage = (IMethodCallMessage)msg;
+            var callMessage = (IMethodCallMessage)msg;
 
             if (!callMessage.MethodBase.IsDefined(typeof(AopAttribute), false))
             {
@@ -73,7 +73,7 @@ namespace CatLib.Container
                                         callMessage);
             }
 
-            MethodInvoke methodInvoke = new MethodInvoke(callMessage, target);
+            var methodInvoke = new MethodInvoke(callMessage, target);
 
             try
             {

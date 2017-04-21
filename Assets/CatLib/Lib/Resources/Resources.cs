@@ -27,7 +27,7 @@ namespace CatLib.Resources
         /// <summary>
         /// AssetBundle 加载器
         /// </summary>
-        [Dependency]
+        [Inject]
         public AssetBundleLoader AssetBundleLoader { get; set; }
 
         /// <summary>
@@ -38,13 +38,13 @@ namespace CatLib.Resources
         /// <summary>
         /// 环境
         /// </summary>
-        [Dependency]
+        [Inject]
         public IEnv Env { get; set; }
 
         /// <summary>
         /// 应用程序
         /// </summary>
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         /// <summary>

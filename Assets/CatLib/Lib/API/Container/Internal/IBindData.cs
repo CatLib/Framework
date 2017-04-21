@@ -79,7 +79,15 @@ namespace CatLib.API.Container
         /// 解决服务时触发的回调
         /// </summary>
         /// <param name="func">解决事件</param>
-        IBindData OnResolving(Func<object, object> func);
+        /// <returns>服务绑定数据</returns>
+        IBindData OnResolving(Func<IBindData, object, object> func);
+
+        /// <summary>
+        /// 当服务被释放时
+        /// </summary>
+        /// <param name="action">处理事件</param>
+        /// <returns>服务绑定数据</returns>
+        IBindData OnRelease(Action<IBindData, object> action);
 
         /// <summary>
         /// 移除绑定服务 , 在解除绑定时如果是静态化物体将会触发释放

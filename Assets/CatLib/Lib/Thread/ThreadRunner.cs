@@ -25,13 +25,13 @@ namespace CatLib.Thread
         /// <summary>
         /// 应用程序
         /// </summary>
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         /// <summary>
         /// 时间组件
         /// </summary>
-        [Dependency]
+        [Inject]
         public ITime Time { get; set; }
 
         /// <summary>

@@ -28,13 +28,13 @@ namespace CatLib.Network
         /// <summary>
         /// 事件系统
         /// </summary>
-        [Dependency]
+        [Inject]
         public IEventImpl Event { get; set; }
 
         /// <summary>
         /// 应用程序
         /// </summary>
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         /// <summary>

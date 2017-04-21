@@ -99,7 +99,7 @@ namespace CatLib.Test.Container
             var bind = container.BindIf("CanBindIf", (cont, param) => "Hello", true);
             var bind2 = container.BindIf("CanBindIf", (cont, param) => "World", false);
 
-            Assert.AreSame(bind , bind2);
+            Assert.AreSame(bind, bind2);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace CatLib.Test.Container
         {
             public LoopDependencyClass(LoopDependencyClass2 cls)
             {
-        
+
             }
         }
 
@@ -363,7 +363,7 @@ namespace CatLib.Test.Container
         {
             public LoopDependencyClass2(LoopDependencyClass cls)
             {
-        
+
             }
         }
 
@@ -430,11 +430,456 @@ namespace CatLib.Test.Container
             container.Bind<CallTestClassInject>();
             var cls = new CallTestClass();
 
-            var result = container.Call(cls, "GetNumber" , "illegal param");
+            var result = container.Call(cls, "GetNumber", "illegal param");
             Assert.AreEqual(2, result);
 
             result = container.Call(cls, "GetNumber", null);
             Assert.AreEqual(2, result);
+        }
+        #endregion
+
+        #region Make
+
+        public class MakeTestClass
+        {
+            private readonly MakeTestClassDependency dependency;
+
+            [Inject]
+            public MakeTestClassDependency Dependency { get; set; }
+
+            [Inject(Required = true)]
+            public MakeTestClassDependency DependencyRequired { get; set; }
+
+            [Inject("AliasName")]
+            public MakeTestClassDependency2 DependencyAlias { get; set; }
+
+            [Inject("AliasNameRequired",Required = true)]
+            public MakeTestClassDependency DependencyAliasRequired { get; set; }
+
+            public MakeTestClass(MakeTestClassDependency dependency)
+            {
+                this.dependency = dependency;
+            }
+
+            public string GetMsg()
+            {
+                return dependency.GetMsg();
+            }
+        }
+
+        public interface IMsg
+        {
+            string GetMsg();
+        }
+
+        public class MakeTestClassDependency : IMsg
+        {
+            public string GetMsg()
+            {
+                return "hello";
+            }
+        }
+
+        public class MakeTestClassDependency2 : IMsg
+        {
+            public string GetMsg()
+            {
+                return "world";
+            }
+        }
+
+        /// <summary>
+        /// 跨域生成没有绑定的服务
+        /// </summary>
+        [Test]
+        public void MakeNoBindType()
+        {
+            var container = MakeContainer();
+
+            //container.OnFindType(Type.GetType); 不要使用这种写法否则域将不是这个程序集
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+            var result = container.Make<MakeTestClass>();
+
+            Assert.AreNotEqual(null, result);
+        }
+
+        /// <summary>
+        /// 是否能正常生成服务
+        /// </summary>
+        [Test]
+        public void CanMake()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result = container.Make<MakeTestClass>();
+            Assert.AreEqual(typeof(MakeTestClass), result.GetType());
+        }
+
+        /// <summary>
+        /// 引发一个类型不一致的异常
+        /// </summary>
+        [Test]
+        public void CheckIllegalMakeTypeIsNotSame()
+        {
+            var container = MakeContainer();
+            container.Singleton<MakeTestClass>();
+            container.Singleton<MakeTestClassDependency2>().Alias("AliasNameRequired");
+            container.Singleton<MakeTestClassDependency>().Alias("AliasName");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make<MakeTestClass>();
+            });
+        }
+
+        /// <summary>
+        /// 可以生成静态的对象
+        /// </summary>
+        [Test]
+        public void CanMakeStaticAlias()
+        {
+            var container = MakeContainer();
+            container.Singleton<MakeTestClass>();
+            container.Singleton<MakeTestClassDependency2>().Alias("AliasName");
+            container.Singleton<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result1 = container.Make<MakeTestClass>();
+            var result2 = container.Make<MakeTestClass>();
+
+            Assert.AreSame(result1, result2);
+            Assert.AreSame(result1.DependencyAliasRequired, result2.DependencyAliasRequired);
+            Assert.AreNotSame(result1.DependencyAlias, result2.DependencyAliasRequired);
+        }
+
+        /// <summary>
+        /// 可以根据别名来生成对应不同的实例
+        /// </summary>
+        [Test]
+        public void CanMakeWithAlias()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency2>().Alias("AliasName");
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result = container.Make<MakeTestClass>();
+
+            Assert.AreEqual("world", result.DependencyAlias.GetMsg());
+            Assert.AreEqual("hello" , result.DependencyAliasRequired.GetMsg());
+        }
+
+        /// <summary>
+        /// 能够生成常规绑定
+        /// </summary>
+        [Test]
+        public void CanMakeNormalBind()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            var result1 = container.Make<MakeTestClass>();
+            var result2 = container.Make<MakeTestClass>();
+
+            Assert.AreNotSame(result1, result2);
+            Assert.AreNotSame(result1.Dependency , result1.DependencyRequired);
+            Assert.AreNotSame(null, result1.DependencyRequired);
+            Assert.AreNotSame(null, result1.DependencyAliasRequired);
+            Assert.AreSame(null , result1.DependencyAlias);
+        }
+
+        /// <summary>
+        /// 必须参数约束
+        /// </summary>
+        [Test]
+        public void CheckMakeRequired()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make<MakeTestClass>();
+            });
+        }
+
+        /// <summary>
+        /// 无效的生成服务
+        /// </summary>
+        [Test]
+        public void CheckIllegalMake()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClass>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                container.Make(string.Empty);
+            });
+        }
+
+        /// <summary>
+        /// 解决器是否有效
+        /// </summary>
+        [Test]
+        public void CanMakeWithResolve()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind<MakeTestClassDependency>();
+
+            bind.OnResolving((bindData, obj) => "local resolve");
+            container.OnResolving((bindData, obj) => obj + " global resolve");
+
+            var result = container.Make(typeof(MakeTestClassDependency).ToString());
+
+            Assert.AreEqual("local resolve global resolve", result);
+        }
+
+        /// <summary>
+        /// 给与了错误的解决器,导致不正确的返回值
+        /// </summary>
+        [Test]
+        public void CheckMakeWithErrorResolve()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind<MakeTestClass>();
+            container.Bind<MakeTestClassDependency2>().Alias("AliasName");
+            var bind2 = container.Bind<MakeTestClassDependency>().Alias("AliasNameRequired");
+
+            bind.OnResolving((bindData, obj) => "local resolve");
+            container.OnResolving((bindData, obj) => obj + " global resolve");
+            bind2.OnResolving((bindData, obj) => "bind2");
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make(typeof(MakeTestClass).ToString());
+            });
+        }
+
+        /// <summary>
+        /// 参数注入标记测试类
+        /// </summary>
+        public class TestMakeParamInjectAttrClass
+        {
+            private IMsg msg;
+            public TestMakeParamInjectAttrClass(
+                [Inject("AliasName")]IMsg msg)
+            {
+                this.msg = msg;
+            }
+
+            public string GetMsg()
+            {
+                return msg.GetMsg();
+            }
+        }
+
+        /// <summary>
+        /// 参数可以使用注入标记
+        /// </summary>
+        [Test]
+        public void CanParamUseInjectAttr()
+        {
+            var container = MakeContainer();
+            var bind = container.Bind<TestMakeParamInjectAttrClass>();
+            container.Bind<MakeTestClassDependency>();
+            var subBind = container.Bind<MakeTestClassDependency2>().Alias("AliasName");
+
+            bind.Needs<IMsg>().Given<MakeTestClassDependency>();
+            var cls = container.Make<TestMakeParamInjectAttrClass>();
+            Assert.AreEqual("world", cls.GetMsg());
+
+            bind.Needs("AliasName").Given<MakeTestClassDependency>();
+            cls = container.Make<TestMakeParamInjectAttrClass>();
+            Assert.AreEqual("world", cls.GetMsg());
+
+            subBind.UnBind();
+            cls = container.Make<TestMakeParamInjectAttrClass>();
+            Assert.AreEqual("hello", cls.GetMsg());
+        }
+
+
+        /// <summary>
+        /// 参数注入是必须的
+        /// </summary>
+        public class TestMakeParamInjectAttrRequiredClass
+        {
+            private IMsg msg;
+            public TestMakeParamInjectAttrRequiredClass(
+                [Inject(Required = true)]IMsg msg)
+            {
+                this.msg = msg;
+            }
+
+            public string GetMsg()
+            {
+                return msg.GetMsg();
+            }
+        }
+
+        /// <summary>
+        /// 参数可以使用注入标记
+        /// </summary>
+        [Test]
+        public void CanParamUseInjectAttrRequired()
+        {
+            var container = MakeContainer();
+            container.Bind<TestMakeParamInjectAttrRequiredClass>();
+
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Make<TestMakeParamInjectAttrRequiredClass>();
+            });
+
+            container.Bind<IMsg, MakeTestClassDependency>();
+            var result = container.Make<TestMakeParamInjectAttrRequiredClass>();
+            Assert.AreEqual("hello", result.GetMsg());
+        }
+
+        public struct TestStruct
+        {
+            public int X;
+            public int Y;
+        }
+
+        /// <summary>
+        /// 测试结构体注入
+        /// </summary>
+        class TestMakeStructInject
+        {
+            [Inject]
+            public TestStruct Struct { get; set; }
+
+            [Inject]
+            public MakeTestClassDependency Dependency { get; set; }
+        }
+
+        /// <summary>
+        /// 可以进行结构体注入
+        /// </summary>
+        [Test]
+        public void CanMakeStructInject()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            var result = container.Make<TestMakeStructInject>();
+            Assert.AreNotEqual(null, result.Struct);
+            Assert.AreNotEqual(null, result.Dependency);
+        }
+
+        class GenericClass<T>
+        {
+            public string GetMsg()
+            {
+                return typeof(T).ToString();
+            }
+        }
+
+        /// <summary>
+        /// 测试泛型注入
+        /// </summary>
+        class TestMakeGenericInject
+        {
+            [Inject]
+            public GenericClass<string> Cls { get; set; }
+        }
+
+        /// <summary>
+        /// 可以进行泛型注入
+        /// </summary>
+        [Test]
+        public void CanMakeGenericInject()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            var result = container.Make<TestMakeGenericInject>();
+            Assert.AreNotEqual(null, result.Cls);
+            Assert.AreEqual(typeof(string).ToString(),result.Cls.GetMsg());
+
+            container.Bind<GenericClass<string>>((app, param) => null);
+            result = container.Make<TestMakeGenericInject>();
+            Assert.AreEqual(null, result.Cls);
+
+        }
+        #endregion
+
+        #region Instance
+        /// <summary>
+        /// 可以正确的给定静态实例
+        /// </summary>
+        [Test]
+        public void CanInstance()
+        {
+            var container = MakeContainer();
+            var data = new List<string> { "hello world" };
+            var data2 = new List<string> { "hello world" };
+            container.Instance("TestInstance" , data);
+            var result = container.Make("TestInstance");
+
+            Assert.AreSame(data , result);
+            Assert.AreNotSame(data2 , result);
+        }
+
+        /// <summary>
+        /// 测试无效的实例
+        /// </summary>
+        [Test]
+        public void CheckIllegalInstance()
+        {
+            var container = MakeContainer();
+            container.Bind("TestInstance", (app, param) => "hello world", false);
+            Assert.Throws<RuntimeException>(() =>
+            {
+                container.Instance("TestInstance", "online");
+            });
+        }
+
+        /// <summary>
+        /// 能够通过release
+        /// </summary>
+        [Test]
+        public void CanInstanceWithRelease()
+        {
+            var container = MakeContainer();
+            var bindData = container.Bind("TestInstance", (app, param) => string.Empty, true);
+
+            bool isComplete = false , isComplete2 = false;
+            bindData.OnRelease((bind, obj) =>
+            {
+                Assert.AreEqual("hello world", obj);
+                Assert.AreSame(bindData, bind);
+                isComplete = true;
+            });
+
+            container.OnRelease((bind, obj) =>
+            {
+                Assert.AreEqual("hello world" , obj);
+                Assert.AreSame(bindData, bind);
+                isComplete2 = true;
+            });
+            container.Instance("TestInstance", "hello world");
+            container.Release("TestInstance");
+
+            if (isComplete && isComplete2)
+            {
+                return;
+            }
+            Assert.Fail();
         }
         #endregion
 

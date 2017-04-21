@@ -14,12 +14,16 @@ using System;
 namespace CatLib
 {
     /// <summary>
-    /// 依赖标记
+    /// 注入标记
     /// </summary>
-    public sealed class DependencyAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Interface | 
+                    AttributeTargets.Parameter |
+                    AttributeTargets.Property | 
+                    AttributeTargets.GenericParameter)]
+    public sealed class InjectAttribute : Attribute
     {
         /// <summary>
-        /// 依赖服务的别名或者服务名
+        /// 注入服务的别名或者服务名
         /// </summary>
         public string Alias { get; private set; }
 
@@ -30,17 +34,17 @@ namespace CatLib
         public bool Required { get; set; }
 
         /// <summary>
-        /// 声明依赖
+        /// 声明注入
         /// </summary>
         /// <param name="alias">依赖服务的别名或者服务名</param>
-        public DependencyAttribute(string alias)
+        public InjectAttribute(string alias)
         {
             Alias = alias;
         }
 
         /// <summary>
-        /// 声明依赖
+        /// 声明注入
         /// </summary>
-        public DependencyAttribute() { }
+        public InjectAttribute() { }
     }
 }

@@ -31,25 +31,25 @@ namespace CatLib.AutoUpdate
         /// <summary>
         /// 文件存储服务
         /// </summary>
-        [Dependency]
+        [Inject]
         public IIOFactory IO { get; set; }
 
         /// <summary>
         /// 哈希服务
         /// </summary>
-        [Dependency]
+        [Inject]
         public IHash Hash { get; set; }
 
         /// <summary>
         /// 环境配置
         /// </summary>
-        [Dependency]
+        [Inject]
         public IEnv Env { get; set; }
 
         /// <summary>
         /// 应用程序实例
         /// </summary>
-        [Dependency]
+        [Inject]
         public IApplication App { get; set; }
 
         /// <summary>

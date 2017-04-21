@@ -28,7 +28,7 @@ namespace CatLib.AutoUpdate
         /// <summary>
         /// 文件服务
         /// </summary>
-        [Dependency]
+        [Inject]
         public IIOFactory IO { get; set; }
 
         /// <summary>
