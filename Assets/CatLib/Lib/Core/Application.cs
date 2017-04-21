@@ -143,7 +143,7 @@ namespace CatLib
                 return;
             }
 
-            var providers = new List<ServiceProvider>(serviceProviders.Values).ToArray();
+            var providers = new List<ServiceProvider>(serviceProviders.Values);
 
             process = StartProcess.OnInit;
 
@@ -188,7 +188,7 @@ namespace CatLib
         /// <summary>
         /// 获取一个唯一id
         /// </summary>
-        /// <returns></returns>
+        /// <returns>应用程序内唯一id</returns>
         public long GetGuid()
         {
             return Interlocked.Increment(ref guid);
@@ -205,7 +205,12 @@ namespace CatLib
             TriggerGlobal(ApplicationEvents.ON_PROVIDER_PROCESSING, this).Trigger();
 
             var providers = new List<ServiceProvider>(serviceProviders.Values);
-            providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess));
+            providers.Sort((left, right) =>
+            {
+                var leftPriorities = GetPriorities(left.GetType(), "OnProviderProcess");
+                var rightPriorities = GetPriorities(right.GetType(), "OnProviderProcess");
+                return leftPriorities.CompareTo(rightPriorities);
+            });
 
             foreach (var provider in providers)
             {

@@ -170,6 +170,11 @@ namespace CatLib
         /// <param name="obj">加载的对象</param>
         private void Load(object obj)
         {
+            if (obj is IStart)
+            {
+                ((IStart)obj).Start();
+            }
+
             if (obj is IUpdate)
             {
                 AddWidthPriorities(update, (IUpdate)obj, "Update");
@@ -224,7 +229,7 @@ namespace CatLib
         /// <param name="type">识别的类型</param>
         /// <param name="method">识别的方法</param>
         /// <returns>优先级</returns>
-        private int GetPriorities(Type type, string method)
+        protected int GetPriorities(Type type, string method)
         {
             var currentPriority = int.MaxValue;
             var methodInfo = type.GetMethod(method);
