@@ -85,13 +85,13 @@ namespace CatLib.Resources
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public AssetBundle LoadBundle(string path)
+        public AssetBundle LoadAssetBundle(string path)
         {
             LoadManifest();
             string relPath, objName;
             ParsePath(path, out relPath, out objName);
 
-            AssetBundle assetTarget = LoadAssetBundle(Env.AssetPath, relPath);
+            var assetTarget = LoadAssetBundle(Env.AssetPath, (relPath + Path.AltDirectorySeparatorChar + objName).Trim('/'));
             return assetTarget;
         }
 
@@ -101,7 +101,7 @@ namespace CatLib.Resources
         /// <param name="path"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public UnityEngine.Coroutine LoadBundleAsync(string path, System.Action<AssetBundle> callback)
+        public UnityEngine.Coroutine LoadAssetBundleAsync(string path, System.Action<AssetBundle> callback)
         {
             return App.StartCoroutine(LoadBundleAsyncIEnumerator(path, callback));
         }
@@ -224,12 +224,10 @@ namespace CatLib.Resources
         /// <param name="path"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        protected IEnumerator LoadBundleAsyncIEnumerator(string path , System.Action<AssetBundle> callback)
+        private IEnumerator LoadBundleAsyncIEnumerator(string path , System.Action<AssetBundle> callback)
         {
             LoadManifest();
-            string relPath, objName;
-            ParsePath(path, out relPath, out objName);
-
+            var relPath = path;
             AssetBundle assetTarget = null;
 
             //加入保护的列表
@@ -444,8 +442,11 @@ namespace CatLib.Resources
             //如果主包中已经包含了那么直接回调
             if (loadAssetBundles.ContainsKey(relPath))
             {
-                complete(loadAssetBundles[relPath].Bundle);
-                yield break;
+                if (loadAssetBundles[relPath].Bundle != null)
+                {
+                    complete(loadAssetBundles[relPath].Bundle);
+                    yield break;
+                }
             }
 
             //如果处于其他请求在处理的依赖包

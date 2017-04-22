@@ -15,7 +15,6 @@ using UnityEngine;
 
 namespace CatLib.Demo.FairyGUI
 {
-
     public class FairyGUIDemo : ServiceProvider
     {
 
@@ -31,7 +30,5 @@ namespace CatLib.Demo.FairyGUI
         }
 
         public override void Register() { }
-
     }
-
 }

@@ -198,6 +198,7 @@ namespace CatLib.Resources
             for (var i = references.Count - 1; i >= 0; --i)
             {
                 o = references[i].Target;
+                
                 if (o == null)
                 {
                     references.RemoveAt(i);

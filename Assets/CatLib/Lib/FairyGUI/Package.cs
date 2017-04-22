@@ -9,21 +9,20 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using FairyGUI;
 using CatLib.API.Resources;
 using CatLib.API.FairyGUI;
 
 namespace CatLib.FairyGUI
 {
-
     /// <summary>
     /// 包
     /// </summary>
     public class Package : IPackage
     {
-
         /// <summary>
-        /// 应用程序
+        /// 资源系统
         /// </summary>
         [Inject]
         public IResources Resources { get; set; }
@@ -37,15 +36,15 @@ namespace CatLib.FairyGUI
         /// <summary>
         /// 增加一个包
         /// </summary>
-        /// <param name="assetPath">资源包</param>
-        /// <returns></returns>
+        /// <param name="assetPath">资源包路径</param>
+        /// <returns>FairyGUI UIPackage</returns>
         public UIPackage AddPackage(string assetPath)
         {
             IObject obj = null;
             var package = UIPackage.AddPackage(assetPath, (name, extension, type) =>
            {
                obj = Resources.Load(name + extension, type);
-               return obj.Original;
+               return obj == null ? null : obj.Original;
            });
             if (package != null && obj != null)
             {
@@ -54,6 +53,18 @@ namespace CatLib.FairyGUI
             return package;
         }
 
+        /// <summary>
+        /// 异步增加一个包
+        /// </summary>
+        /// <param name="assetBundlePath">资源包路径</param>
+        /// <returns>协程</returns>
+        public UnityEngine.Coroutine AddPackageAsync(string assetBundlePath , Action<UIPackage> complete)
+        {
+            return AssetBundle.LoadAssetBundleAsync(assetBundlePath, bundle =>
+            {
+                var package = UIPackage.AddPackage(bundle);
+                complete.Invoke(package);
+            });
+        }
     }
-
 }

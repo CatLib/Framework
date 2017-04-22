@@ -16,6 +16,7 @@ using CatLib.IO;
 using CatLib.FairyGUI;
 using CatLib.Event;
 using CatLib.Flux;
+using CatLib.Time;
 
 namespace CatLib.Demo.FairyGUI
 {
@@ -30,6 +31,7 @@ namespace CatLib.Demo.FairyGUI
             Env env = App[typeof(Env).ToString()] as Env;
             env.SetResourcesBuildPath(Global.BasePath + "/FairyGUI/Resources");
             env.SetDebugLevel(DebugLevels.Dev);
+            env.SetDebugLevel(DebugLevels.Staging); //使用staging从ab包中读取
         }
 
         public override void Register() { }
@@ -48,6 +50,7 @@ namespace CatLib.Demo.FairyGUI
             App.Instance.Register(typeof(CoreProvider));
             App.Instance.Register(typeof(IOProvider));
             App.Instance.Register(typeof(FluxProvider));
+            App.Instance.Register(typeof(TimeProvider));
             App.Instance.Register(typeof(FairyGUIProvider));
             App.Instance.Register(typeof(FairyGUIDemo));
             App.Instance.Register(typeof(OverrideConfig));

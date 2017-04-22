@@ -4,19 +4,21 @@ using CatLib.API.FairyGUI;
 
 namespace CatLib.Demo.FairyGUI
 {
-
     public class DemoView : View
     {
-
         public void Awake()
         {
-            IPackage package = App.Instance.Make<IPackage>();
-            package.AddPackage("UI/DemoFairy");
-            GComponent comp = UIPackage.CreateObject("DemoFairy", "DemoComponent").asCom;
-            GRoot.inst.AddChild(comp);
+            var package = App.Instance.Make<IPackage>();
+            //package.AddPackage("UI/DemoPackage");
+            //package.AddPackage("package/DemoPackage");
+            //var comp = UIPackage.CreateObject("DemoPackage", "DemoUI").asCom;
+            //GRoot.inst.AddChild(comp);
+
+            package.AddPackageAsync("package", (uipackage) =>
+            {
+                var comp = UIPackage.CreateObject("DemoPackage", "DemoUI").asCom;
+                GRoot.inst.AddChild(comp);
+            });
         }
-
     }
-
-
 }
