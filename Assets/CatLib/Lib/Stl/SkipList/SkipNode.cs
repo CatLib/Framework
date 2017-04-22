@@ -39,9 +39,26 @@ namespace CatLib.Spl
         /// 跳跃结点
         /// </summary>
         /// <param name="level">等级</param>
-        public SkipNode(int level)
+        internal SkipNode(int level)
         {
             Guard.Requires<ArgumentOutOfRangeException>(level > 0);
+
+            Links = new List<SkipNode<TKey, TValue>>(level);
+        }
+
+        /// <summary>
+        /// 新建一个跳跃结点
+        /// </summary>
+        /// <param name="level">拥有的级别</param>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        internal SkipNode(int level, TKey key, TValue value)
+        {
+            Guard.Requires<ArgumentNullException>(key != null);
+            Guard.Requires<ArgumentOutOfRangeException>(level > 0);
+
+            Key = key;
+            Value = value;
             Links = new List<SkipNode<TKey, TValue>>(level);
         }
     }
