@@ -117,11 +117,16 @@ namespace CatLib.Container
 
             lock (syncRoot)
             {
-                if (!tags.ContainsKey(tag))
+                List<string> list;
+                if (tags.TryGetValue(tag, out list))
                 {
-                    tags.Add(tag, new List<string>());
+                    list.AddRange(service);
                 }
-                tags[tag].AddRange(service);
+                else
+                {
+                    list = new List<string>(service);
+                    tags.Add(tag, list);
+                }
             }
         }
 
@@ -137,14 +142,16 @@ namespace CatLib.Container
             Guard.NotEmptyOrNull(tag, "tag");
             lock (syncRoot)
             {
-                if (!tags.ContainsKey(tag))
+
+                List<string> serviceList;
+                if (!tags.TryGetValue(tag, out serviceList))
                 {
                     throw new RuntimeException("Tag [" + tag + "] is not exist.");
                 }
 
                 var result = new List<object>();
 
-                foreach (var tagService in tags[tag])
+                foreach (var tagService in serviceList)
                 {
                     result.Add(Make(tagService));
                 }
@@ -166,7 +173,8 @@ namespace CatLib.Container
             {
                 service = Normalize(service);
                 service = GetAlias(service);
-                return binds.ContainsKey(service) ? binds[service] : null;
+                BindData bindData;
+                return binds.TryGetValue(service, out bindData) ? bindData : null;
             }
         }
 
@@ -219,11 +227,16 @@ namespace CatLib.Container
                 }
 
                 aliases.Add(alias, service);
-                if (!aliasesReverse.ContainsKey(service))
+                List<string> serviceList;
+                if (!aliasesReverse.TryGetValue(service, out serviceList))
                 {
-                    aliasesReverse.Add(service, new List<string>());
+                    serviceList = new List<string> {alias};
+                    aliasesReverse.Add(service, serviceList);
                 }
-                aliasesReverse[service].Add(alias);
+                else
+                {
+                    serviceList.Add(alias);
+                }
             }
 
             return this;
@@ -517,9 +530,10 @@ namespace CatLib.Container
                 service = GetAlias(service);
 
                 Release(service);
-                if (aliasesReverse.ContainsKey(service))
+                List<string> serviceList;
+                if (aliasesReverse.TryGetValue(service,out serviceList))
                 {
-                    foreach (var alias in aliasesReverse[service])
+                    foreach (var alias in serviceList)
                     {
                         aliases.Remove(alias);
                     }
