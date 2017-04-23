@@ -16,39 +16,42 @@ using NUnit.Framework;
 namespace CatLib.Test.Stl
 {
     /// <summary>
-    /// 跳跃结点测试
+    /// 空的跳跃结点测试
     /// </summary>
     [TestFixture]
-    [Category("SkipList")]
-    public class SkipNodeTest
+    public class NullSkipNodeTest
     {
         /// <summary>
         /// 新建一个跳跃结点
         /// </summary>
         [Test]
-        public void NewSkipNode()
+        public void NewNullSkipNode()
         {
             Assert.DoesNotThrow(() =>
             {
-                new SkipNode<string, string>(32);
-                new SkipNode<string, string>(32, "hello", "world");
+                new NullSkipNode<string, string>(32);
             });
         }
 
         /// <summary>
-        /// 测试无效的结点数据
+        /// 空结点的比较
         /// </summary>
         [Test]
-        public void CheckIllegalSkipNodeData()
+        public void CheckNullSkipNodeEquals()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new SkipNode<string, string>(32, null, "world");
-            });
+            Assert.AreEqual(true, new NullSkipNode<string, string>(32).Equals(new NullSkipNode<string, string>(32)));
+            Assert.AreEqual(false, new NullSkipNode<string, string>(32).Equals(new NullSkipNode<string, object>(32)));
+        }
 
+        /// <summary>
+        /// 测试无效的空结点数据
+        /// </summary>
+        [Test]
+        public void CheckIllegalNullSkipNodeData()
+        {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                new SkipNode<string, string>(0, "", "world");
+                new NullSkipNode<string, string>(0);
             });
         }
     }

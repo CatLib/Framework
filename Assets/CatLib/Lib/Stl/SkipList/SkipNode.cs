@@ -12,23 +12,18 @@
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.Spl
+namespace CatLib.Stl
 {
     /// <summary>
     /// 跳跃结点
     /// </summary>
-    internal sealed class SkipNode<TKey, TValue> 
+    internal class SkipNode<TKey, TValue> 
         where TKey : IComparable<TKey>
     {
         /// <summary>
-        /// 键
+        /// 键值对
         /// </summary>
-        public TKey Key { get; private set; }
-
-        /// <summary>
-        /// 值
-        /// </summary>
-        public TValue Value { get; private set; }
+        public KeyValuePair<TKey, TValue> KeyValue { get; private set; }
 
         /// <summary>
         /// 链接的结点
@@ -57,8 +52,7 @@ namespace CatLib.Spl
             Guard.Requires<ArgumentNullException>(key != null);
             Guard.Requires<ArgumentOutOfRangeException>(level > 0);
 
-            Key = key;
-            Value = value;
+            KeyValue = new KeyValuePair<TKey, TValue>(key , value);
             Links = new List<SkipNode<TKey, TValue>>(level);
         }
     }
