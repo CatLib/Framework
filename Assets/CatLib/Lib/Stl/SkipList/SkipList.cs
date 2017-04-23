@@ -49,11 +49,6 @@ namespace CatLib.Stl
         private readonly SkipNode<TKey, TValue> header;
 
         /// <summary>
-        /// 跳跃表空结点
-        /// </summary>
-        private readonly NullSkipNode<TKey, TValue> nullNode;
-
-        /// <summary>
         /// 可能出现层数的概率
         /// </summary>
         private readonly double probability;
@@ -101,11 +96,10 @@ namespace CatLib.Stl
             this.maxLevel = maxLevel;
             hasLevel = 1;
             header = new SkipNode<TKey, TValue>(maxLevel);
-            nullNode = new NullSkipNode<TKey, TValue>(maxLevel);
 
             for (var i = 0; i < maxLevel; i++)
             {
-                header.Links[i] = nullNode;
+                header.Links[i] = null;
             }
         }
 
@@ -116,7 +110,7 @@ namespace CatLib.Stl
         public IEnumerator<TValue> GetEnumerator()
         {
             var node = header.Links[0];
-            while (node != null && !nullNode.Equals(node))
+            while (node != null)
             {
                 yield return node.Value;
                 node = node.Links[0];
@@ -148,7 +142,7 @@ namespace CatLib.Stl
             cursor = cursor.Links[0];
 
             //如果结点已经存在
-            if (!nullNode.Equals(cursor) && cursor.Key.CompareTo(key) == 0)
+            if (cursor != null && cursor.Key.CompareTo(key) == 0)
             {
                 //将已经存在的结点使用新的值覆盖
                 cursor.Value = value;
@@ -189,7 +183,7 @@ namespace CatLib.Stl
         {
             Guard.Requires<ArgumentNullException>(key != null);
 
-            var update = FindNearedUpdateNode(key, maxLevel + 1);
+            var update = FindNearedUpdateNode(key);
 
             //将游标指向为目标结点
             var cursor = update[0].Links[0];
@@ -210,7 +204,7 @@ namespace CatLib.Stl
             }
 
             //如果顶层指向的是空跳跃层那么删除顶层跳跃层
-            while ((hasLevel > 1) && header.Links[hasLevel - 1].Equals(nullNode))
+            while ((hasLevel > 1) && header.Links[hasLevel - 1] != null)
             {
                 hasLevel--;
             }
@@ -229,7 +223,7 @@ namespace CatLib.Stl
             get
             {
                 var cursor = Find(key);
-                return cursor != nullNode ? cursor.Value : default(TValue);
+                return cursor != null ? cursor.Value : default(TValue);
             }
         }
 
@@ -253,13 +247,11 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentNullException>(key != null);
 
             var cursor = header;
-            for (var i = 0; i < hasLevel; i++)
+            for (var i = hasLevel - 1; i >= 0; i--)
             {
-                var nextElement = cursor.Links[i];
-                while (nextElement.Key.CompareTo(key) == -1)
+                while (cursor.Links[i] != null && cursor.Links[i].Key.CompareTo(key) == -1)
                 {
-                    cursor = nextElement;
-                    nextElement = cursor.Links[i];
+                    cursor = cursor.Links[i];
                 }
             }
 
@@ -273,19 +265,15 @@ namespace CatLib.Stl
         /// <param name="key">键</param>
         /// <param name="level">层数容量</param>
         /// <returns>需要更新的结点列表</returns>
-        private SkipNode<TKey, TValue>[] FindNearedUpdateNode(TKey key, int level = 0)
+        private SkipNode<TKey, TValue>[] FindNearedUpdateNode(TKey key)
         {
-            if (level <= 0)
-            {
-                level = maxLevel;
-            }
-            var update = new SkipNode<TKey, TValue>[level];
+            var update = new SkipNode<TKey, TValue>[maxLevel];
             var cursor = header;
             //从跳跃层高到低的进行查找
             for (var i = hasLevel - 1; i >= 0; i--)
             {
                 //查找比输入的key小的最后一个结点
-                while (!nullNode.Equals(cursor.Links[i]) && cursor.Links[i].Key.CompareTo(key) == -1)
+                while (cursor.Links[i] != null && cursor.Links[i].Key.CompareTo(key) == -1)
                 {
                     cursor = cursor.Links[i];
                 }
@@ -308,6 +296,7 @@ namespace CatLib.Stl
             while ((newLevel < maxLevel) && (ran < probability))
             {
                 newLevel++;
+                ran = random.NextDouble();
             }
             return newLevel;
         }
