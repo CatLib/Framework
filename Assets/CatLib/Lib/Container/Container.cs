@@ -142,7 +142,6 @@ namespace CatLib.Container
             Guard.NotEmptyOrNull(tag, "tag");
             lock (syncRoot)
             {
-
                 List<string> serviceList;
                 if (!tags.TryGetValue(tag, out serviceList))
                 {
@@ -230,7 +229,7 @@ namespace CatLib.Container
                 List<string> serviceList;
                 if (!aliasesReverse.TryGetValue(service, out serviceList))
                 {
-                    serviceList = new List<string> {alias};
+                    serviceList = new List<string> { alias };
                     aliasesReverse.Add(service, serviceList);
                 }
                 else
@@ -531,7 +530,7 @@ namespace CatLib.Container
 
                 Release(service);
                 List<string> serviceList;
-                if (aliasesReverse.TryGetValue(service,out serviceList))
+                if (aliasesReverse.TryGetValue(service, out serviceList))
                 {
                     foreach (var alias in serviceList)
                     {
