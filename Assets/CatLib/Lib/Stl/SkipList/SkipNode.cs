@@ -36,6 +36,11 @@ namespace CatLib.Stl
         public IList<SkipNode<TKey, TValue>> Links { get; private set; }
 
         /// <summary>
+        /// 层跨越的结点数量
+        /// </summary>
+        public IList<int> Span { get; internal set; }
+
+        /// <summary>
         /// 跳跃结点
         /// </summary>
         /// <param name="level">层数</param>
@@ -44,6 +49,7 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentOutOfRangeException>(level > 0);
 
             Links = new SkipNode<TKey, TValue>[level];
+            Span = new int[level];
         }
 
         /// <summary>
@@ -60,6 +66,7 @@ namespace CatLib.Stl
             Key = key;
             Value = value;
             Links = new SkipNode<TKey, TValue>[level];
+            Span = new int[level];
         }
     }
 }

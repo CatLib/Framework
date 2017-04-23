@@ -12,7 +12,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
+using Random = System.Random;
 
 namespace CatLib.Stl
 {
@@ -26,7 +27,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 可能出现层数的默认概率
         /// </summary>
-        private const double PROBABILITY = 0.5;
+        private const double PROBABILITY = 0.25;
 
         /// <summary>
         /// 同步锁
@@ -41,7 +42,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 当前拥有的层
         /// </summary>
-        private int hasLevel;
+        private int level;
 
         /// <summary>
         /// 跳跃表头结点
@@ -74,16 +75,6 @@ namespace CatLib.Stl
         /// <summary>
         /// 创建一个跳跃链表
         /// </summary>
-        /// <param name="maxNode">规划最大结点</param>
-        public SkipList(int maxNode) :
-            this(PROBABILITY, (int)(Math.Ceiling(Math.Log(maxNode) / Math.Log(1 / PROBABILITY) - 1)))
-        {
-            Guard.Requires<ArgumentOutOfRangeException>(maxNode > 0);
-        }
-
-        /// <summary>
-        /// 创建一个跳跃链表
-        /// </summary>
         /// <param name="probable">可能出现层数的概率</param>
         /// <param name="maxLevel">最大层数</param>
         public SkipList(double probable, int maxLevel)
@@ -92,9 +83,9 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentOutOfRangeException>(probable < 1);
             Guard.Requires<ArgumentOutOfRangeException>(probable > 0);
 
-            probability = probable;
+            probability = probable * 0xFFFF;
             this.maxLevel = maxLevel;
-            hasLevel = 1;
+            level = 1;
             header = new SkipNode<TKey, TValue>(maxLevel);
 
             for (var i = 0; i < maxLevel; i++)
@@ -136,11 +127,8 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentNullException>(key != null);
 
             var update = FindNearedUpdateNode(key);
-            var cursor = header;
-
-            //游标结点的下一个结点（需要插入的目标结点）
-            cursor = cursor.Links[0];
-
+            var cursor = update[0].Links[0];
+ 
             //如果结点已经存在
             if (cursor != null && cursor.Key.CompareTo(key) == 0)
             {
@@ -153,13 +141,13 @@ namespace CatLib.Stl
             var newLevel = GetRandomLevel();
 
             //如果随机出的层数大于现有层数，那么将新增的需要更新的结点初始化
-            if (newLevel > hasLevel)
+            if (newLevel > level)
             {
-                for (var i = hasLevel; i < newLevel; i++)
+                for (var i = level; i < newLevel; i++)
                 {
                     update[i] = header;
                 }
-                hasLevel = newLevel;
+                level = newLevel;
             }
 
             //将游标指向为新的跳跃结点
@@ -193,7 +181,7 @@ namespace CatLib.Stl
                 return false;
             }
 
-            for (var i = 0; i < hasLevel; i++)
+            for (var i = 0; i < level; i++)
             {
                 //如果下一个元素是需要删除的元素
                 //将上一个结点指向要被删除元素的下一个结点
@@ -204,9 +192,9 @@ namespace CatLib.Stl
             }
 
             //如果顶层指向的是空跳跃层那么删除顶层跳跃层
-            while ((hasLevel > 1) && header.Links[hasLevel - 1] != null)
+            while ((level > 1) && header.Links[level - 1] != null)
             {
-                hasLevel--;
+                level--;
             }
 
             Count--;
@@ -222,6 +210,7 @@ namespace CatLib.Stl
         {
             get
             {
+                Guard.Requires<ArgumentNullException>(key != null);
                 var cursor = Find(key);
                 return cursor != null ? cursor.Value : default(TValue);
             }
@@ -234,6 +223,7 @@ namespace CatLib.Stl
         /// <returns>是否存在</returns>
         public bool Contains(TKey key)
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             return Find(key) != null;
         }
 
@@ -244,10 +234,8 @@ namespace CatLib.Stl
         /// <returns>值</returns>
         private SkipNode<TKey, TValue> Find(TKey key)
         {
-            Guard.Requires<ArgumentNullException>(key != null);
-
             var cursor = header;
-            for (var i = hasLevel - 1; i >= 0; i--)
+            for (var i = level - 1; i >= 0; i--)
             {
                 while (cursor.Links[i] != null && cursor.Links[i].Key.CompareTo(key) == -1)
                 {
@@ -256,21 +244,20 @@ namespace CatLib.Stl
             }
 
             cursor = cursor.Links[0];
-            return cursor.Key.Equals(key) ? cursor : null;
+            return cursor.Key.CompareTo(key) == 0 ? cursor : null;
         }
 
         /// <summary>
         /// 搜索距离键临近的需要更新的结点
         /// </summary>
         /// <param name="key">键</param>
-        /// <param name="level">层数容量</param>
         /// <returns>需要更新的结点列表</returns>
         private SkipNode<TKey, TValue>[] FindNearedUpdateNode(TKey key)
         {
             var update = new SkipNode<TKey, TValue>[maxLevel];
             var cursor = header;
             //从跳跃层高到低的进行查找
-            for (var i = hasLevel - 1; i >= 0; i--)
+            for (var i = level - 1; i >= 0; i--)
             {
                 //查找比输入的key小的最后一个结点
                 while (cursor.Links[i] != null && cursor.Links[i].Key.CompareTo(key) == -1)
@@ -292,13 +279,11 @@ namespace CatLib.Stl
         private int GetRandomLevel()
         {
             var newLevel = 1;
-            var ran = random.NextDouble();
-            while ((newLevel < maxLevel) && (ran < probability))
+            while (random.Next(0, 0xFFFF) < probability)
             {
-                newLevel++;
-                ran = random.NextDouble();
+                newLevel += 1;
             }
-            return newLevel;
+            return (newLevel < maxLevel) ? newLevel : maxLevel;
         }
     }
 }

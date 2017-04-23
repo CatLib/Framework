@@ -1,8 +1,9 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using CatLib.Stl;
 using NUnit.Framework;
+using UnityEngine;
+using Random = System.Random;
 
 namespace CatLib.Test.Stl
 {
@@ -18,7 +19,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void AddElementTest([Random(2048,4096, 1)]int num)
         {
-            var list = new SkipList<int, string>(num);
+            var list = new SkipList<int, string>(0.25, 32);
             var rand = new Random();
             for (var i = 0; i < num; i++)
             {
@@ -40,12 +41,60 @@ namespace CatLib.Test.Stl
             }
         }
 
+        struct MyStruct
+        {
+            /// <summary>
+            /// 键
+            /// </summary>
+            public int Key { get; private set; }
+
+            /// <summary>
+            /// 值
+            /// </summary>
+            public string Value { get; internal set; }
+
+            /// <summary>
+            /// 链接的结点
+            /// </summary>
+            public IList<SkipNode<int, string>> Links { get; private set; }
+
+            /// <summary>
+            /// 层跨越的结点数量
+            /// </summary>
+            public IList<int> Span { get; internal set; }
+        }
+
+        /// <summary>
+        /// 获取随机层
+        /// </summary>
+        /// <returns>随机的层数</returns>
+        [Test]
+        public void BlockTest()
+        {
+            var random = new Random();
+            var probability = 0.25*0xFFFF;
+
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            int i = 0;
+            while (i++ < 400000)
+            {
+                var a = new MyStruct();
+
+            }
+
+            watch.Stop();
+            string time = watch.ElapsedMilliseconds.ToString();
+            UnityEngine.Debug.Log(time);
+        }
+
         [Test]
         [MaxTime(3000)]
         public void PerformanceTesting()
         {
-            var num = 40960;
-            var list = new SkipList<int, string>(0.5 , 32);
+            var num = 409600;
+            var list = new SkipList<int, string>(0.25 , 32);
             var dict = new Dictionary<int ,string>();
             Random random = new Random();
             for (var i = 0; i < num; i++)
@@ -57,11 +106,19 @@ namespace CatLib.Test.Stl
             //var a = list[120210];
             //UnityEngine.Debug.Log(a);
             //return;
+
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
             for (var i = 0; i < num; i++)
             {
                 //var dicResult = dict[i];
                 var result = list[i];
             }
+
+            watch.Stop();
+            string time = watch.ElapsedMilliseconds.ToString();
+            UnityEngine.Debug.Log(time);
         }
     }
 }
