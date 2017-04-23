@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.Spl
+namespace CatLib.Stl
 {
     /// <summary>
     /// 守卫
