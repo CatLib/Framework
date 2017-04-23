@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CatLib.Stl
 {
@@ -98,7 +99,7 @@ namespace CatLib.Stl
 
             probability = probable;
             this.maxLevel = maxLevel;
-            hasLevel = 0;
+            hasLevel = 1;
             header = new SkipNode<TKey, TValue>(maxLevel);
             nullNode = new NullSkipNode<TKey, TValue>(maxLevel);
 
@@ -115,7 +116,7 @@ namespace CatLib.Stl
         public IEnumerator<TValue> GetEnumerator()
         {
             var node = header.Links[0];
-            while (node != null)
+            while (node != null && !nullNode.Equals(node))
             {
                 yield return node.Value;
                 node = node.Links[0];
@@ -143,27 +144,15 @@ namespace CatLib.Stl
             var update = FindNearedUpdateNode(key);
             var cursor = header;
 
-            //从高到低的层进行查找
-            for (var i = hasLevel; i >= 0; i--)
-            {
-                //查找比输入的key小的最后一个结点
-                while (cursor.Links[i].Key.CompareTo(key) == -1)
-                {
-                    cursor = cursor.Links[i];
-                }
-                //将找到的最后一个结点置入需要更新的结点
-                update[i] = cursor;
-            }
-
             //游标结点的下一个结点（需要插入的目标结点）
             cursor = cursor.Links[0];
 
             //如果结点已经存在
-            if (cursor.Key.CompareTo(key) == 0)
+            if (!nullNode.Equals(cursor) && cursor.Key.CompareTo(key) == 0)
             {
                 //将已经存在的结点使用新的值覆盖
                 cursor.Value = value;
-                return; ;
+                return;
             }
 
             //随机获取层数
@@ -172,7 +161,7 @@ namespace CatLib.Stl
             //如果随机出的层数大于现有层数，那么将新增的需要更新的结点初始化
             if (newLevel > hasLevel)
             {
-                for (var i = hasLevel + 1; i < newLevel; i++)
+                for (var i = hasLevel; i < newLevel; i++)
                 {
                     update[i] = header;
                 }
@@ -181,7 +170,6 @@ namespace CatLib.Stl
 
             //将游标指向为新的跳跃结点
             cursor = new SkipNode<TKey, TValue>(newLevel, key, value);
-
             for (var i = 0; i < newLevel; i++)
             {
                 //新增结点的跳跃目标为更新结点的跳跃目标
@@ -189,6 +177,7 @@ namespace CatLib.Stl
                 //老的需要被更新的结点跳跃目标为新增结点
                 update[i].Links[i] = cursor;
             }
+
             Count++;
         }
 
@@ -221,7 +210,7 @@ namespace CatLib.Stl
             }
 
             //如果顶层指向的是空跳跃层那么删除顶层跳跃层
-            while ((hasLevel > 0) && (header.Links[hasLevel].Equals(nullNode)))
+            while ((hasLevel > 1) && header.Links[hasLevel - 1].Equals(nullNode))
             {
                 hasLevel--;
             }
@@ -293,13 +282,14 @@ namespace CatLib.Stl
             var update = new SkipNode<TKey, TValue>[level];
             var cursor = header;
             //从跳跃层高到低的进行查找
-            for (var i = hasLevel; i >= 0; i--)
+            for (var i = hasLevel - 1; i >= 0; i--)
             {
                 //查找比输入的key小的最后一个结点
-                while (cursor.Links[i].Key.CompareTo(key) == -1)
+                while (!nullNode.Equals(cursor.Links[i]) && cursor.Links[i].Key.CompareTo(key) == -1)
                 {
                     cursor = cursor.Links[i];
                 }
+
                 //将找到的最后一个结点置入需要更新的结点
                 update[i] = cursor;
             }
@@ -313,7 +303,7 @@ namespace CatLib.Stl
         /// <returns>随机的层数</returns>
         private int GetRandomLevel()
         {
-            var newLevel = 0;
+            var newLevel = 1;
             var ran = random.NextDouble();
             while ((newLevel < maxLevel) && (ran < probability))
             {

@@ -43,7 +43,7 @@ namespace CatLib.Stl
         {
             Guard.Requires<ArgumentOutOfRangeException>(level > 0);
 
-            Links = new List<SkipNode<TKey, TValue>>(level);
+            Links = new SkipNode<TKey, TValue>[level];
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace CatLib.Stl
 
             Key = key;
             Value = value;
-            Links = new List<SkipNode<TKey, TValue>>(level);
+            Links = new SkipNode<TKey, TValue>[level];
         }
     }
 }
