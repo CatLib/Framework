@@ -22,7 +22,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 空的跳跃结点
         /// </summary>
-        /// <param name="level"></param>
+        /// <param name="level">层数</param>
         public NullSkipNode(int level)
                 : base(level)
         {

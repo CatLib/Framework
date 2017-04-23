@@ -21,9 +21,14 @@ namespace CatLib.Stl
         where TKey : IComparable<TKey>
     {
         /// <summary>
-        /// 键值对
+        /// 键
         /// </summary>
-        public KeyValuePair<TKey, TValue> KeyValue { get; private set; }
+        public TKey Key { get; private set; }
+
+        /// <summary>
+        /// 值
+        /// </summary>
+        public TValue Value { get; internal set; }
 
         /// <summary>
         /// 链接的结点
@@ -33,7 +38,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 跳跃结点
         /// </summary>
-        /// <param name="level">等级</param>
+        /// <param name="level">层数</param>
         internal SkipNode(int level)
         {
             Guard.Requires<ArgumentOutOfRangeException>(level > 0);
@@ -44,7 +49,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 新建一个跳跃结点
         /// </summary>
-        /// <param name="level">拥有的级别</param>
+        /// <param name="level">拥有的层数</param>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         internal SkipNode(int level, TKey key, TValue value)
@@ -52,7 +57,8 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentNullException>(key != null);
             Guard.Requires<ArgumentOutOfRangeException>(level > 0);
 
-            KeyValue = new KeyValuePair<TKey, TValue>(key , value);
+            Key = key;
+            Value = value;
             Links = new List<SkipNode<TKey, TValue>>(level);
         }
     }
