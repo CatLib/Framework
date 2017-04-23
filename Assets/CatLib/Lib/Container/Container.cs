@@ -124,7 +124,8 @@ namespace CatLib.Container
                 }
                 else
                 {
-                    tags.Add(tag, new List<string>());
+                    list = new List<string>(service);
+                    tags.Add(tag, list);
                 }
             }
         }
