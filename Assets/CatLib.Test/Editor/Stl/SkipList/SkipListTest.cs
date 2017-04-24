@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using CatLib.Stl;
 using NUnit.Framework;
@@ -19,7 +20,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void AddElementTest()
         {
-            int num = 409600;
+            int num = 40960;
             var list = new SkipList<int, int>();
             var rand = new Random();
 
@@ -49,7 +50,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void RemoveTest()
         {
-            int num = 409600;
+            int num = 40960;
             var list = new SkipList<int, int>();
             var lst = new List<int>();
             var rand = new Random();
@@ -78,82 +79,32 @@ namespace CatLib.Test.Stl
             Assert.Fail();
         }
 
-        public struct MyStruct
-        {
-            public int A;
-            public IList<MyStruct> Struc;
-        }
-
         /// <summary>
-        /// hello
+        /// 获取排名位置
         /// </summary>
         [Test]
-        public void Test()
+        public void GetRankTest()
         {
-            var a = new MyStruct();
-            a.Struc = new MyStruct[3];
-            UnityEngine.Debug.Log(a);
-        }
-
-        /// <summary>
-        /// 获取随机层
-        /// </summary>
-        /// <returns>随机的层数</returns>
-        [Test]
-        public void BlockTest()
-        {
-            var random = new Random();
-            var probability = 0.25*0xFFFF;
-
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-
-            int i = 0;
-            while (i++ < 400000)
-            {
-                //var a = new MyStruct();
-
-            }
-
-            watch.Stop();
-            string time = watch.ElapsedMilliseconds.ToString();
-            UnityEngine.Debug.Log(time);
-        }
-
-        [Test]
-        [MaxTime(3000)]
-        public void PerformanceTesting()
-        {
-            
-            var num = 409600;
-            var list = new SkipList<int, string>(0.25 , 32);
-            var dict = new Dictionary<int ,string>();
-            var lst = new List<string>();
+            var num = 40960;
+            var list = new SkipList<int, int>();
+            var lst = new List<int>();
+            var rand = new Random();
             for (var i = 0; i < num; i++)
             {
-                list.Add(i, i.ToString());
-                //lst.Add(i.ToString());
-                //dict.Add(i , i.ToString());
+                if (rand.NextDouble() < 0.1)
+                {
+                    lst.Add(i);
+                }
+                list.Add(i, i);
             }
-            //var a = list[120210];
-            //UnityEngine.Debug.Log(a);
-            //return;
 
-            return;
-            /*
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-
-            for (var i = 0; i < num; i++)
+            foreach (var n in lst)
             {
-                //var dicResult = dict[i];
-                var result = list[i];
-                //lst.Contains(i.ToString());
+                if (list.GetRank(n, n) != n + 1)
+                {
+                    Assert.Fail();
+                }
             }
-
-            watch.Stop();
-            string time = watch.ElapsedMilliseconds.ToString();
-            UnityEngine.Debug.Log(time);*/
         }
     }
 }

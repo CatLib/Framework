@@ -167,6 +167,7 @@ namespace CatLib.Stl
         public void Add(TElement element, TScore score)
         {
             Guard.Requires<ArgumentNullException>(element != null);
+            Guard.Requires<ArgumentNullException>(score != null);
 
             int i;
             long[] rank;
@@ -236,6 +237,7 @@ namespace CatLib.Stl
         public bool Remove(TElement element, TScore score)
         {
             Guard.Requires<ArgumentNullException>(element != null);
+            Guard.Requires<ArgumentNullException>(score != null);
 
             long[] rank;
             var update = FindNearedUpdateNode(element, score, out rank);
@@ -248,6 +250,37 @@ namespace CatLib.Stl
 
             DeleteNode(cursor, update);
             return true;
+        }
+
+        /// <summary>
+        /// 获取元素排名
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <param name="score">分数</param>
+        /// <returns>排名</returns>
+        public long GetRank(TElement element, TScore score)
+        {
+            Guard.Requires<ArgumentNullException>(element != null);
+            Guard.Requires<ArgumentNullException>(score != null);
+
+            long rank = 0;
+            var cursor = header;
+            for (var i = level - 1; i >= 0; --i)
+            {
+                while (cursor.Level[i].Forward != null &&
+                        (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
+                        (cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
+                            cursor.Level[i].Forward.Element.CompareTo(element) <= 0)))
+                {
+                    rank += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
+                }
+                if (cursor.Element != null && cursor.Element.Equals(element))
+                {
+                    return rank;
+                }
+            }
+            return 0;
         }
 
         /// <summary>
@@ -285,34 +318,6 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 获取元素排名
-        /// </summary>
-        /// <param name="element">元素</param>
-        /// <param name="score">分数</param>
-        /// <returns>排名</returns>
-        protected long GetRank(TElement element, TScore score)
-        {
-            long rank = 0;
-            var cursor = header;
-            for (var i = level - 1; i >= 0; ++i)
-            {
-                while (cursor.Level[i].Forward != null &&
-                       (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
-                        (cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
-                         cursor.Level[i].Forward.Element.CompareTo(element) <= 0)))
-                {
-                    rank += cursor.Level[i].Span;
-                    cursor = cursor.Level[i].Forward;
-                }
-                if (cursor.Element != null && cursor.Element.Equals(element))
-                {
-                    return rank;
-                }
-            }
-            return 0;
-        }
-
-        /// <summary>
         /// 搜索距离键临近的需要更新的结点
         /// </summary>
         /// <param name="elemtent">元素</param>
@@ -331,12 +336,13 @@ namespace CatLib.Stl
                 rank[i] = i == (level - 1) ? 0 : rank[i + 1];
                 while (cursor.Level[i].Forward != null &&
                         (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
-                           cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
-                            cursor.Level[i].Forward.Element.CompareTo(elemtent) < 0))
+                        cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
+                        cursor.Level[i].Forward.Element.CompareTo(elemtent) < 0))
                 {
                     rank[i] += cursor.Level[i].Span;
                     cursor = cursor.Level[i].Forward;
                 }
+                
 
                 //将找到的最后一个结点置入需要更新的结点
                 update[i] = cursor;
@@ -354,7 +360,7 @@ namespace CatLib.Stl
             var newLevel = 1;
             while (random.Next(0, 0xFFFF) < probability)
             {
-                newLevel += 1;
+                ++newLevel;
             }
             return (newLevel < maxLevel) ? newLevel : maxLevel;
         }
