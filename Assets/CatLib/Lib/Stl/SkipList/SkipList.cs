@@ -12,71 +12,55 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = System.Random;
 
 namespace CatLib.Stl
 {
     /// <summary>
     /// 跳跃链表
-    /// 这个跳跃表根据key进行跳跃
+    /// 这个跳跃表优先使用评分进行跳跃，当评分相同则使用元素排序
     /// </summary>
-    public sealed class SkipList<TKey, TValue> : IEnumerable<TValue>
-            where TKey : IComparable<TKey>
+    public class SkipList<TElement, TScore> : IEnumerable<TElement>
+        where TElement : IComparable<TElement>, IEquatable<TElement>
+        where TScore : IComparable<TScore>
     {
         /// <summary>
         /// 跳跃结点
         /// </summary>
-        private class SkipNode
+        protected class SkipNode
         {
-            /// <summary>
-            /// 键
-            /// </summary>
-            public TKey Key { get; private set; }
-
-            /// <summary>
-            /// 值
-            /// </summary>
-            public TValue Value { get; internal set; }
-
-            /// <summary>
-            /// 链接的结点
-            /// </summary>
-            public IList<SkipNode> Links { get; private set; }
-
-            /// <summary>
-            /// 层跨越的结点数量
-            /// </summary>
-            public IList<int> Span { get; internal set; }
-
-            /// <summary>
-            /// 跳跃结点
-            /// </summary>
-            /// <param name="level">层数</param>
-            internal SkipNode(int level)
+            internal struct SkipNodeLevel
             {
-                Guard.Requires<ArgumentOutOfRangeException>(level > 0);
+                /// <summary>
+                /// 前一个结点
+                /// </summary>
+                internal SkipNode Forward;
 
-                Links = new SkipNode[level];
-                Span = new int[level];
+                /// <summary>
+                /// 层跨越的结点数量
+                /// </summary>
+                internal long Span;
             }
 
             /// <summary>
-            /// 新建一个跳跃结点
+            /// 元素
             /// </summary>
-            /// <param name="level">拥有的层数</param>
-            /// <param name="key">键</param>
-            /// <param name="value">值</param>
-            internal SkipNode(int level, TKey key, TValue value)
-            {
-                Guard.Requires<ArgumentNullException>(key != null);
-                Guard.Requires<ArgumentOutOfRangeException>(level > 0);
+            internal TElement Element;
 
-                Key = key;
-                Value = value;
-                Links = new SkipNode[level];
-                Span = new int[level];
-            }
+            /// <summary>
+            /// 分数
+            /// </summary>
+            internal TScore Score;
+
+            /// <summary>
+            /// 向后的结点
+            /// </summary>
+            internal SkipNode Backward;
+
+            /// <summary>
+            /// 层级
+            /// </summary>
+            internal SkipNodeLevel[] Level;
         }
 
         /// <summary>
@@ -102,7 +86,12 @@ namespace CatLib.Stl
         /// <summary>
         /// 跳跃表头结点
         /// </summary>
-        private readonly SkipNode header;
+        protected readonly SkipNode header;
+
+        /// <summary>
+        /// 尾部结点
+        /// </summary>
+        protected SkipNode tail;
 
         /// <summary>
         /// 可能出现层数的概率
@@ -130,7 +119,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 创建一个跳跃链表
         /// </summary>
-        /// <param name="probable">可能出现层数的概率</param>
+        /// <param name="probable">可能出现层数的概率系数(0-1之间的数)</param>
         /// <param name="maxLevel">最大层数</param>
         public SkipList(double probable = PROBABILITY, int maxLevel = 32)
         {
@@ -141,25 +130,23 @@ namespace CatLib.Stl
             probability = probable * 0xFFFF;
             this.maxLevel = maxLevel;
             level = 1;
-            header = new SkipNode(maxLevel);
-
-            for (var i = 0; i < maxLevel; i++)
+            header = new SkipNode
             {
-                header.Links[i] = null;
-            }
+                Level = new SkipNode.SkipNodeLevel[maxLevel]
+            };
         }
 
         /// <summary>
         /// 获取迭代器
         /// </summary>
         /// <returns>迭代器</returns>
-        public IEnumerator<TValue> GetEnumerator()
+        public IEnumerator<TElement> GetEnumerator()
         {
-            var node = header.Links[0];
-            while (node != null)
+            var node = header.Level[0];
+            while (node.Forward != null)
             {
-                yield return node.Value;
-                node = node.Links[0];
+                yield return node.Forward.Element;
+                node = node.Forward.Level[0];
             }
         }
 
@@ -175,22 +162,16 @@ namespace CatLib.Stl
         /// <summary>
         /// 插入记录
         /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        public void Add(TKey key, TValue value)
+        /// <param name="element">元素</param>
+        /// <param name="score">分数</param>
+        public void Add(TElement element, TScore score)
         {
-            Guard.Requires<ArgumentNullException>(key != null);
+            Guard.Requires<ArgumentNullException>(element != null);
 
-            var update = FindNearedUpdateNode(key);
-            var cursor = update[0].Links[0];
- 
-            //如果结点已经存在
-            if (cursor != null && cursor.Key.CompareTo(key) == 0)
-            {
-                //将已经存在的结点使用新的值覆盖
-                cursor.Value = value;
-                return;
-            }
+            int i;
+            long[] rank;
+
+            var update = FindNearedUpdateNode(element, score, out rank);
 
             //随机获取层数
             var newLevel = GetRandomLevel();
@@ -198,21 +179,50 @@ namespace CatLib.Stl
             //如果随机出的层数大于现有层数，那么将新增的需要更新的结点初始化
             if (newLevel > level)
             {
-                for (var i = level; i < newLevel; i++)
+                for (i = level; i < newLevel; ++i)
                 {
+                    rank[i] = 0;
                     update[i] = header;
+                    update[i].Level[i].Span = Count;
                 }
                 level = newLevel;
             }
 
             //将游标指向为新的跳跃结点
-            cursor = new SkipNode(newLevel, key, value);
-            for (var i = 0; i < newLevel; i++)
+            var cursor = new SkipNode
+            {
+                Element = element,
+                Score = score,
+                Level = new SkipNode.SkipNodeLevel[newLevel]
+            };
+
+            for (i = 0; i < newLevel; ++i)
             {
                 //新增结点的跳跃目标为更新结点的跳跃目标
-                cursor.Links[i] = update[i].Links[i];
+                cursor.Level[i].Forward = update[i].Level[i].Forward;
                 //老的需要被更新的结点跳跃目标为新增结点
-                update[i].Links[i] = cursor;
+                update[i].Level[i].Forward = cursor;
+                //更新跨度
+                cursor.Level[i].Span = update[i].Level[i].Span - (rank[0] - rank[i]);
+                update[i].Level[i].Span = (rank[0] - rank[i]) + 1;
+            }
+
+            //将已有的层中的跨度 + 1
+            for (i = newLevel; i < level; ++i)
+            {
+                ++update[i].Level[i].Span;
+            }
+
+            //给与上一个的结点
+            cursor.Backward = (update[0] == header) ? null : update[0];
+
+            if (cursor.Level[0].Forward != null)
+            {
+                cursor.Level[0].Forward.Backward = cursor;
+            }
+            else
+            {
+                tail = cursor;
             }
 
             Count++;
@@ -221,103 +231,111 @@ namespace CatLib.Stl
         /// <summary>
         /// 如果元素存在那么从跳跃链表中删除元素
         /// </summary>
-        /// <param name="key">键</param>
-        public bool Remove(TKey key)
+        /// <param name="element">元素</param>
+        /// <param name="score">分数</param>
+        public bool Remove(TElement element, TScore score)
         {
-            Guard.Requires<ArgumentNullException>(key != null);
+            Guard.Requires<ArgumentNullException>(element != null);
 
-            var update = FindNearedUpdateNode(key);
+            long[] rank;
+            var update = FindNearedUpdateNode(element, score, out rank);
+            var cursor = update[0].Level[0].Forward;
 
-            //将游标指向为目标结点
-            var cursor = update[0].Links[0];
-
-            if (cursor.Key.CompareTo(key) != 0)
+            if (cursor == null || cursor.Score.CompareTo(score) != 0 || !cursor.Element.Equals(element))
             {
                 return false;
             }
 
-            for (var i = 0; i < level; i++)
-            {
-                //如果下一个元素是需要删除的元素
-                //将上一个结点指向要被删除元素的下一个结点
-                if (update[i].Links[i] == cursor)
-                {
-                    update[i].Links[i] = cursor.Links[i];
-                }
-            }
-
-            //如果顶层指向的是空跳跃层那么删除顶层跳跃层
-            while ((level > 1) && header.Links[level - 1] != null)
-            {
-                level--;
-            }
-
-            Count--;
+            DeleteNode(cursor, update);
             return true;
         }
 
         /// <summary>
-        /// 根据键查找结点
+        /// 删除结点关系
         /// </summary>
-        /// <param name="key">键</param>
-        /// <returns>值</returns>
-        public TValue this[TKey key]
+        /// <param name="cursor">结点</param>
+        /// <param name="update">更新结点列表</param>
+        protected void DeleteNode(SkipNode cursor, SkipNode[] update)
         {
-            get
+            for (var i = 0; i < level; ++i)
             {
-                Guard.Requires<ArgumentNullException>(key != null);
-                var cursor = Find(key);
-                return cursor != null ? cursor.Value : default(TValue);
-            }
-        }
-
-        /// <summary>
-        /// 是否包含某个元素
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns>是否存在</returns>
-        public bool Contains(TKey key)
-        {
-            Guard.Requires<ArgumentNullException>(key != null);
-            return Find(key) != null;
-        }
-
-        /// <summary>
-        /// 查找结点的值
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <returns>值</returns>
-        private SkipNode Find(TKey key)
-        {
-            var cursor = header;
-            for (var i = level - 1; i >= 0; i--)
-            {
-                while (cursor.Links[i] != null && cursor.Links[i].Key.CompareTo(key) == -1)
+                if (update[i].Level[i].Forward == cursor)
                 {
-                    cursor = cursor.Links[i];
+                    update[i].Level[i].Span += cursor.Level[i].Span - 1;
+                    update[i].Level[i].Forward = cursor.Level[i].Forward;
+                }
+                else
+                {
+                    update[i].Level[i].Span -= 1;
                 }
             }
+            if (cursor.Level[0].Forward != null)
+            {
+                cursor.Level[0].Forward.Backward = cursor.Backward;
+            }
+            else
+            {
+                tail = cursor.Backward;
+            }
+            while (level > 1 && header.Level[level - 1].Forward == null)
+            {
+                --level;
+            }
+            --Count;
+        }
 
-            cursor = cursor.Links[0];
-            return cursor.Key.CompareTo(key) == 0 ? cursor : null;
+        /// <summary>
+        /// 获取元素排名
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <param name="score">分数</param>
+        /// <returns>排名</returns>
+        protected long GetRank(TElement element, TScore score)
+        {
+            long rank = 0;
+            var cursor = header;
+            for (var i = level - 1; i >= 0; ++i)
+            {
+                while (cursor.Level[i].Forward != null &&
+                       (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
+                        (cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
+                         cursor.Level[i].Forward.Element.CompareTo(element) <= 0)))
+                {
+                    rank += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
+                }
+                if (cursor.Element != null && cursor.Element.Equals(element))
+                {
+                    return rank;
+                }
+            }
+            return 0;
         }
 
         /// <summary>
         /// 搜索距离键临近的需要更新的结点
         /// </summary>
-        /// <param name="key">键</param>
+        /// <param name="elemtent">元素</param>
+        /// <param name="score">分数</param>
+        /// <param name="rank">排名</param>
         /// <returns>需要更新的结点列表</returns>
-        private SkipNode[] FindNearedUpdateNode(TKey key)
+        protected SkipNode[] FindNearedUpdateNode(TElement elemtent, TScore score, out long[] rank)
         {
             var update = new SkipNode[maxLevel];
             var cursor = header;
+            rank = new long[maxLevel];
             //从跳跃层高到低的进行查找
-            for (var i = level - 1; i >= 0; i--)
+            for (var i = level - 1; i >= 0; --i)
             {
-                //查找比输入的key小的最后一个结点
-                while (cursor.Links[i] != null && cursor.Links[i].Key.CompareTo(key) == -1)
+                //rank为上一级结点的跨度数作为起点
+                rank[i] = i == (level - 1) ? 0 : rank[i + 1];
+                while (cursor.Level[i].Forward != null &&
+                        (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
+                           cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
+                            cursor.Level[i].Forward.Element.CompareTo(elemtent) < 0))
                 {
-                    cursor = cursor.Links[i];
+                    rank[i] += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
                 }
 
                 //将找到的最后一个结点置入需要更新的结点
