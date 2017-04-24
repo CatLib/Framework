@@ -226,15 +226,15 @@ namespace CatLib.Container
                 }
 
                 aliases.Add(alias, service);
+
                 List<string> serviceList;
-                if (!aliasesReverse.TryGetValue(service, out serviceList))
+                if (aliasesReverse.TryGetValue(service, out serviceList))
                 {
-                    serviceList = new List<string> { alias };
-                    aliasesReverse.Add(service, serviceList);
+                    serviceList.Add(alias);
                 }
                 else
                 {
-                    serviceList.Add(alias);
+                    aliasesReverse.Add(service, new List<string> { alias });
                 }
             }
 
@@ -388,7 +388,8 @@ namespace CatLib.Container
                 buildStack.Push(service);
                 try
                 {
-                    return instances.ContainsKey(service) ? instances[service] : BuildMake(service, null, true, param);
+                    object instance;
+                    return instances.TryGetValue(service, out instance) ? instance : BuildMake(service, null, true, param);
                 }
                 finally
                 {
@@ -455,14 +456,15 @@ namespace CatLib.Container
                 service = Normalize(service);
                 service = GetAlias(service);
 
-                if (!instances.ContainsKey(service))
+                object instance;
+                if (!instances.TryGetValue(service, out instance))
                 {
                     return;
                 }
 
                 var bindData = GetBindData(service);
-                bindData.ExecReleaseDecorator(instances[service]);
-                ExecOnReleaseDecorator(bindData, instances[service]);
+                bindData.ExecReleaseDecorator(instance);
+                ExecOnReleaseDecorator(bindData, instance);
                 instances.Remove(service);
             }
         }
@@ -840,7 +842,8 @@ namespace CatLib.Container
         /// <returns>最终映射的服务名</returns>
         private string GetAlias(string service)
         {
-            return aliases.ContainsKey(service) ? aliases[service] : service;
+            string alias;
+            return aliases.TryGetValue(service, out alias) ? alias : service;
         }
 
         /// <summary>
@@ -850,7 +853,8 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         private BindData GetBindData(string service)
         {
-            return !binds.ContainsKey(service) ? MakeEmptyBindData(service) : binds[service];
+            BindData bindData;
+            return binds.TryGetValue(service, out bindData) ? bindData : MakeEmptyBindData(service);
         }
 
         /// <summary>
