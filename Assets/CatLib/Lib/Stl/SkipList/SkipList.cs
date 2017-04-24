@@ -25,6 +25,61 @@ namespace CatLib.Stl
             where TKey : IComparable<TKey>
     {
         /// <summary>
+        /// 跳跃结点
+        /// </summary>
+        private class SkipNode
+        {
+            /// <summary>
+            /// 键
+            /// </summary>
+            public TKey Key { get; private set; }
+
+            /// <summary>
+            /// 值
+            /// </summary>
+            public TValue Value { get; internal set; }
+
+            /// <summary>
+            /// 链接的结点
+            /// </summary>
+            public IList<SkipNode> Links { get; private set; }
+
+            /// <summary>
+            /// 层跨越的结点数量
+            /// </summary>
+            public IList<int> Span { get; internal set; }
+
+            /// <summary>
+            /// 跳跃结点
+            /// </summary>
+            /// <param name="level">层数</param>
+            internal SkipNode(int level)
+            {
+                Guard.Requires<ArgumentOutOfRangeException>(level > 0);
+
+                Links = new SkipNode[level];
+                Span = new int[level];
+            }
+
+            /// <summary>
+            /// 新建一个跳跃结点
+            /// </summary>
+            /// <param name="level">拥有的层数</param>
+            /// <param name="key">键</param>
+            /// <param name="value">值</param>
+            internal SkipNode(int level, TKey key, TValue value)
+            {
+                Guard.Requires<ArgumentNullException>(key != null);
+                Guard.Requires<ArgumentOutOfRangeException>(level > 0);
+
+                Key = key;
+                Value = value;
+                Links = new SkipNode[level];
+                Span = new int[level];
+            }
+        }
+
+        /// <summary>
         /// 可能出现层数的默认概率
         /// </summary>
         private const double PROBABILITY = 0.25;
@@ -47,7 +102,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 跳跃表头结点
         /// </summary>
-        private readonly SkipNode<TKey, TValue> header;
+        private readonly SkipNode header;
 
         /// <summary>
         /// 可能出现层数的概率
@@ -77,7 +132,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="probable">可能出现层数的概率</param>
         /// <param name="maxLevel">最大层数</param>
-        public SkipList(double probable, int maxLevel)
+        public SkipList(double probable = PROBABILITY, int maxLevel = 32)
         {
             Guard.Requires<ArgumentOutOfRangeException>(maxLevel > 0);
             Guard.Requires<ArgumentOutOfRangeException>(probable < 1);
@@ -86,7 +141,7 @@ namespace CatLib.Stl
             probability = probable * 0xFFFF;
             this.maxLevel = maxLevel;
             level = 1;
-            header = new SkipNode<TKey, TValue>(maxLevel);
+            header = new SkipNode(maxLevel);
 
             for (var i = 0; i < maxLevel; i++)
             {
@@ -151,7 +206,7 @@ namespace CatLib.Stl
             }
 
             //将游标指向为新的跳跃结点
-            cursor = new SkipNode<TKey, TValue>(newLevel, key, value);
+            cursor = new SkipNode(newLevel, key, value);
             for (var i = 0; i < newLevel; i++)
             {
                 //新增结点的跳跃目标为更新结点的跳跃目标
@@ -232,7 +287,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="key">键</param>
         /// <returns>值</returns>
-        private SkipNode<TKey, TValue> Find(TKey key)
+        private SkipNode Find(TKey key)
         {
             var cursor = header;
             for (var i = level - 1; i >= 0; i--)
@@ -252,9 +307,9 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="key">键</param>
         /// <returns>需要更新的结点列表</returns>
-        private SkipNode<TKey, TValue>[] FindNearedUpdateNode(TKey key)
+        private SkipNode[] FindNearedUpdateNode(TKey key)
         {
-            var update = new SkipNode<TKey, TValue>[maxLevel];
+            var update = new SkipNode[maxLevel];
             var cursor = header;
             //从跳跃层高到低的进行查找
             for (var i = level - 1; i >= 0; i--)

@@ -41,29 +41,6 @@ namespace CatLib.Test.Stl
             }
         }
 
-        struct MyStruct
-        {
-            /// <summary>
-            /// 键
-            /// </summary>
-            public int Key { get; private set; }
-
-            /// <summary>
-            /// 值
-            /// </summary>
-            public string Value { get; internal set; }
-
-            /// <summary>
-            /// 链接的结点
-            /// </summary>
-            public IList<SkipNode<int, string>> Links { get; private set; }
-
-            /// <summary>
-            /// 层跨越的结点数量
-            /// </summary>
-            public IList<int> Span { get; internal set; }
-        }
-
         /// <summary>
         /// 获取随机层
         /// </summary>
@@ -80,7 +57,7 @@ namespace CatLib.Test.Stl
             int i = 0;
             while (i++ < 400000)
             {
-                var a = new MyStruct();
+                //var a = new MyStruct();
 
             }
 
@@ -96,11 +73,13 @@ namespace CatLib.Test.Stl
             var num = 409600;
             var list = new SkipList<int, string>(0.25 , 32);
             var dict = new Dictionary<int ,string>();
+            var lst = new List<string>();
             Random random = new Random();
             for (var i = 0; i < num; i++)
             {
                 var r = random.Next();
                 list.Add( r, r.ToString());
+                //lst.Add(r.ToString());
                 //dict.Add(i , i.ToString());
             }
             //var a = list[120210];
@@ -114,6 +93,7 @@ namespace CatLib.Test.Stl
             {
                 //var dicResult = dict[i];
                 var result = list[i];
+                //lst.Contains(i.ToString());
             }
 
             watch.Stop();
