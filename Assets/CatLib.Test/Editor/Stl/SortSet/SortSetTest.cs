@@ -12,7 +12,7 @@ namespace CatLib.Test.Stl
     /// 跳跃链表测试
     /// </summary>
     [TestFixture]
-    class SkipListTest
+    class SortSetTest
     {
         /// <summary>
         /// 增加元素测试
@@ -20,8 +20,9 @@ namespace CatLib.Test.Stl
         [Test]
         public void AddElementTest()
         {
+            //var list2 = new SortSet<object, int>();
             int num = 40960;
-            var list = new SkipList<int, int>();
+            var list = new SortSet<int, int>();
             var rand = new Random();
 
             for (var i = 0; i < num; i++)
@@ -51,7 +52,7 @@ namespace CatLib.Test.Stl
         public void RemoveTest()
         {
             int num = 40960;
-            var list = new SkipList<int, int>();
+            var list = new SortSet<int, int>();
             var lst = new List<int>();
             var rand = new Random();
 
@@ -64,7 +65,7 @@ namespace CatLib.Test.Stl
 
             foreach (int n in lst)
             {
-                list.Remove(n, n);
+                list.Remove(n);
             }
 
             foreach (var val in list)
@@ -86,7 +87,7 @@ namespace CatLib.Test.Stl
         public void GetRankTest()
         {
             var num = 40960;
-            var list = new SkipList<int, int>();
+            var list = new SortSet<int, int>();
             var lst = new List<int>();
             var rand = new Random();
             for (var i = 0; i < num; i++)
@@ -100,7 +101,7 @@ namespace CatLib.Test.Stl
 
             foreach (var n in lst)
             {
-                if (list.GetRank(n, n) != n + 1)
+                if (list.GetRank(n) != n + 1)
                 {
                     Assert.Fail();
                 }

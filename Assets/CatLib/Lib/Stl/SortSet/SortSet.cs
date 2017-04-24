@@ -17,17 +17,17 @@ using Random = System.Random;
 namespace CatLib.Stl
 {
     /// <summary>
-    /// 跳跃链表
-    /// 这个跳跃表优先使用评分进行跳跃，当评分相同则使用元素排序
+    /// 有序集
+    /// 有序集优先使用评分进行排序
     /// </summary>
-    public class SkipList<TElement, TScore> : IEnumerable<TElement>
-        where TElement : IComparable<TElement>, IEquatable<TElement>
+    public sealed class SortSet<TElement, TScore> : IEnumerable<TElement>
+        //where TElement : IComparable<TElement>, IEquatable<TElement>
         where TScore : IComparable<TScore>
     {
         /// <summary>
         /// 跳跃结点
         /// </summary>
-        protected class SkipNode
+        private class SkipNode
         {
             internal struct SkipNodeLevel
             {
@@ -79,6 +79,11 @@ namespace CatLib.Stl
         private readonly int maxLevel;
 
         /// <summary>
+        /// 字典
+        /// </summary>
+        private Dictionary<TElement , TScore> dict = new Dictionary<TElement, TScore>();
+
+        /// <summary>
         /// 当前拥有的层
         /// </summary>
         private int level;
@@ -86,12 +91,12 @@ namespace CatLib.Stl
         /// <summary>
         /// 跳跃表头结点
         /// </summary>
-        protected readonly SkipNode header;
+        private readonly SkipNode header;
 
         /// <summary>
         /// 尾部结点
         /// </summary>
-        protected SkipNode tail;
+        private SkipNode tail;
 
         /// <summary>
         /// 可能出现层数的概率
@@ -117,11 +122,11 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 创建一个跳跃链表
+        /// 创建一个有序集
         /// </summary>
         /// <param name="probable">可能出现层数的概率系数(0-1之间的数)</param>
         /// <param name="maxLevel">最大层数</param>
-        public SkipList(double probable = PROBABILITY, int maxLevel = 32)
+        public SortSet(double probable = PROBABILITY, int maxLevel = 32)
         {
             Guard.Requires<ArgumentOutOfRangeException>(maxLevel > 0);
             Guard.Requires<ArgumentOutOfRangeException>(probable < 1);
@@ -169,8 +174,26 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentNullException>(element != null);
             Guard.Requires<ArgumentNullException>(score != null);
 
+            //已经存在的元素先移除再添加
+            TScore dictScore;
+            if (dict.TryGetValue(element, out dictScore))
+            {
+                Remove(element, dictScore);
+            }
+            AddElement(element, score);
+        }
+
+        /// <summary>
+        /// 插入记录
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <param name="score">分数</param>
+        private void AddElement(TElement element, TScore score)
+        {
             int i;
             long[] rank;
+
+            dict.Add(element, score);
 
             var update = FindNearedUpdateNode(element, score, out rank);
 
@@ -230,15 +253,26 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 删除元素
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <returns>是否成功</returns>
+        public bool Remove(TElement element)
+        {
+            Guard.Requires<ArgumentNullException>(element != null);
+
+            TScore dictScore;
+            return dict.TryGetValue(element, out dictScore) && Remove(element, dictScore);
+        }
+
+        /// <summary>
         /// 如果元素存在那么从跳跃链表中删除元素
         /// </summary>
         /// <param name="element">元素</param>
         /// <param name="score">分数</param>
-        public bool Remove(TElement element, TScore score)
+        /// <returns>是否成功</returns>
+        private bool Remove(TElement element, TScore score)
         {
-            Guard.Requires<ArgumentNullException>(element != null);
-            Guard.Requires<ArgumentNullException>(score != null);
-
             long[] rank;
             var update = FindNearedUpdateNode(element, score, out rank);
             var cursor = update[0].Level[0].Forward;
@@ -248,8 +282,21 @@ namespace CatLib.Stl
                 return false;
             }
 
+            dict.Remove(element);
             DeleteNode(cursor, update);
             return true;
+        }
+
+        /// <summary>
+        /// 获取排名
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <returns>排名，为0则表示没有找到元素</returns>
+        public long GetRank(TElement element)
+        {
+            Guard.Requires<ArgumentNullException>(element != null);
+            TScore dictScore;
+            return dict.TryGetValue(element, out dictScore) ? GetRank(element, dictScore) : 0;
         }
 
         /// <summary>
@@ -258,24 +305,25 @@ namespace CatLib.Stl
         /// <param name="element">元素</param>
         /// <param name="score">分数</param>
         /// <returns>排名</returns>
-        public long GetRank(TElement element, TScore score)
+        private long GetRank(TElement element, TScore score)
         {
-            Guard.Requires<ArgumentNullException>(element != null);
-            Guard.Requires<ArgumentNullException>(score != null);
-
             long rank = 0;
             var cursor = header;
             for (var i = level - 1; i >= 0; --i)
             {
                 while (cursor.Level[i].Forward != null &&
                         (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
-                        (cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
-                            cursor.Level[i].Forward.Element.CompareTo(element) <= 0)))
+                            (cursor.Level[i].Forward.Score.CompareTo(score) == 0)))
                 {
                     rank += cursor.Level[i].Span;
                     cursor = cursor.Level[i].Forward;
+                    if (cursor.Element.Equals(element))
+                    {
+                        break;
+                    }
                 }
-                if (cursor.Element != null && cursor.Element.Equals(element))
+                if (cursor.Element != null && 
+                        cursor.Element.Equals(element))
                 {
                     return rank;
                 }
@@ -288,7 +336,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="cursor">结点</param>
         /// <param name="update">更新结点列表</param>
-        protected void DeleteNode(SkipNode cursor, SkipNode[] update)
+        private void DeleteNode(SkipNode cursor, SkipNode[] update)
         {
             for (var i = 0; i < level; ++i)
             {
@@ -318,13 +366,13 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 搜索距离键临近的需要更新的结点
+        /// 搜索距离元素临近的需要更新的结点
         /// </summary>
-        /// <param name="elemtent">元素</param>
+        /// <param name="element">元素</param>
         /// <param name="score">分数</param>
         /// <param name="rank">排名</param>
         /// <returns>需要更新的结点列表</returns>
-        protected SkipNode[] FindNearedUpdateNode(TElement elemtent, TScore score, out long[] rank)
+        private SkipNode[] FindNearedUpdateNode(TElement element, TScore score, out long[] rank)
         {
             var update = new SkipNode[maxLevel];
             var cursor = header;
@@ -336,13 +384,12 @@ namespace CatLib.Stl
                 rank[i] = i == (level - 1) ? 0 : rank[i + 1];
                 while (cursor.Level[i].Forward != null &&
                         (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
-                        cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
-                        cursor.Level[i].Forward.Element.CompareTo(elemtent) < 0))
+                            (cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
+                                !cursor.Level[i].Forward.Element.Equals(element))))
                 {
                     rank[i] += cursor.Level[i].Span;
                     cursor = cursor.Level[i].Forward;
                 }
-                
 
                 //将找到的最后一个结点置入需要更新的结点
                 update[i] = cursor;
