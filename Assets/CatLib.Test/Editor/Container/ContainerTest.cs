@@ -816,12 +816,38 @@ namespace CatLib.Test.Container
             Assert.AreEqual(null, result.Cls);
 
         }
+
+        class TestOptionalInject
+        {
+            [Inject]
+            public GenericClass<string> Cls { get; set; }
+
+            public GenericClass<string> ClsNull { get; set; }
+        }
+
+        /// <summary>
+        /// 可以进行泛型注入
+        /// </summary>
+        [Test]
+        public void OptionalInject()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            var result = container.Make<TestOptionalInject>();
+            Assert.AreNotEqual(null, result.Cls);
+            Assert.AreEqual(null, result.ClsNull);
+        }
+
         #endregion
 
-        #region Instance
-        /// <summary>
-        /// 可以正确的给定静态实例
-        /// </summary>
+            #region Instance
+            /// <summary>
+            /// 可以正确的给定静态实例
+            /// </summary>
         [Test]
         public void CanInstance()
         {
