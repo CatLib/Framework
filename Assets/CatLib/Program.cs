@@ -10,19 +10,26 @@
  */
 
 using UnityEngine;
+using System.Runtime.CompilerServices;
 
-/// <summary>
-/// 程序入口
-/// Program Entry
-/// </summary>
-public class Program : MonoBehaviour {
+[assembly: InternalsVisibleTo("Assembly-CSharp-Editor") , 
+           InternalsVisibleTo("Assembly-CSharp-Editor-firstpass")]
 
+namespace CatLib
+{
     /// <summary>
-    /// 初始化程序
+    /// 程序入口
+    /// Program Entry
     /// </summary>
-    public void Awake()
+    public sealed class Program : MonoBehaviour
     {
-        (new CatLib.Application(this)).Bootstrap(CatLib.Bootstrap.BootStrap).Init();
+        /// <summary>
+        /// 初始化程序
+        /// </summary>
+        public void Awake()
+        {
+            new Application(this).Bootstrap(Bootstrap.BootStrap).Init();
+        }
     }
-
 }
+

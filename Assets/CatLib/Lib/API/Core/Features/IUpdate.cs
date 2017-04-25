@@ -8,15 +8,17 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API
 {
-    ///<summary>刷新接口</summary>
+    /// <summary>
+    /// Update 接口
+    /// </summary>
     public interface IUpdate
     {
-
+        /// <summary>
+        /// 当Update时调用
+        /// </summary>
         void Update();
-
     }
-
 }

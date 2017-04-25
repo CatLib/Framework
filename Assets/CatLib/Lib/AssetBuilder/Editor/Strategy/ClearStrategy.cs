@@ -8,53 +8,57 @@
  *
  * Document: http://catlib.io/
  */
- 
-using CatLib.API.Resources;
+
 using UnityEditor;
 using CatLib.API.IO;
 using CatLib.API.AssetBuilder;
 
 namespace CatLib.AssetBuilder
 {
+    /// <summary>
+    /// 清理策略
+    /// </summary>
+    public sealed class ClearStrategy : IBuildStrategy
+    {
+        /// <summary>
+        /// 配置的编译流程
+        /// </summary>
+        public BuildProcess Process
+        {
+            get { return BuildProcess.Clear; }
+        }
 
-	public class ClearStrategy : IBuildStrategy {
+        /// <summary>
+        /// 执行编译时
+        /// </summary>
+        /// <param name="context">编译上下文</param>
+		public void Build(IBuildContext context)
+        {
+            ClearAssetBundleFlag();
+            ClearReleaseDir(context);
+        }
 
-		public BuildProcess Process{ get { return BuildProcess.Clear; } }
-
-		public void Build(IBuildContext context){
-
-			ClearAssetBundleFlag();
-			ClearReleaseDir(context);
-
-		}
-
-		/// <summary>
-		/// 清空发布文件
-		/// </summary>
-
-		protected void ClearReleaseDir(IBuildContext context){
-
-			IDirectory releaseDir = context.Disk.Directory(context.ReleasePath, PathTypes.Absolute);
+        /// <summary>
+        /// 清空发布文件
+        /// </summary>
+        /// <param name="context">编译上下文</param>
+        private void ClearReleaseDir(IBuildContext context)
+        {
+            var releaseDir = context.Disk.Directory(context.ReleasePath, PathTypes.Absolute);
             releaseDir.Delete();
-			releaseDir.Create();
+            releaseDir.Create();
+        }
 
-		}
-		
-		/// <summary>
-		/// 清空AssetBundle标记
-		/// </summary>
-		protected void ClearAssetBundleFlag(){
-
-			string[] assetBundleNames = AssetDatabase.GetAllAssetBundleNames();
-			foreach(string name in assetBundleNames){
-
-				AssetDatabase.RemoveAssetBundleName(name , true);
-
-			}
-
-		}
-
-	
-	}
-
+        /// <summary>
+        /// 清空AssetBundle标记
+        /// </summary>
+        private void ClearAssetBundleFlag()
+        {
+            var assetBundleNames = AssetDatabase.GetAllAssetBundleNames();
+            foreach (var name in assetBundleNames)
+            {
+                AssetDatabase.RemoveAssetBundleName(name, true);
+            }
+        }
+    }
 }

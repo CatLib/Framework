@@ -8,16 +8,14 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 namespace CatLib.API.IO
 {
-
     /// <summary>
     /// 文件加解密接口
     /// </summary>
     public interface IIOCrypt
     {
-
         /// <summary>
         /// 解密文件
         /// </summary>
@@ -33,7 +31,5 @@ namespace CatLib.API.IO
         /// <param name="data">二进制文件数据</param>
         /// <returns></returns>
         byte[] Encrypted(string path, byte[] data);
-
     }
-
 }

@@ -8,28 +8,28 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.DataTable;
 
-namespace CatLib.API.CsvStore{
-
-	
-	/// <summary>
-	/// Csv存储器接口
-	/// </summary>
-	public interface ICsvStore {
-
-		/// <summary>
-        /// 获取一个csv库
+namespace CatLib.API.CsvStore
+{
+    /// <summary>
+    /// Csv存储容器
+    /// </summary>
+    public interface ICsvStore
+    {
+        /// <summary>
+        /// 获取一个数据表
         /// </summary>
-		IDataTable Get(string table);
+        /// <param name="table">数据表表名</param>
+        /// <returns>数据表</returns>
+        IDataTable Get(string table);
 
-
-		/// <summary>
-        /// 获取csv库
+        /// <summary>
+        /// 获取一个数据表
         /// </summary>
-		IDataTable this[string table]{ get; }
-
-	}
-
+        /// <param name="table">数据表表名</param>
+        /// <returns>数据表</returns>
+        IDataTable this[string table] { get; }
+    }
 }

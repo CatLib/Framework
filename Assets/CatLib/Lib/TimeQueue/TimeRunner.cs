@@ -8,27 +8,50 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API;
 using CatLib.API.TimeQueue;
 using System.Collections.Generic;
 using System.Threading;
+using CatLib.API.Time;
 
-namespace CatLib.TimeQueue {
+namespace CatLib.TimeQueue
+{
+    /// <summary>
+    /// 时间队列运行器
+    /// </summary>
+    public sealed class TimeRunner : IUpdate
+    {
+        /// <summary>
+        /// 时间
+        /// </summary>
+        [Inject]
+        public ITime Time { get; set; }
 
-    public class TimeRunner : IUpdate{
+        /// <summary>
+        /// 运行列表
+        /// </summary>
+        private readonly List<TimeQueue> timeRuner = new List<TimeQueue>();
 
-        [Dependency]
-        public IApplication App { get; set; }
+        /// <summary>
+        /// 锁
+        /// </summary>
+        private readonly ReaderWriterLockSlim timeRunnerLocker = new ReaderWriterLockSlim();
 
-        private List<TimeQueue> timeRuner = new List<TimeQueue>();
-        private ReaderWriterLockSlim timeRunnerLocker = new ReaderWriterLockSlim();
-
+        /// <summary>
+        /// 创建一个时间队列
+        /// </summary>
+        /// <returns></returns>
         public ITimeQueue CreateQueue()
         {
-            return new TimeQueue(){ Runner = this , App = App };
+            return new TimeQueue { Runner = this, Time = Time };
         }
 
+        /// <summary>
+        /// 运行一个队列
+        /// </summary>
+        /// <param name="runner">队列</param>
+        /// <returns>是否成功加入</returns>
         public bool Runner(TimeQueue runner)
         {
             try
@@ -45,6 +68,11 @@ namespace CatLib.TimeQueue {
             return true;
         }
 
+        /// <summary>
+        /// 停止一个队列
+        /// </summary>
+        /// <param name="runner">队列</param>
+        /// <returns>是否成功停止</returns>
         public bool StopRunner(TimeQueue runner)
         {
             try
@@ -60,36 +88,45 @@ namespace CatLib.TimeQueue {
             return true;
         }
 
+        /// <summary>
+        /// 每帧更新
+        /// </summary>
         public void Update()
         {
-            if (timeRuner.Count <= 0){ return; }
+            if (timeRuner.Count <= 0)
+            {
+                return;
+            }
             timeRunnerLocker.EnterWriteLock();
             try
             {
-                if (timeRuner.Count > 0)
+                if (timeRuner.Count <= 0)
                 {
-                    var handlersToRemove = new bool[timeRuner.Count];
-                    for (var i = 0; i < timeRuner.Count; ++i)
+                    return;
+                }
+                var handlersToRemove = new bool[timeRuner.Count];
+                for (var i = 0; i < timeRuner.Count; ++i)
+                {
+                    var runner = timeRuner[i];
+                    runner.Update();
+                    if (runner.IsComplete)
                     {
-                        var runner = timeRuner[i];
-                        runner.Update();
-                        if (runner.IsComplete)
-                        {
-                            handlersToRemove[i] = true;
-                        }
+                        handlersToRemove[i] = true;
                     }
+                }
 
-                    for (var i = handlersToRemove.Length - 1; i > -1; --i)
+                for (var i = handlersToRemove.Length - 1; i > -1; --i)
+                {
+                    if (handlersToRemove[i])
                     {
-                        if (handlersToRemove[i])
-                        {
-                            timeRuner.RemoveAt(i);
-                        }
+                        timeRuner.RemoveAt(i);
                     }
                 }
             }
-            finally { timeRunnerLocker.ExitWriteLock(); }
+            finally
+            {
+                timeRunnerLocker.ExitWriteLock();
+            }
         }
     }
-
 }

@@ -17,7 +17,7 @@ namespace CatLib.Buffer
     /// <summary>
     /// Buffer构建器
     /// </summary>
-    public class BufferBuilder : IBufferBuilder
+    public sealed class BufferBuilder : IBufferBuilder
     {
         /// <summary>
         /// buffer数据

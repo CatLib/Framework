@@ -13,27 +13,20 @@ using CatLib.API.Flux;
 
 namespace CatLib.Flux
 {
-
     /// <summary>
     /// 行为
     /// </summary>
-    public class FluxAction : IAction
+    public sealed class FluxAction : IAction
     {
-
         /// <summary>
         /// 行为行为
         /// </summary>
-        private string action;
-
-        /// <summary>
-        /// 附带物
-        /// </summary>
-        private object payload;
+        private readonly string action;
 
         /// <summary>
         /// 行为
         /// </summary>
-        public virtual string Action
+        public string Action
         {
             get { return action; }
         }
@@ -41,17 +34,7 @@ namespace CatLib.Flux
         /// <summary>
         /// 附带物
         /// </summary>
-        public virtual object Payload
-        {
-            get
-            {
-                return payload;
-            }
-            set
-            {
-                payload = value;
-            }
-        }
+        public object Payload { get; set; }
 
         /// <summary>
         /// 创建一个行为
@@ -69,8 +52,7 @@ namespace CatLib.Flux
         public FluxAction(string action, object payload)
         {
             this.action = action;
-            this.payload = payload;
+            Payload = payload;
         }
     }
-
 }

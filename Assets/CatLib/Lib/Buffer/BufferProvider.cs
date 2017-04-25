@@ -16,7 +16,7 @@ namespace CatLib.Buffer
     /// <summary>
     /// buffer构建器服务提供商
     /// </summary>
-    public class BufferProvider : ServiceProvider
+    public sealed class BufferProvider : ServiceProvider
     {
         /// <summary>
         /// 注册buffer构建器

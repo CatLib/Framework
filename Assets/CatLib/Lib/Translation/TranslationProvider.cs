@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.Collections;
 using CatLib.API;
 using CatLib.API.Config;
@@ -16,76 +16,77 @@ using CatLib.API.INI;
 using CatLib.API.IO;
 using CatLib.API.Translation;
 
-namespace CatLib.Translation{
+namespace CatLib.Translation
+{
+    /// <summary>
+    /// 国际化服务提供商
+    /// </summary>
+    public sealed class TranslationProvider : ServiceProvider
+    {
+        /// <summary>
+        /// 当注册国际化服务时
+        /// </summary>
+        public override void Register()
+        {
+            RegisterLoader();
+            RegisterSelector();
 
-	public class TranslationProvider : ServiceProvider {
+            App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving((bind, obj) =>
+            {
+                var config = App.Make<IConfigStore>();
+                var tran = obj as Translator;
 
-		public override void Register()
-		{
+                var loader = App.Make("translation.loader") as IFileLoader;
+                var selector = App.Make("translation.selector") as ISelector;
 
-			RegisterLoader();
-			RegisterSelector();
+                tran.SetFileLoader(loader);
+                tran.SetSelector(selector);
 
-		App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving((obj)=>{
+                if (config == null)
+                {
+                    return obj;
+                }
 
-				IConfigStore config = App.Make<IConfigStore>();
-				Translator tran = obj as Translator;
-				
-				IFileLoader loader = App.Make("translation.loader") as IFileLoader;
-				ISelector selector = App.Make("translation.selector") as ISelector;
-
-				tran.SetFileLoader(loader);
-				tran.SetSelector(selector);
-
-				if(config != null){
-                
-					tran.SetLocale(config.Get(typeof(Translator), "default", "zh"));
-                	tran.SetRoot(config.Get(typeof(Translator) , "root" , null));
-					tran.SetFallback(config.Get(typeof(Translator) , "fallback" , null));
-				
-				}
+                tran.SetLocale(config.Get(typeof(Translator), "default", "zh"));
+                tran.SetRoot(config.Get(typeof(Translator), "root", null));
+                tran.SetFallback(config.Get(typeof(Translator), "fallback", null));
 
                 return obj;
+            });
+        }
 
-			});
-		}
+        /// <summary>
+        /// 注册消息选择器
+        /// </summary>
+        private void RegisterSelector()
+        {
+            App.Singleton("translation.selector", (app, param) => new MessageSelector());
+        }
 
-		protected void RegisterSelector(){
+        /// <summary>
+        /// 注册文件加载器
+        /// </summary>
+        private void RegisterLoader()
+        {
+            App.Singleton("translation.loader", (app, param) =>
+            {
+                var env = app.Make<IEnv>();
+                var factory = app.Make<IIOFactory>();
+                var disk = factory.Disk();
 
-			App.Singleton("translation.selector", (app , param) => {
+#if UNITY_EDITOR
+                if (env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev)
+                {
+                    disk.SetConfig(new Hashtable{
 
-				return new MessageSelector();
+                        {"root" , env.AssetPath + env.ResourcesNoBuildPath}
 
-			});
+                    });
+                }
+#endif
 
-		}
-
-		protected void RegisterLoader()
-		{
-			App.Singleton("translation.loader", (app , param) => {
-
-				IEnv env = app.Make<IEnv>();
-
-				IIOFactory factory = app.Make<IIOFactory>();
-				IDisk disk = factory.Disk();
-
-				#if UNITY_EDITOR
-				if(env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev){
-
-					disk.SetConfig(new Hashtable(){
-
-						{"root" , env.AssetPath + env.ResourcesNoBuildPath}
-						
-					});
-
-				}
-				#endif
-
-				return new FileLoader(disk, app.Make<IINILoader>());
-
-			});
-		}
-
-	}
-
+                return new FileLoader(disk, app.Make<IIniLoader>());
+            });
+        }
+    }
 }

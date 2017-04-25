@@ -23,10 +23,10 @@ namespace CatLib.NetPackage
     public class TextPacking : IPacking
     {
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder Buffer { get; set; }
 
-        [Dependency]
+        [Inject]
         public IBufferBuilder EncodeBuffer { get; set; }
 
         /// <summary>

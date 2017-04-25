@@ -22,7 +22,7 @@ namespace CatLib.Config
         /// </summary>
         public override void Register()
         {
-            App.Singleton<ConfigStore>().Alias<IConfigStore>().Alias("config").OnResolving((obj) =>
+            App.Singleton<ConfigStore>().Alias<IConfigStore>().Alias("config").OnResolving((bind, obj) =>
             {
                 var store = obj as ConfigStore;
                 if (store == null)
@@ -30,7 +30,7 @@ namespace CatLib.Config
                     return null;
                 }
 
-                var types = typeof(IConfig).GetChildTypesWithInterface();
+                var types = Util.FindTypesWithInterface(typeof(IConfig));
 
                 IConfig conf;
                 for (var i = 0; i < types.Length; i++)

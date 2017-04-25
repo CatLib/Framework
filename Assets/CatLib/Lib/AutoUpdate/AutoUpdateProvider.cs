@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.AutoUpdate;
 using System.Collections;
 using CatLib.API.Config;
@@ -18,37 +18,40 @@ namespace CatLib.AutoUpdate
     /// <summary>
     /// 自动更新服务提供商
     /// </summary>
-    public class AutoUpdateProvider : ServiceProvider
+    public sealed class AutoUpdateProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 自动更新流程
+        /// </summary>
         public override ProviderProcess ProviderProcess
         {
-            get
-            {
-                return ProviderProcess.ResourcesAutoUpdate;
-            }
+            get { return ProviderProcess.ResourcesAutoUpdate; }
         }
 
+        /// <summary>
+        /// 当触发服务提供商执行进程
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerator OnProviderProcess()
         {
-            yield return App.Make<IAutoUpdate>().UpdateAsset();
+            yield return App.Make<AutoUpdate>().UpdateAsset();
         }
 
+        /// <summary>
+        /// 当服务提供商注册时
+        /// </summary>
         public override void Register()
         {
-            App.Singleton<AutoUpdate>().Alias<IAutoUpdate>().OnResolving((obj)=>{
-                
-                IConfigStore config = App.Make<IConfigStore>();
-                AutoUpdate autoupdate = obj as AutoUpdate;
+            App.Singleton<AutoUpdate>().Alias<IAutoUpdate>().OnResolving((bind , obj) =>
+            {
+                var config = App.Make<IConfigStore>();
+                var autoupdate = obj as AutoUpdate;
 
-                autoupdate.SetUpdateAPI(config.Get(typeof(AutoUpdate) , "update.api" , null));
-                autoupdate.SetUpdateURL(config.Get(typeof(AutoUpdate) , "update.url" , null));
+                autoupdate.SetUpdateAPI(config.Get(typeof(AutoUpdate), "update.api", null));
+                autoupdate.SetUpdateURL(config.Get(typeof(AutoUpdate), "update.url", null));
 
                 return obj;
-
             });
         }
-
     }
-
 }

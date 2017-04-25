@@ -8,56 +8,70 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.Collections;
 using CatLib.API.IO;
-using CatLib.API;
+using CatLib.API.Container;
 
 namespace CatLib.IO
 {
-
     /// <summary>
     /// 文件服务
     /// </summary>
-    public class IO : IIOFactory
+    public sealed class IO : IIOFactory
     {
+        /// <summary>
+        /// 容器
+        /// </summary>
+        [Inject]
+        public IContainer Conatiner { get; set; }
 
-        [Dependency]
-        public IApplication App { get; set; }
+        /// <summary>
+        /// 配置查询器
+        /// </summary>
+        private Func<string, Hashtable> configSearch;
 
-        private Func<string , Hashtable> configSearch;
-
-        public void SetQuery(Func<string , Hashtable> search){
-
+        /// <summary>
+        /// 设定配置查询
+        /// </summary>
+        /// <param name="search">查询的配置</param>
+        public void SetQuery(Func<string, Hashtable> search)
+        {
             configSearch = search;
-
         }
 
-        public IDisk Disk(string name = null){
+        /// <summary>
+        /// 获取磁盘驱动器
+        /// </summary>
+        /// <param name="name">名字</param>
+        /// <returns>驱动器</returns>
+        public IDisk Disk(string name = null)
+        {
+            var service = typeof(IDisk).ToString();
 
-            IDisk disk = null;
-            string service = typeof(IDisk).ToString();
-            
             Hashtable cloudConfig = null;
-            if(configSearch != null){
+            if (configSearch != null)
+            {
                 cloudConfig = configSearch(name ?? service);
-                if(cloudConfig != null && cloudConfig.ContainsKey("driver")){
+                if (cloudConfig != null && cloudConfig.ContainsKey("driver"))
+                {
                     service = cloudConfig["driver"].ToString();
                 }
             }
-            if(disk == null){
-                disk = App.Make<IDisk>(service);
-                if(disk == null){
-                    throw new Exception("undefind disk : " + name); 
-                }
+
+            var disk = Conatiner.Make<IDisk>(service);
+            if (disk == null)
+            {
+                throw new Exception("undefind disk : " + name);
             }
-            if(cloudConfig != null){ disk.SetConfig(cloudConfig); }
+
+            if (cloudConfig != null)
+            {
+                disk.SetConfig(cloudConfig);
+            }
 
             return disk;
-            
         }
-
     }
-
 }

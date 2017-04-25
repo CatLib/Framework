@@ -12,70 +12,70 @@ using System.Text.RegularExpressions;
 
 namespace CatLib.Routing
 {
-
     /// <summary>
     /// 路由参数绑定
     /// </summary>
-    public class RouteParameterBinder
+    internal sealed class RouteParameterBinder
     {
-
         /// <summary>
         /// 获取参数
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public static void Parameters(Route route , Request request)
-        {   
-            BindPathParameters(route , request);
+        /// <param name="route">路由条目</param>
+        /// <param name="request">请求</param>
+        public static void Parameters(Route route, Request request)
+        {
+            BindPathParameters(route, request);
             BindQueryParameters(route, request);
-            BindHostParameters(route , request);
+            BindHostParameters(route, request);
             ReplaceDefaults(route, request);
         }
 
         /// <summary>
         /// 匹配路径
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="request"></param>
-        protected static void BindPathParameters(Route route , Request request)
+        /// <param name="route">路由条目</param>
+        /// <param name="request">请求</param>
+        private static void BindPathParameters(Route route, Request request)
         {
-            Regex reg = new Regex(route.Compiled.RouteRegex);
-            MatchToKeys(route , request , reg.Match(request.CatLibUri.NoParamFullPath));
+            var reg = new Regex(route.Compiled.RouteRegex);
+            MatchToKeys(route, request, reg.Match(request.RouteUri.NoParamFullPath));
         }
 
         /// <summary>
         /// 匹配Host
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="request"></param>
-        protected static void BindHostParameters(Route route, Request request)
+        /// <param name="route">路由条目</param>
+        /// <param name="request">请求</param>
+        private static void BindHostParameters(Route route, Request request)
         {
-            Regex reg = new Regex(route.Compiled.HostRegex);
-            MatchToKeys(route , request , reg.Match(request.CatLibUri.Host));
+            var reg = new Regex(route.Compiled.HostRegex);
+            MatchToKeys(route, request, reg.Match(request.RouteUri.Host));
         }
 
         /// <summary>
         /// 匹配绑定参数
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="request"></param>
-        protected static void BindQueryParameters(Route route , Request request)
+        /// <param name="route">路由条目</param>
+        /// <param name="request">请求</param>
+        private static void BindQueryParameters(Route route, Request request)
         {
-            if (request.Uri.Query.Length <= 0) { return; }
-            string query = request.Uri.Query;
+            if (request.Uri.Query.Length <= 0)
+            {
+                return;
+            }
+            var query = request.Uri.Query;
             query = query.Substring(1, query.Length - 1);
 
-            string[] paramKV = query.Split('&');
+            var paramKv = query.Split('&');
             string[] kv;
-            foreach(string parameter in paramKV)
+            foreach (var parameter in paramKv)
             {
                 kv = parameter.Split('=');
-                if(kv.Length == 2)
+                if (kv.Length == 2)
                 {
                     request.AddParameters(kv[0], kv[1]);
                 }
             }
-
         }
 
         /// <summary>
@@ -84,19 +84,22 @@ namespace CatLib.Routing
         /// <param name="route"></param>
         /// <param name="request"></param>
         /// <param name="matches"></param>
-        protected static void MatchToKeys(Route route , Request request , Match matches)
-        {   
-            string[] parameterNames = route.Compiled.Variables;
-            if(parameterNames.Length <= 0){ return; }
+        private static void MatchToKeys(Route route, Request request, Match matches)
+        {
+            var parameterNames = route.Compiled.Variables;
+            if (parameterNames.Length <= 0)
+            {
+                return;
+            }
 
             string val;
-            for(int i = 0 ; i < route.Compiled.Variables.Length ; i++){
-
+            for (var i = 0; i < route.Compiled.Variables.Length; i++)
+            {
                 val = matches.Groups[route.Compiled.Variables[i]].Value;
-                if(!string.IsNullOrEmpty(val)){
-                    request.AddParameters(route.Compiled.Variables[i] , val);
+                if (!string.IsNullOrEmpty(val))
+                {
+                    request.AddParameters(route.Compiled.Variables[i], val);
                 }
-
             }
         }
 
@@ -105,27 +108,22 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="route"></param>
         /// <param name="request"></param>
-        protected static void ReplaceDefaults(Route route , Request request){
-
-            string varName , defaults;
-            for(int i = 0 ; i < route.Compiled.Variables.Length ; i++){
-                
+        private static void ReplaceDefaults(Route route, Request request)
+        {
+            string varName, defaults;
+            for (var i = 0; i < route.Compiled.Variables.Length; i++)
+            {
                 varName = route.Compiled.Variables[i];
-                if(request.Get(varName) == null){
-
-                    defaults = route.GetDefaults(varName);
-                    if(!string.IsNullOrEmpty(defaults)){
-
-                        request.AddParameters(varName , defaults);
-
-                    }
-
+                if (request.Get(varName) != null)
+                {
+                    continue;
                 }
-                
-
+                defaults = route.GetDefaults(varName);
+                if (!string.IsNullOrEmpty(defaults))
+                {
+                    request.AddParameters(varName, defaults);
+                }
             }
-
         }
     }
-
 }

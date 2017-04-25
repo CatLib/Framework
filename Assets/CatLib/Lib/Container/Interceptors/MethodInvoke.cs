@@ -19,7 +19,7 @@ namespace CatLib.Container
     /// <summary>
     /// 函数调用
     /// </summary>
-    public sealed class MethodInvoke : IMethodInvoke
+    internal sealed class MethodInvoke : IMethodInvoke
     {
         /// <summary>
         /// 方法调用消息
@@ -56,7 +56,7 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="callMessage">函数调用消息</param>
         /// <param name="target">服务实例</param>
-        public MethodInvoke(IMethodCallMessage callMessage, object target)
+        internal MethodInvoke(IMethodCallMessage callMessage, object target)
         {
             this.callMessage = callMessage;
             context = new Dictionary<string, object>();

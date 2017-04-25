@@ -8,39 +8,38 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.Collections;
 using CatLib.API.Config;
 using CatLib.API.IO;
 
 namespace CatLib.IO
 {
-
     /// <summary>
     /// IO服务提供商
     /// </summary>
-    public class IOProvider : ServiceProvider
+    public sealed class IOProvider : ServiceProvider
     {
-
+        /// <summary>
+        /// 注册IO服务
+        /// </summary>
         public override void Register()
         {
-            App.Singleton<IO>().Alias<IIOFactory>().OnResolving((obj)=>{
+            App.Singleton<IO>().Alias<IIOFactory>().OnResolving((bind, obj) =>
+            {
+                var config = App.Make<IConfigStore>();
 
-                IConfigStore config = App.Make<IConfigStore>();
-
-                if(config != null){
-
-                    IO io = obj as IO;
-                    io.SetQuery((name) => config.Get<Hashtable>(typeof(IO) , name , null));
-                    
+                if (config == null)
+                {
+                    return obj;
                 }
 
-                return obj;
+                var io = obj as IO;
+                io.SetQuery((name) => config.Get<Hashtable>(typeof(IO), name));
 
+                return obj;
             });
             App.Bind<LocalDisk>().Alias<IDisk>();
         }
-
     }
-
 }

@@ -11,63 +11,86 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Container;
 
 namespace CatLib.Container
 {
     /// <summary>
-    /// 服务绑定关系
-    /// </summary>
-    public sealed class BindData : IBindData
+    /// 服务绑定数据
+    /// </summary>    
+    internal sealed class BindData : IBindData
     {
         /// <summary>
-        /// 服务名
+        /// 当前绑定服务的服务名
         /// </summary>
         public string Service { get; private set; }
 
         /// <summary>
-        /// 服务实现
+        /// 服务实现，执行这个委托将会获得服务实例
         /// </summary>
         public Func<IContainer, object[], object> Concrete { get; private set; }
 
         /// <summary>
-        /// 是否是静态服务
+        /// 当前绑定的服务是否是静态服务
         /// </summary>
         public bool IsStatic { get; private set; }
 
         /// <summary>
         /// 服务关系上下文
+        /// 当前服务需求某个服务时可以指定给与什么服务
         /// </summary>
         private Dictionary<string, string> contextual;
 
         /// <summary>
-        /// 拦截器
+        /// 拦截器列表
         /// </summary>
         private List<IInterception> interception;
 
         /// <summary>
-        /// 容器
+        /// 父级容器
         /// </summary>
-        private readonly IContainer container;
+        private readonly Container container;
 
         /// <summary>
-        /// 服务修饰器
+        /// 服务构造修饰器
         /// </summary>
-        private List<Func<object, object>> decorator;
+        private List<Func<IBindData, object, object>> resolving;
+
+        /// <summary>
+        /// 服务构造修饰器
+        /// </summary>
+        private List<Action<IBindData, object>> release;
+
+        /// <summary>
+        /// 是否被释放
+        /// </summary>
+        private bool isDestroy;
+
+        /// <summary>
+        /// 同步锁
+        /// </summary>
+        private readonly object syncRoot = new object();
+
+        /// <summary>
+        /// 给与数据
+        /// </summary>
+        private GivenData given;
 
         /// <summary>
         /// 构建一个绑定数据
         /// </summary>
-        /// <param name="container">服务容器</param>
+        /// <param name="container">服务父级容器</param>
         /// <param name="service">服务名</param>
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否是静态的</param>
-        public BindData(IContainer container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
+        internal BindData(Container container, string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
             this.container = container;
             Service = service;
             Concrete = concrete;
             IsStatic = isStatic;
+            isDestroy = false;
         }
 
         /// <summary>
@@ -77,7 +100,17 @@ namespace CatLib.Container
         /// <returns>绑定关系临时数据</returns>
         public IGivenData Needs(string service)
         {
-            return new GivenData(this, service);
+            Guard.NotEmptyOrNull(service, "service");
+            lock (syncRoot)
+            {
+                GuardIsDestroy();
+                if (given == null)
+                {
+                    given = new GivenData(this);
+                }
+                given.Needs(service);
+            }
+            return given;
         }
 
         /// <summary>
@@ -97,21 +130,27 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData AddInterceptor<T>() where T : IInterception, new()
         {
-            if (interception == null)
-            {
-                interception = new List<IInterception>();
-            }
-            interception.Add(new T());
-            return this;
+            return AddInterceptor(new T());
         }
 
         /// <summary>
-        /// 获取服务的拦截器
+        /// 拦截器
         /// </summary>
-        /// <returns>当前服务的拦截器</returns>
-        public IInterception[] GetInterceptors()
+        /// <param name="interceptor">拦截器</param>
+        /// <returns>服务绑定数据</returns>
+        public IBindData AddInterceptor(IInterception interceptor)
         {
-            return interception == null ? null : interception.ToArray();
+            Guard.NotNull(interceptor, "interceptor");
+            lock (syncRoot)
+            {
+                GuardIsDestroy();
+                if (interception == null)
+                {
+                    interception = new List<IInterception>();
+                }
+                interception.Add(interceptor);
+            }
+            return this;
         }
 
         /// <summary>
@@ -131,8 +170,78 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         public IBindData Alias(string alias)
         {
-            container.Alias(alias, Service);
+            lock (syncRoot)
+            {
+                GuardIsDestroy();
+                Guard.NotEmptyOrNull(alias, "alias");
+                container.Alias(alias, Service);
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// 解决服务时触发的回调
+        /// </summary>
+        /// <param name="func">解决事件</param>
+        /// <returns>服务绑定数据</returns>
+        public IBindData OnResolving(Func<IBindData, object, object> func)
+        {
+            Guard.NotNull(func, "func");
+            lock (syncRoot)
+            {
+                GuardIsDestroy();
+                if (resolving == null)
+                {
+                    resolving = new List<Func<IBindData, object, object>>();
+                }
+                resolving.Add(func);
+            }
             return this;
+        }
+
+        /// <summary>
+        /// 当静态服务被释放时
+        /// </summary>
+        /// <param name="action">处理事件</param>
+        /// <returns>服务绑定数据</returns>
+        public IBindData OnRelease(Action<IBindData, object> action)
+        {
+            Guard.NotNull(action, "action");
+            if (!IsStatic)
+            {
+                throw new RuntimeException("Service [" + Service + "] is not Static , can not call OnRelease(...)");
+            }
+            lock (syncRoot)
+            {
+                GuardIsDestroy();
+                if (release == null)
+                {
+                    release = new List<Action<IBindData, object>>();
+                }
+                release.Add(action);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// 移除绑定服务 , 在解除绑定时如果是静态化物体将会触发释放
+        /// </summary>
+        public void UnBind()
+        {
+            lock (syncRoot)
+            {
+                isDestroy = true;
+                container.UnBind(Service);
+            }
+        }
+
+        /// <summary>
+        /// 获取服务的拦截器
+        /// </summary>
+        /// <returns>当前服务的拦截器</returns>
+        internal IInterception[] GetInterceptors()
+        {
+            return interception == null ? null : interception.ToArray();
         }
 
         /// <summary>
@@ -140,7 +249,7 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="needs">需求的服务</param>
         /// <returns>给与的服务</returns>
-        public string GetContextual(string needs)
+        internal string GetContextual(string needs)
         {
             if (contextual == null)
             {
@@ -150,35 +259,37 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 解决服务时触发的回调
-        /// </summary>
-        /// <param name="func">解决事件</param>
-        public IBindData OnResolving(Func<object, object> func)
-        {
-            if (decorator == null)
-            {
-                decorator = new List<Func<object, object>>();
-            }
-            decorator.Add(func);
-            return this;
-        }
-
-        /// <summary>
         /// 执行服务修饰器
         /// </summary>
         /// <param name="obj">服务实例</param>
         /// <returns>修饰后的服务实例</returns>
-        public object ExecDecorator(object obj)
+        internal object ExecResolvingDecorator(object obj)
         {
-            if (decorator == null)
+            if (resolving == null)
             {
                 return obj;
             }
-            foreach (var func in decorator)
+            foreach (var func in resolving)
             {
-                obj = func(obj);
+                obj = func.Invoke(this, obj);
             }
             return obj;
+        }
+
+        /// <summary>
+        /// 执行服务释放处理器
+        /// </summary>
+        /// <param name="obj">服务实例</param>
+        internal void ExecReleaseDecorator(object obj)
+        {
+            if (release == null)
+            {
+                return;
+            }
+            foreach (var action in release)
+            {
+                action.Invoke(this, obj);
+            }
         }
 
         /// <summary>
@@ -187,14 +298,33 @@ namespace CatLib.Container
         /// <param name="needs">需求什么服务</param>
         /// <param name="given">给与什么服务</param>
         /// <returns>服务绑定数据</returns>
-        public BindData AddContextual(string needs, string given)
+        internal BindData AddContextual(string needs, string given)
         {
-            if (contextual == null)
+            lock (syncRoot)
             {
-                contextual = new Dictionary<string, string>();
+                GuardIsDestroy();
+                if (contextual == null)
+                {
+                    contextual = new Dictionary<string, string>();
+                }
+                if (contextual.ContainsKey(needs))
+                {
+                    throw new RuntimeException("needs [" + needs + "] is already exist");
+                }
+                contextual.Add(needs, given);
+                return this;
             }
-            contextual.Add(needs, given);
-            return this;
+        }
+
+        /// <summary>
+        /// 守卫是否被释放
+        /// </summary>
+        private void GuardIsDestroy()
+        {
+            if (isDestroy)
+            {
+                throw new RuntimeException("bind data has be destroy");
+            }
         }
     }
 }

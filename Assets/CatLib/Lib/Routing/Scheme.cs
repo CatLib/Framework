@@ -14,47 +14,44 @@ using CatLib.API.Routing;
 
 namespace CatLib.Routing
 {
-
     /// <summary>
     /// 方案
     /// </summary>
-    public class Scheme
+    internal sealed class Scheme
     {
-
         /// <summary>
         /// 路由条目列表
         /// </summary>
-        protected List<Route> routes = new List<Route>();
+        private readonly List<Route> routes = new List<Route>();
 
         /// <summary>
         /// 路由器
         /// </summary>
-        protected Router router;
+        private Router router;
 
         /// <summary>
         /// 方案名
         /// </summary>
-        protected string name;
+        private readonly string name;
 
         /// <summary>
         /// Scheme Name
         /// </summary>
-        public string Name { get{ return name; } }
+        public string Name { get { return name; } }
 
         /// <summary>
         /// 新建一个方案
         /// </summary>
-        /// <param name="name"></param>
-        public Scheme(string name){
-
+        /// <param name="name">方案名</param>
+        public Scheme(string name)
+        {
             this.name = name;
-
         }
 
         /// <summary>
         /// 设定路由器
         /// </summary>
-        /// <param name="router"></param>
+        /// <param name="router">路由器</param>
         public void SetRouter(Router router)
         {
             this.router = router;
@@ -63,7 +60,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 增加一个路由
         /// </summary>
-        /// <param name="route"></param>
+        /// <param name="route">路由条目</param>
         public void AddRoute(Route route)
         {
             routes.Add(route);
@@ -72,24 +69,27 @@ namespace CatLib.Routing
         /// <summary>
         /// 匹配一个路由
         /// </summary>
-        /// <param name="request"></param>
-        public Route Match(Request request) {
+        /// <param name="request">请求</param>
+        /// <returns>匹配到的路由条目</returns>
+        public Route Match(Request request)
+        {
+            var route = MatchAgainstRoutes(request);
+            if (route != null)
+            {
+                return route;
+            }
 
-            Route route = MatchAgainstRoutes(request);
-            if (route != null) { return route; }
-
-            throw new NotFoundRouteException("can not find route: " + request.CatLibUri.FullPath);
-
+            throw new NotFoundRouteException("can not find route: " + request.RouteUri.FullPath);
         }
 
         /// <summary>
         /// 匹配路由
         /// </summary>
         /// <param name="request">请求</param>
-        /// <returns></returns>
-        protected Route MatchAgainstRoutes(Request request)
+        /// <returns>匹配到的路由条目</returns>
+        private Route MatchAgainstRoutes(Request request)
         {
-            for(int i = 0; i < routes.Count; i++)
+            for (var i = 0; i < routes.Count; i++)
             {
                 if (routes[i].Matches(request))
                 {
@@ -98,7 +98,5 @@ namespace CatLib.Routing
             }
             return null;
         }
-
     }
-
 }

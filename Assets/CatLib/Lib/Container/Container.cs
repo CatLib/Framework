@@ -18,78 +18,116 @@ using CatLib.API.Container;
 namespace CatLib.Container
 {
     ///<summary>
-    /// 容器
+    /// 依赖注入容器
     /// </summary>
     public class Container : IContainer
     {
         /// <summary>
-        /// 服务所绑定的相关数据
+        /// 服务所绑定的相关数据，记录了服务的关系
         /// </summary>
-        private Dictionary<string, BindData> binds;
+        private readonly Dictionary<string, BindData> binds;
 
         ///<summary>
         /// 如果所属服务是静态的那么构建后将会储存在这里
         ///</summary>
-        private Dictionary<string, object> instances;
+        private readonly Dictionary<string, object> instances;
 
         ///<summary>
         /// 服务的别名(key: 别名 , value: 映射的服务名)
         ///</summary>
-        private Dictionary<string, string> aliases;
+        private readonly Dictionary<string, string> aliases;
+
+        /// <summary>
+        /// 可以通过服务的真实名字来查找别名
+        /// </summary>
+        private readonly Dictionary<string, List<string>> aliasesReverse;
 
         /// <summary>
         /// 服务标记，一个标记允许标记多个服务
         /// </summary>
-        private Dictionary<string, List<string>> tags;
-
-        ///<summary>
-        /// 全局类型字典
-        ///</summary>
-        private Dictionary<string, Type> typeDict;
+        private readonly Dictionary<string, List<string>> tags;
 
         /// <summary>
         /// 服务构建时的修饰器
         /// </summary>
-        private List<Func<IBindData, object, object>> decorator;
+        private readonly List<Func<IBindData, object, object>> resolving;
 
         /// <summary>
-        /// locker
+        /// 静态服务释放时的修饰器
         /// </summary>
-        private readonly object locker = new object();
+        private readonly List<Action<IBindData, object>> release;
+
+        /// <summary>
+        /// 类型查询回调
+        /// 当类型无法被解决时会尝试去开发者提供的查询器中查询类型
+        /// </summary>
+        private readonly List<Func<string, Type>> findType;
+
+        /// <summary>
+        /// 同步锁
+        /// </summary>
+        private readonly object syncRoot = new object();
 
         /// <summary>
         /// AOP代理包装器
         /// </summary>
-        private IBoundProxy proxy;
+        private readonly IBoundProxy proxy;
+
+        /// <summary>
+        /// 注入目标
+        /// </summary>
+        private readonly Type injectTarget;
+
+        /// <summary>
+        /// 编译堆栈
+        /// </summary>
+        private readonly Stack<string> buildStack;
 
         /// <summary>
         /// 构造一个容器
         /// </summary>
         public Container()
         {
-            Initialize(); 
+            tags = new Dictionary<string, List<string>>();
+            aliases = new Dictionary<string, string>();
+            aliasesReverse = new Dictionary<string, List<string>>();
+            instances = new Dictionary<string, object>();
+            binds = new Dictionary<string, BindData>();
+            resolving = new List<Func<IBindData, object, object>>();
+            release = new List<Action<IBindData, object>>();
+            findType = new List<Func<string, Type>>();
+            proxy = new BoundProxy();
+            injectTarget = typeof(InjectAttribute);
+            buildStack = new Stack<string>();
         }
 
         /// <summary>
         /// 为一个及以上的服务定义一个标记
+        /// 如果标记已经存在那么服务会被追加进列表
         /// </summary>
         /// <param name="tag">标记名</param>
-        /// <param name="service">服务名</param>
+        /// <param name="service">服务名或者别名</param>
+        /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者<paramref name="service"/>中的元素为<c>null</c>或者空字符串</exception>
         public void Tag(string tag, params string[] service)
         {
-            if (service == null)
+            Guard.NotEmptyOrNull(tag, "tag");
+            Guard.NotNull(service, "service");
+            Guard.CountGreaterZero(service, "service");
+            Guard.ElementNotEmptyOrNull(service, "service");
+
+            lock (syncRoot)
             {
-                return;
+                List<string> list;
+                if (tags.TryGetValue(tag, out list))
+                {
+                    list.AddRange(service);
+                }
+                else
+                {
+                    list = new List<string>(service);
+                    tags.Add(tag, list);
+                }
             }
-            if (service.Length <= 0)
-            {
-                return;
-            }
-            if (!tags.ContainsKey(tag))
-            {
-                tags.Add(tag, new List<string>());
-            }
-            tags[tag].AddRange(service);
         }
 
         /// <summary>
@@ -97,62 +135,68 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="tag">标记名</param>
         /// <returns>将会返回标记所对应的所有服务实例</returns>
+        /// <exception cref="RuntimeException"><paramref name="tag"/>不存在</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="tag"/>为<c>null</c>或者空字符串</exception>
         public object[] Tagged(string tag)
         {
-            if (!tags.ContainsKey(tag))
+            Guard.NotEmptyOrNull(tag, "tag");
+            lock (syncRoot)
             {
-                return new object[] {};
+
+                List<string> serviceList;
+                if (!tags.TryGetValue(tag, out serviceList))
+                {
+                    throw new RuntimeException("Tag [" + tag + "] is not exist.");
+                }
+
+                var result = new List<object>();
+
+                foreach (var tagService in serviceList)
+                {
+                    result.Add(Make(tagService));
+                }
+
+                return result.ToArray();
             }
-
-            var result = new List<object>();
-
-            for (var i = 0; i < tags[tag].Count; ++i)
-            {
-                result.Add(Make(tags[tag][i]));
-            }
-
-            return result.ToArray();
         }
 
         /// <summary>
-        /// 获取服务的绑定数据,如果绑定不存在则返回null
+        /// 获取服务的绑定数据,如果绑定不存在则返回null（只有进行过bind才视作绑定）
         /// </summary>
-        /// <param name="service">服务名</param>
+        /// <param name="service">服务名或别名</param>
         /// <returns>服务绑定数据或者null</returns>
+        /// <exception cref="service"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
         public IBindData GetBind(string service)
         {
-            service = Normalize(service);
-            service = GetAlias(service);
-
-            return binds.ContainsKey(service) ? binds[service] : null;
+            Guard.NotEmptyOrNull(service, "service");
+            lock (syncRoot)
+            {
+                service = Normalize(service);
+                service = GetAlias(service);
+                BindData bindData;
+                return binds.TryGetValue(service, out bindData) ? bindData : null;
+            }
         }
 
         /// <summary>
-        /// 是否已经绑定了服务
+        /// 是否已经绑定了服务（只有进行过bind才视作绑定）
         /// </summary>
-        /// <param name="service">服务名</param>
-        /// <returns>返回一个bool值代表服务是否被绑定</returns>
+        /// <param name="service">服务名或别名</param>
+        /// <returns>服务是否被绑定</returns>
         public bool HasBind(string service)
         {
-            service = Normalize(service);
-            return binds.ContainsKey(service) || aliases.ContainsKey(service);
+            return GetBind(service) != null;
         }
 
         /// <summary>
-        /// 服务是否是静态的
+        /// 服务是否是静态化的,如果服务不存在也将返回false
         /// </summary>
-        /// <param name="service">服务名</param>
-        /// <returns>返回一个bool值代表服务是否是静态的,如果服务不存在也将返回false</returns>
+        /// <param name="service">服务名或者别名</param>
+        /// <returns>是否是静态化的</returns>
         public bool IsStatic(string service)
         {
-            if (!HasBind(service))
-            {
-                return false;
-            }
-
-            service = Normalize(service);
-            service = GetAlias(service);
-            return binds[service].IsStatic;
+            var bind = GetBind(service);
+            return bind != null && bind.IsStatic;
         }
 
         /// <summary>
@@ -161,19 +205,40 @@ namespace CatLib.Container
         /// <param name="alias">别名</param>
         /// <param name="service">映射到的服务名</param>
         /// <returns>当前容器对象</returns>
+        /// <exception cref="RuntimeException"><paramref name="alias"/>别名冲突或者<paramref name="service"/>的绑定与实例都不存在</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="alias"/>,<paramref name="service"/>为<c>null</c>或者空字符串</exception>
         public IContainer Alias(string alias, string service)
         {
-            lock (locker)
+            Guard.NotEmptyOrNull(alias, "alias");
+            Guard.NotEmptyOrNull(service, "service");
+
+            alias = Normalize(alias);
+            service = Normalize(service);
+
+            lock (syncRoot)
             {
-                alias = Normalize(alias);
-                service = Normalize(service);
                 if (aliases.ContainsKey(alias))
                 {
-                    throw new CatLibException("alias [" + alias + "] is already exists!");
+                    throw new RuntimeException("[" + alias + "] in Alias is already exists.");
+                }
+                if (!binds.ContainsKey(service) && !instances.ContainsKey(service))
+                {
+                    throw new RuntimeException("[" + service + "] must be Bind or Instance.");
                 }
 
                 aliases.Add(alias, service);
+                List<string> serviceList;
+                if (!aliasesReverse.TryGetValue(service, out serviceList))
+                {
+                    serviceList = new List<string> {alias};
+                    aliasesReverse.Add(service, serviceList);
+                }
+                else
+                {
+                    serviceList.Add(alias);
+                }
             }
+
             return this;
         }
 
@@ -187,11 +252,7 @@ namespace CatLib.Container
         public IBindData BindIf(string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
             var bind = GetBind(service);
-            if (bind != null)
-            {
-                return bind;
-            }
-            return Bind(service, concrete, isStatic);
+            return bind ?? Bind(service, concrete, isStatic);
         }
 
         /// <summary>
@@ -201,14 +262,10 @@ namespace CatLib.Container
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否是静态的</param>
         /// <returns>服务绑定数据</returns>
-        public IBindData BindIf(string service, string concrete, bool isStatic)
+        public IBindData BindIf(string service, Type concrete, bool isStatic)
         {
             var bind = GetBind(service);
-            if (bind != null)
-            {
-                return bind;
-            }
-            return Bind(service, concrete, isStatic);
+            return bind ?? Bind(service, concrete, isStatic);
         }
 
         /// <summary>
@@ -218,14 +275,14 @@ namespace CatLib.Container
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns>服务绑定数据</returns>
-        public IBindData Bind(string service, string concrete, bool isStatic)
+        /// <exception cref="concrete"><paramref name="concrete"/>为<c>null</c>或者空字符串</exception>
+        public IBindData Bind(string service, Type concrete, bool isStatic)
         {
-            service = Normalize(service);
-            concrete = Normalize(concrete);
+            Guard.NotNull(concrete, "concrete");
             return Bind(service, (c, param) =>
             {
-                var container = c as Container;
-                return container == null ? null : container.NormalMake(concrete, false, param);
+                var container = (Container)c;
+                return container.BuildMake(service, concrete, false, param);
             }, isStatic);
         }
 
@@ -233,26 +290,34 @@ namespace CatLib.Container
         /// 绑定一个服务
         /// </summary>
         /// <param name="service">服务名</param>
-        /// <param name="concrete">服务实体</param>
+        /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns>服务绑定数据</returns>
+        /// <exception cref="RuntimeException"><paramref name="service"/>绑定冲突</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="concrete"/>为<c>null</c></exception>
         public IBindData Bind(string service, Func<IContainer, object[], object> concrete, bool isStatic)
         {
-            lock (locker)
+            Guard.NotEmptyOrNull(service, "service");
+            Guard.NotNull(concrete, "concrete");
+            service = Normalize(service);
+            lock (syncRoot)
             {
-                service = Normalize(service);
-
-                instances.Remove(service);
-                aliases = aliases.RemoveValue(service);
-                aliases.Remove(service);
-
-                var bindData = new BindData(this, service, concrete, isStatic);
-
                 if (binds.ContainsKey(service))
                 {
-                    throw new CatLibException("bind service [" + service + "] is already exists!");
+                    throw new RuntimeException("[" + service + "] in Bind is already exists.");
                 }
 
+                if (instances.ContainsKey(service))
+                {
+                    throw new RuntimeException("[" + service + "] in Instances is already exists.");
+                }
+
+                if (aliases.ContainsKey(service))
+                {
+                    throw new RuntimeException("[" + service + "] in Aliase is already exists.");
+                }
+
+                var bindData = new BindData(this, service, concrete, isStatic);
                 binds.Add(service, bindData);
 
                 return bindData;
@@ -264,17 +329,15 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="instance">方法对象</param>
         /// <param name="method">方法名</param>
-        /// <param name="param">方法参数</param>
+        /// <param name="param">附加的参数</param>
         /// <returns>方法返回值</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="instance"/>,<paramref name="method"/>为<c>null</c>或者空字符串</exception>
         public object Call(object instance, string method, params object[] param)
         {
-            if (instance == null)
-            {
-                throw new RuntimeException("call instance is null");
-            }
+            Guard.NotNull(instance, "instance");
+            Guard.NotEmptyOrNull(method, "method");
 
             var methodInfo = instance.GetType().GetMethod(method);
-
             return Call(instance, methodInfo, param);
         }
 
@@ -285,26 +348,21 @@ namespace CatLib.Container
         /// <param name="methodInfo">方法信息</param>
         /// <param name="param">方法参数</param>
         /// <returns>方法返回值</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="instance"/>,<paramref name="methodInfo"/>为<c>null</c></exception>
         public object Call(object instance, MethodInfo methodInfo, params object[] param)
         {
-            if (instance == null)
-            {
-                throw new RuntimeException("call instance is null");
-            }
+            Guard.NotNull(instance, "instance");
+            Guard.NotNull(methodInfo, "methodInfo");
 
             var type = instance.GetType();
-
-            if (methodInfo == null)
-            {
-                throw new RuntimeException("call method is null");
-            }
-
             var parameter = new List<ParameterInfo>(methodInfo.GetParameters());
 
-            var bindData = GetBindData(type.ToString());
-            param = parameter.Count > 0 ? GetDependencies(bindData, type, parameter, param) : new object[] { };
-
-            return methodInfo.Invoke(instance, param);
+            lock (syncRoot)
+            {
+                var bindData = GetBindData(type.ToString());
+                param = parameter.Count > 0 ? GetDependencies(bindData, parameter, param) : new object[] { };
+                return methodInfo.Invoke(instance, param);
+            }
         }
 
         /// <summary>
@@ -313,13 +371,30 @@ namespace CatLib.Container
         /// <param name="service">服务名或别名</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例，如果构造失败那么返回null</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
+        /// <exception cref="RuntimeException">出现循环依赖</exception>
         public object Make(string service, params object[] param)
         {
-            lock (locker)
+            Guard.NotEmptyOrNull(service, "service");
+            lock (syncRoot)
             {
                 service = Normalize(service);
                 service = GetAlias(service);
-                return NormalMake(service, true, param);
+
+                if (buildStack.Contains(service))
+                {
+                    throw new RuntimeException("Circular dependency detected while for [" + service + "]");
+                }
+
+                buildStack.Push(service);
+                try
+                {
+                    return instances.ContainsKey(service) ? instances[service] : BuildMake(service, null, true, param);
+                }
+                finally
+                {
+                    buildStack.Pop();
+                }
             }
         }
 
@@ -334,178 +409,248 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 构造服务
+        /// 静态化一个服务,实例值会经过解决修饰器
         /// </summary>
-        /// <param name="service">服务类型</param>
-        /// <returns>服务实例，如果构造失败那么返回null</returns>
-        public object this[Type service]
+        /// <param name="service">服务名或别名</param>
+        /// <param name="instance">服务实例，<c>null</c>也是合法的实例值</param>
+        /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
+        /// <exception cref="RuntimeException"><paramref name="service"/>的服务在绑定设置中不是静态的</exception>
+        public void Instance(string service, object instance)
         {
-            get { return Make(service.ToString()); }
-        }
-
-        /// <summary>
-        /// 静态化一个服务
-        /// </summary>
-        /// <param name="service">服务名或者别名</param>
-        /// <param name="objectData">服务实例</param>
-        public void Instance(string service, object objectData)
-        {
-            lock (locker)
+            Guard.NotEmptyOrNull(service, "service");
+            lock (syncRoot)
             {
                 service = Normalize(service);
                 service = GetAlias(service);
 
-                if (objectData == null)
+                var bindData = GetBind(service);
+                if (bindData != null)
                 {
-                    instances.Remove(service);
-                    return;
+                    if (!bindData.IsStatic)
+                    {
+                        throw new RuntimeException("[" + service + "] is not Static bind.");
+                    }
+                    instance = ((BindData)bindData).ExecResolvingDecorator(instance);
+                }
+                else
+                {
+                    bindData = MakeEmptyBindData(service);
                 }
 
-                if (instances.ContainsKey(service))
-                {
-                    instances.Remove(service);
-                }
+                Release(service);
 
-                instances.Add(service, objectData);
+                instance = ExecOnResolvingDecorator(bindData, instance);
+                instances.Add(service, instance);
             }
         }
 
         /// <summary>
-        /// 当服务被解决时触发的事件
+        /// 释放静态化实例
+        /// </summary>
+        /// <param name="service">服务名或别名</param>
+        public void Release(string service)
+        {
+            Guard.NotEmptyOrNull(service, "service");
+            lock (syncRoot)
+            {
+                service = Normalize(service);
+                service = GetAlias(service);
+
+                if (!instances.ContainsKey(service))
+                {
+                    return;
+                }
+
+                var bindData = GetBindData(service);
+                bindData.ExecReleaseDecorator(instances[service]);
+                ExecOnReleaseDecorator(bindData, instances[service]);
+                instances.Remove(service);
+            }
+        }
+
+        /// <summary>
+        /// 当查找类型无法找到时会尝试去调用开发者提供的查找类型函数
+        /// </summary>
+        /// <param name="finder">查找类型的回调</param>
+        /// <returns>当前容器实例</returns>
+        public IContainer OnFindType(Func<string, Type> finder)
+        {
+            Guard.NotNull(finder, "finder");
+            lock (syncRoot)
+            {
+                findType.Add(finder);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// 当静态服务被释放时
+        /// </summary>
+        /// <param name="action">处理释放时的回调</param>
+        /// <returns>当前容器实例</returns>
+        public IContainer OnRelease(Action<IBindData, object> action)
+        {
+            Guard.NotNull(action, "action");
+            lock (syncRoot)
+            {
+                release.Add(action);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// 当服务被解决时，生成的服务会经过注册的回调函数
         /// </summary>
         /// <param name="func">回调函数</param>
         /// <returns>当前容器对象</returns>
         public IContainer OnResolving(Func<IBindData, object, object> func)
         {
-            lock (locker)
+            Guard.NotNull(func, "func");
+            lock (syncRoot)
             {
-                if (decorator == null)
-                {
-                    decorator = new List<Func<IBindData, object, object>>();
-                }
-                decorator.Add(func);
+                resolving.Add(func);
                 foreach (var data in instances)
                 {
                     var bindData = GetBindData(data.Key);
-                    instances[data.Key] = func(bindData, data.Value);
+                    instances[data.Key] = func.Invoke(bindData, data.Value);
                 }
-                return this;
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// 解除绑定服务
+        /// </summary>
+        /// <param name="service">服务名或者别名</param>
+        internal void UnBind(string service)
+        {
+            lock (syncRoot)
+            {
+                service = Normalize(service);
+                service = GetAlias(service);
+
+                Release(service);
+                List<string> serviceList;
+                if (aliasesReverse.TryGetValue(service,out serviceList))
+                {
+                    foreach (var alias in serviceList)
+                    {
+                        aliases.Remove(alias);
+                    }
+                    aliasesReverse.Remove(service);
+                }
+                binds.Remove(service);
             }
         }
 
         /// <summary>
-        /// 执行全局修饰器
+        /// 执行全局解决修饰器
         /// </summary>
         /// <param name="bindData">服务绑定数据</param>
         /// <param name="obj">服务实例</param>
         /// <returns>被修饰器修饰后的服务实例</returns>
-        private object ExecDecorator(BindData bindData, object obj)
+        private object ExecOnResolvingDecorator(IBindData bindData, object obj)
         {
-            if (decorator != null)
+            foreach (var func in resolving)
             {
-                foreach (var func in decorator)
-                {
-                    obj = func(bindData, obj);
-                }
+                obj = func(bindData, obj);
             }
             return obj;
         }
 
         /// <summary>
+        /// 执行全局释放修饰器
+        /// </summary>
+        /// <param name="bindData">服务绑定数据</param>
+        /// <param name="obj">服务实例</param>
+        /// <returns>被修饰器修饰后的服务实例</returns>
+        private void ExecOnReleaseDecorator(IBindData bindData, object obj)
+        {
+            foreach (var action in release)
+            {
+                action.Invoke(bindData, obj);
+            }
+        }
+
+        /// <summary>
         /// 构造服务
         /// </summary>
-        /// <param name="service">服务名</param>
+        /// <param name="makeService">服务名</param>
+        /// <param name="makeServiceType">服务类型</param>
         /// <param name="isFromMake">是否直接调用自Make函数</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例</returns>
-        private object NormalMake(string service, bool isFromMake, params object[] param)
+        private object BuildMake(string makeService, Type makeServiceType, bool isFromMake, params object[] param)
         {
-            if (instances.ContainsKey(service))
-            {
-                return instances[service];
-            }
+            var bindData = GetBindData(makeService);
+            var buildInstance = isFromMake ? BuildUseConcrete(bindData, makeServiceType, param) : Build(bindData, makeServiceType ?? GetType(bindData.Service), param);
 
-            var bindData = GetBindData(service);
-            var objectData = isFromMake ? NormalBuild(bindData, param) : Build(bindData, service, param);
-
-            //只有是来自于make函数的调用时才执行di
+            //只有是来自于make函数的调用时才执行di，包装，以及修饰
             if (!isFromMake)
             {
-                return objectData;
+                return buildInstance;
             }
 
-            DIAttr(bindData, objectData);
+            AttrInject(bindData, buildInstance);
 
             if (proxy != null)
             {
-                objectData = proxy.Bound(objectData, bindData);
+                buildInstance = proxy.Bound(buildInstance, bindData);
             }
-
-            objectData = ExecDecorator(bindData, bindData.ExecDecorator(objectData));
 
             if (bindData.IsStatic)
             {
-                Instance(service, objectData);
+                Instance(makeService, buildInstance);
+            }
+            else
+            {
+                buildInstance = ExecOnResolvingDecorator(bindData, bindData.ExecResolvingDecorator(buildInstance));
             }
 
-            return objectData;
+            return buildInstance;
         }
 
         /// <summary>
         /// 常规编译一个服务
         /// </summary>
-        /// <param name="bindData">服务绑定数据</param>
+        /// <param name="makeServiceBindData">服务绑定数据</param>
+        /// <param name="makeServiceType">服务类型</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例</returns>
-        private object NormalBuild(BindData bindData, object[] param)
+        private object BuildUseConcrete(BindData makeServiceBindData, Type makeServiceType, object[] param)
         {
-            if (bindData.Concrete != null)
+            if (makeServiceBindData.Concrete != null)
             {
-                return bindData.Concrete(this, param);
+                return makeServiceBindData.Concrete(this, param);
             }
-            return NormalMake(bindData.Service, false, param); //Build(bindData , bindData.Service, param); 这句语句之前导致了没有正确给定注入实体。但是我们先保留一段时间后再删除
+            return BuildMake(makeServiceBindData.Service, makeServiceType, false, param);
         }
 
         /// <summary>
         /// 构造服务 - 实现
         /// </summary>
-        /// <param name="bindData">服务绑定数据</param>
-        /// <param name="service">服务名</param>
+        /// <param name="makeServiceBindData">服务绑定数据</param>
+        /// <param name="makeServiceType">服务类型</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例</returns>
-        private object Build(BindData bindData, string service, object[] param)
+        private object Build(BindData makeServiceBindData, Type makeServiceType, object[] param)
         {
-            if (param == null)
-            {
-                param = new object[] {};
-            }
+            param = param ?? new object[] { };
 
-            var type = GetType(bindData.Service);
-
-            if (type == null)
+            if (makeServiceType == null)
             {
                 return null;
             }
 
-            if (type.IsAbstract || type.IsInterface)
+            if (makeServiceType.IsAbstract || makeServiceType.IsInterface)
             {
-                if (service != bindData.Service)
-                {
-                    type = Type.GetType(service);
-                    if (type == null)
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
-            var constructor = type.GetConstructors();
+
+            var constructor = makeServiceType.GetConstructors();
             if (constructor.Length <= 0)
             {
-                return Activator.CreateInstance(type);
+                return Activator.CreateInstance(makeServiceType);
             }
 
             var parameter = new List<ParameterInfo>(constructor[constructor.Length - 1].GetParameters());
@@ -513,10 +658,10 @@ namespace CatLib.Container
 
             if (parameter.Count > 0)
             {
-                param = GetDependencies(bindData, type, parameter, param);
+                param = GetDependencies(makeServiceBindData, parameter, param);
             }
 
-            return Activator.CreateInstance(type, param);
+            return Activator.CreateInstance(makeServiceType, param);
         }
 
         /// <summary>
@@ -532,52 +677,63 @@ namespace CatLib.Container
         /// <summary>
         /// 属性注入
         /// </summary>
-        /// <param name="bindData">服务绑定数据</param>
-        /// <param name="obj">服务实例</param>
+        /// <param name="makeServiceBindData">服务绑定数据</param>
+        /// <param name="makeServiceInstance">服务实例</param>
         /// <returns>服务实例</returns>
-        private void DIAttr(BindData bindData, object obj)
+        /// <exception cref="RuntimeException">属性是必须的或者注入类型和需求类型不一致</exception>
+        private void AttrInject(BindData makeServiceBindData, object makeServiceInstance)
         {
-            if (obj == null)
+            if (makeServiceInstance == null)
             {
                 return;
             }
 
-            string typeName;
-            foreach (var property in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            foreach (var property in makeServiceInstance.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (!property.CanWrite)
                 {
                     continue;
                 }
-                var propertyAttrs = property.GetCustomAttributes(typeof(DependencyAttribute), true);
+
+                var propertyAttrs = property.GetCustomAttributes(injectTarget, false);
                 if (propertyAttrs.Length <= 0)
                 {
                     continue;
                 }
 
-                var dependency = propertyAttrs[0] as DependencyAttribute;
-
-                typeName = string.IsNullOrEmpty(dependency.Alias) ? property.PropertyType.ToString() : GetAlias(dependency.Alias);
-
+                var injectAttr = (InjectAttribute)propertyAttrs[0];
+                var needService = string.IsNullOrEmpty(injectAttr.Alias) ? property.PropertyType.ToString() : GetAlias(injectAttr.Alias);
+                object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
-                    property.SetValue(obj, ResloveClassAttr(bindData, obj.GetType(), typeName), null);
+                    instance = ResloveClassAttr(makeServiceBindData, needService);
                 }
                 else
                 {
-                    property.SetValue(obj, ResolveNonClassAttr(bindData, obj.GetType(), typeName), null);
+                    instance = ResolveNonClassAttr(makeServiceBindData, needService);
                 }
+
+                if (injectAttr.Required && instance == null)
+                {
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr [" + property.PropertyType + "] required [" + needService + "] service");
+                }
+
+                if (instance != null && !property.PropertyType.IsInstanceOfType(instance))
+                {
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr injection type must be [" + property.PropertyType + "], Make Attr service [" + needService + "], but instance is [" + instance.GetType() + "]");
+                }
+
+                property.SetValue(makeServiceInstance, instance, null);
             }
         }
 
         /// <summary>
         /// 解决非类类型
         /// </summary>
-        /// <param name="bindData">请求注入操作的服务绑定数据</param>
-        /// <param name="parent">请求注入操作的服务实例的类型</param>
+        /// <param name="makeServiceBindData">请求注入操作的服务绑定数据</param>
         /// <param name="service">希望构造的服务名或者别名</param>
         /// <returns>解决结果</returns>
-        private object ResolveNonClassAttr(BindData bindData, Type parent, string service)
+        private object ResolveNonClassAttr(BindData makeServiceBindData, string service)
         {
             return null;
         }
@@ -585,31 +741,29 @@ namespace CatLib.Container
         /// <summary>
         /// 解决类类型
         /// </summary>
-        /// <param name="bindData">请求注入操作的服务绑定数据</param>
-        /// <param name="parent">请求注入操作的服务实例的类型</param>
+        /// <param name="makeServiceBindData">请求注入操作的服务绑定数据</param>
         /// <param name="service">希望构造的服务名或者别名</param>
         /// <returns>解决结果</returns>
-        private object ResloveClassAttr(BindData bindData, Type parent, string service)
+        private object ResloveClassAttr(BindData makeServiceBindData, string service)
         {
-            return Make(bindData.GetContextual(service)); ;
+            return Make(makeServiceBindData.GetContextual(service)); ;
         }
 
         /// <summary>
         /// 获取依赖解决结果
         /// </summary>
-        /// <param name="bindData">服务绑定数据</param>
-        /// <param name="type">服务实例的类型</param>
+        /// <param name="makeServiceBindData">服务绑定数据</param>
         /// <param name="paramInfo">服务实例的参数信息</param>
         /// <param name="param">输入的构造参数列表</param>
         /// <returns>服务所需参数的解决结果</returns>
-        private object[] GetDependencies(BindData bindData, Type type, IList<ParameterInfo> paramInfo, IList<object> param)
+        /// <exception cref="RuntimeException">生成的实例类型和需求类型不一致</exception>
+        private object[] GetDependencies(BindData makeServiceBindData, IList<ParameterInfo> paramInfo, IList<object> param)
         {
-            var  myParam = new List<object>();
+            var myParam = new List<object>();
 
-            ParameterInfo info;
             for (var i = 0; i < paramInfo.Count; i++)
             {
-                info = paramInfo[i];
+                var info = paramInfo[i];
                 if (param != null && i < param.Count)
                 {
                     if (param[i] == null || info.ParameterType.IsInstanceOfType(param[i]))
@@ -619,14 +773,40 @@ namespace CatLib.Container
                     }
                 }
 
+                var propertyAttrs = info.GetCustomAttributes(injectTarget, false);
+
+                InjectAttribute injectAttr = null;
+                if (propertyAttrs.Length > 0)
+                {
+                    injectAttr = (InjectAttribute)propertyAttrs[0];
+                }
+
+                var needService = info.ParameterType.ToString();
+                object instance;
                 if (info.ParameterType.IsClass || info.ParameterType.IsInterface)
                 {
-                    myParam.Add(ResloveClass(bindData, type, info));
+                    if (injectAttr != null)
+                    {
+                        needService = string.IsNullOrEmpty(injectAttr.Alias) ? info.ParameterType.ToString() : GetAlias(injectAttr.Alias);
+                    }
+                    instance = ResloveClass(makeServiceBindData, needService);
                 }
                 else
                 {
-                    myParam.Add(ResolveNonClass(bindData, type, info));
+                    instance = ResolveNonClass(makeServiceBindData, info);
                 }
+
+                if (injectAttr != null && injectAttr.Required && instance == null)
+                {
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Param [" + info.ParameterType + "] required [" + makeServiceBindData.Service + "] service");
+                }
+
+                if (instance != null && !info.ParameterType.IsInstanceOfType(instance))
+                {
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr injection type must be [" + info.ParameterType + "], Make Attr service [" + needService + "], but instance is [" + instance.GetType() + "]");
+                }
+
+                myParam.Add(instance);
             }
 
             return myParam.ToArray();
@@ -635,11 +815,10 @@ namespace CatLib.Container
         /// <summary>
         /// 解决非类类型
         /// </summary>
-        /// <param name="bindData">请求注入操作的服务绑定数据</param>
-        /// <param name="parent">请求注入操作的服务实例的类型</param>
+        /// <param name="makeServiceBindData">请求注入操作的服务绑定数据</param>
         /// <param name="info">参数信息</param>
         /// <returns>解决结果</returns>
-        private object ResolveNonClass(BindData bindData, Type parent, ParameterInfo info)
+        private object ResolveNonClass(BindData makeServiceBindData, ParameterInfo info)
         {
             return info.DefaultValue;
         }
@@ -647,13 +826,12 @@ namespace CatLib.Container
         /// <summary>
         /// 解决类类型
         /// </summary>
-        /// <param name="bindData">请求注入操作的服务绑定数据</param>
-        /// <param name="parent">请求注入操作的服务实例的类型</param>
-        /// <param name="info">参数信息</param>
+        /// <param name="makeServiceBindData">请求注入操作的服务绑定数据</param>
+        /// <param name="service">希望解决的服务名或者别名</param>
         /// <returns>解决结果</returns>
-        private object ResloveClass(BindData bindData, Type parent, ParameterInfo info)
+        private object ResloveClass(BindData makeServiceBindData, string service)
         {
-            return Make(bindData.GetContextual(info.ParameterType.ToString()), null);
+            return Make(makeServiceBindData.GetContextual(service));
         }
 
         /// <summary>
@@ -667,13 +845,23 @@ namespace CatLib.Container
         }
 
         /// <summary>
-        /// 获取服务绑定数据
+        /// 获取服务绑定数据(与GetBind的区别是永远不会为null)
         /// </summary>
         /// <param name="service">服务名</param>
         /// <returns>服务绑定数据</returns>
         private BindData GetBindData(string service)
         {
-            return !binds.ContainsKey(service) ? new BindData(this, service, null, false) : binds[service];
+            return !binds.ContainsKey(service) ? MakeEmptyBindData(service) : binds[service];
+        }
+
+        /// <summary>
+        /// 制作一个空的绑定数据
+        /// </summary>
+        /// <param name="service">服务名</param>
+        /// <returns>空绑定数据</returns>
+        private BindData MakeEmptyBindData(string service)
+        {
+            return new BindData(this, service, null, false);
         }
 
         /// <summary>
@@ -683,32 +871,21 @@ namespace CatLib.Container
         /// <returns>服务类型</returns>
         private Type GetType(string service)
         {
-            return typeDict.ContainsKey(service) ? typeDict[service] : Type.GetType(service);
-        }
-
-        /// <summary>
-        /// 初始化容器
-        /// </summary>
-        private void Initialize()
-        {
-            tags = new Dictionary<string, List<string>>();
-            aliases = new Dictionary<string, string>();
-            typeDict = new Dictionary<string, Type>();
-            instances = new Dictionary<string, object>();
-            binds = new Dictionary<string, BindData>();
-            decorator = new List<Func<IBindData, object, object>>();
-            proxy = new BoundProxy();
-
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            var type = Type.GetType(service);
+            if (type != null)
             {
-                foreach (var type in assembly.GetTypes())
+                return type;
+            }
+
+            foreach (var finder in findType)
+            {
+                type = finder.Invoke(service);
+                if (type != null)
                 {
-                    if (!typeDict.ContainsKey(type.ToString()))
-                    {
-                        typeDict.Add(type.ToString(), type);
-                    }
+                    return type;
                 }
             }
+            return null;
         }
     }
 }

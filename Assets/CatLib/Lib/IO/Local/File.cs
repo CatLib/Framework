@@ -8,45 +8,57 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 using System.IO;
 using CatLib.API.IO;
 
 namespace CatLib.IO
 {
-
-    public class File : IFile
+    /// <summary>
+    /// 文件
+    /// </summary>
+    public sealed class File : IFile
     {
+        /// <summary>
+        /// 本地磁盘
+        /// </summary>
+        private readonly LocalDisk disk;
 
-        private LocalDisk disk;
-
+        /// <summary>
+        /// 文件夹路径
+        /// </summary>
         private string directory;
-        
+
+        /// <summary>
+        /// 拓展名
+        /// </summary>
         private string extension;
 
+        /// <summary>
+        /// 文件名
+        /// </summary>
         private string fileName;
 
-        private System.IO.FileInfo fileInfo;
-
-        private System.IO.FileInfo FileInfo{
-
-            get{
-
-                if(fileInfo == null){
-
-                    fileInfo = new System.IO.FileInfo(FullName);
-
-                }
-                return fileInfo;
-
-            }
-        }
-        
         /// <summary>
-		/// 文件
-		/// </summary>
-        public File(string path , LocalDisk disk) 
+        /// 文件信息
+        /// </summary>
+        private FileInfo fileInfo;
+
+        /// <summary>
+        /// 文件信息
+        /// </summary>
+        private FileInfo FileInfo
+        {
+            get { return fileInfo ?? (fileInfo = new FileInfo(FullName)); }
+        }
+
+        /// <summary>
+        /// 构建一个文件
+        /// </summary>
+        /// <param name="path">文件路径</param>
+        /// <param name="disk">本地磁盘</param>
+        public File(string path, LocalDisk disk)
         {
             this.disk = disk;
             ParseFile(path);
@@ -87,38 +99,25 @@ namespace CatLib.IO
         /// <summary>
 		/// 文件长度
 		/// </summary>
-        public long Length{
-
-            get{
-
-                return FileInfo.Length;
-
-            }
-
+        public long Length
+        {
+            get { return FileInfo.Length; }
         }
 
         /// <summary>
 		/// 是否存在
 		/// </summary>
-        public bool Exists{
-
-            get{
-                
-                return FileInfo.Exists;
-            
-            }
-
+        public bool Exists
+        {
+            get { return FileInfo.Exists; }
         }
 
         /// <summary>
-		/// 文件夹
+		/// 所属的文件夹
 		/// </summary>
         public IDirectory Directory
         {
-            get
-            {
-                return new Directory(directory , disk);
-            }
+            get { return new Directory(directory, disk); }
         }
 
         /// <summary>
@@ -133,26 +132,28 @@ namespace CatLib.IO
         /// <summary>
 		/// 复制文件
 		/// </summary>
+		/// <param name="targetFileName">目标文件</param>
         public IFile CopyTo(string targetFileName)
         {
             IFile destFile = new File(targetFileName, disk);
             destFile.Directory.Create();
             FileInfo.CopyTo(targetFileName);
-            return (destFile as File).Refresh();
+            return ((File)destFile).Refresh();
         }
 
         /// <summary>
 		/// 复制文件
 		/// </summary>
-        public IFile CopyTo(IDirectory targetDirectory){
-
+		/// <param name="targetDirectory">目标文件夹</param>
+        public IFile CopyTo(IDirectory targetDirectory)
+        {
             return CopyTo(targetDirectory + Path.AltDirectorySeparatorChar.ToString() + Name);
-
         }
 
         /// <summary>
-		/// 移动到指定文件
+		/// 移动到指定文件夹
 		/// </summary>
+		/// <param name="targetDirectory">目标文件夹</param>
         public void MoveTo(IDirectory targetDirectory)
         {
             MoveTo(targetDirectory.Path);
@@ -161,22 +162,22 @@ namespace CatLib.IO
         /// <summary>
 		/// 移动到指定文件
 		/// </summary>
-        public void MoveTo(string targetDirectory){
-
-            LocalDisk.ValidatePath(targetDirectory);
-            (new Directory(targetDirectory , disk)).Create();
+		/// <param name="targetDirectory">目标文件夹</param>
+        public void MoveTo(string targetDirectory)
+        {
+            LocalDisk.GuardValidatePath(targetDirectory);
+            (new Directory(targetDirectory, disk)).Create();
             FileInfo.MoveTo(targetDirectory + Path.AltDirectorySeparatorChar + fileName + extension);
             directory = targetDirectory;
             Refresh();
-
         }
-        
+
         /// <summary>
-		/// 移动到指定文件
-		/// </summary>
+        /// 重命名
+        /// </summary>
+        /// <param name="newName">新的名字</param>
         public void Rename(string newName)
         {
-
             LocalDisk.IsValidFileName(newName);
 
             if (newName.Contains(Path.AltDirectorySeparatorChar.ToString()))
@@ -184,11 +185,11 @@ namespace CatLib.IO
                 throw new ArgumentException("rename can't be used to change a files location use Move(string newPath) instead.");
             }
 
-            string newExtension = System.IO.Path.GetExtension(newName);
-            string newFileName = System.IO.Path.GetFileNameWithoutExtension(newName);
+            var newExtension = Path.GetExtension(newName);
+            var newFileName = Path.GetFileNameWithoutExtension(newName);
 
-            IFile targetFile = new File(directory + Path.AltDirectorySeparatorChar + newFileName + newExtension , disk);
-            if(targetFile.Exists)
+            IFile targetFile = new File(directory + Path.AltDirectorySeparatorChar + newFileName + newExtension, disk);
+            if (targetFile.Exists)
             {
                 throw new ArgumentException("duplicate file name:" + newName);
             }
@@ -197,21 +198,20 @@ namespace CatLib.IO
             extension = newExtension;
 
             Refresh();
-
         }
 
         /// <summary>
         /// 创建文件
         /// </summary>
+        /// <param name="data">文件数据</param>
         public void Create(byte[] data)
         {
-            if(Exists){
-
-                throw new System.IO.IOException("file is exists");
-
+            if (Exists)
+            {
+                throw new IOException("file is exists");
             }
             data = Encrypted(data);
-            using (System.IO.FileStream fs = System.IO.File.Create(FullName))
+            using (var fs = System.IO.File.Create(FullName))
             {
                 fs.Write(data, 0, data.Length);
                 fs.Close();
@@ -221,91 +221,96 @@ namespace CatLib.IO
         /// <summary>
         /// 异步创建文件
         /// </summary>
+        /// <param name="data">文件数据</param>
+        /// <param name="callback">当完成时的回调</param>
         public void CreateAsync(byte[] data, Action callback)
         {
-            if(Exists){
-
-                throw new System.IO.IOException("file is exists");
-
+            if (Exists)
+            {
+                throw new IOException("file is exists");
             }
 
             data = Encrypted(data);
 
-            System.IO.FileStream fs = System.IO.File.Create(FullName);
-            //todo:需要测试
-            fs.BeginWrite(data, 0, data.Length , (result)=>{
-
+            var fs = System.IO.File.Create(FullName);
+            fs.BeginWrite(data, 0, data.Length, (result) =>
+            {
                 fs.EndRead(result);
                 fs.Close();
                 fs.Dispose();
 
-                if(callback != null){
-
+                if (callback != null)
+                {
                     callback.Invoke();
-
                 }
-
             }, null);
-
         }
 
         /// <summary>
         /// 读取文件
         /// </summary>
-        public byte[] Read(){
-
-            if(!Exists){
-
-                throw new System.IO.IOException("file is not exists : " + FullName);
-
-            }
-            
-            using (System.IO.FileStream fs = new System.IO.FileStream(FullName , System.IO.FileMode.Open))
+        /// <returns>文件数据</returns>
+        public byte[] Read()
+        {
+            if (!Exists)
             {
-                byte[] data = new byte[fs.Length];
+                throw new IOException("file is not exists : " + FullName);
+            }
+
+            using (var fs = new FileStream(FullName, System.IO.FileMode.Open))
+            {
+                var data = new byte[fs.Length];
                 fs.Read(data, 0, data.Length);
                 data = Decrypted(data);
                 return data;
             }
-
         }
 
-        public void ReadAsync(Action<byte[]> callback){
-
-            if(!Exists){
-
-                throw new System.IO.IOException("file is not exists");
-
+        /// <summary>
+        /// 异步读取文件
+        /// </summary>
+        /// <param name="callback">读取的数据回调</param>
+        public void ReadAsync(Action<byte[]> callback)
+        {
+            if (!Exists)
+            {
+                throw new IOException("file is not exists");
             }
 
-            //todo:需要测试
-            System.IO.FileStream fs = new System.IO.FileStream( FullName , 
-                                                                System.IO.FileMode.Open, 
-                                                                System.IO.FileAccess.Read,
-                                                                System.IO.FileShare.None, 
-                                                                bufferSize : 1024,
-                                                                useAsync   : true
-                                                                );
-                                                
-            byte[] data = new byte[fs.Length];
-            fs.BeginRead(data , 0 , data.Length, (result)=>{
-                
+            var fs = new FileStream(FullName,
+                                            FileMode.Open,
+                                            FileAccess.Read,
+                                            FileShare.None,
+                                            1024,
+                                            true
+                                            );
+
+            var data = new byte[fs.Length];
+            fs.BeginRead(data, 0, data.Length, (result) =>
+            {
                 fs.EndRead(result);
                 data = Decrypted(data);
                 fs.Close();
                 fs.Dispose();
                 callback.Invoke(data);
-
-            },null);
-
+            }, null);
         }
 
-        protected IFile Refresh()
+        /// <summary>
+        /// 刷新文件信息
+        /// </summary>
+        /// <returns>文件实例</returns>
+        private IFile Refresh()
         {
             fileInfo = null;
             return this;
         }
 
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="data">文件数据</param>
+        /// <returns>加密后的文件数据</returns>
         private byte[] Encrypted(byte[] data)
         {
             if (disk.IOCrypt != null)
@@ -315,6 +320,11 @@ namespace CatLib.IO
             return data;
         }
 
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="data">加密的文件数据</param>
+        /// <returns>解密后的文件数据</returns>
         private byte[] Decrypted(byte[] data)
         {
             if (disk.IOCrypt != null)
@@ -324,14 +334,15 @@ namespace CatLib.IO
             return data;
         }
 
-        private void ParseFile(string path){
-
-            extension = System.IO.Path.GetExtension(path);
-            fileName = System.IO.Path.GetFileNameWithoutExtension(path);
-            directory = System.IO.Path.GetDirectoryName(path);
-
+        /// <summary>
+        /// 格式化路径
+        /// </summary>
+        /// <param name="path">文件路径</param>
+        private void ParseFile(string path)
+        {
+            extension = Path.GetExtension(path);
+            fileName = Path.GetFileNameWithoutExtension(path);
+            directory = Path.GetDirectoryName(path);
         }
-
     }
-
 }

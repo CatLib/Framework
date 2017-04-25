@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System;
 #if UNITY_5_4_OR_NEWER
 using UnityEngine.Networking;
@@ -18,20 +18,30 @@ using UnityEngine.Experimental.Networking;
 
 namespace CatLib.AutoUpdate
 {
-
-    public class UpdateFileActionEventArgs : EventArgs
+    /// <summary>
+    /// 自动更新文件更新事件
+    /// </summary>
+    public sealed class UpdateFileActionEventArgs : EventArgs
     {
-
+        /// <summary>
+        /// 文件请求对象
+        /// </summary>
         public UnityWebRequest Request { get; protected set; }
 
+        /// <summary>
+        /// 文件更新路径
+        /// </summary>
         public string FilePath { get; protected set; }
 
-        public UpdateFileActionEventArgs(string filePath , UnityWebRequest request)
+        /// <summary>
+        /// 创建一个自动更新文件更新事件
+        /// </summary>
+        /// <param name="filePath">文件更新路径</param>
+        /// <param name="request">文件请求对象</param>
+        public UpdateFileActionEventArgs(string filePath, UnityWebRequest request)
         {
             Request = request;
             FilePath = filePath;
         }
-
     }
-
 }

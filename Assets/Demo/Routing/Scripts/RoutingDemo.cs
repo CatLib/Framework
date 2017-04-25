@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System.Runtime.InteropServices;
 using CatLib.API;
 using CatLib.API.Routing;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace CatLib.Demo.Routing
         {
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
-                
+
                 IRouter router = App.Make<IRouter>();
 
                 router.Dispatch("attr-routing-simple/call");
@@ -107,7 +108,10 @@ namespace CatLib.Demo.Routing
             });
         }
 
-        public override void Register() { }
+        public override void Register()
+        {
+
+        }
     }
 
 }

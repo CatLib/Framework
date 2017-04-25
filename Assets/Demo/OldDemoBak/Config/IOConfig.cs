@@ -8,11 +8,11 @@ public class IOConfig : IConfig
     /// <summary>
     /// 类
     /// </summary>
-    public object Name
+    public string Name
     {
         get
         {
-            return typeof(CatLib.IO.IO);
+            return typeof(CatLib.IO.IO).ToString();
         }
     }
 

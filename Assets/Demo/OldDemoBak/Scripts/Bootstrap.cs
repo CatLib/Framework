@@ -394,13 +394,13 @@ public class Bootstrap : ServiceProvider
                 Debug.Log(v[0] + "|" + v[1] + "|" + v[2]);
 
             }*/
-            
-            
 
-            IDataTableFactory dataTable = App.Make<IDataTableFactory>();
-            IDataTable table = dataTable.Make(parser);
 
-            foreach(var v in table.Where((selector)=>
+
+            IDataTable dataTable = App.Make<IDataTable>();
+            dataTable.SetData(parser);
+
+            foreach(var v in dataTable.Where((selector)=>
             {
 
                 selector.Where("name", "=", "小兔子").OrWhere("tag", "<", "3");
@@ -446,9 +446,9 @@ public class Bootstrap : ServiceProvider
 
             IFile file = disk.File("hello.gz");
             ICompress comp = App.Make<ICompress>();
-            byte[] byt = comp.Compress("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte());
+            byte[] byt = comp.Compress(Encoding.UTF8.GetBytes("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld"));
 
-            Debug.Log("UnCompress: "+ "helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld".ToByte().Length);
+            Debug.Log("UnCompress: "+ Encoding.UTF8.GetBytes("helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld").Length);
             Debug.Log("Compress: "+ byt.Length);
             //file.Create(byt);
 
@@ -496,7 +496,7 @@ public class Bootstrap : ServiceProvider
 
             //IEnv env = App.Make<IEnv>();
             //IDisk disk = App.Make<IIOFactory>().Disk();
-            //IINIResult result = App.Make<IINILoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "/lang/cn/test.ini"));
+            //IIniResult result = App.Make<IIniLoader>().Load(disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "/lang/cn/test.ini"));
             //result.Set("helloworld", "mynameisyb", "yb");
             //result.Remove("myname");
             //result.Save();
@@ -644,7 +644,9 @@ public class Bootstrap : ServiceProvider
 
             });
 
-            IConnectorHttp http = FNetwork.Instance.Create<IConnectorHttp>("http");
+            INetworkFactory network = App.Make<INetworkFactory>();
+
+            IConnectorHttp http = network.Create<IConnectorHttp>("http");
             //http.SetConfig(new System.Collections.Hashtable() { { "host", "http://www.qidian.com/" } });
             http.Get(string.Empty);
 
@@ -673,13 +675,13 @@ public class Bootstrap : ServiceProvider
             App.On(SocketRequestEvents.ON_ERROR, (obj1, obj2) =>
             {
 
-                Debug.Log("on tcp error:" + (obj2 as ErrorEventArgs).Error.Message);
+                Debug.Log("on tcp error:" + (obj2 as ExceptionEventArgs).Exception.Message);
 
             });
 
             //链接配置见 NetworkConfig 配置文件
 
-            IConnectorTcp tcpConnect = FNetwork.Instance.Create<IConnectorTcp>("tcp.text");
+            IConnectorTcp tcpConnect = network.Create<IConnectorTcp>("tcp.text");
 
             
             (tcpConnect as IEvent).Event.One(SocketRequestEvents.ON_MESSAGE, (s1, e1) =>
@@ -697,12 +699,12 @@ public class Bootstrap : ServiceProvider
 
             
             tcpConnect.Connect();
-            tcpConnect.Send("hello this is tcp msg with [text]".ToByte());
+            tcpConnect.Send(Encoding.UTF8.GetBytes("hello this is tcp msg with [text]"));
 
             
-            IConnectorTcp tcpConnect2 = FNetwork.Instance.Create<IConnectorTcp>("tcp.frame");
+            IConnectorTcp tcpConnect2 = network.Create<IConnectorTcp>("tcp.frame");
             tcpConnect2.Connect();
-            tcpConnect2.Send("hello this is tcp msg with [frame]".ToByte());
+            tcpConnect2.Send(Encoding.UTF8.GetBytes("hello this is tcp msg with [frame]"));
             /* 
             IConnectorUdp udpConnect = FNetwork.Instance.Create<IConnectorUdp>("udp.bind.host.text");
             udpConnect.Connect();
@@ -714,9 +716,9 @@ public class Bootstrap : ServiceProvider
             udpConnectFrame.Send("hello this is udp msg with [frame]".ToByte());*/
            
             
-            IConnectorUdp udpConnect2 = FNetwork.Instance.Create<IConnectorUdp>("udp.unbind.host.frame");
+            IConnectorUdp udpConnect2 = network.Create<IConnectorUdp>("udp.unbind.host.frame");
             udpConnect2.Connect();
-            udpConnect2.Send("hello world(client udp)".ToByte() , "pvp.gift", 3301);
+            udpConnect2.Send(Encoding.UTF8.GetBytes("hello world(client udp)") , "pvp.gift", 3301);
 
 
         });

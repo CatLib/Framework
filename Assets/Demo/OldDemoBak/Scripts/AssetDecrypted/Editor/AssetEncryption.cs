@@ -13,7 +13,7 @@ namespace CatLib.Resources
     {
 
 
-        [Dependency]
+        [Inject]
         public IEnv Env { get; set; }
 
         public BuildProcess Process { get { return BuildProcess.Encryption; } }

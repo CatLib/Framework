@@ -14,17 +14,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
+using CatLib.API.Container;
 using CatLib.API.Time;
 
 namespace CatLib
 {
-
     /// <summary>
     /// CatLib程序
     /// </summary>
     public class Application : Driver, IApplication
     {
-
         /// <summary>
         /// CatLib框架版本
         /// </summary>
@@ -35,7 +34,6 @@ namespace CatLib
         /// </summary>
         public enum StartProcess
         {
-
             /// <summary>
             /// 引导流程
             /// </summary>
@@ -55,7 +53,6 @@ namespace CatLib
             /// 启动完成
             /// </summary>
             OnComplete = 4,
-
         }
 
         /// <summary>
@@ -66,12 +63,12 @@ namespace CatLib
         /// <summary>
         /// 是否已经完成引导程序
         /// </summary>
-        protected bool bootstrapped = false;
+        protected bool bootstrapped;
 
         /// <summary>
         /// 是否已经完成初始化
         /// </summary>
-        protected bool inited = false;
+        protected bool inited;
 
         /// <summary>
         /// 启动流程
@@ -81,65 +78,44 @@ namespace CatLib
         /// <summary>
         /// 全局唯一自增
         /// </summary>
-        protected long guid = 0;
+        protected long guid;
 
         /// <summary>
-        /// 时间系统
+        /// 构建一个CatLib实例
         /// </summary>
-        private ITime time;
-
-        /// <summary>
-        /// 时间
-        /// </summary>
-        public ITime Time
-        {
-            get
-            {
-                if (process <= StartProcess.OnInit)
-                {
-                    throw new Exception("can not call Time , because framework is not inited");
-                }
-                if (time == null)
-                {
-                    time = Make(typeof(ITime).ToString()) as ITime;
-                }
-                return time;
-            }
-        }
-
-        /// <summary>
-        /// 新建一个应用程序
-        /// </summary>
-        public Application() : base()
+        public Application()
         {
 
         }
 
         /// <summary>
-        /// 新建一个应用程序
+        /// 构建一个CatLib实例
         /// </summary>
-        /// <param name="behaviour"></param>
-        public Application(UnityEngine.MonoBehaviour behaviour) 
+        /// <param name="behaviour">驱动脚本</param>
+        public Application(UnityEngine.MonoBehaviour behaviour)
             : base(behaviour)
         {
-            
+
         }
 
         /// <summary>
         /// 引导程序
         /// </summary>
         /// <param name="bootstraps">引导文件</param>
-        /// <returns></returns>
+        /// <returns>CatLib实例</returns>
         public IApplication Bootstrap(Type[] bootstraps)
         {
             process = StartProcess.OnBootstrap;
 
             App.Instance = this;
+
             Instance(typeof(Application).ToString(), this);
             Alias(typeof(IApplication).ToString(), typeof(Application).ToString());
             Alias(typeof(App).ToString(), typeof(Application).ToString());
+            Alias(typeof(IContainer).ToString(), typeof(Application).ToString());
+
             IBootstrap bootstrap;
-            foreach (Type t in bootstraps)
+            foreach (var t in bootstraps)
             {
                 bootstrap = this.Make<IBootstrap>(t);
                 if (bootstrap != null)
@@ -167,29 +143,28 @@ namespace CatLib
                 return;
             }
 
-            ServiceProvider[] providers = serviceProviders.ToArray();
+            var providers = new List<ServiceProvider>(serviceProviders.Values).ToArray();
 
             process = StartProcess.OnInit;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_INITING).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_INITING, this).Trigger();
 
-            foreach (ServiceProvider serviceProvider in providers)
+            foreach (var serviceProvider in providers)
             {
                 serviceProvider.Init();
             }
 
             inited = true;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_INITED).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_INITED, this).Trigger();
 
             StartCoroutine(StartProviderPorcess());
-
         }
 
         /// <summary>
         /// 注册服务提供者
         /// </summary>
-        /// <param name="t"></param>
+        /// <param name="t">注册类型</param>
         public void Register(Type t)
         {
             if (serviceProviders.ContainsKey(t))
@@ -197,17 +172,17 @@ namespace CatLib
                 return;
             }
 
-            ServiceProvider serviceProvider = this.Make<ServiceProvider>(t);
-            if (serviceProvider != null)
+            var serviceProvider = this.Make<ServiceProvider>(t);
+            if (serviceProvider == null)
             {
-                serviceProvider.Register();
-                serviceProviders.Add(t, serviceProvider);
-                if (inited)
-                {
-                    serviceProvider.Init();
-                }
+                return;
             }
-
+            serviceProvider.Register();
+            serviceProviders.Add(t, serviceProvider);
+            if (inited)
+            {
+                serviceProvider.Init();
+            }
         }
 
         /// <summary>
@@ -227,24 +202,21 @@ namespace CatLib
         {
             process = StartProcess.OnProviderProcess;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSING).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_PROVIDER_PROCESSING, this).Trigger();
 
-            List<ServiceProvider> providers = new List<ServiceProvider>(serviceProviders.Values);
+            var providers = new List<ServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) => ((int)left.ProviderProcess).CompareTo((int)right.ProviderProcess));
 
-            foreach (ServiceProvider provider in providers)
+            foreach (var provider in providers)
             {
                 yield return provider.OnProviderProcess();
             }
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_PROVIDER_PROCESSED).Trigger();
+            TriggerGlobal(ApplicationEvents.ON_PROVIDER_PROCESSED, this).Trigger();
 
             process = StartProcess.OnComplete;
 
-            Trigger(this).SetEventName(ApplicationEvents.ON_APPLICATION_START_COMPLETE).Trigger();
-
+            TriggerGlobal(ApplicationEvents.ON_APPLICATION_START_COMPLETE, this).Trigger();
         }
-
     }
-
 }

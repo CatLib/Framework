@@ -8,20 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using Object = UnityEngine.Object;
 using CatLib.API.Resources;
 
 namespace CatLib.Resources
 {
+    /// <summary>
+    /// 资源托管
+    /// </summary>
     public interface IResourcesHosted
     {
-
         /// <summary>
         /// 从托管系统中获取一个托管
         /// </summary>
         /// <param name="path">资源路径</param>
-        /// <returns></returns>
+        /// <returns>包装对象</returns>
         IObject Get(string path);
 
         /// <summary>
@@ -29,8 +31,7 @@ namespace CatLib.Resources
         /// </summary>
         /// <param name="path">资源路径</param>
         /// <param name="obj">托管对象</param>
+        /// <returns>包装对象</returns>
         IObject Hosted(string path, Object obj);
-
     }
-
 }

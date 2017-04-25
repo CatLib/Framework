@@ -8,21 +8,22 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using CatLib.API.TimeQueue;
 
 namespace CatLib.TimeQueue
 {
-
-    public class TimeQueueProvider : ServiceProvider
+    /// <summary>
+    /// 时间队列服务提供商
+    /// </summary>
+    public sealed class TimeQueueProvider : ServiceProvider
     {
+        /// <summary>
+        /// 注册时间队列服务
+        /// </summary>
         public override void Register()
         {
-            App.Bind<TimeQueue>((app , param)=>{
-                
-                return app.Make<TimeRunner>().CreateQueue();
-
-            }).Alias<ITimeQueue>();
+            App.Bind<TimeQueue>((app, param) => app.Make<TimeRunner>().CreateQueue()).Alias<ITimeQueue>();
             App.Singleton<TimeRunner>();
         }
     }

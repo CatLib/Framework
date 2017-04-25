@@ -14,22 +14,22 @@ using CatLib.API.FilterChain;
 using CatLib.API.Routing;
 using System.Collections.Generic;
 
-namespace CatLib.Routing{
-	
-	/// <summary>
-	/// 路由组
-	/// </summary>
-	public class RouteGroup : IRouteGroup{
-
+namespace CatLib.Routing
+{
+    /// <summary>
+    /// 路由组
+    /// </summary>
+    internal sealed class RouteGroup : IRouteGroup
+    {
         /// <summary>
         /// 路由配置
         /// </summary>
-        protected RouteOptions options;
+        private readonly RouteOptions options;
 
         /// <summary>
         /// 在路由组中的路由条目
         /// </summary>
-        protected List<IRoute> routes;
+        private readonly List<IRoute> routes;
 
         /// <summary>
         /// 路由组
@@ -43,8 +43,8 @@ namespace CatLib.Routing{
         /// <summary>
         /// 设定过滤器链生成器
         /// </summary>
-        /// <param name="filterChain"></param>
-        /// <returns></returns>
+        /// <param name="filterChain">过滤器链</param>
+        /// <returns>路由组</returns>
         public RouteGroup SetFilterChain(IFilterChain filterChain)
         {
             options.SetFilterChain(filterChain);
@@ -54,13 +54,13 @@ namespace CatLib.Routing{
         /// <summary>
         /// 增加路由条目到路由组中
         /// </summary>
-        /// <param name="route"></param>
-        /// <returns></returns>
+        /// <param name="route">路由条目</param>
+        /// <returns>当前路由组实例</returns>
         public IRouteGroup AddRoute(IRoute route)
         {
-            if(route is Route)
+            if (route is Route)
             {
-                options.Merge((route as Route).Options);
+                options.Merge(((Route)route).Options);
             }
             routes.Add(route);
             return this;
@@ -71,67 +71,61 @@ namespace CatLib.Routing{
         /// </summary>
         /// <param name="name">参数名</param>
         /// <param name="val">参数值</param>
-        public IRouteGroup Defaults(string name, string val){
-
+        /// <returns>当前路由组实例</returns>
+        public IRouteGroup Defaults(string name, string val)
+        {
             options.Defaults(name, val);
-            for(int i = 0; i < routes.Count; i++)
+            for (var i = 0; i < routes.Count; i++)
             {
-                routes[i].Defaults(name, val , false);
+                routes[i].Defaults(name, val, false);
             }
             return this;
-
-		}
+        }
 
         /// <summary>
         /// 约束指定参数必须符合正则表达式
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="pattern"></param>
-        /// <returns></returns>
-        public IRouteGroup Where(string name, string pattern){
-
+        /// <param name="name">参数名</param>
+        /// <param name="pattern">约束的正则表达式</param>
+        /// <returns>当前路由组实例</returns>
+        public IRouteGroup Where(string name, string pattern)
+        {
             options.Where(name, pattern);
-            for (int i = 0; i < routes.Count; i++)
+            for (var i = 0; i < routes.Count; i++)
             {
-                routes[i].Where(name, pattern , false);
+                routes[i].Where(name, pattern, false);
             }
             return this;
-
-		}
+        }
 
         /// <summary>
-        /// 在路由中间件
+        /// 添加路由中间件
         /// </summary>
         /// <param name="middleware">中间件</param>
-        /// <returns></returns>
-        public IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware){
-
+        /// <returns>当前路由组实例</returns>
+        public IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
+        {
             options.Middleware(middleware);
-            for (int i = 0; i < routes.Count; i++)
+            for (var i = 0; i < routes.Count; i++)
             {
                 routes[i].Middleware(middleware);
             }
             return this;
-
-		}
+        }
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
-        /// <param name="middleware"></param>
-        /// <returns></returns>
-        public IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError){
-
+        /// <param name="onError">错误处理函数</param>
+        /// <returns>当前路由组实例</returns>
+        public IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
+        {
             options.OnError(onError);
-            for (int i = 0; i < routes.Count; i++)
+            for (var i = 0; i < routes.Count; i++)
             {
                 routes[i].OnError(onError);
             }
             return this;
-
-		}
-
-
+        }
     }
-
 }

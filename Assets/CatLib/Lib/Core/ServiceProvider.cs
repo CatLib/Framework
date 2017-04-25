@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
  
-using System;
 using System.Collections;
 using CatLib.API;
 
@@ -20,17 +19,39 @@ namespace CatLib
     /// </summary>
     public abstract class ServiceProvider
     {
-
+        /// <summary>
+        /// 服务提供商初始化
+        /// </summary>
         public virtual void Init() { }
 
-        public virtual ProviderProcess ProviderProcess { get { return ProviderProcess.Normal; } }
+        /// <summary>
+        /// 服务提供商启动流程
+        /// </summary>
+        public virtual ProviderProcess ProviderProcess
+        {
+            get { return ProviderProcess.Normal; }
+        }
 
-        public virtual IEnumerator OnProviderProcess() { yield break; }
+        /// <summary>
+        /// 当服务提供商触发启动流程时
+        /// </summary>
+        /// <returns>迭代器</returns>
+        public virtual IEnumerator OnProviderProcess()
+        {
+            yield break;
+        }
 
-        public IApplication App { get { return CatLib.App.Instance; } }
+        /// <summary>
+        /// CatLib实例
+        /// </summary>
+        public IApplication App
+        {
+            get { return CatLib.App.Instance; }
+        }
 
-        abstract public void Register();
-
+        /// <summary>
+        /// 当注册服务提供商
+        /// </summary>
+        public abstract void Register();
     }
-
 }

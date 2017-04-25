@@ -14,13 +14,11 @@ using CatLib.API.Routing;
 
 namespace CatLib.Routing
 {
-
     /// <summary>
     /// 路由行为
     /// </summary>
-    public class RouteAction
+    internal sealed class RouteAction
     {
-
         /// <summary>
         /// 路由行为类型
         /// </summary>
@@ -56,7 +54,5 @@ namespace CatLib.Routing
         /// 调度函数名
         /// </summary>
         public string Func { get; set; }
-
     }
-
 }

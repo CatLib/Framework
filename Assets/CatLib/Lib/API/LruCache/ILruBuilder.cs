@@ -9,15 +9,20 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.LruCache{
-	
-	/// <summary>
-	/// 创建 Lru 缓存构建器
-	/// </summary>
-	public interface ILruBuilder{
-
-		ILruCache<TKey, TVal> Create<TKey,TVal>(int maxCapacity);
-
-	}
-
+namespace CatLib.API.LruCache
+{
+    /// <summary>
+    /// 创建 lru 缓存构建器
+    /// </summary>
+    public interface ILruBuilder
+    {
+        /// <summary>
+        /// 创建 lru 缓存
+        /// </summary>
+        /// <typeparam name="TKey">键类型</typeparam>
+        /// <typeparam name="TVal">值类型</typeparam>
+        /// <param name="maxCapacity">最大容量</param>
+        /// <returns>lru缓存</returns>
+        ILruCache<TKey, TVal> Create<TKey, TVal>(int maxCapacity);
+    }
 }

@@ -16,7 +16,7 @@ using CatLib.API.Container;
 namespace CatLib.Container
 {
     /// <summary>
-    /// 代理
+    /// 代理包装器
     /// </summary>
     internal sealed class BoundProxy : IBoundProxy
     {
@@ -42,7 +42,7 @@ namespace CatLib.Container
             IInterceptingProxy proxy = null;
             if (target is MarshalByRefObject)
             {
-                if (target.GetType().IsDefined(typeof(AOPAttribute), false))
+                if (target.GetType().IsDefined(typeof(AopAttribute), false))
                 {
                     proxy = CreateRealProxy(target);
                 }

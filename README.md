@@ -6,7 +6,10 @@
 <a href="http://catlib.io"><img src="https://img.shields.io/badge/website-up-brightgreen.svg" title="CatLib文档" /></a>
 </p>
 
-> **风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险. 当前版本提出的issues一般情况下会在24小时内响应。
+> **风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险(包括但不限于不完整的单元测试,接口的变化,组件的废弃,不完善的错误提示,运行时错误). 当前版本提出的issues一般情况下会在24小时内响应。
+
+> **审计中的组件(通过审计的组件将会在6月发布):** Container 组件
+
 ## 关于CatLib
 
 CatLib是为Unity3D开发的全栈开发框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
@@ -45,6 +48,6 @@ CatLib使用的开源许可是：[MIT license](http://opensource.org/licenses/MI
 
 ## 技术支持
 
-* QQ群: 150371044
+* QQ群: 150371044 (验证: CatLib Support)
 * email: support@catlib.io
 * slack: [catlib.slack](https://catlib.slack.com/messages/internals/)

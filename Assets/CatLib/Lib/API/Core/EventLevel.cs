@@ -8,15 +8,17 @@
  *
  * Document: http://catlib.io/
  */
- 
+
+using System;
+
 namespace CatLib.API
 {
     /// <summary>
     /// 事件等级
     /// </summary>
+    [Flags]
     public enum EventLevel
     {
-
         /// <summary>
         /// 不通知
         /// </summary>
@@ -46,8 +48,5 @@ namespace CatLib.API
         /// 全部通知
         /// </summary>
         All = int.MaxValue,
-        
-
     }
-
 }

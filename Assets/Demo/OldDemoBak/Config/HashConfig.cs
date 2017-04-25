@@ -7,11 +7,11 @@ public class HashConfig : IConfig
     /// <summary>
     /// 类
     /// </summary>
-    public object Name
+    public string Name
     {
         get
         {
-            return typeof(Hash);
+            return typeof(Hash).ToString();
         }
     }
 

@@ -8,11 +8,11 @@ public class EnvConfig : IConfig
     /// <summary>
     /// 类
     /// </summary>
-    public object Name
+    public string Name
     {
         get
         {
-            return typeof(Env);
+            return typeof(Env).ToString();
         }
     }
 

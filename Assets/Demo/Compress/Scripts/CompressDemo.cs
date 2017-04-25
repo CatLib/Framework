@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System.Text;
 using CatLib.API;
 using CatLib.API.Compress;
 using CatLib.API.IO;
@@ -30,10 +31,10 @@ namespace CatLib.Demo.Compress
                                 helloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworldhelloworld";
 
                 UnityEngine.Debug.Log("Compress String before: " + str);
-                UnityEngine.Debug.Log("Compress Length before: " + str.ToByte().Length);
+                UnityEngine.Debug.Log("Compress Length before: " + Encoding.UTF8.GetBytes(str).Length);
 
                 ICompress comp = App.Make<ICompress>();
-                byte[] byt = comp.Compress(str.ToByte());
+                byte[] byt = comp.Compress(Encoding.UTF8.GetBytes(str));
 
                 UnityEngine.Debug.Log("Compress Length: " + byt.Length);
 

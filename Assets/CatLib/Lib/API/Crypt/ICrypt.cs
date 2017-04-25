@@ -1,23 +1,24 @@
-﻿/*
- * This file is part of the CatLib package.
- *
- * (c) Yu Bin <support@catlib.io>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * Document: http://catlib.io/
- */
- 
-namespace CatLib.API.Crypt{
+﻿
+namespace CatLib.API.Crypt
+{
+    /// <summary>
+    /// 加解密
+    /// </summary>
+    public interface ICrypt
+    {
+        /// <summary>
+        /// 加密字符串
+        /// </summary>
+        /// <param name="str">需要被加密的字符串</param>
+        /// <returns>加密后的字符串</returns>
+        string Encrypt(string str);
 
-	public interface ICrypt{
-
-        string Encrypt(string toEncrypt);
-
-        string Decrypt(string toDecrypt);
-
-
+        /// <summary>
+        /// 解密被加密的字符串
+        /// </summary>
+        /// <param name="str">需要被解密的字符串</param>
+        /// <returns>解密后的字符串</returns>
+        string Decrypt(string str);
     }
-
 }
+

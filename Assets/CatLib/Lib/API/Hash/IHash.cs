@@ -11,38 +11,43 @@
 
 namespace CatLib.API.Hash
 {
-
+    /// <summary>
+    /// 哈希
+    /// </summary>
     public interface IHash
     {
+        /// <summary>
+        /// 盐
+        /// </summary>
+        string GenerateSalt { get; }
 
         /// <summary>
-        /// 对一个字符串进行Hash加密
+        /// 哈希一个输入值
         /// </summary>
-        /// <param name="password"></param>
+        /// <param name="input">输入值</param>
         /// <returns></returns>
-        string Make(string password);
+        string Make(string input);
 
         /// <summary>
-        /// 验证一个Hash是否有效
+        /// 检查是否匹配
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="hash"></param>
-        /// <returns></returns>
-        bool Check(string text, string hash);
+        /// <param name="input">输入值</param>
+        /// <param name="hash">需要验证的hash</param>
+        /// <returns>是否匹配</returns>
+        bool Check(string input, string hash);
 
         /// <summary>
-        /// 用于计算文件的md5 ， 您不应该用它进行密码等高敏感的hash加密
+        /// 用于计算文件的md5，您不应该用它进行密码等高敏感的hash加密
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        string FileHash(string path);
+        /// <param name="path">文件路径</param>
+        /// <returns>md5加密的值</returns>
+        string FileMd5(string path);
 
         /// <summary>
-        /// 用户计算字符串的md5 
+        /// 字符串md5，您不应该用它进行密码等高敏感的hash加密
         /// </summary>
-        /// <param name="inputText"></param>
-        /// <returns></returns>
-        string StringHash(string inputText);
+        /// <param name="input">输入的字符串</param>
+        /// <returns>md5加密的值</returns>
+        string StringMd5(string input);
     }
-
 }

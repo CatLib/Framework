@@ -18,37 +18,35 @@ using System.Text;
 
 namespace CatLib.Routing
 {
-
     /// <summary>
     /// 属性路由编译器
     /// </summary>
-    public class AttrRouteCompiler
+    internal sealed class AttrRouteCompiler
     {
-
         /// <summary>
         /// 路由器
         /// </summary>
-        private Router router;
+        private readonly Router router;
 
         /// <summary>
-        /// 被路由的属性
+        /// 被路由的特性标记
         /// </summary>
-        private Type routed = typeof(RoutedAttribute);
+        private readonly Type routed = typeof(RoutedAttribute);
 
         /// <summary>
         /// 编译记录
         /// </summary>
-        private Dictionary<string, bool> buildRecord = new Dictionary<string, bool>();
+        private readonly Dictionary<string, bool> buildRecord = new Dictionary<string, bool>();
 
         /// <summary>
         /// 控制器编译记录
         /// </summary>
-        private Dictionary<string, bool> controllerFuncBuildRecord = new Dictionary<string, bool>();
+        private readonly Dictionary<string, bool> controllerFuncBuildRecord = new Dictionary<string, bool>();
 
         /// <summary>
         /// 属性路由编译器
         /// </summary>
-        /// <param name="router"></param>
+        /// <param name="router">路由器</param>
         public AttrRouteCompiler(Router router)
         {
             this.router = router;
@@ -59,13 +57,12 @@ namespace CatLib.Routing
         /// </summary>
         public void Complie()
         {
-
-            buildRecord.Clear();
-
-            Assembly[] a = AppDomain.CurrentDomain.GetAssemblies();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (IsStripping(assembly)) { continue; }
+                if (IsStripping(assembly))
+                {
+                    continue;
+                }
                 foreach (var type in assembly.GetTypes())
                 {
                     ComplieRouted(type);
@@ -73,27 +70,35 @@ namespace CatLib.Routing
             }
 
             buildRecord.Clear();
-
         }
 
         /// <summary>
         /// 编译属性路由
         /// </summary>
-        /// <param name="type"></param>
-        protected void ComplieRouted(Type type)
+        /// <param name="type">编译类型</param>
+        private void ComplieRouted(Type type)
         {
-            if (!type.IsDefined(this.routed,false)) { return; }
-            object[] obj = type.GetCustomAttributes(this.routed, false);
-            if (obj.Length <= 0) { return; }
+            if (!type.IsDefined(this.routed, false))
+            {
+                return;
+            }
+            var obj = type.GetCustomAttributes(this.routed, false);
+            if (obj.Length <= 0)
+            {
+                return;
+            }
 
             controllerFuncBuildRecord.Clear();
 
-            RoutedAttribute routed = null;
-            for (int i = 0; i < obj.Length; i++)
+            RoutedAttribute routed;
+            for (var i = 0; i < obj.Length; i++)
             {
                 routed = obj[i] as RoutedAttribute;
 
-                if (routed == null) { continue; }
+                if (routed == null)
+                {
+                    continue;
+                }
 
                 if (string.IsNullOrEmpty(routed.Path))
                 {
@@ -102,58 +107,58 @@ namespace CatLib.Routing
 
                 ComplieController(type, routed);
             }
-            
         }
 
         /// <summary>
         /// 编译控制器
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="routed"></param>
-        protected void ComplieController(Type type , RoutedAttribute baseRouted)
+        /// <param name="type">控制器类型</param>
+        /// <param name="baseRouted">控制器路由标记</param>
+        private void ComplieController(Type type, RoutedAttribute baseRouted)
         {
-
             //类的属性标记中的基础路径
-            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+            var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
-            List<IRoute> routeList = new List<IRoute>();
+            var routeList = new List<IRoute>();
             IRoute[] routes;
-            foreach (MethodInfo method in methods)
+            foreach (var method in methods)
             {
-                if((routes = ComplieFunction(type , method, baseRouted)) != null)
+                if ((routes = ComplieFunction(type, method, baseRouted)) != null)
                 {
                     routeList.AddRange(routes);
                 }
             }
 
-            Dictionary<string, string> controllerWhere = ComplieDirection(baseRouted.Where);
-            Dictionary<string, string> controllerDefaults = ComplieDirection(baseRouted.Defaults);
+            var controllerWhere = ComplieDirection(baseRouted.Where);
+            var controllerDefaults = ComplieDirection(baseRouted.Defaults);
 
             IRoute route;
-            for (int i = 0; i < routeList.Count; i++)
+            for (var i = 0; i < routeList.Count; i++)
             {
                 route = routeList[i];
                 ComplieOptionsGroup(route, baseRouted);
                 ComplieOptionsWhere(route, controllerWhere);
                 ComplieOptionsDefaults(route, controllerDefaults);
             }
-
         }
 
         /// <summary>
         /// 编译函数
         /// </summary>
-        /// <param name="method"></param>
-        /// <param name="baseRouted"></param>
-        protected IRoute[] ComplieFunction(Type type , MethodInfo method, RoutedAttribute baseRouted)
+        /// <param name="controllerType">控制器类型</param>
+        /// <param name="method">方法信息</param>
+        /// <param name="baseRouted">控制器路由标记</param>
+        private IRoute[] ComplieFunction(Type controllerType, MethodInfo method, RoutedAttribute baseRouted)
         {
+            var routeds = method.GetCustomAttributes(this.routed, false);
+            if (routeds.Length <= 0)
+            {
+                return null;
+            }
 
-            object[] routeds = method.GetCustomAttributes(this.routed, false);
-            if (routeds.Length <= 0) { return null; }
-
-            List<IRoute> ret = new List<IRoute>();
-            RoutedAttribute routed = null;
-            for (int i = 0; i < routeds.Length; i++)
+            var ret = new List<IRoute>();
+            RoutedAttribute routed;
+            for (var i = 0; i < routeds.Length; i++)
             {
                 routed = routeds[i] as RoutedAttribute;
 
@@ -165,11 +170,11 @@ namespace CatLib.Routing
 
                 //如果是包含scheme完整的uri那么则忽略来自控制器提供的uri
                 //这里的所有的开头都不允许出现‘/’
-                string path = routed.Path.TrimStart('/');
+                var path = routed.Path.TrimStart('/');
                 if (baseRouted != null && !HasScheme(routed.Path))
                 {
                     //如果开发者提供了控制器的路由配置，那么将会合并控制器路由的全局部分
-                    int index = baseRouted.Path.LastIndexOf("://");
+                    var index = baseRouted.Path.LastIndexOf("://");
                     if (index != -1 && (index + 3) == baseRouted.Path.Length)
                     {
                         path = baseRouted.Path + path;
@@ -188,31 +193,30 @@ namespace CatLib.Routing
                 controllerFuncBuildRecord.Add(path + "$" + method.Name, true);
 
                 // 检查全局是否重复编译
-                CheckRepeat(path, type, method);
+                CheckRepeat(path, controllerType, method);
 
-                IRoute route = router.Reg(path, type, method.Name);
+                var route = router.Reg(path, controllerType, method.Name);
 
                 //编译标记中的属性路由中的配置到路由条目中
                 ComplieOptions(route, routed);
 
                 ret.Add(route);
-
             }
-            
 
             return ret.ToArray();
-
         }
 
         /// <summary>
         /// 检查是否重复编译
         /// </summary>
-        /// <param name="path"></param>
-        protected void CheckRepeat(string path , Type type , MethodInfo method)
+        /// <param name="path">编译路径</param>
+        /// <param name="controllerType">控制器类型</param>
+        /// <param name="method">编译方法</param>
+        private void CheckRepeat(string path, Type controllerType, MethodInfo method)
         {
             if (buildRecord.ContainsKey(path))
             {
-                throw new CatLibException("build attr route has be repeat , type: " + type.FullName + " , method: " + method.Name);
+                throw new CatLibException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name);
             }
 
             buildRecord.Add(path, true);
@@ -221,9 +225,9 @@ namespace CatLib.Routing
         /// <summary>
         /// 编译配置信息
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="routed"></param>
-        protected void ComplieOptions(IRoute route , RoutedAttribute routed)
+        /// <param name="route">路由条目</param>
+        /// <param name="routed">路由特性</param>
+        private void ComplieOptions(IRoute route, RoutedAttribute routed)
         {
             ComplieOptionsGroup(route, routed);
             ComplieOptionsWhere(route, ComplieDirection(routed.Where));
@@ -233,9 +237,9 @@ namespace CatLib.Routing
         /// <summary>
         /// 增加组信息
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="routed"></param>
-        protected void ComplieOptionsGroup(IRoute route, RoutedAttribute routed)
+        /// <param name="route">路由条目</param>
+        /// <param name="routed">路由特性</param>
+        private void ComplieOptionsGroup(IRoute route, RoutedAttribute routed)
         {
             if (!string.IsNullOrEmpty(routed.Group))
             {
@@ -246,11 +250,11 @@ namespace CatLib.Routing
         /// <summary>
         /// 增加where信息
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="routed"></param>
-        protected void ComplieOptionsWhere(IRoute route, Dictionary<string , string> routed)
+        /// <param name="route">路由条目</param>
+        /// <param name="routed">路由特性</param>
+        private void ComplieOptionsWhere(IRoute route, Dictionary<string, string> routed)
         {
-            foreach(var kv in routed)
+            foreach (var kv in routed)
             {
                 route.Where(kv.Key, kv.Value, false);
             }
@@ -259,37 +263,44 @@ namespace CatLib.Routing
         /// <summary>
         /// 增加defaults信息
         /// </summary>
-        /// <param name="route"></param>
-        /// <param name="routed"></param>
-        protected void ComplieOptionsDefaults(IRoute route, Dictionary<string, string> routed)
+        /// <param name="route">路由条目</param>
+        /// <param name="routed">路由特性</param>
+        private void ComplieOptionsDefaults(IRoute route, Dictionary<string, string> routed)
         {
             foreach (var kv in routed)
             {
-                route.Defaults(kv.Key, kv.Value , false);
+                route.Defaults(kv.Key, kv.Value, false);
             }
         }
 
         /// <summary>
         /// 编译指向语法
         /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        protected Dictionary<string , string> ComplieDirection(string val)
+        /// <param name="input">输入的字符串</param>
+        /// <returns>解析的指向语法</returns>
+        private Dictionary<string, string> ComplieDirection(string input)
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            var data = new Dictionary<string, string>();
 
-            if (string.IsNullOrEmpty(val)) { return data; }
-            string[] segment = val.Split(',');
-            if (segment.Length <= 0) { return data; }
+            if (string.IsNullOrEmpty(input))
+            {
+                return data;
+            }
+            var segment = input.Split(',');
+
+            if (segment.Length <= 0)
+            {
+                return data;
+            }
 
             string[] fragment;
-            string[] split = new string[] { "=>" };
-            for (int i = 0; i < segment.Length; i++)
+            var split = new[] { "=>" };
+            for (var i = 0; i < segment.Length; i++)
             {
                 fragment = segment[i].Split(split, StringSplitOptions.RemoveEmptyEntries);
-                if(fragment.Length != 2)
+                if (fragment.Length != 2)
                 {
-                    throw new RuntimeException("routed options exception , can not resolve:" + val);
+                    throw new RuntimeException("routed options exception , can not resolve:" + input);
                 }
                 data.Remove(fragment[0]);
                 data.Add(fragment[0], fragment[1]);
@@ -301,35 +312,34 @@ namespace CatLib.Routing
         /// <summary>
         /// 程序集是否是被剥离的
         /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        protected bool IsStripping(Assembly assembly)
+        /// <param name="assembly">资源集</param>
+        /// <returns>是否过滤</returns>
+        private bool IsStripping(Assembly assembly)
         {
             string[] notStripping = { "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor" };
-            for(int i = 0; i< notStripping.Length; i++)
+            for (var i = 0; i < notStripping.Length; i++)
             {
-                if(assembly.GetName().Name == notStripping[i])
+                if (assembly.GetName().Name == notStripping[i])
                 {
                     return false;
                 }
             }
             return true;
-
         }
 
         /// <summary>
         /// 类名或者方法名转为路由名
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        protected string ClassOrFunctionNameToRouteName(string name)
+        /// <param name="name">名字</param>
+        /// <returns>路由名</returns>
+        private string ClassOrFunctionNameToRouteName(string name)
         {
-            StringBuilder builder = new StringBuilder();
-            for(int i = 0; i< name.Length; i++)
+            var builder = new StringBuilder();
+            for (var i = 0; i < name.Length; i++)
             {
-                if(name[i] > 'A' && name[i] < 'Z')
+                if (name[i] > 'A' && name[i] < 'Z')
                 {
-                    if(i > 0 && !(name[i - 1] > 'A' && name[i - 1] < 'Z'))
+                    if (i > 0 && !(name[i - 1] > 'A' && name[i - 1] < 'Z'))
                     {
                         builder.Append("-");
                     }
@@ -339,16 +349,13 @@ namespace CatLib.Routing
             return builder.ToString();
         }
 
-
         /// <summary>
         /// 是否包含scheme
         /// </summary>
-        /// <param name="path"></param>
-        protected bool HasScheme(string path)
+        /// <param name="uri">输入值</param>
+        private bool HasScheme(string uri)
         {
-            return path.IndexOf(@"://") >= 0;
+            return uri.IndexOf(@"://") >= 0;
         }
-
     }
-
 }
