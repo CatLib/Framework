@@ -14,6 +14,35 @@ namespace CatLib.Test.Stl
     [TestFixture]
     class SortSetTest
     {
+        [Test]
+        public void TestSortedList()
+        {
+            var list = new SortedList<int , int>();
+            int num = 500000;
+            var rand = new Random();
+            for (var i = 0; i < num; i++)
+            {
+                var val = rand.Next();
+                if (!list.ContainsKey(val))
+                {
+                    list.Add(val, val);
+                }
+                //list.Add(i,i);
+            }
+            var max = 0;
+            foreach (var val in list)
+            {
+                if (max <= val.Key)
+                {
+                    max = val.Key;
+                }
+                else
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
         /// <summary>
         /// 增加元素测试
         /// </summary>
@@ -21,7 +50,7 @@ namespace CatLib.Test.Stl
         public void AddElementTest()
         {
             //var list2 = new SortSet<object, int>();
-            int num = 50000;
+            int num = 500000;
             var list = new SortSet<int, int>();
             var rand = new Random();
 

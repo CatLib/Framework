@@ -111,7 +111,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 结点数量
         /// </summary>
-        public int Count { get; private set; }
+        public long Count { get; private set; }
 
         /// <summary>
         /// 同步锁
@@ -181,6 +181,47 @@ namespace CatLib.Stl
                 Remove(element, dictScore);
             }
             AddElement(element, score);
+        }
+
+        /// <summary>
+        /// 是否包含某个元素
+        /// </summary>
+        /// <param name="element">元素</param>
+        public bool Contains(TElement element)
+        {
+            return dict.ContainsKey(element);
+        }
+
+        /// <summary>
+        /// 获取分数范围内的元素个数
+        /// </summary>
+        /// <param name="min">最小值(包含)</param>
+        /// <param name="max">最大值(包含)</param>
+        /// <returns>分数值在<paramref name="min"/>和<paramref name="max"/>之间的元素数量</returns>
+        public long ScoreRangeCount(TScore min, TScore max)
+        {
+            return 0;
+            //long rank = GetRank()
+        }
+
+        /// <summary>
+        /// 根据分数获取第一个元素
+        /// </summary>
+        /// <param name="score">分数</param>
+        /// <returns>节点</returns>
+        private SkipNode FirstInScore(TScore score)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 根据分数获取最后一个元素
+        /// </summary>
+        /// <param name="score">分数</param>
+        /// <returns>节点</returns>
+        private SkipNode LastInScore(TScore score)
+        {
+            return null;
         }
 
         /// <summary>
@@ -302,7 +343,7 @@ namespace CatLib.Stl
                     cursor = cursor.Level[i].Forward;
                 }
 
-                //将找到的最后一个结点置入需要更新的结点
+                //将找到的最后一个结点置入需要更新的结点 
                 update[i] = cursor;
             }
 
