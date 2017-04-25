@@ -6,3 +6,45 @@
 /Assets/Release
 .vscode
 /.vs
+# unity generated #
+# =============== #
+[Tt]emp/
+[Oo]bj/
+UnityGenerated/
+[Bb]uild/
+[Ll]ibrary/
+[Pp]roject[Ss]ettings/
+UWP/
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.svd
+*.user
+*.unityproj
+*.tmp
+*.booproj
+
+
+# Unity3D Generated File On Crash Reports
+sysinfo.txt
+
+ 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
