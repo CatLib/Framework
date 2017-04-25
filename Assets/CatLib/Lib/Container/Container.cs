@@ -695,13 +695,12 @@ namespace CatLib.Container
                     continue;
                 }
 
-                var propertyAttrs = property.GetCustomAttributes(injectTarget, false);
-                if (propertyAttrs.Length <= 0)
+                if (!property.IsDefined(injectTarget, false))
                 {
                     continue;
                 }
 
-                var injectAttr = (InjectAttribute)propertyAttrs[0];
+                var injectAttr = (InjectAttribute)property.GetCustomAttributes(injectTarget, false)[0];
                 var needService = string.IsNullOrEmpty(injectAttr.Alias) ? property.PropertyType.ToString() : GetAlias(injectAttr.Alias);
                 object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
@@ -773,12 +772,14 @@ namespace CatLib.Container
                     }
                 }
 
-                var propertyAttrs = info.GetCustomAttributes(injectTarget, false);
-
                 InjectAttribute injectAttr = null;
-                if (propertyAttrs.Length > 0)
+                if (info.IsDefined(injectTarget, false))
                 {
-                    injectAttr = (InjectAttribute)propertyAttrs[0];
+                    var propertyAttrs = info.GetCustomAttributes(injectTarget, false);
+                    if (propertyAttrs.Length > 0)
+                    {
+                        injectAttr = (InjectAttribute) propertyAttrs[0];
+                    }
                 }
 
                 var needService = info.ParameterType.ToString();
