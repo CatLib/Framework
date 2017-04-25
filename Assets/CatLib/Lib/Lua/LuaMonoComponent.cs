@@ -1,7 +1,7 @@
 ﻿/*
  * This file is part of the CatLib package.
  *
- * (c) Yu Bin <support@catlib.io>
+ * (c) Ming ming <support@catlib.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,18 +12,26 @@
 using UnityEngine;
 using XLua;
 using System;
-using CatLib.Lua;
+using CatLib.API.Lua;
 using CatLib.API.Resources;
+using CatLib.Lua;
 
 namespace CatLib {
 
-    /// <summary>
-    /// Lua 组件
-    /// </summary>
+
+    // ===============================================================================
+    // File Name           :    LuaMonoComponent.cs
+    // Class Description   :    
+    // Author              :    Mingming
+    // Create Time         :    2017-04-25 09:55:05
+    // ===============================================================================
+    // Copyright © Mingming . All rights reserved.
+    // ===============================================================================
+    [LuaCallCSharp]
     public class LuaMonoComponent : MonoComponent
     {
 
-        public string luaPath;
+        public string luaPath = "scripts/test/LuaTestScript.lua.txt";
 
         /// <summary>
         /// 注入内容
@@ -41,31 +49,35 @@ namespace CatLib {
 
         private Action luaOnDestroy;
 
-        protected LuaEnv LuaEnv
+        protected ILua Lua {
+            get { return App.Make<ILua>(); }
+        }
+
+        protected XLuaEngine LuaEngine
         {
-            get { return App.Make<ILua>().LuaEnv; }
+            get { return (App.Make<ILua>().LuaEngineAdapter as XLuaEngine); }
         }
 
         void Awake()
         {
+            BeforeInit();
+            Init();
+            AfterInit();
+        }
 
-            scriptEnv = LuaEnv.NewTable();
-
-            LuaTable meta = LuaEnv.NewTable();
-            meta.Set("__index", LuaEnv.Global);
+        public virtual void BeforeInit()
+        {
+            scriptEnv = LuaEngine.ScriptEnv;
+            LuaTable meta = LuaEngine.LuaEnv.NewTable();
+            meta.Set("__index", LuaEngine.LuaEnv.Global);
             scriptEnv.SetMetaTable(meta);
             meta.Dispose();
 
             scriptEnv.Set("self", this);
-            foreach (var injection in injections)
-            {
-                scriptEnv.Set(injection.name, injection.value);
-            }
+        }
 
-            TextAsset text = App.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>(scriptEnv);
-
-            LuaEnv.DoString(text.text, "LuaBehaviour", scriptEnv);
-
+        public virtual void AfterInit()
+        {
             Action luaAwake = scriptEnv.Get<Action>("awake");
             scriptEnv.Get("start", out luaStart);
             scriptEnv.Get("update", out luaUpdate);
@@ -75,7 +87,12 @@ namespace CatLib {
             {
                 luaAwake();
             }
+        }
 
+        public virtual void Init() {
+            TextAsset text = App.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>(scriptEnv);
+
+            Lua.ExecuteScript(text.text);
         }
 
         void Start()
@@ -103,11 +120,7 @@ namespace CatLib {
             luaOnDestroy = null;
             luaUpdate = null;
             luaStart = null;
-            if (scriptEnv != null)
-            {
-                scriptEnv.Dispose();
-                scriptEnv = null;
-            }
+            Lua.Dispose();
             injections = null;
             base.OnDestroy();
         }

@@ -1,7 +1,7 @@
 ﻿/*
  * This file is part of the CatLib package.
  *
- * (c) Yu Bin <support@catlib.io>
+ * (c) Ming ming <support@catlib.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,10 +11,18 @@
  
 using System.Collections;
 using CatLib.API.Config;
+using CatLib.API.Lua;
 
 namespace CatLib.Lua
 {
-
+    // ===============================================================================
+    // File Name           :    LuaProvider.cs
+    // Class Description   :    Lua服务提供商
+    // Author              :    Mingming
+    // Create Time         :    2017-04-22 17:46:58
+    // ===============================================================================
+    // Copyright © Mingming . All rights reserved.
+    // ===============================================================================
     public class LuaProvider : ServiceProvider
     {
 
@@ -28,22 +36,29 @@ namespace CatLib.Lua
 
         public override IEnumerator OnProviderProcess()
         {
-            yield return (App.Make<ILua>() as LuaStore).LoadHotFix();
+            yield return (App.Make<ILua>() as LuaEngine).LoadProviderProcess();
         }
-
 
         public override void Register()
         {
-            App.Singleton<LuaStore>().Alias<ILua>().OnResolving((bind, obj) =>{
+            RegisterAdapter();
+            App.Singleton<LuaEngine>().Alias<ILua>().Alias("LuaEngine").OnResolving((bind, obj) =>{
 
+                LuaEngine luaEngine = obj as LuaEngine;
                 IConfigStore config = App.Make<IConfigStore>();
-                LuaStore store = obj as LuaStore;
-
-                store.SetHotfixPath(config.Get<string[]>(typeof(LuaStore) , "lua.hotfix.path" , null));
-
+                luaEngine.SetHotfixPath(config.Get<string[]>(typeof(XLuaEngine) , "lua.hotfix.path" , null));
                 return obj;
 
             });
+        }
+
+        /// <summary>
+        /// 注册Lua的适配器
+        /// </summary>
+        private void RegisterAdapter()
+        {
+            //此处默认的Lua引擎为XLua，如果需要替换，请自行实现对应的LuaProvider
+            App.Singleton<ILuaEngineAdapter>((app, param) => new XLuaEngine()).Alias("LuaEngine.adapter");
         }
     }
 }
