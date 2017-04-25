@@ -81,7 +81,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 字典
         /// </summary>
-        private Dictionary<TElement , TScore> dict = new Dictionary<TElement, TScore>();
+        private readonly Dictionary<TElement , TScore> dict = new Dictionary<TElement, TScore>();
 
         /// <summary>
         /// 当前拥有的层
@@ -333,6 +333,31 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 根据排名获取元素
+        /// </summary>
+        /// <param name="rank">排名</param>
+        /// <returns>元素</returns>
+        public TElement GetElementByRank(long rank)
+        {
+            long traversed = 0;
+            var cursor = header;
+            for (var i = level - 1; i >= 0; i--)
+            {
+                while (cursor.Level[i].Forward != null && 
+                        (traversed + cursor.Level[i].Span) <= rank)
+                {
+                    traversed += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
+                }
+                if (traversed == rank)
+                {
+                    return cursor.Element;
+                }
+            }
+            return default(TElement);
+        }
+
+        /// <summary>
         /// 获取元素排名
         /// </summary>
         /// <param name="element">元素</param>
@@ -345,17 +370,15 @@ namespace CatLib.Stl
             for (var i = level - 1; i >= 0; --i)
             {
                 while (cursor.Level[i].Forward != null &&
-                        (cursor.Level[i].Forward.Score.CompareTo(score) <= 0))
+                        (cursor.Level[i].Forward.Score.CompareTo(score) <= 0 &&
+                            !cursor.Level[i].Forward.Equals(element)))
                 {
                     rank += cursor.Level[i].Span;
                     cursor = cursor.Level[i].Forward;
-                    if (cursor.Element.Equals(element))
-                    {
-                        break;
-                    }
                 }
-                if (cursor.Element != null && 
-                        cursor.Element.Equals(element))
+                if (cursor != header && 
+                        cursor.Element != null && 
+                            cursor.Element.Equals(element))
                 {
                     return rank;
                 }

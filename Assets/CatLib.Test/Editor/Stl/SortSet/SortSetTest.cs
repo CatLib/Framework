@@ -21,7 +21,7 @@ namespace CatLib.Test.Stl
         public void AddElementTest()
         {
             //var list2 = new SortSet<object, int>();
-            int num = 500000;
+            int num = 50000;
             var list = new SortSet<int, int>();
             var rand = new Random();
 
@@ -52,7 +52,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void RemoveTest()
         {
-            int num = 500000;
+            int num = 50000;
             var list = new SortSet<int, int>();
             var lst = new List<int>();
             var rand = new Random();
@@ -82,15 +82,42 @@ namespace CatLib.Test.Stl
         }
 
         /// <summary>
+        /// 根据排名获取元素
+        /// </summary>
+        [Test]
+        public void GetElementByRank()
+        {
+            var num = 50000;
+            var list = new SortSet<int, int>();
+            for (var i = 0; i < num; i++)
+            {
+                list.Add(i, i);
+            }
+            var rand = new Random();
+            for (var i = 0; i < Math.Min(num, 100); i++)
+            {
+                var rank = rand.Next(0, num);
+                var val = list.GetElementByRank(rank);
+
+                if ((rank - 1) != val)
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
+        /// <summary>
         /// 获取排名位置
         /// </summary>
         [Test]
+        [Repeat(100)]
         public void GetRankTest()
         {
-            var num = 500000;
+            var num = 100;
             var list = new SortSet<int, int>();
             var lst = new List<int>();
             var rand = new Random();
+            
             for (var i = 0; i < num; i++)
             {
                 if (rand.NextDouble() < 0.1)
