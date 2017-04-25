@@ -191,11 +191,27 @@ namespace CatLib.Stl
         private void AddElement(TElement element, TScore score)
         {
             int i;
-            long[] rank;
-
             dict.Add(element, score);
 
-            var update = FindNearedUpdateNode(element, score, out rank);
+            var update = new SkipNode[maxLevel];
+            var cursor = header;
+            var rank = new long[maxLevel];
+            //从跳跃层高到低的进行查找
+            for (i = level - 1; i >= 0; --i)
+            {
+                //rank为上一级结点的跨度数作为起点
+                rank[i] = i == (level - 1) ? 0 : rank[i + 1];
+                while (cursor.Level[i].Forward != null &&
+                        (cursor.Level[i].Forward.Score.CompareTo(score) < 0))
+                {
+                    rank[i] += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
+                }
+
+                //将找到的最后一个结点置入需要更新的结点
+                update[i] = cursor;
+            }
+
 
             //随机获取层数
             var newLevel = GetRandomLevel();
@@ -213,7 +229,7 @@ namespace CatLib.Stl
             }
 
             //将游标指向为新的跳跃结点
-            var cursor = new SkipNode
+            cursor = new SkipNode
             {
                 Element = element,
                 Score = score,
@@ -253,7 +269,7 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 删除元素
+        /// 从有序集中删除元素，如果元素不存在返回false
         /// </summary>
         /// <param name="element">元素</param>
         /// <returns>是否成功</returns>
@@ -266,18 +282,35 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 如果元素存在那么从跳跃链表中删除元素
+        /// 如果元素存在那么从有序集中删除元素
         /// </summary>
         /// <param name="element">元素</param>
         /// <param name="score">分数</param>
         /// <returns>是否成功</returns>
         private bool Remove(TElement element, TScore score)
         {
-            long[] rank;
-            var update = FindNearedUpdateNode(element, score, out rank);
-            var cursor = update[0].Level[0].Forward;
+            var update = new SkipNode[maxLevel];
+            var cursor = header;
 
-            if (cursor == null || cursor.Score.CompareTo(score) != 0 || !cursor.Element.Equals(element))
+            //从跳跃层高到低的进行查找
+            for (var i = level - 1; i >= 0; --i)
+            {
+                while (cursor.Level[i].Forward != null &&
+                            (cursor.Level[i].Forward.Score.CompareTo(score) <= 0 &&
+                                !cursor.Level[i].Forward.Element.Equals(element)))
+                {
+                    cursor = cursor.Level[i].Forward;
+                }
+
+                //将找到的最后一个结点置入需要更新的结点
+                update[i] = cursor;
+            }
+
+            cursor = update[0].Level[0].Forward;
+
+            if (cursor == null || 
+                    cursor.Score.CompareTo(score) != 0 || 
+                        !cursor.Element.Equals(element))
             {
                 return false;
             }
@@ -312,8 +345,7 @@ namespace CatLib.Stl
             for (var i = level - 1; i >= 0; --i)
             {
                 while (cursor.Level[i].Forward != null &&
-                        (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
-                            (cursor.Level[i].Forward.Score.CompareTo(score) == 0)))
+                        (cursor.Level[i].Forward.Score.CompareTo(score) <= 0))
                 {
                     rank += cursor.Level[i].Span;
                     cursor = cursor.Level[i].Forward;
@@ -363,39 +395,6 @@ namespace CatLib.Stl
                 --level;
             }
             --Count;
-        }
-
-        /// <summary>
-        /// 搜索距离元素临近的需要更新的结点
-        /// </summary>
-        /// <param name="element">元素</param>
-        /// <param name="score">分数</param>
-        /// <param name="rank">排名</param>
-        /// <returns>需要更新的结点列表</returns>
-        private SkipNode[] FindNearedUpdateNode(TElement element, TScore score, out long[] rank)
-        {
-            var update = new SkipNode[maxLevel];
-            var cursor = header;
-            rank = new long[maxLevel];
-            //从跳跃层高到低的进行查找
-            for (var i = level - 1; i >= 0; --i)
-            {
-                //rank为上一级结点的跨度数作为起点
-                rank[i] = i == (level - 1) ? 0 : rank[i + 1];
-                while (cursor.Level[i].Forward != null &&
-                        (cursor.Level[i].Forward.Score.CompareTo(score) < 0 ||
-                            (cursor.Level[i].Forward.Score.CompareTo(score) == 0 &&
-                                !cursor.Level[i].Forward.Element.Equals(element))))
-                {
-                    rank[i] += cursor.Level[i].Span;
-                    cursor = cursor.Level[i].Forward;
-                }
-
-                //将找到的最后一个结点置入需要更新的结点
-                update[i] = cursor;
-            }
-
-            return update;
         }
 
         /// <summary>

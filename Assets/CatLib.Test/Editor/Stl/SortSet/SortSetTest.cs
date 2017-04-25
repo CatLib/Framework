@@ -21,7 +21,7 @@ namespace CatLib.Test.Stl
         public void AddElementTest()
         {
             //var list2 = new SortSet<object, int>();
-            int num = 40960;
+            int num = 500000;
             var list = new SortSet<int, int>();
             var rand = new Random();
 
@@ -29,6 +29,7 @@ namespace CatLib.Test.Stl
             {
                 var val = rand.Next();
                 list.Add(val, val);
+                //list.Add(i,i);
             }
 
             var max = 0;
@@ -51,7 +52,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void RemoveTest()
         {
-            int num = 40960;
+            int num = 500000;
             var list = new SortSet<int, int>();
             var lst = new List<int>();
             var rand = new Random();
@@ -86,7 +87,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void GetRankTest()
         {
-            var num = 40960;
+            var num = 500000;
             var list = new SortSet<int, int>();
             var lst = new List<int>();
             var rand = new Random();
