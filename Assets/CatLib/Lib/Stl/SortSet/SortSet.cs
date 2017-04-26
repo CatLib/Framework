@@ -21,7 +21,6 @@ namespace CatLib.Stl
     /// 有序集优先使用评分进行排序
     /// </summary>
     public sealed class SortSet<TElement, TScore> : IEnumerable<TElement>
-        //where TElement : IComparable<TElement>, IEquatable<TElement>
         where TScore : IComparable<TScore>
     {
         /// <summary>
@@ -81,7 +80,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 字典
         /// </summary>
-        private readonly Dictionary<TElement , TScore> dict = new Dictionary<TElement, TScore>();
+        private readonly Dictionary<TElement, TScore> dict = new Dictionary<TElement, TScore>();
 
         /// <summary>
         /// 当前拥有的层
@@ -142,7 +141,7 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 获取迭代器
+        /// 正向迭代
         /// </summary>
         /// <returns>迭代器</returns>
         public IEnumerator<TElement> GetEnumerator()
@@ -152,6 +151,25 @@ namespace CatLib.Stl
             {
                 yield return node.Forward.Element;
                 node = node.Forward.Level[0];
+            }
+        }
+
+        /// <summary>
+        /// 反向迭代
+        /// </summary>
+        /// <returns>迭代器</returns>
+        public IEnumerator<TElement> ReversEnumerator()
+        {
+            var node = tail;
+            if (node == null)
+            {
+                yield break;
+            }
+            yield return node.Element;
+            while (node.Backward != null)
+            {
+                yield return node.Backward.Element;
+                node = node.Backward;
             }
         }
 
@@ -212,14 +230,14 @@ namespace CatLib.Stl
         /// <returns>分数值在<paramref name="min"/>(包含)和<paramref name="max"/>(包含)之间的元素数量</returns>
         public long ScoreRangeCount(TScore min, TScore max)
         {
-            max = min.CompareTo(max) < 0 ? max : min;
+            Guard.Requires<ArgumentOutOfRangeException>(min.CompareTo(max) <= 0);
 
-            long rank = 0 , bakRank = 0;
+            long rank = 0, bakRank = 0;
             SkipNode bakCursor = null;
 
             var isRight = false;
             var cursor = header;
-            
+
             do
             {
                 for (var i = level - 1; i >= 0; --i)
@@ -246,7 +264,7 @@ namespace CatLib.Stl
 
             } while (isRight = !isRight);
 
-            return Math.Max(0 , rank - bakRank);
+            return Math.Max(0, rank - bakRank);
         }
 
         /// <summary>
@@ -355,6 +373,9 @@ namespace CatLib.Stl
         /// <returns>是否成功</returns>
         private bool Remove(TElement element, TScore score)
         {
+            Guard.Requires<ArgumentNullException>(element != null);
+            Guard.Requires<ArgumentNullException>(score != null);
+
             var update = new SkipNode[maxLevel];
             var cursor = header;
 
@@ -374,8 +395,8 @@ namespace CatLib.Stl
 
             cursor = update[0].Level[0].Forward;
 
-            if (cursor == null || 
-                    cursor.Score.CompareTo(score) != 0 || 
+            if (cursor == null ||
+                    cursor.Score.CompareTo(score) != 0 ||
                         !cursor.Element.Equals(element))
             {
                 return false;
@@ -387,7 +408,85 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 获取排名
+        /// 根据排名区间移除区间内的元素
+        /// </summary>
+        /// <param name="startRank">开始的排名(包含),排名以0为底</param>
+        /// <param name="stopRank">结束的排名(包含),排名以0为底</param>
+        /// <returns>被删除的元素个数</returns>
+        public long RemoveRangeByRank(long startRank, long stopRank)
+        {
+            Guard.Requires<ArgumentOutOfRangeException>(startRank <= stopRank);
+
+            long traversed = 0, removed = 0;
+            var update = new SkipNode[maxLevel];
+            var cursor = header;
+            for (var i = level - 1; i >= 0; --i)
+            {
+                while (cursor.Level[i].Forward != null &&
+                       (traversed + cursor.Level[i].Span <= startRank))
+                {
+                    traversed += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
+                }
+                update[i] = cursor;
+            }
+
+            cursor = cursor.Level[0].Forward;
+
+            while (cursor != null &&
+                    traversed <= stopRank)
+            {
+                var next = cursor.Level[0].Forward;
+                dict.Remove(cursor.Element);
+                DeleteNode(cursor, update);
+                ++removed;
+                ++traversed;
+                cursor = next;
+            }
+
+            return removed;
+        }
+
+        /// <summary>
+        /// 根据分数区间移除区间内的元素
+        /// </summary>
+        /// <param name="startScore">开始的分数（包含）</param>
+        /// <param name="stopScore">结束的分数（包含）</param>
+        /// <returns>被删除的元素个数</returns>
+        public long RemoveRangeByScore(TScore startScore, TScore stopScore)
+        {
+            Guard.Requires<ArgumentOutOfRangeException>(startScore.CompareTo(stopScore) <= 0);
+
+            long removed = 0;
+            var update = new SkipNode[maxLevel];
+            var cursor = header;
+            for (var i = level - 1; i >= 0; --i)
+            {
+                while (cursor.Level[i].Forward != null &&
+                       cursor.Level[i].Forward.Score.CompareTo(startScore) < 0)
+                {
+                    cursor = cursor.Level[i].Forward;
+                }
+                update[i] = cursor;
+            }
+
+            cursor = cursor.Level[0].Forward;
+
+            while (cursor != null &&
+                   cursor.Score.CompareTo(stopScore) <= 0)
+            {
+                var next = cursor.Level[0].Forward;
+                dict.Remove(cursor.Element);
+                DeleteNode(cursor, update);
+                ++removed;
+                cursor = next;
+            }
+
+            return removed;
+        }
+
+        /// <summary>
+        /// 获取排名 , 有序集成员按照Score从小到大排序
         /// </summary>
         /// <param name="element">元素</param>
         /// <returns>排名排名以0为底，为-1则表示没有找到元素</returns>
@@ -399,18 +498,33 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 根据排名获取元素
+        /// 获取排名，有序集成员按照Score从大到小排序
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns>排名排名以0为底 , 为-1则表示没有找到元素</returns>
+        public long GetRevRank(TElement element)
+        {
+            var rank = GetRank(element);
+            return rank < 0 ? rank : Count - rank - 1;
+        }
+
+        /// <summary>
+        /// 根据排名获取元素 (有序集成员按照Score从小到大排序)
         /// </summary>
         /// <param name="rank">排名,排名以0为底</param>
         /// <returns>元素</returns>
         public TElement GetElementByRank(long rank)
         {
+            if (rank >= Count)
+            {
+                return default(TElement);
+            }
             rank += 1;
             long traversed = 0;
             var cursor = header;
             for (var i = level - 1; i >= 0; i--)
             {
-                while (cursor.Level[i].Forward != null && 
+                while (cursor.Level[i].Forward != null &&
                         (traversed + cursor.Level[i].Span) <= rank)
                 {
                     traversed += cursor.Level[i].Span;
@@ -422,6 +536,16 @@ namespace CatLib.Stl
                 }
             }
             return default(TElement);
+        }
+
+        /// <summary>
+        /// 根据排名获取元素 (有序集成员按照Score从大到小排序)
+        /// </summary>
+        /// <param name="rank"></param>
+        /// <returns></returns>
+        public TElement GetElementByRevRank(long rank)
+        {
+            return GetElementByRank(Count - rank - 1);
         }
 
         /// <summary>
@@ -443,8 +567,8 @@ namespace CatLib.Stl
                     rank += cursor.Level[i].Span;
                     cursor = cursor.Level[i].Forward;
                 }
-                if (cursor != header && 
-                        cursor.Element != null && 
+                if (cursor != header &&
+                        cursor.Element != null &&
                             cursor.Element.Equals(element))
                 {
                     return rank - 1;
@@ -502,4 +626,3 @@ namespace CatLib.Stl
         }
     }
 }
-

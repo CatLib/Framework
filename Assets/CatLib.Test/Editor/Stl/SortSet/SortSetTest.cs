@@ -15,6 +15,105 @@ namespace CatLib.Test.Stl
     class SortSetTest
     {
         /// <summary>
+        /// 根据分数区间移除元素
+        /// </summary>
+        [Test]
+        [Repeat(100)]
+        public void RemoveRangeByScore()
+        {
+            var list = new SortSet<int, int>();
+            for (var i = 0; i < 10; i++)
+            {
+                list.Add(i, i);
+            }
+            list.RemoveRangeByScore(3, 8);
+            Assert.AreEqual(0, list.GetElementByRank(0));
+            Assert.AreEqual(1, list.GetElementByRank(1));
+            Assert.AreEqual(2, list.GetElementByRank(2));
+            Assert.AreEqual(9, list.GetElementByRank(3));
+            for (var i = 3; i < 9; i++)
+            {
+                list.Add(i, i);
+            }
+            list.Add(33, 3);
+            list.RemoveRangeByScore(3, 3);
+            Assert.AreEqual(0, list.GetElementByRank(0));
+            Assert.AreEqual(1, list.GetElementByRank(1));
+            Assert.AreEqual(2, list.GetElementByRank(2));
+            Assert.AreEqual(4, list.GetElementByRank(3));
+        }
+
+        /// <summary>
+        /// 根据排名区间移除元素
+        /// </summary>
+        [Test]
+        [Repeat(100)]
+        public void RemoveRangeByRank()
+        {
+            var list = new SortSet<int, int>();
+            for (var i = 0; i < 10; i++)
+            {
+                list.Add(i, i);
+            }
+
+            list.RemoveRangeByRank(3, 8);
+            Assert.AreEqual(0, list.GetElementByRank(0));
+            Assert.AreEqual(1, list.GetElementByRank(1));
+            Assert.AreEqual(2, list.GetElementByRank(2));
+            Assert.AreEqual(9, list.GetElementByRank(3));
+            for (var i = 3; i < 9; i++)
+            {
+                list.Add(i, i);
+            }
+            list.Add(33, 3);
+            list.RemoveRangeByRank(3, 3);
+            Assert.AreEqual(0, list.GetElementByRank(0));
+            Assert.AreEqual(1, list.GetElementByRank(1));
+            Assert.AreEqual(2, list.GetElementByRank(2));
+            var r = list.GetElementByRank(3);
+            Assert.AreEqual(true, r == 3 || r == 33);
+        }
+
+        /// <summary>
+        /// 根据排名获取元素 (有序集成员按照Score从大到小排序)
+        /// </summary>
+        [Test]
+        [Repeat(100)]
+        public void GetElementByRevRank()
+        {
+            var list = new SortSet<int, int>();
+            for (var i = 0; i < 10; i++)
+            {
+                list.Add(i, i);
+            }
+            Assert.AreEqual(6, list.GetElementByRevRank(3));
+            Assert.AreEqual(9, list.GetElementByRevRank(0));
+            Assert.AreEqual(0, list.GetElementByRevRank(9));
+        }
+
+        /// <summary>
+        /// 反向迭代遍历
+        /// </summary>
+        [Test]
+        public void ReversEnumerator()
+        {
+            int num = 50000;
+            var list = new SortSet<int, int>();
+            for (int i = 0; i < num; i++)
+            {
+                list.Add(i, i);
+            }
+
+            int n = 0;
+            var e = list.ReversEnumerator();
+            while (e.MoveNext())
+            {
+                var v = e.Current;
+                Assert.AreEqual(num - ++n, v);
+            }
+        }
+
+        /// <summary>
         /// 边界值测试
         /// </summary>
         [Test]
@@ -26,7 +125,11 @@ namespace CatLib.Test.Stl
             Assert.AreEqual(0, list.ScoreRangeCount(7, 100));
             Assert.AreEqual(0, list.ScoreRangeCount(0, 5));
             Assert.AreEqual(1, list.ScoreRangeCount(6, 100));
-            Assert.AreEqual(0, list.ScoreRangeCount(800, 100));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Assert.AreEqual(0, list.ScoreRangeCount(800, 100));
+            });
         }
 
         /// <summary>
@@ -52,7 +155,7 @@ namespace CatLib.Test.Stl
             for (var i = 0; i < num; i++)
             {
                 var s = rand.Next(0, 1000);
-                list.Add(i,s);
+                list.Add(i, s);
                 if (s <= 100)
                 {
                     lst.Add(i);
@@ -155,6 +258,20 @@ namespace CatLib.Test.Stl
         }
 
         /// <summary>
+        /// 获取排名 , 有序集成员按照Score从大到小排序
+        /// </summary>
+        [Test]
+        public void GetRevRank()
+        {
+            var list = new SortSet<int, int>();
+            for (int i = 0; i < 10; i++)
+            {
+                list.Add(i, i);
+            }
+            Assert.AreEqual(6, list.GetRevRank(3));
+        }
+
+        /// <summary>
         /// 获取排名位置
         /// </summary>
         [Test]
@@ -165,7 +282,7 @@ namespace CatLib.Test.Stl
             var list = new SortSet<int, int>();
             var lst = new List<int>();
             var rand = new Random();
-            
+
             for (var i = 0; i < num; i++)
             {
                 if (rand.NextDouble() < 0.1)
@@ -182,6 +299,8 @@ namespace CatLib.Test.Stl
                     Assert.Fail();
                 }
             }
+
+            Assert.AreEqual(-1, list.GetRank(-1));
         }
     }
 }
