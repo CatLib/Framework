@@ -509,6 +509,75 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 根据排名区间获取区间内的所有元素
+        /// </summary>
+        /// <param name="startRank">开始的排名(包含),排名以0为底</param>
+        /// <param name="stopRank">结束的排名(包含),排名以0为底</param>
+        /// <returns>元素列表</returns>
+        public TElement[] GetElementRangeByRank(long startRank, long stopRank)
+        {
+            Guard.Requires<ArgumentOutOfRangeException>(startRank <= stopRank);
+
+            long traversed = 0;
+            var cursor = header;
+            for (var i = level - 1; i >= 0; --i)
+            {
+                while (cursor.Level[i].Forward != null &&
+                       (traversed + cursor.Level[i].Span <= startRank))
+                {
+                    traversed += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
+                }
+            }
+
+            cursor = cursor.Level[0].Forward;
+
+            var result = new List<TElement>();
+            while (cursor != null &&
+                   traversed <= stopRank)
+            {
+                result.Add(cursor.Element);
+                ++traversed;
+                cursor = cursor.Level[0].Forward;
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// 根据分数区间获取区间内的所有元素
+        /// </summary>
+        /// <param name="startScore">开始的分数（包含）</param>
+        /// <param name="stopScore">结束的分数（包含）</param>
+        /// <returns>元素列表</returns>
+        public TElement[] GetElementRangeByScore(TScore startScore, TScore stopScore)
+        {
+            Guard.Requires<ArgumentOutOfRangeException>(startScore.CompareTo(stopScore) <= 0);
+
+            var cursor = header;
+            for (var i = level - 1; i >= 0; --i)
+            {
+                while (cursor.Level[i].Forward != null &&
+                       cursor.Level[i].Forward.Score.CompareTo(startScore) < 0)
+                {
+                    cursor = cursor.Level[i].Forward;
+                }
+            }
+
+            cursor = cursor.Level[0].Forward;
+
+            var result = new List<TElement>();
+            while (cursor != null &&
+                   cursor.Score.CompareTo(stopScore) <= 0)
+            {
+                result.Add(cursor.Element);
+                cursor = cursor.Level[0].Forward;
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// 根据排名获取元素 (有序集成员按照Score从小到大排序)
         /// </summary>
         /// <param name="rank">排名,排名以0为底</param>

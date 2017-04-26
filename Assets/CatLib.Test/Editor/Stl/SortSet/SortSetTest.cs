@@ -15,6 +15,51 @@ namespace CatLib.Test.Stl
     class SortSetTest
     {
         /// <summary>
+        /// 根据排名区间获取元素
+        /// </summary>
+        [Test]
+        public void GetElementRangeByRank()
+        {
+            var list = new SortSet<int, int>();
+            for (var i = 0; i < 10; i++)
+            {
+                list.Add(i, i);
+            }
+
+            var elements = list.GetElementRangeByRank(3, 8);
+            var n = 3;
+            foreach (var e in elements)
+            {
+                Assert.AreEqual(n++, e);
+            }
+
+            var list2 = new SortSet<int, int>();
+            Assert.AreEqual(0, list2.GetElementRangeByRank(3, 8).Length);
+        }
+
+        /// <summary>
+        /// 根据分数区间获取元素
+        /// </summary>
+        [Test]
+        public void GetElementRangeByScore()
+        {
+            var list = new SortSet<int, int>();
+            for (var i = 0; i < 10; i++)
+            {
+                list.Add(i, i);
+            }
+
+            var elements = list.GetElementRangeByScore(3, 8);
+            var n = 3;
+            foreach (var e in elements)
+            {
+                Assert.AreEqual(n++ , e);
+            }
+            var list2 = new SortSet<int, int>();
+            Assert.AreEqual(0, list2.GetElementRangeByScore(3, 8).Length);
+        }
+
+        /// <summary>
         /// 根据分数区间移除元素
         /// </summary>
         [Test]
