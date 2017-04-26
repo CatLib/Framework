@@ -15,6 +15,31 @@ namespace CatLib.Test.Stl
     class SortSetTest
     {
         /// <summary>
+        /// 边界值测试
+        /// </summary>
+        [Test]
+        public void BoundTestScoreRangeCount()
+        {
+            var list = new SortSet<int, int>();
+            list.Add(6, 6);
+            Assert.AreEqual(1, list.ScoreRangeCount(0, 100));
+            Assert.AreEqual(0, list.ScoreRangeCount(7, 100));
+            Assert.AreEqual(0, list.ScoreRangeCount(0, 5));
+            Assert.AreEqual(1, list.ScoreRangeCount(6, 100));
+            Assert.AreEqual(0, list.ScoreRangeCount(800, 100));
+        }
+
+        /// <summary>
+        /// 空的列表执行分数区间内的元素数量查询
+        /// </summary>
+        [Test]
+        public void EmptyListScoreRangeCount()
+        {
+            var list = new SortSet<int, int>();
+            Assert.AreEqual(0, list.ScoreRangeCount(0, 100));
+        }
+
+        /// <summary>
         /// 分数区间内的元素数量
         /// </summary>
         [Test]

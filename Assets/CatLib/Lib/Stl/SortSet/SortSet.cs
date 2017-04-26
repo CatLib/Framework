@@ -234,7 +234,7 @@ namespace CatLib.Stl
 
             } while (isRight = !isRight);
 
-            return rank - bakRank;
+            return Math.Max(0 , rank - bakRank);
         }
 
         /// <summary>
