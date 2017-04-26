@@ -197,31 +197,44 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="min">最小值(包含)</param>
         /// <param name="max">最大值(包含)</param>
-        /// <returns>分数值在<paramref name="min"/>和<paramref name="max"/>之间的元素数量</returns>
+        /// <returns>分数值在<paramref name="min"/>(包含)和<paramref name="max"/>(包含)之间的元素数量</returns>
         public long ScoreRangeCount(TScore min, TScore max)
         {
-            return 0;
-            //long rank = GetRank()
-        }
+            max = min.CompareTo(max) < 0 ? max : min;
 
-        /// <summary>
-        /// 根据分数获取第一个元素
-        /// </summary>
-        /// <param name="score">分数</param>
-        /// <returns>节点</returns>
-        private SkipNode FirstInScore(TScore score)
-        {
-            return null;
-        }
+            long rank = 0 , bakRank = 0;
+            SkipNode bakCursor = null;
 
-        /// <summary>
-        /// 根据分数获取最后一个元素
-        /// </summary>
-        /// <param name="score">分数</param>
-        /// <returns>节点</returns>
-        private SkipNode LastInScore(TScore score)
-        {
-            return null;
+            var isRight = false;
+            var cursor = header;
+            
+            do
+            {
+                for (var i = level - 1; i >= 0; --i)
+                {
+                    while (cursor.Level[i].Forward != null &&
+                           ((!isRight && cursor.Level[i].Forward.Score.CompareTo(min) < 0) ||
+                            (isRight && cursor.Level[i].Forward.Score.CompareTo(max) <= 0)))
+                    {
+                        rank += cursor.Level[i].Span;
+                        cursor = cursor.Level[i].Forward;
+                    }
+                    if (bakCursor == null)
+                    {
+                        bakCursor = cursor;
+                        bakRank = rank;
+                    }
+                }
+
+                if (!isRight)
+                {
+                    cursor = bakCursor;
+                    rank ^= bakRank ^= rank ^= bakRank;
+                }
+
+            } while (isRight = !isRight);
+
+            return rank - bakRank;
         }
 
         /// <summary>

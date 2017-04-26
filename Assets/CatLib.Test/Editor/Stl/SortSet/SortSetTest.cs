@@ -9,38 +9,31 @@ using Random = System.Random;
 namespace CatLib.Test.Stl
 {
     /// <summary>
-    /// 跳跃链表测试
+    /// SortSet测试
     /// </summary>
     [TestFixture]
     class SortSetTest
     {
+        /// <summary>
+        /// 分数区间内的元素数量
+        /// </summary>
         [Test]
-        public void TestSortedList()
+        public void ScoreRangeCount()
         {
-            var list = new SortedList<int , int>();
-            int num = 500000;
+            var list = new SortSet<int, int>();
+            var lst = new List<int>();
+            int num = 50000;
             var rand = new Random();
             for (var i = 0; i < num; i++)
             {
-                var val = rand.Next();
-                if (!list.ContainsKey(val))
+                var s = rand.Next(0, 1000);
+                list.Add(i,s);
+                if (s <= 100)
                 {
-                    list.Add(val, val);
-                }
-                //list.Add(i,i);
-            }
-            var max = 0;
-            foreach (var val in list)
-            {
-                if (max <= val.Key)
-                {
-                    max = val.Key;
-                }
-                else
-                {
-                    Assert.Fail();
+                    lst.Add(i);
                 }
             }
+            Assert.AreEqual(lst.Count, list.ScoreRangeCount(0, 100));
         }
 
         /// <summary>
@@ -50,7 +43,7 @@ namespace CatLib.Test.Stl
         public void AddElementTest()
         {
             //var list2 = new SortSet<object, int>();
-            int num = 500000;
+            int num = 50000;
             var list = new SortSet<int, int>();
             var rand = new Random();
 
