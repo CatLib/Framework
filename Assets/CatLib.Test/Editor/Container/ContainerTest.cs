@@ -907,13 +907,12 @@ namespace CatLib.Test.Container
             Assert.AreNotEqual(null, result.Base4);
             Assert.AreEqual(null, result.Base5);
         }
-
         #endregion
 
-        #region Instance
-        /// <summary>
-        /// 可以正确的给定静态实例
-        /// </summary>
+            #region Instance
+            /// <summary>
+            /// 可以正确的给定静态实例
+            /// </summary>
         [Test]
         public void CanInstance()
         {
