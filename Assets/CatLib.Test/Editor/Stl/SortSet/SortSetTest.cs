@@ -15,6 +15,28 @@ namespace CatLib.Test.Stl
     class SortSetTest
     {
         /// <summary>
+        /// 对象插入测试
+        /// </summary>
+        [Test]
+        public void ObjectInsertTest()
+        {
+            var list = new SortSet<object, int>();
+            var objs = new List<object>();
+            for (var i = 0; i < 10; i++)
+            {
+                var o = new object();
+                objs.Add(o);
+                list.Add(o, i);
+            }
+
+            var n = 0;
+            foreach (var o in list)
+            {
+                Assert.AreSame(objs[n++], o);
+            }
+        }
+
+        /// <summary>
         /// 根据排名区间获取元素
         /// </summary>
         [Test]
