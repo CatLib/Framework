@@ -142,7 +142,6 @@ namespace CatLib.Container
             Guard.NotEmptyOrNull(tag, "tag");
             lock (syncRoot)
             {
-
                 List<string> serviceList;
                 if (!tags.TryGetValue(tag, out serviceList))
                 {
@@ -227,15 +226,15 @@ namespace CatLib.Container
                 }
 
                 aliases.Add(alias, service);
+
                 List<string> serviceList;
-                if (!aliasesReverse.TryGetValue(service, out serviceList))
+                if (aliasesReverse.TryGetValue(service, out serviceList))
                 {
-                    serviceList = new List<string> {alias};
-                    aliasesReverse.Add(service, serviceList);
+                    serviceList.Add(alias);
                 }
                 else
                 {
-                    serviceList.Add(alias);
+                    aliasesReverse.Add(service, new List<string> { alias });
                 }
             }
 
@@ -389,7 +388,8 @@ namespace CatLib.Container
                 buildStack.Push(service);
                 try
                 {
-                    return instances.ContainsKey(service) ? instances[service] : BuildMake(service, null, true, param);
+                    object instance;
+                    return instances.TryGetValue(service, out instance) ? instance : BuildMake(service, null, true, param);
                 }
                 finally
                 {
@@ -456,14 +456,15 @@ namespace CatLib.Container
                 service = Normalize(service);
                 service = GetAlias(service);
 
-                if (!instances.ContainsKey(service))
+                object instance;
+                if (!instances.TryGetValue(service, out instance))
                 {
                     return;
                 }
 
                 var bindData = GetBindData(service);
-                bindData.ExecReleaseDecorator(instances[service]);
-                ExecOnReleaseDecorator(bindData, instances[service]);
+                bindData.ExecReleaseDecorator(instance);
+                ExecOnReleaseDecorator(bindData, instance);
                 instances.Remove(service);
             }
         }
@@ -531,7 +532,7 @@ namespace CatLib.Container
 
                 Release(service);
                 List<string> serviceList;
-                if (aliasesReverse.TryGetValue(service,out serviceList))
+                if (aliasesReverse.TryGetValue(service, out serviceList))
                 {
                     foreach (var alias in serviceList)
                     {
@@ -695,13 +696,12 @@ namespace CatLib.Container
                     continue;
                 }
 
-                var propertyAttrs = property.GetCustomAttributes(injectTarget, false);
-                if (propertyAttrs.Length <= 0)
+                if (!property.IsDefined(injectTarget, false))
                 {
                     continue;
                 }
 
-                var injectAttr = (InjectAttribute)propertyAttrs[0];
+                var injectAttr = (InjectAttribute)property.GetCustomAttributes(injectTarget, false)[0];
                 var needService = string.IsNullOrEmpty(injectAttr.Alias) ? property.PropertyType.ToString() : GetAlias(injectAttr.Alias);
                 object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
@@ -746,7 +746,7 @@ namespace CatLib.Container
         /// <returns>解决结果</returns>
         private object ResloveClassAttr(BindData makeServiceBindData, string service)
         {
-            return Make(makeServiceBindData.GetContextual(service)); ;
+            return Make(makeServiceBindData.GetContextual(service));
         }
 
         /// <summary>
@@ -773,12 +773,14 @@ namespace CatLib.Container
                     }
                 }
 
-                var propertyAttrs = info.GetCustomAttributes(injectTarget, false);
-
                 InjectAttribute injectAttr = null;
-                if (propertyAttrs.Length > 0)
+                if (info.IsDefined(injectTarget, false))
                 {
-                    injectAttr = (InjectAttribute)propertyAttrs[0];
+                    var propertyAttrs = info.GetCustomAttributes(injectTarget, false);
+                    if (propertyAttrs.Length > 0)
+                    {
+                        injectAttr = (InjectAttribute)propertyAttrs[0];
+                    }
                 }
 
                 var needService = info.ParameterType.ToString();
@@ -841,7 +843,8 @@ namespace CatLib.Container
         /// <returns>最终映射的服务名</returns>
         private string GetAlias(string service)
         {
-            return aliases.ContainsKey(service) ? aliases[service] : service;
+            string alias;
+            return aliases.TryGetValue(service, out alias) ? alias : service;
         }
 
         /// <summary>
@@ -851,7 +854,8 @@ namespace CatLib.Container
         /// <returns>服务绑定数据</returns>
         private BindData GetBindData(string service)
         {
-            return !binds.ContainsKey(service) ? MakeEmptyBindData(service) : binds[service];
+            BindData bindData;
+            return binds.TryGetValue(service, out bindData) ? bindData : MakeEmptyBindData(service);
         }
 
         /// <summary>
