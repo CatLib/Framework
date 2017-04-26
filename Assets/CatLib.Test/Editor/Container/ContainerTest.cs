@@ -816,12 +816,103 @@ namespace CatLib.Test.Container
             Assert.AreEqual(null, result.Cls);
 
         }
+
+        class TestOptionalInject
+        {
+            [Inject]
+            public GenericClass<string> Cls { get; set; }
+
+            public GenericClass<string> ClsNull { get; set; }
+        }
+
+        /// <summary>
+        /// 可以进行泛型注入
+        /// </summary>
+        [Test]
+        public void OptionalInject()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            var result = container.Make<TestOptionalInject>();
+            Assert.AreNotEqual(null, result.Cls);
+            Assert.AreEqual(null, result.ClsNull);
+        }
+
+        abstract class TestInjectBase
+        {
+            [Inject]
+            public virtual GenericClass<string> Base { get; set; }
+
+            public virtual GenericClass<string> Base2 { get; set; }
+
+            [Inject]
+            public virtual GenericClass<string> Base3 { get; set; }
+
+            [Inject]
+            public virtual GenericClass<string> Base4 { get; set; }
+
+            [Inject]
+            public abstract GenericClass<string> Base5 { get; set; }
+        }
+
+        class TestInject : TestInjectBase
+        {
+            [Inject]
+            public override GenericClass<string> Base { get; set; }
+
+            [Inject]
+            public override GenericClass<string> Base2 { get; set; }
+
+            public override GenericClass<string> Base3 { get; set; }
+
+            public override GenericClass<string> Base5 { get; set; }
+        }
+
+        /// <summary>
+        /// 实例一个无效的类
+        /// </summary>
+        [Test]
+        public void InvalidClassNew()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+            var result = container.Make<TestInjectBase>();
+            Assert.AreEqual(null , result);
+        }
+
+        /// <summary>
+        /// 继承注入
+        /// </summary>
+        [Test]
+        public void InheritanceInject()
+        {
+            var container = MakeContainer();
+            container.OnFindType((str) =>
+            {
+                return Type.GetType(str);
+            });
+
+            var result = container.Make<TestInject>();
+
+            Assert.AreNotEqual(null , result.Base);
+            Assert.AreNotEqual(null, result.Base2);
+            Assert.AreEqual(null, result.Base3);
+            Assert.AreNotEqual(null, result.Base4);
+            Assert.AreEqual(null, result.Base5);
+        }
         #endregion
 
-        #region Instance
-        /// <summary>
-        /// 可以正确的给定静态实例
-        /// </summary>
+            #region Instance
+            /// <summary>
+            /// 可以正确的给定静态实例
+            /// </summary>
         [Test]
         public void CanInstance()
         {
