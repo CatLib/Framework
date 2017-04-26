@@ -136,6 +136,7 @@ namespace CatLib.Test.Stl
         {
             var num = 50000;
             var list = new SortSet<int, int>();
+
             for (var i = 0; i < num; i++)
             {
                 list.Add(i, i);
@@ -146,7 +147,7 @@ namespace CatLib.Test.Stl
                 var rank = rand.Next(0, num);
                 var val = list.GetElementByRank(rank);
 
-                if ((rank - 1) != val)
+                if (rank != val)
                 {
                     Assert.Fail();
                 }
@@ -176,7 +177,7 @@ namespace CatLib.Test.Stl
 
             foreach (var n in lst)
             {
-                if (list.GetRank(n) != n + 1)
+                if (list.GetRank(n) != n)
                 {
                     Assert.Fail();
                 }

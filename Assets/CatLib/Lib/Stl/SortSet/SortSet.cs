@@ -193,6 +193,18 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 返回有序集的分数
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <returns>分数，如果元素不存在则返回<c>default(TScore)</c></returns>
+        public TScore GetScore(TElement element)
+        {
+            TScore score;
+            dict.TryGetValue(element, out score);
+            return score;
+        }
+
+        /// <summary>
         /// 获取分数范围内的元素个数
         /// </summary>
         /// <param name="min">最小值(包含)</param>
@@ -378,21 +390,22 @@ namespace CatLib.Stl
         /// 获取排名
         /// </summary>
         /// <param name="element">元素</param>
-        /// <returns>排名，为0则表示没有找到元素</returns>
+        /// <returns>排名排名以0为底，为-1则表示没有找到元素</returns>
         public long GetRank(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
             TScore dictScore;
-            return dict.TryGetValue(element, out dictScore) ? GetRank(element, dictScore) : 0;
+            return dict.TryGetValue(element, out dictScore) ? GetRank(element, dictScore) : -1;
         }
 
         /// <summary>
         /// 根据排名获取元素
         /// </summary>
-        /// <param name="rank">排名</param>
+        /// <param name="rank">排名,排名以0为底</param>
         /// <returns>元素</returns>
         public TElement GetElementByRank(long rank)
         {
+            rank += 1;
             long traversed = 0;
             var cursor = header;
             for (var i = level - 1; i >= 0; i--)
@@ -416,7 +429,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="element">元素</param>
         /// <param name="score">分数</param>
-        /// <returns>排名</returns>
+        /// <returns>排名，排名以0为底</returns>
         private long GetRank(TElement element, TScore score)
         {
             long rank = 0;
@@ -434,10 +447,10 @@ namespace CatLib.Stl
                         cursor.Element != null && 
                             cursor.Element.Equals(element))
                 {
-                    return rank;
+                    return rank - 1;
                 }
             }
-            return 0;
+            return -1;
         }
 
         /// <summary>
