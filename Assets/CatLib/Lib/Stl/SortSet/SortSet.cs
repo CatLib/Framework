@@ -228,7 +228,7 @@ namespace CatLib.Stl
         /// <param name="min">最小值(包含)</param>
         /// <param name="max">最大值(包含)</param>
         /// <returns>分数值在<paramref name="min"/>(包含)和<paramref name="max"/>(包含)之间的元素数量</returns>
-        public long ScoreRangeCount(TScore min, TScore max)
+        public long GetRangeCount(TScore min, TScore max)
         {
             Guard.Requires<ArgumentOutOfRangeException>(min.CompareTo(max) <= 0);
 

@@ -188,14 +188,14 @@ namespace CatLib.Test.Stl
         {
             var list = new SortSet<int, int>();
             list.Add(6, 6);
-            Assert.AreEqual(1, list.ScoreRangeCount(0, 100));
-            Assert.AreEqual(0, list.ScoreRangeCount(7, 100));
-            Assert.AreEqual(0, list.ScoreRangeCount(0, 5));
-            Assert.AreEqual(1, list.ScoreRangeCount(6, 100));
+            Assert.AreEqual(1, list.GetRangeCount(0, 100));
+            Assert.AreEqual(0, list.GetRangeCount(7, 100));
+            Assert.AreEqual(0, list.GetRangeCount(0, 5));
+            Assert.AreEqual(1, list.GetRangeCount(6, 100));
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Assert.AreEqual(0, list.ScoreRangeCount(800, 100));
+                Assert.AreEqual(0, list.GetRangeCount(800, 100));
             });
         }
 
@@ -206,7 +206,7 @@ namespace CatLib.Test.Stl
         public void EmptyListScoreRangeCount()
         {
             var list = new SortSet<int, int>();
-            Assert.AreEqual(0, list.ScoreRangeCount(0, 100));
+            Assert.AreEqual(0, list.GetRangeCount(0, 100));
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace CatLib.Test.Stl
                     lst.Add(i);
                 }
             }
-            Assert.AreEqual(lst.Count, list.ScoreRangeCount(0, 100));
+            Assert.AreEqual(lst.Count, list.GetRangeCount(0, 100));
         }
 
         /// <summary>
