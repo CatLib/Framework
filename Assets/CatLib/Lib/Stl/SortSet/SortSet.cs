@@ -18,7 +18,7 @@ namespace CatLib.Stl
 {
     /// <summary>
     /// 有序集
-    /// 有序集优先使用评分进行排序
+    /// 有序集使用分数进行排序(以小到大)
     /// </summary>
     public sealed class SortSet<TElement, TScore> : IEnumerable<TElement>
         where TScore : IComparable<TScore>
