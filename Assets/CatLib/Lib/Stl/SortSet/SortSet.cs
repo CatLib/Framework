@@ -573,7 +573,7 @@ namespace CatLib.Stl
                 tail = cursor;
             }
 
-            Count++;
+            ++Count;
         }
 
         /// <summary>
