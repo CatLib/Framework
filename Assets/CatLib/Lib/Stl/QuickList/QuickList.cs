@@ -63,6 +63,19 @@ namespace CatLib.Stl
         private QuickListNode tail;
 
         /// <summary>
+        /// 同步锁
+        /// </summary>
+        private readonly object syncRoot = new object();
+
+        /// <summary>
+        /// 同步锁
+        /// </summary>
+        public object SyncRoot
+        {
+            get { return syncRoot; }
+        }
+
+        /// <summary>
         /// 列表元素基数
         /// </summary>
         public long Count { get; private set; }
@@ -76,7 +89,7 @@ namespace CatLib.Stl
         /// 快速列表
         /// </summary>
         /// <param name="fill">每个结点中元素的最大数量</param>
-        public QuickList(int fill = 256)
+        public QuickList(int fill = 128)
         {
             this.fill = fill;
         }

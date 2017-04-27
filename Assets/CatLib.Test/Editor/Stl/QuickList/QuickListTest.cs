@@ -32,11 +32,11 @@ namespace CatLib.Test.Stl
             var lst = new List<object>();
             var sw = new Stopwatch();
             sw.Start();
-            for (var i = 0; i < 50000; i++)
+            for (var i = 0; i < 500000; i++)
             {
                 lst.Add(new object());
             }
-            for (var i = 0; i < 50000; i++)
+            for (var i = 0; i < 500000; i++)
             {
                 lst.RemoveAt(0);
             }
@@ -50,7 +50,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void PushShiftData()
         {
-            var num = 50000;
+            var num = 500000;
             var lst = new QuickList<int>();
             var rand = new Random();
             var lst2 = new List<int>();
@@ -74,7 +74,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void UnShiftPopTest()
         {
-            var num = 50000;
+            var num = 500000;
             var lst = new QuickList<int>();
             var rand = new Random();
             var lst2 = new List<int>();
