@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.Collections;
 using System.Collections.Generic;
 
@@ -167,7 +167,7 @@ namespace CatLib.Stl
             get
             {
                 int offset;
-                var node = FindByIndex(index , out offset);
+                var node = FindByIndex(index, out offset);
                 return node.List[offset];
             }
             set
@@ -246,14 +246,15 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="index">下标</param>
         /// <returns>元素</returns>
-        private QuickListNode FindByIndex(long index ,out int offset)
+        private QuickListNode FindByIndex(long index, out int offset)
         {
             long sumIndex = 0;
             var node = header;
             while (node != null)
             {
-                if ((sumIndex += node.List.Count) < index)
+                if ((sumIndex + node.List.Count) < index)
                 {
+                    sumIndex += node.List.Count;
                     node = node.Forward;
                     continue;
                 }

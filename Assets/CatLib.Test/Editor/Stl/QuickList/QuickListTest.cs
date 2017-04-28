@@ -114,8 +114,70 @@ namespace CatLib.Test.Stl
             Assert.AreEqual(999, lst[5]);
             Assert.AreEqual(999, lst[8]);
             Assert.AreEqual(999, lst[11]);
+            Assert.AreEqual(15, lst.Count);
+        }
 
-            Assert.AreEqual(11, lst.Count);
+        /// <summary>
+        /// 在扫描到的第一个元素之后插入边界测试
+        /// </summary>
+        [Test]
+        public void InsertAfterBound()
+        {
+            var lst = new QuickList<int>(5);
+            for (var i = 0; i < 10; i++)
+            {
+                lst.Push(i);
+            }
+
+            lst.InsertAfter(4, 999);
+            lst.InsertAfter(999, 888);
+            lst.InsertAfter(888, 777);
+            Assert.AreEqual(999, lst[5]);
+            Assert.AreEqual(888, lst[6]);
+            Assert.AreEqual(777, lst[7]);
+        }
+
+        /// <summary>
+        /// 在扫描到的第一个元素之前插入边界测试
+        /// </summary>
+        [Test]
+        public void InsertBeforeBound()
+        {
+            var lst = new QuickList<int>(5);
+            for (var i = 0; i < 10; i++)
+            {
+                lst.Push(i);
+            }
+
+            lst.InsertBefore(4, 999);
+            lst.InsertBefore(999, 888);
+            lst.InsertBefore(888, 777);
+            Assert.AreEqual(777, lst[4]);
+            Assert.AreEqual(888, lst[5]);
+            Assert.AreEqual(999, lst[6]);
+        }
+
+        /// <summary>
+        /// 运行时增加
+        /// </summary>
+        [Test]
+        public void ForeachAdd()
+        {
+            var master = new QuickList<int>(10);
+            for (int i = 0; i < 10; i++)
+            {
+                master.Push(i);
+            }
+
+            int n = 0;
+            foreach (var val in master)
+            {
+                if (n < 20)
+                {
+                    master.Push(10 + n);
+                }
+                Assert.AreEqual(n++, val);
+            }
         }
     }
 }
