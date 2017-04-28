@@ -33,7 +33,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 实际元素个数
         /// </summary>
-        public int Count { get; private set; }
+        internal int Count { get; private set; }
 
         /// <summary>
         /// 新建一个压缩列表
@@ -111,17 +111,18 @@ namespace CatLib.Stl
             TElement[] data;
             if (after)
             {
-                data = new TElement[Count - offset];
-                Array.Copy(items, offset + 1, data, 0, Count - offset);
-                Array.Clear(items, offset + 1, Count - offset);
+                data = new TElement[Count - offset - 1];
+                Array.Copy(items, offset + 1, data, 0, Count - offset - 1);
+                Array.Clear(items, offset + 1, Count - offset - 1);
 
-                Count -= (Count - offset);
+                Count -= (Count - offset - 1);
                 return data;
             }
 
             data = new TElement[offset];
             Array.Copy(items, 0, data, 0, data.Length);
             Array.Copy(items, offset, items, 0, Count - offset);
+            Array.Clear(items, Count - offset, items.Length - Count + offset);
             Count -= offset;
             return data;
         }
