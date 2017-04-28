@@ -91,5 +91,31 @@ namespace CatLib.Test.Stl
             Assert.AreEqual(0 , lst.Count);
             Assert.AreEqual(0, lst.Length);
         }
+
+        /// <summary>
+        /// 在扫描到的第一个元素之后插入
+        /// </summary>
+        [Test]
+        public void InsertAfterTest()
+        {
+            var lst = new QuickList<int>(5);
+            for (var i = 0; i < 10; i++)
+            {
+                lst.Push(i);
+            }
+
+            lst.InsertAfter(1, 999);
+            lst.InsertAfter(3, 999);
+            lst.InsertAfter(5, 999);
+            lst.InsertAfter(7, 999);
+            lst.InsertAfter(9, 999);
+            
+            Assert.AreEqual(999 ,lst[2]);
+            Assert.AreEqual(999, lst[5]);
+            Assert.AreEqual(999, lst[8]);
+            Assert.AreEqual(999, lst[11]);
+
+            Assert.AreEqual(11, lst.Count);
+        }
     }
 }

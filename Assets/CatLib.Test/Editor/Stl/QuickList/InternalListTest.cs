@@ -15,10 +15,10 @@ using NUnit.Framework;
 namespace CatLib.Test.Stl
 {
     /// <summary>
-    /// 压缩列表测试
+    /// 内部列表测试
     /// </summary>
     [TestFixture]
-    class ZipListTest
+    class InternalListTest
     {
         /// <summary>
         /// 插入到指定位置测试
@@ -26,7 +26,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void InsertAtTest()
         {
-            var list = new ZipList<int>();
+            var list = new InternalList<int>();
             list.Init(new[] { 0, 1, 8, 9 });
             list.InsertAt(111, 1);
             list.InsertAt(222, 0);
@@ -49,8 +49,8 @@ namespace CatLib.Test.Stl
         [Test]
         public void MergeAfter()
         {
-            var master = new ZipList<int>(10);
-            var slave = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
+            var slave = new InternalList<int>(10);
 
             master.Init(new[] { 0, 1, 2, 3, 4 });
             slave.Init(new[] { 5, 6, 7, 8, 9 });
@@ -69,8 +69,8 @@ namespace CatLib.Test.Stl
         [Test]
         public void MergeBefore()
         {
-            var master = new ZipList<int>(10);
-            var slave = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
+            var slave = new InternalList<int>(10);
 
             master.Init(new[] { 5, 6, 7, 8, 9 });
             slave.Init(new[] { 0, 1, 2, 3, 4 });
@@ -89,7 +89,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void SplitListAfter()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             master.Init(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             var elements = master.Split(3, true);
 
@@ -113,7 +113,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void SplitListAfterLeftBound()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             master.Init(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             var elements = master.Split(0, true);
 
@@ -134,7 +134,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void SplitListAfterRightBound()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             master.Init(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             var elements = master.Split(9, true);
 
@@ -150,7 +150,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void SplitListBefor()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             master.Init(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             var elements = master.Split(3, false);
 
@@ -173,7 +173,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void SplitListBeforeLeftBound()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             master.Init(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             var elements = master.Split(0, false);
 
@@ -189,7 +189,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void SplitListBeforeRightBound()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             master.Init(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             var elements = master.Split(9, false);
 
@@ -210,7 +210,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void PushTest()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
 
             for (int i = 0; i < 10; i++)
             {
@@ -228,7 +228,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void UnShiftTest()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
 
             for (int i = 0; i < 10; i++)
             {
@@ -246,7 +246,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void PopTest()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             for (int i = 0; i < 10; i++)
             {
                 master.UnShift(i);
@@ -264,7 +264,7 @@ namespace CatLib.Test.Stl
         [Test]
         public void ShiftTest()
         {
-            var master = new ZipList<int>(10);
+            var master = new InternalList<int>(10);
             for (int i = 0; i < 10; i++)
             {
                 master.Push(i);
@@ -274,6 +274,28 @@ namespace CatLib.Test.Stl
                 Assert.AreEqual(i, master.Shift());
             }
             Assert.AreEqual(0, master.Count);
+        }
+
+        /// <summary>
+        /// 替换测试
+        /// </summary>
+        [Test]
+        public void ReplaceAtTest()
+        {
+            var master = new InternalList<int>(10);
+            for (int i = 0; i < 10; i++)
+            {
+                master.Push(i);
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                master.ReplaceAt(10 - i, i);
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.AreEqual(10 - i, master[i]);
+            }
+            Assert.AreEqual(10, master.Count);
         }
     }
 }

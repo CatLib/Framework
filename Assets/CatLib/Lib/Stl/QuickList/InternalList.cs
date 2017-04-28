@@ -14,11 +14,9 @@ using System;
 namespace CatLib.Stl
 {
     /// <summary>
-    /// 压缩列表
-    /// 这是一个内部结构不要直接使用
-    /// 当前版本还没有实现压缩功能先占着坑
+    /// 内部列表
     /// </summary>
-    internal sealed class ZipList<TElement>
+    internal sealed class InternalList<TElement>
     {
         /// <summary>
         /// 容量
@@ -36,10 +34,10 @@ namespace CatLib.Stl
         internal int Count { get; private set; }
 
         /// <summary>
-        /// 新建一个压缩列表
+        /// 新建一个内部列表
         /// </summary>
         /// <param name="capacity">容量</param>
-        internal ZipList(int capacity = 128)
+        internal InternalList(int capacity = 128)
         {
             this.capacity = capacity;
             items = new TElement[capacity];
@@ -72,6 +70,16 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 替换指定位置的元素
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <param name="offset">偏移量</param>
+        internal void ReplaceAt(TElement element ,int offset)
+        {
+            items[offset] = element;
+        }
+
+        /// <summary>
         /// 合入元素
         /// </summary>
         /// <param name="elements">元素</param>
@@ -82,11 +90,11 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 合并压缩列表
+        /// 合并内部列表
         /// </summary>
-        /// <param name="join">需要被合并进来的压缩列表</param>
+        /// <param name="join">需要被合并进来的内部列表</param>
         /// <param name="after">是否在当前列表元素的尾部合入</param>
-        internal void Merge(ZipList<TElement> join , bool after)
+        internal void Merge(InternalList<TElement> join, bool after)
         {
             if (after)
             {
@@ -170,22 +178,6 @@ namespace CatLib.Stl
             var ele = items[0];
             Array.Copy(items, 1, items, 0, Count);
             return ele;
-        }
-
-        /// <summary>
-        /// 列表解压缩
-        /// </summary>
-        internal void Decompress()
-        {
-            //todo
-        }
-
-        /// <summary>
-        /// 列表请求压缩
-        /// </summary>
-        internal void Compress()
-        {
-            //todo
         }
     }
 }

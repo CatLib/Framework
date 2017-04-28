@@ -8,8 +8,7 @@
  *
  * Document: http://catlib.io/
  */
-
-using System;
+ 
 using System.Collections;
 using System.Collections.Generic;
 
@@ -44,7 +43,7 @@ namespace CatLib.Stl
             /// <summary>
             /// 列表
             /// </summary>
-            internal ZipList<TElement> List;
+            internal InternalList<TElement> List;
         }
 
         /// <summary>
@@ -159,6 +158,27 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 通过下标访问元素
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public TElement this[long index]
+        {
+            get
+            {
+                int offset;
+                var node = FindByIndex(index , out offset);
+                return node.List[offset];
+            }
+            set
+            {
+                int offset;
+                var node = FindByIndex(index, out offset);
+                node.List.ReplaceAt(value, offset);
+            }
+        }
+
+        /// <summary>
         /// 在指定元素之后插入
         /// </summary>
         /// <param name="finder">查找的元素</param>
@@ -222,6 +242,36 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 根据下标查找元素
+        /// </summary>
+        /// <param name="index">下标</param>
+        /// <returns>元素</returns>
+        private QuickListNode FindByIndex(long index ,out int offset)
+        {
+            long sumIndex = 0;
+            var node = header;
+            while (node != null)
+            {
+                if ((sumIndex += node.List.Count) < index)
+                {
+                    node = node.Forward;
+                    continue;
+                }
+                for (var i = 0; i < node.List.Count; ++i)
+                {
+                    if (index == sumIndex++)
+                    {
+                        offset = i;
+                        return node;
+                    }
+                }
+                node = node.Forward;
+            }
+            offset = -1;
+            return null;
+        }
+
+        /// <summary>
         /// 从头往尾查找到指定元素并插入
         /// </summary>
         /// <param name="finder">用于查找的元素</param>
@@ -272,7 +322,6 @@ namespace CatLib.Stl
             //如果结点没有满，且是后插式插入
             if (!full && after)
             {
-                node.List.Decompress();
                 if (offset + 1 < node.List.Count)
                 {
                     //如果偏移量的位置之后还存在元素
@@ -283,32 +332,25 @@ namespace CatLib.Stl
                     //如果之后没有元素那么直接推入
                     node.List.Push(insert);
                 }
-                node.List.Compress();
             }
             else if (!full && !after)
             {
                 //结点没有满，且是前插式
-                node.List.Decompress();
                 node.List.InsertAt(insert, offset);
-                node.List.Compress();
             }
             else if (full && atTail && node.Forward != null && !fullNext && after)
             {
                 //如果当前结点满了，且是后插入尾部元素，并且下一个结点存在而且不是满的
                 //那么就会插入到下一个结点中的头部
                 newNode = node.Forward;
-                newNode.List.Decompress();
                 newNode.List.UnShift(insert);
-                newNode.List.Compress();
             }
             else if (full && atHead && node.Backward != null && !fullBackward && !after)
             {
                 //如果当前结点满了，且是前插入头部元素，并且上一个结点存在而且不是满的
                 //那么就会插入到上一个结点中的尾部
                 newNode = node.Backward;
-                newNode.List.Decompress();
                 newNode.List.Push(insert);
-                newNode.List.Compress();
             }
             else if (full &&
                      ((atTail && node.Forward != null && fullNext && after) ||
@@ -324,7 +366,6 @@ namespace CatLib.Stl
             {
                 //如果当前结点是满的，且插入的元素不处于头部或者尾部的位置
                 //那么拆分数据
-                node.List.Decompress();
                 newNode = SplitNode(node, offset, after);
                 if (after)
                 {
@@ -399,11 +440,8 @@ namespace CatLib.Stl
         /// <param name="after">从结点将怎么合并</param>
         private void MergeNode(QuickListNode master, QuickListNode slave, bool after)
         {
-            master.List.Decompress();
-            slave.List.Decompress();
             master.List.Merge(slave.List, after);
             DeleteNode(slave);
-            master.List.Compress();
         }
 
         /// <summary>
@@ -568,7 +606,7 @@ namespace CatLib.Stl
         {
             return new QuickListNode
             {
-                List = new ZipList<TElement>(fill),
+                List = new InternalList<TElement>(fill),
             };
         }
 
