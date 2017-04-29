@@ -359,27 +359,26 @@ namespace CatLib.Stl
                     node.List.Push(insert);
                 }
             }
-            else if (!full && !after)
+            else if (!full)
             {
                 //结点没有满，且是前插式
                 node.List.InsertAt(insert, offset);
             }
-            else if (full && atTail && node.Forward != null && !fullNext && after)
+            else if (atTail && node.Forward != null && !fullNext && after)
             {
                 //如果当前结点满了，且是后插入尾部元素，并且下一个结点存在而且不是满的
                 //那么就会插入到下一个结点中的头部
                 newNode = node.Forward;
                 newNode.List.UnShift(insert);
             }
-            else if (full && atHead && node.Backward != null && !fullBackward && !after)
+            else if (atHead && node.Backward != null && !fullBackward && !after)
             {
                 //如果当前结点满了，且是前插入头部元素，并且上一个结点存在而且不是满的
                 //那么就会插入到上一个结点中的尾部
                 newNode = node.Backward;
                 newNode.List.Push(insert);
             }
-            else if (full &&
-                     ((atTail && node.Forward != null && fullNext && after) ||
+            else if (((atTail && node.Forward != null && fullNext && after) ||
                       (atHead && node.Backward != null && fullBackward && !after)))
             {
                 //如果当前结点是满的，且前置结点和后置结点都是满的那么
@@ -388,7 +387,7 @@ namespace CatLib.Stl
                 newNode.List.InsertAt(insert, 0);
                 InsertNode(node, newNode, after);
             }
-            else if (full)
+            else
             {
                 //如果当前结点是满的，且插入的元素不处于头部或者尾部的位置
                 //那么拆分数据

@@ -24,27 +24,6 @@ namespace CatLib.Test.Stl
     class QuickListTest
     {
         /// <summary>
-        /// 系统的List测试
-        /// </summary>
-        [Test]
-        public void TestSystemList()
-        {
-            var lst = new List<object>();
-            var sw = new Stopwatch();
-            sw.Start();
-            for (var i = 0; i < 500000; i++)
-            {
-                lst.Add(new object());
-            }
-            for (var i = 0; i < 500000; i++)
-            {
-                lst.RemoveAt(0);
-            }
-            sw.Stop();
-            UnityEngine.Debug.Log(sw.ElapsedMilliseconds);
-        }
-
-        /// <summary>
         /// 推入数据到尾部测试
         /// </summary>
         [Test]
@@ -214,35 +193,6 @@ namespace CatLib.Test.Stl
             {
                 var val = master[master.Count];
             });
-        }
-
-        [Test]
-        public void TestCompared()
-        {
-            int num = 500000;
-            var master = new QuickList<int>(4096);
-            for (var i = 0; i < num; i++)
-            {
-                master.Push(i);
-            }
-            
-            Random r = new Random();
-            for (var i = 0; i < num; i++)
-            {
-                var v = master[r.Next(0, num)];
-            }
-            /*
-            var master = new List<int>();
-            for (var i = 0; i < num; i++)
-            {
-                master.Add(i);
-            }
-
-            Random r = new Random();
-            for (var i = 0; i < num; i++)
-            {
-                var v = master[r.Next(0, num)];
-            }*/
         }
     }
 }
