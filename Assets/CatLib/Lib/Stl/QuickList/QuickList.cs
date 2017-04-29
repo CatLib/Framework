@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -168,12 +169,14 @@ namespace CatLib.Stl
             {
                 int offset;
                 var node = FindByIndex(index, out offset);
+                Guard.Requires<ArgumentOutOfRangeException>(node != null);
                 return node.List[offset];
             }
             set
             {
                 int offset;
                 var node = FindByIndex(index, out offset);
+                Guard.Requires<ArgumentOutOfRangeException>(node != null);
                 node.List.ReplaceAt(value, offset);
             }
         }
@@ -245,29 +248,51 @@ namespace CatLib.Stl
         /// 根据下标查找元素
         /// </summary>
         /// <param name="index">下标</param>
+        /// <param name="offset">偏移量</param>
         /// <returns>元素</returns>
         private QuickListNode FindByIndex(long index, out int offset)
         {
-            long sumIndex = 0;
-            var node = header;
-            while (node != null)
+            if (index >= Count)
             {
-                if ((sumIndex + node.List.Count) < index)
-                {
-                    sumIndex += node.List.Count;
-                    node = node.Forward;
-                    continue;
-                }
-                for (var i = 0; i < node.List.Count; ++i)
-                {
-                    if (index == sumIndex++)
-                    {
-                        offset = i;
-                        return node;
-                    }
-                }
-                node = node.Forward;
+                offset = -1;
+                return null;
             }
+            long sumIndex;
+            QuickListNode node;
+            if (index < Count * 0.5)
+            {
+                sumIndex = 0;
+                node = header;
+                while (node != null)
+                {
+                    if ((sumIndex + node.List.Count) <= index)
+                    {
+                        sumIndex += node.List.Count;
+                        node = node.Forward;
+                        continue;
+                    }
+
+                    offset = (int)(index - sumIndex);
+                    return node;
+                }
+            }
+            else
+            {
+                sumIndex = Count;
+                node = tail;
+                while (node != null)
+                {
+                    if ((sumIndex - node.List.Count) > index)
+                    {
+                        sumIndex -= node.List.Count;
+                        node = node.Backward;
+                        continue;
+                    }
+                    offset = (int)(node.List.Count - (sumIndex - index));
+                    return node;
+                }
+            }
+
             offset = -1;
             return null;
         }

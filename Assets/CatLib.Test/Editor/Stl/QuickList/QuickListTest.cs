@@ -179,5 +179,70 @@ namespace CatLib.Test.Stl
                 Assert.AreEqual(n++, val);
             }
         }
+
+        /// <summary>
+        /// 通过下标搜索
+        /// </summary>
+        [Test]
+        public void FindByIndex()
+        {
+            var master = new QuickList<int>(256);
+            for (var i = 0; i < 5000; i++)
+            {
+                master.Push(i);
+            }
+
+            for (var i = 0; i < 5000; i++)
+            {
+                Assert.AreEqual(i, master[i]);
+            }
+        }
+
+        /// <summary>
+        /// 通过下标搜索溢出测试
+        /// </summary>
+        [Test]
+        public void FindByIndexOverflow()
+        {
+            var master = new QuickList<int>(5);
+            for (var i = 0; i < 10; i++)
+            {
+                master.Push(i);
+            }
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                var val = master[master.Count];
+            });
+        }
+
+        [Test]
+        public void TestCompared()
+        {
+            int num = 500000;
+            var master = new QuickList<int>(4096);
+            for (var i = 0; i < num; i++)
+            {
+                master.Push(i);
+            }
+            
+            Random r = new Random();
+            for (var i = 0; i < num; i++)
+            {
+                var v = master[r.Next(0, num)];
+            }
+            /*
+            var master = new List<int>();
+            for (var i = 0; i < num; i++)
+            {
+                master.Add(i);
+            }
+
+            Random r = new Random();
+            for (var i = 0; i < num; i++)
+            {
+                var v = master[r.Next(0, num)];
+            }*/
+        }
     }
 }
