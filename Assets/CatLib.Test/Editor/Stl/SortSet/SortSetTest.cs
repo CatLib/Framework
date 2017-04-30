@@ -370,6 +370,25 @@ namespace CatLib.Test.Stl
             Assert.AreEqual(-1, list.GetRank(-1));
         }
 
+        /// <summary>
+        /// 顺序插入测试
+        /// </summary>
+        [Test]
+        public void SequentialAddTest()
+        {
+            var list = new SortSet<int, int>();
+            for (var i = 0; i < 500000; i++)
+            {
+                list.Add(i, i);
+            }
+
+            int n = 0;
+            foreach (var v in list)
+            {
+                Assert.AreEqual(n++, v);
+            }
+        }
+
         [Test]
         public void PerformanceTesting()
         {
