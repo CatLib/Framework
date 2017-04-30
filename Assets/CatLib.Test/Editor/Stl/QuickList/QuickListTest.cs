@@ -11,8 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using CatLib.Stl;
 using NUnit.Framework;
 
@@ -487,6 +485,75 @@ namespace CatLib.Test.Stl
             master.InsertAfter(555, 444);
 
             Assert.AreEqual(4, master.Length);
+        }
+
+        /// <summary>
+        /// Foreach遍历列表
+        /// </summary>
+        [Test]
+        public void ForeachSequenceListTest()
+        {
+            var master = new QuickList<int>(5);
+            master.Push(0);
+            master.Push(1);
+            master.Push(2);
+            master.Push(3);
+            master.Push(4);
+            master.Push(5);
+            master.Push(6);
+            master.Push(7);
+            master.Push(8);
+            master.Push(9);
+
+            var i = 0;
+            foreach (var v in master)
+            {
+                Assert.AreEqual(i, master[i++]);
+                break;
+            }
+            i = 0;
+            foreach (var v in master)
+            {
+                Assert.AreEqual(i, master[i++]);
+            }
+        }
+
+        /// <summary>
+        /// 反向遍历列表
+        /// </summary>
+        [Test]
+        public void WhileReverseListTest()
+        {
+            var master = new QuickList<int>(5);
+            master.Push(0);
+            master.Push(1);
+            master.Push(2);
+            master.Push(3);
+            master.Push(4);
+            master.Push(5);
+            master.Push(6);
+            master.Push(7);
+            master.Push(8);
+            master.Push(9);
+
+
+            var enumerator = master.GetReversEnumerator();
+            var i = 0;
+            while (enumerator.MoveNext())
+            {
+                Assert.AreEqual(i, master[i++]);
+                break;
+            }
+
+            enumerator = master.GetReversEnumerator();
+            i = 0;
+            int n = 0;
+            while (enumerator.MoveNext())
+            {
+                n++;
+                Assert.AreEqual(i, master[i++]);
+            }
+            Assert.AreEqual(10 , n);
         }
     }
 }

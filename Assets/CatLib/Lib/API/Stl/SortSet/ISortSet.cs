@@ -34,7 +34,7 @@ namespace CatLib.API.Stl
         /// 反向迭代
         /// </summary>
         /// <returns>元素</returns>
-        IEnumerator<TElement> ReversEnumerator();
+        IEnumerator<TElement> GetReversEnumerator();
 
         /// <summary>
         /// 插入记录

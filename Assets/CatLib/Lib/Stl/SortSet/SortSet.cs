@@ -159,7 +159,7 @@ namespace CatLib.Stl
         /// 反向迭代
         /// </summary>
         /// <returns>迭代器</returns>
-        public IEnumerator<TElement> ReversEnumerator()
+        public IEnumerator<TElement> GetReversEnumerator()
         {
             var node = tail;
             if (node == null)

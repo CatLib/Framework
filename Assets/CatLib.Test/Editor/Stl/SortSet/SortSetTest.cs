@@ -172,7 +172,7 @@ namespace CatLib.Test.Stl
             }
 
             int n = 0;
-            var e = list.ReversEnumerator();
+            var e = list.GetReversEnumerator();
             while (e.MoveNext())
             {
                 var v = e.Current;
