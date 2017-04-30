@@ -522,7 +522,7 @@ namespace CatLib.Test.Stl
         /// 反向遍历列表
         /// </summary>
         [Test]
-        public void WhileReverseListTest()
+        public void ForeachReverseListTest()
         {
             var master = new QuickList<int>(5);
             master.Push(0);
@@ -536,24 +536,48 @@ namespace CatLib.Test.Stl
             master.Push(8);
             master.Push(9);
 
+            master.ReverseForeach();
 
-            var enumerator = master.GetReversEnumerator();
             var i = 0;
-            while (enumerator.MoveNext())
+            foreach (var v in master)
             {
-                Assert.AreEqual(i, master[i++]);
+                Assert.AreEqual(9 - i++, v);
                 break;
             }
-
-            enumerator = master.GetReversEnumerator();
             i = 0;
-            int n = 0;
-            while (enumerator.MoveNext())
+            foreach (var v in master)
             {
-                n++;
-                Assert.AreEqual(i, master[i++]);
+                Assert.AreEqual(9 - i++, v);
             }
-            Assert.AreEqual(10 , n);
+        }
+
+        /// <summary>
+        /// 裁剪测试
+        /// </summary>
+        [Test]
+        public void TrimTest()
+        {
+            var master = new QuickList<int>(3);
+            master.Push(0);
+            master.Push(1);
+            master.Push(2);
+            master.Push(3);
+            master.Push(4);
+            master.Push(5);
+            master.Push(6);
+            master.Push(7);
+            master.Push(8);
+            master.Push(9);
+            master.Push(10);
+            master.Push(11);
+            master.Push(12);
+
+            master.Trim(4, 8);
+
+            foreach (var v in master)
+            {
+                UnityEngine.Debug.Log(v);
+            }
         }
     }
 }

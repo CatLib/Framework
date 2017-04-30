@@ -48,6 +48,80 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 快速列表迭代器
+        /// </summary>
+        private struct Enumerator : IEnumerable<TElement>
+        {
+            /// <summary>
+            /// 快速列表
+            /// </summary>
+            private readonly QuickList<TElement> quickList;
+
+            /// <summary>
+            /// 迭代下标
+            /// </summary>
+            private int index;
+
+            /// <summary>
+            /// 是否是向前遍历
+            /// </summary>
+            private readonly bool forward;
+
+            /// <summary>
+            /// 构造一个迭代器
+            /// </summary>
+            /// <param name="quickList"></param>
+            /// <param name="forward"></param>
+            internal Enumerator(QuickList<TElement> quickList, bool forward)
+            {
+                this.quickList = quickList;
+                index = 0;
+                this.forward = forward;
+            }
+
+            /// <summary>
+            /// 迭代器
+            /// </summary>
+            /// <returns>元素迭代器</returns>
+            public IEnumerator<TElement> GetEnumerator()
+            {
+                if (forward)
+                {
+                    var node = quickList.header;
+                    while (node != null)
+                    {
+                        for (var i = 0; i < node.List.Count; ++i)
+                        {
+                            yield return node.List[i];
+                        }
+                        node = node.Forward;
+                    }
+                }
+                else
+                {
+                    var node = quickList.tail;
+                    while (node != null)
+                    {
+                        for (var i = node.List.Count - 1; i >= 0; --i)
+                        {
+                            yield return node.List[i];
+                        }
+                        node = node.Backward;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// 获取迭代器
+            /// </summary>
+            /// <returns>迭代器</returns>
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+
+        /// <summary>
         /// 每个快速列表结点最多的元素数量
         /// </summary>
         private readonly int fill;
@@ -61,6 +135,11 @@ namespace CatLib.Stl
         /// 列表尾
         /// </summary>
         private QuickListNode tail;
+
+        /// <summary>
+        /// 是否是向前的迭代方向
+        /// </summary>
+        private bool forward;
 
         /// <summary>
         /// 同步锁
@@ -92,6 +171,7 @@ namespace CatLib.Stl
         public QuickList(int fill = 128)
         {
             this.fill = fill;
+            forward = true;
         }
 
         /// <summary>
@@ -136,6 +216,58 @@ namespace CatLib.Stl
                 return ListPop(header, true);
             }
             return default(TElement);
+        }
+
+        /// <summary>
+        /// 对列表进行修剪，只保留下标范围内的元素
+        /// </summary>
+        /// <param name="start">起始下标</param>
+        /// <param name="end">结束下标</param>
+        public long Trim(long start, long end)
+        {
+            end = Math.Min(end, Count);
+            Guard.Requires<ArgumentOutOfRangeException>(start < end);
+            Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
+
+            long remove = 0;
+            long sumIndex = 0;
+            long endStep = (end - start);
+            var node = header;
+            while (node != null)
+            {
+                if ((sumIndex + node.List.Count) <= start || endStep < 0)
+                {
+                    remove += node.List.Count;
+                    sumIndex += node.List.Count;
+                    DeleteNode(node);
+                    node = node.Forward;
+                    continue;
+                }
+
+                //起始的偏移量，相对于当前结点
+                var offset = Math.Max((int) (start - sumIndex), 0);
+                var nodeRemove = 0;
+
+                for (var i = 0; i < node.List.Count - nodeRemove; i++)
+                {
+                    ++sumIndex;
+                    //如果小于起始偏移量或者步径用完那么就删除
+                    if ((i + nodeRemove) < offset || endStep < 0)
+                    {
+                        node.List.RemoveAt(i);
+                        ++remove;
+                        ++nodeRemove;
+                        --Count;
+                        --i;
+                    }
+                    else
+                    {
+                        --endStep;
+                    }
+                }
+                node = node.Forward;
+            }
+            return remove;
         }
 
         /// <summary>
@@ -301,38 +433,22 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 正向迭代
+        /// 反转遍历顺序
+        /// </summary>
+        /// <returns></returns>
+        public void ReverseForeach()
+        {
+            forward = !forward;
+        }
+
+        /// <summary>
+        /// 迭代器
         /// </summary>
         /// <returns>迭代器</returns>
         public IEnumerator<TElement> GetEnumerator()
         {
-            var node = header;
-            while (node != null)
-            {
-                for (var i = 0; i < node.List.Count; ++i)
-                {
-                    yield return node.List[i];
-                }
-                node = node.Forward;
-            }
+            return new Enumerator(this, forward).GetEnumerator();
         }
-
-        /// <summary>
-        /// 反向迭代
-        /// </summary>
-        /// <returns>迭代器</returns>
-        public IEnumerator<TElement> GetReversEnumerator()
-        {
-            var node = tail;
-            while (node != null)
-            {
-                for (var i = node.List.Count - 1; i >= 0; --i)
-                {
-                    yield return node.List[i];
-                }
-                node = node.Backward;
-            }
-        } 
 
         /// <summary>
         /// 迭代器
@@ -340,7 +456,7 @@ namespace CatLib.Stl
         /// <returns>迭代器</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return new Enumerator(this, forward).GetEnumerator();
         }
 
         /// <summary>
