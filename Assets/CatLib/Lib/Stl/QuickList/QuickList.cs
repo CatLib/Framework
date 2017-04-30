@@ -100,17 +100,7 @@ namespace CatLib.Stl
         /// <param name="element">元素</param>
         public void Push(TElement element)
         {
-            if (AllowInsert(tail))
-            {
-                tail.List.InsertAt(element, tail.List.Count);
-            }
-            else
-            {
-                var node = CreateNode();
-                node.List.InsertAt(element, 0);
-                InsertNode(tail, node, true);
-            }
-            ++Count;
+            Insert(element, tail, tail != null ? tail.List.Count - 1 : 0, true);
         }
 
         /// <summary>
@@ -119,17 +109,7 @@ namespace CatLib.Stl
         /// <param name="element">元素</param>
         public void Unshift(TElement element)
         {
-            if (AllowInsert(header))
-            {
-                header.List.UnShift(element);
-            }
-            else
-            {
-                var node = CreateNode();
-                node.List.InsertAt(element, 0);
-                InsertNode(header, node, false);
-            }
-            ++Count;
+            Insert(element, header, 0, false);
         }
 
         /// <summary>
@@ -159,10 +139,72 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 获取区间内的所有元素,1个元素占1个位置
+        /// 根据参数 <paramref name="count"/> 的值，移除列表中与参数 <paramref name="element"/> 相等的元素。
+        /// <para><c>count &gt; 0</c> : 从表头开始向表尾搜索，移除与 <paramref name="element"/> 相等的元素，数量为 <paramref name="count"/>。</para>
+        /// <para><c>count &lt; 0</c> : 从表尾开始向表头搜索，移除与 <paramref name="element"/> 相等的元素，数量为绝对值 <paramref name="count"/>。</para>
+        /// <para><c>count = 0</c> : 移除表中所有与 <paramref name="element"/> 相等的元素。</para>
         /// </summary>
-        /// <param name="start">起始值(包含)</param>
-        /// <param name="end">结束值(包含)</param>
+        /// <param name="element">要被移除的元素</param>
+        /// <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
+        /// <returns>被移除元素的数量</returns>
+        public long Remove(TElement element, long count = 0)
+        {
+            long remove = 0;
+            QuickListNode node;
+            int i;
+            if (count >= 0)
+            {
+                count = Math.Abs(count);
+                node = header;
+                while (node != null)
+                {
+                    for (i = 0; i < node.List.Count; ++i)
+                    {
+                        if (node.List[i].Equals(element))
+                        {
+                            node.List.RemoveAt(i);
+                            ++remove;
+                            --Count;
+                            --i;
+                            if (count != 0 && (--count) == 0)
+                            {
+                                return remove;
+                            }
+                        }
+                    }
+                    node = node.Forward;
+                }
+            }
+            else
+            {
+                count = Math.Abs(count);
+                node = tail;
+                while (node != null)
+                {
+                    for (i = node.List.Count - 1; i >= 0; --i)
+                    {
+                        if (node.List[i].Equals(element))
+                        {
+                            node.List.RemoveAt(i);
+                            --Count;
+                            ++remove;
+                            if (count != 0 && (--count) == 0)
+                            {
+                                return remove;
+                            }
+                        }
+                    }
+                    node = node.Backward;
+                }
+            }
+            return remove;
+        }
+
+        /// <summary>
+        /// 获取区间内的所有元素,1个元素占1个位置，范围不允许使用负数表示
+        /// </summary>
+        /// <param name="start">起始位置(包含)</param>
+        /// <param name="end">结束位置(包含)</param>
         /// <returns>区间内的元素列表</returns>
         public TElement[] GetRange(long start, long end)
         {
@@ -196,14 +238,14 @@ namespace CatLib.Stl
                 }
                 return elements;
             }
-            return new TElement[] {};
+            return new TElement[] { };
         }
 
         /// <summary>
-        /// 通过下标访问元素
+        /// 通过下标访问元素,如果传入的是一个负数下标那么从末尾开始查找
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">下标，允许为负数</param>
+        /// <returns>元素</returns>
         public TElement this[long index]
         {
             get
@@ -231,7 +273,13 @@ namespace CatLib.Stl
         {
             Guard.Requires<ArgumentNullException>(finder != null);
             Guard.Requires<ArgumentNullException>(insert != null);
-            InsertByElement(finder, insert, true);
+            int offset;
+            var node = FindNode(finder, out offset);
+            if (node == null)
+            {
+                return;
+            }
+            Insert(insert, node, offset, true);
         }
 
         /// <summary>
@@ -243,7 +291,13 @@ namespace CatLib.Stl
         {
             Guard.Requires<ArgumentNullException>(finder != null);
             Guard.Requires<ArgumentNullException>(insert != null);
-            InsertByElement(finder, insert, false);
+            int offset;
+            var node = FindNode(finder, out offset);
+            if (node == null)
+            {
+                return;
+            }
+            Insert(insert, node, offset, false);
         }
 
         /// <summary>
@@ -290,7 +344,7 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 根据下标查找元素
+        /// 根据下标查找元素,如果传入的是一个负数下标那么从末尾开始查找
         /// </summary>
         /// <param name="index">下标</param>
         /// <param name="offset">偏移量</param>
@@ -307,8 +361,10 @@ namespace CatLib.Stl
                 index = Count + index;
                 Guard.Requires<ArgumentOutOfRangeException>(index >= 0);
             }
+
             long sumIndex;
             QuickListNode node;
+
             if (index < Count * 0.5)
             {
                 sumIndex = 0;
@@ -348,24 +404,26 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 从头往尾查找到指定元素并插入
+        /// 插入元素
         /// </summary>
-        /// <param name="finder">用于查找的元素</param>
         /// <param name="insert">被插入的元素</param>
         /// <param name="after">是否在被查找的元素之后插入</param>
-        private void InsertByElement(TElement finder, TElement insert, bool after)
+        /// <param name="node">需要插入的结点</param>
+        /// <param name="offset">结点相对偏移量</param>
+        private void Insert(TElement insert, QuickListNode node, int offset, bool after)
         {
-            int offset;
-            //find获取的偏移量
-            var node = FindNode(finder, out offset);
-            if (node == null)
-            {
-                return;
-            }
-
             bool full, fullNext, fullBackward, atTail, atHead;
             full = fullNext = fullBackward = atTail = atHead = false;
             QuickListNode newNode;
+
+            if (node == null)
+            {
+                newNode = CreateNode();
+                newNode.List.InsertAt(insert, 0);
+                InsertNode(null, newNode, after);
+                ++Count;
+                return;
+            }
 
             //如果结点不能插入那么标记为满
             if (!AllowInsert(node))
@@ -463,6 +521,11 @@ namespace CatLib.Stl
         /// <param name="node">发起合并的结点</param>
         private void AttemptMergeNode(QuickListNode node)
         {
+            if (node == null)
+            {
+                return;
+            }
+
             QuickListNode backward, backwardBackward, forward, forwardForward;
             backward = backwardBackward = forward = forwardForward = null;
 
@@ -622,6 +685,7 @@ namespace CatLib.Stl
             }
             Count -= node.List.Count;
             --Length;
+            node.List.IsDelete = true;
         }
 
         /// <summary>

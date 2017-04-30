@@ -20,6 +20,33 @@ namespace CatLib.Test.Stl
     [TestFixture]
     class InternalListTest
     {
+        private class TestClass
+        {
+            public int Val;
+        }
+
+        /// <summary>
+        /// 移除指定位置的元素
+        /// </summary>
+        [Test]
+        public void RemoveAtTest()
+        {
+            var list = new InternalList<TestClass>(4);
+            list.Init(new[]
+            {
+                new TestClass {Val = 0},
+                new TestClass {Val = 1},
+                new TestClass {Val = 8},
+                new TestClass {Val = 9},
+            });
+
+            list.RemoveAt(1);
+            Assert.AreEqual(0 , list[0].Val);
+            Assert.AreEqual(8, list[1].Val);
+            Assert.AreEqual(9, list[2].Val);
+            Assert.AreEqual(null, list[3]);
+        }
+
         /// <summary>
         /// 插入到指定位置测试
         /// </summary>

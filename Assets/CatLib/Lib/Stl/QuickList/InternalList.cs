@@ -34,6 +34,11 @@ namespace CatLib.Stl
         internal int Count { get; private set; }
 
         /// <summary>
+        /// 是否被删除
+        /// </summary>
+        internal bool IsDelete { get; set; }
+
+        /// <summary>
         /// 新建一个内部列表
         /// </summary>
         /// <param name="capacity">容量</param>
@@ -42,6 +47,7 @@ namespace CatLib.Stl
             this.capacity = capacity;
             items = new TElement[capacity];
             Count = 0;
+            IsDelete = false;
         }
 
         /// <summary>
@@ -67,6 +73,17 @@ namespace CatLib.Stl
             }
             items[offset] = element;
             ++Count;
+        }
+
+        /// <summary>
+        /// 移除元素
+        /// </summary>
+        /// <param name="offset">偏移量</param>
+        internal void RemoveAt(int offset)
+        {
+            Array.Copy(items, offset + 1, items, offset, Count - offset - 1);
+            Array.Clear(items , Count - 1 , 1);
+            --Count;
         }
 
         /// <summary>

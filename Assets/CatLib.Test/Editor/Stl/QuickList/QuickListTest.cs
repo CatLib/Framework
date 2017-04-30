@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using CatLib.Stl;
 using NUnit.Framework;
@@ -67,7 +68,7 @@ namespace CatLib.Test.Stl
             {
                 Assert.AreEqual(v, lst.Pop());
             }
-            Assert.AreEqual(0 , lst.Count);
+            Assert.AreEqual(0, lst.Count);
             Assert.AreEqual(0, lst.Length);
         }
 
@@ -88,8 +89,8 @@ namespace CatLib.Test.Stl
             lst.InsertAfter(5, 999);
             lst.InsertAfter(7, 999);
             lst.InsertAfter(9, 999);
-            
-            Assert.AreEqual(999 ,lst[2]);
+
+            Assert.AreEqual(999, lst[2]);
             Assert.AreEqual(999, lst[5]);
             Assert.AreEqual(999, lst[8]);
             Assert.AreEqual(999, lst[11]);
@@ -190,7 +191,7 @@ namespace CatLib.Test.Stl
             }
             for (var i = 0; i < 5000; i++)
             {
-                Assert.AreEqual(5000 - i - 1, master[-(i+1)]);
+                Assert.AreEqual(5000 - i - 1, master[-(i + 1)]);
             }
         }
 
@@ -230,10 +231,10 @@ namespace CatLib.Test.Stl
             }
 
             var elements = master.GetRange(10, 100);
-            Assert.AreEqual(90 , elements.Length);
+            Assert.AreEqual(90, elements.Length);
             for (var i = 10; i < 100; i++)
             {
-                Assert.AreEqual(i , elements[i - 10]);
+                Assert.AreEqual(i, elements[i - 10]);
             }
         }
 
@@ -258,6 +259,217 @@ namespace CatLib.Test.Stl
             {
                 master.GetRange(50, 10);
             });
+        }
+
+        /// <summary>
+        /// 顺序的移除元素测试
+        /// </summary>
+        [Test]
+        public void SequenceRemove()
+        {
+            var master = new QuickList<int>(20);
+            for (var i = 0; i < 256; i++)
+            {
+                master.Push(i);
+            }
+
+            master.Remove(5);
+            master.Remove(6);
+
+            Assert.AreEqual(7, master[5]);
+            Assert.AreEqual(8, master[6]);
+            Assert.AreEqual(254, master.Count);
+        }
+
+        /// <summary>
+        /// 顺序随机的移除元素测试
+        /// </summary>
+        [Test]
+        public void SequenceRemoveRandom()
+        {
+            var master = new QuickList<int>(8);
+            for (var i = 0; i < 256; i++)
+            {
+                master.Push(i);
+            }
+
+            var lst = new List<int>();
+            for (var i = 255; i >= 0; i--)
+            {
+                if (!lst.Contains(i))
+                {
+                    lst.Add(i);
+                    master.Remove(i);
+                }
+            }
+
+            foreach (var v in master)
+            {
+                if (lst.Contains(v))
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 逆序的移除元素测试
+        /// </summary>
+        [Test]
+        public void ReverseRemove()
+        {
+            var master = new QuickList<int>(20);
+            for (var i = 0; i < 256; i++)
+            {
+                master.Push(i);
+            }
+
+            master.Remove(5, -999);
+            master.Remove(6, -999);
+
+            Assert.AreEqual(7, master[5]);
+            Assert.AreEqual(8, master[6]);
+            Assert.AreEqual(254, master.Count);
+        }
+
+        /// <summary>
+        /// 逆序的随机删除元素
+        /// </summary>
+        [Test]
+        public void ReverseRemoveRandom()
+        {
+            var master = new QuickList<int>(8);
+            for (var i = 0; i < 256; i++)
+            {
+                master.Push(i);
+            }
+
+            var lst = new List<int>();
+            for (var i = 255; i >= 0; i--)
+            {
+                if (!lst.Contains(i))
+                {
+                    lst.Add(i);
+                    master.Remove(i, -999);
+                }
+            }
+
+            foreach (var v in master)
+            {
+                if (lst.Contains(v))
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 移除返回值测试
+        /// </summary>
+        [Test]
+        public void RemoveReturnNumTest()
+        {
+            var master = new QuickList<int>(8);
+            master.Push(111);
+            master.Push(111);
+            master.Push(111);
+            master.Push(222);
+            master.Push(333);
+            master.Push(111);
+            master.Push(111);
+            master.Push(444);
+            master.Push(333);
+
+            var removeNum = master.Remove(111);
+            Assert.AreEqual(5, removeNum);
+        }
+
+        /// <summary>
+        /// 移除返回值限制测试
+        /// </summary>
+        [Test]
+        public void RemoveReturnNumLimitTest()
+        {
+            var master = new QuickList<int>(8);
+            master.Push(111);
+            master.Push(111);
+            master.Push(111);
+            master.Push(222);
+            master.Push(333);
+            master.Push(111);
+            master.Push(111);
+            master.Push(444);
+            master.Push(333);
+
+            var removeNum = master.Remove(111, 3);
+            Assert.AreEqual(3, removeNum);
+            Assert.AreEqual(222, master[0]);
+            Assert.AreEqual(111, master[2]);
+        }
+
+        /// <summary>
+        /// 逆序的移除返回值限制测试
+        /// </summary>
+        [Test]
+        public void ReverseRemoveReturnNumLimitTest()
+        {
+            var master = new QuickList<int>(8);
+            master.Push(111);
+            master.Push(111);
+            master.Push(111);
+            master.Push(222);
+            master.Push(333);
+            master.Push(111);
+            master.Push(111);
+            master.Push(444);
+            master.Push(333);
+
+            var removeNum = master.Remove(111, -3);
+            Assert.AreEqual(3, removeNum);
+            Assert.AreEqual(111, master[0]);
+            Assert.AreEqual(111, master[1]);
+            Assert.AreEqual(222, master[2]);
+            Assert.AreEqual(333, master[3]);
+            Assert.AreEqual(444, master[4]);
+            Assert.AreEqual(6, master.Count);
+        }
+
+        /// <summary>
+        /// 合并结点测试
+        /// </summary>
+        [Test]
+        public void MergeNodeTest()
+        {
+            var master = new QuickList<int>(5);
+
+            //node 0
+            master.Push(111); // remove
+            master.Push(222); // remove
+            master.Push(333);
+            master.Push(111); // remove
+            master.Push(222); // remove
+
+            //node 1
+            master.Push(111); // remove
+            master.Push(111); // remove
+            master.Push(555);
+            master.Push(111); // remove
+            master.Push(222); // remove
+
+            //node 2
+            master.Push(666);
+            master.Push(777);
+            master.Push(888);
+
+            Assert.AreEqual(3, master.Length);
+
+            master.Remove(111);
+            master.Remove(222);
+
+            //trigger merge
+            master.InsertAfter(333, 999);
+
+            Assert.AreEqual(2 , master.Length);
         }
     }
 }
