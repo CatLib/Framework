@@ -433,43 +433,5 @@ namespace CatLib.Test.Stl
             Assert.AreEqual(444, master[4]);
             Assert.AreEqual(6, master.Count);
         }
-
-        /// <summary>
-        /// 合并结点测试
-        /// </summary>
-        [Test]
-        public void MergeNodeTest()
-        {
-            var master = new QuickList<int>(5);
-
-            //node 0
-            master.Push(111); // remove
-            master.Push(222); // remove
-            master.Push(333);
-            master.Push(111); // remove
-            master.Push(222); // remove
-
-            //node 1
-            master.Push(111); // remove
-            master.Push(111); // remove
-            master.Push(555);
-            master.Push(111); // remove
-            master.Push(222); // remove
-
-            //node 2
-            master.Push(666);
-            master.Push(777);
-            master.Push(888);
-
-            Assert.AreEqual(3, master.Length);
-
-            master.Remove(111);
-            master.Remove(222);
-
-            //trigger merge
-            master.InsertAfter(333, 999);
-
-            Assert.AreEqual(2 , master.Length);
-        }
     }
 }

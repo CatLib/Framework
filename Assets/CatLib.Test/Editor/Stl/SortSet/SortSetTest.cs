@@ -388,44 +388,5 @@ namespace CatLib.Test.Stl
                 Assert.AreEqual(n++, v);
             }
         }
-
-        [Test]
-        public void PerformanceTesting()
-        {
-            var lst = new List<int>();
-            var random = new Random();
-            for (var i = 0; i < 50000; i++)
-            {
-                lst.Add(random.Next());
-            }
-
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var CatLibSortSet = new SortSet<int, int>();
-            foreach (var v in lst)
-            {
-                CatLibSortSet.Add(v, v);
-            }
-
-            stopwatch.Stop();
-
-            UnityEngine.Debug.Log("CatLibSortSet :" + stopwatch.Elapsed.TotalMilliseconds);
-
-            stopwatch.Reset();
-
-            stopwatch.Start();
-            var SystemSortList = new SortedList<int ,int>();
-            foreach (var v in lst)
-            {
-                if (!SystemSortList.ContainsKey(v))
-                {
-                    SystemSortList.Add(v, v);
-                }
-            }
-
-            stopwatch.Stop();
-
-            UnityEngine.Debug.Log("SystemSortList :" + stopwatch.Elapsed.TotalMilliseconds);
-        }
     }
 }
