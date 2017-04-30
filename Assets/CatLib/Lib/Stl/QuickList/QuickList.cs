@@ -332,7 +332,7 @@ namespace CatLib.Stl
                 }
                 node = node.Backward;
             }
-        }
+        } 
 
         /// <summary>
         /// 迭代器
