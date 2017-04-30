@@ -159,6 +159,47 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 获取区间内的所有元素,1个元素占1个位置
+        /// </summary>
+        /// <param name="start">起始值(包含)</param>
+        /// <param name="end">结束值(包含)</param>
+        /// <returns>区间内的元素列表</returns>
+        public TElement[] GetRange(long start, long end)
+        {
+            end = Math.Min(end, Count);
+            Guard.Requires<ArgumentOutOfRangeException>(start < end);
+            Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
+
+            var elements = new TElement[end - start];
+            long sumIndex = 0;
+            var node = header;
+            while (node != null)
+            {
+                if ((sumIndex + node.List.Count) <= start)
+                {
+                    sumIndex += node.List.Count;
+                    node = node.Forward;
+                    continue;
+                }
+
+                //基础偏移量
+                var offset = (int)(start - sumIndex);
+
+                for (var i = 0; i < elements.Length; i++)
+                {
+                    elements[i] = node.List[offset];
+                    if (++offset >= fill)
+                    {
+                        offset = 0;
+                        node = node.Forward;
+                    }
+                }
+                return elements;
+            }
+            return new TElement[] {};
+        }
+
+        /// <summary>
         /// 通过下标访问元素
         /// </summary>
         /// <param name="index"></param>
@@ -188,6 +229,8 @@ namespace CatLib.Stl
         /// <param name="insert">要插入的元素</param>
         public void InsertAfter(TElement finder, TElement insert)
         {
+            Guard.Requires<ArgumentNullException>(finder != null);
+            Guard.Requires<ArgumentNullException>(insert != null);
             InsertByElement(finder, insert, true);
         }
 
@@ -198,6 +241,8 @@ namespace CatLib.Stl
         /// <param name="insert">要插入的元素</param>
         public void InsertBefore(TElement finder, TElement insert)
         {
+            Guard.Requires<ArgumentNullException>(finder != null);
+            Guard.Requires<ArgumentNullException>(insert != null);
             InsertByElement(finder, insert, false);
         }
 
@@ -256,6 +301,11 @@ namespace CatLib.Stl
             {
                 offset = -1;
                 return null;
+            }
+            if (index < 0)
+            {
+                index = Count + index;
+                Guard.Requires<ArgumentOutOfRangeException>(index >= 0);
             }
             long sumIndex;
             QuickListNode node;

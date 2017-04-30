@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CatLib.API.Stl;
 using Random = System.Random;
 
 namespace CatLib.Stl
@@ -20,7 +21,7 @@ namespace CatLib.Stl
     /// 有序集
     /// 有序集使用分数进行排序(以小到大)
     /// </summary>
-    public sealed class SortSet<TElement, TScore> : IEnumerable<TElement>
+    public sealed class SortSet<TElement, TScore> : ISortSet<TElement,TScore>
         where TScore : IComparable<TScore>
     {
         /// <summary>
@@ -227,12 +228,12 @@ namespace CatLib.Stl
         /// <summary>
         /// 获取分数范围内的元素个数
         /// </summary>
-        /// <param name="min">最小值(包含)</param>
-        /// <param name="max">最大值(包含)</param>
-        /// <returns>分数值在<paramref name="min"/>(包含)和<paramref name="max"/>(包含)之间的元素数量</returns>
-        public long GetRangeCount(TScore min, TScore max)
+        /// <param name="start">起始值(包含)</param>
+        /// <param name="end">结束值(包含)</param>
+        /// <returns>分数值在<paramref name="start"/>(包含)和<paramref name="end"/>(包含)之间的元素数量</returns>
+        public long GetRangeCount(TScore start, TScore end)
         {
-            Guard.Requires<ArgumentOutOfRangeException>(min.CompareTo(max) <= 0);
+            Guard.Requires<ArgumentOutOfRangeException>(start.CompareTo(end) <= 0);
 
             long rank = 0, bakRank = 0;
             SkipNode bakCursor = null;
@@ -245,8 +246,8 @@ namespace CatLib.Stl
                 for (var i = level - 1; i >= 0; --i)
                 {
                     while (cursor.Level[i].Forward != null &&
-                           ((!isRight && cursor.Level[i].Forward.Score.CompareTo(min) < 0) ||
-                            (isRight && cursor.Level[i].Forward.Score.CompareTo(max) <= 0)))
+                           ((!isRight && cursor.Level[i].Forward.Score.CompareTo(start) < 0) ||
+                            (isRight && cursor.Level[i].Forward.Score.CompareTo(end) <= 0)))
                     {
                         rank += cursor.Level[i].Span;
                         cursor = cursor.Level[i].Forward;

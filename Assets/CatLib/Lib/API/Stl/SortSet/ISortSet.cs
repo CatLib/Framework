@@ -59,10 +59,10 @@ namespace CatLib.API.Stl
         /// <summary>
         /// 获取分数范围内的元素个数
         /// </summary>
-        /// <param name="min">最小值(包含)</param>
-        /// <param name="max">最大值(包含)</param>
-        /// <returns>分数值在<paramref name="min"/>(包含)和<paramref name="max"/>(包含)之间的元素数量</returns>
-        long GetRangeCount(TScore min, TScore max);
+        /// <param name="start">起始值(包含)</param>
+        /// <param name="end">结束值(包含)</param>
+        /// <returns>分数值在<paramref name="start"/>(包含)和<paramref name="end"/>(包含)之间的元素数量</returns>
+        long GetRangeCount(TScore start, TScore end);
 
         /// <summary>
         /// 从有序集中删除元素，如果元素不存在返回false

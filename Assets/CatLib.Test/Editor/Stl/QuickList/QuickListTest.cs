@@ -178,6 +178,23 @@ namespace CatLib.Test.Stl
         }
 
         /// <summary>
+        /// 负数下标
+        /// </summary>
+        [Test]
+        public void FindByIndexNegativeSubscript()
+        {
+            var master = new QuickList<int>(256);
+            for (var i = 0; i < 5000; i++)
+            {
+                master.Push(i);
+            }
+            for (var i = 0; i < 5000; i++)
+            {
+                Assert.AreEqual(5000 - i - 1, master[-(i+1)]);
+            }
+        }
+
+        /// <summary>
         /// 通过下标搜索溢出测试
         /// </summary>
         [Test]
@@ -192,6 +209,54 @@ namespace CatLib.Test.Stl
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var val = master[master.Count];
+            });
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                var val = master[-(master.Count + 1)];
+            });
+        }
+
+        /// <summary>
+        /// 获取区间测试
+        /// </summary>
+        [Test]
+        public void GetRangeTest()
+        {
+            var master = new QuickList<int>(20);
+            for (var i = 0; i < 256; i++)
+            {
+                master.Push(i);
+            }
+
+            var elements = master.GetRange(10, 100);
+            Assert.AreEqual(90 , elements.Length);
+            for (var i = 10; i < 100; i++)
+            {
+                Assert.AreEqual(i , elements[i - 10]);
+            }
+        }
+
+        /// <summary>
+        /// 无效的获取区间测试
+        /// </summary>
+        [Test]
+        public void InvalidGetRange()
+        {
+            var master = new QuickList<int>(20);
+            for (var i = 0; i < 256; i++)
+            {
+                master.Push(i);
+            }
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                master.GetRange(-1, 10);
+            });
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                master.GetRange(50, 10);
             });
         }
     }
