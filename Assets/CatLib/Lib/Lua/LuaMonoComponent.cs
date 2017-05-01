@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using UnityEngine;
 using XLua;
 using System;
@@ -16,22 +16,16 @@ using CatLib.API.Lua;
 using CatLib.API.Resources;
 using CatLib.Lua;
 
-namespace CatLib {
+namespace CatLib
+{
 
-
-    // ===============================================================================
-    // File Name           :    LuaMonoComponent.cs
-    // Class Description   :    
-    // Author              :    Mingming
-    // Create Time         :    2017-04-25 09:55:05
-    // ===============================================================================
-    // Copyright © Mingming . All rights reserved.
-    // ===============================================================================
     [LuaCallCSharp]
     public class LuaMonoComponent : MonoComponent
     {
-
-        public string luaPath = "scripts/test/LuaTestScript.lua.txt";
+        /// <summary>
+        /// Lua文件路径
+        /// </summary>
+        public string luaPath;
 
         /// <summary>
         /// 注入内容
@@ -49,13 +43,16 @@ namespace CatLib {
 
         private Action luaOnDestroy;
 
-        protected ILua Lua {
+        protected ILua Lua
+        {
             get { return App.Make<ILua>(); }
         }
 
         protected XLuaEngine LuaEngine
         {
-            get { return (App.Make<ILua>().LuaEngineAdapter as XLuaEngine); }
+            get { /*return (App.Make<ILua>().LuaEngineAdapter as XLuaEngine);*/
+                return null;
+            }
         }
 
         void Awake()
@@ -89,10 +86,11 @@ namespace CatLib {
             }
         }
 
-        public virtual void Init() {
+        public virtual void Init()
+        {
             TextAsset text = App.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>(scriptEnv);
 
-            Lua.ExecuteScript(text.text);
+            Lua.DoString(text.text);
         }
 
         void Start()
@@ -120,7 +118,6 @@ namespace CatLib {
             luaOnDestroy = null;
             luaUpdate = null;
             luaStart = null;
-            Lua.Dispose();
             injections = null;
             base.OnDestroy();
         }

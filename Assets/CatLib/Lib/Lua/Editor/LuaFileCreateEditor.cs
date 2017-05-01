@@ -8,60 +8,60 @@
  *
  * Document: http://catlib.io/
  */
+
 using UnityEngine;
-using System.Collections;
 using UnityEditor;
 using System.IO;
-// ===============================================================================
-// File Name           :    LuaFileCreateEditor.cs
-// Class Description   :    在Unity Editor下右键创建文本及Lua文件
-// Author              :    Mingming
-// Create Time         :    2017-04-20 18:43:29
-// ===============================================================================
-// Copyright © Mingming . All rights reserved.
-// ===============================================================================
+
 namespace CatLib.Lua
 {
-    
-    public class LuaFileCreateEditor : Editor 
+    /// <summary>
+    /// Lua文件编辑器强化
+    /// </summary>
+    public class LuaFileCreateEditor : Editor
     {
 
-        [MenuItem("Assets/Create/CatLib/Xlua File")]
-        public static void CreateXLuaFile() {
-            CreateFile("lua","lua.txt");
+        [MenuItem("Assets/CatLib/Create/Xlua File")]
+        public static void CreateXLuaFile()
+        {
+            CreateFile("lua", "lua.txt");
         }
 
-        [MenuItem("Assets/Create/CatLib/Lua File")]
-        public static void CreateLuaFile() {
-            CreateFile("lua","lua");
+        [MenuItem("Assets/CatLib/Create/Lua File")]
+        public static void CreateLuaFile()
+        {
+            CreateFile("lua", "lua");
         }
 
-        [MenuItem("Assets/Create/CatLib/Text File")]
-        public static void CreateTextFile() {
-            CreateFile("txt","txt");
+        [MenuItem("Assets/CatLib/Create/Text File")]
+        public static void CreateTextFile()
+        {
+            CreateFile("txt", "txt");
         }
 
-        private static void CreateFile(string fileName,string fileEx) 
+        private static void CreateFile(string fileName, string fileEx)
         {
             //获取当前所选择的目录（相对于Assets路径）
-            string selectPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-            string path = UnityEngine.Application.dataPath.Replace("Assets","") + "/";
-            string newFileName = "new_" + fileName + "." + fileEx;
-            string newFilePath = selectPath + "/" + newFileName;
-            string fullPath = path + newFilePath;
+            var selectPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            var path = UnityEngine.Application.dataPath.Replace("Assets", "") + Path.AltDirectorySeparatorChar;
+            var newFileName = "new_" + fileName + "." + fileEx;
+            var newFilePath = selectPath + Path.AltDirectorySeparatorChar + newFileName;
+            var fullPath = path + newFilePath;
 
             //重名处理
             if (File.Exists(fullPath))
             {
-                string newName = "new_" + fileName + "_" + Random.Range(0, 1000) + "." + fileEx;
-                newFilePath = selectPath + "/" + newName;
+                var newName = "new_" + fileName + "_" + Random.Range(0, 1000) + "." + fileEx;
+                newFilePath = selectPath + Path.AltDirectorySeparatorChar + newName;
                 fullPath = fullPath.Replace(newFileName, newName);
             }
+
             //如果是空白文件，编码并没有设置UTF8
             File.WriteAllText(fullPath, "-- test", System.Text.Encoding.UTF8);
             AssetDatabase.Refresh();
+
             //选中新创建的文件
-            Object asset = AssetDatabase.LoadAssetAtPath(newFilePath, typeof(Object));
+            var asset = AssetDatabase.LoadAssetAtPath(newFilePath, typeof(Object));
             Selection.activeObject = asset;
         }
     }

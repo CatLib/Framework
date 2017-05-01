@@ -8,38 +8,33 @@
  *
  * Document: http://catlib.io/
  */
-using UnityEngine;
-using System.IO;
-using System.Collections;
+
 using System.Collections.Generic;
 using System.Text;
 using System;
 using XLua;
 using CatLib.API;
-using CatLib.API.Resources;
-using CatLib.API.IO;
-using CatLib.API.Event;
 using CatLib.API.Time;
-using CatLib.API.Lua;
 
 namespace CatLib.Lua
 {
-    // ===============================================================================
-    // File Name           :    XLuaEngine.cs
-    // Class Description   :    Xlua引擎
-    // Author              :    Mingming
-    // Create Time         :    2017-04-22 15:57:43
-    // ===============================================================================
-    // Copyright © Mingming . All rights reserved.
-    // ===============================================================================
-    public class XLuaEngine : IUpdate , ILuaEngineAdapter
+    /// <summary>
+    /// XLua引擎
+    /// </summary>
+    public sealed class XLuaEngine : IUpdate, ILuaEngineAdapter
     {
         /// <summary>
-        /// XLua
+        /// 垃圾回收间隔
         /// </summary>
-        private LuaEnv luaEnv;
+        private const float GC_INTERVAL = 1;
+
         /// <summary>
-        /// XLua
+        /// XLua环境
+        /// </summary>
+        private readonly LuaEnv luaEnv;
+
+        /// <summary>
+        /// XLua环境
         /// </summary>
         private LuaTable scriptEnv;
 
@@ -47,70 +42,61 @@ namespace CatLib.Lua
         /// 特殊使用，通常情况下不需要获取XLua的执行环境
         /// 但在特殊情况下调用获取LuaEnv时，通过强制转换得到
         /// </summary>
-        /// <value>The X lua env.</value>
-        public LuaEnv LuaEnv {get {return luaEnv;}}
+        public LuaEnv LuaEnv
+        {
+            get { return luaEnv; }
+        }
 
-        public LuaTable ScriptEnv { get{ return scriptEnv; }}
+        /// <summary>
+        /// 脚本环境
+        /// </summary>
+        public LuaTable ScriptEnv
+        {
+            get { return scriptEnv; }
+        }
 
-        [Inject]
-        public IIOFactory IO{ get; set; }
-
-        [Inject]
-        public IEnv Env { get; set; }
-
-        [Inject]
-        public IResources Resources { get; set; }
-
-        [Inject]
-        public IEventImpl Event { get; set; }
-
-        [Inject]
-        public IApplication App { get; set; }
-
+        /// <summary>
+        /// 时间
+        /// </summary>
         [Inject]
         public ITime Time { get; set; }
 
-        private IDisk disk;
+        /// <summary>
+        /// 最后垃圾回收的时间
+        /// </summary>
+        private float lastGc;
 
         /// <summary>
-        /// 磁盘
+        /// 用户定义的加载器
         /// </summary>
-        private IDisk Disk { get{ return disk ?? (disk = IO.Disk()); } }
+        private readonly IList<Func<string, byte[]>> customLoaders;
 
-        private string[] hotfixPath;
         /// <summary>
-        /// 垃圾回收间隔
+        /// XLua引擎
         /// </summary>
-        protected const float GC_INTERVAL = 1;
-
-        private float lastGC = 0;
-
-        private IList<Func<string,byte[]>> customLoaders;
-
-        public XLuaEngine() {
+        public XLuaEngine()
+        {
             luaEnv = new LuaEnv();
             scriptEnv = luaEnv.NewTable();
-            customLoaders = new List<Func<string,byte[]>>();
-        }
-
-        public IEnumerator Init()
-        {
-            yield return LoadHotFix();
-            //XLua默认设置自定义加载器，需要自定义加载器的时候直接调用Add方法添加即可
+            customLoaders = new List<Func<string, byte[]>>();
             luaEnv.AddLoader(AutoLoader);
         }
 
-        public void SetHotfixPath(string[] path)
-        {
-            hotfixPath = path;
-        }
-
-        public void AddCustomLoader(Func<string,byte[]> callback)
+        /// <summary>
+        /// 增加加载器
+        /// </summary>
+        /// <param name="callback">用户定义的脚本加载器</param>
+        public void AddLoader(Func<string, byte[]> callback)
         {
             customLoaders.Add(callback);
         }
 
-        public bool RemoveCustomLoader(Func<string,byte[]> callback)
+        /// <summary>
+        /// 移除加载器
+        /// </summary>
+        /// <param name="callback">要被移除的加载器</param>
+        /// <returns>是否成功</returns>
+        public bool RemoveLoader(Func<string, byte[]> callback)
         {
             return customLoaders.Remove(callback);
         }
@@ -118,144 +104,93 @@ namespace CatLib.Lua
         /// <summary>
         /// XLua自定义的加载器，通过此方法可以处理Lua的加密等情况
         /// </summary>
-        /// <returns>The loader.</returns>
-        /// <param name="filepath">Filepath.</param>
-        protected byte[] AutoLoader(ref string fullPath)
+        /// <param name="fullPath">路径</param>
+        /// <returns>Lua脚本字节流</returns>
+        private byte[] AutoLoader(ref string fullPath)
         {
-            //这块使用框架自定义的Func来处理，方便做适配
-            foreach (Func<string,byte[]> callback in customLoaders)
+            foreach (var callback in customLoaders)
             {
-                byte[] callResult = callback(fullPath);
+                var callResult = callback(fullPath);
                 if (callResult != null)
                 {
                     return callResult;
                 }
             }
-
             return null;
         }
 
+        /// <summary>
+        /// 每帧更新
+        /// </summary>
         public void Update()
         {
-            if (Time.Time - lastGC > GC_INTERVAL)
+            if (!(Time.Time - lastGc > GC_INTERVAL))
             {
-                luaEnv.Tick();
-                lastGC = Time.Time;
+                return;
             }
+            luaEnv.Tick();
+            lastGc = Time.Time;
         }
 
-        public object ExecuteScript(byte[] scriptCode)
+        /// <summary>
+        /// 执行脚本
+        /// </summary>
+        /// <param name="script">脚本</param>
+        /// <returns>
+        /// 执行结果
+        /// 如果只有一个返回值那么返回的将是结果值
+        /// 反之则是一个结果数组
+        /// </returns>
+        public object DoString(byte[] script)
         {
-            object[] results = luaEnv.DoString(Encoding.UTF8.GetString(scriptCode), "XLua code", ScriptEnv);
-            object ret = null;
-            if(results != null && results.Length == 1)
+            var results = luaEnv.DoString(Encoding.UTF8.GetString(script), "XLua code", ScriptEnv);
+            object result;
+            if (results != null && results.Length == 1)
             {
-                ret = results[0];
+                result = results[0];
             }
             else
             {
-                ret = results;
+                result = results;
             }
-            return results[0];
-        }
-
-        public bool ExecuteScript(byte[] scriptCode,out object retObj)
-        {
-            object[] results = luaEnv.DoString(Encoding.UTF8.GetString(scriptCode), "XLua code", ScriptEnv);
-            if(results != null && results.Length == 1)
-            {
-                retObj = results[0];
-            }else
-            {
-                retObj = results;
-            }
-            return true;
-        }
-
-        public object ExecuteScript(string scriptCode)
-        {
-            object[] results = luaEnv.DoString(scriptCode, "XLua code", ScriptEnv);
-            object ret;
-            if(results != null && results.Length == 1)
-            {
-                ret = results[0];
-            }else
-            {
-                ret = results;
-            }
-            return ret;
-        }
-
-        public bool ExecuteScript(string scriptCode,out object retObj)
-        {
-            object[] results = luaEnv.DoString(scriptCode, "XLua code");
-            if(results != null && results.Length == 1)
-            {
-                retObj = results[0];
-            }else
-            {
-                retObj = results;
-            }
-            return true;
+            return result;
         }
 
         /// <summary>
-        /// 加载热补丁
+        /// 执行脚本
         /// </summary>
-        public IEnumerator LoadHotFix()
+        /// <param name="script">脚本</param>
+        /// <returns>
+        /// 执行结果
+        /// 如果只有一个返回值那么返回的将是结果值
+        /// 反之则是一个结果数组
+        /// </returns>
+        public object DoString(string script)
         {
-            return LoadHotFixAysn();  
+            var results = luaEnv.DoString(script, "XLua code", ScriptEnv);
+            object result;
+            if (results != null && results.Length == 1)
+            {
+                result = results[0];
+            }
+            else
+            {
+                result = results;
+            }
+            return result;
         }
+
         /// <summary>
-        /// 异步加载Lua热修复脚本
+        /// 释放资源
         /// </summary>
-        /// <returns>The hot fix aysn.</returns>
-        protected IEnumerator LoadHotFixAysn()
+        public void OnDestroy()
         {
-
-            //如果处于编辑器下的自动模式和开发者模式则不进行热补丁
-            #if UNITY_EDITOR
-            if (Env.DebugLevel == DebugLevels.Auto || Env.DebugLevel == DebugLevels.Dev)
+            if (scriptEnv == null)
             {
-                yield break;
+                return;
             }
-            #endif
-
-            if(hotfixPath == null){ yield break; }
-
-            Event.Trigger(LuaEvents.ON_HOT_FIXED_START);
-
-            string[] filePaths = hotfixPath;
-
-            foreach (string filePath in filePaths)
-            {
-                IFile[] infos = Disk.Directory(Env.AssetPath + "/" + filePath , PathTypes.Absolute).GetFiles(SearchOption.AllDirectories);
-                foreach(var info in infos)
-                {
-                    if (!info.Name.EndsWith(".manifest"))
-                    {
-                        yield return Resources.LoadAllAsync(filePath + "/" + info.Name, (textAssets) =>
-                            {
-                                Event.Trigger(LuaEvents.ON_HOT_FIXED_ACTION);
-                                foreach (TextAsset text in textAssets)
-                                {
-                                    luaEnv.DoString(text.text, "XLua hot fix code");
-                                }
-                            });
-                    }
-                }
-            }
-            Event.Trigger(LuaEvents.ON_HOT_FIXED_END);
-            Event.Trigger(LuaEvents.ON_HOT_FIXED_COMPLETE);
-        }
-
-        public void Dispose()
-        {
-            if (scriptEnv != null)
-            {
-                scriptEnv.Dispose();
-                scriptEnv = null;
-            }
+            scriptEnv.Dispose();
+            scriptEnv = null;
         }
     }
 }
