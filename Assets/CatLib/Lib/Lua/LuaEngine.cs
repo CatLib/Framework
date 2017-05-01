@@ -8,203 +8,111 @@
  *
  * Document: http://catlib.io/
  */
-using UnityEngine;
-using System.Collections;
-using System.IO;
-using System.Text;
-using System;
-using CatLib.API;
-using CatLib.API.Resources;
-using CatLib.API.IO;
-using CatLib.API.Event;
-using CatLib.API.Time;
-using CatLib.API.Lua;
 
+using System;
+using CatLib.API.Lua;
 
 namespace CatLib.Lua
 {
-    // ===============================================================================
-    // File Name           :    LuaEngine.cs
-    // Class Description   :    Lua引擎，适配具体Lua引擎皆通过继承此类
-    // Author              :    Mingming
-    // Create Time         :    2017-04-22 15:40:33
-    // ===============================================================================
-    // Copyright © Mingming . All rights reserved.
-    // ===============================================================================
-    public sealed class LuaEngine : ILua
+    /// <summary>
+    /// Lua引擎
+    /// </summary>
+    internal sealed class LuaEngine : ILua
     {
         /// <summary>
         /// lua引擎
         /// </summary>
         public ILuaEngineAdapter LuaEngineAdapter { get; set; }
 
-        public bool IsInited { get; set; }
-
-        [Inject]
-        public IIOFactory IO{ get; set; }
-
-        [Inject]
-        public IEnv Env { get; set; }
-
-        [Inject]
-        public IResources Resources { get; set; }
-
-        private IDisk disk;
-
-        /// <summary>
-        /// 磁盘
-        /// </summary>
-        private IDisk Disk { get{ return disk ?? (disk = IO.Disk()); } }
-
         /// <summary>
         /// 构造方法注入
         /// </summary>
-        /// <param name="luaAdapter">Lua adapter.</param>
-        public LuaEngine(ILuaEngineAdapter luaAdapter)
+        /// <param name="luaAdapter">Lua适配器</param>
+        internal LuaEngine(ILuaEngineAdapter luaAdapter)
         {
-            LuaEngineAdapter = luaAdapter;
-            if(LuaEngineAdapter == null)
+            if (LuaEngineAdapter == null)
             {
-                throw new System.Exception("ILuaEngineAdapter is NULL, please check it!");
+                throw new Exception("ILuaEngineAdapter is Null, please check it!");
             }
-        }
-
-        public void SetLuaEngineAdapter(ILuaEngineAdapter luaAdapter)
-        {
             LuaEngineAdapter = luaAdapter;
-            if(LuaEngineAdapter == null)
-            {
-                throw new System.Exception("ILuaEngineAdapter is NULL, please check it!");
-            }
         }
 
         /// <summary>
-        /// Application启动时加载，可以当做Init方法使用
+        /// 设定Lua适配器
         /// </summary>
-        /// <returns>The provider process.</returns>
-        public IEnumerator LoadProviderProcess()
+        /// <param name="luaAdapter">Lua适配器</param>
+        public void SetLuaEngineAdapter(ILuaEngineAdapter luaAdapter)
         {
-            if(LuaEngineAdapter == null)
+            if (LuaEngineAdapter == null)
             {
-                throw new System.Exception("LoadProviderProcess is Failed,ILuaEngineAdapter is NULL, please check it!");
-                yield break;
+                throw new Exception("ILuaEngineAdapter is Null, please check it!");
             }
-
-            yield return LuaEngineAdapter.Init();
-
-            IsInited = true;
+            LuaEngineAdapter = luaAdapter;
         }
 
-        public object ExecuteScript(byte[] scriptCode)
+        /// <summary>
+        /// 执行脚本
+        /// </summary>
+        /// <param name="script">脚本</param>
+        /// <returns>
+        /// 执行结果
+        /// 如果只有一个返回值那么返回的将是结果值
+        /// 反之则是一个结果数组
+        /// </returns>
+        public object DoString(byte[] script)
         {
-            return LuaEngineAdapter.ExecuteScript(scriptCode);
+            return LuaEngineAdapter.DoString(script);
         }
 
-        public bool ExecuteScript(byte[] scriptCode,out object retObj)
+        /// <summary>
+        /// 执行脚本
+        /// </summary>
+        /// <param name="script">脚本</param>
+        /// <returns>
+        /// 执行结果
+        /// 如果只有一个返回值那么返回的将是结果值
+        /// 反之则是一个结果数组
+        /// </returns>
+        public object DoString(string script)
         {
-            return LuaEngineAdapter.ExecuteScript(scriptCode, out retObj);
-        }
-            
-        public object ExecuteScript(string scriptCode)
-        {
-            return LuaEngineAdapter.ExecuteScript(scriptCode);
-        }
-            
-        public object ExecuteScriptByFile(string filePath,string fileName)
-        {
-            byte[] scriptCode;
-            if(HasScript(filePath, fileName, out scriptCode) == false) 
-            {
-                throw new System.Exception(string.Format("{0}{1} is not found", filePath, fileName));
-                return null;
-            }
-            return LuaEngineAdapter.ExecuteScript(scriptCode);
-        }
-            
-        public bool ExecuteScriptByFile(string filePath,string fileName,out object retObj)
-        {
-            byte[] scriptCode;
-            if(HasScript(filePath, fileName, out scriptCode) == false) 
-            {
-                retObj = null;
-                throw new System.Exception(string.Format("{0}{1} is not found", filePath, fileName));
-                return false;
-            }
-            return LuaEngineAdapter.ExecuteScript(scriptCode, out retObj);
+            return LuaEngineAdapter.DoString(script);
         }
 
-        public bool HasScript(string filePath, string fileName, out byte[] scriptCode)
-        {
-            scriptCode = null;
-            //是否存在此脚本
-            bool result = false;
-
-            string fullPath = filePath + Path.AltDirectorySeparatorChar + fileName;
-
-            //判断Resources、AssetBundle、PersistentDataPath下是否存在该文件
-
-            TextAsset text = Resources.Load<TextAsset>(fullPath,LoadTypes.Resources).Original as TextAsset;
-            if (text != null)
-            {
-                scriptCode = text.bytes;
-                result = true;
-            }
-            else
-            {
-                fullPath = Env.AssetPath + Path.AltDirectorySeparatorChar + fullPath;
-
-                IFile file = Disk.File(fullPath, PathTypes.Absolute);
-                if (file.Exists)
-                {
-                    scriptCode = file.Read();
-                    result = true;
-                }
-                else
-                {
-                    text = Resources.Load<TextAsset>(fullPath).Original as TextAsset;
-                    if (text != null)
-                    {
-                        scriptCode = text.bytes;
-                        result = true;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public void SetHotfixPath(string[] path)
-        {
-            LuaEngineAdapter.SetHotfixPath(path);
-        }
-
-        public void AddCustomLoader(Func<string,byte[]> callback)
+        /// <summary>
+        /// 增加加载器
+        /// </summary>
+        /// <param name="callback">加载器回调</param>
+        public void AddLoader(Func<string,byte[]> callback)
         {
             if (callback == null)
             {
-                throw new System.Exception(string.Format("Add LuaCustomLoader Callback is NULL!"));
-                return;
+                throw new ArgumentNullException("callback");
             }
-
-            LuaEngineAdapter.AddCustomLoader(callback);
+            LuaEngineAdapter.AddLoader(callback);
         }
 
-        public bool RemoveCustomLoader(Func<string,byte[]> callback)
+        /// <summary>
+        /// 移除加载器
+        /// </summary>
+        /// <param name="callback">加载器回调</param>
+        /// <returns>是否成功</returns>
+        public bool RemoveLoader(Func<string,byte[]> callback)
         {
             if (callback == null)
             {
-                throw new System.Exception(string.Format("Remove LuaCustomLoader Callback is NULL!"));
-                return false;
+                throw new ArgumentNullException("callback");
             }
-
-            return LuaEngineAdapter.RemoveCustomLoader(callback);
+            return LuaEngineAdapter.RemoveLoader(callback);
         }
 
-        public void Dispose()
+        /// <summary>
+        /// 释放时
+        /// </summary>
+        public void OnDestroy()
         {
-            
+            LuaEngineAdapter.OnDestroy();
         }
-    } 
+    }
 }
 
 

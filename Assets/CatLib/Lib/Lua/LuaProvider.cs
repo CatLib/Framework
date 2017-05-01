@@ -8,48 +8,23 @@
  *
  * Document: http://catlib.io/
  */
- 
-using System.Collections;
-using CatLib.API.Config;
+
 using CatLib.API.Lua;
 
 namespace CatLib.Lua
 {
-    // ===============================================================================
-    // File Name           :    LuaProvider.cs
-    // Class Description   :    Lua服务提供商
-    // Author              :    Mingming
-    // Create Time         :    2017-04-22 17:46:58
-    // ===============================================================================
-    // Copyright © Mingming . All rights reserved.
-    // ===============================================================================
+    /// <summary>
+    /// Lua服务
+    /// </summary>
     public class LuaProvider : ServiceProvider
     {
-
-        public override ProviderProcess ProviderProcess
-        {
-            get
-            {
-                return ProviderProcess.CodeAutoLoad;
-            }
-        }
-
-        public override IEnumerator OnProviderProcess()
-        {
-            yield return (App.Make<ILua>() as LuaEngine).LoadProviderProcess();
-        }
-
+        /// <summary>
+        /// 注册Lua适配器服务时
+        /// </summary>
         public override void Register()
         {
             RegisterAdapter();
-            App.Singleton<LuaEngine>().Alias<ILua>().Alias("LuaEngine").OnResolving((bind, obj) =>{
-
-                LuaEngine luaEngine = obj as LuaEngine;
-                IConfigStore config = App.Make<IConfigStore>();
-                luaEngine.SetHotfixPath(config.Get<string[]>(typeof(XLuaEngine) , "lua.hotfix.path" , null));
-                return obj;
-
-            });
+            App.Singleton<LuaEngine>().Alias<ILua>().Alias("LuaEngine");
         }
 
         /// <summary>
@@ -57,7 +32,6 @@ namespace CatLib.Lua
         /// </summary>
         private void RegisterAdapter()
         {
-            //此处默认的Lua引擎为XLua，如果需要替换，请自行实现对应的LuaProvider
             App.Singleton<ILuaEngineAdapter>((app, param) => new XLuaEngine()).Alias("LuaEngine.adapter");
         }
     }

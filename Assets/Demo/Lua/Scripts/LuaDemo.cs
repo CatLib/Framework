@@ -32,7 +32,7 @@ namespace CatLib.Demo.Lua
                     UnityEngine.Debug.Log("Lua code : " + scriptCode);
 
                     ILua luaEngine = App.Make<ILua>();
-                    luaEngine.ExecuteScript("require 'HelloworldLua' ");
+                    luaEngine.DoString("require 'HelloworldLua' ");
 //                    luaEngine.ExecuteScriptByFile("text/lua","good.lua");
                 });
         }
