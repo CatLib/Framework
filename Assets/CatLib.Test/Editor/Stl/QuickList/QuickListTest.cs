@@ -600,5 +600,33 @@ namespace CatLib.Test.Stl
             Assert.AreEqual(5, master.Count);
             Assert.AreEqual(9 , i);
         }
+
+        /// <summary>
+        /// 裁剪边界测试
+        /// </summary>
+        [Test]
+        public void TrimBoundTest()
+        {
+            var master = new QuickList<int>(5);
+            for (var i = 0; i < 255; i++)
+            {
+                master.Push(i);
+            }
+
+            Assert.AreEqual(250, master.Trim(250, 999));
+            Assert.AreEqual(250, master[0]);
+            Assert.AreEqual(251, master[1]);
+            Assert.AreEqual(252, master[2]);
+            Assert.AreEqual(253, master[3]);
+            Assert.AreEqual(254, master[4]);
+
+            master = new QuickList<int>(5);
+            for (var i = 0; i < 255; i++)
+            {
+                master.Push(i);
+            }
+
+
+        }
     }
 }
