@@ -87,6 +87,18 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 移除范围内的元素
+        /// </summary>
+        /// <param name="start">起始范围(包含)</param>
+        /// <param name="end">结束范围(包含)</param>
+        internal void RemoveRange(int start, int end)
+        {
+            Array.Copy(items, end + 1, items, start, Count - end - 1);
+            Array.Clear(items, Count - (end - start) - 1, (end - start) + 1);
+            Count -= (end - start) + 1;
+        }
+
+        /// <summary>
         /// 替换指定位置的元素
         /// </summary>
         /// <param name="element">元素</param>

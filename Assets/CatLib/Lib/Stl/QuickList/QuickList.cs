@@ -245,24 +245,48 @@ namespace CatLib.Stl
                 }
 
                 //起始的偏移量，相对于当前结点
-                var offset = Math.Max((int) (start - sumIndex), 0);
-                var nodeRemove = 0;
+                var offset = Math.Max((int)(start - sumIndex), 0);
 
-                for (var i = 0; i < node.List.Count - nodeRemove; i++)
+                for (var i = 0; i < node.List.Count; i++)
                 {
-                    ++sumIndex;
-                    //如果小于起始偏移量或者步径用完那么就删除
-                    if ((i + nodeRemove) < offset || endStep < 0)
+                    //如果小于起始偏移量
+                    if (i < offset)
                     {
-                        node.List.RemoveAt(i);
-                        ++remove;
-                        ++nodeRemove;
-                        --Count;
+                        node.List.RemoveRange(i, Math.Max(offset - 1, 0));
+                        var num = offset - i;
+                        remove += num;
+                        sumIndex += num;
+                        Count -= num;
+                        offset -= num;
                         --i;
+                    }
+                    //步径用完那么就删除
+                    else if (endStep < 0)
+                    {
+                        //从当前偏移量位置一直删除到结点最后一个元素
+                        node.List.RemoveRange(i, node.List.Count - 1);
+                        var num = node.List.Count - i;
+                        remove += num;
+                        sumIndex += num;
+                        Count -= num;
+                        offset -= num;
+                        i += num - 1;
                     }
                     else
                     {
-                        --endStep;
+                        var num = node.List.Count - i;
+
+                        //直接跳过保留的元素
+                        if ((endStep + 1) >= num)
+                        {
+                            endStep -= num;
+                            sumIndex += num;
+                            break;
+                        }
+
+                        i += (int)endStep;
+                        sumIndex += endStep;
+                        endStep = -1;
                     }
                 }
                 node = node.Forward;

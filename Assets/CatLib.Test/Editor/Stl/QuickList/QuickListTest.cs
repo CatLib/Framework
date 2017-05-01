@@ -555,9 +555,9 @@ namespace CatLib.Test.Stl
         /// 裁剪测试
         /// </summary>
         [Test]
-        public void TrimTest()
+        public void TrimTest([Values(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)] int cap)
         {
-            var master = new QuickList<int>(3);
+            var master = new QuickList<int>(cap);
             master.Push(0);
             master.Push(1);
             master.Push(2);
@@ -573,11 +573,13 @@ namespace CatLib.Test.Stl
             master.Push(12);
 
             master.Trim(4, 8);
-
+            UnityEngine.Debug.Log(cap);
+            var i = 4;
             foreach (var v in master)
             {
-                UnityEngine.Debug.Log(v);
+                Assert.AreEqual(i++, v);
             }
+            Assert.AreEqual(9 , i);
         }
     }
 }

@@ -324,5 +324,46 @@ namespace CatLib.Test.Stl
             }
             Assert.AreEqual(10, master.Count);
         }
+
+        /// <summary>
+        /// 移除区间测试
+        /// </summary>
+        [Test]
+        public void RemoveRangeTest()
+        {
+            var master = new InternalList<int>(10);
+            for (int i = 0; i < 10; i++)
+            {
+                master.Push(i);
+            }
+
+            master.RemoveRange(5, 8);
+            Assert.AreEqual(4, master[4]);
+            Assert.AreEqual(9, master[5]);
+            Assert.AreEqual(0, master[6]);
+            Assert.AreEqual(0, master[9]);
+            Assert.AreEqual(6, master.Count);
+        }
+        
+        /// <summary>
+        /// 移除区间边界测试
+        /// </summary>
+        [Test]
+        public void RemoveRangeBoundTest()
+        {
+            var master = new InternalList<int>(10);
+            for (int i = 0; i < 10; i++)
+            {
+                master.Push(i);
+            }
+
+            master.RemoveRange(0, 7);
+            Assert.AreEqual(8, master[0]);
+            Assert.AreEqual(9, master[1]);
+            Assert.AreEqual(0, master[2]);
+            Assert.AreEqual(0, master[9]);
+
+            Assert.AreEqual(2, master.Count);
+        }
     }
 }
