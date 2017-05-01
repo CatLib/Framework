@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
 using CatLib.API.Container;
-using CatLib.API.Time;
 
 namespace CatLib
 {
