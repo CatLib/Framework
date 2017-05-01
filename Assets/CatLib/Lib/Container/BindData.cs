@@ -255,7 +255,9 @@ namespace CatLib.Container
             {
                 return needs;
             }
-            return contextual.ContainsKey(needs) ? contextual[needs] : needs;
+
+            string contextualNeeds;
+            return contextual.TryGetValue(needs, out contextualNeeds) ? contextualNeeds : needs;
         }
 
         /// <summary>
