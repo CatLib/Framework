@@ -9,22 +9,19 @@
  * Document: http://catlib.io/
  */
 
-using UnityEngine;
-
-namespace CatLib
+namespace CatLib.Stl
 {
     /// <summary>
-    /// 程序入口
-    /// Program Entry
+    /// 标准模板库
     /// </summary>
-    public sealed class Program : MonoBehaviour
+    public sealed class StlProvider : ServiceProvider
     {
         /// <summary>
-        /// 初始化程序
+        /// 标准模板库注册
         /// </summary>
-        public void Awake()
+        public override void Register()
         {
-            new Application(this).Bootstrap(Bootstrap.BootStrap).Init();
+            
         }
     }
 }
