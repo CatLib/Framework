@@ -221,8 +221,8 @@ namespace CatLib.Stl
         /// <summary>
         /// 对列表进行修剪，只保留下标范围内的元素
         /// </summary>
-        /// <param name="start">起始下标</param>
-        /// <param name="end">结束下标</param>
+        /// <param name="start">起始下标(包含)</param>
+        /// <param name="end">结束下标(包含)</param>
         /// <returns>移除的元素数量</returns>
         public long Trim(long start, long end)
         {
