@@ -10,10 +10,6 @@
  */
 
 using UnityEngine;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Assembly-CSharp-Editor") , 
-           InternalsVisibleTo("Assembly-CSharp-Editor-firstpass")]
 
 namespace CatLib
 {
@@ -32,4 +28,3 @@ namespace CatLib
         }
     }
 }
-
