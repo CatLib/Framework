@@ -12,7 +12,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CatLib.API.Stl;
 using Random = System.Random;
 
 namespace CatLib.Stl
@@ -64,6 +63,73 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 有序集迭代器
+        /// </summary>
+        private struct Enumerator : IEnumerable<TElement>
+        {
+            /// <summary>
+            /// 快速列表
+            /// </summary>
+            private readonly SortSet<TElement, TScore> sortSet;
+
+            /// <summary>
+            /// 是否是向前遍历
+            /// </summary>
+            private readonly bool forward;
+
+            /// <summary>
+            /// 构造一个迭代器
+            /// </summary>
+            /// <param name="sortSet">有序集</param>
+            /// <param name="forward">是否向前遍历</param>
+            internal Enumerator(SortSet<TElement, TScore> sortSet, bool forward)
+            {
+                this.sortSet = sortSet;
+                this.forward = forward;
+            }
+
+            /// <summary>
+            /// 迭代器
+            /// </summary>
+            /// <returns>元素迭代器</returns>
+            public IEnumerator<TElement> GetEnumerator()
+            {
+                if (forward)
+                {
+                    var node = sortSet.header.Level[0];
+                    while (node.Forward != null)
+                    {
+                        yield return node.Forward.Element;
+                        node = node.Forward.Level[0];
+                    }
+                }
+                else
+                {
+                    var node = sortSet.tail;
+                    if (node == null)
+                    {
+                        yield break;
+                    }
+                    yield return node.Element;
+                    while (node.Backward != null)
+                    {
+                        yield return node.Backward.Element;
+                        node = node.Backward;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// 获取迭代器
+            /// </summary>
+            /// <returns>迭代器</returns>
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+
+        /// <summary>
         /// 可能出现层数的默认概率
         /// </summary>
         private const double PROBABILITY = 0.25;
@@ -72,6 +138,11 @@ namespace CatLib.Stl
         /// 同步锁
         /// </summary>
         private readonly object syncRoot = new object();
+
+        /// <summary>
+        /// 是否是向前的迭代方向
+        /// </summary>
+        private bool forward;
 
         /// <summary>
         /// 最大层数
@@ -132,6 +203,7 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentOutOfRangeException>(probable < 1);
             Guard.Requires<ArgumentOutOfRangeException>(probable > 0);
 
+            forward = true;
             probability = probable * 0xFFFF;
             this.maxLevel = maxLevel;
             level = 1;
@@ -142,36 +214,20 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 正向迭代
+        /// 反转遍历顺序(并不是反转整个有序集)
+        /// </summary>
+        public void ReverseForeach()
+        {
+            forward = !forward;
+        }
+
+        /// <summary>
+        /// 迭代器
         /// </summary>
         /// <returns>迭代器</returns>
         public IEnumerator<TElement> GetEnumerator()
         {
-            var node = header.Level[0];
-            while (node.Forward != null)
-            {
-                yield return node.Forward.Element;
-                node = node.Forward.Level[0];
-            }
-        }
-
-        /// <summary>
-        /// 反向迭代
-        /// </summary>
-        /// <returns>迭代器</returns>
-        public IEnumerator<TElement> GetReversEnumerator()
-        {
-            var node = tail;
-            if (node == null)
-            {
-                yield break;
-            }
-            yield return node.Element;
-            while (node.Backward != null)
-            {
-                yield return node.Backward.Element;
-                node = node.Backward;
-            }
+            return new Enumerator(this, forward).GetEnumerator();
         }
 
         /// <summary>

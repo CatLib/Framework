@@ -552,6 +552,25 @@ namespace CatLib.Test.Stl
         }
 
         /// <summary>
+        /// 空列表遍历
+        /// </summary>
+        [Test]
+        public void EmptyListForeach()
+        {
+            var master = new QuickList<int>(5);
+            foreach (var v in master)
+            {
+                Assert.Fail();
+            }
+
+            master.ReverseForeach();
+            foreach (var v in master)
+            {
+                Assert.Fail();
+            }
+        }
+
+        /// <summary>
         /// 裁剪测试
         /// </summary>
         [Test]
@@ -572,13 +591,13 @@ namespace CatLib.Test.Stl
             master.Push(11);
             master.Push(12);
 
-            master.Trim(4, 8);
-            UnityEngine.Debug.Log(cap);
+            Assert.AreEqual(8, master.Trim(4, 8));
             var i = 4;
             foreach (var v in master)
             {
                 Assert.AreEqual(i++, v);
             }
+            Assert.AreEqual(5, master.Count);
             Assert.AreEqual(9 , i);
         }
     }

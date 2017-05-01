@@ -19,7 +19,7 @@ namespace CatLib.Stl
     /// 快速列表
     /// </summary>
     /// <typeparam name="TElement">元素</typeparam>
-    public sealed class QuickList<TElement> : IEnumerable<TElement>
+    public sealed class QuickList<TElement> : IQuickList<TElement>
     {
         /// <summary>
         /// 合并系数
@@ -223,6 +223,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="start">起始下标</param>
         /// <param name="end">结束下标</param>
+        /// <returns>移除的元素数量</returns>
         public long Trim(long start, long end)
         {
             end = Math.Min(end, Count);
@@ -264,8 +265,8 @@ namespace CatLib.Stl
                     else if (endStep < 0)
                     {
                         //从当前偏移量位置一直删除到结点最后一个元素
-                        node.List.RemoveRange(i, node.List.Count - 1);
                         var num = node.List.Count - i;
+                        node.List.RemoveRange(i, node.List.Count - 1);
                         remove += num;
                         sumIndex += num;
                         Count -= num;
@@ -285,7 +286,7 @@ namespace CatLib.Stl
                         }
 
                         i += (int)endStep;
-                        sumIndex += endStep;
+                        sumIndex += endStep + 1;
                         endStep = -1;
                     }
                 }
@@ -457,9 +458,8 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 反转遍历顺序
+        /// 反转遍历顺序(并不是反转整个列表)
         /// </summary>
-        /// <returns></returns>
         public void ReverseForeach()
         {
             forward = !forward;

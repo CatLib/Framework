@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 
-namespace CatLib.API.Stl
+namespace CatLib.Stl
 {
     /// <summary>
     /// 有序集
@@ -29,12 +29,6 @@ namespace CatLib.API.Stl
         /// 同步锁
         /// </summary>
         object SyncRoot { get; }
-
-        /// <summary>
-        /// 反向迭代
-        /// </summary>
-        /// <returns>元素</returns>
-        IEnumerator<TElement> GetReversEnumerator();
 
         /// <summary>
         /// 插入记录
@@ -130,6 +124,11 @@ namespace CatLib.API.Stl
         /// <param name="rank">排名,排名以0为底</param>
         /// <returns>元素</returns>
         TElement GetElementByRevRank(long rank);
+
+        /// <summary>
+        /// 反转遍历顺序(并不是反转整个有序集)
+        /// </summary>
+        void ReverseForeach();
     }
 }
 

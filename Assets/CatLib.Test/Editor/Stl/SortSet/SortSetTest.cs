@@ -172,10 +172,9 @@ namespace CatLib.Test.Stl
             }
 
             int n = 0;
-            var e = list.GetReversEnumerator();
-            while (e.MoveNext())
+            list.ReverseForeach();
+            foreach (var v in list)
             {
-                var v = e.Current;
                 Assert.AreEqual(num - ++n, v);
             }
         }
@@ -386,6 +385,25 @@ namespace CatLib.Test.Stl
             foreach (var v in list)
             {
                 Assert.AreEqual(n++, v);
+            }
+        }
+
+        /// <summary>
+        /// 空列表遍历
+        /// </summary>
+        [Test]
+        public void EmptyListForeach()
+        {
+            var master = new SortSet<int, int>();
+            foreach (var v in master)
+            {
+                Assert.Fail();
+            }
+
+            master.ReverseForeach();
+            foreach (var v in master)
+            {
+                Assert.Fail();
             }
         }
     }
