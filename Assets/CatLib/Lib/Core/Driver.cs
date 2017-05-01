@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Event;
+using CatLib.Stl;
 using UnityEngine;
 
 namespace CatLib
@@ -31,17 +32,17 @@ namespace CatLib
         /// <summary>
         /// 更新
         /// </summary>
-        private readonly LinkedList<IUpdate> update = new LinkedList<IUpdate>();
+        private readonly SortSet<IUpdate, int> update = new SortSet<IUpdate, int>();
 
         /// <summary>
         /// 延后更新
         /// </summary>
-        private readonly LinkedList<ILateUpdate> lateUpdate = new LinkedList<ILateUpdate>();
+        private readonly SortSet<ILateUpdate, int> lateUpdate = new SortSet<ILateUpdate, int>();
 
         /// <summary>
         /// 释放时需要调用的
         /// </summary>
-        private readonly LinkedList<IDestroy> destroy = new LinkedList<IDestroy>();
+        private readonly SortSet<IDestroy, int> destroy = new SortSet<IDestroy, int>();
 
         /// <summary>
         /// 优先标记
@@ -177,49 +178,20 @@ namespace CatLib
 
             if (obj is IUpdate)
             {
-                AddWidthPriorities(update, (IUpdate)obj, "Update");
+                var priorities = GetPriorities(obj.GetType(), "Update");
+                update.Add((IUpdate)obj, priorities);
             }
 
             if (obj is ILateUpdate)
             {
-                AddWidthPriorities(lateUpdate, (ILateUpdate)obj, "LateUpdate");
+                var priorities = GetPriorities(obj.GetType(), "LateUpdate");
+                lateUpdate.Add((ILateUpdate)obj, priorities);
             }
 
             if (obj is IDestroy)
             {
-                AddWidthPriorities(destroy, (IDestroy)obj, "OnDestroy");
-            }
-        }
-
-        /// <summary>
-        /// 根据优先级增加到列表
-        /// </summary>
-        /// <typeparam name="T">类型</typeparam>
-        /// <param name="list">列表</param>
-        /// <param name="val">增加的内容</param>
-        /// <param name="method">识别的方法</param>
-        private void AddWidthPriorities<T>(LinkedList<T> list, T val, string method)
-        {
-            var current = list.First;
-            while (current != null)
-            {
-                var currentPriorities = GetPriorities(current.Value.GetType(), method);
-                var valPriorities = GetPriorities(val.GetType(), method);
-
-                if (currentPriorities > valPriorities)
-                {
-                    break;
-                }
-
-                current = current.Next;
-            }
-            if (current != null)
-            {
-                list.AddBefore(current, val);
-            }
-            else
-            {
-                list.AddLast(val);
+                var priorities = GetPriorities(obj.GetType(), "OnDestroy");
+                destroy.Add((IDestroy)obj, priorities);
             }
         }
 
@@ -233,7 +205,7 @@ namespace CatLib
         {
             var currentPriority = int.MaxValue;
             var methodInfo = type.GetMethod(method);
-
+        
             if (methodInfo.IsDefined(priority, false))
             {
                 currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities; ;
@@ -253,12 +225,12 @@ namespace CatLib
         /// </summary>
         public void Update()
         {
-            var current = update.First;
-            while (current != null)
+            var cursor = update.GetEnumerator();
+            while (cursor.MoveNext())
             {
-                current.Value.Update();
-                current = current.Next;
+                cursor.Current.Update();
             }
+            cursor.Dispose();
             lock (mainThreadDispatcherQueueLocker)
             {
                 while (mainThreadDispatcherQueue.Count > 0)
@@ -273,12 +245,12 @@ namespace CatLib
         /// </summary>
         public void LateUpdate()
         {
-            var current = lateUpdate.First;
-            while (current != null)
+            var cursor = lateUpdate.GetEnumerator();
+            while (cursor.MoveNext())
             {
-                current.Value.LateUpdate();
-                current = current.Next;
+                cursor.Current.LateUpdate();
             }
+            cursor.Dispose();
         }
 
         /// <summary>
@@ -286,12 +258,12 @@ namespace CatLib
         /// </summary>
         public void OnDestroy()
         {
-            var current = destroy.First;
-            while (current != null)
+            var cursor = destroy.GetEnumerator();
+            while (cursor.MoveNext())
             {
-                current.Value.OnDestroy();
-                current = current.Next;
+                cursor.Current.OnDestroy();
             }
+            cursor.Dispose();
         }
 
         #endregion

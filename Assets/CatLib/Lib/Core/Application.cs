@@ -15,18 +15,28 @@ using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
 using CatLib.API.Container;
+using CatLib.Stl;
+using UnityEngine;
 
 namespace CatLib
 {
     /// <summary>
     /// CatLib程序
     /// </summary>
-    public class Application : Driver, IApplication
+    public sealed class Application : Driver, IApplication
     {
         /// <summary>
         /// CatLib框架版本
         /// </summary>
         public const string VERSION = "1.0.0";
+
+        /// <summary>
+        /// CatLib版本号
+        /// </summary>
+        public string Version
+        {
+            get { return VERSION; }
+        }
 
         /// <summary>
         /// 框架启动流程
@@ -57,44 +67,50 @@ namespace CatLib
         /// <summary>
         /// 服务提供商
         /// </summary>
-        protected Dictionary<Type, ServiceProvider> serviceProviders = new Dictionary<Type, ServiceProvider>();
+        private readonly Dictionary<Type, ServiceProvider> serviceProviders = new Dictionary<Type, ServiceProvider>();
 
         /// <summary>
         /// 是否已经完成引导程序
         /// </summary>
-        protected bool bootstrapped;
+        private bool bootstrapped;
 
         /// <summary>
         /// 是否已经完成初始化
         /// </summary>
-        protected bool inited;
+        private bool inited;
 
         /// <summary>
         /// 启动流程
         /// </summary>
-        protected StartProcess process = StartProcess.OnBootstrap;
+        private StartProcess process = StartProcess.OnBootstrap;
+
+        /// <summary>
+        /// 启动流程
+        /// </summary>
+        public StartProcess Process
+        {
+            get { return process; }
+        }
 
         /// <summary>
         /// 全局唯一自增
         /// </summary>
-        protected long guid;
+        private long guid;
 
         /// <summary>
         /// 构建一个CatLib实例
         /// </summary>
         public Application()
         {
-
         }
 
         /// <summary>
         /// 构建一个CatLib实例
         /// </summary>
         /// <param name="behaviour">驱动脚本</param>
-        public Application(UnityEngine.MonoBehaviour behaviour)
+        public Application(Component behaviour)
             : base(behaviour)
         {
-
         }
 
         /// <summary>
@@ -104,6 +120,7 @@ namespace CatLib
         /// <returns>CatLib实例</returns>
         public IApplication Bootstrap(Type[] bootstraps)
         {
+            Guard.Requires<ArgumentNullException>(bootstraps != null);
             process = StartProcess.OnBootstrap;
 
             App.Instance = this;
@@ -113,10 +130,9 @@ namespace CatLib
             Alias(typeof(App).ToString(), typeof(Application).ToString());
             Alias(typeof(IContainer).ToString(), typeof(Application).ToString());
 
-            IBootstrap bootstrap;
             foreach (var t in bootstraps)
             {
-                bootstrap = this.Make<IBootstrap>(t);
+                var bootstrap = this.Make<IBootstrap>(t);
                 if (bootstrap != null)
                 {
                     bootstrap.Bootstrap();
@@ -166,6 +182,7 @@ namespace CatLib
         /// <param name="t">注册类型</param>
         public void Register(Type t)
         {
+            Guard.Requires<ArgumentNullException>(t != null);
             if (serviceProviders.ContainsKey(t))
             {
                 return;
@@ -196,8 +213,8 @@ namespace CatLib
         /// <summary>
         /// 启动服务提供商启动流程
         /// </summary>
-        /// <returns></returns>
-        protected IEnumerator StartProviderPorcess()
+        /// <returns>迭代器</returns>
+        private IEnumerator StartProviderPorcess()
         {
             process = StartProcess.OnProviderProcess;
 
