@@ -9,22 +9,16 @@
  * Document: http://catlib.io/
  */
 
-using UnityEngine;
-
-namespace CatLib
+namespace CatLib.API
 {
     /// <summary>
-    /// 程序入口
-    /// Program Entry
+    /// 当启动时
     /// </summary>
-    public sealed class Program : MonoBehaviour
+    public interface IStart
     {
         /// <summary>
-        /// 初始化程序
+        /// 启动时触发
         /// </summary>
-        public void Awake()
-        {
-            new Application(this).Bootstrap(Bootstrap.BootStrap).Init();
-        }
+        void Start();
     }
 }

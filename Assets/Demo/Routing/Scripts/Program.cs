@@ -40,7 +40,7 @@ namespace CatLib.Demo.Routing
     {
         public void Awake()
         {
-            (new Application(this)).Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
+            (new Application(this)).Bootstrap(new [] { typeof(Bootstraps) }).Init();
         }
     }
 
