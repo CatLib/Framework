@@ -25,14 +25,6 @@ namespace CatLib
         public virtual void Init() { }
 
         /// <summary>
-        /// 服务提供商启动流程
-        /// </summary>
-        public virtual ProviderProcess ProviderProcess
-        {
-            get { return ProviderProcess.Normal; }
-        }
-
-        /// <summary>
         /// 当服务提供商触发启动流程时
         /// </summary>
         /// <returns>迭代器</returns>

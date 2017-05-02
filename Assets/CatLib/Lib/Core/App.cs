@@ -57,7 +57,7 @@ namespace CatLib
 #endif
                 throw new NullReferenceException("application not instance");
             }
-            set
+            internal set
             {
                 if (instance == null)
                 {
@@ -75,9 +75,9 @@ namespace CatLib
         private static bool IsStripping(Assembly assembly)
         {
             string[] notStripping = { "Assembly-CSharp-Editor" };
-            for (var i = 0; i < notStripping.Length; i++)
+            foreach (var notStrippingAssembly in notStripping)
             {
-                if (assembly.GetName().Name == notStripping[i])
+                if (assembly.GetName().Name == notStrippingAssembly)
                 {
                     return false;
                 }

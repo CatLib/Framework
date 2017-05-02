@@ -10,6 +10,7 @@
  */
  
 using System.Collections;
+using CatLib.API;
 using CatLib.API.Config;
 
 namespace CatLib.Lua
@@ -17,15 +18,7 @@ namespace CatLib.Lua
 
     public class LuaProvider : ServiceProvider
     {
-
-        public override ProviderProcess ProviderProcess
-        {
-            get
-            {
-                return ProviderProcess.CodeAutoLoad;
-            }
-        }
-
+        [Priority(20)]
         public override IEnumerator OnProviderProcess()
         {
             yield return (App.Make<ILua>() as LuaStore).LoadHotFix();
