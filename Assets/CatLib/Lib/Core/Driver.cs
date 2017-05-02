@@ -276,6 +276,7 @@ namespace CatLib
         /// <param name="action">协程，执行会处于主线程</param>
         public void MainThread(IEnumerator action)
         {
+            Guard.Requires<ArgumentNullException>(action != null);
             if (IsMainThread)
             {
                 StartCoroutine(action);
@@ -296,6 +297,7 @@ namespace CatLib
         /// <param name="action">回调，回调的内容会处于主线程</param>
         public void MainThread(Action action)
         {
+            Guard.Requires<ArgumentNullException>(action != null);
             if (IsMainThread)
             {
                 action.Invoke();
@@ -325,6 +327,7 @@ namespace CatLib
         /// <param name="routine">协程</param>
         public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
         {
+            Guard.Requires<ArgumentNullException>(routine != null);
             return driverBehaviour.StartCoroutine(routine);
         }
 
@@ -334,6 +337,7 @@ namespace CatLib
         /// <param name="routine">协程</param>
         public void StopCoroutine(IEnumerator routine)
         {
+            Guard.Requires<ArgumentNullException>(routine != null);
             driverBehaviour.StopCoroutine(routine);
         }
 
