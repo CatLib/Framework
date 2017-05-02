@@ -23,6 +23,7 @@ namespace CatLib.Lua
         /// lua引擎
         /// </summary>
         public ILuaEngineAdapter LuaEngineAdapter { get; set; }
+
         /// <summary>
         /// 构造方法注入
         /// </summary>
@@ -36,6 +37,11 @@ namespace CatLib.Lua
             LuaEngineAdapter = luaAdapter;
         }
 
+        /// <summary>
+        /// 获取Lua引擎
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T GetLuaEngine<T>()
         {
             return (T)LuaEngineAdapter;
