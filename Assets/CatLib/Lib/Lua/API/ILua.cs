@@ -18,6 +18,7 @@ namespace CatLib.API.Lua
     /// </summary>
     public interface ILua : IDestroy
     {
+        T GetLuaEngine<T>();
         /// <summary>
         /// 执行脚本
         /// </summary>

@@ -16,9 +16,11 @@ using CatLib.API.Lua;
 using CatLib.API.Resources;
 using CatLib.Lua;
 
-namespace CatLib
+namespace CatLib.Demo.Lua
 {
-
+     /// <summary>
+     /// 这个MonoBehavior是用来和Unity绑定的，Xlua的具体设计可以参考此类
+     /// </summary>
     [LuaCallCSharp]
     public class LuaMonoComponent : MonoComponent
     {
@@ -51,7 +53,7 @@ namespace CatLib
         protected XLuaEngine LuaEngine
         {
             get { /*return (App.Make<ILua>().LuaEngineAdapter as XLuaEngine);*/
-                return null;
+                return (App.Make<ILua>().GetLuaEngine<XLuaEngine>());
             }
         }
 
@@ -89,7 +91,6 @@ namespace CatLib
         public virtual void Init()
         {
             TextAsset text = App.Make<IResources>().Load<TextAsset>(luaPath).Get<TextAsset>(scriptEnv);
-
             Lua.DoString(text.text);
         }
 

@@ -23,31 +23,22 @@ namespace CatLib.Lua
         /// lua引擎
         /// </summary>
         public ILuaEngineAdapter LuaEngineAdapter { get; set; }
-
         /// <summary>
         /// 构造方法注入
         /// </summary>
         /// <param name="luaAdapter">Lua适配器</param>
-        internal LuaEngine(ILuaEngineAdapter luaAdapter)
+        public LuaEngine(ILuaEngineAdapter luaAdapter)
         {
-            if (LuaEngineAdapter == null)
+            if (luaAdapter == null)
             {
-                throw new Exception("ILuaEngineAdapter is Null, please check it!");
+                throw new ArgumentNullException("ILuaEngineAdapter is Null, please check it!");
             }
             LuaEngineAdapter = luaAdapter;
         }
 
-        /// <summary>
-        /// 设定Lua适配器
-        /// </summary>
-        /// <param name="luaAdapter">Lua适配器</param>
-        public void SetLuaEngineAdapter(ILuaEngineAdapter luaAdapter)
+        public T GetLuaEngine<T>()
         {
-            if (LuaEngineAdapter == null)
-            {
-                throw new Exception("ILuaEngineAdapter is Null, please check it!");
-            }
-            LuaEngineAdapter = luaAdapter;
+            return (T)LuaEngineAdapter;
         }
 
         /// <summary>

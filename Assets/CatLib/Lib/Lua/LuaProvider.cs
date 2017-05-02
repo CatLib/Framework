@@ -16,7 +16,7 @@ namespace CatLib.Lua
     /// <summary>
     /// Lua服务
     /// </summary>
-    public class LuaProvider : ServiceProvider
+    internal class LuaProvider : ServiceProvider
     {
         /// <summary>
         /// 注册Lua适配器服务时
