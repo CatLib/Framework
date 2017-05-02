@@ -13,6 +13,11 @@ using System;
 using CatLib.API;
 using CatLib.Event;
 using CatLib.Lua;
+using CatLib.Resources;
+using CatLib.IO;
+using CatLib.Time;
+using CatLib.LocalSetting;
+using CatLib;
 
 namespace CatLib.Demo.Lua
 {
@@ -24,6 +29,11 @@ namespace CatLib.Demo.Lua
 
         public void Bootstrap()
         {
+            App.Instance.Register(typeof(CoreProvider));
+            App.Instance.Register(typeof(IOProvider));
+            App.Instance.Register(typeof(ResourcesProvider));
+            App.Instance.Register(typeof(TimeProvider));
+            App.Instance.Register(typeof(LocalSettingProvider));
             App.Instance.Register(typeof(LuaProvider));
             App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(LuaDemo));
@@ -38,7 +48,7 @@ namespace CatLib.Demo.Lua
     {
         public void Awake()
         {
-            (new Application(this)).Bootstrap(new Type[] { typeof(Bootstraps) ,typeof(RegisterProvidersBootstrap) }).Init();
+            (new Application(this)).Bootstrap(new Type[] { typeof(Bootstraps)}).Init();
 
             gameObject.AddComponent<TestLuaBehaviour>();
         }
