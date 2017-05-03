@@ -1,8 +1,0 @@
-{
-    "source": "catlib/localsetting",
-    "folder" : "LocalSetting",
-    "require": {
-        "catlib/api":"~1.0",
-        "catlib/core":"~1.0"
-    }
-}

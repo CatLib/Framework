@@ -1,0 +1,11 @@
+{
+    "source": "catlib/csvstore",
+    "folder" : "CsvStore",
+    "require": {
+        "catlib/api":"~1.0",
+        "catlib/datatable":"~1.0",
+        "catlib/csv":"~1.0",
+        "catlib/io":"~1.0",
+        "catlib/core":"~1.0"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "source": "catlib/translation",
+    "folder" : "Translation",
+    "require": {
+        "catlib/api":"~1.0",
+        "catlib/io":"~1.0",
+        "catlib/ini":"~1.0",
+        "catlib/core":"~1.0"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "source": "catlib/network",
+    "folder" : "Network",
+    "require": {
+        "catlib/api":"~1.0",
+        "catlib/event":"~1.0",
+        "catlib/buffer":"~1.0",
+        "catlib/core":"~1.0"
+    }
+}

@@ -1,0 +1,27 @@
+package.xml|506|<packageDescription id="97fctig1" name="DemoPackage">
+  <resources>
+    <component id="rk0y0" name="DemoUI" path="/" size="1334,750" exported="true"/>
+    <component id="rk0y3" name="DemoButton" path="/DemoButton/" size="90,90" exported="true"/>
+    <image id="rk0y1" name="i1" path="/DemoButton/" size="90,90" exported="true"/>
+    <image id="rk0y2" name="i2" path="/DemoButton/" size="90,90" exported="true"/>
+    <atlas id="atlas0" size="256,128" file="atlas0.png"/>
+  </resources>
+</packageDescription>rk0y0.xml|233|<component size="1334,750">
+  <displayList>
+    <component id="n0_rk0y" name="n0" src="rk0y3" xy="634,313"/>
+    <text id="n1_rk0y" name="n1" xy="617,257" size="126,26" fontSize="22" text="Hello World"/>
+  </displayList>
+</component>rk0y3.xml|511|<component size="90,90" extention="Button">
+  <Button/>
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver"/>
+  <displayList>
+    <image id="n1" src="rk0y1" name="n1" xy="0,0">
+      <gearDisplay controller="button" pages="0,2"/>
+      <relation target="" sidePair="width,height"/>
+    </image>
+    <image id="n2" src="rk0y2" name="n2" xy="0,0">
+      <gearDisplay controller="button" pages="1,3"/>
+      <relation target="" sidePair="width,height"/>
+    </image>
+  </displayList>
+</component>

@@ -1,8 +1,0 @@
-{
-    "source": "catlib/io",
-    "folder" : "IO",
-    "require": {
-        "catlib/api":"~1.0",
-        "catlib/core":"~1.0"
-    }
-}
