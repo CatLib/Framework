@@ -11,12 +11,6 @@ CatLib.VS/CatLib.Tests/bin
 CatLib.VS/CatLib.Tests/obj
 .vscode
 .vs
-[Tt]emp/
-[Oo]bj/
-UnityGenerated/
-[Bb]uild/
-[Ll]ibrary/
-[Pp]roject[Ss]ettings/
 UWP/
 ExportedObj/
 *.svd
