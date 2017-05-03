@@ -10,20 +10,27 @@
  */
 
 using System;
+#if UNITY_EDITOR
 using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
+#endif
 
-namespace CatLib.Test.Container
+namespace CatLib.Tests.Container
 {
     /// <summary>
     /// 给与数据测试用例
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class GivenDataTest
     {
         /// <summary>
         /// 可以给与数据
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanGiven()
         {
             var container = new CatLib.Container.Container();
@@ -42,7 +49,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检查给与的无效值
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckGivenIllegalValue()
         {
             var container = new CatLib.Container.Container();
@@ -50,11 +57,11 @@ namespace CatLib.Test.Container
             var givenData = new CatLib.Container.GivenData(bindData);
             givenData.Needs("needs");
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 givenData.Given(null);
             });
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 givenData.Given(string.Empty);
             });

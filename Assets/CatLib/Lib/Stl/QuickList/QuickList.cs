@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CatLib.API.Stl;
 
 namespace CatLib.Stl
 {

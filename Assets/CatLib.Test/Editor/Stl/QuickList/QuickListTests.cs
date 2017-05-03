@@ -12,20 +12,29 @@
 using System;
 using System.Collections.Generic;
 using CatLib.Stl;
-using NUnit.Framework;
 
-namespace CatLib.Test.Stl
+#if UNITY_EDITOR
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
+#endif
+
+
+namespace CatLib.Tests.Stl
 {
     /// <summary>
     /// 快速列表测试
     /// </summary>
-    [TestFixture]
-    class QuickListTest
+    [TestClass]
+    public class QuickListTests
     {
         /// <summary>
         /// 推入数据到尾部测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void PushShiftData()
         {
             var num = 500000;
@@ -49,7 +58,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 头部推入和尾部推出测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void UnShiftPopTest()
         {
             var num = 500000;
@@ -73,7 +82,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 在扫描到的第一个元素之后插入
         /// </summary>
-        [Test]
+        [TestMethod]
         public void InsertAfterTest()
         {
             var lst = new QuickList<int>(5);
@@ -98,7 +107,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 在扫描到的第一个元素之后插入边界测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void InsertAfterBound()
         {
             var lst = new QuickList<int>(5);
@@ -118,7 +127,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 在扫描到的第一个元素之前插入边界测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void InsertBeforeBound()
         {
             var lst = new QuickList<int>(5);
@@ -138,7 +147,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 运行时增加
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ForeachAdd()
         {
             var master = new QuickList<int>(10);
@@ -161,7 +170,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 通过下标搜索
         /// </summary>
-        [Test]
+        [TestMethod]
         public void FindByIndex()
         {
             var master = new QuickList<int>(256);
@@ -179,7 +188,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 负数下标
         /// </summary>
-        [Test]
+        [TestMethod]
         public void FindByIndexNegativeSubscript()
         {
             var master = new QuickList<int>(256);
@@ -196,7 +205,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 通过下标搜索溢出测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void FindByIndexOverflow()
         {
             var master = new QuickList<int>(5);
@@ -205,12 +214,12 @@ namespace CatLib.Test.Stl
                 master.Push(i);
             }
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var val = master[master.Count];
             });
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var val = master[-(master.Count + 1)];
             });
@@ -219,7 +228,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 获取区间测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void GetRangeTest()
         {
             var master = new QuickList<int>(20);
@@ -239,7 +248,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 无效的获取区间测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void InvalidGetRange()
         {
             var master = new QuickList<int>(20);
@@ -248,12 +257,12 @@ namespace CatLib.Test.Stl
                 master.Push(i);
             }
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 master.GetRange(-1, 10);
             });
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 master.GetRange(50, 10);
             });
@@ -262,7 +271,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 顺序的移除元素测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SequenceRemove()
         {
             var master = new QuickList<int>(20);
@@ -282,7 +291,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 顺序随机的移除元素测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SequenceRemoveRandom()
         {
             var master = new QuickList<int>(8);
@@ -313,7 +322,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 逆序的移除元素测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ReverseRemove()
         {
             var master = new QuickList<int>(20);
@@ -333,7 +342,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 逆序的随机删除元素
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ReverseRemoveRandom()
         {
             var master = new QuickList<int>(8);
@@ -364,7 +373,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 移除返回值测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void RemoveReturnNumTest()
         {
             var master = new QuickList<int>(8);
@@ -385,7 +394,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 移除返回值限制测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void RemoveReturnNumLimitTest()
         {
             var master = new QuickList<int>(8);
@@ -408,7 +417,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 逆序的移除返回值限制测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ReverseRemoveReturnNumLimitTest()
         {
             var master = new QuickList<int>(8);
@@ -435,7 +444,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 合并结点测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void MergeNodeTest()
         {
             var master = new QuickList<int>(10);
@@ -490,7 +499,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// Foreach遍历列表
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ForeachSequenceListTest()
         {
             var master = new QuickList<int>(5);
@@ -521,7 +530,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 反向遍历列表
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ForeachReverseListTest()
         {
             var master = new QuickList<int>(5);
@@ -554,7 +563,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 空列表遍历
         /// </summary>
-        [Test]
+        [TestMethod]
         public void EmptyListForeach()
         {
             var master = new QuickList<int>(5);
@@ -573,38 +582,41 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 裁剪测试
         /// </summary>
-        [Test]
-        public void TrimTest([Values(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)] int cap)
+        [TestMethod]
+        public void TrimTest()
         {
-            var master = new QuickList<int>(cap);
-            master.Push(0);
-            master.Push(1);
-            master.Push(2);
-            master.Push(3);
-            master.Push(4);
-            master.Push(5);
-            master.Push(6);
-            master.Push(7);
-            master.Push(8);
-            master.Push(9);
-            master.Push(10);
-            master.Push(11);
-            master.Push(12);
-
-            Assert.AreEqual(8, master.Trim(4, 8));
-            var i = 4;
-            foreach (var v in master)
+            foreach (var cap in new[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15})
             {
-                Assert.AreEqual(i++, v);
+                var master = new QuickList<int>(cap);
+                master.Push(0);
+                master.Push(1);
+                master.Push(2);
+                master.Push(3);
+                master.Push(4);
+                master.Push(5);
+                master.Push(6);
+                master.Push(7);
+                master.Push(8);
+                master.Push(9);
+                master.Push(10);
+                master.Push(11);
+                master.Push(12);
+
+                Assert.AreEqual(8, master.Trim(4, 8));
+                var i = 4;
+                foreach (var v in master)
+                {
+                    Assert.AreEqual(i++, v);
+                }
+                Assert.AreEqual(5, master.Count);
+                Assert.AreEqual(9, i);
             }
-            Assert.AreEqual(5, master.Count);
-            Assert.AreEqual(9 , i);
         }
 
         /// <summary>
         /// 裁剪边界测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void TrimBoundTest()
         {
             var master = new QuickList<int>(5);
@@ -625,8 +637,6 @@ namespace CatLib.Test.Stl
             {
                 master.Push(i);
             }
-
-
         }
     }
 }

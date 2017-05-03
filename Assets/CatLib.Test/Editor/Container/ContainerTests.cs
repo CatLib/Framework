@@ -10,16 +10,24 @@
  */
 
 using System;
-using NUnit.Framework;
 using System.Collections.Generic;
 using CatLib.API;
 
-namespace CatLib.Test.Container
+#if UNITY_EDITOR
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
+#endif
+
+namespace CatLib.Tests.Container
 {
     /// <summary>
     /// 容器测试用例
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class ContainerTest
     {
 
@@ -27,11 +35,11 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否可以标记服务
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanTagService()
         {
             var container = MakeContainer();
-            Assert.DoesNotThrow(() =>
+            ExceptionAssert.DoesNotThrow(() =>
             {
                 container.Tag("TestTag", "service1", "service2");
             });
@@ -40,26 +48,26 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测无效的Tag输入
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalTagInput()
         {
             var container = MakeContainer();
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Tag("TestTag");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Tag("TestTag", null);
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Tag(null, "service1", "service2");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Tag(string.Empty, "service1", "service2");
             });
@@ -68,7 +76,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否可以根据标签生成服务
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMakeWithTaged()
         {
             var container = MakeContainer();
@@ -77,7 +85,7 @@ namespace CatLib.Test.Container
 
             container.Tag("TestTag", "TestService1", "TestService2");
 
-            Assert.DoesNotThrow(() =>
+            ExceptionAssert.DoesNotThrow(() =>
             {
                 var obj = container.Tagged("TestTag");
                 Assert.AreEqual(2, obj.Length);
@@ -92,7 +100,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否能够进行如果不存在则绑定的操作
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanBindIf()
         {
             var container = MakeContainer();
@@ -105,42 +113,42 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测无效的绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalBind()
         {
             var container = MakeContainer();
             container.Bind("CheckIllegalBind", (cont, param) => "HelloWorld", true);
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Bind("CheckIllegalBind", (cont, param) => "Repeat Bind");
             });
 
             container.Instance("InstanceBind", "hello world");
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Bind("InstanceBind", (cont, param) => "Instance Repeat Bind");
             });
 
             container.Alias("Hello", "CheckIllegalBind");
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Bind("Hello", (cont, param) => "Alias Repeat Bind");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Bind(string.Empty, (cont, param) => "HelloWorld");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Bind(null, (cont, param) => "HelloWorld");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Bind("NoConcrete", null);
             });
@@ -149,7 +157,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 静态绑定方法
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanBindFuncStatic()
         {
             var container = MakeContainer();
@@ -168,7 +176,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 非静态绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanBindFunc()
         {
             var container = MakeContainer();
@@ -184,7 +192,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测获取绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanGetBind()
         {
             var container = MakeContainer();
@@ -203,18 +211,18 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测非法的获取绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalGetBind()
         {
             var container = MakeContainer();
             container.Bind("CheckIllegalGetBind", (cont, param) => "hello world");
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.GetBind(string.Empty);
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.GetBind(null);
             });
@@ -223,7 +231,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测是否拥有绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanHasBind()
         {
             var container = MakeContainer();
@@ -239,7 +247,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检查是否是静态的函数
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanIsStatic()
         {
             var container = MakeContainer();
@@ -259,18 +267,18 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 正常的设定别名
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckNormalAlias()
         {
             var container = MakeContainer();
             container.Bind("CheckNormalAlias", (cont, param) => "hello world");
 
             container.Instance("StaticService", "hello");
-            Assert.DoesNotThrow(() =>
+            ExceptionAssert.DoesNotThrow(() =>
             {
                 container.Alias("AliasName1", "CheckNormalAlias");
             });
-            Assert.DoesNotThrow(() =>
+            ExceptionAssert.DoesNotThrow(() =>
             {
                 container.Alias("AliasName2", "StaticService");
             });
@@ -279,39 +287,39 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测非法的别名输入
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalAlias()
         {
             var container = MakeContainer();
             container.Bind("CheckIllegalAlias", (cont, param) => "hello world");
             container.Alias("AliasName", "CheckIllegalAlias");
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Alias("AliasName", "CheckIllegalAlias");
             });
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Alias("AliasNameOther", "CheckNormalAliasNotExist");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Alias(string.Empty, "CheckIllegalAlias");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Alias(null, "CheckIllegalAlias");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Alias("AliasNameOther2", string.Empty);
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Alias("AliasNameOther3", null);
             });
@@ -370,7 +378,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 循环依赖测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckLoopDependency()
         {
             var container = MakeContainer();
@@ -379,7 +387,7 @@ namespace CatLib.Test.Container
 
             var cls = new CallTestClassLoopDependency();
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Call(cls, "GetNumber");
             });
@@ -388,7 +396,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 可以调用方法
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanCallMethod()
         {
             var container = MakeContainer();
@@ -402,19 +410,19 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 测试无效的调用方法
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalCallMethod()
         {
             var container = MakeContainer();
             container.Bind<CallTestClassInject>();
             var cls = new CallTestClass();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Call(null, "GetNumber");
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Call(cls, "GetNumberIllegal");
             });
@@ -423,7 +431,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 测试无效的传入参数
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalCallMethodParam()
         {
             var container = MakeContainer();
@@ -453,7 +461,7 @@ namespace CatLib.Test.Container
             [Inject("AliasName")]
             public MakeTestClassDependency2 DependencyAlias { get; set; }
 
-            [Inject("AliasNameRequired",Required = true)]
+            [Inject("AliasNameRequired", Required = true)]
             public MakeTestClassDependency DependencyAliasRequired { get; set; }
 
             public MakeTestClass(MakeTestClassDependency dependency)
@@ -491,7 +499,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 跨域生成没有绑定的服务
         /// </summary>
-        [Test]
+        [TestMethod]
         public void MakeNoBindType()
         {
             var container = MakeContainer();
@@ -511,7 +519,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否能正常生成服务
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMake()
         {
             var container = MakeContainer();
@@ -525,7 +533,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 引发一个类型不一致的异常
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalMakeTypeIsNotSame()
         {
             var container = MakeContainer();
@@ -533,7 +541,7 @@ namespace CatLib.Test.Container
             container.Singleton<MakeTestClassDependency2>().Alias("AliasNameRequired");
             container.Singleton<MakeTestClassDependency>().Alias("AliasName");
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Make<MakeTestClass>();
             });
@@ -542,7 +550,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 可以生成静态的对象
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMakeStaticAlias()
         {
             var container = MakeContainer();
@@ -561,7 +569,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 可以根据别名来生成对应不同的实例
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMakeWithAlias()
         {
             var container = MakeContainer();
@@ -572,13 +580,13 @@ namespace CatLib.Test.Container
             var result = container.Make<MakeTestClass>();
 
             Assert.AreEqual("world", result.DependencyAlias.GetMsg());
-            Assert.AreEqual("hello" , result.DependencyAliasRequired.GetMsg());
+            Assert.AreEqual("hello", result.DependencyAliasRequired.GetMsg());
         }
 
         /// <summary>
         /// 能够生成常规绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMakeNormalBind()
         {
             var container = MakeContainer();
@@ -589,22 +597,22 @@ namespace CatLib.Test.Container
             var result2 = container.Make<MakeTestClass>();
 
             Assert.AreNotSame(result1, result2);
-            Assert.AreNotSame(result1.Dependency , result1.DependencyRequired);
+            Assert.AreNotSame(result1.Dependency, result1.DependencyRequired);
             Assert.AreNotSame(null, result1.DependencyRequired);
             Assert.AreNotSame(null, result1.DependencyAliasRequired);
-            Assert.AreSame(null , result1.DependencyAlias);
+            Assert.AreSame(null, result1.DependencyAlias);
         }
 
         /// <summary>
         /// 必须参数约束
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckMakeRequired()
         {
             var container = MakeContainer();
             container.Bind<MakeTestClass>();
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Make<MakeTestClass>();
             });
@@ -613,13 +621,13 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 无效的生成服务
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalMake()
         {
             var container = MakeContainer();
             container.Bind<MakeTestClass>();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 container.Make(string.Empty);
             });
@@ -628,7 +636,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 解决器是否有效
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMakeWithResolve()
         {
             var container = MakeContainer();
@@ -645,7 +653,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 给与了错误的解决器,导致不正确的返回值
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckMakeWithErrorResolve()
         {
             var container = MakeContainer();
@@ -657,7 +665,7 @@ namespace CatLib.Test.Container
             container.OnResolving((bindData, obj) => obj + " global resolve");
             bind2.OnResolving((bindData, obj) => "bind2");
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Make(typeof(MakeTestClass).ToString());
             });
@@ -684,7 +692,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 参数可以使用注入标记
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanParamUseInjectAttr()
         {
             var container = MakeContainer();
@@ -727,13 +735,13 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 参数可以使用注入标记
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanParamUseInjectAttrRequired()
         {
             var container = MakeContainer();
             container.Bind<TestMakeParamInjectAttrRequiredClass>();
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Make<TestMakeParamInjectAttrRequiredClass>();
             });
@@ -764,7 +772,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 可以进行结构体注入
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMakeStructInject()
         {
             var container = MakeContainer();
@@ -798,7 +806,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 可以进行泛型注入
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanMakeGenericInject()
         {
             var container = MakeContainer();
@@ -809,7 +817,7 @@ namespace CatLib.Test.Container
 
             var result = container.Make<TestMakeGenericInject>();
             Assert.AreNotEqual(null, result.Cls);
-            Assert.AreEqual(typeof(string).ToString(),result.Cls.GetMsg());
+            Assert.AreEqual(typeof(string).ToString(), result.Cls.GetMsg());
 
             container.Bind<GenericClass<string>>((app, param) => null);
             result = container.Make<TestMakeGenericInject>();
@@ -828,7 +836,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 可以进行泛型注入
         /// </summary>
-        [Test]
+        [TestMethod]
         public void OptionalInject()
         {
             var container = MakeContainer();
@@ -875,7 +883,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 实例一个无效的类
         /// </summary>
-        [Test]
+        [TestMethod]
         public void InvalidClassNew()
         {
             var container = MakeContainer();
@@ -884,13 +892,13 @@ namespace CatLib.Test.Container
                 return Type.GetType(str);
             });
             var result = container.Make<TestInjectBase>();
-            Assert.AreEqual(null , result);
+            Assert.AreEqual(null, result);
         }
 
         /// <summary>
         /// 继承注入
         /// </summary>
-        [Test]
+        [TestMethod]
         public void InheritanceInject()
         {
             var container = MakeContainer();
@@ -901,7 +909,7 @@ namespace CatLib.Test.Container
 
             var result = container.Make<TestInject>();
 
-            Assert.AreNotEqual(null , result.Base);
+            Assert.AreNotEqual(null, result.Base);
             Assert.AreNotEqual(null, result.Base2);
             Assert.AreEqual(null, result.Base3);
             Assert.AreNotEqual(null, result.Base4);
@@ -909,32 +917,32 @@ namespace CatLib.Test.Container
         }
         #endregion
 
-            #region Instance
-            /// <summary>
-            /// 可以正确的给定静态实例
-            /// </summary>
-        [Test]
+        #region Instance
+        /// <summary>
+        /// 可以正确的给定静态实例
+        /// </summary>
+        [TestMethod]
         public void CanInstance()
         {
             var container = MakeContainer();
             var data = new List<string> { "hello world" };
             var data2 = new List<string> { "hello world" };
-            container.Instance("TestInstance" , data);
+            container.Instance("TestInstance", data);
             var result = container.Make("TestInstance");
 
-            Assert.AreSame(data , result);
-            Assert.AreNotSame(data2 , result);
+            Assert.AreSame(data, result);
+            Assert.AreNotSame(data2, result);
         }
 
         /// <summary>
         /// 测试无效的实例
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalInstance()
         {
             var container = MakeContainer();
             container.Bind("TestInstance", (app, param) => "hello world", false);
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 container.Instance("TestInstance", "online");
             });
@@ -943,13 +951,13 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 能够通过release
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanInstanceWithRelease()
         {
             var container = MakeContainer();
             var bindData = container.Bind("TestInstance", (app, param) => string.Empty, true);
 
-            bool isComplete = false , isComplete2 = false;
+            bool isComplete = false, isComplete2 = false;
             bindData.OnRelease((bind, obj) =>
             {
                 Assert.AreEqual("hello world", obj);
@@ -959,7 +967,7 @@ namespace CatLib.Test.Container
 
             container.OnRelease((bind, obj) =>
             {
-                Assert.AreEqual("hello world" , obj);
+                Assert.AreEqual("hello world", obj);
                 Assert.AreSame(bindData, bind);
                 isComplete2 = true;
             });
