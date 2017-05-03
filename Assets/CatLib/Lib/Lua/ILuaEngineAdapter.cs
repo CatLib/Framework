@@ -10,21 +10,15 @@
  */
 
 using System;
+using CatLib.API;
 
-namespace CatLib.API.Lua
+namespace CatLib.Lua
 {
     /// <summary>
-    /// Lua接口
+    /// Lua适配器
     /// </summary>
-    public interface ILua : IDestroy
+    public interface ILuaEngineAdapter : IDestroy
     {
-        /// <summary>
-        /// 获取Lua适配器
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        T GetLuaEngine<T>();
-
         /// <summary>
         /// 执行脚本
         /// </summary>
@@ -50,14 +44,15 @@ namespace CatLib.API.Lua
         /// <summary>
         /// 增加加载器
         /// </summary>
-        /// <param name="callback">加载器回调</param>
-        void AddLoader(Func<string, byte[]> callback);
+        /// <param name="callback">用户定义的脚本加载器</param>
+        void AddLoader(Func<string,byte[]> callback);
 
         /// <summary>
         /// 移除加载器
         /// </summary>
-        /// <param name="callback">加载器回调</param>
+        /// <param name="callback">要被移除的加载器</param>
         /// <returns>是否成功</returns>
-        bool RemoveLoader(Func<string, byte[]> callback);
+        bool RemoveLoader(Func<string,byte[]> callback);
     }
 }
+

@@ -24,7 +24,6 @@ namespace CatLib.Config
                     typeof(App),
                     typeof(Component),
                     typeof(MonoComponent),
-                    typeof(LuaMonoComponent),
                     typeof(API.IApplication),
                     typeof(API.Container.IBindData),
                     typeof(API.Container.IContainer),

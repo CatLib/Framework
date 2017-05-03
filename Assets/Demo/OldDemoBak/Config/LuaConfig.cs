@@ -11,7 +11,7 @@ public class LuaConfig : IConfig
     {
         get
         {
-            return typeof(LuaStore).ToString();
+            return typeof(XLuaEngine).ToString();
         }
     }
 

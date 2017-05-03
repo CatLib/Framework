@@ -1,42 +1,38 @@
 ﻿/*
  * This file is part of the CatLib package.
  *
- * (c) Yu Bin <support@catlib.io>
+ * (c) Ming ming <support@catlib.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Document: http://catlib.io/
  */
- 
-using System.Collections;
-using CatLib.API;
-using CatLib.API.Config;
+
+using CatLib.API.Lua;
 
 namespace CatLib.Lua
 {
-
-    public class LuaProvider : ServiceProvider
+    /// <summary>
+    /// Lua服务
+    /// </summary>
+    internal class LuaProvider : ServiceProvider
     {
-        [Priority(20)]
-        public override IEnumerator OnProviderProcess()
-        {
-            yield return (App.Make<ILua>() as LuaStore).LoadHotFix();
-        }
-
-
+        /// <summary>
+        /// 注册Lua适配器服务时
+        /// </summary>
         public override void Register()
         {
-            App.Singleton<LuaStore>().Alias<ILua>().OnResolving((bind, obj) =>{
+            RegisterAdapter();
+            App.Singleton<LuaEngine>().Alias<ILua>().Alias("LuaEngine");
+        }
 
-                IConfigStore config = App.Make<IConfigStore>();
-                LuaStore store = obj as LuaStore;
-
-                store.SetHotfixPath(config.Get<string[]>(typeof(LuaStore) , "lua.hotfix.path" , null));
-
-                return obj;
-
-            });
+        /// <summary>
+        /// 注册Lua的适配器
+        /// </summary>
+        private void RegisterAdapter()
+        {
+            App.Singleton<ILuaEngineAdapter>((app, param) => new XLuaEngine()).Alias("LuaEngine.adapter");
         }
     }
 }
