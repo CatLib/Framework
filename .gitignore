@@ -1,13 +1,16 @@
-/Library
-/obj
-/Temp
-*.csproj
-*.sln
-/Assets/Release
+CatLib.Unity/Library
+CatLib.Unity/obj
+CatLib.Unity/Temp
+CatLib.Unity/*.csproj
+CatLib.Unity/*.sln
+CatLib.Unity/Assets/Release
+CatLib.VS/TestResults
+CatLib.VS/CatLib/bin
+CatLib.VS/CatLib/obj
+CatLib.VS/CatLib.Tests/bin
+CatLib.VS/CatLib.Tests/obj
 .vscode
-/.vs
-# unity generated #
-# =============== #
+.vs
 [Tt]emp/
 [Oo]bj/
 UnityGenerated/
@@ -15,10 +18,6 @@ UnityGenerated/
 [Ll]ibrary/
 [Pp]roject[Ss]ettings/
 UWP/
-
-# ===================================== #
-# Visual Studio / MonoDevelop generated #
-# ===================================== #
 ExportedObj/
 *.svd
 *.userprefs
@@ -31,15 +30,6 @@ ExportedObj/
 *.unityproj
 *.tmp
 *.booproj
-
-
-# Unity3D Generated File On Crash Reports
-sysinfo.txt
-
- 
-# ============ #
-# OS generated #
-# ============ #
 .DS_Store
 .DS_Store?
 ._*

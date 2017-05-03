@@ -1,8 +1,0 @@
-{
-    "source": "catlib/timequeue",
-    "folder" : "TimeQueue",
-    "require": {
-        "catlib/api":"~1.0",
-        "catlib/core":"~1.0"
-    }
-}

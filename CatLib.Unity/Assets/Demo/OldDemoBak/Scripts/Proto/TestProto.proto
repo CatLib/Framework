@@ -1,0 +1,14 @@
+message Person{  
+
+	required int32 Id = 1;
+	required string Name = 2;
+	optional Address Address= 3;
+
+}
+
+message Address{  
+
+	required string Line1 = 1;
+	required string Line2 = 2;
+
+}

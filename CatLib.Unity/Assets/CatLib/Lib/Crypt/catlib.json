@@ -1,0 +1,9 @@
+{
+    "source": "catlib/crypt",
+    "folder" : "Crypt",
+    "require": {
+        "catlib/api":"~1.0",
+        "catlib/config":"~1.0",
+        "catlib/core":"~1.0"
+    }
+}
