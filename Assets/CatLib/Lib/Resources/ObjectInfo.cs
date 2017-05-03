@@ -73,6 +73,10 @@ namespace CatLib.Resources
         private int protectedNum = 1;
 
         /// <summary>
+        /// 引用计数
+        /// </summary>
+        private int refCount = 0;
+
         /// 弱引用
         /// </summary>
         private readonly List<WeakReference> references = new List<WeakReference>();
@@ -88,6 +92,7 @@ namespace CatLib.Resources
             AssetBundle = assetBundleName;
             Name = name;
             Object = obj;
+            refCount = 0;
         }
 
         /// <summary>
@@ -135,6 +140,23 @@ namespace CatLib.Resources
         }
 
         /// <summary>
+        /// 引用计数强制加1
+        /// </summary>
+        public void Retain()
+        {
+            refCount++;
+        }
+
+        /// <summary>
+        /// 引用计数强制减1
+        /// </summary>
+        public void Release()
+        {
+            refCount--;
+            refCount = Math.Min(refCount, 0);
+        }
+
+        /// <summary>
         /// 托管一个对象
         /// </summary>
         /// <param name="hostedObject">宿主</param>
@@ -154,6 +176,7 @@ namespace CatLib.Resources
             }
             var wr = new WeakReference(hostedObject);
             references.Add(wr);
+            refCount++;
             IsDestroy = false;
         }
 
@@ -175,9 +198,11 @@ namespace CatLib.Resources
             for (var i = references.Count - 1; i >= 0; --i)
             {
                 o = references[i].Target;
+                
                 if (o == null)
                 {
                     references.RemoveAt(i);
+                    refCount--;
                 }
             }
             if (references.Count > 0)

@@ -24,21 +24,23 @@ namespace CatLib.Resources
         /// </summary>
         public override void Register()
         {
+            App.Singleton<ResourcesHosted>();
             App.Singleton<AssetBundleLoader>().Alias<IAssetBundle>();
             App.Singleton<Resources>().Alias<IResources>().OnResolving((bind, obj) =>
             {
+                var resources = obj as Resources;
                 var config = App.Make<IConfigStore>();
 
                 if (config == null)
                 {
+                    resources.SetHosted(App.Make<ResourcesHosted>());
                     return obj;
                 }
 
-                var resources = obj as Resources;
                 var useHosted = config.Get(typeof(Resources), "hosted", true);
                 if (useHosted)
                 {
-                    resources.SetHosted(new ResourcesHosted());
+                    resources.SetHosted(App.Make<ResourcesHosted>());
                 }
 
                 return obj;
