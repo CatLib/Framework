@@ -11,6 +11,7 @@
 
 using CatLib.API.AutoUpdate;
 using System.Collections;
+using CatLib.API;
 using CatLib.API.Config;
 
 namespace CatLib.AutoUpdate
@@ -21,17 +22,10 @@ namespace CatLib.AutoUpdate
     public sealed class AutoUpdateProvider : ServiceProvider
     {
         /// <summary>
-        /// 自动更新流程
-        /// </summary>
-        public override ProviderProcess ProviderProcess
-        {
-            get { return ProviderProcess.ResourcesAutoUpdate; }
-        }
-
-        /// <summary>
         /// 当触发服务提供商执行进程
         /// </summary>
         /// <returns></returns>
+        [Priority(10)]
         public override IEnumerator OnProviderProcess()
         {
             yield return App.Make<AutoUpdate>().UpdateAsset();

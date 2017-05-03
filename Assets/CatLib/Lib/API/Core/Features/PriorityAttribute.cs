@@ -7,20 +7,20 @@ namespace CatLib.API
     /// 执行优先级
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-    public class PriorityAttribute : Attribute
+    public sealed class PriorityAttribute : Attribute
     {
         /// <summary>
-        /// 优先值
+        /// 优先级
         /// </summary>
-        public int Priorities { get; protected set; }
+        public int Priorities { get; private set; }
 
         /// <summary>
-        /// 执行优先级
+        /// 优先级(0最高)
         /// </summary>
         /// <param name="priority">优先级(0为最优先)</param>
         public PriorityAttribute(int priority = int.MaxValue)
         {
-            Priorities = priority;
+            Priorities = Math.Max(priority, 0);
         }
     }
 }

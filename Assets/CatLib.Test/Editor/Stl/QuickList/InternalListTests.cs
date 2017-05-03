@@ -10,17 +10,25 @@
  */
 
 using CatLib.Stl;
-using NUnit.Framework;
 
-namespace CatLib.Test.Stl
+#if UNITY_EDITOR
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
+#endif
+
+namespace CatLib.Tests.Stl
 {
     /// <summary>
     /// 内部列表测试
     /// </summary>
-    [TestFixture]
-    class InternalListTest
+    [TestClass]
+    public class InternalListTests
     {
-        private class TestClass
+        private class InternalTestClass
         {
             public int Val;
         }
@@ -28,16 +36,16 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 移除指定位置的元素
         /// </summary>
-        [Test]
+        [TestMethod]
         public void RemoveAtTest()
         {
-            var list = new InternalList<TestClass>(4);
+            var list = new InternalList<InternalTestClass>(4);
             list.Init(new[]
             {
-                new TestClass {Val = 0},
-                new TestClass {Val = 1},
-                new TestClass {Val = 8},
-                new TestClass {Val = 9},
+                new InternalTestClass {Val = 0},
+                new InternalTestClass {Val = 1},
+                new InternalTestClass {Val = 8},
+                new InternalTestClass {Val = 9},
             });
 
             list.RemoveAt(1);
@@ -50,7 +58,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 插入到指定位置测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void InsertAtTest()
         {
             var list = new InternalList<int>();
@@ -73,7 +81,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 将从的数据追加到主的末尾
         /// </summary>
-        [Test]
+        [TestMethod]
         public void MergeAfter()
         {
             var master = new InternalList<int>(10);
@@ -93,7 +101,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 将从的数据追加到主的头部
         /// </summary>
-        [Test]
+        [TestMethod]
         public void MergeBefore()
         {
             var master = new InternalList<int>(10);
@@ -113,7 +121,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// offset之后的内容将会从列表中被拆分(正常)
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SplitListAfter()
         {
             var master = new InternalList<int>(10);
@@ -137,7 +145,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// offset之后的内容将会从列表中被拆分(左边边界)
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SplitListAfterLeftBound()
         {
             var master = new InternalList<int>(10);
@@ -158,7 +166,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// offset之后的内容将会从列表中被拆分(右边边界)
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SplitListAfterRightBound()
         {
             var master = new InternalList<int>(10);
@@ -174,7 +182,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// offset之后的内容将会从列表中被拆分(正常)
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SplitListBefor()
         {
             var master = new InternalList<int>(10);
@@ -197,7 +205,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// offset之前的内容将会从列表中被拆分(左边边界)
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SplitListBeforeLeftBound()
         {
             var master = new InternalList<int>(10);
@@ -213,7 +221,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// offset之前的内容将会从列表中被拆分(右边边界)
         /// </summary>
-        [Test]
+        [TestMethod]
         public void SplitListBeforeRightBound()
         {
             var master = new InternalList<int>(10);
@@ -234,7 +242,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 推入测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void PushTest()
         {
             var master = new InternalList<int>(10);
@@ -252,7 +260,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 头部推入测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void UnShiftTest()
         {
             var master = new InternalList<int>(10);
@@ -270,7 +278,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 弹出测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void PopTest()
         {
             var master = new InternalList<int>(10);
@@ -288,7 +296,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 头部弹出测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ShiftTest()
         {
             var master = new InternalList<int>(10);
@@ -306,7 +314,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 替换测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ReplaceAtTest()
         {
             var master = new InternalList<int>(10);
@@ -328,7 +336,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 移除区间测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void RemoveRangeTest()
         {
             var master = new InternalList<int>(10);
@@ -348,7 +356,7 @@ namespace CatLib.Test.Stl
         /// <summary>
         /// 移除区间边界测试
         /// </summary>
-        [Test]
+        [TestMethod]
         public void RemoveRangeBoundTest()
         {
             var master = new InternalList<int>(10);

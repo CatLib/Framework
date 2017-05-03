@@ -13,21 +13,29 @@ using System;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Container;
-using NUnit.Framework;
 
-namespace CatLib.Test.Container
+#if UNITY_EDITOR
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
+#endif
+
+namespace CatLib.Tests.Container
 {
     /// <summary>
     /// 绑定数据测试用例
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class BindDataTest
     {
         #region Needs
         /// <summary>
         /// 需要什么样的数据不为空
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckNeedsIsNotNull()
         {
             var container = new CatLib.Container.Container();
@@ -43,18 +51,18 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测当需求什么方法时传入无效参数
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckNeedsIllegalValue()
         {
             var container = new CatLib.Container.Container();
             var bindData = new CatLib.Container.BindData(container, "CheckNeedsIllegalValue", (app, param) => "hello world", false);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 bindData.Needs(null);
             });
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 bindData.Needs(string.Empty);
             });
@@ -63,7 +71,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否可以取得关系上下文
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanGetContextual()
         {
             var container = new CatLib.Container.Container();
@@ -116,7 +124,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否能够添加拦截器
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanAddInterceptor()
         {
             var container = new CatLib.Container.Container();
@@ -138,13 +146,13 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检查是否可以添加非法的拦截器
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckAddIllegalInterceptor()
         {
             var container = new CatLib.Container.Container();
             var bindData = new CatLib.Container.BindData(container, "CheckAddIllegalInterceptor", (app, param) => "hello world", false);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 bindData.AddInterceptor(null);
             });
@@ -155,7 +163,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否能够增加别名
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanAddAlias()
         {
             var container = new CatLib.Container.Container();
@@ -175,17 +183,17 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检测无效的别名
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalAlias()
         {
             var container = new CatLib.Container.Container();
             var bindData = new CatLib.Container.BindData(container, "CheckIllegalAlias", (app, param) => "hello world", false);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 bindData.Alias(null);
             });
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 bindData.Alias(string.Empty);
             });
@@ -196,7 +204,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否能追加到释放事件
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanOnRelease()
         {
             var container = new CatLib.Container.Container();
@@ -214,18 +222,18 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检查无效的解决事件传入参数
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalRelease()
         {
             var container = new CatLib.Container.Container();
             var bindData = new CatLib.Container.BindData(container, "CheckIllegalRelease", (app, param) => "hello world", false);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 bindData.OnRelease(null);
             });
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 bindData.OnRelease((bind, obj) =>
                 {
@@ -242,7 +250,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 是否能追加到解决事件
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanAddOnResolving()
         {
             var container = new CatLib.Container.Container();
@@ -257,13 +265,13 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 检查无效的解决事件传入参数
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalResolving()
         {
             var container = new CatLib.Container.Container();
             var bindData = new CatLib.Container.BindData(container, "CanAddOnResolving", (app, param) => "hello world", false);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
                 bindData.OnResolving(null);
             });
@@ -274,7 +282,7 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 能够正常解除绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanUnBind()
         {
             var container = new CatLib.Container.Container();
@@ -288,14 +296,14 @@ namespace CatLib.Test.Container
         /// <summary>
         /// 能够正常解除绑定
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CheckIllegalUnBindInput()
         {
             var container = new CatLib.Container.Container();
             var bindData = container.Bind("CanUnBind", (app, param) => "hello world", false);
             bindData.UnBind();
 
-            Assert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 bindData.Alias("hello");
             });

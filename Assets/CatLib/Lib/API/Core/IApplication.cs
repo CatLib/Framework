@@ -13,7 +13,6 @@ using CatLib.API.Container;
 using CatLib.API.Event;
 using System;
 using System.Collections;
-using CatLib.API.Time;
 
 namespace CatLib.API
 {
@@ -22,6 +21,11 @@ namespace CatLib.API
     /// </summary>
     public interface IApplication : IContainer, IEventImpl, IEvent
     {
+        /// <summary>
+        /// CatLib版本号
+        /// </summary>
+        string Version { get; }
+
         /// <summary>
         /// 引导程序类型
         /// </summary>

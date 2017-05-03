@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 
-namespace CatLib.Stl
+namespace CatLib.API.Stl
 {
     /// <summary>
     /// 有序集
