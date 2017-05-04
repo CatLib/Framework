@@ -34,25 +34,25 @@ namespace CatLib.Demo.MsgPack
                     Debug.Log("bytes len:" + bytes.Length);
 
                     MsgPackTest1Data test1Des = msgPack.UnSerializers<MsgPackTest1Data>(bytes);
-                    Debug.Log("UnSerializers:" + JsonUtility.ToJson(test1Des));
+                    Debug.Log("UnSerializers:" + TinyJson.JSONWriter.ToJson(test1Des));
 
 
                     MsgPackTest2Data test2 = new MsgPackTest2Data();
 
-                    bytes = msgPack.Serializers<MsgPackTest1Data>(test2);
+                    bytes = msgPack.Serializers<MsgPackTest2Data>(test2);
                     Debug.Log("bytes len:" + bytes.Length);
 
-                    MsgPackTest1Data test2Des = msgPack.UnSerializers<MsgPackTest1Data>(bytes);
-                    Debug.Log("UnSerializers:" + JsonUtility.ToJson(test2Des));
+                    MsgPackTest2Data test2Des = msgPack.UnSerializers<MsgPackTest2Data>(bytes);
+                    Debug.Log("UnSerializers:" + TinyJson.JSONWriter.ToJson(test2Des));
 
 
                     MsgPackTest3Data test3 = new MsgPackTest3Data();
 
-                    bytes = msgPack.Serializers<MsgPackTest1Data>(test3);
+                    bytes = msgPack.Serializers<MsgPackTest3Data>(test3);
                     Debug.Log("bytes len:" + bytes.Length);
-
-                    MsgPackTest1Data test3Des = msgPack.UnSerializers<MsgPackTest1Data>(bytes);
-                    Debug.Log("UnSerializers:" + JsonUtility.ToJson(test3Des));
+                    
+                    MsgPackTest3Data test3Des = msgPack.UnSerializers<MsgPackTest3Data>(bytes);
+                    Debug.Log("UnSerializers:" + TinyJson.JSONWriter.ToJson(test3Des));
                 });
         }
 
