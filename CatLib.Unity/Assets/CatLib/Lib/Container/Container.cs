@@ -510,11 +510,18 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 resolving.Add(func);
+                
+                var result = new Dictionary<string, object>();
                 foreach (var data in instances)
                 {
                     var bindData = GetBindData(data.Key);
-                    instances[data.Key] = func.Invoke(bindData, data.Value);
+                    result[data.Key] = func.Invoke(bindData, data.Value);
                 }
+                foreach (var data in result)
+                {
+                    instances[data.Key] = data.Value;
+                }
+                result.Clear();
             }
             return this;
         }
@@ -655,7 +662,6 @@ namespace CatLib.Container
             }
 
             var parameter = new List<ParameterInfo>(constructor[constructor.Length - 1].GetParameters());
-            parameter.RemoveRange(0, param.Length);
 
             if (parameter.Count > 0)
             {
@@ -702,7 +708,8 @@ namespace CatLib.Container
                 }
 
                 var injectAttr = (InjectAttribute)property.GetCustomAttributes(injectTarget, false)[0];
-                var needService = string.IsNullOrEmpty(injectAttr.Alias) ? property.PropertyType.ToString() : GetAlias(injectAttr.Alias);
+                var needService = string.IsNullOrEmpty(injectAttr.Alias) ? 
+                                    property.PropertyType.ToString() : GetAlias(injectAttr.Alias);
                 object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
@@ -735,7 +742,7 @@ namespace CatLib.Container
         /// <returns>解决结果</returns>
         private object ResolveNonClassAttr(BindData makeServiceBindData, string service)
         {
-            return null;
+            return Make(makeServiceBindData.GetContextual(service));
         }
 
         /// <summary>
@@ -766,13 +773,14 @@ namespace CatLib.Container
                 var info = paramInfo[i];
                 if (param != null && i < param.Count)
                 {
-                    if (param[i] == null || info.ParameterType.IsInstanceOfType(param[i]))
+                    if (info.ParameterType.IsInstanceOfType(param[i]))
                     {
                         myParam.Add(param[i]);
                         continue;
                     }
                 }
 
+                var needService = info.ParameterType.ToString();
                 InjectAttribute injectAttr = null;
                 if (info.IsDefined(injectTarget, false))
                 {
@@ -780,22 +788,19 @@ namespace CatLib.Container
                     if (propertyAttrs.Length > 0)
                     {
                         injectAttr = (InjectAttribute)propertyAttrs[0];
+                        needService = string.IsNullOrEmpty(injectAttr.Alias) ? 
+                                        info.ParameterType.ToString() : GetAlias(injectAttr.Alias);
                     }
                 }
 
-                var needService = info.ParameterType.ToString();
                 object instance;
                 if (info.ParameterType.IsClass || info.ParameterType.IsInterface)
                 {
-                    if (injectAttr != null)
-                    {
-                        needService = string.IsNullOrEmpty(injectAttr.Alias) ? info.ParameterType.ToString() : GetAlias(injectAttr.Alias);
-                    }
                     instance = ResloveClass(makeServiceBindData, needService);
                 }
                 else
                 {
-                    instance = ResolveNonClass(makeServiceBindData, info);
+                    instance = ResolveNonClass(makeServiceBindData, needService);
                 }
 
                 if (injectAttr != null && injectAttr.Required && instance == null)
@@ -820,9 +825,9 @@ namespace CatLib.Container
         /// <param name="makeServiceBindData">请求注入操作的服务绑定数据</param>
         /// <param name="info">参数信息</param>
         /// <returns>解决结果</returns>
-        private object ResolveNonClass(BindData makeServiceBindData, ParameterInfo info)
+        private object ResolveNonClass(BindData makeServiceBindData, string service)
         {
-            return info.DefaultValue;
+            return Make(makeServiceBindData.GetContextual(service));
         }
 
         /// <summary>

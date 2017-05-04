@@ -309,5 +309,25 @@ namespace CatLib.Tests.Container
             });
         }
         #endregion
+
+        #region AddContextual
+
+        /// <summary>
+        /// 重复写入上下文
+        /// </summary>
+        [TestMethod]
+        public void AddContextualRepeat()
+        {
+            var container = new CatLib.Container.Container();
+            var bindData = new CatLib.Container.BindData(container, "AddContextualRepeat", (app, param) => "hello world", false);
+
+            bindData.AddContextual("service", "service given");
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                bindData.AddContextual("service", "service given");
+            });
+        }
+
+        #endregion
     }
 }
