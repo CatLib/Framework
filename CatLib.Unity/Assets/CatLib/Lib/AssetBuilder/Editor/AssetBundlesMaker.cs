@@ -40,6 +40,7 @@ namespace CatLib.AssetBuilder
             {
                 buildStrategy.Build(context);
             }
+            App.Instance = null;
         }
     }
 }
