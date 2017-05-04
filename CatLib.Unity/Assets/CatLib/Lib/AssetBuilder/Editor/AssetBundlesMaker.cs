@@ -26,6 +26,7 @@ namespace CatLib.AssetBuilder
         [MenuItem("CatLib/Asset Builder/Build Current Platform")]
         public static void BuildAllAssetBundles()
         {
+            App.Instance = null;
             var strategys = new List<IBuildStrategy>();
 
             foreach (var t in Util.FindTypesWithInterface(typeof(IBuildStrategy)))
@@ -40,7 +41,6 @@ namespace CatLib.AssetBuilder
             {
                 buildStrategy.Build(context);
             }
-            App.Instance = null;
         }
     }
 }
