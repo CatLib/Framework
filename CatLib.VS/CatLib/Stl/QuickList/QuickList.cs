@@ -359,18 +359,18 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 获取区间内的所有元素,1个元素占1个位置，范围不允许使用负数表示
+        /// 获取区间内的所有元素,1个元素占1个位置
         /// </summary>
         /// <param name="start">起始位置(包含)</param>
         /// <param name="end">结束位置(包含)</param>
         /// <returns>区间内的元素列表</returns>
         public TElement[] GetRange(long start, long end)
         {
+            start = Math.Max(start, 0);
             end = Math.Min(end, Count);
-            Guard.Requires<ArgumentOutOfRangeException>(start < end);
-            Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
+            Guard.Requires<ArgumentOutOfRangeException>(start <= end);
 
-            var elements = new TElement[end - start];
+            var elements = new TElement[end - start + 1];
             long sumIndex = 0;
             var node = header;
             while (node != null)

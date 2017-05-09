@@ -30,7 +30,6 @@ namespace CatLib.Tests.Container
     [TestClass]
     public class ContainerTest
     {
-
         #region Tag
         /// <summary>
         /// 是否可以标记服务
@@ -94,6 +93,32 @@ namespace CatLib.Tests.Container
             });
         }
 
+        /// <summary>
+        /// 测试不存在的Tag
+        /// </summary>
+        [TestMethod]
+        public void CheckNotExistTaged()
+        {
+            var container = MakeContainer();
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                container.Tagged("TestTag");
+            });
+        }
+
+        /// <summary>
+        /// 合并标记
+        /// </summary>
+        [TestMethod]
+        public void MergeTag()
+        {
+            var container = MakeContainer();
+            container.Tag("hello", "world");
+            container.Tag("hello", "world2");
+
+            Assert.AreEqual(2, container.Tagged("hello").Length);
+        }
+
         #endregion
 
         #region Bind
@@ -106,6 +131,19 @@ namespace CatLib.Tests.Container
             var container = MakeContainer();
             var bind = container.BindIf("CanBindIf", (cont, param) => "Hello", true);
             var bind2 = container.BindIf("CanBindIf", (cont, param) => "World", false);
+
+            Assert.AreSame(bind, bind2);
+        }
+
+        /// <summary>
+        /// 是否能够进行如果不存在则绑定的操作
+        /// </summary>
+        [TestMethod]
+        public void CanBindIfByType()
+        {
+            var container = MakeContainer();
+            var bind = container.BindIf("CanBindIf", typeof(ContainerTest), true);
+            var bind2 = container.BindIf("CanBindIf", typeof(ContainerTest), false);
 
             Assert.AreSame(bind, bind2);
         }
@@ -346,6 +384,11 @@ namespace CatLib.Tests.Container
             {
                 return cls != null ? cls.GetNumber() : 1;
             }
+
+            public object GetNumberNoParam()
+            {
+                return 1;
+            }
         }
 
         /// <summary>
@@ -404,6 +447,23 @@ namespace CatLib.Tests.Container
             var cls = new CallTestClass();
 
             var result = container.Call(cls, "GetNumber");
+            Assert.AreEqual(2, result);
+
+            var results = container.Call(cls, "GetNumberNoParam");
+            Assert.AreEqual(1, results);
+        }
+
+        /// <summary>
+        /// 无参数调用函数
+        /// </summary>
+        [TestMethod]
+        public void CanCallMethodNoParam()
+        {
+            var container = MakeContainer();
+            container.Bind<CallTestClassInject>();
+            var cls = new CallTestClass();
+
+            var result = container.Call(cls, "GetNumber", null);
             Assert.AreEqual(2, result);
         }
 
@@ -475,6 +535,19 @@ namespace CatLib.Tests.Container
             }
         }
 
+        public class MakeTestNoParamClass
+        {
+            public int I { get; set; }
+
+            public MakeTestClassDependency Dependency { get; set; }
+
+            public MakeTestNoParamClass(int i, MakeTestClassDependency dependency)
+            {
+                I = i;
+                Dependency = dependency;
+            }
+        }
+
         public interface IMsg
         {
             string GetMsg();
@@ -494,6 +567,25 @@ namespace CatLib.Tests.Container
             {
                 return "world";
             }
+        }
+
+        public class NoClassAttrInject
+        {
+            [Inject]
+            public int Time { get; set; }
+        }
+
+        /// <summary>
+        /// 非类的属性注入
+        /// </summary>
+        [TestMethod]
+        public void MakeNoClassAttrInject()
+        {
+            var container = MakeContainer();
+            container.Bind<NoClassAttrInject>();
+
+            var result = container.Make<NoClassAttrInject>();
+            Assert.AreEqual(0, result.Time);
         }
 
         /// <summary>
@@ -517,6 +609,56 @@ namespace CatLib.Tests.Container
         }
 
         /// <summary>
+        /// 在Container所处的程序集直接非绑定实例
+        /// </summary>
+        [TestMethod]
+        public void MakeBaseAssemblyToGetType()
+        {
+            var container = MakeContainer();
+            var cont = container.Make<CatLib.Container.Container>();
+            Assert.AreNotEqual(null, cont);
+        }
+
+        [TestMethod]
+        public void MakeWithNoParam()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClassDependency>();
+            var result = container.Make(typeof(MakeTestClassDependency).ToString(), null);
+            Assert.AreNotEqual(null, result);
+        }
+
+        /// <summary>
+        /// 无参构造函数的类进行make
+        /// </summary>
+        [TestMethod]
+        public void MakeNoParamConstructor()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestClassDependency2>();
+            var result = container.Make<MakeTestClassDependency2>();
+            Assert.AreNotEqual(null, result);
+        }
+
+        /// <summary>
+        /// 注入非类类型参数的构造函数
+        /// </summary>
+        [TestMethod]
+        public void MakeNotClassConstructor()
+        {
+            var container = MakeContainer();
+            container.Bind<MakeTestNoParamClass>();
+            container.Bind<MakeTestClassDependency>();
+            var result = container.Make<MakeTestNoParamClass>();
+            Assert.AreEqual(0, result.I);
+            Assert.AreNotEqual(null, result.Dependency);
+            
+            var result2 = container.MakeParams<MakeTestNoParamClass>(100);
+            Assert.AreEqual(100, result2.I);
+            Assert.AreNotEqual(null, result2.Dependency);
+        }
+
+        /// <summary>
         /// 是否能正常生成服务
         /// </summary>
         [TestMethod]
@@ -528,6 +670,13 @@ namespace CatLib.Tests.Container
 
             var result = container.Make<MakeTestClass>();
             Assert.AreEqual(typeof(MakeTestClass), result.GetType());
+
+            var dep = new MakeTestClassDependency();
+            var result2 = container.MakeParams<MakeTestClass>(dep);
+            Assert.AreEqual(typeof(MakeTestClass), result2.GetType());
+
+            var result3 = container[typeof(MakeTestClass).ToString()] as MakeTestClass;
+            Assert.AreEqual(typeof(MakeTestClass), result3.GetType());
         }
 
         /// <summary>
@@ -981,6 +1130,27 @@ namespace CatLib.Tests.Container
             Assert.Fail();
         }
         #endregion
+
+        /// <summary>
+        /// 已存在的静态对象在注册新的OnResolving时会自动触发
+        /// </summary>
+        [TestMethod]
+        public void OnResolvingExistsObject()
+        {
+            var container = MakeContainer();
+            var data = new List<string> { "hello world" };
+            container.Instance("TestInstance", data);
+
+            var isCall = false;
+            container.OnResolving((bind, obj) =>
+            {
+                isCall = true;
+                Assert.AreSame(data, obj);
+                return obj;
+            });
+
+            Assert.AreEqual(true, isCall);
+        }
 
         /// <summary>
         /// 生成容器

@@ -348,6 +348,7 @@ namespace CatLib.Stl
         /// <returns>被删除的元素个数</returns>
         public long RemoveRangeByRank(long startRank, long stopRank)
         {
+            startRank = Math.Max(startRank, 0);
             Guard.Requires<ArgumentOutOfRangeException>(startRank <= stopRank);
 
             long traversed = 0, removed = 0;
@@ -517,24 +518,24 @@ namespace CatLib.Stl
         /// <returns>元素</returns>
         public TElement GetElementByRank(long rank)
         {
-            if (rank >= Count)
-            {
-                return default(TElement);
-            }
+            rank = Math.Min(Math.Max(0, rank), Count);
             rank += 1;
             long traversed = 0;
             var cursor = header;
-            for (var i = level - 1; i >= 0; i--)
+            if (cursor != null)
             {
-                while (cursor.Level[i].Forward != null &&
-                        (traversed + cursor.Level[i].Span) <= rank)
+                for (var i = level - 1; i >= 0; i--)
                 {
-                    traversed += cursor.Level[i].Span;
-                    cursor = cursor.Level[i].Forward;
-                }
-                if (traversed == rank)
-                {
-                    return cursor.Element;
+                    while (cursor.Level[i].Forward != null &&
+                           (traversed + cursor.Level[i].Span) <= rank)
+                    {
+                        traversed += cursor.Level[i].Span;
+                        cursor = cursor.Level[i].Forward;
+                    }
+                    if (traversed == rank)
+                    {
+                        return cursor.Element;
+                    }
                 }
             }
             return default(TElement);

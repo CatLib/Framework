@@ -81,7 +81,7 @@ namespace CatLib.Tests.Stl
             var n = 3;
             foreach (var e in elements)
             {
-                Assert.AreEqual(n++ , e);
+                Assert.AreEqual(n++, e);
             }
             var list2 = new SortSet<int, int>();
             Assert.AreEqual(0, list2.GetElementRangeByScore(3, 8).Length);
@@ -417,6 +417,114 @@ namespace CatLib.Tests.Stl
             foreach (var v in master)
             {
                 Assert.Fail();
+            }
+        }
+
+        /// <summary>
+        /// 删除已经存在的元素
+        /// </summary>
+        [TestMethod]
+        public void OverrideElement()
+        {
+            var master = new SortSet<int, int>();
+            master.Add(10, 100);
+            master.Add(10, 200);
+            Assert.AreEqual(200, master.GetScore(10));
+        }
+
+        /// <summary>
+        /// 是否包含元素
+        /// </summary>
+        [TestMethod]
+        public void ContainsTest()
+        {
+            var master = new SortSet<int, int>();
+            master.Add(10, 100);
+
+            Assert.AreEqual(true, master.Contains(10));
+            Assert.AreEqual(false, master.Contains(11));
+        }
+
+        /// <summary>
+        /// 获取分数测试
+        /// </summary>
+        [TestMethod]
+        public void GetScoreTest()
+        {
+            var master = new SortSet<int, int>();
+            master.Add(10, 100);
+            Assert.AreEqual(100, master.GetScore(10));
+        }
+
+        /// <summary>
+        /// 获取同步
+        /// </summary>
+        [TestMethod]
+        public void GetSyncRootTest()
+        {
+            var master1 = new SortSet<int, int>();
+            var master2 = new SortSet<int, int>();
+
+            Assert.AreNotSame(master1, master2);
+        }
+
+        /// <summary>
+        /// GetElementByRank 溢出测试
+        /// </summary>
+        [TestMethod]
+        public void GetElementByRankOverflowTest()
+        {
+            var master = new SortSet<int, int>();
+            master.Add(10, 10);
+
+            Assert.AreEqual(0, master.GetElementByRank(1000));
+        }
+
+        /// <summary>
+        /// GetElementByRank 空内容测试
+        /// </summary>
+        [TestMethod]
+        public void GetElementByRankEmptyTest()
+        {
+            var master = new SortSet<int, int>();
+            Assert.AreEqual(0, master.GetElementByRank(100));
+        }
+
+        /// <summary>
+        /// 获取排名溢出测试
+        /// </summary>
+        [TestMethod]
+        public void GetRankOverflowTest()
+        {
+            var master = new SortSet<int, int>();
+            master.Add(10, 100);
+
+            Assert.AreEqual(-1, master.GetRank(100));
+        }
+
+        /// <summary>
+        /// 获取排名反转溢出测试
+        /// </summary>
+        [TestMethod]
+        public void GetRevRankOverflowTest()
+        {
+            var master = new SortSet<int, int>();
+            master.Add(10, 100);
+
+            Assert.AreEqual(-1, master.GetRevRank(100));
+            Assert.AreEqual(0, master.GetRevRank(10));
+        }
+
+        /// <summary>
+        /// 最大等级约束测试
+        /// </summary>
+        [TestMethod]
+        public void MaxLevelLimitTest()
+        {
+            var master = new SortSet<int, int>(0.5, 3);
+            for (var i = 0; i < 65536; i++)
+            {
+                master.Add(i, i);
             }
         }
     }

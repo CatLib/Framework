@@ -15,10 +15,8 @@ UWP/
 ExportedObj/
 *.svd
 *.userprefs
-*.csproj
 *.pidb
 *.suo
-*.sln
 *.svd
 *.user
 *.unityproj

@@ -34,6 +34,18 @@ namespace CatLib.Tests.Stl
         }
 
         /// <summary>
+        /// 是否被删除
+        /// </summary>
+        [TestMethod]
+        public void IsDelete()
+        {
+            var list = new InternalList<InternalTestClass>(4);
+            Assert.AreEqual(false, list.IsDelete);
+            list.IsDelete = true;
+            Assert.AreEqual(true, list.IsDelete);
+        }
+
+        /// <summary>
         /// 移除指定位置的元素
         /// </summary>
         [TestMethod]
