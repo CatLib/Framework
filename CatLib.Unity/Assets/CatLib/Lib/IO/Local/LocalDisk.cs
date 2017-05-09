@@ -140,7 +140,15 @@ namespace CatLib.IO
             {
                 return new Directory(this.path + Path.AltDirectorySeparatorChar + path.Trim(Path.AltDirectorySeparatorChar), this);
             }
+        }
 
+        /// <summary>
+        /// 获取磁盘文件夹
+        /// </summary>
+        /// <returns></returns>
+        public IDirectory Directory()
+        {
+            return new Directory(this.path, this);
         }
 
         /// <summary>

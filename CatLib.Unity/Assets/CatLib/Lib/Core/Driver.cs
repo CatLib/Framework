@@ -273,7 +273,7 @@ namespace CatLib
         /// <summary>
         /// 在主线程中调用
         /// </summary>
-        /// <param name="action">协程，执行会处于主线程</param>
+        /// <param name="action">代码块执行会处于主线程</param>
         public void MainThread(IEnumerator action)
         {
             Guard.Requires<ArgumentNullException>(action != null);
@@ -294,7 +294,7 @@ namespace CatLib
         /// <summary>
         /// 在主线程中调用
         /// </summary>
-        /// <param name="action">回调，回调的内容会处于主线程</param>
+        /// <param name="action">代码块执行会处于主线程</param>
         public void MainThread(Action action)
         {
             Guard.Requires<ArgumentNullException>(action != null);
@@ -310,7 +310,7 @@ namespace CatLib
         /// 包装器
         /// </summary>
         /// <param name="action">回调函数</param>
-        /// <returns></returns>
+        /// <returns>迭代器</returns>
         private IEnumerator ActionWrapper(Action action)
         {
             action.Invoke();

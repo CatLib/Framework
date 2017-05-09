@@ -29,8 +29,7 @@ namespace CatLib.Demo.Translation
         {
             //由于是demo需要所以强制更改默认路径
             Env env = App[typeof(Env).ToString()] as Env;
-            env.SetResourcesBuildPath(Global.BasePath + "/Translation/Resources");
-			env.SetResourcesNoBuildPath(Global.BasePath + "/Translation/Resources");
+            env.SetAssetPath(Global.BasePath + "/Translation/Resources");
             env.SetDebugLevel(DebugLevels.Dev);
 
             //通过配置可以指定翻译文件所在位置（这一步正常应该在配置中配置，但是由于是demo所以我们显式声明）

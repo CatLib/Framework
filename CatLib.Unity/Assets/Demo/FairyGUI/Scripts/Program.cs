@@ -28,10 +28,8 @@ namespace CatLib.Demo.FairyGUI
     {
         public override void Init()
         {
-            Env env = App[typeof(Env).ToString()] as Env;
-            env.SetResourcesBuildPath(Global.BasePath + "/FairyGUI/Resources");
-            env.SetDebugLevel(DebugLevels.Dev);
-            env.SetDebugLevel(DebugLevels.Staging); //使用staging从ab包中读取
+            var env = App[typeof(Env).ToString()] as Env;
+            env.SetAssetPath(Global.BasePath + "/FairyGUI/Resources");
         }
 
         public override void Register() { }

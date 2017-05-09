@@ -48,17 +48,7 @@ namespace CatLib.CsvStore
                 var io = App.Make<IIOFactory>();
                 var disk = io.Disk();
 
-#if UNITY_EDITOR
-                if (env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev)
-                {
-                    disk.SetConfig(new Hashtable
-                    {
-
-                        {"root" , env.AssetPath + env.ResourcesNoBuildPath}
-
-                    });
-                }
-#endif
+                disk.SetConfig(new Hashtable { { "root", env.AssetPath } });
                 store.SetDirctory(disk.Directory(root));
                 return store;
             });

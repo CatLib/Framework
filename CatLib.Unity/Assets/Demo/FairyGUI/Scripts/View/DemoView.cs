@@ -9,16 +9,10 @@ namespace CatLib.Demo.FairyGUI
         public void Awake()
         {
             var package = App.Instance.Make<IPackage>();
-            //package.AddPackage("UI/DemoPackage");
-            //package.AddPackage("package/DemoPackage");
-            //var comp = UIPackage.CreateObject("DemoPackage", "DemoUI").asCom;
-            //GRoot.inst.AddChild(comp);
-
-            package.AddPackageAsync("package", (uipackage) =>
-            {
-                var comp = UIPackage.CreateObject("DemoPackage", "DemoUI").asCom;
-                GRoot.inst.AddChild(comp);
-            });
+            package.AddPackage("UI/DemoPackage");
+            package.AddPackage("package/DemoPackage");
+            var comp = UIPackage.CreateObject("DemoPackage", "DemoUI").asCom;
+            GRoot.inst.AddChild(comp);
         }
     }
 }
