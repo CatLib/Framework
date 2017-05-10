@@ -31,7 +31,7 @@ namespace CatLib.API
         /// </summary>
         /// <param name="bootstraps">引导程序</param>
         /// <returns>当前应用程序</returns>
-        IApplication Bootstrap(Type[] bootstraps);
+        IApplication Bootstrap(params Type[] bootstraps);
 
         /// <summary>
         /// 初始化程序

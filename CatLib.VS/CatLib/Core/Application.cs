@@ -116,9 +116,9 @@ namespace CatLib
         /// <summary>
         /// 引导程序
         /// </summary>
-        /// <param name="bootstraps">引导文件</param>
+        /// <param name="bootstraps">引导程序</param>
         /// <returns>CatLib实例</returns>
-        public IApplication Bootstrap(Type[] bootstraps)
+        public IApplication Bootstrap(params Type[] bootstraps)
         {
             Guard.Requires<ArgumentNullException>(bootstraps != null);
             process = StartProcess.OnBootstrap;

@@ -98,7 +98,10 @@ namespace CatLib
         /// </summary>
         public Driver(Component mainBehavior)
         {
-            Initialization(mainBehavior);
+            if (mainBehavior != null)
+            {
+                Initialization(mainBehavior);
+            }
 
             mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
@@ -327,6 +330,11 @@ namespace CatLib
         /// <param name="routine">协程</param>
         public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
         {
+            if (driverBehaviour == null)
+            {
+                while (routine.MoveNext()){ }
+                return null;
+            }
             Guard.Requires<ArgumentNullException>(routine != null);
             return driverBehaviour.StartCoroutine(routine);
         }
@@ -337,6 +345,10 @@ namespace CatLib
         /// <param name="routine">协程</param>
         public void StopCoroutine(IEnumerator routine)
         {
+            if (driverBehaviour == null)
+            {
+                return;
+            }
             Guard.Requires<ArgumentNullException>(routine != null);
             driverBehaviour.StopCoroutine(routine);
         }

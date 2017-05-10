@@ -151,6 +151,9 @@
     <Compile Include="Core\Object\MonoObject.cs" />
     <Compile Include="Core\ServiceProvider.cs" />
     <Compile Include="Core\Util.cs" />
+    <Compile Include="Event\EventHandler.cs" />
+    <Compile Include="Event\EventImpl.cs" />
+    <Compile Include="Event\EventProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stl\Guard\Guard.cs" />
     <Compile Include="Stl\QuickList\Internal\InternalList.cs" />
@@ -162,6 +165,7 @@
     <None Include="API\catlib.json" />
     <None Include="Container\catlib.json" />
     <None Include="Core\catlib.json" />
+    <None Include="Event\catlib.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
