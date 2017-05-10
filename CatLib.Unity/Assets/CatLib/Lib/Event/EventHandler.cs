@@ -97,10 +97,17 @@ namespace CatLib.Event
                 Life = 0;
                 return;
             }
+
+            if (!IsLife)
+            {
+                return;
+            }
+
             if (Life > 0)
             {
                 Life--;
             }
+
             Handler.Invoke(sender, e);
         }
     }
