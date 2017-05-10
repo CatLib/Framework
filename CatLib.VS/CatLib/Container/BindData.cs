@@ -24,17 +24,17 @@ namespace CatLib.Container
         /// <summary>
         /// 当前绑定服务的服务名
         /// </summary>
-        public string Service { get; }
+        public string Service { get; private set; }
 
         /// <summary>
         /// 服务实现，执行这个委托将会获得服务实例
         /// </summary>
-        public Func<IContainer, object[], object> Concrete { get; }
+        public Func<IContainer, object[], object> Concrete { get; private set; }
 
         /// <summary>
         /// 当前绑定的服务是否是静态服务
         /// </summary>
-        public bool IsStatic { get; }
+        public bool IsStatic { get; private set; }
 
         /// <summary>
         /// 服务关系上下文
