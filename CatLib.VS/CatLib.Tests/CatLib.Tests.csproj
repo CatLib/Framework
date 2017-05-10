@@ -57,6 +57,7 @@
     <Compile Include="Container\ContainerTests.cs" />
     <Compile Include="Container\GivenDataTests.cs" />
     <Compile Include="Core\ApplicationTests.cs" />
+    <Compile Include="Event\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stl\QuickList\InternalListTests.cs" />

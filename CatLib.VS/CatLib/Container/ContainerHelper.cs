@@ -157,6 +157,10 @@ namespace CatLib
         /// <returns>服务实例</returns>
         public static TConvert Make<TConvert>(this IContainer container , Type service)
         {
+            if (service == null)
+            {
+                return default(TConvert);
+            }
             return (TConvert)container.Make(service.ToString());
         }
 
@@ -168,7 +172,7 @@ namespace CatLib
         /// <returns>服务实例</returns>
         public static object Make(this IContainer container , Type service)
         {
-            return container.Make(service.ToString());
+            return service == null ? null : container.Make(service.ToString());
         }
 
         /// <summary>
