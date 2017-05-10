@@ -41,22 +41,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\AssetBuilder\Editor\BuildProcess.cs" />
-    <Compile Include="API\AssetBuilder\Editor\Features\IBuildStrategy.cs" />
-    <Compile Include="API\AssetBuilder\Editor\Internal\IBuildContext.cs" />
-    <Compile Include="API\AutoUpdate\IAutoUpdate.cs" />
     <Compile Include="API\Buffer\IBufferBuilder.cs" />
     <Compile Include="API\Compress\ICompress.cs" />
     <Compile Include="API\Config\Features\IConfig.cs" />
     <Compile Include="API\Config\IConfigStore.cs" />
-    <Compile Include="API\Container\Features\AopAttribute.cs" />
-    <Compile Include="API\Container\Features\IInterception.cs" />
     <Compile Include="API\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Container\IContainer.cs" />
     <Compile Include="API\Container\Internal\IBindData.cs" />
     <Compile Include="API\Container\Internal\IGivenData.cs" />
-    <Compile Include="API\Container\Internal\IMethodInvoke.cs" />
-    <Compile Include="API\Container\Internal\IParameters.cs" />
     <Compile Include="API\Core\ApplicationEvents.cs" />
     <Compile Include="API\Core\DebugLevels.cs" />
     <Compile Include="API\Core\EventLevel.cs" />
@@ -147,13 +139,6 @@
     <Compile Include="Container\ContainerHelper.cs" />
     <Compile Include="Container\GivenData.cs" />
     <Compile Include="Container\Guard.cs" />
-    <Compile Include="Container\Interceptors\BoundProxy.cs" />
-    <Compile Include="Container\Interceptors\IBoundProxy.cs" />
-    <Compile Include="Container\Interceptors\IInterceptingProxy.cs" />
-    <Compile Include="Container\Interceptors\InterceptionPipeline.cs" />
-    <Compile Include="Container\Interceptors\InterceptionRealProxy\InterceptingRealProxy.cs" />
-    <Compile Include="Container\Interceptors\MethodInvoke.cs" />
-    <Compile Include="Container\Interceptors\ParameterCollection.cs" />
     <Compile Include="Core\App.cs" />
     <Compile Include="Core\Application.cs" />
     <Compile Include="Core\CoreProvider.cs" />

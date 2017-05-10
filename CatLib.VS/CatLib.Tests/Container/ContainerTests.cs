@@ -119,6 +119,19 @@ namespace CatLib.Tests.Container
             Assert.AreEqual(2, container.Tagged("hello").Length);
         }
 
+        /// <summary>
+        /// 空服务测试
+        /// </summary>
+        [TestMethod]
+        public void NullTagService()
+        {
+            var container = MakeContainer();
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                container.Tag("hello", "world", null);
+            });
+        }
+
         #endregion
 
         #region Bind

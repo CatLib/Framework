@@ -28,7 +28,7 @@ namespace CatLib
         /// <summary>
         /// CatLib框架版本
         /// </summary>
-        public const string VERSION = "1.0.0";
+        private const string VERSION = "1.0.0";
 
         /// <summary>
         /// CatLib版本号

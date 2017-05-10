@@ -69,11 +69,6 @@ namespace CatLib.Container
         private readonly object syncRoot = new object();
 
         /// <summary>
-        /// AOP代理包装器
-        /// </summary>
-        private readonly IBoundProxy proxy;
-
-        /// <summary>
         /// 注入目标
         /// </summary>
         private readonly Type injectTarget;
@@ -96,7 +91,6 @@ namespace CatLib.Container
             resolving = new List<Func<IBindData, object, object>>();
             release = new List<Action<IBindData, object>>();
             findType = new List<Func<string, Type>>();
-            proxy = new BoundProxy();
             injectTarget = typeof(InjectAttribute);
             buildStack = new Stack<string>();
         }
@@ -600,11 +594,6 @@ namespace CatLib.Container
             }
 
             AttrInject(bindData, buildInstance);
-
-            if (proxy != null)
-            {
-                buildInstance = proxy.Bound(buildInstance, bindData);
-            }
 
             if (bindData.IsStatic)
             {

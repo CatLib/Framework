@@ -21,6 +21,21 @@ namespace CatLib.API.Resources
         //string Variant{ get; set; }
 
         /// <summary>
+        /// 获取AssetBundle资源包
+        /// </summary>
+        /// <param name="path">资源包路径</param>
+        /// <returns>AssetBundle资源包</returns>
+        AssetBundle LoadAssetBundle(string path);
+
+        /// <summary>
+        /// 获取AssetBundle资源包
+        /// </summary>
+        /// <param name="path">资源包路径</param>
+        /// <param name="callback">加载完成的回调</param>
+        /// <returns>协程</returns>
+        UnityEngine.Coroutine LoadAssetBundleAsync(string path, System.Action<AssetBundle> callback);
+
+        /// <summary>
         /// 加载资源
         /// </summary>
         /// <param name="path">加载路径</param>
