@@ -98,7 +98,7 @@ namespace CatLib.Event
         /// <param name="handler">事件句柄</param>
         /// <param name="life">在几次后事件会被自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler On(string eventName, System.EventHandler handler, int life = -1)
+        public IEventHandler On(string eventName, System.EventHandler handler, int life = 0)
         {
             var callHandler = new EventHandler(this, eventName, handler, life);
             if (!App.IsMainThread)

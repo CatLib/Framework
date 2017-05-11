@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Event;
 
 namespace CatLib.Event
@@ -39,17 +40,14 @@ namespace CatLib.Event
         private bool isCancel;
 
         /// <summary>
-        /// 剩余的调用次数，当为0时事件会被释放
+        /// 剩余的调用次数
         /// </summary>
         public int Life { get; private set; }
 
         /// <summary>
         /// 事件是否是有效的
         /// </summary>
-        public bool IsLife
-        {
-            get { return Life != 0; }
-        }
+        public bool IsLife { get; private set; }
 
         /// <summary>
         /// 创建一个事件句柄
@@ -60,10 +58,12 @@ namespace CatLib.Event
         /// <param name="life">生命次数</param>
         public EventHandler(IEventImpl target, string eventName, System.EventHandler eventHandler, int life)
         {
+            life = Math.Max(0, life);
             Handler = eventHandler;
             Target = target;
             EventName = eventName;
             Life = life;
+            IsLife = true;
             isCancel = false;
         }
 
@@ -94,14 +94,23 @@ namespace CatLib.Event
         {
             if (Handler == null)
             {
-                Life = 0;
+                IsLife = false;
                 return;
             }
+
             if (Life > 0)
             {
+                if (Life - 1 <= 0)
+                {
+                    IsLife = false;
+                }
                 Life--;
             }
-            Handler.Invoke(sender, e);
+
+            if (IsLife)
+            {
+                Handler.Invoke(sender, e);
+            }
         }
     }
 }

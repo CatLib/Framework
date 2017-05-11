@@ -36,6 +36,28 @@ namespace CatLib.Tests.Event
             Assert.AreEqual(true, isCall);
         }
 
+        /// <summary>
+        /// 测试On，并给予生命次数
+        /// </summary>
+        [TestMethod]
+        public void EventOnLife()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+
+            Assert.AreNotEqual(null, eventImpl);
+
+            var isCall = false;
+            eventImpl.On("TestOn", (sender, e) =>
+            {
+                isCall = !isCall;
+            }, 1);
+
+            eventImpl.Trigger("TestOn");
+            eventImpl.Trigger("TestOn");
+            Assert.AreEqual(false, isCall);
+        }
+
         private Application MakeApplication()
         {
             var app = new Application();

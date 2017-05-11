@@ -53,7 +53,7 @@ namespace CatLib.API.Event
         /// <param name="handler">事件句柄</param>
         /// <param name="life">在几次后事件会被自动释放</param>
         /// <returns>事件句柄</returns>
-        IEventHandler On(string eventName, EventHandler handler, int life = -1);
+        IEventHandler On(string eventName, EventHandler handler, int life = 0);
 
         /// <summary>
         /// 注册一个事件，调用一次后就释放
