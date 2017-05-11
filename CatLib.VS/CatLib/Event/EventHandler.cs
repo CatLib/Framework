@@ -17,7 +17,7 @@ namespace CatLib.Event
     /// <summary>
     /// 事件句柄
     /// </summary>
-    public sealed class EventHandler : IEventHandler
+    internal sealed class EventHandler : IEventHandler
     {
         /// <summary>
         /// 监听对象
@@ -90,7 +90,7 @@ namespace CatLib.Event
         /// </summary>
         /// <param name="sender">事件发送者</param>
         /// <param name="e">事件参数</param>
-        internal void Call(object sender, System.EventArgs e)
+        internal void Call(object sender, EventArgs e)
         {
             if (Handler == null)
             {

@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using CatLib.API.Event;
 using CatLib.API;
+using CatLib.Stl;
 
 namespace CatLib.Event
 {
@@ -69,6 +70,9 @@ namespace CatLib.Event
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
+            Guard.Requires<NullReferenceException>(App != null);
+            Guard.NotEmptyOrNull(eventName, "eventName");
+
             if (!App.IsMainThread)
             {
                 App.MainThread(() =>
@@ -100,6 +104,10 @@ namespace CatLib.Event
         /// <returns>事件句柄</returns>
         public IEventHandler On(string eventName, System.EventHandler handler, int life = 0)
         {
+            Guard.NotEmptyOrNull(eventName, "eventName");
+            Guard.NotNull(handler, "handler");
+            Guard.Requires<ArgumentOutOfRangeException>(life >= 0);
+
             var callHandler = new EventHandler(this, eventName, handler, life);
             if (!App.IsMainThread)
             {

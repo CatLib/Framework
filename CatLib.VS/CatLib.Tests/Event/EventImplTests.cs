@@ -78,12 +78,48 @@ namespace CatLib.Tests.Event
         }
 
         /// <summary>
-        /// 根据名称触发事件
+        /// 根据名称发送者触发事件
         /// </summary>
         [TestMethod]
-        public void TriggerEventWithName()
+        public void TriggerEventWithSender()
         {
-            
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            var sender = new object();
+            eventImpl.One("TestOne", (s, e) =>
+            {
+                if (s == sender)
+                {
+                    isCall = !isCall;
+                }
+            });
+
+            eventImpl.Trigger("TestOne", sender);
+            Assert.AreEqual(true, isCall);
+        }
+
+        /// <summary>
+        /// 根据名字发送者参数触发事件
+        /// </summary>
+        [TestMethod]
+        public void TriggerEventWithSenderArgs()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            var sender = new object();
+            var args = new EventArgs();
+            eventImpl.One("TestOne", (s, e) =>
+            {
+                if (s == sender && e == args)
+                {
+                    isCall = !isCall;
+                }
+            });
+
+            eventImpl.Trigger("TestOne", sender , args);
+            Assert.AreEqual(true, isCall);
         }
 
         /// <summary>
@@ -103,6 +139,88 @@ namespace CatLib.Tests.Event
             eventImpl.Off("TestOff", handler);
             eventImpl.Trigger("TestOff");
             Assert.AreEqual(false, isCall);
+        }
+
+        /// <summary>
+        /// 重复的撤销
+        /// </summary>
+        [TestMethod]
+        public void RepeatCancel()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            var handler = eventImpl.One("RepeatCancel", (sender, e) =>
+            {
+                isCall = !isCall;
+            });
+
+            Assert.AreEqual(true, handler.Cancel());
+            Assert.AreEqual(false, handler.Cancel());
+            eventImpl.Trigger("RepeatCancel");
+            Assert.AreEqual(false , isCall);
+        }
+
+        /// <summary>
+        /// 非法的触发
+        /// </summary>
+        [TestMethod]
+        public void IllegalTrigger()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            var handler = eventImpl.One("IllegalTrigger", (sender, e) =>
+            {
+                isCall = !isCall;
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                eventImpl.Trigger(null);
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                eventImpl.Trigger("");
+            });
+        }
+
+        /// <summary>
+        /// 无效的On
+        /// </summary>
+        [TestMethod]
+        public void IllegalOn()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                var handler = eventImpl.On("", (sender, e) =>
+                {
+                    isCall = !isCall;
+                });
+            });
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                var handler = eventImpl.On(null, (sender, e) =>
+                {
+                    isCall = !isCall;
+                });
+            });
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                var handler = eventImpl.On("IllegalOn", null);
+            });
+
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                var handler = eventImpl.On("IllegalOn", (sender, e) =>
+                {
+                    isCall = !isCall;
+                },-10);
+            });
         }
 
         private Application MakeApplication()
