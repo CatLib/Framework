@@ -22,7 +22,7 @@ namespace CatLib.Event
         /// <summary>
         /// 监听对象
         /// </summary>
-        private IEventImpl Target { get; set; }
+        private EventImpl Target { get; set; }
 
         /// <summary>
         /// 事件句柄
@@ -56,7 +56,7 @@ namespace CatLib.Event
         /// <param name="eventName">事件名</param>
         /// <param name="eventHandler">事件句柄</param>
         /// <param name="life">生命次数</param>
-        public EventHandler(IEventImpl target, string eventName, System.EventHandler eventHandler, int life)
+        public EventHandler(EventImpl target, string eventName, System.EventHandler eventHandler, int life)
         {
             life = Math.Max(0, life);
             Handler = eventHandler;
@@ -98,19 +98,20 @@ namespace CatLib.Event
                 return;
             }
 
+            if (!IsLife)
+            {
+                return;
+            }
+
             if (Life > 0)
             {
-                if (Life - 1 <= 0)
+                if (--Life <= 0)
                 {
                     IsLife = false;
                 }
-                Life--;
             }
 
-            if (IsLife)
-            {
-                Handler.Invoke(sender, e);
-            }
+            Handler.Invoke(sender, e);
         }
     }
 }

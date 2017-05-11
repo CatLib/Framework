@@ -51,10 +51,57 @@ namespace CatLib.Tests.Event
             eventImpl.On("TestOn", (sender, e) =>
             {
                 isCall = !isCall;
-            }, 1);
+            }, 2);
 
             eventImpl.Trigger("TestOn");
             eventImpl.Trigger("TestOn");
+            eventImpl.Trigger("TestOn");
+            Assert.AreEqual(false, isCall);
+        }
+
+        /// <summary>
+        /// 测试One
+        /// </summary>
+        [TestMethod]
+        public void EventOne()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            eventImpl.One("TestOne", (sender, e) =>
+            {
+                isCall = !isCall;
+            });
+            eventImpl.Trigger("TestOne");
+            eventImpl.Trigger("TestOne");
+            Assert.AreEqual(true, isCall);
+        }
+
+        /// <summary>
+        /// 根据名称触发事件
+        /// </summary>
+        [TestMethod]
+        public void TriggerEventWithName()
+        {
+            
+        }
+
+        /// <summary>
+        /// 测试Off
+        /// </summary>
+        [TestMethod]
+        public void EventOff()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            var handler = eventImpl.One("TestOff", (sender, e) =>
+            {
+                isCall = !isCall;
+            });
+
+            eventImpl.Off("TestOff", handler);
+            eventImpl.Trigger("TestOff");
             Assert.AreEqual(false, isCall);
         }
 

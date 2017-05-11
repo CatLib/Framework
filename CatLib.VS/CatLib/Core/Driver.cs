@@ -451,17 +451,6 @@ namespace CatLib
         {
             return EventSystem.One(eventName, handler);
         }
-
-        /// <summary>
-        /// 释放一个事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="handler">事件句柄</param>
-        public void Off(string eventName, IEventHandler handler)
-        {
-            EventSystem.Off(eventName, handler);
-        }
-
         #endregion
     }
 }

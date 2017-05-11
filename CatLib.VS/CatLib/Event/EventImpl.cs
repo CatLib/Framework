@@ -129,7 +129,7 @@ namespace CatLib.Event
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="handler">操作句柄</param>
-        public void Off(string eventName, IEventHandler handler)
+        internal void Off(string eventName, IEventHandler handler)
         {
             if (handlers == null)
             {
