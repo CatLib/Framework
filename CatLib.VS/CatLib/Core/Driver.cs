@@ -111,10 +111,17 @@ namespace CatLib
                 {
                     return null;
                 }
+
+                if (obj is IStart)
+                {
+                    ((IStart)obj).Start();
+                }
+
                 if (bindData.IsStatic)
                 {
                     Load(obj);
                 }
+
                 return obj;
             });
 
@@ -124,6 +131,7 @@ namespace CatLib
                 {
                     return;
                 }
+
                 if (bindData.IsStatic)
                 {
                     UnLoad(obj);
@@ -149,7 +157,7 @@ namespace CatLib
         /// 卸载
         /// </summary>
         /// <param name="obj">卸载的对象</param>
-        private void UnLoad(object obj)
+        public void UnLoad(object obj)
         {
             if (obj is IUpdate)
             {
@@ -172,13 +180,8 @@ namespace CatLib
         /// 装载
         /// </summary>
         /// <param name="obj">加载的对象</param>
-        private void Load(object obj)
+        public void Load(object obj)
         {
-            if (obj is IStart)
-            {
-                ((IStart)obj).Start();
-            }
-
             if (obj is IUpdate)
             {
                 var priorities = GetPriorities(obj.GetType(), "Update");

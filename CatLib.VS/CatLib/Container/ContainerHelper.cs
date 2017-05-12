@@ -147,17 +147,5 @@ namespace CatLib
         {
             return (TConvert)container.Make(service);
         }
-
-        /// <summary>
-        /// 为服务设定一个别名
-        /// </summary>
-        /// <typeparam name="TAliasName">别名</typeparam>
-        /// <typeparam name="TService">服务名</typeparam>
-        /// <param name="container">服务容器</param>
-        /// <returns>服务容器</returns>
-        public static IContainer Alias<TAliasName, TService>(this IContainer container) where TService : class
-        {
-            return container.Alias(typeof(TAliasName).ToString(), typeof(TService).ToString());
-        }
     }
 }

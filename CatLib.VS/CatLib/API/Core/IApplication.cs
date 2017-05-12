@@ -93,5 +93,18 @@ namespace CatLib.API
         /// </summary>
         /// <param name="routine">协程</param>
         void StopCoroutine(IEnumerator routine);
+
+        /// <summary>
+        /// 从驱动器中卸载对象
+        /// 如果对象使用了增强接口，那么卸载对应增强接口
+        /// </summary>
+        /// <param name="obj">对象</param>
+        void UnLoad(object obj);
+
+        /// <summary>
+        /// 如果对象实现了增强接口那么将对象装载进对应驱动器
+        /// </summary>
+        /// <param name="obj">对象</param>
+        void Load(object obj);
     }
 }
