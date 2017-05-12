@@ -123,6 +123,46 @@ namespace CatLib.Tests.Event
         }
 
         /// <summary>
+        /// 只根据名字和参数触发事件
+        /// </summary>
+        [TestMethod]
+        public void TriggerEventWithArgs()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+            var isCall = false;
+            var args = new EventArgs();
+            eventImpl.One("TriggerEventWithArgs", (s, e) =>
+            {
+                if (s == null && e == args)
+                {
+                    isCall = !isCall;
+                }
+            });
+
+            eventImpl.Trigger("TriggerEventWithArgs", args);
+            Assert.AreEqual(true, isCall);
+        }
+
+        /// <summary>
+        /// 解除不存在的事件测试
+        /// </summary>
+        [TestMethod]
+        public void OffNotExistsEvent()
+        {
+            var app = MakeApplication();
+            var eventImpl = app.Make<EventImpl>();
+
+            var handler = eventImpl.One("OffNotExistsEvent", (s, e) =>
+            {
+            });
+
+            //这里为了测试需要强制转换
+            eventImpl.Off(handler as CatLib.Event.EventHandler);
+            eventImpl.Off(handler as CatLib.Event.EventHandler);
+        }
+
+        /// <summary>
         /// 测试Off
         /// </summary>
         [TestMethod]
@@ -136,7 +176,7 @@ namespace CatLib.Tests.Event
                 isCall = !isCall;
             });
 
-            eventImpl.Off("TestOff", handler);
+            handler.Cancel();
             eventImpl.Trigger("TestOff");
             Assert.AreEqual(false, isCall);
         }

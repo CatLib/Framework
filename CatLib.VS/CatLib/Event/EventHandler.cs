@@ -32,7 +32,7 @@ namespace CatLib.Event
         /// <summary>
         /// 事件名
         /// </summary>
-        private string EventName { get; set; }
+        internal string EventName { get; private set; }
 
         /// <summary>
         /// 是否取消事件
@@ -79,7 +79,7 @@ namespace CatLib.Event
             }
             if (Target != null)
             {
-                Target.Off(EventName, this);
+                Target.Off(this);
             }
             isCancel = true;
             return true;

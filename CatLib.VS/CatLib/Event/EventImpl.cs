@@ -135,33 +135,29 @@ namespace CatLib.Event
         /// <summary>
         /// 移除一个事件
         /// </summary>
-        /// <param name="eventName">事件名称</param>
         /// <param name="handler">操作句柄</param>
-        internal void Off(string eventName, IEventHandler handler)
+        internal void Off(EventHandler handler)
         {
-            if (handlers == null)
-            {
-                return;
-            }
+            Guard.NotNull(handler, "handler");
 
             if (!App.IsMainThread)
             {
                 App.MainThread(() =>
                 {
-                    Off(eventName, handler);
+                    Off(handler);
                 });
                 return;
             }
 
-            if (!handlers.ContainsKey(eventName))
+            if (!handlers.ContainsKey(handler.EventName))
             {
                 return;
             }
 
-            handlers[eventName].Remove(handler as EventHandler);
-            if (handlers[eventName].Count <= 0)
+            handlers[handler.EventName].Remove(handler);
+            if (handlers[handler.EventName].Count <= 0)
             {
-                handlers.Remove(eventName);
+                handlers.Remove(handler.EventName);
             }
         }
 
