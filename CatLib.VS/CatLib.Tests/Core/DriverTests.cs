@@ -79,6 +79,23 @@ namespace CatLib.Tests.Core
         }
 
         /// <summary>
+        /// 释放时自动移除
+        /// </summary>
+        [TestMethod]
+        public void OnReleaseUnLoad()
+        {
+            updateResult = string.Empty;
+            var c = MakeDriver();
+            c.Singleton<TestStaticClass>();
+            c.Make<TestStaticClass>();
+
+            c.Release<TestStaticClass>();
+
+            c.Update();
+            Assert.AreEqual(string.Empty, updateResult);
+        }
+
+        /// <summary>
         /// 载入和卸载
         /// </summary>
         [TestMethod]
@@ -180,6 +197,24 @@ namespace CatLib.Tests.Core
             {
                 c.Load(obj);
             });
+        }
+
+        /// <summary>
+        /// 释放测试
+        /// </summary>
+        [TestMethod]
+        public void OnDestroyTest()
+        {
+            var c = MakeDriver();
+            var obj = new TestStaticClass();
+
+            c.Load(obj);
+
+            updateResult = string.Empty;
+            c.OnDestroy();
+            c.Update();
+
+            Assert.AreEqual(string.Empty, updateResult);
         }
 
         /// <summary>
@@ -304,11 +339,16 @@ namespace CatLib.Tests.Core
             var isCallInterface = false;
             var isCallClass = false;
             var args = new EventArgs();
-            app.One("GlobalEvent", (s, e) =>
+            app.On("GlobalEvent", (s, e) =>
             {
                 if (s == this && e == args)
                 {
                     isCall = !isCall;
+                }
+
+                if (s == null && e == args)
+                {
+                    isCall = false;
                 }
             });
 
@@ -332,6 +372,20 @@ namespace CatLib.Tests.Core
             Assert.AreEqual(true, isCall);
             Assert.AreEqual(true, isCallInterface);
             Assert.AreEqual(true, isCallClass);
+
+            app.TriggerGlobal("GlobalEvent").Trigger(args);
+            Assert.AreEqual(false, isCall);
+
+        }
+
+        /// <summary>
+        /// 获取事件
+        /// </summary>
+        [TestMethod]
+        public void GetDriverEvent()
+        {
+            var app = MakeDriver();
+            Assert.AreEqual(app, app.Event);
         }
 
         private IEnumerator Coroutine()

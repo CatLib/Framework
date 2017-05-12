@@ -161,6 +161,8 @@ namespace CatLib
         /// <param name="obj">对象</param>
         public void UnLoad(object obj)
         {
+            Guard.Requires<ArgumentNullException>(obj != null);
+
             if (!loadSet.Contains(obj))
             {
                 return;
@@ -194,6 +196,8 @@ namespace CatLib
         /// <param name="obj">对象</param>
         public void Load(object obj)
         {
+            Guard.Requires<ArgumentNullException>(obj != null);
+
             if (loadSet.Contains(obj))
             {
                 throw new RuntimeException("[" + obj + "] is already load");

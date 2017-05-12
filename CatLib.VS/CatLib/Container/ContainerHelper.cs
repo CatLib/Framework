@@ -147,5 +147,15 @@ namespace CatLib
         {
             return (TConvert)container.Make(service);
         }
+
+        /// <summary>
+        /// 释放服务
+        /// </summary>
+        /// <typeparam name="TService">服务名</typeparam>
+        /// <param name="container">服务容器</param>
+        public static void Release<TService>(this IContainer container) where TService : class
+        {
+            container.Release(typeof(TService).ToString());
+        }
     }
 }
