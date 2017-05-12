@@ -12,6 +12,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using CatLib.API.Stl;
 
 namespace CatLib.Stl
@@ -20,6 +22,8 @@ namespace CatLib.Stl
     /// 快速列表
     /// </summary>
     /// <typeparam name="TElement">元素</typeparam>
+    [DebuggerDisplay("Count = {Count} , Length = {Length}")]
+    [ComVisible(false)]
     public sealed class QuickList<TElement> : IQuickList<TElement>
     {
         /// <summary>
