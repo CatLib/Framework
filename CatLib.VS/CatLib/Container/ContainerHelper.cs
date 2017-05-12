@@ -157,5 +157,16 @@ namespace CatLib
         {
             container.Release(typeof(TService).ToString());
         }
+
+        /// <summary>
+        /// 静态化一个服务,实例值会经过解决修饰器
+        /// </summary>
+        /// <typeparam name="TService">服务名</typeparam>
+        /// <param name="container">服务容器</param>
+        /// <param name="instance">实例值</param>
+        public static void Instance<TService>(this IContainer container, object instance) where TService : class
+        {
+            container.Instance(typeof(TService).ToString(), instance);
+        }
     }
 }

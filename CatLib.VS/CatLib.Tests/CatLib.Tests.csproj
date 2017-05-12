@@ -61,6 +61,8 @@
     <Compile Include="Core\AppTests.cs" />
     <Compile Include="Core\ContainerHelperTests.cs" />
     <Compile Include="Core\DriverTests.cs" />
+    <Compile Include="Core\FacaedTests.cs" />
+    <Compile Include="Core\UtilTests.cs" />
     <Compile Include="Event\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

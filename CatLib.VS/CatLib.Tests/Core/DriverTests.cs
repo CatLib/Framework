@@ -18,11 +18,11 @@ namespace CatLib.Tests.Core
     [TestClass]
     public class DriverTests
     {
-        public static string start;
-        public static string updateResult;
-        public static string lateUpdateResult;
-        public static bool lateUpdateIsAfter;
-        public static string onDestroyResult;
+        private static string start;
+        private static string updateResult;
+        private static string lateUpdateResult;
+        private static bool lateUpdateIsAfter;
+        private static string onDestroyResult;
 
         public class TestStaticClass : IUpdate, ILateUpdate , IDestroy , IStart
         {
@@ -53,7 +53,7 @@ namespace CatLib.Tests.Core
                 {
                     lateUpdateIsAfter = false;
                 }
-                lateUpdateResult = "TestStaticClassDestroyLateUpdate";
+                lateUpdateResult = "TestStaticClassLateUpdate";
 
             }
 
@@ -96,6 +96,28 @@ namespace CatLib.Tests.Core
         }
 
         /// <summary>
+        /// 替换实例的Unload场景
+        /// </summary>
+        [TestMethod]
+        public void ReplaceInstanceToUnload()
+        {
+            updateResult = string.Empty;
+            var c = MakeDriver();
+            c.Singleton<TestStaticClass>();
+            c.Make<TestStaticClass>();
+      
+            c.Instance<TestStaticClass>(null);
+
+            c.Update();
+            Assert.AreEqual(string.Empty, updateResult);
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                c.Release<TestStaticClass>();
+            });
+        }
+
+        /// <summary>
         /// 载入和卸载
         /// </summary>
         [TestMethod]
@@ -134,6 +156,7 @@ namespace CatLib.Tests.Core
             Assert.AreEqual(true, lateUpdateIsAfter);
             Assert.AreEqual("TestStaticClassDestroy", onDestroyResult);
             Assert.AreEqual("TestStaticClassUpdateStart", start);
+            Assert.AreEqual("TestStaticClassLateUpdate", lateUpdateResult);
         }
 
         /// <summary>
@@ -329,6 +352,20 @@ namespace CatLib.Tests.Core
         }
 
         /// <summary>
+        /// 无效的全局事件
+        /// </summary>
+        [TestMethod]
+        public void IllegalGlobalEvent()
+        {
+            var app = MakeDriver();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.TriggerGlobal(null).Trigger();
+            });
+        }
+
+        /// <summary>
         /// 全局事件
         /// </summary>
         [TestMethod]
@@ -376,6 +413,44 @@ namespace CatLib.Tests.Core
             app.TriggerGlobal("GlobalEvent").Trigger(args);
             Assert.AreEqual(false, isCall);
 
+        }
+
+        public class TestGloablEventSelfClass : IGuid
+        {
+            private long guid;
+            public long Guid
+            {
+                get
+                {
+                    if (guid <= 0)
+                    {
+                        guid = App.Instance.GetGuid();
+                    }
+                    return guid;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 自身的全局事件
+        /// </summary>
+        [TestMethod]
+        public void GlobalEventSelf()
+        {
+            var app = MakeDriver();
+            var isCall = false;
+            var args = new EventArgs();
+            var cls = new TestGloablEventSelfClass();
+            app.On("GlobalEvent" + cls.GetType() + cls.Guid, (s, e) =>
+            {
+                if (s == cls && e == args)
+                {
+                    isCall = !isCall;
+                }
+            });
+
+            app.TriggerGlobal("GlobalEvent", cls).AppendInterface<IBootstrap>().SetEventLevel(EventLevel.All).Trigger(args);
+            Assert.AreEqual(true, isCall);
         }
 
         /// <summary>
