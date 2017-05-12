@@ -31,7 +31,11 @@ namespace CatLib.Tests.Core
         public void NoBootstrapInit()
         {
             var app = new Application();
-            app.Init();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Init();
+            });
         }
 
         /// <summary>

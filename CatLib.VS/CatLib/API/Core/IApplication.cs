@@ -4,7 +4,7 @@
  * (c) Yu Bin <support@catlib.io>
  *
  * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * file that was distributed with this sender code.
  *
  * Document: http://catlib.io/
  */
@@ -78,9 +78,9 @@ namespace CatLib.API
         /// 触发一个全局事件
         /// </summary>
         /// <param name="eventName">事件名</param>
-        /// <param name="source">触发事件的源</param>
+        /// <param name="sender">发送者</param>
         /// <returns>全局事件</returns>
-        IGlobalEvent TriggerGlobal(string eventName, object source);
+        IGlobalEvent TriggerGlobal(string eventName, object sender);
 
         /// <summary>
         /// 启动协程
@@ -97,12 +97,14 @@ namespace CatLib.API
         /// <summary>
         /// 从驱动器中卸载对象
         /// 如果对象使用了增强接口，那么卸载对应增强接口
+        /// 从驱动器中卸载对象会引发IDestroy增强接口
         /// </summary>
         /// <param name="obj">对象</param>
         void UnLoad(object obj);
 
         /// <summary>
         /// 如果对象实现了增强接口那么将对象装载进对应驱动器
+        /// 在装载的时候会引发IStart接口
         /// </summary>
         /// <param name="obj">对象</param>
         void Load(object obj);

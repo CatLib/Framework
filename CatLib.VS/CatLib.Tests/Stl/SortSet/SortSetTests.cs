@@ -527,5 +527,30 @@ namespace CatLib.Tests.Stl
                 master.Add(i, i);
             }
         }
+
+        /// <summary>
+        /// 清空测试
+        /// </summary>
+        [TestMethod]
+        public void ClearTest()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+            for (var i = 0; i < 65536; i++)
+            {
+                master.Add(i, i);
+            }
+            master.Clear();
+            for (var i = 0; i < 65536; i++)
+            {
+                master.Add(i, i);
+            }
+
+            for (var i = 0; i < 65536; i++)
+            {
+                Assert.AreEqual(i, master.GetRank(i));
+            }
+
+            Assert.AreEqual(65536, master.Count);
+        }
     }
 }

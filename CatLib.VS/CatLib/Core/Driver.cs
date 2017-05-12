@@ -4,7 +4,7 @@
  * (c) Yu Bin <support@catlib.io>
  *
  * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * file that was distributed with this sender code.
  *
  * Document: http://catlib.io/
  */
@@ -43,6 +43,11 @@ namespace CatLib
         /// 释放时需要调用的
         /// </summary>
         private readonly SortSet<IDestroy, int> destroy = new SortSet<IDestroy, int>();
+
+        /// <summary>
+        /// 载入结果集
+        /// </summary>
+        private readonly HashSet<object> loadSet = new HashSet<object>();
 
         /// <summary>
         /// 优先标记
@@ -112,11 +117,6 @@ namespace CatLib
                     return null;
                 }
 
-                if (obj is IStart)
-                {
-                    ((IStart)obj).Start();
-                }
-
                 if (bindData.IsStatic)
                 {
                     Load(obj);
@@ -154,11 +154,18 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 卸载
+        /// 从驱动器中卸载对象
+        /// 如果对象使用了增强接口，那么卸载对应增强接口
+        /// 从驱动器中卸载对象会引发IDestroy增强接口
         /// </summary>
-        /// <param name="obj">卸载的对象</param>
+        /// <param name="obj">对象</param>
         public void UnLoad(object obj)
         {
+            if (!loadSet.Contains(obj))
+            {
+                return;
+            }
+
             if (obj is IUpdate)
             {
                 update.Remove((IUpdate)obj);
@@ -171,33 +178,59 @@ namespace CatLib
 
             if (obj is IDestroy)
             {
-                destroy.Remove((IDestroy)obj);
-                ((IDestroy)obj).OnDestroy();
+                if (destroy.Remove((IDestroy) obj))
+                {
+                    ((IDestroy) obj).OnDestroy();
+                }
             }
+
+            loadSet.Remove(obj);
         }
 
         /// <summary>
-        /// 装载
+        /// 如果对象实现了增强接口那么将对象装载进对应驱动器
+        /// 在装载的时候会引发IStart接口
         /// </summary>
-        /// <param name="obj">加载的对象</param>
+        /// <param name="obj">对象</param>
         public void Load(object obj)
         {
+            if (loadSet.Contains(obj))
+            {
+                throw new RuntimeException("[" + obj + "] is already load");
+            }
+
+            var isLoad = false;
+
+            if (obj is IStart)
+            {
+                isLoad = true;
+                ((IStart)obj).Start();
+            }
+
             if (obj is IUpdate)
             {
+                isLoad = true;
                 var priorities = GetPriorities(obj.GetType(), "Update");
                 update.Add((IUpdate)obj, priorities);
             }
 
             if (obj is ILateUpdate)
             {
+                isLoad = true;
                 var priorities = GetPriorities(obj.GetType(), "LateUpdate");
                 lateUpdate.Add((ILateUpdate)obj, priorities);
             }
 
             if (obj is IDestroy)
             {
+                isLoad = true;
                 var priorities = GetPriorities(obj.GetType(), "OnDestroy");
                 destroy.Add((IDestroy)obj, priorities);
+            }
+
+            if (isLoad)
+            {
+                loadSet.Add(obj);
             }
         }
 
@@ -270,6 +303,11 @@ namespace CatLib
                 cursor.Current.OnDestroy();
             }
             cursor.Dispose();
+
+            update.Clear();
+            lateUpdate.Clear();
+            destroy.Clear();
+            loadSet.Clear();
         }
 
         #endregion
@@ -330,7 +368,8 @@ namespace CatLib
         /// <summary>
         /// 启动协程
         /// </summary>
-        /// <param name="routine">协程</param>
+        /// <param name="routine">协程内容</param>
+        /// <returns>协程</returns>
         public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
         {
             if (driverBehaviour == null)
@@ -392,11 +431,11 @@ namespace CatLib
         /// 触发一个全局事件
         /// </summary>
         /// <param name="eventName">事件名</param>
-        /// <param name="source">触发事件的源</param>
+        /// <param name="sender">发送者</param>
         /// <returns>全局事件</returns>
-        public IGlobalEvent TriggerGlobal(string eventName, object source)
+        public IGlobalEvent TriggerGlobal(string eventName, object sender)
         {
-            return new GlobalEvent(eventName, source);
+            return new GlobalEvent(eventName, sender);
         }
 
         /// <summary>
@@ -458,7 +497,7 @@ namespace CatLib
         /// <param name="handler">事件回调</param>
         /// <param name="life">事件生命，当生命为0则自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler On(string eventName, EventHandler handler, int life = -1)
+        public IEventHandler On(string eventName, EventHandler handler, int life = 0)
         {
             if (EventSystem != null)
             {

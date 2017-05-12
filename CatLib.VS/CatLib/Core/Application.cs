@@ -163,7 +163,7 @@ namespace CatLib
             }
             if (!bootstrapped)
             {
-                return;
+                throw new RuntimeException("Must call Bootstrap() first!");
             }
 
             var providers = new List<ServiceProvider>(serviceProviders.Values);

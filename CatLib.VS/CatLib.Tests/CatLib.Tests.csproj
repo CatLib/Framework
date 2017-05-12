@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -59,6 +60,7 @@
     <Compile Include="Core\ApplicationTests.cs" />
     <Compile Include="Core\AppTests.cs" />
     <Compile Include="Core\ContainerHelperTests.cs" />
+    <Compile Include="Core\DriverTests.cs" />
     <Compile Include="Event\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

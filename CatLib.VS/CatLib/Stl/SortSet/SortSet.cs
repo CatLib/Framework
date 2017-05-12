@@ -215,6 +215,22 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 清空SortSet
+        /// </summary>
+        public void Clear()
+        {
+            for (var i = 0; i < header.Level.Length ; ++i)
+            {
+                header.Level[i].Span = 0;
+                header.Level[i].Forward = null;
+            }
+            tail = null;
+            level = 1;
+            dict.Clear();
+            Count = 0;
+        }
+
+        /// <summary>
         /// 反转遍历顺序(并不是反转整个有序集)
         /// </summary>
         public void ReverseForeach()
