@@ -332,7 +332,14 @@ namespace CatLib
         {
             if (driverBehaviour == null)
             {
-                while (routine.MoveNext()){ }
+                while (routine.MoveNext())
+                {
+                    var current = routine.Current as IEnumerator;
+                    if (current != null)
+                    {
+                        StartCoroutine(current);
+                    }
+                }
                 return null;
             }
             Guard.Requires<ArgumentNullException>(routine != null);
@@ -395,7 +402,10 @@ namespace CatLib
         /// <param name="eventName">事件名</param>
         public void Trigger(string eventName)
         {
-            EventSystem.Trigger(eventName);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName);
+            }
         }
 
         /// <summary>
@@ -405,7 +415,10 @@ namespace CatLib
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, EventArgs e)
         {
-            EventSystem.Trigger(eventName, e);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName, e);
+            }
         }
 
         /// <summary>
@@ -415,7 +428,10 @@ namespace CatLib
         /// <param name="sender">事件发送者</param>
         public void Trigger(string eventName, object sender)
         {
-            EventSystem.Trigger(eventName, sender);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName, sender);
+            }
         }
 
         /// <summary>
@@ -426,7 +442,10 @@ namespace CatLib
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
-            EventSystem.Trigger(eventName, sender, e);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName, sender, e);
+            }
         }
 
         /// <summary>
@@ -438,7 +457,11 @@ namespace CatLib
         /// <returns>事件句柄</returns>
         public IEventHandler On(string eventName, EventHandler handler, int life = -1)
         {
-            return EventSystem.On(eventName, handler, life);
+            if (EventSystem != null)
+            {
+                return EventSystem.On(eventName, handler, life);
+            }
+            return null;
         }
 
         /// <summary>
@@ -449,7 +472,11 @@ namespace CatLib
         /// <returns>事件句柄</returns>
         public IEventHandler One(string eventName, EventHandler handler)
         {
-            return EventSystem.One(eventName, handler);
+            if (EventSystem != null)
+            {
+                return EventSystem.One(eventName, handler);
+            }
+            return null;
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using CatLib.API;
 using CatLib.Event;
 #if UNITY_EDITOR
@@ -261,6 +262,33 @@ namespace CatLib.Tests.Event
                     isCall = !isCall;
                 },-10);
             });
+        }
+
+        /// <summary>
+        /// 无效的事件句柄测试
+        /// </summary>
+        [TestMethod]
+        public void IllegalEventHandlerTest()
+        {
+            var e = new CatLib.Event.EventHandler(null, "test", null, 1);
+            e.Call(null, null);
+
+            Assert.AreEqual(false, e.IsLife);
+
+            bool isCall = false;
+            e = new CatLib.Event.EventHandler(null, "test", (s, arg) =>
+            {
+                isCall = !isCall;
+            }, 1);
+            e.Call(null, null);
+            e.Call(null, null);
+
+            Assert.AreEqual(true, isCall);
+            Assert.AreEqual(false, e.IsLife);
+            e.Call(null, null);
+            e.Call(null, null);
+            e.Call(null, null);
+            Assert.AreEqual(0 , e.Life);
         }
 
         private Application MakeApplication()

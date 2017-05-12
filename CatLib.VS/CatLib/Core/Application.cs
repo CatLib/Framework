@@ -118,9 +118,16 @@ namespace CatLib
         /// </summary>
         /// <param name="bootstraps">引导程序</param>
         /// <returns>CatLib实例</returns>
+        /// <exception cref="ArgumentNullException">当引导为null时触发</exception>
         public IApplication Bootstrap(params Type[] bootstraps)
         {
             Guard.Requires<ArgumentNullException>(bootstraps != null);
+
+            if (bootstrapped)
+            {
+                return this;
+            }
+
             process = StartProcess.OnBootstrap;
 
             App.Instance = this;
@@ -132,11 +139,12 @@ namespace CatLib
 
             foreach (var t in bootstraps)
             {
-                var bootstrap = this.Make<IBootstrap>(t);
-                if (bootstrap != null)
+                if (!typeof(IBootstrap).IsAssignableFrom(t))
                 {
-                    bootstrap.Bootstrap();
+                    throw new RuntimeException("type [" + t + "] is not implements IBootstrap");
                 }
+                var bootstrap = Make(t.ToString()) as IBootstrap;
+                bootstrap.Bootstrap();
             }
 
             bootstrapped = true;
@@ -185,19 +193,21 @@ namespace CatLib
             Guard.Requires<ArgumentNullException>(t != null);
             if (serviceProviders.ContainsKey(t))
             {
-                return;
+                throw new RuntimeException("provider [" + t + "] is already register");
             }
 
-            var serviceProvider = this.Make<ServiceProvider>(t);
-            if (serviceProvider == null)
+            if (!typeof(ServiceProvider).IsAssignableFrom(t))
             {
-                return;
+                throw new RuntimeException("type [" + t + "] is not inherit ServiceProvider");
             }
+
+            var serviceProvider = Make(t.ToString()) as ServiceProvider;
             serviceProvider.Register();
             serviceProviders.Add(t, serviceProvider);
             if (inited)
             {
                 serviceProvider.Init();
+                StartCoroutine(serviceProvider.OnProviderProcess());
             }
         }
 

@@ -149,33 +149,6 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 构造一个服务
-        /// </summary>
-        /// <typeparam name="TConvert">服务实例转换到的类型</typeparam>
-        /// <param name="container">服务容器</param>
-        /// <param name="service">服务名</param>
-        /// <returns>服务实例</returns>
-        public static TConvert Make<TConvert>(this IContainer container , Type service)
-        {
-            if (service == null)
-            {
-                return default(TConvert);
-            }
-            return (TConvert)container.Make(service.ToString());
-        }
-
-        /// <summary>
-        /// 构造一个服务
-        /// </summary>
-        /// <param name="container">服务容器</param>
-        /// <param name="service">服务名</param>
-        /// <returns>服务实例</returns>
-        public static object Make(this IContainer container , Type service)
-        {
-            return service == null ? null : container.Make(service.ToString());
-        }
-
-        /// <summary>
         /// 为服务设定一个别名
         /// </summary>
         /// <typeparam name="TAliasName">别名</typeparam>
