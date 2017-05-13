@@ -337,9 +337,9 @@ namespace CatLib.Routing
             var builder = new StringBuilder();
             for (var i = 0; i < name.Length; i++)
             {
-                if (name[i] > 'A' && name[i] < 'Z')
+                if (name[i] >= 'A' && name[i] <= 'Z')
                 {
-                    if (i > 0 && !(name[i - 1] > 'A' && name[i - 1] < 'Z'))
+                    if (i > 0 && !(name[i - 1] >= 'A' && name[i - 1] <= 'Z'))
                     {
                         builder.Append("-");
                     }

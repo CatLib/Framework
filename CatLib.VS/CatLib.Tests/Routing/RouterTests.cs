@@ -42,6 +42,17 @@ namespace CatLib.Tests.Routing
             app.Register(typeof(FilterChainProvider));
             app.Register(typeof(RoutingProvider));
             app.Init();
+
+            var router = App.Instance.Make<IRouter>();
+            router.OnError((req, res, ex, next) =>
+            {
+                Assert.Fail(ex.Message);
+            });
+
+            router.OnNotFound((req, next) =>
+            {
+                Assert.Fail("not found route!");
+            });
         }
 
         [TestCleanup]
@@ -66,6 +77,51 @@ namespace CatLib.Tests.Routing
             var response = router.Dispatch("catlib://attr-routing-simple/call-mtest");
 
             Assert.AreEqual("AttrRoutingSimple.CallMTest", response.GetContext().ToString());
+        }
+
+        /// <summary>
+        /// 多重路由名测试
+        /// </summary>
+        [TestMethod]
+        public void MultAttrRoutingTest()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            var response = router.Dispatch("mult-attr-routing-simple/call");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+
+            response = router.Dispatch("catlib://mult-attr-routing-simple/call");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+
+            response = router.Dispatch("catlib://hello-world/call");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+            
+            response = router.Dispatch("cat://mult-attr-routing-simple/call");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+
+            response = router.Dispatch("catlib://mult-attr-routing-simple/my-hello");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+
+            response = router.Dispatch("catlib://hello-world/my-hello");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+
+            response = router.Dispatch("cat://mult-attr-routing-simple/my-hello");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+
+            response = router.Dispatch("dog://myname/call");
+            Assert.AreEqual("MultAttrRoutingSimple.Call", response.GetContext().ToString());
+        }
+
+        /// <summary>
+        /// 带有中间件的路由请求
+        /// </summary>
+        [TestMethod]
+        public void RoutingMiddlewareTest()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            var response = router.Dispatch("rm://call");
+            Assert.AreEqual("RoutingMiddleware.Call[with middleware]", response.GetContext().ToString());
         }
     }
 }
