@@ -73,18 +73,8 @@ namespace CatLib.Translation
                 var env = app.Make<IEnv>();
                 var factory = app.Make<IIOFactory>();
                 var disk = factory.Disk();
-
-#if UNITY_EDITOR
-                if (env.DebugLevel == DebugLevels.Auto || env.DebugLevel == DebugLevels.Dev)
-                {
-                    disk.SetConfig(new Hashtable{
-
-                        {"root" , env.AssetPath + env.ResourcesNoBuildPath}
-
-                    });
-                }
-#endif
-
+       
+                disk.SetConfig(new Hashtable { { "root", env.AssetPath } });
                 return new FileLoader(disk, app.Make<IIniLoader>());
             });
         }

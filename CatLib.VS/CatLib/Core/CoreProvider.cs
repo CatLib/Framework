@@ -37,11 +37,7 @@ namespace CatLib
                 var t = typeof(Env);
 
                 env.SetDebugLevel(config.Get(t, "debug", DebugLevels.Auto));
-                env.SetAssetPath(config.Get(t, "asset.path", null));
-                env.SetReleasePath(config.Get(t, "release.path", null));
-                env.SetResourcesBuildPath(config.Get(t, "build.asset.path", null));
-                env.SetResourcesNoBuildPath(config.Get(t, "nobuild.asset.path", null));
-
+         
                 return obj;
             });
         }

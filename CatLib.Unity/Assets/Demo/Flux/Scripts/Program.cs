@@ -16,6 +16,7 @@ using CatLib.Event;
 using CatLib.Resources;
 using CatLib.Flux;
 using CatLib.IO;
+using CatLib.Time;
 
 namespace CatLib.Demo.Flux
 {
@@ -28,7 +29,7 @@ namespace CatLib.Demo.Flux
         public override void Init()
         {
             Env env = App[typeof(Env).ToString()] as Env;
-            env.SetResourcesBuildPath(Global.BasePath + "/Flux/Resources");
+            env.SetAssetPath(Global.BasePath + "/Flux/Resources");
             env.SetDebugLevel(DebugLevels.Dev);
         }
 
@@ -48,6 +49,7 @@ namespace CatLib.Demo.Flux
             App.Instance.Register(typeof(IOProvider));
             App.Instance.Register(typeof(CoreProvider));
             App.Instance.Register(typeof(FluxProvider));
+            App.Instance.Register(typeof(TimeProvider));
             App.Instance.Register(typeof(FluxDemo));
             App.Instance.Register(typeof(OverrideConfig));
         }

@@ -4,7 +4,7 @@
  * (c) Yu Bin <support@catlib.io>
  *
  * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * file that was distributed with this sender code.
  *
  * Document: http://catlib.io/
  */
@@ -43,6 +43,11 @@ namespace CatLib
         /// 释放时需要调用的
         /// </summary>
         private readonly SortSet<IDestroy, int> destroy = new SortSet<IDestroy, int>();
+
+        /// <summary>
+        /// 载入结果集
+        /// </summary>
+        private readonly HashSet<object> loadSet = new HashSet<object>();
 
         /// <summary>
         /// 优先标记
@@ -98,7 +103,10 @@ namespace CatLib
         /// </summary>
         public Driver(Component mainBehavior)
         {
-            Initialization(mainBehavior);
+            if (mainBehavior != null)
+            {
+                Initialization(mainBehavior);
+            }
 
             mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
@@ -108,10 +116,12 @@ namespace CatLib
                 {
                     return null;
                 }
+
                 if (bindData.IsStatic)
                 {
                     Load(obj);
                 }
+
                 return obj;
             });
 
@@ -121,6 +131,7 @@ namespace CatLib
                 {
                     return;
                 }
+
                 if (bindData.IsStatic)
                 {
                     UnLoad(obj);
@@ -143,11 +154,20 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 卸载
+        /// 从驱动器中卸载对象
+        /// 如果对象使用了增强接口，那么卸载对应增强接口
+        /// 从驱动器中卸载对象会引发IDestroy增强接口
         /// </summary>
-        /// <param name="obj">卸载的对象</param>
-        private void UnLoad(object obj)
+        /// <param name="obj">对象</param>
+        public void UnLoad(object obj)
         {
+            Guard.Requires<ArgumentNullException>(obj != null);
+
+            if (!loadSet.Contains(obj))
+            {
+                return;
+            }
+
             if (obj is IUpdate)
             {
                 update.Remove((IUpdate)obj);
@@ -160,38 +180,61 @@ namespace CatLib
 
             if (obj is IDestroy)
             {
-                destroy.Remove((IDestroy)obj);
-                ((IDestroy)obj).OnDestroy();
+                if (destroy.Remove((IDestroy) obj))
+                {
+                    ((IDestroy) obj).OnDestroy();
+                }
             }
+
+            loadSet.Remove(obj);
         }
 
         /// <summary>
-        /// 装载
+        /// 如果对象实现了增强接口那么将对象装载进对应驱动器
+        /// 在装载的时候会引发IStart接口
         /// </summary>
-        /// <param name="obj">加载的对象</param>
-        private void Load(object obj)
+        /// <param name="obj">对象</param>
+        public void Load(object obj)
         {
+            Guard.Requires<ArgumentNullException>(obj != null);
+
+            if (loadSet.Contains(obj))
+            {
+                throw new RuntimeException("[" + obj + "] is already load");
+            }
+
+            var isLoad = false;
+
             if (obj is IStart)
             {
+                isLoad = true;
                 ((IStart)obj).Start();
             }
 
             if (obj is IUpdate)
             {
+                isLoad = true;
                 var priorities = GetPriorities(obj.GetType(), "Update");
                 update.Add((IUpdate)obj, priorities);
             }
 
             if (obj is ILateUpdate)
             {
+                isLoad = true;
                 var priorities = GetPriorities(obj.GetType(), "LateUpdate");
                 lateUpdate.Add((ILateUpdate)obj, priorities);
             }
 
             if (obj is IDestroy)
             {
+                isLoad = true;
                 var priorities = GetPriorities(obj.GetType(), "OnDestroy");
                 destroy.Add((IDestroy)obj, priorities);
+            }
+
+            if (isLoad)
+            {
+                loadSet.Add(obj);
             }
         }
 
@@ -264,6 +307,11 @@ namespace CatLib
                 cursor.Current.OnDestroy();
             }
             cursor.Dispose();
+
+            update.Clear();
+            lateUpdate.Clear();
+            destroy.Clear();
+            loadSet.Clear();
         }
 
         #endregion
@@ -273,7 +321,7 @@ namespace CatLib
         /// <summary>
         /// 在主线程中调用
         /// </summary>
-        /// <param name="action">协程，执行会处于主线程</param>
+        /// <param name="action">代码块执行会处于主线程</param>
         public void MainThread(IEnumerator action)
         {
             Guard.Requires<ArgumentNullException>(action != null);
@@ -294,7 +342,7 @@ namespace CatLib
         /// <summary>
         /// 在主线程中调用
         /// </summary>
-        /// <param name="action">回调，回调的内容会处于主线程</param>
+        /// <param name="action">代码块执行会处于主线程</param>
         public void MainThread(Action action)
         {
             Guard.Requires<ArgumentNullException>(action != null);
@@ -310,7 +358,7 @@ namespace CatLib
         /// 包装器
         /// </summary>
         /// <param name="action">回调函数</param>
-        /// <returns></returns>
+        /// <returns>迭代器</returns>
         private IEnumerator ActionWrapper(Action action)
         {
             action.Invoke();
@@ -324,9 +372,22 @@ namespace CatLib
         /// <summary>
         /// 启动协程
         /// </summary>
-        /// <param name="routine">协程</param>
+        /// <param name="routine">协程内容</param>
+        /// <returns>协程</returns>
         public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
         {
+            if (driverBehaviour == null)
+            {
+                while (routine.MoveNext())
+                {
+                    var current = routine.Current as IEnumerator;
+                    if (current != null)
+                    {
+                        StartCoroutine(current);
+                    }
+                }
+                return null;
+            }
             Guard.Requires<ArgumentNullException>(routine != null);
             return driverBehaviour.StartCoroutine(routine);
         }
@@ -337,6 +398,10 @@ namespace CatLib
         /// <param name="routine">协程</param>
         public void StopCoroutine(IEnumerator routine)
         {
+            if (driverBehaviour == null)
+            {
+                return;
+            }
             Guard.Requires<ArgumentNullException>(routine != null);
             driverBehaviour.StopCoroutine(routine);
         }
@@ -370,11 +435,11 @@ namespace CatLib
         /// 触发一个全局事件
         /// </summary>
         /// <param name="eventName">事件名</param>
-        /// <param name="source">触发事件的源</param>
+        /// <param name="sender">发送者</param>
         /// <returns>全局事件</returns>
-        public IGlobalEvent TriggerGlobal(string eventName, object source)
+        public IGlobalEvent TriggerGlobal(string eventName, object sender)
         {
-            return new GlobalEvent(eventName, source);
+            return new GlobalEvent(eventName, sender);
         }
 
         /// <summary>
@@ -383,7 +448,10 @@ namespace CatLib
         /// <param name="eventName">事件名</param>
         public void Trigger(string eventName)
         {
-            EventSystem.Trigger(eventName);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName);
+            }
         }
 
         /// <summary>
@@ -393,7 +461,10 @@ namespace CatLib
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, EventArgs e)
         {
-            EventSystem.Trigger(eventName, e);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName, e);
+            }
         }
 
         /// <summary>
@@ -403,7 +474,10 @@ namespace CatLib
         /// <param name="sender">事件发送者</param>
         public void Trigger(string eventName, object sender)
         {
-            EventSystem.Trigger(eventName, sender);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName, sender);
+            }
         }
 
         /// <summary>
@@ -414,7 +488,10 @@ namespace CatLib
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
-            EventSystem.Trigger(eventName, sender, e);
+            if (EventSystem != null)
+            {
+                EventSystem.Trigger(eventName, sender, e);
+            }
         }
 
         /// <summary>
@@ -424,9 +501,13 @@ namespace CatLib
         /// <param name="handler">事件回调</param>
         /// <param name="life">事件生命，当生命为0则自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler On(string eventName, EventHandler handler, int life = -1)
+        public IEventHandler On(string eventName, EventHandler handler, int life = 0)
         {
-            return EventSystem.On(eventName, handler, life);
+            if (EventSystem != null)
+            {
+                return EventSystem.On(eventName, handler, life);
+            }
+            return null;
         }
 
         /// <summary>
@@ -437,19 +518,12 @@ namespace CatLib
         /// <returns>事件句柄</returns>
         public IEventHandler One(string eventName, EventHandler handler)
         {
-            return EventSystem.One(eventName, handler);
+            if (EventSystem != null)
+            {
+                return EventSystem.One(eventName, handler);
+            }
+            return null;
         }
-
-        /// <summary>
-        /// 释放一个事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="handler">事件句柄</param>
-        public void Off(string eventName, IEventHandler handler)
-        {
-            EventSystem.Off(eventName, handler);
-        }
-
         #endregion
     }
 }

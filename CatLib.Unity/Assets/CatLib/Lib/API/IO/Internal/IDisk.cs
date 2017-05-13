@@ -30,9 +30,15 @@ namespace CatLib.API.IO
         /// 获取磁盘中的文件夹
         /// </summary>
         /// <param name="path">文件夹路径</param>
-        /// <param name="pathType">路径类型</param>
+        /// <param name="type">路径类型</param>
         /// <returns>文件夹</returns>
         IDirectory Directory(string path, PathTypes type = PathTypes.Relative);
+
+        /// <summary>
+        /// 获取磁盘中的文件夹
+        /// </summary>
+        /// <returns>文件夹</returns>
+        IDirectory Directory();
 
         /// <summary>
         /// 获取默认根路径

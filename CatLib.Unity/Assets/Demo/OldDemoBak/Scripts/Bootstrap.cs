@@ -371,9 +371,9 @@ public class Bootstrap : ServiceProvider
             IIOFactory fac = App.Make<IIOFactory>();
             IDisk disk = fac.Disk();
 
-            IFile fff = disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "csv" + System.IO.Path.AltDirectorySeparatorChar + "csv2.csv");
+            //IFile fff = disk.File(env.ResourcesNoBuildPath + System.IO.Path.AltDirectorySeparatorChar + "csv" + System.IO.Path.AltDirectorySeparatorChar + "csv2.csv");
 
-            string ssss = System.Text.Encoding.UTF8.GetString(fff.Read());
+            //string ssss = System.Text.Encoding.UTF8.GetString(fff.Read());
             
             /* 
             string[] ss2 = ssss.Split(new string[]{ System.Environment.NewLine}, System.StringSplitOptions.RemoveEmptyEntries );
@@ -386,7 +386,7 @@ public class Bootstrap : ServiceProvider
 
             ICsvParser csvParser = App.Make<ICsvParser>();
 
-            string[][] parser = csvParser.Parser(ssss);
+            //string[][] parser = csvParser.Parser(ssss);
 
             /* 
             foreach(var v in parser){
@@ -398,7 +398,7 @@ public class Bootstrap : ServiceProvider
 
 
             IDataTable dataTable = App.Make<IDataTable>();
-            dataTable.SetData(parser);
+            //dataTable.SetData(parser);
 
             foreach(var v in dataTable.Where((selector)=>
             {
@@ -413,13 +413,13 @@ public class Bootstrap : ServiceProvider
 
            // return;
 
-
+            /*
             foreach(string[] s in parser)
             {
 
                 Debug.Log(s[0] + "|" + s[1] + "|" + s[2]);
 
-            }
+            }*/
 
             //return;
 

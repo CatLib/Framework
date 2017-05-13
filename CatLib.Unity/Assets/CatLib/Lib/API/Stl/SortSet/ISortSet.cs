@@ -31,6 +31,11 @@ namespace CatLib.API.Stl
         object SyncRoot { get; }
 
         /// <summary>
+        /// 清空SortSet
+        /// </summary>
+        void Clear();
+
+        /// <summary>
         /// 插入记录
         /// </summary>
         /// <param name="element">元素</param>

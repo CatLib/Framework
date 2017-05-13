@@ -4,7 +4,6 @@ using CatLib.Event;
 using CatLib.Lua;
 using CatLib.Network;
 using CatLib.NetPackage;
-using CatLib.AutoUpdate;
 using CatLib.Resources;
 using CatLib.Buffer;
 using CatLib.Thread;
@@ -39,7 +38,6 @@ public class Providers{
             return new Type[] {
 
                 typeof(NetPackageProvider),
-                typeof(AutoUpdateProvider),
                 typeof(ResourcesProvider),
                 typeof(EventProvider),
                 typeof(NetworkProvider),

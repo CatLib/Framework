@@ -22,10 +22,8 @@ namespace CatLib.Demo.FairyGUI
         {
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
-
                 var go = App.Make<IResources>().Load<GameObject>("fairy", LoadTypes.Resources);
                 go.Instantiate();
-
             });
         }
 

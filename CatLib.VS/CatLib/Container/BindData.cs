@@ -43,11 +43,6 @@ namespace CatLib.Container
         private Dictionary<string, string> contextual;
 
         /// <summary>
-        /// 拦截器列表
-        /// </summary>
-        private List<IInterception> interception;
-
-        /// <summary>
         /// 父级容器
         /// </summary>
         private readonly Container container;
@@ -121,36 +116,6 @@ namespace CatLib.Container
         public IGivenData Needs<T>()
         {
             return Needs(typeof(T).ToString());
-        }
-
-        /// <summary>
-        /// 拦截器
-        /// </summary>
-        /// <typeparam name="T">服务类型</typeparam>
-        /// <returns>服务绑定数据</returns>
-        public IBindData AddInterceptor<T>() where T : IInterception, new()
-        {
-            return AddInterceptor(new T());
-        }
-
-        /// <summary>
-        /// 拦截器
-        /// </summary>
-        /// <param name="interceptor">拦截器</param>
-        /// <returns>服务绑定数据</returns>
-        public IBindData AddInterceptor(IInterception interceptor)
-        {
-            Guard.NotNull(interceptor, "interceptor");
-            lock (syncRoot)
-            {
-                GuardIsDestroy();
-                if (interception == null)
-                {
-                    interception = new List<IInterception>();
-                }
-                interception.Add(interceptor);
-            }
-            return this;
         }
 
         /// <summary>
@@ -233,15 +198,6 @@ namespace CatLib.Container
                 isDestroy = true;
                 container.UnBind(Service);
             }
-        }
-
-        /// <summary>
-        /// 获取服务的拦截器
-        /// </summary>
-        /// <returns>当前服务的拦截器</returns>
-        internal IInterception[] GetInterceptors()
-        {
-            return interception == null ? null : interception.ToArray();
         }
 
         /// <summary>

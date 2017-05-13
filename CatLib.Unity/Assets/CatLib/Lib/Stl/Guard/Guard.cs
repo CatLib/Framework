@@ -32,5 +32,33 @@ namespace CatLib.Stl
             }
             throw new TException();
         }
+
+        /// <summary>
+        /// 不为空或者null
+        /// </summary>
+        /// <param name="argumentValue">参数值</param>
+        /// <param name="argumentName">参数名</param>
+        [System.Diagnostics.DebuggerNonUserCode]
+        public static void NotEmptyOrNull(string argumentValue, string argumentName)
+        {
+            if (string.IsNullOrEmpty(argumentValue))
+            {
+                throw new ArgumentNullException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// 内容不为空
+        /// </summary>
+        /// <param name="argumentValue">参数值</param>
+        /// <param name="argumentName">参数名</param>
+        [System.Diagnostics.DebuggerNonUserCode]
+        public static void NotNull(object argumentValue, string argumentName)
+        {
+            if (argumentValue == null)
+            {
+                throw new ArgumentNullException(argumentName);
+            }
+        }
     }
 }

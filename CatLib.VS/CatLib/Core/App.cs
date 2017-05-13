@@ -59,10 +59,7 @@ namespace CatLib
             }
             internal set
             {
-                if (instance == null)
-                {
-                    instance = value;
-                }
+                instance = value;
             }
         }
 
