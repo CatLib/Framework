@@ -149,38 +149,24 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 构造一个服务
+        /// 释放服务
         /// </summary>
-        /// <typeparam name="TConvert">服务实例转换到的类型</typeparam>
-        /// <param name="container">服务容器</param>
-        /// <param name="service">服务名</param>
-        /// <returns>服务实例</returns>
-        public static TConvert Make<TConvert>(this IContainer container , Type service)
-        {
-            return (TConvert)container.Make(service.ToString());
-        }
-
-        /// <summary>
-        /// 构造一个服务
-        /// </summary>
-        /// <param name="container">服务容器</param>
-        /// <param name="service">服务名</param>
-        /// <returns>服务实例</returns>
-        public static object Make(this IContainer container , Type service)
-        {
-            return container.Make(service.ToString());
-        }
-
-        /// <summary>
-        /// 为服务设定一个别名
-        /// </summary>
-        /// <typeparam name="TAliasName">别名</typeparam>
         /// <typeparam name="TService">服务名</typeparam>
         /// <param name="container">服务容器</param>
-        /// <returns>服务容器</returns>
-        public static IContainer Alias<TAliasName, TService>(this IContainer container) where TService : class
+        public static void Release<TService>(this IContainer container) where TService : class
         {
-            return container.Alias(typeof(TAliasName).ToString(), typeof(TService).ToString());
+            container.Release(typeof(TService).ToString());
+        }
+
+        /// <summary>
+        /// 静态化一个服务,实例值会经过解决修饰器
+        /// </summary>
+        /// <typeparam name="TService">服务名</typeparam>
+        /// <param name="container">服务容器</param>
+        /// <param name="instance">实例值</param>
+        public static void Instance<TService>(this IContainer container, object instance) where TService : class
+        {
+            container.Instance(typeof(TService).ToString(), instance);
         }
     }
 }

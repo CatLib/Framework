@@ -104,5 +104,10 @@ namespace CatLib.API.Stl
         /// 反转遍历顺序(并不是反转整个列表)
         /// </summary>
         void ReverseForeach();
+
+        /// <summary>
+        /// 清空快速列表
+        /// </summary>
+        void Clear();
     }
 }

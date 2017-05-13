@@ -12,6 +12,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using CatLib.API.Stl;
 using Random = System.Random;
 
@@ -21,6 +23,8 @@ namespace CatLib.Stl
     /// 有序集
     /// 有序集使用分数进行排序(以小到大)
     /// </summary>
+    [DebuggerDisplay("Count = {Count}")]
+    [ComVisible(false)]
     public sealed class SortSet<TElement, TScore> : ISortSet<TElement,TScore>
         where TScore : IComparable<TScore>
     {
@@ -212,6 +216,22 @@ namespace CatLib.Stl
             {
                 Level = new SkipNode.SkipNodeLevel[maxLevel]
             };
+        }
+
+        /// <summary>
+        /// 清空SortSet
+        /// </summary>
+        public void Clear()
+        {
+            for (var i = 0; i < header.Level.Length ; ++i)
+            {
+                header.Level[i].Span = 0;
+                header.Level[i].Forward = null;
+            }
+            tail = null;
+            level = 1;
+            dict.Clear();
+            Count = 0;
         }
 
         /// <summary>

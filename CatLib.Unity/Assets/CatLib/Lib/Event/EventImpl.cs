@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using CatLib.API.Event;
 using CatLib.API;
+using CatLib.Stl;
 
 namespace CatLib.Event
 {
@@ -69,6 +70,9 @@ namespace CatLib.Event
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, object sender, EventArgs e)
         {
+            Guard.Requires<NullReferenceException>(App != null);
+            Guard.NotEmptyOrNull(eventName, "eventName");
+
             if (!App.IsMainThread)
             {
                 App.MainThread(() =>
@@ -98,8 +102,12 @@ namespace CatLib.Event
         /// <param name="handler">事件句柄</param>
         /// <param name="life">在几次后事件会被自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler On(string eventName, System.EventHandler handler, int life = -1)
+        public IEventHandler On(string eventName, System.EventHandler handler, int life = 0)
         {
+            Guard.NotEmptyOrNull(eventName, "eventName");
+            Guard.NotNull(handler, "handler");
+            Guard.Requires<ArgumentOutOfRangeException>(life >= 0);
+
             var callHandler = new EventHandler(this, eventName, handler, life);
             if (!App.IsMainThread)
             {
@@ -127,33 +135,29 @@ namespace CatLib.Event
         /// <summary>
         /// 移除一个事件
         /// </summary>
-        /// <param name="eventName">事件名称</param>
         /// <param name="handler">操作句柄</param>
-        public void Off(string eventName, IEventHandler handler)
+        internal void Off(EventHandler handler)
         {
-            if (handlers == null)
-            {
-                return;
-            }
+            Guard.NotNull(handler, "handler");
 
             if (!App.IsMainThread)
             {
                 App.MainThread(() =>
                 {
-                    Off(eventName, handler);
+                    Off(handler);
                 });
                 return;
             }
 
-            if (!handlers.ContainsKey(eventName))
+            if (!handlers.ContainsKey(handler.EventName))
             {
                 return;
             }
 
-            handlers[eventName].Remove(handler as EventHandler);
-            if (handlers[eventName].Count <= 0)
+            handlers[handler.EventName].Remove(handler);
+            if (handlers[handler.EventName].Count <= 0)
             {
-                handlers.Remove(eventName);
+                handlers.Remove(handler.EventName);
             }
         }
 

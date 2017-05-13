@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.Stl;
 
 #if UNITY_EDITOR
@@ -157,14 +158,17 @@ namespace CatLib.Tests.Stl
             }
 
             int n = 0;
-            foreach (var val in master)
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                if (n < 20)
+                foreach (var val in master)
                 {
-                    master.Push(10 + n);
+                    if (n < 20)
+                    {
+                        master.Push(10 + n);
+                    }
+                    Assert.AreEqual(n++, val);
                 }
-                Assert.AreEqual(n++, val);
-            }
+            });
         }
 
         /// <summary>
@@ -888,7 +892,6 @@ namespace CatLib.Tests.Stl
             Assert.AreNotSame(master1, master2);
         }
 
-
         /// <summary>
         /// 空的列表测试
         /// </summary>
@@ -897,6 +900,33 @@ namespace CatLib.Tests.Stl
         {
             var master = new QuickList<int>(5);
             Assert.AreEqual(0, master.GetRange(-1, 100).Length);
+        }
+
+        /// <summary>
+        /// 清空测试
+        /// </summary>
+        [TestMethod]
+        public void ClearTest()
+        {
+            var master = new QuickList<int>(5);
+            for (var i = 0; i < 255; i++)
+            {
+                master.Push(i);
+            }
+
+            master.Clear();
+
+            for (var i = 0; i < 255; i++)
+            {
+                master.Push(i);
+            }
+
+            Assert.AreEqual(255 / 5, master.Length);
+            Assert.AreEqual(255, master.Count);
+            for (var i = 0; i < 255; i++)
+            {
+                Assert.AreEqual(i, master[i]);
+            }
         }
     }
 }

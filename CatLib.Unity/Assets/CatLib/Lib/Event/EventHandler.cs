@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Event;
 
 namespace CatLib.Event
@@ -16,12 +17,12 @@ namespace CatLib.Event
     /// <summary>
     /// 事件句柄
     /// </summary>
-    public sealed class EventHandler : IEventHandler
+    internal sealed class EventHandler : IEventHandler
     {
         /// <summary>
         /// 监听对象
         /// </summary>
-        private IEventImpl Target { get; set; }
+        private EventImpl Target { get; set; }
 
         /// <summary>
         /// 事件句柄
@@ -31,7 +32,7 @@ namespace CatLib.Event
         /// <summary>
         /// 事件名
         /// </summary>
-        private string EventName { get; set; }
+        internal string EventName { get; private set; }
 
         /// <summary>
         /// 是否取消事件
@@ -39,17 +40,14 @@ namespace CatLib.Event
         private bool isCancel;
 
         /// <summary>
-        /// 剩余的调用次数，当为0时事件会被释放
+        /// 剩余的调用次数
         /// </summary>
         public int Life { get; private set; }
 
         /// <summary>
         /// 事件是否是有效的
         /// </summary>
-        public bool IsLife
-        {
-            get { return Life != 0; }
-        }
+        public bool IsLife { get; private set; }
 
         /// <summary>
         /// 创建一个事件句柄
@@ -58,12 +56,14 @@ namespace CatLib.Event
         /// <param name="eventName">事件名</param>
         /// <param name="eventHandler">事件句柄</param>
         /// <param name="life">生命次数</param>
-        public EventHandler(IEventImpl target, string eventName, System.EventHandler eventHandler, int life)
+        public EventHandler(EventImpl target, string eventName, System.EventHandler eventHandler, int life)
         {
+            life = Math.Max(0, life);
             Handler = eventHandler;
             Target = target;
             EventName = eventName;
             Life = life;
+            IsLife = true;
             isCancel = false;
         }
 
@@ -79,7 +79,7 @@ namespace CatLib.Event
             }
             if (Target != null)
             {
-                Target.Off(EventName, this);
+                Target.Off(this);
             }
             isCancel = true;
             return true;
@@ -90,11 +90,11 @@ namespace CatLib.Event
         /// </summary>
         /// <param name="sender">事件发送者</param>
         /// <param name="e">事件参数</param>
-        internal void Call(object sender, System.EventArgs e)
+        internal void Call(object sender, EventArgs e)
         {
             if (Handler == null)
             {
-                Life = 0;
+                IsLife = false;
                 return;
             }
 
@@ -105,7 +105,10 @@ namespace CatLib.Event
 
             if (Life > 0)
             {
-                Life--;
+                if (--Life <= 0)
+                {
+                    IsLife = false;
+                }
             }
 
             Handler.Invoke(sender, e);
