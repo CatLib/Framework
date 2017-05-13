@@ -118,7 +118,8 @@ namespace CatLib
         /// </summary>
         /// <param name="bootstraps">引导程序</param>
         /// <returns>CatLib实例</returns>
-        /// <exception cref="ArgumentNullException">当引导为null时触发</exception>
+        /// <exception cref="ArgumentNullException">当引导类型为null时引发</exception>
+        /// <exception cref="RuntimeException">当引导类型没有实现<see cref="IBootstrap"/>时引发</exception>
         public IApplication Bootstrap(params Type[] bootstraps)
         {
             Guard.Requires<ArgumentNullException>(bootstraps != null);
@@ -155,6 +156,7 @@ namespace CatLib
         /// <summary>
         /// 初始化
         /// </summary>
+        /// <exception cref="RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
         public void Init()
         {
             if (inited)
@@ -188,6 +190,7 @@ namespace CatLib
         /// 注册服务提供者
         /// </summary>
         /// <param name="t">注册类型</param>
+        /// <exception cref="RuntimeException">服务提供商被重复注册或者服务提供商没有继承自<see cref="ServiceProvider"/></exception>
         public void Register(Type t)
         {
             Guard.Requires<ArgumentNullException>(t != null);

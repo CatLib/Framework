@@ -153,6 +153,8 @@
     <Compile Include="Event\EventHandler.cs" />
     <Compile Include="Event\EventImpl.cs" />
     <Compile Include="Event\EventProvider.cs" />
+    <Compile Include="FilterChain\FilterChain.cs" />
+    <Compile Include="FilterChain\FilterChainProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stl\Guard\Guard.cs" />
     <Compile Include="Stl\LruCache\CacheNode.cs" />
@@ -167,6 +169,7 @@
     <None Include="Container\catlib.json" />
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
+    <None Include="FilterChain\catlib.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

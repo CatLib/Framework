@@ -92,6 +92,7 @@ namespace CatLib
         /// 触发一个全局事件
         /// </summary>
         /// <param name="args">事件参数</param>
+        /// <exception cref="RuntimeException">当事件名无效时引发</exception>
         public void Trigger(EventArgs args = null)
         {
             if (string.IsNullOrEmpty(eventName))
