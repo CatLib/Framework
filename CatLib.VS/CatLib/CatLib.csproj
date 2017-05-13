@@ -156,6 +156,23 @@
     <Compile Include="FilterChain\FilterChain.cs" />
     <Compile Include="FilterChain\FilterChainProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\AttrRouteCompiler.cs" />
+    <Compile Include="Routing\CompiledRoute.cs" />
+    <Compile Include="Routing\Request.cs" />
+    <Compile Include="Routing\Response.cs" />
+    <Compile Include="Routing\Route.cs" />
+    <Compile Include="Routing\RouteAction.cs" />
+    <Compile Include="Routing\RouteCompiler.cs" />
+    <Compile Include="Routing\RouteGroup.cs" />
+    <Compile Include="Routing\RouteOptions.cs" />
+    <Compile Include="Routing\RouteParameterBinder.cs" />
+    <Compile Include="Routing\Router.cs" />
+    <Compile Include="Routing\RoutingProvider.cs" />
+    <Compile Include="Routing\Scheme.cs" />
+    <Compile Include="Routing\Uri.cs" />
+    <Compile Include="Routing\Validators\HostValidator.cs" />
+    <Compile Include="Routing\Validators\IValidators.cs" />
+    <Compile Include="Routing\Validators\UriValidator.cs" />
     <Compile Include="Stl\Guard\Guard.cs" />
     <Compile Include="Stl\LruCache\CacheNode.cs" />
     <Compile Include="Stl\LruCache\LruCache.cs" />
@@ -170,6 +187,7 @@
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
     <None Include="FilterChain\catlib.json" />
+    <None Include="Routing\catlib.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

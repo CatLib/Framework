@@ -66,6 +66,8 @@
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FilterChain\FilterChainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\AttrSimpleRouter.cs" />
+    <Compile Include="Routing\RouterTests.cs" />
     <Compile Include="Stl\LruCache\LruCacheTests.cs" />
     <Compile Include="Stl\QuickList\InternalListTests.cs" />
     <Compile Include="Stl\QuickList\QuickListTests.cs" />
