@@ -12,15 +12,20 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CatLib.API.LruCache
+namespace CatLib.API.Stl
 {
     /// <summary>
     /// Lru缓存
     /// </summary>
     /// <typeparam name="TKey">键的类型</typeparam>
     /// <typeparam name="TVal">值的类型</typeparam>
-    public interface ILruCache<TKey, TVal> : IEnumerator, IEnumerator<KeyValuePair<TKey, TVal>>, IEnumerable, IEnumerable<KeyValuePair<TKey, TVal>>
+    public interface ILruCache<TKey, TVal> : IEnumerable<KeyValuePair<TKey, TVal>>
     {
+        /// <summary>
+        /// 反转遍历顺序(并不是反转整个有序集)
+        /// </summary>
+        void ReverseForeach();
+
         /// <summary>
         /// 在lru缓存中增加一个元素
         /// </summary>
