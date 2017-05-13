@@ -202,6 +202,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="probable">可能出现层数的概率系数(0-1之间的数)</param>
         /// <param name="maxLevel">最大层数</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="probable"/>或<paramref name="maxLevel"/>不是有效值时引发</exception>
         public SortSet(double probable = PROBABILITY, int maxLevel = 32)
         {
             Guard.Requires<ArgumentOutOfRangeException>(maxLevel > 0);
@@ -265,6 +266,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="element">元素</param>
         /// <param name="score">分数</param>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>或<paramref name="score"/>为<c>null</c>时引发</exception>
         public void Add(TElement element, TScore score)
         {
             Guard.Requires<ArgumentNullException>(element != null);
@@ -283,6 +285,7 @@ namespace CatLib.Stl
         /// 是否包含某个元素
         /// </summary>
         /// <param name="element">元素</param>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public bool Contains(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
@@ -294,6 +297,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="element">元素</param>
         /// <returns>分数，如果元素不存在则返回<c>default(TScore)</c></returns>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public TScore GetScore(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
@@ -308,6 +312,7 @@ namespace CatLib.Stl
         /// <param name="start">起始值(包含)</param>
         /// <param name="end">结束值(包含)</param>
         /// <returns>分数值在<paramref name="start"/>(包含)和<paramref name="end"/>(包含)之间的元素数量</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="start"/>和<paramref name="end"/>区间无效时引发</exception>
         public long GetRangeCount(TScore start, TScore end)
         {
             Guard.Requires<ArgumentOutOfRangeException>(start.CompareTo(end) <= 0);
@@ -352,6 +357,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="element">元素</param>
         /// <returns>是否成功</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public bool Remove(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
@@ -366,6 +372,7 @@ namespace CatLib.Stl
         /// <param name="startRank">开始的排名(包含),排名以0为底</param>
         /// <param name="stopRank">结束的排名(包含),排名以0为底</param>
         /// <returns>被删除的元素个数</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startRank"/>和<paramref name="stopRank"/>区间无效时引发</exception>
         public long RemoveRangeByRank(long startRank, long stopRank)
         {
             startRank = Math.Max(startRank, 0);
@@ -407,6 +414,7 @@ namespace CatLib.Stl
         /// <param name="startScore">开始的分数（包含）</param>
         /// <param name="stopScore">结束的分数（包含）</param>
         /// <returns>被删除的元素个数</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
         public long RemoveRangeByScore(TScore startScore, TScore stopScore)
         {
             Guard.Requires<ArgumentOutOfRangeException>(startScore.CompareTo(stopScore) <= 0);
@@ -444,6 +452,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="element">元素</param>
         /// <returns>排名排名以0为底，为-1则表示没有找到元素</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public long GetRank(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
@@ -456,8 +465,10 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="element"></param>
         /// <returns>排名排名以0为底 , 为-1则表示没有找到元素</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public long GetRevRank(TElement element)
         {
+            Guard.Requires<ArgumentNullException>(element != null);
             var rank = GetRank(element);
             return rank < 0 ? rank : Count - rank - 1;
         }
@@ -468,6 +479,7 @@ namespace CatLib.Stl
         /// <param name="startRank">开始的排名(包含),排名以0为底</param>
         /// <param name="stopRank">结束的排名(包含),排名以0为底</param>
         /// <returns>元素列表</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startRank"/>和<paramref name="stopRank"/>区间无效时引发</exception>
         public TElement[] GetElementRangeByRank(long startRank, long stopRank)
         {
             Guard.Requires<ArgumentOutOfRangeException>(startRank <= stopRank);
@@ -504,6 +516,7 @@ namespace CatLib.Stl
         /// <param name="startScore">开始的分数（包含）</param>
         /// <param name="stopScore">结束的分数（包含）</param>
         /// <returns>元素列表</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
         public TElement[] GetElementRangeByScore(TScore startScore, TScore stopScore)
         {
             Guard.Requires<ArgumentOutOfRangeException>(startScore.CompareTo(stopScore) <= 0);

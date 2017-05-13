@@ -376,7 +376,7 @@ namespace CatLib
         /// </summary>
         /// <param name="routine">协程内容</param>
         /// <returns>协程</returns>
-        /// <exception cref="routine">当<para>routine</para>为<c>null</c>时引发</exception>
+        /// <exception cref="routine">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
         {
             Guard.Requires<ArgumentNullException>(routine != null);
@@ -399,7 +399,7 @@ namespace CatLib
         /// 停止协程
         /// </summary>
         /// <param name="routine">协程</param>
-        /// <exception cref="ArgumentNullException">当<para>routine</para>为<c>null</c>时引发</exception>
+        /// <exception cref="ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         public void StopCoroutine(IEnumerator routine)
         {
             if (driverBehaviour == null)

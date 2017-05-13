@@ -158,7 +158,7 @@ namespace CatLib.Tests.Stl
             }
 
             int n = 0;
-            ExceptionAssert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
                 foreach (var val in master)
                 {
@@ -684,6 +684,40 @@ namespace CatLib.Tests.Stl
                 }
                 Assert.AreEqual(5, master.Count);
                 Assert.AreEqual(9, i);
+            }
+        }
+
+        /// <summary>
+        /// 裁切的起始元素和终止元素一致测试
+        /// </summary>
+        [TestMethod]
+        public void TrimToOneTest()
+        {
+            foreach (var cap in new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 })
+            {
+                var master = new QuickList<int>(cap);
+                master.Push(0);
+                master.Push(1);
+                master.Push(2);
+                master.Push(3);
+                master.Push(4);
+                master.Push(5);
+                master.Push(6);
+                master.Push(7);
+                master.Push(8);
+                master.Push(9);
+                master.Push(10);
+                master.Push(11);
+                master.Push(12);
+
+                Assert.AreEqual(12, master.Trim(4, 4));
+                var i = 4;
+                foreach (var v in master)
+                {
+                    Assert.AreEqual(i++, v);
+                }
+                Assert.AreEqual(1, master.Count);
+                Assert.AreEqual(5, i);
             }
         }
 
