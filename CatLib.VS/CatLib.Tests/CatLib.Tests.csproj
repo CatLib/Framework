@@ -58,7 +58,6 @@
     <Compile Include="Container\ContainerTests.cs" />
     <Compile Include="Container\GivenDataTests.cs" />
     <Compile Include="Core\ApplicationTests.cs" />
-    <Compile Include="Core\AppTests.cs" />
     <Compile Include="Core\ContainerHelperTests.cs" />
     <Compile Include="Core\DriverTests.cs" />
     <Compile Include="Core\FacaedTests.cs" />
