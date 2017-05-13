@@ -159,6 +159,7 @@ namespace CatLib
         /// 从驱动器中卸载对象会引发IDestroy增强接口
         /// </summary>
         /// <param name="obj">对象</param>
+        /// <exception cref="ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
         public void UnLoad(object obj)
         {
             Guard.Requires<ArgumentNullException>(obj != null);
@@ -194,6 +195,7 @@ namespace CatLib
         /// 在装载的时候会引发IStart接口
         /// </summary>
         /// <param name="obj">对象</param>
+        /// <exception cref="ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
         public void Load(object obj)
         {
             Guard.Requires<ArgumentNullException>(obj != null);
@@ -374,8 +376,10 @@ namespace CatLib
         /// </summary>
         /// <param name="routine">协程内容</param>
         /// <returns>协程</returns>
+        /// <exception cref="routine">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
         {
+            Guard.Requires<ArgumentNullException>(routine != null);
             if (driverBehaviour == null)
             {
                 while (routine.MoveNext())
@@ -388,7 +392,6 @@ namespace CatLib
                 }
                 return null;
             }
-            Guard.Requires<ArgumentNullException>(routine != null);
             return driverBehaviour.StartCoroutine(routine);
         }
 
@@ -396,6 +399,7 @@ namespace CatLib
         /// 停止协程
         /// </summary>
         /// <param name="routine">协程</param>
+        /// <exception cref="ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         public void StopCoroutine(IEnumerator routine)
         {
             if (driverBehaviour == null)

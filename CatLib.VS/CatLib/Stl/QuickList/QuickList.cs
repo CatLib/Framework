@@ -95,6 +95,7 @@ namespace CatLib.Stl
             /// 迭代器
             /// </summary>
             /// <returns>元素迭代器</returns>
+            /// <exception cref="InvalidOperationException">在迭代过程中修改数据时引发</exception>
             public IEnumerator<TElement> GetEnumerator()
             {
                 if (forward)
@@ -106,7 +107,7 @@ namespace CatLib.Stl
                         {
                             if (version != quickList.version)
                             {
-                                throw new RuntimeException("Can not modify data when iterates again.");
+                                throw new InvalidOperationException("Can not modify data when iterates again.");
                             }
                             yield return node.List[i];
                         }
@@ -122,7 +123,7 @@ namespace CatLib.Stl
                         {
                             if (version != quickList.version)
                             {
-                                throw new RuntimeException("Can not modify data when iterates again.");
+                                throw new InvalidOperationException("Can not modify data when iterates again.");
                             }
                             yield return node.List[i];
                         }
@@ -216,8 +217,10 @@ namespace CatLib.Stl
         /// 将元素插入到列表尾部
         /// </summary>
         /// <param name="element">元素</param>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public void Push(TElement element)
         {
+            Guard.Requires<ArgumentNullException>(element != null);
             Insert(element, tail, tail != null ? tail.List.Count - 1 : 0, true);
         }
 
@@ -225,8 +228,10 @@ namespace CatLib.Stl
         /// 将元素插入到列表头部
         /// </summary>
         /// <param name="element">元素</param>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public void Unshift(TElement element)
         {
+            Guard.Requires<ArgumentNullException>(element != null);
             Insert(element, header, 0, false);
         }
 
@@ -262,10 +267,11 @@ namespace CatLib.Stl
         /// <param name="start">起始下标(包含)</param>
         /// <param name="end">结束下标(包含)</param>
         /// <returns>移除的元素数量</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>或者<paramref name="start"/>小于0时引发</exception>
         public long Trim(long start, long end)
         {
             end = Math.Min(end, Count);
-            Guard.Requires<ArgumentOutOfRangeException>(start < end);
+            Guard.Requires<ArgumentOutOfRangeException>(start <= end);
             Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
 
             long remove = 0;
@@ -342,8 +348,10 @@ namespace CatLib.Stl
         /// <param name="element">要被移除的元素</param>
         /// <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
         /// <returns>被移除元素的数量</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public long Remove(TElement element, long count = 0)
         {
+            Guard.Requires<ArgumentNullException>(element != null);
             long remove = 0;
             QuickListNode node;
             int i;
@@ -403,6 +411,7 @@ namespace CatLib.Stl
         /// <param name="start">起始位置(包含)</param>
         /// <param name="end">结束位置(包含)</param>
         /// <returns>区间内的元素列表</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>时引发</exception>
         public TElement[] GetRange(long start, long end)
         {
             start = Math.Max(start, 0);
@@ -443,6 +452,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="index">下标，允许为负数</param>
         /// <returns>元素</returns>
+        /// <exception cref="ArgumentOutOfRangeException">下标越界时会引发</exception>
         public TElement this[long index]
         {
             get
@@ -466,6 +476,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="finder">查找的元素</param>
         /// <param name="insert">要插入的元素</param>
+        /// <exception cref="ArgumentNullException"><paramref name="finder"/>或<paramref name="insert"/>为<c>null</c>时引发</exception>
         public void InsertAfter(TElement finder, TElement insert)
         {
             Guard.Requires<ArgumentNullException>(finder != null);
@@ -484,6 +495,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="finder">查找的元素</param>
         /// <param name="insert">要插入的元素</param>
+        /// <exception cref="ArgumentNullException"><paramref name="finder"/>或<paramref name="insert"/>为<c>null</c>时引发</exception>
         public void InsertBefore(TElement finder, TElement insert)
         {
             Guard.Requires<ArgumentNullException>(finder != null);

@@ -1,0 +1,7 @@
+{
+    "source": "catlib/filterchain",
+    "require": {
+        "catlib/api":"~1.0",
+        "catlib/core":"~1.0"
+    }
+}

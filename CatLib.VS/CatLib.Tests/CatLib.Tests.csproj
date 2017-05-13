@@ -64,7 +64,9 @@
     <Compile Include="Core\UtilTests.cs" />
     <Compile Include="Event\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
+    <Compile Include="FilterChain\FilterChainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stl\LruCache\LruCacheTests.cs" />
     <Compile Include="Stl\QuickList\InternalListTests.cs" />
     <Compile Include="Stl\QuickList\QuickListTests.cs" />
     <Compile Include="Stl\SortSet\SortSetTests.cs" />
