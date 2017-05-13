@@ -201,6 +201,18 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 清空
+        /// </summary>
+        public void Clear()
+        {
+            header = null;
+            tail = null;
+            version = 0;
+            Count = 0;
+            Length = 0;
+        }
+
+        /// <summary>
         /// 将元素插入到列表尾部
         /// </summary>
         /// <param name="element">元素</param>
