@@ -30,7 +30,6 @@ namespace CatLib.Tests.Routing
     [TestClass]
     public class RouterTests
     {
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -58,6 +57,15 @@ namespace CatLib.Tests.Routing
             var response = router.Dispatch("catlib://attr-routing-simple/call");
 
             Assert.AreEqual("AttrRoutingSimple.Call", response.GetContext().ToString());
+        }
+
+        [TestMethod]
+        public void SimpleCallMTest()
+        {
+            var router = App.Instance.Make<IRouter>();
+            var response = router.Dispatch("catlib://attr-routing-simple/call-mtest");
+
+            Assert.AreEqual("AttrRoutingSimple.CallMTest", response.GetContext().ToString());
         }
     }
 }
