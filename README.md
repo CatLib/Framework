@@ -10,6 +10,8 @@
 
 > **审计中的组件(通过审计的组件将会在6月发布):** Container 组件 , CatLib核心 ，Stl 组件中的(SortSet,QuickList,LruCache) , FilterChain组件
 
+> **Coming:** English support
+
 ## 关于CatLib
 
 CatLib是为Unity3D开发的全栈开发框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
