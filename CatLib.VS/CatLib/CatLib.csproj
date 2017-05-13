@@ -91,8 +91,7 @@
     <Compile Include="API\IO\PathTypes.cs" />
     <Compile Include="API\Json\IJson.cs" />
     <Compile Include="API\LocalSetting\ILocalSetting.cs" />
-    <Compile Include="API\LruCache\ILruBuilder.cs" />
-    <Compile Include="API\LruCache\Internal\ILruCache.cs" />
+    <Compile Include="API\Stl\LruCache\ILruCache.cs" />
     <Compile Include="API\Network\Features\IPackage.cs" />
     <Compile Include="API\Network\Features\IPacking.cs" />
     <Compile Include="API\Network\Features\IProtocol.cs" />
@@ -156,6 +155,8 @@
     <Compile Include="Event\EventProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stl\Guard\Guard.cs" />
+    <Compile Include="Stl\LruCache\CacheNode.cs" />
+    <Compile Include="Stl\LruCache\LruCache.cs" />
     <Compile Include="Stl\QuickList\Internal\InternalList.cs" />
     <Compile Include="Stl\QuickList\QuickList.cs" />
     <Compile Include="Stl\SortSet\SortSet.cs" />

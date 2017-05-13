@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -117,6 +118,7 @@ namespace CatLib.Stl
         {
             this.maxCapacity = maxCapacity;
             lruCache = new Dictionary<TKey, CacheNode<TKey, TVal>>();
+            forward = true;
         }
 
         /// <summary>
@@ -128,15 +130,18 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 在lru缓存中增加一个元素
+        /// 在lru缓存中增加一个元素,如果元素已经存在则会替换元素
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         public void Add(TKey key, TVal value)
         {
-            if (lruCache.ContainsKey(key))
+            CacheNode<TKey, TVal> result;
+            if (lruCache.TryGetValue(key , out result))
             {
-                MakeUsed(lruCache[key]);
+                result.Replace(value);
+                MakeUsed(result);
+                return;
             }
 
             if (lruCache.Count >= maxCapacity)
@@ -160,6 +165,32 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 移除元素
+        /// </summary>
+        /// <param name="key"></param>
+        public void Remove(TKey key)
+        {
+            CacheNode<TKey, TVal> result;
+            if (!lruCache.TryGetValue(key, out result))
+            {
+                return;
+            }
+            lruCache.Remove(key);
+            if (result == tail)
+            {
+                tail = result.Backward;
+            }
+            if (result == header)
+            {
+                header = result.Forward;
+            }
+            if(result.Backward != null)
+            {
+                result.Backward.Forward = result.Forward;
+            }
+        }
+
+        /// <summary>
         /// 根据key获取val，如果被淘汰则返回传入的默认值
         /// </summary>
         /// <param name="key">键</param>
@@ -167,14 +198,15 @@ namespace CatLib.Stl
         /// <returns>值</returns>
         public TVal Get(TKey key, TVal defaultValue = default(TVal))
         {
-            if (!lruCache.ContainsKey(key))
+            CacheNode<TKey, TVal> result;
+            if (!lruCache.TryGetValue(key , out result))
             {
                 return defaultValue;
             }
 
-            MakeUsed(lruCache[key]);
+            MakeUsed(result);
 
-            return lruCache[key].KeyValue.Value;
+            return result.KeyValue.Value;
         }
 
         /// <summary>
@@ -193,6 +225,7 @@ namespace CatLib.Stl
         public TVal this[TKey key]
         {
             get { return Get(key); }
+            set { Add(key, value); }
         }
 
         /// <summary>

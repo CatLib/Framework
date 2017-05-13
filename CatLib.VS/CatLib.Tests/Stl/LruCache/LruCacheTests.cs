@@ -1,0 +1,201 @@
+﻿using System;
+using CatLib.Stl;
+#if UNITY_EDITOR
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
+#endif
+
+namespace CatLib.Tests.Stl
+{
+    [TestClass]
+    public class LruCacheTests
+    {
+        /// <summary>
+        /// 增加测试
+        /// </summary>
+        [TestMethod]
+        public void AddTest()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+
+            var n = 5;
+            foreach (var v in cache)
+            {
+                Assert.AreEqual((--n).ToString(), v.Value);
+            }
+        }
+
+        /// <summary>
+        /// 获取测试
+        /// </summary>
+        [TestMethod]
+        public void GetTest()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+
+            var result = cache["0"];
+            result = cache["1"];
+
+            foreach (var v in new [] {"1", "0", "4", "3", "2"})
+            {
+                Assert.AreEqual(v, cache[v]);
+            }
+        }
+
+        /// <summary>
+        /// 覆盖测试
+        /// </summary>
+        [TestMethod]
+        public void ReplaceTest()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+
+            cache["0"] = "10";
+            cache["1"] = "11";
+
+            foreach (var v in new[] { "1", "0", "4", "3", "2" })
+            {
+                if (v == "0")
+                {
+                    Assert.AreEqual("10", cache[v]);
+                }else if (v == "1")
+                {
+                    Assert.AreEqual("11", cache[v]);
+                }
+                else
+                {
+                    Assert.AreEqual(v, cache[v]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 末尾移除测试
+        /// </summary>
+        [TestMethod]
+        public void RemoveLastedTest()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+            cache["0"] = "0";
+            cache["1"] = "1";
+            cache.Add("999", "999");
+
+            Assert.AreEqual(5, cache.Count);
+            foreach (var v in new[] {"999","1", "0", "4", "3"})
+            {
+                Assert.AreEqual(v, cache[v]);
+            }
+        }
+
+        /// <summary>
+        /// 获取不存在元素的测试
+        /// </summary>
+        [TestMethod]
+        public void GetNotExistsKey()
+        {
+            var cache = new LruCache<string, string>(5);
+            Assert.AreEqual(null, cache["123"]);
+            Assert.AreEqual("notExists", cache.Get("111", "notExists"));
+        }
+
+        /// <summary>
+        /// 移除测试
+        /// </summary>
+        [TestMethod]
+        public void RemoveTest()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+
+            foreach (var v in new[] { "2", "1", "3" })
+            {
+                cache.Remove(v);
+            }
+
+            foreach (var v in new[] { "4", "0" })
+            {
+                Assert.AreEqual(v, cache[v]);
+            }
+
+            Assert.AreEqual(2, cache.Count);
+        }
+
+        /// <summary>
+        /// 在头部和尾部移除
+        /// </summary>
+        [TestMethod]
+        public void RemoveWithHeaderAndTail()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+
+            foreach (var v in new[] { "0", "2", "4" })
+            {
+                cache.Remove(v);
+            }
+
+            foreach (var v in new[] { "3", "1" })
+            {
+                Assert.AreEqual(v, cache[v]);
+            }
+
+            Assert.AreEqual(2, cache.Count);
+        }
+
+        /// <summary>
+        /// 移除不存在的元素
+        /// </summary>
+        [TestMethod]
+        public void RemoveNotExists()
+        {
+            var cache = new LruCache<string, string>(5);
+            cache.Remove("999");
+        }
+
+        /// <summary>
+        /// 反转foreach测试
+        /// </summary>
+        [TestMethod]
+        public void ReverseForeachTest()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+            cache.ReverseForeach();
+            var n = 0;
+            foreach (var v in cache)
+            {
+                Assert.AreEqual(n.ToString(), v.Value);
+                n++;
+            }
+        }
+    }
+}

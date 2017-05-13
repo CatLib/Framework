@@ -42,5 +42,14 @@ namespace CatLib.Stl
         {
             KeyValue = new KeyValuePair<TKey, TVal>(key, val);
         }
+
+        /// <summary>
+        /// 替换元素
+        /// </summary>
+        /// <param name="val">值</param>
+        public void Replace(TVal val)
+        {
+            KeyValue = new KeyValuePair<TKey, TVal>(KeyValue.Key, val);
+        }
     }
 }
