@@ -10,7 +10,8 @@
  */
 
 using CatLib.API;
-using CatLib.API.LruCache;
+using CatLib.API.Stl;
+using CatLib.Stl;
 using UnityEngine;
 
 namespace CatLib.Demo.LruCache
@@ -24,9 +25,7 @@ namespace CatLib.Demo.LruCache
             App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
             {
 
-                ILruBuilder builder = App.Make<ILruBuilder>();
-
-                ILruCache<string,string> cache = builder.Create<string, string>(3);
+                ILruCache<string,string> cache = new LruCache<string, string>(3);
 
                 cache.Add("key_1", "val_1");
                 cache.Add("key_2", "val_2");
