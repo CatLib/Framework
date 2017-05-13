@@ -50,6 +50,13 @@ namespace CatLib.API.Routing
         IRouter OnNotFound(Action<IRequest, Action<IRequest>> middleware);
 
         /// <summary>
+        /// 全局路由中间件
+        /// </summary>
+        /// <param name="middleware">中间件</param>
+        /// <returns>当前路由器实例</returns>
+        IRouter Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware);
+
+        /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="onError">错误处理函数</param>

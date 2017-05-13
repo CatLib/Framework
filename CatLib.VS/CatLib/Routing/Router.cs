@@ -55,6 +55,11 @@ namespace CatLib.Routing
         private IFilterChain<IRequest> onNotFound;
 
         /// <summary>
+        /// 路由请求中间件
+        /// </summary>
+        private IFilterChain<IRequest, IResponse> middleware;
+
+        /// <summary>
         /// 当出现异常时的过滤器链
         /// </summary>
         private IFilterChain<IRequest, IResponse, Exception> onError;
@@ -165,6 +170,21 @@ namespace CatLib.Routing
                 onNotFound = filterChain.Create<IRequest>();
             }
             onNotFound.Add(middleware);
+            return this;
+        }
+
+        /// <summary>
+        /// 全局路由中间件
+        /// </summary>
+        /// <param name="middleware">中间件</param>
+        /// <returns>当前路由器实例</returns>
+        public IRouter Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
+        {
+            if (this.middleware == null)
+            {
+                this.middleware = filterChain.Create<IRequest, IResponse>();
+            }
+            this.middleware.Add(middleware);
             return this;
         }
 
@@ -363,17 +383,16 @@ namespace CatLib.Routing
                 container.Instance(typeof(IResponse).ToString(), response);
                 responseStack.Push(response);
 
-                var middleware = route.GatherMiddleware();
                 if (middleware != null)
                 {
-                    middleware.Do(request, response, (req, res) =>
+                    middleware.Do(request , response , (req, res) =>
                     {
-                        PrepareResponse(req, route.Run(req as Request, res as Response));
+                        RunInRoute(route, request, response);
                     });
                 }
                 else
                 {
-                    PrepareResponse(request, route.Run(request, response));
+                    RunInRoute(route, request, response);
                 }
                 return response;
             }
@@ -398,6 +417,30 @@ namespace CatLib.Routing
                 responseStack.Pop();
                 container.Instance(typeof(IResponse).ToString(), responseStack.Count > 0 ? responseStack.Peek() : null);
             }
+        }
+
+        /// <summary>
+        /// 执行路由请求
+        /// </summary>
+        /// <param name="route">路由</param>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
+        /// <returns>响应</returns>
+        private IResponse RunInRoute(Route route , Request request , Response response)
+        {
+            var middleware = route.GatherMiddleware();
+            if (middleware != null)
+            {
+                middleware.Do(request, response, (req, res) =>
+                {
+                    PrepareResponse(req, route.Run(req as Request, res as Response));
+                });
+            }
+            else
+            {
+                PrepareResponse(request, route.Run(request, response));
+            }
+            return response;
         }
 
         /// <summary>

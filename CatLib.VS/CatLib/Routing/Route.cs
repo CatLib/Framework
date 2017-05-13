@@ -55,7 +55,10 @@ namespace CatLib.Routing
         /// <summary>
         /// 路由配置
         /// </summary>
-        internal RouteOptions Options { get { return options; } }
+        internal RouteOptions Options
+        {
+            get { return options; }
+        }
 
         /// <summary>
         /// 编译后的路由器信息
