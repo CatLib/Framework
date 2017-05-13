@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using CatLib.API;
 using CatLib.API.Stl;
 
 namespace CatLib.Stl
@@ -73,6 +74,11 @@ namespace CatLib.Stl
             private readonly bool forward;
 
             /// <summary>
+            /// 版本
+            /// </summary>
+            private long version;
+
+            /// <summary>
             /// 构造一个迭代器
             /// </summary>
             /// <param name="quickList"></param>
@@ -82,6 +88,7 @@ namespace CatLib.Stl
                 this.quickList = quickList;
                 index = 0;
                 this.forward = forward;
+                version = quickList.version;
             }
 
             /// <summary>
@@ -97,6 +104,10 @@ namespace CatLib.Stl
                     {
                         for (var i = 0; i < node.List.Count; ++i)
                         {
+                            if (version != quickList.version)
+                            {
+                                throw new RuntimeException("Can not modify data when iterates again.");
+                            }
                             yield return node.List[i];
                         }
                         node = node.Forward;
@@ -109,6 +120,10 @@ namespace CatLib.Stl
                     {
                         for (var i = node.List.Count - 1; i >= 0; --i)
                         {
+                            if (version != quickList.version)
+                            {
+                                throw new RuntimeException("Can not modify data when iterates again.");
+                            }
                             yield return node.List[i];
                         }
                         node = node.Backward;
@@ -147,6 +162,11 @@ namespace CatLib.Stl
         private bool forward;
 
         /// <summary>
+        /// 版本号
+        /// </summary>
+        private long version;
+
+        /// <summary>
         /// 同步锁
         /// </summary>
         private readonly object syncRoot = new object();
@@ -177,6 +197,7 @@ namespace CatLib.Stl
         {
             this.fill = fill;
             forward = true;
+            version = 0;
         }
 
         /// <summary>
@@ -327,6 +348,7 @@ namespace CatLib.Stl
                             node.List.RemoveAt(i);
                             ++remove;
                             --Count;
+                            ++version;
                             --i;
                             if (count != 0 && (--count) == 0)
                             {
@@ -348,8 +370,9 @@ namespace CatLib.Stl
                         if (node.List[i].Equals(element))
                         {
                             node.List.RemoveAt(i);
-                            --Count;
                             ++remove;
+                            --Count;
+                            ++version;
                             if (count != 0 && (--count) == 0)
                             {
                                 return remove;
@@ -567,6 +590,7 @@ namespace CatLib.Stl
                 newNode.List.InsertAt(insert, 0);
                 InsertNode(null, newNode, after);
                 ++Count;
+                ++version;
                 return;
             }
 
@@ -658,6 +682,7 @@ namespace CatLib.Stl
             }
 
             ++Count;
+            ++version;
         }
 
         /// <summary>
@@ -803,6 +828,7 @@ namespace CatLib.Stl
                 DeleteNode(node);
             }
             --Count;
+            ++version;
             return ele;
         }
 

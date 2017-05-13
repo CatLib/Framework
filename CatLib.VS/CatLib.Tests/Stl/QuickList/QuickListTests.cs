@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.Stl;
 
 #if UNITY_EDITOR
@@ -157,14 +158,17 @@ namespace CatLib.Tests.Stl
             }
 
             int n = 0;
-            foreach (var val in master)
+            ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                if (n < 20)
+                foreach (var val in master)
                 {
-                    master.Push(10 + n);
+                    if (n < 20)
+                    {
+                        master.Push(10 + n);
+                    }
+                    Assert.AreEqual(n++, val);
                 }
-                Assert.AreEqual(n++, val);
-            }
+            });
         }
 
         /// <summary>
