@@ -17,6 +17,7 @@ using CatLib.API.Routing;
 using CatLib.API.FilterChain;
 using CatLib.Stl;
 using System.Collections;
+using CatLib.API;
 
 namespace CatLib.Routing
 {
@@ -81,6 +82,11 @@ namespace CatLib.Routing
         private readonly Stack<IRequest> requestStack;
 
         /// <summary>
+        /// 路由条目调用堆栈
+        /// </summary>
+        private readonly Stack<Route> routeStack;
+
+        /// <summary>
         /// 响应堆栈
         /// </summary>
         private readonly Stack<IResponse> responseStack;
@@ -103,6 +109,7 @@ namespace CatLib.Routing
             this.filterChain = filterChain;
             schemes = new Dictionary<string, Scheme>();
             routeGroupStack = new Stack<IRouteGroup>();
+            routeStack = new Stack<Route>();
             requestStack = new Stack<IRequest>();
             responseStack = new Stack<IResponse>();
         }
@@ -234,8 +241,13 @@ namespace CatLib.Routing
             try
             {
                 var route = FindRoute(request);
+                if (routeStack.Contains(route))
+                {
+                    throw new RuntimeException("A circular dependency call was detected , uri: " + uri);   
+                }
                 try
                 {
+                    routeStack.Push(route);
                     container.Instance(typeof(IRequest).ToString(), request);
                     requestStack.Push(request);
 
@@ -247,6 +259,7 @@ namespace CatLib.Routing
                 }
                 finally
                 {
+                    routeStack.Pop();
                     requestStack.Pop();
                     container.Instance(typeof(IRequest).ToString(), requestStack.Count > 0 ? requestStack.Peek() : null);
                 }

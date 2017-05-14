@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.Event;
 using CatLib.FilterChain;
@@ -381,6 +382,108 @@ namespace CatLib.Tests.Routing
 
             response = router.Dispatch("lambda://call/OptionsParams/16/HelloWorld");
             Assert.AreEqual("RouterTests.OptionsParams.16.HelloWorld[global middleware]", response.GetContext().ToString());
+        }
+
+        /// <summary>
+        /// 路由递归调用
+        /// </summary>
+        [TestMethod]
+        public void RoutingRecursiveCall()
+        {
+            var router = App.Instance.Make<IRouter>();
+            router.Reg("lambda://call/RoutingRecursiveCall-1", (req, res) =>
+            {
+                res.SetContext("RouterTests.RoutingRecursiveCall1");
+                var re = router.Dispatch("lambda://call/RoutingRecursiveCall-2");
+                Assert.AreEqual("RouterTests.RoutingRecursiveCall2[global middleware]", re.GetContext().ToString());
+            });
+
+            router.Reg("lambda://call/RoutingRecursiveCall-2", (req, res) =>
+            {
+                res.SetContext("RouterTests.RoutingRecursiveCall2");
+            });
+
+            var response = router.Dispatch("lambda://call/RoutingRecursiveCall-1");
+            Assert.AreEqual("RouterTests.RoutingRecursiveCall1[global middleware]", response.GetContext().ToString());
+        }
+
+        /// <summary>
+        /// 引发循环依赖调用异常
+        /// </summary>
+        [TestMethod]
+        public void RoutingCircularDependencyCall()
+        {
+            var router = App.Instance.Make<IRouter>();
+            router.Reg("lambda://call/RoutingCircularDependencyCall-1", (req, res) =>
+            {
+                res.SetContext("RouterTests.RoutingCircularDependencyCall1");
+                var re = router.Dispatch("lambda://call/RoutingCircularDependencyCall-1");
+                Assert.AreEqual("RouterTests.RoutingCircularDependencyCall1[global middleware]", re.GetContext().ToString());
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                var response = router.Dispatch("lambda://call/RoutingRecursiveCall-1");
+            });
+        }
+
+        /// <summary>
+        /// 可选择接受参数测试
+        /// </summary>
+        [TestMethod]
+        public void OptionsParamsAttrRoutingCall()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                var response = router.Dispatch("options-params-attr-routing/call");
+                Assert.AreEqual("[global middleware]" , response.GetContext());
+            });
+        }
+
+        /// <summary>
+        /// 可选择接受参数测试（无参数）
+        /// </summary>
+        [TestMethod]
+        public void OptionsParamsAttrRoutingCallNull()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                var response = router.Dispatch("options-params-attr-routing/call-null");
+                Assert.AreEqual("[global middleware]", response.GetContext());
+            });
+        }
+
+        /// <summary>
+        /// 可选择接受参数测试（接受来自容器的参数）
+        /// </summary>
+        [TestMethod]
+        public void OptionsParamsAttrRoutingCallResponseAndApp()
+        {
+            var router = App.Instance.Make<IRouter>();
+            var app = App.Instance.Make<IApplication>();
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                var response = router.Dispatch("options-params-attr-routing/call-response-and-app");
+                Assert.AreEqual(app + "[global middleware]", response.GetContext().ToString());
+            });
+        }
+
+        /// <summary>
+        /// 可选择接受参数测试（接受响应的参数）
+        /// </summary>
+        [TestMethod]
+        public void OptionsParamsAttrRoutingCallResponse()
+        {
+            var router = App.Instance.Make<IRouter>();
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                var response = router.Dispatch("options-params-attr-routing/call-response");
+                Assert.AreEqual("OptionsParamsAttrRouting.CallResponse[global middleware]", response.GetContext().ToString());
+            });
         }
     }
 }

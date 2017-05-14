@@ -107,9 +107,9 @@ namespace CatLib.Tests
             {
                 action.Invoke();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Assert.Fail(message ?? "need not throw exception");
+                Assert.Fail(message ?? ex.Message);
             }
         }
     }
