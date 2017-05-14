@@ -1,7 +1,8 @@
 language: csharp
 solution: ./CatLib.VS/CatLib.sln
 install:
-  nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory UnitTest
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory UnitTest
 
 script:
-  xbuild /p:Configuration=Release ./CatLib.VS/CatLib.sln
+  - xbuild /p:Configuration=Release ./CatLib.VS/CatLib.sln
+  - mono ./UnitTest/NUnit.Runners.2.6.4/tools/nunit-console.exe ./CatLib.VS/CatLib.Tests/bin/Release/CatLib.Tests.dll
