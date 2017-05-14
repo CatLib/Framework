@@ -5,4 +5,3 @@ install:
 
 script:
   xbuild /p:Configuration=Release ./CatLib.VS/CatLib.sln
-  mono ./UnitTest/NUnit.Runners.2.6.4/tools/nunit-console.exe ./CatLib.VS/CatLib.Tests/bin/Release/CatLib.Tests.dll
