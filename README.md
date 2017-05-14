@@ -3,6 +3,7 @@
 <p align="center">
 <a href="https://github.com/yb199478/CatLib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" title="license-mit" /></a>
 <a href="https://github.com/yb199478/catlib/pulls"><img src="https://img.shields.io/badge/PRs-welcome-blue.svg" title="pull request welcome" /></a>
+<a href="https://ci.appveyor.com/project/yb199478/catlib"><img src="https://ci.appveyor.com/api/projects/status/f12rb3x5hxvq6yr7?svg=true" title="Build status"/></a>
 <a href="https://github.com/yb199478/CatLib"><img src="https://img.shields.io/badge/coverage-92.44%25-brightgreen.svg" title="测试覆盖率" /></a>
 </p>
 
