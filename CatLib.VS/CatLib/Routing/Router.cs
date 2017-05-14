@@ -298,7 +298,11 @@ namespace CatLib.Routing
         public IEnumerator RouterCompiler()
         {
             events.Event.Trigger(RouterEvents.OnRouterAttrCompiler, this);
-            (new AttrRouteCompiler(this)).Complie();
+            var compiler = container.Make<AttrRouteCompiler>();
+            if (compiler != null)
+            {
+                compiler.Complie();
+            }
             yield break;
         }
 
@@ -378,7 +382,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         /// <returns>响应</returns>
         private IResponse RunRouteWithMiddleware(Route route, Request request)
-        {
+         {
             var response = new Response();
 
             try

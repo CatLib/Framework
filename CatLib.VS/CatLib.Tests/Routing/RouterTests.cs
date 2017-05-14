@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using CatLib.API.Routing;
 using CatLib.Event;
 using CatLib.FilterChain;
@@ -352,6 +353,28 @@ namespace CatLib.Tests.Routing
 
             var response = router.Dispatch("lambda://call/query-params-bind/16?default=hello&default2=world");
             Assert.AreEqual("RouterTests.QueryParamsBind.16.helloworld[global middleware]", response.GetContext().ToString());
+        }
+
+        /// <summary>
+        /// 可选参数测试
+        /// </summary>
+        [TestMethod]
+        public void OptionsParams()
+        {
+            var router = App.Instance.Make<IRouter>();
+            router.Reg("lambda://call/OptionsParams/{age}/{default?}", (req, res) =>
+            {
+                res.SetContext("RouterTests.OptionsParams." + req["age"] + "." + req["default"]);
+            });
+
+            var response = router.Dispatch("lambda://call/OptionsParams/16/");
+            Assert.AreEqual("RouterTests.OptionsParams.16.[global middleware]", response.GetContext().ToString());
+
+            response = router.Dispatch("lambda://call/OptionsParams/16");
+            Assert.AreEqual("RouterTests.OptionsParams.16.[global middleware]", response.GetContext().ToString());
+
+            response = router.Dispatch("lambda://call/OptionsParams/16/HelloWorld");
+            Assert.AreEqual("RouterTests.OptionsParams.16.HelloWorld[global middleware]", response.GetContext().ToString());
         }
     }
 }

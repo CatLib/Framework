@@ -15,6 +15,7 @@ using CatLib.API;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -44,12 +45,29 @@ namespace CatLib.Routing
         private readonly Dictionary<string, bool> controllerFuncBuildRecord = new Dictionary<string, bool>();
 
         /// <summary>
+        /// 是否剥离当前程序集
+        /// </summary>
+        private readonly List<Func<Assembly, bool>> stripping;
+
+        /// <summary>
         /// 属性路由编译器
         /// </summary>
         /// <param name="router">路由器</param>
         public AttrRouteCompiler(Router router)
         {
             this.router = router;
+            stripping = new List<Func<Assembly, bool>>();
+        }
+
+        /// <summary>
+        /// 根据回调返回结果来决定是否对当前程序集进行属性路由扫描
+        /// </summary>
+        /// <param name="stripping">回调返回true表示跳过该程序集扫描</param>
+        /// <returns>当前容器实例</returns>
+        public void OnStripping(Func<Assembly, bool> stripping)
+        {
+            Guard.NotNull(stripping, "stripping");
+            this.stripping.Add(stripping);
         }
 
         /// <summary>
@@ -326,6 +344,15 @@ namespace CatLib.Routing
                     return false;
                 }
             }
+
+            foreach (var finder in stripping)
+            {
+                if (!finder.Invoke(assembly))
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 

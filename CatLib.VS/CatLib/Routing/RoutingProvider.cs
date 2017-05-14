@@ -44,6 +44,8 @@ namespace CatLib.Routing
                 return router;
 
             }).Alias<IRouter>();
+
+            App.Singleton<AttrRouteCompiler>();
         }
     }
 }
