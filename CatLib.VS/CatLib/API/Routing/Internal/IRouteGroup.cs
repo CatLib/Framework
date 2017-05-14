@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.API.FilterChain;
 
 namespace CatLib.API.Routing
 {

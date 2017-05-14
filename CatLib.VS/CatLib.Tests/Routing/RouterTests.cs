@@ -41,9 +41,22 @@ namespace CatLib.Tests.Routing
             app.Register(typeof(EventProvider));
             app.Register(typeof(FilterChainProvider));
             app.Register(typeof(RoutingProvider));
+            
+            //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
+            var router = App.Instance.Make<IRouter>();
+            app.On(RouterEvents.OnRouterAttrCompiler, (sender, args) =>
+            {
+                router.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
+                    (req, res, next) =>
+                    {
+                        next(req, res);
+                        res.SetContext(res.GetContext() + "[with group middleware]");
+                    });
+            });
+
             app.Init();
 
-            var router = App.Instance.Make<IRouter>();
+            router = App.Instance.Make<IRouter>();
             router.OnError((req, res, ex, next) =>
             {
                 Assert.Fail(ex.Message);
@@ -122,6 +135,30 @@ namespace CatLib.Tests.Routing
 
             var response = router.Dispatch("rm://call");
             Assert.AreEqual("RoutingMiddleware.Call[with middleware]", response.GetContext().ToString());
+        }
+
+        /// <summary>
+        /// 参数路由测试
+        /// </summary>
+        [TestMethod]
+        public void ParamsAttrTest()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            var response = router.Dispatch("catlib://params-attr-routing/params-call/18");
+            Assert.AreEqual("ParamsAttrRouting.ParamsCall.18.hello.catlib", response.GetContext().ToString());
+        }
+
+        /// <summary>
+        /// 使用路由组的参数路由
+        /// </summary>
+        [TestMethod]
+        public void ParamsAttrWithGroup()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            var response = router.Dispatch("catlib://params-attr-routing/params-call-with-group/18");
+            Assert.AreEqual("ParamsAttrRouting.ParamsCall.18.hello.group-str[with group middleware]", response.GetContext().ToString());
         }
     }
 }

@@ -27,7 +27,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 分隔符
         /// </summary>
-        public const char SEPARATOR = '/';
+        private const char SEPARATOR = '/';
 
         /// <summary>
         /// 全局调度器
@@ -226,12 +226,12 @@ namespace CatLib.Routing
                 var route = FindRoute(request);
                 try
                 {
-                    container.Instance(typeof(IRequest).ToString(), route);
+                    container.Instance(typeof(IRequest).ToString(), request);
                     requestStack.Push(request);
 
                     request.SetRoute(route);
 
-                    //todo: dispatch event
+                    events.Event.Trigger(RouterEvents.OnDispatcher, this, new DispatchEventArgs(route, request));
 
                     return RunRouteWithMiddleware(route, request);
                 }
@@ -294,6 +294,7 @@ namespace CatLib.Routing
         /// <returns>迭代器</returns>
         public IEnumerator RouterCompiler()
         {
+            events.Event.Trigger(RouterEvents.OnRouterAttrCompiler, this);
             (new AttrRouteCompiler(this)).Complie();
             yield break;
         }

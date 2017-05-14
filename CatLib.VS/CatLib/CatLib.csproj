@@ -62,7 +62,6 @@
     <Compile Include="API\Core\IApplication.cs" />
     <Compile Include="API\Core\IEnv.cs" />
     <Compile Include="API\Core\Internal\EventArgs\ExceptionEventArgs.cs" />
-    <Compile Include="API\Core\Internal\Exception\CatLibException.cs" />
     <Compile Include="API\Core\Internal\Exception\RuntimeException.cs" />
     <Compile Include="API\Core\Internal\IGlobalEvent.cs" />
     <Compile Include="API\Crypt\Exception\DecryptException.cs" />
@@ -91,6 +90,8 @@
     <Compile Include="API\IO\PathTypes.cs" />
     <Compile Include="API\Json\IJson.cs" />
     <Compile Include="API\LocalSetting\ILocalSetting.cs" />
+    <Compile Include="Routing\EventArgs\DispatchEventArgs.cs" />
+    <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="API\Stl\LruCache\ILruCache.cs" />
     <Compile Include="API\Network\Features\IPackage.cs" />
     <Compile Include="API\Network\Features\IPacking.cs" />
@@ -113,11 +114,11 @@
     <Compile Include="API\Resources\LoadTypes.cs" />
     <Compile Include="API\Routing\Features\IMiddleware.cs" />
     <Compile Include="API\Routing\Features\RoutedAttribute.cs" />
-    <Compile Include="API\Routing\Internal\Exception\DomainException.cs" />
-    <Compile Include="API\Routing\Internal\Exception\NotFoundRouteException.cs" />
-    <Compile Include="API\Routing\Internal\Exception\NotFoundSchemeException.cs" />
-    <Compile Include="API\Routing\Internal\Exception\RouterConfigException.cs" />
-    <Compile Include="API\Routing\Internal\Exception\UndefinedDefaultSchemeException.cs" />
+    <Compile Include="Routing\Exception\DomainException.cs" />
+    <Compile Include="Routing\Exception\NotFoundRouteException.cs" />
+    <Compile Include="Routing\Exception\NotFoundSchemeException.cs" />
+    <Compile Include="Routing\Exception\RouterConfigException.cs" />
+    <Compile Include="Routing\Exception\UndefinedDefaultSchemeException.cs" />
     <Compile Include="API\Routing\Internal\IRequest.cs" />
     <Compile Include="API\Routing\Internal\IResponse.cs" />
     <Compile Include="API\Routing\Internal\IRoute.cs" />
@@ -189,6 +190,7 @@
     <None Include="FilterChain\catlib.json" />
     <None Include="Routing\catlib.json" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

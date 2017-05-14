@@ -120,9 +120,9 @@ namespace CatLib.Routing
             var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
             var routeList = new List<IRoute>();
-            IRoute[] routes;
             foreach (var method in methods)
             {
+                IRoute[] routes;
                 if ((routes = ComplieFunction(type, method, baseRouted)) != null)
                 {
                     routeList.AddRange(routes);
@@ -132,10 +132,8 @@ namespace CatLib.Routing
             var controllerWhere = ComplieDirection(baseRouted.Where);
             var controllerDefaults = ComplieDirection(baseRouted.Defaults);
 
-            IRoute route;
-            for (var i = 0; i < routeList.Count; i++)
+            foreach (var route in routeList)
             {
-                route = routeList[i];
                 ComplieOptionsGroup(route, baseRouted);
                 ComplieOptionsWhere(route, controllerWhere);
                 ComplieOptionsDefaults(route, controllerDefaults);
@@ -216,7 +214,7 @@ namespace CatLib.Routing
         {
             if (buildRecord.ContainsKey(path))
             {
-                throw new CatLibException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name);
+                throw new RuntimeException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name);
             }
 
             buildRecord.Add(path, true);
@@ -242,8 +240,12 @@ namespace CatLib.Routing
         private void ComplieOptionsGroup(IRoute route, RoutedAttribute routed)
         {
             if (!string.IsNullOrEmpty(routed.Group))
-            {
-                route.Group(routed.Group);
+            { 
+                var segment = routed.Group.Split(',');
+                foreach (var group in segment)
+                {
+                    route.Group(group);
+                }
             }
         }
 

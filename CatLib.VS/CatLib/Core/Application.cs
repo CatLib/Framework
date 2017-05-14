@@ -172,7 +172,7 @@ namespace CatLib
 
             process = StartProcess.OnInit;
 
-            TriggerGlobal(ApplicationEvents.ON_INITING, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnIniting, this).Trigger();
 
             foreach (var serviceProvider in providers)
             {
@@ -181,7 +181,7 @@ namespace CatLib
 
             inited = true;
 
-            TriggerGlobal(ApplicationEvents.ON_INITED, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnInited, this).Trigger();
 
             StartCoroutine(StartProviderPorcess());
         }
@@ -231,7 +231,7 @@ namespace CatLib
         {
             process = StartProcess.OnProviderProcess;
 
-            TriggerGlobal(ApplicationEvents.ON_PROVIDER_PROCESSING, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnProviderProcessing, this).Trigger();
 
             var providers = new List<ServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) =>
@@ -246,11 +246,11 @@ namespace CatLib
                 yield return provider.OnProviderProcess();
             }
 
-            TriggerGlobal(ApplicationEvents.ON_PROVIDER_PROCESSED, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnProviderProcessed, this).Trigger();
 
             process = StartProcess.OnComplete;
 
-            TriggerGlobal(ApplicationEvents.ON_APPLICATION_START_COMPLETE, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnApplicationStartComplete, this).Trigger();
         }
     }
 }

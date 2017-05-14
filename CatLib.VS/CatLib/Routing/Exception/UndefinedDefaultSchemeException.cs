@@ -9,17 +9,19 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Routing
+using CatLib.API;
+
+namespace CatLib.Routing
 {
     /// <summary>
-    /// 未能找到路由条目
+    /// 未定义默认的Scheme
     /// </summary>
-    public class NotFoundRouteException : CatLibException
+    public class UndefinedDefaultSchemeException : RuntimeException
     {
         /// <summary>
-        /// 未能找到路由条目
+        /// 未定义默认的Scheme
         /// </summary>
         /// <param name="message">异常消息</param>
-        public NotFoundRouteException(string message) : base(message) { }
+        public UndefinedDefaultSchemeException(string message) : base(message) { }
     }
 }

@@ -25,7 +25,5 @@ namespace CatLib.API
         {
             Exception = ex;
         }
-
     }
-
 }
