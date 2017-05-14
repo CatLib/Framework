@@ -2,5 +2,5 @@ version: 1.0.{build}
 build:
   verbosity: minimal
 environment:
-  coveralls_token:
+  COVERALLS_REPO_TOKEN:
     secure: 5ukdlQaxNLdCTQMqe0pDBOIrP56LXt8GwPA7mLk30INJaq0yZd947JVfXDVJSPl9
