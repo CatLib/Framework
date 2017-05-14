@@ -9,8 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Routing;
 using System.Collections.Generic;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -102,6 +104,7 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public string Get(string key, string defaultValue = null)
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             if (parameters == null)
             {
                 return defaultValue;

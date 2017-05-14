@@ -232,7 +232,7 @@ namespace CatLib.Routing
         {
             if (buildRecord.ContainsKey(path))
             {
-                throw new RuntimeException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name);
+                throw new RuntimeException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name + " , path: " + path);
             }
 
             buildRecord.Add(path, true);

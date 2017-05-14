@@ -100,7 +100,7 @@ namespace CatLib.Flux
         {
             if (isDestroy)
             {
-                throw new CatLibException(GetType().Name + " is be destroy.");
+                throw new RuntimeException(GetType().Name + " is be destroy.");
             }
             listener += action;
         }
@@ -113,7 +113,7 @@ namespace CatLib.Flux
         {
             if (isDestroy)
             {
-                throw new CatLibException(GetType().Name + " is be destroy.");
+                throw new RuntimeException(GetType().Name + " is be destroy.");
             }
             listener -= action;
         }
@@ -127,7 +127,7 @@ namespace CatLib.Flux
             {
                 if (!dispatcher.IsDispatching)
                 {
-                    throw new CatLibException(GetType().Name + ".IsChanged Must be invoked while dispatching.");
+                    throw new RuntimeException(GetType().Name + ".IsChanged Must be invoked while dispatching.");
                 }
                 return changed;
             }
@@ -156,7 +156,7 @@ namespace CatLib.Flux
         {
             if (!dispatcher.IsDispatching)
             {
-                throw new CatLibException(GetType().Name + ".TriggerChange() Must be invoked while dispatching.");
+                throw new RuntimeException(GetType().Name + ".TriggerChange() Must be invoked while dispatching.");
             }
             changed = true;
         }
@@ -187,7 +187,7 @@ namespace CatLib.Flux
         /// <param name="action">行为</param>
         protected virtual void OnDispatch(IAction action)
         {
-            throw new CatLibException(GetType().Name + " has not overridden FluxStore.OnDispatch(), which is required");
+            throw new RuntimeException(GetType().Name + " has not overridden FluxStore.OnDispatch(), which is required");
         }
     }
 }

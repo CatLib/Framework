@@ -14,6 +14,7 @@ using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
 using CatLib.API.Container;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -190,6 +191,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Where(string name, string pattern, bool overrided = true)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             options.Where(name, pattern, overrided);
             return this;
         }
@@ -203,6 +205,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Defaults(string name, string val, bool overrided = true)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             options.Defaults(name, val, overrided);
             return this;
         }
@@ -214,6 +217,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Group(string name)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             router.Group(name).AddRoute(this);
             return this;
         }
@@ -225,6 +229,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
         {
+            Guard.Requires<ArgumentNullException>(onError != null);
             options.OnError(onError);
             return this;
         }
@@ -236,6 +241,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
         {
+            Guard.Requires<ArgumentNullException>(middleware != null);
             options.Middleware(middleware);
             return this;
         }

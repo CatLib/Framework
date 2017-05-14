@@ -20,7 +20,7 @@ namespace CatLib.Demo.FilterChain
 
         public override void Init()
         {
-            App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
             {
 
                 IFilterChain filterChain = App.Make<IFilterChain>();

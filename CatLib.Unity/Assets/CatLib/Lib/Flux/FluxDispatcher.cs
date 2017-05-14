@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using Boo.Lang.Runtime;
 using CatLib.API;
 using CatLib.API.Flux;
 
@@ -84,7 +85,7 @@ namespace CatLib.Flux
         {
             if (callbacks.ContainsKey(token))
             {
-                throw new CatLibException("catlib flux Dispatcher.On(...): " + token + " , token is alreay exists.");
+                throw new API.RuntimeException("catlib flux Dispatcher.On(...): " + token + " , token is alreay exists.");
             }
             callbacks.Add(token, action);
         }
@@ -97,7 +98,7 @@ namespace CatLib.Flux
         {
             if (!callbacks.ContainsKey(token))
             {
-                throw new CatLibException("catlib flux Dispatcher.Off(...): " + token + " , does not map to a registered callback.");
+                throw new API.RuntimeException("catlib flux Dispatcher.Off(...): " + token + " , does not map to a registered callback.");
             }
             callbacks.Remove(token);
         }
@@ -111,7 +112,7 @@ namespace CatLib.Flux
         {
             if (!IsDispatching)
             {
-                throw new CatLibException("Dispatcher.WaitFor(...): Must be invoked while dispatching.");
+                throw new API.RuntimeException("Dispatcher.WaitFor(...): Must be invoked while dispatching.");
             }
 
             GuardCallback(token);
@@ -120,7 +121,7 @@ namespace CatLib.Flux
             {
                 if (isHandled[token])
                 {
-                    throw new CatLibException("Dispatcher.WaitFor(...): circular dependency detected while waiting for : " + token + ".");
+                    throw new API.RuntimeException("Dispatcher.WaitFor(...): circular dependency detected while waiting for : " + token + ".");
                 }
             }
 
@@ -219,7 +220,7 @@ namespace CatLib.Flux
         {
             if (!callbacks.ContainsKey(token))
             {
-                throw new CatLibException("catlib flux Dispatcher.Dispatch(...): " + token + " , does not map to a registered callback.");
+                throw new API.RuntimeException("catlib flux Dispatcher.Dispatch(...): " + token + " , does not map to a registered callback.");
             }
         }
 
@@ -230,7 +231,7 @@ namespace CatLib.Flux
         {
             if (IsDispatching)
             {
-                throw new CatLibException("Dispatch.Dispatch(...): Cannot dispatch in the middle of a dispatch.");
+                throw new API.RuntimeException("Dispatch.Dispatch(...): Cannot dispatch in the middle of a dispatch.");
             }
         }
     }

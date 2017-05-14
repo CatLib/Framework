@@ -10,7 +10,7 @@ namespace CatLib.Demo.TimeQueue
 
         public override void Init()
         {
-            App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
             {
 
                 ITimeQueue timeQueue = App.Make<ITimeQueue>();

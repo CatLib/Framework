@@ -28,7 +28,7 @@ namespace CatLib.Demo.LocalSetting
 
         public override void Init()
         {
-            App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
             {
 
                 ILocalSetting localSetting = App.Make<ILocalSetting>();

@@ -150,7 +150,7 @@ public class Bootstrap : ServiceProvider
         });*/
         
 
-        App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+        App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
         {
 
             IRouter router = App.Make<IRouter>();

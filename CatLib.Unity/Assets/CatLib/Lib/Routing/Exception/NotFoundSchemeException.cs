@@ -9,12 +9,14 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Routing
+using CatLib.API;
+
+namespace CatLib.Routing
 {
     /// <summary>
     /// 未能找到 Scheme
     /// </summary>
-    public class NotFoundSchemeException : CatLibException
+    public class NotFoundSchemeException : RuntimeException
     {
         /// <summary>
         /// 未能找到 Scheme

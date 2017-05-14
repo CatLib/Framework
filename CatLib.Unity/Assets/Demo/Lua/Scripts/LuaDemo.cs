@@ -25,7 +25,7 @@ namespace CatLib.Demo.Lua
             Env env = App[typeof(Env).ToString()] as Env;
 //            env.SetDebugLevel(DebugLevels.Prod);
 
-            App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
                 {
                     string scriptCode = "CS.UnityEngine.Debug.Log('hello world')";
 

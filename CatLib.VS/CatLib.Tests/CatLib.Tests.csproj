@@ -66,8 +66,8 @@
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FilterChain\FilterChainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routing\AttrRoutingSimple.cs" />
-    <Compile Include="Routing\MultAttrRoutingSimple.cs" />
+    <Compile Include="Routing\UTAttrRoutingSimple.cs" />
+    <Compile Include="Routing\UTMultAttrRoutingSimple.cs" />
     <Compile Include="Routing\ParamsAttrRouting.cs" />
     <Compile Include="Routing\RequestTests.cs" />
     <Compile Include="Routing\RouterTests.cs" />

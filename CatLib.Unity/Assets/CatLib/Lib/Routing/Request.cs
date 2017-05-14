@@ -9,8 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Routing;
 using System.Collections.Generic;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -102,6 +104,7 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public string Get(string key, string defaultValue = null)
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             if (parameters == null)
             {
                 return defaultValue;
@@ -138,7 +141,8 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public int GetInt(string key, int defaultValue = 0)
         {
-            return int.Parse(GetString(key) ?? defaultValue.ToString());
+            int result;
+            return int.TryParse(Get(key), out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -149,7 +153,8 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public long GetLong(string key, long defaultValue = 0)
         {
-            return long.Parse(GetString(key) ?? defaultValue.ToString());
+            long result;
+            return long.TryParse(Get(key), out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -160,7 +165,8 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public short GetShort(string key, short defaultValue = 0)
         {
-            return short.Parse(GetString(key) ?? defaultValue.ToString());
+            short result;
+            return short.TryParse(Get(key), out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -171,7 +177,8 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public char GetChar(string key, char defaultValue = char.MinValue)
         {
-            return char.Parse(GetString(key) ?? defaultValue.ToString());
+            char result;
+            return char.TryParse(Get(key), out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -182,7 +189,8 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public float GetFloat(string key, float defaultValue = 0)
         {
-            return float.Parse(GetString(key) ?? defaultValue.ToString());
+            float result;
+            return float.TryParse(Get(key), out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -193,7 +201,8 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public double GetDouble(string key, double defaultValue = 0)
         {
-            return double.Parse(GetString(key) ?? defaultValue.ToString());
+            double result;
+            return double.TryParse(Get(key), out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -204,7 +213,8 @@ namespace CatLib.Routing
         /// <returns>值</returns>
         public bool GetBoolean(string key, bool defaultValue = false)
         {
-            return bool.Parse(GetString(key) ?? defaultValue.ToString());
+            bool result;
+            return bool.TryParse(Get(key), out result) ? result : defaultValue;
         }
 
         /// <summary>

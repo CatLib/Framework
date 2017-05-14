@@ -14,10 +14,10 @@ using CatLib.API.Routing;
 namespace CatLib.Tests.Routing
 {
     // CatLib 路由系统允许添加多个路由名
-    [Routed] // catlib://mult-attr-routing-simple
-    [Routed("hello-world")] // catlib://hello-world
-    [Routed("cat://mult-attr-routing-simple")] // cat://mult-attr-routing-simple
-    public class MultAttrRoutingSimple
+    [Routed] // catlib://utmult-attr-routing-simple
+    [Routed("uthello-world")] // catlib://hello-world
+    [Routed("cat://utmult-attr-routing-simple")] // cat://mult-attr-routing-simple
+    public class UTMultAttrRoutingSimple
     {
         // catlib://mult-attr-routing-simple/call
         // catlib://hello-world/call
@@ -28,10 +28,10 @@ namespace CatLib.Tests.Routing
         // cat://mult-attr-routing-simple/my-hello
         [Routed("my-hello")]
         // dog://myname/call
-        [Routed("dog://myname/call")]
+        [Routed("dog://utmyname/call")]
         public void Call(IRequest request, IResponse response)
         {
-            response.SetContext("MultAttrRoutingSimple.Call");
+            response.SetContext("UTMultAttrRoutingSimple.Call");
         }
     }
 }

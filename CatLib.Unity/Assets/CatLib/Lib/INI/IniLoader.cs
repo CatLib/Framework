@@ -62,7 +62,7 @@ namespace CatLib.INI
             result.OnSave += (data) =>
             {
 
-                throw new CatLibException("not support save with Load(string) loaded result");
+                throw new RuntimeException("not support save with Load(string) loaded result");
 
             };
 
@@ -81,7 +81,7 @@ namespace CatLib.INI
             result.OnSave += (data) =>
             {
 
-                throw new CatLibException("not support save with Load(byte[]) loaded result");
+                throw new RuntimeException("not support save with Load(byte[]) loaded result");
 
             };
 

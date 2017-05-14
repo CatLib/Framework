@@ -153,6 +153,9 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRoute Reg(string uris, Type controller, string func)
         {
+            Guard.NotEmptyOrNull(uris, "uris");
+            Guard.Requires<ArgumentNullException>(controller != null);
+            Guard.NotEmptyOrNull(func , "func");
             return RegisterRoute(uris, new RouteAction()
             {
                 Type = RouteAction.RouteTypes.ControllerCall,
@@ -168,6 +171,7 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouter OnNotFound(Action<IRequest, Action<IRequest>> middleware)
         {
+            Guard.Requires<ArgumentNullException>(middleware != null);
             if (onNotFound == null)
             {
                 onNotFound = filterChain.Create<IRequest>();
@@ -183,6 +187,7 @@ namespace CatLib.Routing
         /// <returns>当前路由器实例</returns>
         public IRouter Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
         {
+            Guard.Requires<ArgumentNullException>(middleware != null);
             if (this.middleware == null)
             {
                 this.middleware = filterChain.Create<IRequest, IResponse>();
@@ -198,6 +203,7 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouter OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
         {
+            Guard.Requires<ArgumentNullException>(onError != null);
             if (this.onError == null)
             {
                 this.onError = filterChain.Create<IRequest, IResponse, Exception>();
@@ -214,6 +220,7 @@ namespace CatLib.Routing
         /// <returns>请求响应</returns>
         public IResponse Dispatch(string uri, object context = null)
         {
+            Guard.NotEmptyOrNull(uri, "uri");
             uri = GuardUri(uri);
             uri = Prefix(uri);
 
@@ -282,6 +289,7 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouteGroup Group(Action area, string name = null)
         {
+            Guard.Requires<ArgumentNullException>(area != null);
             var group = Group(name);
 
             routeGroupStack.Push(group);

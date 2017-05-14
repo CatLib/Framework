@@ -76,7 +76,7 @@ namespace CatLib.Stl
             /// <summary>
             /// 版本
             /// </summary>
-            private long version;
+            private readonly long version;
 
             /// <summary>
             /// 构造一个迭代器

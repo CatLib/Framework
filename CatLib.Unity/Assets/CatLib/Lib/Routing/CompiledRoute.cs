@@ -64,7 +64,6 @@ namespace CatLib.Routing
         /// <returns>编译后的字符串表示信息</returns>
         public override string ToString()
         {
-
             var builder = new StringBuilder();
 
             builder.AppendLine("[RouteRegex]: " + RouteRegex);

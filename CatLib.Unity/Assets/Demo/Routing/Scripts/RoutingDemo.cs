@@ -22,9 +22,8 @@ namespace CatLib.Demo.Routing
 
         public override void Init()
         {
-            App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
             {
-
                 IRouter router = App.Make<IRouter>();
 
                 router.Dispatch("attr-routing-simple/call");

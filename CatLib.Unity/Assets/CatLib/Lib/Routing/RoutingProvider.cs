@@ -9,9 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
 using System.Collections;
+using CatLib.API;
 
 namespace CatLib.Routing
 {
@@ -21,9 +23,10 @@ namespace CatLib.Routing
     public sealed class RoutingProvider : ServiceProvider
     {
         /// <summary>
-        /// 服务提供商流程
+        /// 执行路由编译，路由编译总是最后进行的
         /// </summary>
-        /// <returns></returns>
+        /// <returns>迭代器</returns>
+        [Priority]
         public override IEnumerator OnProviderProcess()
         {
             return App.Make<Router>().RouterCompiler();
@@ -41,6 +44,8 @@ namespace CatLib.Routing
                 return router;
 
             }).Alias<IRouter>();
+
+            App.Singleton<AttrRouteCompiler>();
         }
     }
 }

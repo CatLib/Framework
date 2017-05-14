@@ -13,6 +13,7 @@ using System;
 using CatLib.API.FilterChain;
 using CatLib.API.Routing;
 using System.Collections.Generic;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -74,6 +75,7 @@ namespace CatLib.Routing
         /// <returns>当前路由组实例</returns>
         public IRouteGroup Defaults(string name, string val)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             options.Defaults(name, val);
             for (var i = 0; i < routes.Count; i++)
             {
@@ -90,6 +92,7 @@ namespace CatLib.Routing
         /// <returns>当前路由组实例</returns>
         public IRouteGroup Where(string name, string pattern)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             options.Where(name, pattern);
             for (var i = 0; i < routes.Count; i++)
             {
@@ -105,6 +108,7 @@ namespace CatLib.Routing
         /// <returns>当前路由组实例</returns>
         public IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
         {
+            Guard.Requires<ArgumentNullException>(middleware != null);
             options.Middleware(middleware);
             for (var i = 0; i < routes.Count; i++)
             {
@@ -120,6 +124,7 @@ namespace CatLib.Routing
         /// <returns>当前路由组实例</returns>
         public IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
         {
+            Guard.Requires<ArgumentNullException>(onError != null);
             options.OnError(onError);
             for (var i = 0; i < routes.Count; i++)
             {

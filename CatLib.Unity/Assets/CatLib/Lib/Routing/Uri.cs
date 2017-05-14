@@ -24,7 +24,10 @@ namespace CatLib.Routing
         /// <summary>
         /// 原始Uri信息
         /// </summary>
-        public System.Uri Original { get { return uri; } }
+        public System.Uri Original
+        {
+            get { return uri; }
+        }
 
         /// <summary>
         /// Uri

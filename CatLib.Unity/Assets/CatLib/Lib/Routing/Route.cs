@@ -10,9 +10,11 @@
  */
 
 using System;
+using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
 using CatLib.API.Container;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -54,7 +56,10 @@ namespace CatLib.Routing
         /// <summary>
         /// 路由配置
         /// </summary>
-        internal RouteOptions Options { get { return options; } }
+        internal RouteOptions Options
+        {
+            get { return options; }
+        }
 
         /// <summary>
         /// 编译后的路由器信息
@@ -186,6 +191,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Where(string name, string pattern, bool overrided = true)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             options.Where(name, pattern, overrided);
             return this;
         }
@@ -199,6 +205,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Defaults(string name, string val, bool overrided = true)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             options.Defaults(name, val, overrided);
             return this;
         }
@@ -210,6 +217,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Group(string name)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             router.Group(name).AddRoute(this);
             return this;
         }
@@ -221,6 +229,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
         {
+            Guard.Requires<ArgumentNullException>(onError != null);
             options.OnError(onError);
             return this;
         }
@@ -232,6 +241,7 @@ namespace CatLib.Routing
         /// <returns>路由条目实例</returns>
         public IRoute Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
         {
+            Guard.Requires<ArgumentNullException>(middleware != null);
             options.Middleware(middleware);
             return this;
         }
@@ -301,12 +311,16 @@ namespace CatLib.Routing
         {
             if (action.Type == RouteAction.RouteTypes.CallBack)
             {
-                action.Action(request, response);
+                action.Action.Invoke(request, response);
             }
             else if (action.Type == RouteAction.RouteTypes.ControllerCall)
             {
                 ControllerCall(request, response);
             }
+            else
+            {
+                throw new RuntimeException("Undefine action type");
+            } 
         }
 
         /// <summary>
@@ -317,6 +331,11 @@ namespace CatLib.Routing
         private void ControllerCall(Request request, Response response)
         {
             var controller = container.Make(action.Controller);
+
+            if (controller == null)
+            {
+                throw new RuntimeException("Can not Make [" + action.Controller + "] Please check cross assembly Or achieve Container.OnFindType(...)");
+            }
 
             IMiddleware mid = null;
             if (controller is IMiddleware)

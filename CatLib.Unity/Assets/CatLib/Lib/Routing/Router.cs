@@ -15,6 +15,7 @@ using CatLib.API.Event;
 using CatLib.API.Container;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
+using CatLib.Stl;
 using System.Collections;
 
 namespace CatLib.Routing
@@ -27,7 +28,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 分隔符
         /// </summary>
-        public const char SEPARATOR = '/';
+        private const char SEPARATOR = '/';
 
         /// <summary>
         /// 全局调度器
@@ -53,6 +54,11 @@ namespace CatLib.Routing
         /// 当路由没有找到时过滤链
         /// </summary>
         private IFilterChain<IRequest> onNotFound;
+
+        /// <summary>
+        /// 路由请求中间件
+        /// </summary>
+        private IFilterChain<IRequest, IResponse> middleware;
 
         /// <summary>
         /// 当出现异常时的过滤器链
@@ -129,6 +135,8 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRoute Reg(string uris, Action<IRequest, IResponse> action)
         {
+            Guard.NotEmptyOrNull(uris, "uris");
+            Guard.Requires<ArgumentNullException>(action != null);
             return RegisterRoute(uris, new RouteAction()
             {
                 Type = RouteAction.RouteTypes.CallBack,
@@ -145,6 +153,9 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRoute Reg(string uris, Type controller, string func)
         {
+            Guard.NotEmptyOrNull(uris, "uris");
+            Guard.Requires<ArgumentNullException>(controller != null);
+            Guard.NotEmptyOrNull(func , "func");
             return RegisterRoute(uris, new RouteAction()
             {
                 Type = RouteAction.RouteTypes.ControllerCall,
@@ -160,11 +171,28 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouter OnNotFound(Action<IRequest, Action<IRequest>> middleware)
         {
+            Guard.Requires<ArgumentNullException>(middleware != null);
             if (onNotFound == null)
             {
                 onNotFound = filterChain.Create<IRequest>();
             }
             onNotFound.Add(middleware);
+            return this;
+        }
+
+        /// <summary>
+        /// 全局路由中间件
+        /// </summary>
+        /// <param name="middleware">中间件</param>
+        /// <returns>当前路由器实例</returns>
+        public IRouter Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
+        {
+            Guard.Requires<ArgumentNullException>(middleware != null);
+            if (this.middleware == null)
+            {
+                this.middleware = filterChain.Create<IRequest, IResponse>();
+            }
+            this.middleware.Add(middleware);
             return this;
         }
 
@@ -175,6 +203,7 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouter OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
         {
+            Guard.Requires<ArgumentNullException>(onError != null);
             if (this.onError == null)
             {
                 this.onError = filterChain.Create<IRequest, IResponse, Exception>();
@@ -191,6 +220,7 @@ namespace CatLib.Routing
         /// <returns>请求响应</returns>
         public IResponse Dispatch(string uri, object context = null)
         {
+            Guard.NotEmptyOrNull(uri, "uri");
             uri = GuardUri(uri);
             uri = Prefix(uri);
 
@@ -206,12 +236,12 @@ namespace CatLib.Routing
                 var route = FindRoute(request);
                 try
                 {
-                    container.Instance(typeof(IRequest).ToString(), route);
+                    container.Instance(typeof(IRequest).ToString(), request);
                     requestStack.Push(request);
 
                     request.SetRoute(route);
 
-                    //todo: dispatch event
+                    events.Event.Trigger(RouterEvents.OnDispatcher, this, new DispatchEventArgs(route, request));
 
                     return RunRouteWithMiddleware(route, request);
                 }
@@ -259,6 +289,7 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouteGroup Group(Action area, string name = null)
         {
+            Guard.Requires<ArgumentNullException>(area != null);
             var group = Group(name);
 
             routeGroupStack.Push(group);
@@ -274,7 +305,12 @@ namespace CatLib.Routing
         /// <returns>迭代器</returns>
         public IEnumerator RouterCompiler()
         {
-            (new AttrRouteCompiler(this)).Complie();
+            events.Event.Trigger(RouterEvents.OnRouterAttrCompiler, this);
+            var compiler = container.Make<AttrRouteCompiler>();
+            if (compiler != null)
+            {
+                compiler.Complie();
+            }
             yield break;
         }
 
@@ -316,7 +352,6 @@ namespace CatLib.Routing
         {
             var route = new Route(uri, action);
             route.SetRouter(this);
-            route.SetScheme(schemes[uri.Scheme]);
             route.SetFilterChain(filterChain);
             route.SetContainer(container);
             return route;
@@ -355,7 +390,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         /// <returns>响应</returns>
         private IResponse RunRouteWithMiddleware(Route route, Request request)
-        {
+         {
             var response = new Response();
 
             try
@@ -363,17 +398,16 @@ namespace CatLib.Routing
                 container.Instance(typeof(IResponse).ToString(), response);
                 responseStack.Push(response);
 
-                var middleware = route.GatherMiddleware();
                 if (middleware != null)
                 {
-                    middleware.Do(request, response, (req, res) =>
+                    middleware.Do(request , response , (req, res) =>
                     {
-                        PrepareResponse(req, route.Run(req as Request, res as Response));
+                        RunInRoute(route, request, response);
                     });
                 }
                 else
                 {
-                    PrepareResponse(request, route.Run(request, response));
+                    RunInRoute(route, request, response);
                 }
                 return response;
             }
@@ -401,6 +435,30 @@ namespace CatLib.Routing
         }
 
         /// <summary>
+        /// 执行路由请求
+        /// </summary>
+        /// <param name="route">路由</param>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
+        /// <returns>响应</returns>
+        private IResponse RunInRoute(Route route , Request request , Response response)
+        {
+            var middleware = route.GatherMiddleware();
+            if (middleware != null)
+            {
+                middleware.Do(request, response, (req, res) =>
+                {
+                    PrepareResponse(req, route.Run(req as Request, res as Response));
+                });
+            }
+            else
+            {
+                PrepareResponse(request, route.Run(request, response));
+            }
+            return response;
+        }
+
+        /// <summary>
         /// 准备响应的内容
         /// </summary>
         /// <param name="request">请求</param>
@@ -417,7 +475,7 @@ namespace CatLib.Routing
         /// <returns>当前路由实例</returns>
         private IRouter CreateScheme(string name)
         {
-            schemes.Add(name.ToLower(), new Scheme(name));
+            schemes.Add(name.ToLower(), (new Scheme(name)).SetRouter(this));
             return this;
         }
 

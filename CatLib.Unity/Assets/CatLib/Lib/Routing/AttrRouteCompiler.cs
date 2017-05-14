@@ -15,6 +15,7 @@ using CatLib.API;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -44,12 +45,29 @@ namespace CatLib.Routing
         private readonly Dictionary<string, bool> controllerFuncBuildRecord = new Dictionary<string, bool>();
 
         /// <summary>
+        /// 是否剥离当前程序集
+        /// </summary>
+        private readonly List<Func<Assembly, bool>> stripping;
+
+        /// <summary>
         /// 属性路由编译器
         /// </summary>
         /// <param name="router">路由器</param>
         public AttrRouteCompiler(Router router)
         {
             this.router = router;
+            stripping = new List<Func<Assembly, bool>>();
+        }
+
+        /// <summary>
+        /// 根据回调返回结果来决定是否对当前程序集进行属性路由扫描
+        /// </summary>
+        /// <param name="stripping">回调返回true表示跳过该程序集扫描</param>
+        /// <returns>当前容器实例</returns>
+        public void OnStripping(Func<Assembly, bool> stripping)
+        {
+            Guard.NotNull(stripping, "stripping");
+            this.stripping.Add(stripping);
         }
 
         /// <summary>
@@ -120,9 +138,9 @@ namespace CatLib.Routing
             var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
             var routeList = new List<IRoute>();
-            IRoute[] routes;
             foreach (var method in methods)
             {
+                IRoute[] routes;
                 if ((routes = ComplieFunction(type, method, baseRouted)) != null)
                 {
                     routeList.AddRange(routes);
@@ -132,10 +150,8 @@ namespace CatLib.Routing
             var controllerWhere = ComplieDirection(baseRouted.Where);
             var controllerDefaults = ComplieDirection(baseRouted.Defaults);
 
-            IRoute route;
-            for (var i = 0; i < routeList.Count; i++)
+            foreach (var route in routeList)
             {
-                route = routeList[i];
                 ComplieOptionsGroup(route, baseRouted);
                 ComplieOptionsWhere(route, controllerWhere);
                 ComplieOptionsDefaults(route, controllerDefaults);
@@ -216,7 +232,7 @@ namespace CatLib.Routing
         {
             if (buildRecord.ContainsKey(path))
             {
-                throw new CatLibException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name);
+                throw new RuntimeException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name + " , path: " + path);
             }
 
             buildRecord.Add(path, true);
@@ -243,7 +259,11 @@ namespace CatLib.Routing
         {
             if (!string.IsNullOrEmpty(routed.Group))
             {
-                route.Group(routed.Group);
+                var segment = routed.Group.Split(',');
+                foreach (var group in segment)
+                {
+                    route.Group(group);
+                }
             }
         }
 
@@ -316,7 +336,7 @@ namespace CatLib.Routing
         /// <returns>是否过滤</returns>
         private bool IsStripping(Assembly assembly)
         {
-            string[] notStripping = { "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor" };
+            string[] notStripping = { "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor", "CatLib", "CatLib.Tests" };
             for (var i = 0; i < notStripping.Length; i++)
             {
                 if (assembly.GetName().Name == notStripping[i])
@@ -324,6 +344,15 @@ namespace CatLib.Routing
                     return false;
                 }
             }
+
+            foreach (var finder in stripping)
+            {
+                if (!finder.Invoke(assembly))
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -337,9 +366,9 @@ namespace CatLib.Routing
             var builder = new StringBuilder();
             for (var i = 0; i < name.Length; i++)
             {
-                if (name[i] > 'A' && name[i] < 'Z')
+                if (name[i] >= 'A' && name[i] <= 'Z')
                 {
-                    if (i > 0 && !(name[i - 1] > 'A' && name[i - 1] < 'Z'))
+                    if (i > 0 && !(name[i - 1] >= 'A' && name[i - 1] <= 'Z'))
                     {
                         builder.Append("-");
                     }

@@ -9,17 +9,19 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Routing
+using CatLib.API;
+
+namespace CatLib.Routing
 {
     /// <summary>
-    /// 域异常
+    /// 未能找到路由条目
     /// </summary>
-    public class DomainException : CatLibException
+    public class NotFoundRouteException : RuntimeException
     {
         /// <summary>
-        /// 创建一个域异常
+        /// 未能找到路由条目
         /// </summary>
-        /// <param name="message">错误描述</param>
-        public DomainException(string message) : base(message) { }
+        /// <param name="message">异常消息</param>
+        public NotFoundRouteException(string message) : base(message) { }
     }
 }

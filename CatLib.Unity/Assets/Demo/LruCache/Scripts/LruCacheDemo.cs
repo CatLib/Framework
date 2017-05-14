@@ -22,7 +22,7 @@ namespace CatLib.Demo.LruCache
 
         public override void Init()
         {
-            App.On(ApplicationEvents.ON_APPLICATION_START_COMPLETE, (sender, e) =>
+            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
             {
 
                 ILruCache<string,string> cache = new LruCache<string, string>(3);

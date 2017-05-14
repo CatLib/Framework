@@ -9,12 +9,14 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Routing
+using CatLib.API;
+
+namespace CatLib.Routing
 {
     /// <summary>
     /// 路由配置异常
     /// </summary>
-    public class RouterConfigException : CatLibException
+    public class RouterConfigException : RuntimeException
     {
         /// <summary>
         /// 路由配置异常
