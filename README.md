@@ -10,7 +10,7 @@
 
 > **审计中的组件(通过审计的组件将会在6月发布):** Container 组件 , CatLib核心 ，Stl 组件中的(SortSet,QuickList,LruCache) , FilterChain组件
 
-> **Coming:** English support
+> **Coming Soon:** English support
 
 ## 关于CatLib
 
