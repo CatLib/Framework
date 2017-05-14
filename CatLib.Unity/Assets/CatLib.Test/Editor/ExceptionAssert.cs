@@ -11,7 +11,7 @@
 
 using System;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;

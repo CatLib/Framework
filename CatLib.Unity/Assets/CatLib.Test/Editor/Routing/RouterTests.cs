@@ -16,7 +16,7 @@ using CatLib.API.Routing;
 using CatLib.Event;
 using CatLib.FilterChain;
 using CatLib.Routing;
-#if UNITY_EDITOR
+#if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
