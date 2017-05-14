@@ -3,12 +3,12 @@
 <p align="center">
 <a href="https://github.com/yb199478/CatLib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" title="license-mit" /></a>
 <a href="https://github.com/yb199478/catlib/pulls"><img src="https://img.shields.io/badge/PRs-welcome-blue.svg" title="pull request welcome" /></a>
-<a href="https://github.com/yb199478/CatLib"><img src="https://img.shields.io/badge/coverage-90.79%25-brightgreen.svg" title="测试覆盖率" /></a>
+<a href="https://github.com/yb199478/CatLib"><img src="https://img.shields.io/badge/coverage-92.44%25-brightgreen.svg" title="测试覆盖率" /></a>
 </p>
 
 > **风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险(包括但不限于不完整的单元测试,接口的变化,组件的废弃,不完善的错误提示,运行时错误). 当前版本提出的issues一般情况下会在24小时内响应。
 
-> **审计中的组件(通过审计的组件将会在6月发布):** Container 组件 , CatLib核心 ，Stl 组件中的(SortSet,QuickList,LruCache) , FilterChain组件
+> **审计中的组件(通过审计的组件将会在6月发布):** Container 组件 , CatLib核心 ，Stl 组件中的(SortSet,QuickList,LruCache) , FilterChain组件 , Routing组件
 
 > **Coming Soon:** English support
 
