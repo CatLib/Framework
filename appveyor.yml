@@ -1,0 +1,6 @@
+version: 1.0.{build}
+build:
+  verbosity: minimal
+environment:
+  coveralls_token:
+    secure: 5ukdlQaxNLdCTQMqe0pDBOIrP56LXt8GwPA7mLk30INJaq0yZd947JVfXDVJSPl9
