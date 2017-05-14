@@ -69,8 +69,11 @@
     <Compile Include="Routing\AttrRoutingSimple.cs" />
     <Compile Include="Routing\MultAttrRoutingSimple.cs" />
     <Compile Include="Routing\ParamsAttrRouting.cs" />
+    <Compile Include="Routing\RequestTests.cs" />
     <Compile Include="Routing\RouterTests.cs" />
     <Compile Include="Routing\RoutingMiddleware.cs" />
+    <Compile Include="Routing\RouteCompilerTests.cs" />
+    <Compile Include="Routing\UriTests.cs" />
     <Compile Include="Stl\LruCache\LruCacheTests.cs" />
     <Compile Include="Stl\QuickList\InternalListTests.cs" />
     <Compile Include="Stl\QuickList\QuickListTests.cs" />

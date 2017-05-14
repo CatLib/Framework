@@ -313,7 +313,7 @@ namespace CatLib.Routing
         /// <param name="val">输入值</param>
         /// <param name="regstr">正则表达式</param>
         /// <returns></returns>
-        private static bool IsMatch(string val, string regstr)
+        private static bool IsMatch(string regstr , string val)
         {
             var reg = new Regex(regstr);
             return reg.IsMatch(val);

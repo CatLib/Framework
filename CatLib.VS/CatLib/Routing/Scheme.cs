@@ -37,7 +37,10 @@ namespace CatLib.Routing
         /// <summary>
         /// Scheme Name
         /// </summary>
-        public string Name { get { return name; } }
+        public string Name
+        {
+            get { return name; }
+        }
 
         /// <summary>
         /// 新建一个方案
@@ -52,18 +55,21 @@ namespace CatLib.Routing
         /// 设定路由器
         /// </summary>
         /// <param name="router">路由器</param>
-        public void SetRouter(Router router)
+        public Scheme SetRouter(Router router)
         {
             this.router = router;
+            return this;
         }
 
         /// <summary>
         /// 增加一个路由
         /// </summary>
         /// <param name="route">路由条目</param>
-        public void AddRoute(Route route)
+        public Scheme AddRoute(Route route)
         {
+            route.SetScheme(this);
             routes.Add(route);
+            return this;
         }
 
         /// <summary>

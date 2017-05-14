@@ -17,7 +17,7 @@ namespace CatLib.Tests.Routing
     //2.代码中的参数定义要比组的优先级高,如果违反第1条那么使用第1条规则
 
     //定义了类的路由约束，如果在方法上没有覆盖这些参数那么将会使用类的路由约束
-    [Routed(Defaults = "str=>world,val=>hello" , Where = "age=>[0-9]+,val=>[0-9]+")]
+    [Routed(Defaults = "str=>world,val=>hello", Where = "age=>[0-9]+,val=>[0-9]+")]
     public class ParamsAttrRouting
     {
         //您也可以在路由方法中强制指定scheme，这样她会忽略来自class中定义的scheme。

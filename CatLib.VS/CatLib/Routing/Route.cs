@@ -305,12 +305,16 @@ namespace CatLib.Routing
         {
             if (action.Type == RouteAction.RouteTypes.CallBack)
             {
-                action.Action(request, response);
+                action.Action.Invoke(request, response);
             }
             else if (action.Type == RouteAction.RouteTypes.ControllerCall)
             {
                 ControllerCall(request, response);
             }
+            else
+            {
+                throw new RuntimeException("Undefine action type");
+            } 
         }
 
         /// <summary>

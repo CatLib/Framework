@@ -15,6 +15,7 @@ using CatLib.API.Event;
 using CatLib.API.Container;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
+using CatLib.Stl;
 using System.Collections;
 
 namespace CatLib.Routing
@@ -134,6 +135,8 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRoute Reg(string uris, Action<IRequest, IResponse> action)
         {
+            Guard.NotEmptyOrNull(uris, "uris");
+            Guard.Requires<ArgumentNullException>(action != null);
             return RegisterRoute(uris, new RouteAction()
             {
                 Type = RouteAction.RouteTypes.CallBack,
@@ -337,7 +340,6 @@ namespace CatLib.Routing
         {
             var route = new Route(uri, action);
             route.SetRouter(this);
-            route.SetScheme(schemes[uri.Scheme]);
             route.SetFilterChain(filterChain);
             route.SetContainer(container);
             return route;
@@ -461,7 +463,7 @@ namespace CatLib.Routing
         /// <returns>当前路由实例</returns>
         private IRouter CreateScheme(string name)
         {
-            schemes.Add(name.ToLower(), new Scheme(name));
+            schemes.Add(name.ToLower(), (new Scheme(name)).SetRouter(this));
             return this;
         }
 

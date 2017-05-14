@@ -240,7 +240,7 @@ namespace CatLib.Routing
         private void ComplieOptionsGroup(IRoute route, RoutedAttribute routed)
         {
             if (!string.IsNullOrEmpty(routed.Group))
-            { 
+            {
                 var segment = routed.Group.Split(',');
                 foreach (var group in segment)
                 {
@@ -318,7 +318,7 @@ namespace CatLib.Routing
         /// <returns>是否过滤</returns>
         private bool IsStripping(Assembly assembly)
         {
-            string[] notStripping = { "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor" , "CatLib" , "CatLib.Tests" };
+            string[] notStripping = { "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor", "CatLib", "CatLib.Tests" };
             for (var i = 0; i < notStripping.Length; i++)
             {
                 if (assembly.GetName().Name == notStripping[i])
