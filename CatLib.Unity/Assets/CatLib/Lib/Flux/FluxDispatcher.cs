@@ -11,8 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using Boo.Lang.Runtime;
-using CatLib.API;
 using CatLib.API.Flux;
 
 namespace CatLib.Flux
