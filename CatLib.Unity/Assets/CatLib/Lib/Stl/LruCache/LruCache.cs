@@ -116,6 +116,7 @@ namespace CatLib.Stl
         /// </summary>
         public LruCache(int maxCapacity)
         {
+            Guard.Requires<ArgumentOutOfRangeException>(maxCapacity > 0);
             this.maxCapacity = maxCapacity;
             lruCache = new Dictionary<TKey, CacheNode<TKey, TVal>>();
             forward = true;
@@ -136,6 +137,7 @@ namespace CatLib.Stl
         /// <param name="value">值</param>
         public void Add(TKey key, TVal value)
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             CacheNode<TKey, TVal> result;
             if (lruCache.TryGetValue(key , out result))
             {
@@ -170,6 +172,7 @@ namespace CatLib.Stl
         /// <param name="key"></param>
         public void Remove(TKey key)
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             CacheNode<TKey, TVal> result;
             if (!lruCache.TryGetValue(key, out result))
             {
@@ -198,6 +201,7 @@ namespace CatLib.Stl
         /// <returns>值</returns>
         public TVal Get(TKey key, TVal defaultValue = default(TVal))
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             CacheNode<TKey, TVal> result;
             if (!lruCache.TryGetValue(key , out result))
             {

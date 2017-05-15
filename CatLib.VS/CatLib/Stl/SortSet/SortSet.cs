@@ -315,6 +315,8 @@ namespace CatLib.Stl
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="start"/>和<paramref name="end"/>区间无效时引发</exception>
         public long GetRangeCount(TScore start, TScore end)
         {
+            Guard.Requires<ArgumentNullException>(start != null);
+            Guard.Requires<ArgumentNullException>(end != null);
             Guard.Requires<ArgumentOutOfRangeException>(start.CompareTo(end) <= 0);
 
             long rank = 0, bakRank = 0;
@@ -417,6 +419,8 @@ namespace CatLib.Stl
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
         public long RemoveRangeByScore(TScore startScore, TScore stopScore)
         {
+            Guard.Requires<ArgumentNullException>(startScore != null);
+            Guard.Requires<ArgumentNullException>(stopScore != null);
             Guard.Requires<ArgumentOutOfRangeException>(startScore.CompareTo(stopScore) <= 0);
 
             long removed = 0;
@@ -519,6 +523,8 @@ namespace CatLib.Stl
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
         public TElement[] GetElementRangeByScore(TScore startScore, TScore stopScore)
         {
+            Guard.Requires<ArgumentNullException>(startScore != null);
+            Guard.Requires<ArgumentNullException>(stopScore != null);
             Guard.Requires<ArgumentOutOfRangeException>(startScore.CompareTo(stopScore) <= 0);
 
             var cursor = header;
