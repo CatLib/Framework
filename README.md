@@ -4,8 +4,9 @@
 <a href="https://github.com/yb199478/CatLib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" title="license-mit" /></a>
 <a href="https://github.com/yb199478/catlib/"><img src="https://badge.fury.io/gh/catlib%2Fcatlib.svg" title="GitHub version" /></a>
 <a href="https://ci.appveyor.com/project/yb199478/catlib"><img src="https://ci.appveyor.com/api/projects/status/f12rb3x5hxvq6yr7?svg=true" title="Build status"/></a>
-<a href='https://coveralls.io/github/CatLib/CatLib'><img src='https://coveralls.io/repos/github/CatLib/CatLib/badge.svg' alt='Coverage Status' /></a>
-</p>
+<a href="https://codecov.io/gh/CatLib/CatLib">
+  <img src="https://codecov.io/gh/CatLib/CatLib/branch/master/graph/badge.svg" alt="Codecov" />
+</a>
 
 > **风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险(包括但不限于不完整的单元测试,接口的变化,组件的废弃,不完善的错误提示,运行时错误). 当前版本提出的issues一般情况下会在24小时内响应。
 
