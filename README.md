@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://github.com/yb199478/CatLib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" title="license-mit" /></a>
-<a href="https://github.com/yb199478/catlib/pulls"><img src="https://img.shields.io/badge/PRs-welcome-blue.svg" title="pull request welcome" /></a>
+<a href="https://github.com/yb199478/catlib/"><img src="https://badge.fury.io/gh/catlib%2Fcatlib.svg" title="GitHub version" /></a>
 <a href="https://ci.appveyor.com/project/yb199478/catlib"><img src="https://ci.appveyor.com/api/projects/status/f12rb3x5hxvq6yr7?svg=true" title="Build status"/></a>
 <a href='https://coveralls.io/github/CatLib/CatLib'><img src='https://coveralls.io/repos/github/CatLib/CatLib/badge.svg' alt='Coverage Status' /></a>
 </p>
