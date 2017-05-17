@@ -26,7 +26,7 @@ namespace CatLib
         {
             App.Singleton<Env>().Alias<IEnv>().OnResolving((bind, obj) =>
             {
-                var config = App.Make<IConfigStore>();
+                var config = App.Make<IConfig>();
 
                 if (config == null)
                 {

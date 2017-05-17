@@ -108,5 +108,14 @@ namespace CatLib.API
         /// </summary>
         /// <param name="obj">对象</param>
         void Load(object obj);
+
+        /// <summary>
+        /// 获取优先级，如果存在方法优先级定义那么优先返回方法的优先级
+        /// 如果不存在优先级定义那么返回<c>int.MaxValue</c>
+        /// </summary>
+        /// <param name="type">获取优先级的类型</param>
+        /// <param name="method">获取优先级的调用方法</param>
+        /// <returns>优先级</returns>
+        int GetPriorities(Type type, string method = null);
     }
 }

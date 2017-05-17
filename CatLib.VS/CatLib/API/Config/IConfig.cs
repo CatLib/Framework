@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+
 namespace CatLib.API.Config
 {
     /// <summary>
@@ -17,13 +19,10 @@ namespace CatLib.API.Config
     public interface IConfig
     {
         /// <summary>
-        /// 配置名
+        /// 获取值
         /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// 配置内容
-        /// </summary>
-        object[] Config { get; }
+        /// <param name="name">配置名</param>
+        /// <returns></returns>
+        string this[string name] { get; }
     }
 }

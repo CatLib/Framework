@@ -27,7 +27,7 @@ namespace CatLib.IO
         {
             App.Singleton<IO>().Alias<IIOFactory>().OnResolving((bind, obj) =>
             {
-                var config = App.Make<IConfigStore>();
+                var config = App.Make<IConfig>();
 
                 if (config == null)
                 {
