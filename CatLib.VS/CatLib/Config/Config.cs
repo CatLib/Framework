@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Stl;
@@ -33,11 +34,35 @@ namespace CatLib.Config
         private readonly SortSet<IConfigLocator, int> locators;
 
         /// <summary>
+        /// 类型转换器
+        /// </summary>
+        private readonly Dictionary<Type, ITypeStringConverter> typeStringConverters;
+
+        /// <summary>
         /// 构造一个配置容器
         /// </summary>
         public Config()
         {
             locators = new SortSet<IConfigLocator, int>();
+            typeStringConverters = new Dictionary<Type, ITypeStringConverter>
+            {
+                { typeof(bool), new BoolStringConverter() },
+                { typeof(byte), new ByteStringConverter() },
+                { typeof(char), new CharStringConverter() },
+                { typeof(DateTime), new DateTimeStringConverter() },
+                { typeof(decimal), new DecimalStringConverter() },
+                { typeof(double), new DoubleStringConverter() },
+                { typeof(Enum), new EnumStringConverter() },
+                { typeof(short), new Int16StringConverter() },
+                { typeof(int), new Int32StringConverter() },
+                { typeof(long), new Int64StringConverter() },
+                { typeof(sbyte), new SByteStringConverter() },
+                { typeof(float), new SingleStringConverter() },
+                { typeof(string), new StringStringConverter() },
+                { typeof(ushort), new UInt16StringConverter() },
+                { typeof(uint), new UInt32StringConverter() },
+                { typeof(ulong), new UInt64StringConverter() }
+            };
         }
 
         /// <summary>
