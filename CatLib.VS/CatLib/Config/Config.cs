@@ -66,6 +66,17 @@ namespace CatLib.Config
         }
 
         /// <summary>
+        /// 增加转换器
+        /// </summary>
+        /// <param name="type">类型对应的转换器</param>
+        /// <param name="converter">转换器</param>
+        public void AddConverter(Type type , ITypeStringConverter converter)
+        {
+            typeStringConverters.Remove(type);
+            typeStringConverters.Add(type, converter);
+        }
+
+        /// <summary>
         /// 注册一个配置定位器
         /// 框架会依次遍历配置定位器来获取配置
         /// </summary>
@@ -112,14 +123,10 @@ namespace CatLib.Config
                     return def;
                 }
 
-                var type = typeof(T);
-                if (type == typeof(int))
+                ITypeStringConverter converter;
+                if (typeStringConverters.TryGetValue(typeof(T), out converter))
                 {
-                    return (T)Convert.ChangeType(val, typeof(int));
-                }
-                if (type == typeof(string))
-                {
-                    return (T)Convert.ChangeType(val, typeof(string));
+                    return (T)converter.ConvertFromString(val, typeof(T));
                 }
 
                 return def;
