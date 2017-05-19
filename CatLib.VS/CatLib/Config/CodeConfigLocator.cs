@@ -34,17 +34,6 @@ namespace CatLib.Config
         }
 
         /// <summary>
-        /// 增加一个配置
-        /// </summary>
-        /// <param name="name">名字</param>
-        /// <param name="value"></param>
-        public void Add(string name, string value)
-        {
-            Guard.NotNull(name, "name");
-            dict.Add(name, value);
-        }
-
-        /// <summary>
         /// 设定值
         /// </summary>
         /// <param name="name">配置名</param>
