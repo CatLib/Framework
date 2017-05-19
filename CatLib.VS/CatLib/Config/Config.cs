@@ -80,10 +80,10 @@ namespace CatLib.Config
 
         /// <summary>
         /// 注册一个配置定位器
-        /// 框架会依次遍历配置定位器来获取配置
+        /// 框架会依次遍历配置定位器来获取配
         /// </summary>
-        /// <param name="locator"></param>
-        public void Register(IConfigLocator locator)
+        /// <param name="locator">配置定位器</param>
+        public void Reg(IConfigLocator locator)
         {
             Guard.NotNull(locator, "locator");
             var priorities = App.GetPriorities(locator.GetType(), "TryGetValue");
@@ -177,9 +177,9 @@ namespace CatLib.Config
 
                 return def;
             }
-            catch
+            catch(Exception ex)
             {
-                throw new ArgumentException(" field [" + name + "] is can not conversion to " + typeof(T));
+                throw new ArgumentException(" field [" + name + "] is can not conversion to " + typeof(T), ex);
             }
         }
     }

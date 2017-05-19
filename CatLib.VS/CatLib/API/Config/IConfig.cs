@@ -33,6 +33,13 @@ namespace CatLib.API.Config
         void AddConverter(Type type, ITypeStringConverter converter);
 
         /// <summary>
+        /// 注册一个配置定位器
+        /// 框架会依次遍历配置定位器来获取配置
+        /// </summary>
+        /// <param name="locator">配置定位器</param>
+        void Reg(IConfigLocator locator);
+
+        /// <summary>
         /// 设定配置的值
         /// </summary>
         /// <typeparam name="T">值的类型</typeparam>
