@@ -578,6 +578,62 @@ namespace CatLib.Tests.Stl
 
             Assert.AreEqual(0 , master.First());
             Assert.AreEqual(65535 , master.Last());
+
+            for (var i = 0; i < 65536; i++)
+            {
+                Assert.AreEqual(i , master.First());
+                Assert.AreEqual(i , master.Shift());
+            }
+
+            Assert.AreEqual(0, master.Count);
+
+            master = new SortSet<int, int>(0.25, 32);
+            for (var i = 0; i < 65536; i++)
+            {
+                master.Add(i, i);
+            }
+            for (var i = 0; i < 65536; i++)
+            {
+                Assert.AreEqual(65535 - i, master.Last());
+                Assert.AreEqual(65535 - i, master.Pop());
+            }
+        }
+
+        /// <summary>
+        /// 尾部推出测试
+        /// </summary>
+        public void PopTest()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+            for (var i = 0; i < 100; i++)
+            {
+                master.Add(i, i);
+            }
+
+            for (var i = 0; i < 65536; i++)
+            {
+                Assert.AreEqual(65535 - i, master.Pop());
+            }
+
+            Assert.AreEqual(0, master.Count);
+        }
+
+        /// <summary>
+        /// 头部推出测试
+        /// </summary>
+        public void ShiftTest()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+            for (var i = 0; i < 100; i++)
+            {
+                master.Add(i, i);
+            }
+
+            for (var i = 0; i < 65536; i++)
+            {
+                Assert.AreEqual(i, master.Shift());
+            }
+            Assert.AreEqual(0, master.Count);
         }
     }
 }

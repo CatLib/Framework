@@ -144,8 +144,20 @@ namespace CatLib.API.Stl
         /// <summary>
         /// 获取最后一个元素
         /// </summary>
-        /// <returns>元素</returns>
+        /// <returns>最后一个元素</returns>
         TElement Last();
+
+        /// <summary>
+        /// 移除并返回有序集头部的元素
+        /// </summary>
+        /// <returns>元素</returns>
+        TElement Shift();
+
+        /// <summary>
+        /// 移除并返回有序集尾部的元素
+        /// </summary>
+        /// <returns>元素</returns>
+        TElement Pop();
     }
 }
 

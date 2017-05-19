@@ -962,5 +962,47 @@ namespace CatLib.Tests.Stl
                 Assert.AreEqual(i, master[i]);
             }
         }
+
+        /// <summary>
+        /// 头尾测试
+        /// </summary>
+        [TestMethod]
+        public void FirstLastTest()
+        {
+            var master = new QuickList<int>(5);
+            for (var i = 0; i < 255; i++)
+            {
+                master.Push(i);
+            }
+
+            Assert.AreEqual(0, master.First());
+            Assert.AreEqual(254, master.Last());
+
+            for (var i = 0; i < 255; i++)
+            {
+                master.Shift();
+                if (i < 254)
+                {
+                    Assert.AreEqual(i + 1, master.First());
+                }
+            }
+
+            Assert.AreEqual(0, master.Count);
+
+            master = new QuickList<int>(5);
+            for (var i = 0; i < 255; i++)
+            {
+                master.Push(i);
+            }
+
+            for (var i = 0; i < 255; i++)
+            {
+                if (i < 254)
+                {
+                    Assert.AreEqual(254  - i, master.Last());
+                }
+                Assert.AreEqual(254 - i, master.Pop());
+            }
+        }
     }
 }

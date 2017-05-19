@@ -109,5 +109,17 @@ namespace CatLib.API.Stl
         /// 清空快速列表
         /// </summary>
         void Clear();
+
+        /// <summary>
+        /// 获取第一个元素
+        /// </summary>
+        /// <returns>第一个元素</returns>
+        TElement First();
+
+        /// <summary>
+        /// 获取最后一个元素
+        /// </summary>
+        /// <returns>最后一个元素</returns>
+        TElement Last();
     }
 }
