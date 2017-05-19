@@ -24,5 +24,29 @@ namespace CatLib.API.Config
         /// <param name="name">配置名</param>
         /// <returns></returns>
         string this[string name] { get; }
+
+        /// <summary>
+        /// 增加转换器
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <param name="converter">类型对应转换器</param>
+        void AddConverter(Type type, ITypeStringConverter converter);
+
+        /// <summary>
+        /// 设定配置的值
+        /// </summary>
+        /// <typeparam name="T">值的类型</typeparam>
+        /// <param name="name">配置名</param>
+        /// <param name="value">配置的值</param>
+        void Set<T>(string name, T value);
+
+        /// <summary>
+        /// 根据配置名获取配置
+        /// </summary>
+        /// <typeparam name="T">配置最终转换到的类型</typeparam>
+        /// <param name="name">配置所属类型的名字</param>
+        /// <param name="def">当找不到配置时的默认值</param>
+        /// <returns>配置的值，如果找不到则返回默认值</returns>
+        T Get<T>(string name, T def = default(T));
     }
 }

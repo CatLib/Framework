@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.Config
+namespace CatLib.API.Config
 {
     /// <summary>
     /// 字符串转换接口

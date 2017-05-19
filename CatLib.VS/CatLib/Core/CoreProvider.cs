@@ -34,9 +34,7 @@ namespace CatLib
                 }
 
                 var env = obj as Env;
-                var t = typeof(Env);
-
-                env.SetDebugLevel(config.Get(t, "debug", DebugLevels.Auto));
+                env.SetDebugLevel(config.Get("env.debug", DebugLevels.Auto));
          
                 return obj;
             });

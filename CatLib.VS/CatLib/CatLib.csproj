@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="API\Buffer\IBufferBuilder.cs" />
     <Compile Include="API\Compress\ICompress.cs" />
-    <Compile Include="API\Config\Features\IConfig.cs" />
-    <Compile Include="API\Config\IConfigStore.cs" />
+    <Compile Include="API\Config\Features\IConfigLocator.cs" />
+    <Compile Include="API\Config\IConfig.cs" />
     <Compile Include="API\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Container\IContainer.cs" />
     <Compile Include="API\Container\Internal\IBindData.cs" />
@@ -90,6 +90,32 @@
     <Compile Include="API\IO\PathTypes.cs" />
     <Compile Include="API\Json\IJson.cs" />
     <Compile Include="API\LocalSetting\ILocalSetting.cs" />
+    <Compile Include="Config\CodeConfigLocator.cs" />
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\ConfigProvider.cs" />
+    <Compile Include="Config\Converters\BoolStringConverter.cs" />
+    <Compile Include="Config\Converters\ByteStringConverter.cs" />
+    <Compile Include="Config\Converters\CharStringConverter.cs" />
+    <Compile Include="Config\Converters\DateTimeStringConverter.cs" />
+    <Compile Include="Config\Converters\DecimalStringConverter.cs" />
+    <Compile Include="Config\Converters\DoubleStringConverter.cs" />
+    <Compile Include="Config\Converters\EnumStringConverter.cs" />
+    <Compile Include="Config\Converters\Int16StringConverter.cs" />
+    <Compile Include="Config\Converters\Int32StringConverter.cs" />
+    <Compile Include="Config\Converters\Int64StringConverter.cs" />
+    <Compile Include="Config\Converters\SByteStringConverter.cs" />
+    <Compile Include="Config\Converters\SingleStringConverter.cs" />
+    <Compile Include="Config\Converters\StringStringConverter.cs" />
+    <Compile Include="Config\Converters\UInt16StringConverter.cs" />
+    <Compile Include="Config\Converters\UInt32StringConverter.cs" />
+    <Compile Include="Config\Converters\UInt64StringConverter.cs" />
+    <Compile Include="Config\Exception\ConverterException.cs" />
+    <Compile Include="API\Config\Features\ITypeStringConverter.cs" />
+    <Compile Include="IO\IO.cs" />
+    <Compile Include="IO\IOProvider.cs" />
+    <Compile Include="IO\Local\Directory.cs" />
+    <Compile Include="IO\Local\File.cs" />
+    <Compile Include="IO\Local\LocalDisk.cs" />
     <Compile Include="Routing\EventArgs\DispatchEventArgs.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="API\Stl\LruCache\ILruCache.cs" />
@@ -184,10 +210,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="API\catlib.json" />
+    <None Include="Config\catlib.json" />
     <None Include="Container\catlib.json" />
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
     <None Include="FilterChain\catlib.json" />
+    <None Include="IO\catlib.json" />
     <None Include="Routing\catlib.json" />
   </ItemGroup>
   <ItemGroup />

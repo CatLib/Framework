@@ -25,22 +25,6 @@ namespace CatLib.Config
             App.Singleton<Config>().Alias<IConfig>().Alias("config").OnResolving((bind, obj) =>
             {
                 var store = obj as Config;
-                if (store == null)
-                {
-                    return null;
-                }
-
-                var types = Util.FindTypesWithInterface(typeof(IConfig));
-
-                IConfig conf;
-                for (var i = 0; i < types.Length; i++)
-                {
-                    conf = App.Make(types[i].ToString(), null) as IConfig;
-                    if (conf != null)
-                    {
-                        store.AddConfig(conf);
-                    }
-                }
 
                 return store;
             });

@@ -262,6 +262,24 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 获取第一个元素
+        /// </summary>
+        /// <returns>元素</returns>
+        public TElement First()
+        {
+            return header != null ? header.Element : default(TElement);
+        }
+
+        /// <summary>
+        /// 获取最后一个元素
+        /// </summary>
+        /// <returns>元素</returns>
+        public TElement Last()
+        {
+            return tail != null ? tail.Element : default(TElement);
+        }
+
+        /// <summary>
         /// 插入记录
         /// </summary>
         /// <param name="element">元素</param>

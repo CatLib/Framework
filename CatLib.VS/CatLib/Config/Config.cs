@@ -72,6 +72,8 @@ namespace CatLib.Config
         /// <param name="converter">转换器</param>
         public void AddConverter(Type type , ITypeStringConverter converter)
         {
+            Guard.NotNull(type, "type");
+            Guard.NotNull(converter, "converter");
             typeStringConverters.Remove(type);
             typeStringConverters.Add(type, converter);
         }
@@ -83,8 +85,8 @@ namespace CatLib.Config
         /// <param name="locator"></param>
         public void Register(IConfigLocator locator)
         {
-            Guard.Requires<ArgumentNullException>(locator != null);
-            var priorities = App.GetPriorities(locator.GetType(), "Get");
+            Guard.NotNull(locator, "locator");
+            var priorities = App.GetPriorities(locator.GetType(), "TryGetValue");
             locators.Add(locator, priorities);
         }
 
@@ -99,6 +101,49 @@ namespace CatLib.Config
         }
 
         /// <summary>
+        /// 设定配置的值
+        /// </summary>
+        /// <typeparam name="T">值的类型</typeparam>
+        /// <param name="name">配置名</param>
+        /// <param name="value">配置的值</param>
+        public void Set<T>(string name, T value)
+        {
+            Guard.NotNull(name, "name");
+            if (locators.Count <= 0)
+            {
+                return;
+            }
+
+            IConfigLocator configLocator = null;
+            string val;
+            foreach (var locator in locators)
+            {
+                if (locator.TryGetValue(name, out val))
+                {
+                    configLocator = locator;
+                }
+            }
+
+            if (configLocator == null)
+            {
+                configLocator = locators.Last();
+            }
+
+            if (configLocator == null)
+            {
+                throw new RuntimeException("can not find locator. please check code.");
+            }
+
+            ITypeStringConverter converter;
+            if (!typeStringConverters.TryGetValue(typeof(T), out converter))
+            {
+                throw new ConverterException("Can not find [" + typeof(T) + "] coverter impl");
+            }
+
+            configLocator.Set(name , converter.ConvertToString(value));
+        }
+
+        /// <summary>
         /// 根据配置名获取配置
         /// </summary>
         /// <typeparam name="T">配置最终转换到的类型</typeparam>
@@ -107,6 +152,7 @@ namespace CatLib.Config
         /// <returns>配置的值，如果找不到则返回默认值</returns>
         public T Get<T>(string name, T def = default(T))
         {
+            Guard.NotNull(name, "name");
             try
             {
                 string val = null;

@@ -34,8 +34,8 @@ namespace CatLib.IO
                     return obj;
                 }
 
-                var io = obj as IO;
-                io.SetQuery((name) => config.Get<Hashtable>(typeof(IO), name));
+                //var io = obj as IO;
+                //io.SetQuery((name) => config.Get<Hashtable>(typeof(IO), name));
 
                 return obj;
             });

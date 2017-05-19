@@ -563,5 +563,21 @@ namespace CatLib.Tests.Stl
 
             Assert.AreEqual(65536, master.Count);
         }
+
+        /// <summary>
+        /// 头尾测试
+        /// </summary>
+        [TestMethod]
+        public void FirstLastTest()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+            for (var i = 0; i < 65536; i++)
+            {
+                master.Add(i, i);
+            }
+
+            Assert.AreEqual(0 , master.First());
+            Assert.AreEqual(65535 , master.Last());
+        }
     }
 }
