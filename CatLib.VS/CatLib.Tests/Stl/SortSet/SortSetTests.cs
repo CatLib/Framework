@@ -635,5 +635,31 @@ namespace CatLib.Tests.Stl
             }
             Assert.AreEqual(0, master.Count);
         }
+
+        /// <summary>
+        /// 边界测试
+        /// </summary>
+        [TestMethod]
+        public void BoundFirstTest()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                master.First();
+            }); 
+        }
+
+        /// <summary>
+        /// 边界测试
+        /// </summary>
+        [TestMethod]
+        public void BoundLastTest()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                master.Last();
+            });
+        }
     }
 }

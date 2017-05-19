@@ -964,6 +964,32 @@ namespace CatLib.Tests.Stl
         }
 
         /// <summary>
+        /// 边界测试
+        /// </summary>
+        [TestMethod]
+        public void BoundFirstTest()
+        {
+            var master = new QuickList<int>(5);
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                master.First();
+            });
+        }
+
+        /// <summary>
+        /// 边界测试
+        /// </summary>
+        [TestMethod]
+        public void BoundLastTest()
+        {
+            var master = new QuickList<int>(5);
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                master.Last();
+            });
+        }
+
+        /// <summary>
         /// 头尾测试
         /// </summary>
         [TestMethod]
