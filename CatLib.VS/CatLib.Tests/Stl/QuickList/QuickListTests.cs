@@ -62,7 +62,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void UnShiftPopTest()
         {
-            var num = 500000;
+            var num = 50000;
             var lst = new QuickList<int>();
             var rand = new Random();
             var lst2 = new List<int>();

@@ -54,6 +54,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Config\CodeConfigLocatorTests.cs" />
+    <Compile Include="Config\Converters\BoolStringConverterTests.cs" />
     <Compile Include="Container\BindDataTests.cs" />
     <Compile Include="Container\ContainerTests.cs" />
     <Compile Include="Container\GivenDataTests.cs" />

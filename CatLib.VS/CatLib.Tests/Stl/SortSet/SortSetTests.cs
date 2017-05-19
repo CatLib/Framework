@@ -400,7 +400,7 @@ namespace CatLib.Tests.Stl
         public void SequentialAddTest()
         {
             var list = new SortSet<int, int>();
-            for (var i = 0; i < 500000; i++)
+            for (var i = 0; i < 50000; i++)
             {
                 list.Add(i, i);
             }
