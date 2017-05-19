@@ -56,6 +56,22 @@
   <ItemGroup>
     <Compile Include="Config\CodeConfigLocatorTests.cs" />
     <Compile Include="Config\Converters\BoolStringConverterTests.cs" />
+    <Compile Include="Config\Converters\ByteStringConverterTests.cs" />
+    <Compile Include="Config\Converters\CharStringConverterTests.cs" />
+    <Compile Include="Config\Converters\DateTimeStringConverterTests.cs" />
+    <Compile Include="Config\Converters\DecimalStringConverterTests.cs" />
+    <Compile Include="Config\Converters\DoubleStringConverterTests.cs" />
+    <Compile Include="Config\Converters\EnumStringConverterTests.cs" />
+    <Compile Include="Config\Converters\Int16StringConverterTests.cs" />
+    <Compile Include="Config\Converters\Int32StringConverterTests.cs" />
+    <Compile Include="Config\Converters\Int64StringConverterTests.cs" />
+    <Compile Include="Config\Converters\SByteStringConverterTests.cs" />
+    <Compile Include="Config\Converters\SingleStringConverterTests.cs" />
+    <Compile Include="Config\Converters\StringStringConverterTests.cs" />
+    <Compile Include="Config\Converters\UInt16StringConverterTests.cs" />
+    <Compile Include="Config\Converters\UInt32StringConverterTests.cs" />
+    <Compile Include="Config\Converters\UInt64StringConverterTests.cs" />
+    <Compile Include="Config\ConfigTests.cs" />
     <Compile Include="Container\BindDataTests.cs" />
     <Compile Include="Container\ContainerTests.cs" />
     <Compile Include="Container\GivenDataTests.cs" />

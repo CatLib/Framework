@@ -111,7 +111,7 @@ namespace CatLib.Config
             Guard.NotNull(name, "name");
             if (locators.Count <= 0)
             {
-                return;
+                throw new RuntimeException("no reg locator. please check code.");
             }
 
             IConfigLocator configLocator = null;
@@ -127,11 +127,6 @@ namespace CatLib.Config
             if (configLocator == null)
             {
                 configLocator = locators.Last();
-            }
-
-            if (configLocator == null)
-            {
-                throw new RuntimeException("can not find locator. please check code.");
             }
 
             ITypeStringConverter converter;
