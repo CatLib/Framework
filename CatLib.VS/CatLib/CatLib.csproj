@@ -75,6 +75,10 @@
     <Compile Include="API\Event\Features\IEvent.cs" />
     <Compile Include="API\Event\IEventImpl.cs" />
     <Compile Include="API\Event\Internal\IEventHandler.cs" />
+    <Compile Include="API\FileSystem\IDirectory.cs" />
+    <Compile Include="API\FileSystem\IFile.cs" />
+    <Compile Include="FileSystem\IFileSystemAdapter.cs" />
+    <Compile Include="API\FileSystem\IFileSystem.cs" />
     <Compile Include="API\FilterChain\IFilterChain.cs" />
     <Compile Include="API\FilterChain\Internal\IFilter.cs" />
     <Compile Include="API\Flux\IAction.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Config\Converters\UInt64StringConverter.cs" />
     <Compile Include="Config\Exception\ConverterException.cs" />
     <Compile Include="API\Config\Features\ITypeStringConverter.cs" />
+    <Compile Include="FileSystem\FileSystem.cs" />
     <Compile Include="IO\IO.cs" />
     <Compile Include="IO\IOProvider.cs" />
     <Compile Include="IO\Local\Directory.cs" />

@@ -9,12 +9,12 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.IO
+namespace CatLib.API.FileSystem
 {
     /// <summary>
     /// 文件系统
     /// </summary>
-    public class FileSystem
+    public interface IFileSystem
     {
 
     }
