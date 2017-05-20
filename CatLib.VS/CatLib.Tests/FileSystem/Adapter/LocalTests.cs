@@ -73,7 +73,8 @@ namespace CatLib.Tests.FileSystem
             local.Write("HasWriteToFile.txt", GetByte("hello world"));
             Assert.AreEqual(true, local.Has("HasWriteToFile.txt"));
 
-            //todo create dir
+            local.CreateDir("HasExistsTestDir");
+            Assert.AreEqual(true, local.Has("HasExistsTestDir"));
         }
 
         [TestMethod]
@@ -227,6 +228,68 @@ namespace CatLib.Tests.FileSystem
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 local.CreateDir("123/test/../../../test-InvalidCreateDirTest-2");
+            });
+        }
+
+        [TestMethod]
+        public void RenameDirTest()
+        {
+            local.CreateDir("RenameTest-norename");
+            Assert.AreEqual(true , local.Has("RenameTest-norename"));
+            local.Rename("RenameTest-norename", "RenameTest");
+            Assert.AreEqual(true, local.Has("RenameTest"));
+            Assert.AreEqual(false, local.Has("RenameTest-norename"));
+        }
+
+        [TestMethod]
+        public void RenameFileTest()
+        {
+            local.Write("RenameFileTest-norename.txt", GetByte("RenameFileTest"));
+            Assert.AreEqual(true, local.Has("RenameFileTest-norename.txt"));
+            local.Rename("RenameFileTest-norename.txt", "RenameFileTest");
+            Assert.AreEqual(true, local.Has("RenameFileTest"));
+            Assert.AreEqual(false, local.Has("RenameFileTest-norename"));
+            Assert.AreEqual("RenameFileTest", GetString(local.Read("RenameFileTest")));
+        }
+
+        [TestMethod]
+        public void InvalidRenameTest()
+        {
+            local.Write("InvalidRenameTest-norename.txt", GetByte("InvalidRenameTest"));
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Rename("InvalidRenameTest-norename.txt", null);
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Rename("InvalidRenameTest-norename.txt", "");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Rename("", "InvalidRenameTest");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Rename(null, "InvalidRenameTest");
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Rename("InvalidRenameTest-norename.txt", "../../test");
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Rename("InvalidRenameTest-norename.txt", "test/../../test");
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Rename("../../InvalidRenameTest-norename.txt", "InvalidRenameTest.txt");
             });
         }
 

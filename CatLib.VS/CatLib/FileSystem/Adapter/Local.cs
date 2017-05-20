@@ -91,8 +91,15 @@ namespace CatLib.FileSystem
         /// <returns>是否成功</returns>
         public bool Rename(string path, string newPath)
         {
+            Guard.NotEmptyOrNull(path, "path");
+            Guard.NotEmptyOrNull(newPath, "newPath");
+
             path = Path.Combine(root, path);
+            GuardLimitedRoot(path);
+
             newPath = Path.Combine(root, newPath);
+            GuardLimitedRoot(newPath);
+
             var rootPath = Path.GetDirectoryName(path);
             var newFileName = Path.GetFileNameWithoutExtension(newPath);
             var isDir = IsDir(path);
