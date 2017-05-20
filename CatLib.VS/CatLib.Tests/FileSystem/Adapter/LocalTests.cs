@@ -235,7 +235,7 @@ namespace CatLib.Tests.FileSystem
         public void RenameDirTest()
         {
             local.CreateDir("RenameTest-norename");
-            Assert.AreEqual(true , local.Has("RenameTest-norename"));
+            Assert.AreEqual(true, local.Has("RenameTest-norename"));
             local.Rename("RenameTest-norename", "RenameTest");
             Assert.AreEqual(true, local.Has("RenameTest"));
             Assert.AreEqual(false, local.Has("RenameTest-norename"));
@@ -291,6 +291,55 @@ namespace CatLib.Tests.FileSystem
             {
                 local.Rename("../../InvalidRenameTest-norename.txt", "InvalidRenameTest.txt");
             });
+
+            ExceptionAssert.Throws<IOException>(() =>
+            {
+                local.Rename("InvalidRenameTest-norename.txt", "hello/InvalidRenameTest.txt");
+            });
+        }
+
+        [TestMethod]
+        public void RenameWithDuplicateNameTest()
+        {
+            local.Write("RenameWithDuplicateNameTest-norename.txt", GetByte("RenameWithDuplicateNameTest"));
+            local.Write("RenameWithDuplicateNameTest.txt", GetByte("hello world"));
+
+            ExceptionAssert.Throws<IOException>(() =>
+            {
+                local.Rename("InvalidRenameTest-norename.txt", "RenameWithDuplicateNameTest.txt");
+            });
+
+            Assert.AreEqual("hello world", GetString(local.Read("RenameWithDuplicateNameTest.txt")));
+        }
+
+        [TestMethod]
+        public void RenameDirWithDuplicateNameTest()
+        {
+            local.CreateDir("RenameDirWithDuplicateNameTest");
+            local.Write("RenameDirWithDuplicateNameTest/RenameWithDuplicateNameTest-norename.txt", GetByte("hello"));
+            local.Write("RenameDirWithDuplicateNameTest/RenameDirWithDuplicateNameTest.txt", GetByte("world"));
+            local.Write("RenameDir", GetByte("111"));
+
+            ExceptionAssert.Throws<IOException>(() =>
+            {
+                local.Rename("RenameDirWithDuplicateNameTest", "RenameDir");
+            });
+
+            Assert.AreEqual("111", GetString(local.Read("RenameDir")));
+        }
+
+        [TestMethod]
+        public void CopyDirTest()
+        {
+            local.CreateDir("CopyDir-norename/Test1");
+            local.CreateDir("CopyDir-norename/Test2");
+
+            local.Write("CopyDir-norename/Test1/text11.txt", GetByte("test11"));
+            local.Write("CopyDir-norename/Test1/text12.txt", GetByte("test12"));
+            local.Write("CopyDir-norename/Test2/text21.txt", GetByte("test21"));
+            local.Write("CopyDir-norename/maintxt.txt", GetByte("test21"));
+
+            local.Copy("CopyDir-norename", "TestCopy/CopyDir");
         }
 
         private byte[] GetByte(string str)

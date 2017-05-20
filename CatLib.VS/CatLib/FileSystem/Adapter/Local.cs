@@ -51,6 +51,7 @@ namespace CatLib.FileSystem
 
         /// <summary>
         /// 写入数据
+        /// 如果数据已经存在则覆盖
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="contents">写入数据</param>
@@ -104,14 +105,14 @@ namespace CatLib.FileSystem
             var newFileName = Path.GetFileNameWithoutExtension(newPath);
             var isDir = IsDir(path);
 
-            if (!isDir && File.Exists(newPath))
+            if (File.Exists(newPath))
             {
-                throw new IOException("duplicate file name:" + newFileName);
+                throw new IOException("duplicate name:" + newFileName);
             }
 
-            if (isDir && Directory.Exists(newPath))
+            if (Directory.Exists(newPath))
             {
-                throw new IOException("duplicate file name:" + newFileName);
+                throw new IOException("duplicate name:" + newFileName);
             }
 
             if (rootPath != Path.GetDirectoryName(newPath))
@@ -132,23 +133,46 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
-        /// 复制文件
+        /// 复制文件或文件夹到指定路径
         /// </summary>
-        /// <param name="path">文件路径</param>
-        /// <param name="copyPath">复制到的文件路径</param>
+        /// <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
+        /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
         /// <returns>是否成功</returns>
         public bool Copy(string path, string copyPath)
         {
+            Guard.NotEmptyOrNull(path, "path");
+            Guard.NotEmptyOrNull(copyPath, "copyPath");
+
             path = Path.Combine(root, path);
+            GuardLimitedRoot(path);
+
             copyPath = Path.Combine(root, copyPath);
-            var isDir = IsDir(path);
+            GuardLimitedRoot(copyPath);
+
             EnsureDirectory(copyPath);
 
-            if (isDir)
+            if (IsDir(path))
             {
-                var fileInfo = new FileInfo(path);
-                fileInfo.CopyTo(copyPath);
+                var files = Directory.GetFiles(path);
+                foreach (var file in files)
+                {
+                    var fileName = Path.GetFileName(file);
+                    var destFile = Path.Combine(copyPath, fileName);
+                    File.Copy(file, destFile, true);
+                }
+
+                foreach (var info in Directory.GetDirectories(path))
+                {
+                    Copy(info, Path.Combine(copyPath , Path.GetFileName(info)));
+                }
             }
+            else
+            {
+                var fileName = Path.GetFileName(path);
+                var fileInfo = new FileInfo(path);
+                fileInfo.CopyTo(Path.Combine(copyPath, fileName));
+            }
+
             return true;
         }
 
