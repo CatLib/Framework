@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// ulong转换
     /// </summary>
-    internal class UInt64StringConverter : ITypeStringConverter
+    internal sealed class UInt64StringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

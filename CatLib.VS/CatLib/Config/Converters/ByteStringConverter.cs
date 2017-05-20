@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// byte转换器
     /// </summary>
-    internal class ByteStringConverter : ITypeStringConverter
+    internal sealed class ByteStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

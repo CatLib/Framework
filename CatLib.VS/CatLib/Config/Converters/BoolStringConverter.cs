@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// bool转换器
     /// </summary>
-    internal class BoolStringConverter : ITypeStringConverter
+    internal sealed class BoolStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

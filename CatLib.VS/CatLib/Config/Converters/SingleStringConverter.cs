@@ -18,7 +18,7 @@ namespace CatLib.Config
     /// <summary>
     /// float转换
     /// </summary>
-    internal class SingleStringConverter : ITypeStringConverter
+    internal sealed class SingleStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// Int32转换
     /// </summary>
-    internal class Int32StringConverter : ITypeStringConverter
+    internal sealed class Int32StringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

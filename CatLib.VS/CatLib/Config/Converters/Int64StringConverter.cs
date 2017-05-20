@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// Int64(long)转换
     /// </summary>
-    internal class Int64StringConverter : ITypeStringConverter
+    internal sealed class Int64StringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

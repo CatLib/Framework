@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// int16（short）转换
     /// </summary>
-    internal class Int16StringConverter : ITypeStringConverter
+    internal sealed class Int16StringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

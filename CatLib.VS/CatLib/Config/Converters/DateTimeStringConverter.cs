@@ -18,7 +18,7 @@ namespace CatLib.Config
     /// <summary>
     /// 时间转换
     /// </summary>
-    internal class DateTimeStringConverter : ITypeStringConverter
+    internal sealed class DateTimeStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

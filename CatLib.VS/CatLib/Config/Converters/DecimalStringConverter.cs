@@ -18,7 +18,7 @@ namespace CatLib.Config
     /// <summary>
     /// decimal转换
     /// </summary>
-    internal class DecimalStringConverter : ITypeStringConverter
+    internal sealed class DecimalStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

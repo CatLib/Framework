@@ -18,7 +18,7 @@ namespace CatLib.Config
     /// <summary>
     /// double转换
     /// </summary>
-    internal class DoubleStringConverter : ITypeStringConverter
+    internal sealed class DoubleStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

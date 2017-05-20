@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// sbyte转换
     /// </summary>
-    internal class SByteStringConverter : ITypeStringConverter
+    internal sealed class SByteStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串
