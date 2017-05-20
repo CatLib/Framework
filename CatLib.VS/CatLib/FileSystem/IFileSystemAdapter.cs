@@ -19,9 +19,9 @@ namespace CatLib.FileSystem
     public interface IFileSystemAdapter
     {
         /// <summary>
-        /// 路径是否存在
+        /// 文件或文件夹是否存在
         /// </summary>
-        /// <param name="path">路径是否存在</param>
+        /// <param name="path">文件或文件夹是否存在</param>
         /// <returns>是否存在</returns>
         bool Has(string path);
 
