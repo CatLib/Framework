@@ -146,6 +146,90 @@ namespace CatLib.Tests.FileSystem
             });
         }
 
+        /// <summary>
+        /// 读取测试
+        /// </summary>
+        [TestMethod]
+        public void ReadTest()
+        {
+            local.Write("ReadTest.txt", GetByte("hello world"));
+            Assert.AreEqual("hello world", GetString(local.Read("ReadTest.txt")));
+        }
+
+        /// <summary>
+        /// 无效的读测试
+        /// </summary>
+        [TestMethod]
+        public void InvalidReadTest()
+        {
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Read("");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Read(null);
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Read("../InvalidReadTest.txt");
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Read("../");
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Read("InvalidReadTest/123123/../../../../123.txt");
+            });
+
+            ExceptionAssert.Throws<FileNotFoundException>(() =>
+            {
+                local.Read("InvalidReadTest.NotExists.txt");
+            });
+        }
+
+        /// <summary>
+        /// 创建文件夹测试
+        /// </summary>
+        [TestMethod]
+        public void CreateDirTest()
+        {
+            local.CreateDir("CreateDirTest");
+            local.CreateDir("CreateDirTest-2/hello/test");
+        }
+
+        /// <summary>
+        /// 无效的读测试
+        /// </summary>
+        [TestMethod]
+        public void InvalidCreateDirTest()
+        {
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.CreateDir("");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.CreateDir(null);
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.CreateDir("../test-InvalidCreateDirTest-1");
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.CreateDir("123/test/../../../test-InvalidCreateDirTest-2");
+            });
+        }
+
         private byte[] GetByte(string str)
         {
             return System.Text.Encoding.Default.GetBytes(str);

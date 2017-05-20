@@ -73,7 +73,9 @@ namespace CatLib.FileSystem
         /// <returns>读取的数据</returns>
         public byte[] Read(string path)
         {
+            Guard.NotEmptyOrNull(path, "path");
             path = Path.Combine(root, path);
+            GuardLimitedRoot(path);
             if (File.Exists(path))
             {
                 return File.ReadAllBytes(path);
@@ -160,6 +162,10 @@ namespace CatLib.FileSystem
         /// <returns>是否成功</returns>
         public bool CreateDir(string path)
         {
+            Guard.NotEmptyOrNull(path, "path");
+            path = Path.Combine(root, path);
+            GuardLimitedRoot(path);
+            EnsureDirectory(path);
             return true;
         }
 
