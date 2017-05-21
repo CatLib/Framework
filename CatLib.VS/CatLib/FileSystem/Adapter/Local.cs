@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using CatLib.API;
@@ -34,6 +35,12 @@ namespace CatLib.FileSystem
         public Local(string root)
         {
             Guard.NotEmptyOrNull(root, "root");
+
+            if (!Path.IsPathRooted(root))
+            {
+                throw new ArgumentException("Path need rooted! " + root, "root");
+            }
+
             this.root = root;
         }
 
@@ -45,8 +52,10 @@ namespace CatLib.FileSystem
         public bool Has(string path)
         {
             Guard.NotEmptyOrNull(path, "path");
-            path = Path.Combine(root, path);
+
+            path = Normalize(path);
             GuardLimitedRoot(path);
+
             return SIO.File.Exists(path) || SIO.Directory.Exists(path);
         }
 
@@ -61,8 +70,10 @@ namespace CatLib.FileSystem
         {
             Guard.NotEmptyOrNull(path, "path");
             Guard.NotNull(contents, "contents");
-            path = Path.Combine(root, path);
+
+            path = Normalize(path);
             GuardLimitedRoot(path);
+
             EnsureDirectory(Path.GetDirectoryName(path));
             SIO.File.WriteAllBytes(path, contents);
             return true;
@@ -76,8 +87,10 @@ namespace CatLib.FileSystem
         public byte[] Read(string path)
         {
             Guard.NotEmptyOrNull(path, "path");
-            path = Path.Combine(root, path);
+
+            path = Normalize(path);
             GuardLimitedRoot(path);
+
             if (SIO.File.Exists(path))
             {
                 return SIO.File.ReadAllBytes(path);
@@ -96,10 +109,10 @@ namespace CatLib.FileSystem
             Guard.NotEmptyOrNull(path, "path");
             Guard.NotEmptyOrNull(newPath, "newPath");
 
-            path = Path.Combine(root, path);
+            path = Normalize(path);
             GuardLimitedRoot(path);
 
-            newPath = Path.Combine(root, newPath);
+            newPath = Normalize(newPath);
             GuardLimitedRoot(newPath);
 
             var rootPath = Path.GetDirectoryName(path);
@@ -144,10 +157,10 @@ namespace CatLib.FileSystem
             Guard.NotEmptyOrNull(path, "path");
             Guard.NotEmptyOrNull(copyPath, "copyPath");
 
-            path = Path.Combine(root, path);
+            path = Normalize(path);
             GuardLimitedRoot(path);
 
-            copyPath = Path.Combine(root, copyPath);
+            copyPath = Normalize(copyPath);
             GuardLimitedRoot(copyPath);
 
             EnsureDirectory(copyPath);
@@ -184,7 +197,7 @@ namespace CatLib.FileSystem
         {
             Guard.NotEmptyOrNull(path, "path");
 
-            path = Path.Combine(root, path);
+            path = Normalize(path);
             GuardLimitedRoot(path);
 
             if (IsDir(path))
@@ -206,8 +219,10 @@ namespace CatLib.FileSystem
         public bool CreateDir(string path)
         {
             Guard.NotEmptyOrNull(path, "path");
-            path = Path.Combine(root, path);
+
+            path = Normalize(path);
             GuardLimitedRoot(path);
+
             EnsureDirectory(path);
             return true;
         }
@@ -220,8 +235,10 @@ namespace CatLib.FileSystem
         public FileAttributes GetAttributes(string path)
         {
             Guard.NotEmptyOrNull(path, "path");
-            path = Path.Combine(root, path);
+
+            path = Normalize(path);
             GuardLimitedRoot(path);
+
             return SIO.File.GetAttributes(path);
         }
 
@@ -234,7 +251,7 @@ namespace CatLib.FileSystem
         {
             Guard.NotEmptyOrNull(path, "path");
 
-            path = Path.Combine(root, path);
+            path = Normalize(path);
             GuardLimitedRoot(path);
 
             if (IsDir(path))
@@ -251,7 +268,7 @@ namespace CatLib.FileSystem
         /// <returns>指定目录下的文件夹和文件列表</returns>
         public string[] GetList(string path = null)
         {
-            path = Path.Combine(root, path ?? string.Empty);
+            path = Normalize(path ?? string.Empty);
             GuardLimitedRoot(path);
 
             var result = new List<string>();
@@ -288,13 +305,22 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
+        /// 标准化路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        protected string Normalize(string path)
+        {
+            return Path.GetFullPath(Path.Combine(root, path));
+        }
+
+        /// <summary>
         /// 判断限定范围是否在root下
         /// </summary>
         /// <param name="path">绝对路径</param>
         protected void GuardLimitedRoot(string path)
         {
-            var newPath = Path.GetFullPath(path);
-            if (!newPath.Contains(root))
+            if (!path.Contains(root))
             {
                 throw new RuntimeException("The path range is beyond root path " + path);
             }

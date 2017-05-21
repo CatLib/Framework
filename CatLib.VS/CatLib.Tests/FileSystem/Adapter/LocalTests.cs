@@ -254,6 +254,18 @@ namespace CatLib.Tests.FileSystem
         }
 
         [TestMethod]
+        public void RenameDuplicateDir()
+        {
+            local.CreateDir("RenameDuplicateDir-norename");
+            local.CreateDir("RenameDuplicateDir");
+
+            ExceptionAssert.Throws<IOException>(() =>
+            {
+                local.Rename("RenameDuplicateDir-norename", "RenameDuplicateDir");
+            });
+        }
+
+        [TestMethod]
         public void InvalidRenameTest()
         {
             local.Write("InvalidRenameTest-norename.txt", GetByte("InvalidRenameTest"));
@@ -520,6 +532,16 @@ namespace CatLib.Tests.FileSystem
 
             Assert.AreEqual(true, local.GetList("").Length > 0);
             Assert.AreEqual(true, local.GetList(null).Length > 0);
+        }
+
+        [TestMethod]
+        public void GetListWithFile()
+        {
+            local.CreateDir("GetListWithFile");
+            local.Write("GetListWithFile/GetListWithFile.txt", GetByte("test"));
+            var lst = local.GetList("GetListWithFile/GetListWithFile.txt");
+            Assert.AreEqual(1, lst.Length);
+            Assert.AreEqual("\\FileSystemTest\\GetListWithFile\\GetListWithFile.txt", lst[0].Substring(Environment.CurrentDirectory.Length));
         }
 
         [TestMethod]
