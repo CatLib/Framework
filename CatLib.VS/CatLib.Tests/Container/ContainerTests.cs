@@ -868,7 +868,7 @@ namespace CatLib.Tests.Container
 
             bind.Needs("AliasName").Given<MakeTestClassDependency>();
             cls = container.Make<TestMakeParamInjectAttrClass>();
-            Assert.AreEqual("world", cls.GetMsg());
+            Assert.AreEqual("hello", cls.GetMsg());
 
             subBind.UnBind();
             cls = container.Make<TestMakeParamInjectAttrClass>();
@@ -1076,6 +1076,99 @@ namespace CatLib.Tests.Container
             Assert.AreEqual(null, result.Base3);
             Assert.AreNotEqual(null, result.Base4);
             Assert.AreEqual(null, result.Base5);
+        }
+
+        interface IComplexInterface
+        {
+            string Message();
+        }
+
+        class ComplexClass
+        {
+            [Inject]
+            public IComplexInterface Msg { get; set; }
+        }
+
+        class ComplexInjectClass1 : IComplexInterface
+        {
+            public string Message()
+            {
+                return "ComplexInjectClass1";
+            }
+        }
+
+        class ComplexInjectClass2 : IComplexInterface
+        {
+            public string Message()
+            {
+                return "ComplexInjectClass2";
+            }
+        }
+
+        /// <summary>
+        /// 复杂的上下文关系测试
+        /// </summary>
+        [TestMethod]
+        public void ComplexContextualRelationshipTest1()
+        {
+            var container = MakeContainer();
+            container.Bind<ComplexClass>().Needs<IComplexInterface>().Given("IComplexInterface.alias");
+            container.Bind<ComplexInjectClass1>().Alias<IComplexInterface>();
+            container.Bind<ComplexInjectClass2>().Alias("IComplexInterface.alias");
+
+            var cls = container.Make<ComplexClass>();
+            Assert.AreEqual("ComplexInjectClass2", cls.Msg.Message());
+        }
+
+        /// <summary>
+        /// 复杂的上下文关系测试
+        /// </summary>
+        [TestMethod]
+        public void ComplexContextualRelationshipTest2()
+        {
+            var container = MakeContainer();
+            container.Bind<ComplexClass>();
+            container.Bind<ComplexInjectClass1>().Alias<IComplexInterface>();
+            container.Bind<ComplexInjectClass2>().Alias("IComplexInterface.alias");
+
+            var cls = container.Make<ComplexClass>();
+            Assert.AreEqual("ComplexInjectClass1", cls.Msg.Message());
+        }
+
+        class ComplexClassAlias
+        {
+            [Inject("IComplexInterface.alias")]
+            public IComplexInterface Msg { get; set; }
+        }
+
+        /// <summary>
+        /// 复杂的上下文关系测试
+        /// </summary>
+        [TestMethod]
+        public void ComplexContextualRelationshipTest3()
+        {
+            var container = MakeContainer();
+            container.Bind<ComplexClassAlias>();
+            container.Bind<ComplexInjectClass1>().Alias<IComplexInterface>();
+            container.Bind<ComplexInjectClass2>().Alias("IComplexInterface.alias");
+
+            var cls = container.Make<ComplexClassAlias>();
+            Assert.AreEqual("ComplexInjectClass2", cls.Msg.Message());
+        }
+
+        /// <summary>
+        /// 复杂的上下文关系测试
+        /// </summary>
+        [TestMethod]
+        public void ComplexContextualRelationshipTest4()
+        {
+            var container = MakeContainer();
+            container.Bind<ComplexClassAlias>().Needs("IComplexInterface.alias").Given<IComplexInterface>();
+            container.Bind<ComplexInjectClass1>().Alias<IComplexInterface>();
+            container.Bind<ComplexInjectClass2>().Alias("IComplexInterface.alias");
+
+            var cls = container.Make<ComplexClassAlias>();
+            Assert.AreEqual("ComplexInjectClass1", cls.Msg.Message());
         }
         #endregion
 
