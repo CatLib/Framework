@@ -68,14 +68,14 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
-        /// 重命名
+        /// 移动文件到指定目录
         /// </summary>
         /// <param name="path">旧的文件/文件夹路径</param>
         /// <param name="newPath">新的文件/文件夹路径</param>
         /// <returns>是否成功</returns>
-        public void Rename(string path, string newPath)
+        public void Move(string path, string newPath)
         {
-            adapter.Rename(path, newPath);
+            adapter.Move(path, newPath);
         }
 
         /// <summary>

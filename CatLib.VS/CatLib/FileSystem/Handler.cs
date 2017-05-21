@@ -87,7 +87,16 @@ namespace CatLib.FileSystem
         {
             var newPath = System.IO.Path.GetDirectoryName(Path);
             newPath = System.IO.Path.Combine(newPath, newName);
-            FileSystem.Rename(Path, newPath);
+            Move(newPath);
+        }
+
+        /// <summary>
+        /// 将文件/文件夹移动到指定路径
+        /// </summary>
+        /// <param name="newPath">移动到的目标路径</param>
+        public void Move(string newPath)
+        {
+            FileSystem.Move(Path, newPath);
             path = newPath;
         }
 

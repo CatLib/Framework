@@ -42,12 +42,12 @@ namespace CatLib.FileSystem
         byte[] Read(string path);
 
         /// <summary>
-        /// 重命名
+        /// 移动文件到指定目录
         /// </summary>
         /// <param name="path">旧的文件/文件夹路径</param>
         /// <param name="newPath">新的文件/文件夹路径</param>
         /// <returns>是否成功</returns>
-        void Rename(string path, string newPath);
+        void Move(string path, string newPath);
 
         /// <summary>
         /// 复制文件或文件夹到指定路径

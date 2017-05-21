@@ -36,6 +36,12 @@ namespace CatLib.API.FileSystem
         void Rename(string newName);
 
         /// <summary>
+        /// 将文件/文件夹移动到指定路径
+        /// </summary>
+        /// <param name="newPath">移动到的目标路径</param>
+        void Move(string newPath);
+
+        /// <summary>
         /// 复制文件或文件夹到指定路径
         /// </summary>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>

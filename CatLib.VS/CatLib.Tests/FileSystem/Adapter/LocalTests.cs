@@ -255,7 +255,7 @@ namespace CatLib.Tests.FileSystem
         {
             local.CreateDir("RenameTest-norename");
             Assert.AreEqual(true, local.Exists("RenameTest-norename"));
-            local.Rename("RenameTest-norename", "RenameTest");
+            local.Move("RenameTest-norename", "RenameTest");
             Assert.AreEqual(true, local.Exists("RenameTest"));
             Assert.AreEqual(false, local.Exists("RenameTest-norename"));
         }
@@ -265,7 +265,7 @@ namespace CatLib.Tests.FileSystem
         {
             local.Write("RenameFileTest-norename.txt", GetByte("RenameFileTest"));
             Assert.AreEqual(true, local.Exists("RenameFileTest-norename.txt"));
-            local.Rename("RenameFileTest-norename.txt", "RenameFileTest");
+            local.Move("RenameFileTest-norename.txt", "RenameFileTest");
             Assert.AreEqual(true, local.Exists("RenameFileTest"));
             Assert.AreEqual(false, local.Exists("RenameFileTest-norename"));
             Assert.AreEqual("RenameFileTest", GetString(local.Read("RenameFileTest")));
@@ -279,7 +279,7 @@ namespace CatLib.Tests.FileSystem
 
             ExceptionAssert.Throws<IOException>(() =>
             {
-                local.Rename("RenameDuplicateDir-norename", "RenameDuplicateDir");
+                local.Move("RenameDuplicateDir-norename", "RenameDuplicateDir");
             });
         }
 
@@ -290,42 +290,42 @@ namespace CatLib.Tests.FileSystem
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.Rename("InvalidRenameTest-norename.txt", null);
+                local.Move("InvalidRenameTest-norename.txt", null);
             });
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.Rename("InvalidRenameTest-norename.txt", "");
+                local.Move("InvalidRenameTest-norename.txt", "");
             });
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.Rename("", "InvalidRenameTest");
+                local.Move("", "InvalidRenameTest");
             });
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.Rename(null, "InvalidRenameTest");
+                local.Move(null, "InvalidRenameTest");
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                local.Rename("InvalidRenameTest-norename.txt", "../../test");
+                local.Move("InvalidRenameTest-norename.txt", "../../test");
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                local.Rename("InvalidRenameTest-norename.txt", "test/../../test");
+                local.Move("InvalidRenameTest-norename.txt", "test/../../test");
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                local.Rename("../../InvalidRenameTest-norename.txt", "InvalidRenameTest.txt");
+                local.Move("../../InvalidRenameTest-norename.txt", "InvalidRenameTest.txt");
             });
 
             ExceptionAssert.Throws<IOException>(() =>
             {
-                local.Rename("InvalidRenameTest-norename.txt", "hello/InvalidRenameTest.txt");
+                local.Move("InvalidRenameTest-norename.txt", "hello/InvalidRenameTest.txt");
             });
         }
 
@@ -337,7 +337,7 @@ namespace CatLib.Tests.FileSystem
 
             ExceptionAssert.Throws<IOException>(() =>
             {
-                local.Rename("InvalidRenameTest-norename.txt", "RenameWithDuplicateNameTest.txt");
+                local.Move("InvalidRenameTest-norename.txt", "RenameWithDuplicateNameTest.txt");
             });
 
             Assert.AreEqual("hello world", GetString(local.Read("RenameWithDuplicateNameTest.txt")));
@@ -353,7 +353,7 @@ namespace CatLib.Tests.FileSystem
 
             ExceptionAssert.Throws<IOException>(() =>
             {
-                local.Rename("RenameDirWithDuplicateNameTest", "RenameDir");
+                local.Move("RenameDirWithDuplicateNameTest", "RenameDir");
             });
 
             Assert.AreEqual("111", GetString(local.Read("RenameDir")));

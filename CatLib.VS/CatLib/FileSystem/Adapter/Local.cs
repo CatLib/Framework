@@ -98,12 +98,12 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
-        /// 重命名
+        /// 移动文件到指定目录(可以被用于重命名)
         /// </summary>
         /// <param name="path">旧的文件/文件夹路径</param>
         /// <param name="newPath">新的文件/文件夹路径</param>
         /// <returns>是否成功</returns>
-        public void Rename(string path, string newPath)
+        public void Move(string path, string newPath)
         {
             Guard.NotEmptyOrNull(path, "path");
             Guard.NotEmptyOrNull(newPath, "newPath");
@@ -114,7 +114,6 @@ namespace CatLib.FileSystem
             newPath = Normalize(newPath);
             GuardLimitedRoot(newPath);
 
-            var rootPath = Path.GetDirectoryName(path);
             var newFileName = Path.GetFileNameWithoutExtension(newPath);
             var isDir = IsDir(path);
 
@@ -126,11 +125,6 @@ namespace CatLib.FileSystem
             if (SIO.Directory.Exists(newPath))
             {
                 throw new IOException("duplicate name:" + newFileName);
-            }
-
-            if (rootPath != Path.GetDirectoryName(newPath))
-            {
-                throw new IOException("rename can't be used to change a files/dir location use Move(...) instead.");
             }
 
             if (isDir)
