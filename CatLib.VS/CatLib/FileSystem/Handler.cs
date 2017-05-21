@@ -108,5 +108,14 @@ namespace CatLib.FileSystem
         {
             return FileSystem.GetAttributes(path);
         }
+
+        /// <summary>
+        /// 是否是文件夹
+        /// </summary>
+        /// <returns>是否是文件夹</returns>
+        public bool IsDir()
+        {
+            return (GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory;
+        }
     }
 }

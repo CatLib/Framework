@@ -134,6 +134,33 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
+        /// 获取列表（不会迭代子文件夹）
+        /// </summary>
+        /// <param name="path">要获取列表的文件夹路径(如果传入的是一个文件那么将会返回文件自身路径)</param>
+        /// <returns>指定目录下的文件夹句柄和文件句柄列表</returns>
+        public IHandler[] GetList(string path = null)
+        {
+            var paths = adapter.GetList(path);
+            var handlers = new IHandler[paths.Length];
+            var i = 0;
+            foreach (var fd in paths)
+            {
+                handlers[i++] = Get(fd);
+            }
+            return handlers;
+        }
+
+        /// <summary>
+        /// 获取文件系统信息
+        /// </summary>
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>文件系统信息</returns>
+        public FileSystemInfo GetInfo(string path)
+        {
+            return adapter.GetInfo(path);
+        }
+
+        /// <summary>
         /// 是否是文件夹
         /// </summary>
         /// <param name="path">文件/文件夹路径</param>

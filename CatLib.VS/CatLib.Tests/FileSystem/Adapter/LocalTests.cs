@@ -12,6 +12,7 @@
 using System;
 using System.IO;
 using CatLib.API;
+using CatLib.API.FileSystem;
 using CatLib.FileSystem;
 using SIO = System.IO;
 #if UNITY_EDITOR || NUNIT
@@ -343,7 +344,7 @@ namespace CatLib.Tests.FileSystem
 
             local.Copy("CopyDir-norename", "TestCopy/CopyDir");
 
-            Assert.AreEqual("test11" , GetString(local.Read("CopyDir-norename/Test1/text11.txt")));
+            Assert.AreEqual("test11", GetString(local.Read("CopyDir-norename/Test1/text11.txt")));
             Assert.AreEqual("test12", GetString(local.Read("CopyDir-norename/Test1/text12.txt")));
             Assert.AreEqual("test21", GetString(local.Read("CopyDir-norename/Test2/text21.txt")));
             Assert.AreEqual("test21-sub", GetString(local.Read("CopyDir-norename/Test2/SubDir/text21-sub.txt")));
@@ -409,7 +410,7 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void DeleteFileTest()
         {
-            Assert.AreEqual(false , local.Has("DeleteTest/test.txt"));
+            Assert.AreEqual(false, local.Has("DeleteTest/test.txt"));
             local.Write("DeleteTest/test.txt", GetByte("test"));
             Assert.AreEqual(true, local.Has("DeleteTest/test.txt"));
             local.Delete("DeleteTest/test.txt");
@@ -445,6 +446,88 @@ namespace CatLib.Tests.FileSystem
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 local.Delete("../");
+            });
+        }
+
+        [TestMethod]
+        public void GetAttributesTest()
+        {
+            local.CreateDir("GetAttributesTest");
+            local.Write("GetAttributesTest/test.txt", GetByte("test"));
+
+            Assert.AreEqual(FileAttributes.Directory, local.GetAttributes("GetAttributesTest") & FileAttributes.Directory);
+            Assert.AreEqual((FileAttributes)0, local.GetAttributes("GetAttributesTest/test.txt") & FileAttributes.Directory);
+        }
+
+        [TestMethod]
+        public void InvalidGetAttributesTest()
+        {
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.GetAttributes("");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.GetAttributes(null);
+            });
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.GetAttributes("../../../");
+            });
+        }
+
+        [TestMethod]
+        public void GetInfoTest()
+        {
+            local.CreateDir("GetInfoTest");
+            local.Write("GetInfoTest/test.txt", GetByte("test"));
+
+            Assert.AreNotEqual(null, local.GetInfo("GetInfoTest"));
+            Assert.AreNotEqual(null, local.GetInfo("GetInfoTest/test.txt"));
+        }
+
+        [TestMethod]
+        public void InvalidGetInfoTest()
+        {
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.GetInfo("");
+            });
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.GetInfo(null);
+            });
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.GetInfo("../../../");
+            });
+            ExceptionAssert.Throws<FileNotFoundException>(() =>
+            {
+                local.GetInfo("InvalidGetInfoTest.txt");
+            });
+        }
+
+        [TestMethod]
+        public void GetListTest()
+        {
+            local.CreateDir("GetListTest");
+            local.Write("GetListTest/test.txt", GetByte("test"));
+
+            var lst = local.GetList("GetListTest");
+            Assert.AreEqual(1, lst.Length);
+            Assert.AreEqual("\\FileSystemTest\\GetListTest\\test.txt", lst[0].Substring(Environment.CurrentDirectory.Length));
+
+            Assert.AreEqual(true, local.GetList("").Length > 0);
+            Assert.AreEqual(true, local.GetList(null).Length > 0);
+        }
+
+        [TestMethod]
+        public void InvalidGetListTest()
+        {
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.GetList("../../../");
             });
         }
 

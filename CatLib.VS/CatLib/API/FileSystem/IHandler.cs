@@ -55,5 +55,11 @@ namespace CatLib.API.FileSystem
         /// <param name="path">文件/文件夹路径</param>
         /// <returns>文件/文件夹属性</returns>
         FileAttributes GetAttributes(string path);
+
+        /// <summary>
+        /// 是否是文件夹
+        /// </summary>
+        /// <returns>是否是文件夹</returns>
+        bool IsDir();
     }
 }

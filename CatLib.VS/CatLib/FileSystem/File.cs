@@ -16,15 +16,15 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件
     /// </summary>
-    public class File : Handler , IFile
+    public class File : Handler, IFile
     {
         /// <summary>
         /// 文件
         /// </summary>
         /// <param name="fileSystem">文件系统</param>
         /// <param name="path">文件路径</param>
-        public File(FileSystem fileSystem, string path) : 
-            base(fileSystem , path)
+        public File(FileSystem fileSystem, string path) :
+            base(fileSystem, path)
         {
         }
 

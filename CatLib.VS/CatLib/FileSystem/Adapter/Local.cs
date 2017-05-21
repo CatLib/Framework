@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
 using System.IO;
 using CatLib.API;
 using CatLib.Stl;
@@ -220,7 +221,60 @@ namespace CatLib.FileSystem
         {
             Guard.NotEmptyOrNull(path, "path");
             path = Path.Combine(root, path);
+            GuardLimitedRoot(path);
             return SIO.File.GetAttributes(path);
+        }
+
+        /// <summary>
+        /// 获取文件系统信息
+        /// </summary>
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>文件系统信息</returns>
+        public FileSystemInfo GetInfo(string path)
+        {
+            Guard.NotEmptyOrNull(path, "path");
+
+            path = Path.Combine(root, path);
+            GuardLimitedRoot(path);
+
+            if (IsDir(path))
+            {
+                return new DirectoryInfo(path);
+            }
+            return new FileInfo(path);
+        }
+
+        /// <summary>
+        /// 获取列表（不会迭代子文件夹）
+        /// </summary>
+        /// <param name="path">要获取列表的路径</param>
+        /// <returns>指定目录下的文件夹和文件列表</returns>
+        public string[] GetList(string path = null)
+        {
+            path = Path.Combine(root, path ?? string.Empty);
+            GuardLimitedRoot(path);
+
+            var result = new List<string>();
+
+            if (IsDir(path))
+            {
+                var files = SIO.Directory.GetFiles(path);
+                foreach (var file in files)
+                {
+                    result.Add(file);
+                }
+
+                foreach (var info in SIO.Directory.GetDirectories(path))
+                {
+                    result.Add(info);
+                }
+            }
+            else
+            {
+                result.Add(path);
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
