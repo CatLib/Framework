@@ -14,7 +14,7 @@ namespace CatLib.API.FileSystem
     /// <summary>
     /// 文件夹
     /// </summary>
-    public interface IDirectory
+    public interface IDirectory : IHandler
     {
     }
 }

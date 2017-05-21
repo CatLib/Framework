@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using CatLib.API;
 using CatLib.FileSystem;
+using SIO = System.IO;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -37,12 +38,12 @@ namespace CatLib.Tests.FileSystem
         [TestInitialize]
         public void TestInitialize()
         {
-            var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
-            if (Directory.Exists(path))
+            var path = Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            if (SIO.Directory.Exists(path))
             {
-                Directory.Delete(path, true);
+                SIO.Directory.Delete(path, true);
             }
-            Directory.CreateDirectory(path);
+            SIO.Directory.CreateDirectory(path);
 
             local = new Local(path);
         }
@@ -50,11 +51,10 @@ namespace CatLib.Tests.FileSystem
         [TestCleanup]
         public void TestCleanup()
         {
-            return;
-            var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
-            if (Directory.Exists(path))
+            var path = Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            if (SIO.Directory.Exists(path))
             {
-                Directory.Delete(path, true);
+                SIO.Directory.Delete(path, true);
             }
         }
 
@@ -333,13 +333,119 @@ namespace CatLib.Tests.FileSystem
         {
             local.CreateDir("CopyDir-norename/Test1");
             local.CreateDir("CopyDir-norename/Test2");
+            local.CreateDir("CopyDir-norename/Test2/SubDir");
 
             local.Write("CopyDir-norename/Test1/text11.txt", GetByte("test11"));
             local.Write("CopyDir-norename/Test1/text12.txt", GetByte("test12"));
             local.Write("CopyDir-norename/Test2/text21.txt", GetByte("test21"));
+            local.Write("CopyDir-norename/Test2/SubDir/text21-sub.txt", GetByte("test21-sub"));
             local.Write("CopyDir-norename/maintxt.txt", GetByte("test21"));
 
             local.Copy("CopyDir-norename", "TestCopy/CopyDir");
+
+            Assert.AreEqual("test11" , GetString(local.Read("CopyDir-norename/Test1/text11.txt")));
+            Assert.AreEqual("test12", GetString(local.Read("CopyDir-norename/Test1/text12.txt")));
+            Assert.AreEqual("test21", GetString(local.Read("CopyDir-norename/Test2/text21.txt")));
+            Assert.AreEqual("test21-sub", GetString(local.Read("CopyDir-norename/Test2/SubDir/text21-sub.txt")));
+            Assert.AreEqual("test21", GetString(local.Read("CopyDir-norename/maintxt.txt")));
+
+            Assert.AreEqual("test11", GetString(local.Read("TestCopy/CopyDir/Test1/text11.txt")));
+            Assert.AreEqual("test12", GetString(local.Read("TestCopy/CopyDir/Test1/text12.txt")));
+            Assert.AreEqual("test21", GetString(local.Read("TestCopy/CopyDir/Test2/text21.txt")));
+            Assert.AreEqual("test21-sub", GetString(local.Read("TestCopy/CopyDir/Test2/SubDir/text21-sub.txt")));
+            Assert.AreEqual("test21", GetString(local.Read("TestCopy/CopyDir/maintxt.txt")));
+        }
+
+        [TestMethod]
+        public void CopyFileTest()
+        {
+            local.Write("CopyFile-norename/text11.txt", GetByte("hello world"));
+            local.Copy("CopyFile-norename/text11.txt", "TestFileCopy");
+
+            Assert.AreEqual("hello world", GetString(local.Read("CopyFile-norename/text11.txt")));
+            Assert.AreEqual("hello world", GetString(local.Read("TestFileCopy/text11.txt")));
+        }
+
+        [TestMethod]
+        public void InvalidCopyTest()
+        {
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Copy("", "123.txt");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Copy(null, "123.txt");
+            });
+
+            ExceptionAssert.Throws<FileNotFoundException>(() =>
+            {
+                local.Copy("not-exists-copy-dir", "123.txt");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Copy("test", null);
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Copy("test", "");
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Copy("../../test", "test.txt");
+            });
+
+            local.Write("InvalidCopyTest.txt", GetByte("123"));
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Copy("InvalidCopyTest.txt", "../test.txt");
+            });
+        }
+
+        [TestMethod]
+        public void DeleteFileTest()
+        {
+            Assert.AreEqual(false , local.Has("DeleteTest/test.txt"));
+            local.Write("DeleteTest/test.txt", GetByte("test"));
+            Assert.AreEqual(true, local.Has("DeleteTest/test.txt"));
+            local.Delete("DeleteTest/test.txt");
+            Assert.AreEqual(false, local.Has("DeleteTest/test.txt"));
+        }
+
+        [TestMethod]
+        public void DeleteDirTest()
+        {
+            Assert.AreEqual(false, local.Has("DeleteDirTest"));
+            local.CreateDir("DeleteDirTest");
+            local.Write("DeleteDirTest/test.txt", GetByte("test"));
+            Assert.AreEqual(true, local.Has("DeleteDirTest"));
+            Assert.AreEqual(true, local.Has("DeleteDirTest/test.txt"));
+            Assert.AreEqual("test", GetString(local.Read("DeleteDirTest/test.txt")));
+            local.Delete("DeleteDirTest");
+            Assert.AreEqual(false, local.Has("DeleteDirTest"));
+        }
+
+        [TestMethod]
+        public void InvalidDeleteTest()
+        {
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Delete("");
+            });
+
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
+            {
+                local.Delete(null);
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.Delete("../");
+            });
         }
 
         private byte[] GetByte(string str)

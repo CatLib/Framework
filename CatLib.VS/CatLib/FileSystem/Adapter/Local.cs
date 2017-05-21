@@ -5,14 +5,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
+ *File.
  * Document: http://catlib.io/
  */
 
 using System.IO;
 using CatLib.API;
-using CatLib.API.FileSystem;
 using CatLib.Stl;
+using SIO = System.IO;
 
 namespace CatLib.FileSystem
 {
@@ -46,7 +46,7 @@ namespace CatLib.FileSystem
             Guard.NotEmptyOrNull(path, "path");
             path = Path.Combine(root, path);
             GuardLimitedRoot(path);
-            return File.Exists(path) || Directory.Exists(path);
+            return SIO.File.Exists(path) || SIO.Directory.Exists(path);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace CatLib.FileSystem
             path = Path.Combine(root, path);
             GuardLimitedRoot(path);
             EnsureDirectory(Path.GetDirectoryName(path));
-            File.WriteAllBytes(path, contents);
+            SIO.File.WriteAllBytes(path, contents);
             return true;
         }
 
@@ -77,9 +77,9 @@ namespace CatLib.FileSystem
             Guard.NotEmptyOrNull(path, "path");
             path = Path.Combine(root, path);
             GuardLimitedRoot(path);
-            if (File.Exists(path))
+            if (SIO.File.Exists(path))
             {
-                return File.ReadAllBytes(path);
+                return SIO.File.ReadAllBytes(path);
             }
             throw new FileNotFoundException("File is not exists " + path);
         }
@@ -105,12 +105,12 @@ namespace CatLib.FileSystem
             var newFileName = Path.GetFileNameWithoutExtension(newPath);
             var isDir = IsDir(path);
 
-            if (File.Exists(newPath))
+            if (SIO.File.Exists(newPath))
             {
                 throw new IOException("duplicate name:" + newFileName);
             }
 
-            if (Directory.Exists(newPath))
+            if (SIO.Directory.Exists(newPath))
             {
                 throw new IOException("duplicate name:" + newFileName);
             }
@@ -122,13 +122,13 @@ namespace CatLib.FileSystem
 
             if (isDir)
             {
-                Directory.Move(path, newPath);
+                SIO.Directory.Move(path, newPath);
             }
             else
             {
-                File.Move(path, newPath);
+                SIO.File.Move(path, newPath);
             }
-            
+
             return true;
         }
 
@@ -153,36 +153,47 @@ namespace CatLib.FileSystem
 
             if (IsDir(path))
             {
-                var files = Directory.GetFiles(path);
+                var files = SIO.Directory.GetFiles(path);
                 foreach (var file in files)
                 {
                     var fileName = Path.GetFileName(file);
-                    var destFile = Path.Combine(copyPath, fileName);
-                    File.Copy(file, destFile, true);
+                    SIO.File.Copy(file, Path.Combine(copyPath, fileName), true);
                 }
 
-                foreach (var info in Directory.GetDirectories(path))
+                foreach (var info in SIO.Directory.GetDirectories(path))
                 {
-                    Copy(info, Path.Combine(copyPath , Path.GetFileName(info)));
+                    Copy(info, Path.Combine(copyPath, Path.GetFileName(info)));
                 }
             }
             else
             {
                 var fileName = Path.GetFileName(path);
-                var fileInfo = new FileInfo(path);
-                fileInfo.CopyTo(Path.Combine(copyPath, fileName));
+                SIO.File.Copy(path, Path.Combine(copyPath, fileName), true);
             }
 
             return true;
         }
 
         /// <summary>
-        /// 删除文件
+        /// 删除文件或者文件夹
         /// </summary>
         /// <param name="path">路径</param>
         /// <returns>是否成功</returns>
         public bool Delete(string path)
         {
+            Guard.NotEmptyOrNull(path, "path");
+
+            path = Path.Combine(root, path);
+            GuardLimitedRoot(path);
+
+            if (IsDir(path))
+            {
+                SIO.Directory.Delete(path, true);
+            }
+            else
+            {
+                SIO.File.Delete(path);
+            }
             return true;
         }
 
@@ -201,37 +212,25 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
-        /// 获取文件
+        /// 获取文件/文件夹属性
         /// </summary>
-        /// <param name="path">文件路径</param>
-        /// <returns>文件</returns>
-        public IFile GetFile(string path)
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>文件/文件夹属性</returns>
+        public FileAttributes GetAttributes(string path)
         {
-            return null;
+            Guard.NotEmptyOrNull(path, "path");
+            path = Path.Combine(root, path);
+            return SIO.File.GetAttributes(path);
         }
 
         /// <summary>
-        /// 获取文件夹
+        /// 是否是文件夹
         /// </summary>
-        /// <param name="path">文件路径</param>
-        /// <returns>文件夹</returns>
-        public IDirectory GetDir(string path)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// 是否时文件夹
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>是否是文件夹</returns>
         protected bool IsDir(string path)
         {
-            if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
-            {
-                return true;
-            }
-            return false;
+            return (SIO.File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory;
         }
 
         /// <summary>
@@ -253,12 +252,12 @@ namespace CatLib.FileSystem
         /// <param name="root">路径</param>
         protected void EnsureDirectory(string root)
         {
-            if (Directory.Exists(root))
+            if (SIO.Directory.Exists(root))
             {
                 return;
             }
 
-            var info = Directory.CreateDirectory(root);
+            var info = SIO.Directory.CreateDirectory(root);
 
             if (!info.Exists)
             {

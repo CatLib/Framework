@@ -77,7 +77,11 @@
     <Compile Include="API\Event\Internal\IEventHandler.cs" />
     <Compile Include="API\FileSystem\IDirectory.cs" />
     <Compile Include="API\FileSystem\IFile.cs" />
+    <Compile Include="API\FileSystem\IHandler.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
+    <Compile Include="FileSystem\Directory.cs" />
+    <Compile Include="FileSystem\File.cs" />
+    <Compile Include="FileSystem\Handler.cs" />
     <Compile Include="FileSystem\IFileSystemAdapter.cs" />
     <Compile Include="API\FileSystem\IFileSystem.cs" />
     <Compile Include="API\FilterChain\IFilterChain.cs" />
