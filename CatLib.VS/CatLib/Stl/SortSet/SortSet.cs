@@ -136,11 +136,6 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 可能出现层数的默认概率
-        /// </summary>
-        private const double PROBABILITY = 0.25;
-
-        /// <summary>
         /// 同步锁
         /// </summary>
         private readonly object syncRoot = new object();
@@ -204,7 +199,7 @@ namespace CatLib.Stl
         /// <param name="probable">可能出现层数的概率系数(0-1之间的数)</param>
         /// <param name="maxLevel">最大层数</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="probable"/>或<paramref name="maxLevel"/>不是有效值时引发</exception>
-        public SortSet(double probable = PROBABILITY, int maxLevel = 32)
+        public SortSet(double probable = 0.25, int maxLevel = 32)
         {
             Guard.Requires<ArgumentOutOfRangeException>(maxLevel > 0);
             Guard.Requires<ArgumentOutOfRangeException>(probable < 1);
