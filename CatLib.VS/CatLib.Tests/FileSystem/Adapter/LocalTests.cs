@@ -12,7 +12,6 @@
 using System;
 using System.IO;
 using CatLib.API;
-using CatLib.API.FileSystem;
 using CatLib.FileSystem;
 using SIO = System.IO;
 #if UNITY_EDITOR || NUNIT
@@ -59,23 +58,42 @@ namespace CatLib.Tests.FileSystem
             }
         }
 
+        [TestMethod]
+        public void LocalInvalidNewTest()
+        {
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                new Local("../");
+            });
+
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                new Local("test");
+            });
+
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                new Local("test/name");
+            });
+        }
+
         /// <summary>
         /// 判断一个不存在的文件
         /// </summary>
         [TestMethod]
         public void HasNotExistsFile()
         {
-            Assert.AreEqual(false, local.Has("not-existsfile"));
+            Assert.AreEqual(false, local.Exists("not-existsfile"));
         }
 
         [TestMethod]
         public void HasExistsTest()
         {
             local.Write("HasWriteToFile.txt", GetByte("hello world"));
-            Assert.AreEqual(true, local.Has("HasWriteToFile.txt"));
+            Assert.AreEqual(true, local.Exists("HasWriteToFile.txt"));
 
             local.CreateDir("HasExistsTestDir");
-            Assert.AreEqual(true, local.Has("HasExistsTestDir"));
+            Assert.AreEqual(true, local.Exists("HasExistsTestDir"));
         }
 
         [TestMethod]
@@ -83,22 +101,22 @@ namespace CatLib.Tests.FileSystem
         {
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.Has("");
+                local.Exists("");
             });
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.Has(null);
+                local.Exists(null);
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                local.Has("../hellojumpout.txt");
+                local.Exists("../hellojumpout.txt");
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                local.Has("../");
+                local.Exists("../");
             });
         }
 
@@ -236,20 +254,20 @@ namespace CatLib.Tests.FileSystem
         public void RenameDirTest()
         {
             local.CreateDir("RenameTest-norename");
-            Assert.AreEqual(true, local.Has("RenameTest-norename"));
+            Assert.AreEqual(true, local.Exists("RenameTest-norename"));
             local.Rename("RenameTest-norename", "RenameTest");
-            Assert.AreEqual(true, local.Has("RenameTest"));
-            Assert.AreEqual(false, local.Has("RenameTest-norename"));
+            Assert.AreEqual(true, local.Exists("RenameTest"));
+            Assert.AreEqual(false, local.Exists("RenameTest-norename"));
         }
 
         [TestMethod]
         public void RenameFileTest()
         {
             local.Write("RenameFileTest-norename.txt", GetByte("RenameFileTest"));
-            Assert.AreEqual(true, local.Has("RenameFileTest-norename.txt"));
+            Assert.AreEqual(true, local.Exists("RenameFileTest-norename.txt"));
             local.Rename("RenameFileTest-norename.txt", "RenameFileTest");
-            Assert.AreEqual(true, local.Has("RenameFileTest"));
-            Assert.AreEqual(false, local.Has("RenameFileTest-norename"));
+            Assert.AreEqual(true, local.Exists("RenameFileTest"));
+            Assert.AreEqual(false, local.Exists("RenameFileTest-norename"));
             Assert.AreEqual("RenameFileTest", GetString(local.Read("RenameFileTest")));
         }
 
@@ -422,24 +440,24 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void DeleteFileTest()
         {
-            Assert.AreEqual(false, local.Has("DeleteTest/test.txt"));
+            Assert.AreEqual(false, local.Exists("DeleteTest/test.txt"));
             local.Write("DeleteTest/test.txt", GetByte("test"));
-            Assert.AreEqual(true, local.Has("DeleteTest/test.txt"));
+            Assert.AreEqual(true, local.Exists("DeleteTest/test.txt"));
             local.Delete("DeleteTest/test.txt");
-            Assert.AreEqual(false, local.Has("DeleteTest/test.txt"));
+            Assert.AreEqual(false, local.Exists("DeleteTest/test.txt"));
         }
 
         [TestMethod]
         public void DeleteDirTest()
         {
-            Assert.AreEqual(false, local.Has("DeleteDirTest"));
+            Assert.AreEqual(false, local.Exists("DeleteDirTest"));
             local.CreateDir("DeleteDirTest");
             local.Write("DeleteDirTest/test.txt", GetByte("test"));
-            Assert.AreEqual(true, local.Has("DeleteDirTest"));
-            Assert.AreEqual(true, local.Has("DeleteDirTest/test.txt"));
+            Assert.AreEqual(true, local.Exists("DeleteDirTest"));
+            Assert.AreEqual(true, local.Exists("DeleteDirTest/test.txt"));
             Assert.AreEqual("test", GetString(local.Read("DeleteDirTest/test.txt")));
             local.Delete("DeleteDirTest");
-            Assert.AreEqual(false, local.Has("DeleteDirTest"));
+            Assert.AreEqual(false, local.Exists("DeleteDirTest"));
         }
 
         [TestMethod]
@@ -486,37 +504,6 @@ namespace CatLib.Tests.FileSystem
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 local.GetAttributes("../../../");
-            });
-        }
-
-        [TestMethod]
-        public void GetInfoTest()
-        {
-            local.CreateDir("GetInfoTest");
-            local.Write("GetInfoTest/test.txt", GetByte("test"));
-
-            Assert.AreNotEqual(null, local.GetInfo("GetInfoTest"));
-            Assert.AreNotEqual(null, local.GetInfo("GetInfoTest/test.txt"));
-        }
-
-        [TestMethod]
-        public void InvalidGetInfoTest()
-        {
-            ExceptionAssert.Throws<ArgumentNullException>(() =>
-            {
-                local.GetInfo("");
-            });
-            ExceptionAssert.Throws<ArgumentNullException>(() =>
-            {
-                local.GetInfo(null);
-            });
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                local.GetInfo("../../../");
-            });
-            ExceptionAssert.Throws<FileNotFoundException>(() =>
-            {
-                local.GetInfo("InvalidGetInfoTest.txt");
             });
         }
 

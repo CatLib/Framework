@@ -5,7 +5,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *File.
+ * 
  * Document: http://catlib.io/
  */
 
@@ -49,7 +49,7 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">文件或文件夹是否存在</param>
         /// <returns>是否存在</returns>
-        public bool Has(string path)
+        public bool Exists(string path)
         {
             Guard.NotEmptyOrNull(path, "path");
 
@@ -66,7 +66,7 @@ namespace CatLib.FileSystem
         /// <param name="path">路径</param>
         /// <param name="contents">写入数据</param>
         /// <returns>是否成功</returns>
-        public bool Write(string path, byte[] contents)
+        public void Write(string path, byte[] contents)
         {
             Guard.NotEmptyOrNull(path, "path");
             Guard.NotNull(contents, "contents");
@@ -76,7 +76,6 @@ namespace CatLib.FileSystem
 
             EnsureDirectory(Path.GetDirectoryName(path));
             SIO.File.WriteAllBytes(path, contents);
-            return true;
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace CatLib.FileSystem
         /// <param name="path">旧的文件/文件夹路径</param>
         /// <param name="newPath">新的文件/文件夹路径</param>
         /// <returns>是否成功</returns>
-        public bool Rename(string path, string newPath)
+        public void Rename(string path, string newPath)
         {
             Guard.NotEmptyOrNull(path, "path");
             Guard.NotEmptyOrNull(newPath, "newPath");
@@ -142,8 +141,6 @@ namespace CatLib.FileSystem
             {
                 SIO.File.Move(path, newPath);
             }
-
-            return true;
         }
 
         /// <summary>
@@ -152,7 +149,7 @@ namespace CatLib.FileSystem
         /// <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
         /// <returns>是否成功</returns>
-        public bool Copy(string path, string copyPath)
+        public void Copy(string path, string copyPath)
         {
             Guard.NotEmptyOrNull(path, "path");
             Guard.NotEmptyOrNull(copyPath, "copyPath");
@@ -184,8 +181,6 @@ namespace CatLib.FileSystem
                 var fileName = Path.GetFileName(path);
                 SIO.File.Copy(path, Path.Combine(copyPath, fileName), true);
             }
-
-            return true;
         }
 
         /// <summary>
@@ -193,7 +188,7 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">路径</param>
         /// <returns>是否成功</returns>
-        public bool Delete(string path)
+        public void Delete(string path)
         {
             Guard.NotEmptyOrNull(path, "path");
 
@@ -208,7 +203,6 @@ namespace CatLib.FileSystem
             {
                 SIO.File.Delete(path);
             }
-            return true;
         }
 
         /// <summary>
@@ -216,7 +210,7 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">文件夹路径</param>
         /// <returns>是否成功</returns>
-        public bool CreateDir(string path)
+        public void CreateDir(string path)
         {
             Guard.NotEmptyOrNull(path, "path");
 
@@ -224,7 +218,6 @@ namespace CatLib.FileSystem
             GuardLimitedRoot(path);
 
             EnsureDirectory(path);
-            return true;
         }
 
         /// <summary>
@@ -240,25 +233,6 @@ namespace CatLib.FileSystem
             GuardLimitedRoot(path);
 
             return SIO.File.GetAttributes(path);
-        }
-
-        /// <summary>
-        /// 获取文件系统信息
-        /// </summary>
-        /// <param name="path">文件/文件夹路径</param>
-        /// <returns>文件系统信息</returns>
-        public FileSystemInfo GetInfo(string path)
-        {
-            Guard.NotEmptyOrNull(path, "path");
-
-            path = Normalize(path);
-            GuardLimitedRoot(path);
-
-            if (IsDir(path))
-            {
-                return new DirectoryInfo(path);
-            }
-            return new FileInfo(path);
         }
 
         /// <summary>
@@ -337,12 +311,7 @@ namespace CatLib.FileSystem
                 return;
             }
 
-            var info = SIO.Directory.CreateDirectory(root);
-
-            if (!info.Exists)
-            {
-                throw new IOException("Impossible to create thr root directory " + root);
-            }
+            SIO.Directory.CreateDirectory(root);
         }
     }
 }

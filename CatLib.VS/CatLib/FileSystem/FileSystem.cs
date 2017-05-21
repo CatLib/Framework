@@ -42,7 +42,7 @@ namespace CatLib.FileSystem
         /// <returns>是否存在</returns>
         public bool Exists(string path)
         {
-            return adapter.Has(path);
+            return adapter.Exists(path);
         }
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace CatLib.FileSystem
         /// <param name="path">路径</param>
         /// <param name="contents">写入数据</param>
         /// <returns>是否成功</returns>
-        public bool Write(string path, byte[] contents)
+        public void Write(string path, byte[] contents)
         {
-            return adapter.Write(path, contents);
+            adapter.Write(path, contents);
         }
 
         /// <summary>
@@ -73,9 +73,9 @@ namespace CatLib.FileSystem
         /// <param name="path">旧的文件/文件夹路径</param>
         /// <param name="newPath">新的文件/文件夹路径</param>
         /// <returns>是否成功</returns>
-        public bool Rename(string path, string newPath)
+        public void Rename(string path, string newPath)
         {
-            return adapter.Rename(path, newPath);
+            adapter.Rename(path, newPath);
         }
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace CatLib.FileSystem
         /// <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
         /// <returns>是否成功</returns>
-        public bool Copy(string path, string copyPath)
+        public void Copy(string path, string copyPath)
         {
-            return adapter.Copy(path, copyPath);
+            adapter.Copy(path, copyPath);
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">路径</param>
         /// <returns>是否成功</returns>
-        public bool Delete(string path)
+        public void Delete(string path)
         {
-            return adapter.Delete(path);
+            adapter.Delete(path);
         }
 
         /// <summary>
@@ -104,9 +104,9 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">文件夹路径</param>
         /// <returns>是否成功</returns>
-        public bool CreateDir(string path)
+        public void CreateDir(string path)
         {
-            return adapter.CreateDir(path);
+            adapter.CreateDir(path);
         }
 
         /// <summary>
@@ -148,16 +148,6 @@ namespace CatLib.FileSystem
                 handlers[i++] = Get(fd);
             }
             return handlers;
-        }
-
-        /// <summary>
-        /// 获取文件系统信息
-        /// </summary>
-        /// <param name="path">文件/文件夹路径</param>
-        /// <returns>文件系统信息</returns>
-        public FileSystemInfo GetInfo(string path)
-        {
-            return adapter.GetInfo(path);
         }
 
         /// <summary>

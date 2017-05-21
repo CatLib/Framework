@@ -64,18 +64,18 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
         /// <returns>是否成功</returns>
-        public bool Copy(string copyPath)
+        public void Copy(string copyPath)
         {
-            return FileSystem.Copy(Path, copyPath);
+            FileSystem.Copy(Path, copyPath);
         }
 
         /// <summary>
         /// 删除文件或者文件夹
         /// </summary>
         /// <returns>是否成功</returns>
-        public bool Delete()
+        public void Delete()
         {
-            return FileSystem.Delete(Path);
+            FileSystem.Delete(Path);
         }
 
         /// <summary>
@@ -83,20 +83,20 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="newName">新的文件/文件夹名字</param>
         /// <returns>是否成功</returns>
-        public bool Rename(string newName)
+        public void Rename(string newName)
         {
             var newPath = System.IO.Path.GetDirectoryName(Path);
             newPath = System.IO.Path.Combine(newPath, newName);
-            return FileSystem.Rename(Path, newPath);
+            FileSystem.Rename(Path, newPath);
+            path = newPath;
         }
 
         /// <summary>
         /// 文件/文件夹是否存在
         /// </summary>
-        /// <returns>是否存在</returns>
-        public bool Exists()
+        public bool IsExists
         {
-            return FileSystem.Exists(Path);
+            get { return FileSystem.Exists(Path); }
         }
 
         /// <summary>
@@ -104,18 +104,18 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">文件/文件夹路径</param>
         /// <returns>文件/文件夹属性</returns>
-        public FileAttributes GetAttributes(string path)
+        public FileAttributes GetAttributes()
         {
-            return FileSystem.GetAttributes(path);
+            return FileSystem.GetAttributes(Path);
         }
 
         /// <summary>
         /// 是否是文件夹
         /// </summary>
         /// <returns>是否是文件夹</returns>
-        public bool IsDir()
+        public bool IsDir
         {
-            return (GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory;
+            get { return (GetAttributes() & FileAttributes.Directory) == FileAttributes.Directory; }
         }
     }
 }

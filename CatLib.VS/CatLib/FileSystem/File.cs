@@ -34,9 +34,9 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="contents">写入数据</param>
         /// <returns>是否成功</returns>
-        public bool Write(byte[] contents)
+        public void Write(byte[] contents)
         {
-            return FileSystem.Write(Path, contents);
+            FileSystem.Write(Path, contents);
         }
 
         /// <summary>

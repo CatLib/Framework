@@ -83,6 +83,10 @@
     <Compile Include="Event\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FileSystem\Adapter\LocalTests.cs" />
+    <Compile Include="FileSystem\HandlerTests.cs" />
+    <Compile Include="FileSystem\FileTests.cs" />
+    <Compile Include="FileSystem\DirectoryTests.cs" />
+    <Compile Include="FileSystem\FileSystemTests.cs" />
     <Compile Include="FilterChain\FilterChainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\OptionsParamsAttrRouting.cs" />

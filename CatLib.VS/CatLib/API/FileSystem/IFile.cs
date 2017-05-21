@@ -22,7 +22,7 @@ namespace CatLib.API.FileSystem
         /// </summary>
         /// <param name="contents">写入数据</param>
         /// <returns>是否成功</returns>
-        bool Write(byte[] contents);
+        void Write(byte[] contents);
 
         /// <summary>
         /// 读取文件

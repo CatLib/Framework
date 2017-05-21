@@ -23,7 +23,7 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">文件或文件夹是否存在</param>
         /// <returns>是否存在</returns>
-        bool Has(string path);
+        bool Exists(string path);
 
         /// <summary>
         /// 写入数据
@@ -32,7 +32,7 @@ namespace CatLib.FileSystem
         /// <param name="path">路径</param>
         /// <param name="contents">写入数据</param>
         /// <returns>是否成功</returns>
-        bool Write(string path, byte[] contents);
+        void Write(string path, byte[] contents);
 
         /// <summary>
         /// 读取文件
@@ -47,7 +47,7 @@ namespace CatLib.FileSystem
         /// <param name="path">旧的文件/文件夹路径</param>
         /// <param name="newPath">新的文件/文件夹路径</param>
         /// <returns>是否成功</returns>
-        bool Rename(string path, string newPath);
+        void Rename(string path, string newPath);
 
         /// <summary>
         /// 复制文件或文件夹到指定路径
@@ -55,21 +55,21 @@ namespace CatLib.FileSystem
         /// <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
         /// <returns>是否成功</returns>
-        bool Copy(string path, string copyPath);
+        void Copy(string path, string copyPath);
 
         /// <summary>
         /// 删除文件或者文件夹
         /// </summary>
         /// <param name="path">路径</param>
         /// <returns>是否成功</returns>
-        bool Delete(string path);
+        void Delete(string path);
 
         /// <summary>
         /// 创建文件夹
         /// </summary>
         /// <param name="path">文件夹路径</param>
         /// <returns>是否成功</returns>
-        bool CreateDir(string path);
+        void CreateDir(string path);
 
         /// <summary>
         /// 获取文件/文件夹属性
@@ -77,13 +77,6 @@ namespace CatLib.FileSystem
         /// <param name="path">文件/文件夹路径</param>
         /// <returns>文件/文件夹属性</returns>
         FileAttributes GetAttributes(string path);
-
-        /// <summary>
-        /// 获取文件系统信息
-        /// </summary>
-        /// <param name="path">文件/文件夹路径</param>
-        /// <returns>文件系统信息</returns>
-        FileSystemInfo GetInfo(string path);
 
         /// <summary>
         /// 获取列表（不会迭代子文件夹）
