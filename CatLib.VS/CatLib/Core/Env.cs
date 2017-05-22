@@ -60,7 +60,11 @@ namespace CatLib
                         return UnityEngine.Application.persistentDataPath;
                 }
 #endif
+#if UNITY_5_OR_NEW
                 return UnityEngine.Application.persistentDataPath;
+#else
+                throw new RuntimeException("Not set asset path");
+#endif
             }
         }
 

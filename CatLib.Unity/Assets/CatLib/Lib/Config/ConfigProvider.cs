@@ -24,6 +24,10 @@ namespace CatLib.Config
         {
             App.Singleton<Config>().Alias<IConfig>().Alias("config").OnResolving((bind, obj) =>
             {
+                if (obj == null)
+                {
+                    return null;
+                }
                 var store = obj as Config;
                 store.Reg(App.Make<CodeConfigLocator>());
                 return store;
