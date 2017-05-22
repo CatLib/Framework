@@ -10,6 +10,8 @@
  */
 
 using System;
+using CatLib.API.Config;
+using CatLib.Config;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -26,9 +28,25 @@ namespace CatLib.Tests.Config
     [TestClass]
     public class ConfigProviderTests
     {
-        [TestMethod]
-        public void TestMethod1()
+
+        [TestInitialize]
+        public void TestInitialize()
         {
+            var app = new Application().Bootstrap();
+            app.OnFindType((t) =>
+            {
+                return Type.GetType(t);
+            });
+            app.Register(typeof(ConfigProvider));
+            app.Init();
+        }
+
+        
+        [TestMethod]
+        public void GetConfig()
+        {
+            var config = App.Instance.Make<IConfig>();
+            Assert.AreEqual(typeof(CatLib.Config.Config), config.GetType());
         }
     }
 }

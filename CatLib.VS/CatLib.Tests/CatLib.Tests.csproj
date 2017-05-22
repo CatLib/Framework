@@ -72,6 +72,7 @@
     <Compile Include="Config\Converters\UInt32StringConverterTests.cs" />
     <Compile Include="Config\Converters\UInt64StringConverterTests.cs" />
     <Compile Include="Config\ConfigTests.cs" />
+    <Compile Include="Config\ConfigProviderTests.cs" />
     <Compile Include="Container\BindDataTests.cs" />
     <Compile Include="Container\ContainerTests.cs" />
     <Compile Include="Container\GivenDataTests.cs" />
