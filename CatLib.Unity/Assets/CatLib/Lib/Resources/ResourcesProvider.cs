@@ -29,7 +29,7 @@ namespace CatLib.Resources
             App.Singleton<Resources>().Alias<IResources>().OnResolving((bind, obj) =>
             {
                 var resources = obj as Resources;
-                var config = App.Make<IConfigStore>();
+                var config = App.Make<IConfig>();
 
                 if (config == null)
                 {
@@ -37,7 +37,7 @@ namespace CatLib.Resources
                     return obj;
                 }
 
-                var useHosted = config.Get(typeof(Resources), "hosted", true);
+                var useHosted = config.Get("resources.hosted", true);
                 if (useHosted)
                 {
                     resources.SetHosted(App.Make<ResourcesHosted>());

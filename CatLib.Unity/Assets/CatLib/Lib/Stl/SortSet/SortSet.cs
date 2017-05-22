@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using CatLib.API;
 using CatLib.API.Stl;
 using Random = System.Random;
 
@@ -254,6 +255,52 @@ namespace CatLib.Stl
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        /// <summary>
+        /// 获取第一个元素
+        /// </summary>
+        /// <returns>最后一个元素</returns>
+        public TElement First()
+        {
+            return header.Level[0].Forward != null ? header.Level[0].Forward.Element : default(TElement);
+        }
+
+        /// <summary>
+        /// 获取最后一个元素
+        /// </summary>
+        /// <returns>元素</returns>
+        public TElement Last()
+        {
+            return tail != null ? tail.Element : default(TElement);
+        }
+
+        /// <summary>
+        /// 移除并返回有序集头部的元素
+        /// </summary>
+        /// <returns>元素</returns>
+        public TElement Shift()
+        {
+            TElement result;
+            if (!Remove(header.Level[0].Forward, out result))
+            {
+                throw new RuntimeException("Can not shift element , unknow error");
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 移除并返回有序集尾部的元素
+        /// </summary>
+        /// <returns>元素</returns>
+        public TElement Pop()
+        {
+            TElement result;
+            if (!Remove(tail, out result))
+            {
+                throw new RuntimeException("Can not pop element , unknow error");
+            }
+            return result;
         }
 
         /// <summary>
@@ -667,6 +714,29 @@ namespace CatLib.Stl
             }
 
             ++Count;
+        }
+
+        /// <summary>
+        /// 移除元素
+        /// </summary>
+        /// <param name="node">节点</param>
+        /// <param name="element">元素</param>
+        /// <returns>移除的元素</returns>
+        private bool Remove(SkipNode node , out TElement element)
+        {
+            if (node == null)
+            {
+                element = default(TElement);
+                return false;
+            }
+            var result = node.Element;
+            if (!Remove(node.Element, node.Score))
+            {
+                element = default(TElement);
+                return false;
+            }
+            element = result;
+            return true;
         }
 
         /// <summary>

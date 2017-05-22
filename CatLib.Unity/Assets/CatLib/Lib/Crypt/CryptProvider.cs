@@ -26,14 +26,14 @@ namespace CatLib.Crypt
         {
             App.Singleton<Crypt>().Alias<ICrypt>().OnResolving((bind, obj) =>
             {
-                var config = App.Make<IConfigStore>();
+                var config = App.Make<IConfig>();
                 var crypt = obj as Crypt;
 
                 crypt.SetAdapter(new HMacAes256());
 
                 if (config != null)
                 {
-                    crypt.SetKey(config.Get(typeof(Crypt), "key", null));
+                    crypt.SetKey(config.Get<string>("crypt.key"));
                 }
 
                 return obj;

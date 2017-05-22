@@ -165,7 +165,7 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 service = Normalize(service);
-                service = GetAlias(service);
+                service = AliasToService(service);
                 BindData bindData;
                 return binds.TryGetValue(service, out bindData) ? bindData : null;
             }
@@ -372,7 +372,7 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 service = Normalize(service);
-                service = GetAlias(service);
+                service = AliasToService(service);
 
                 if (buildStack.Contains(service))
                 {
@@ -415,7 +415,7 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 service = Normalize(service);
-                service = GetAlias(service);
+                service = AliasToService(service);
 
                 var bindData = GetBind(service);
                 if (bindData != null)
@@ -448,7 +448,7 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 service = Normalize(service);
-                service = GetAlias(service);
+                service = AliasToService(service);
 
                 object instance;
                 if (!instances.TryGetValue(service, out instance))
@@ -529,7 +529,7 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 service = Normalize(service);
-                service = GetAlias(service);
+                service = AliasToService(service);
 
                 Release(service);
                 List<string> serviceList;
@@ -698,7 +698,7 @@ namespace CatLib.Container
 
                 var injectAttr = (InjectAttribute)property.GetCustomAttributes(injectTarget, false)[0];
                 var needService = string.IsNullOrEmpty(injectAttr.Alias) ? 
-                                    property.PropertyType.ToString() : GetAlias(injectAttr.Alias);
+                                    property.PropertyType.ToString() : injectAttr.Alias;
                 object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
@@ -777,8 +777,10 @@ namespace CatLib.Container
                     if (propertyAttrs.Length > 0)
                     {
                         injectAttr = (InjectAttribute)propertyAttrs[0];
-                        needService = string.IsNullOrEmpty(injectAttr.Alias) ? 
-                                        info.ParameterType.ToString() : GetAlias(injectAttr.Alias);
+                        if (!string.IsNullOrEmpty(injectAttr.Alias))
+                        {
+                            needService = injectAttr.Alias;
+                        }
                     }
                 }
 
@@ -794,7 +796,7 @@ namespace CatLib.Container
 
                 if (injectAttr != null && injectAttr.Required && instance == null)
                 {
-                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Param [" + info.ParameterType + "] required [" + makeServiceBindData.Service + "] service");
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] required [" + makeServiceBindData.Service + "] service");
                 }
 
                 if (instance != null && !info.ParameterType.IsInstanceOfType(instance))
@@ -835,7 +837,7 @@ namespace CatLib.Container
         /// </summary>
         /// <param name="service">服务名或别名</param>
         /// <returns>最终映射的服务名</returns>
-        private string GetAlias(string service)
+        private string AliasToService(string service)
         {
             string alias;
             return aliases.TryGetValue(service, out alias) ? alias : service;

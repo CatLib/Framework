@@ -222,7 +222,7 @@ namespace CatLib.Tests.Event
             var app = MakeApplication();
             var eventImpl = app.Make<EventImpl>();
             var isCall = false;
-            var handler = eventImpl.One("IllegalTrigger", (sender, e) =>
+            eventImpl.One("IllegalTrigger", (sender, e) =>
             {
                 isCall = !isCall;
             });
@@ -249,26 +249,26 @@ namespace CatLib.Tests.Event
             var isCall = false;
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                var handler = eventImpl.On("", (sender, e) =>
+                eventImpl.On("", (sender, e) =>
                 {
                     isCall = !isCall;
                 });
             });
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                var handler = eventImpl.On(null, (sender, e) =>
+                eventImpl.On(null, (sender, e) =>
                 {
                     isCall = !isCall;
                 });
             });
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                var handler = eventImpl.On("IllegalOn", null);
+                eventImpl.On("IllegalOn", null);
             });
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                var handler = eventImpl.On("IllegalOn", (sender, e) =>
+                eventImpl.On("IllegalOn", (sender, e) =>
                 {
                     isCall = !isCall;
                 },-10);

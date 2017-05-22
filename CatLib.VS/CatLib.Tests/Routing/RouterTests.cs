@@ -231,7 +231,7 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<NotFoundRouteException>(() =>
             {
-                var response = router.Dispatch("notfound://call");
+                router.Dispatch("notfound://call");
             });
         }
 
@@ -250,7 +250,7 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<NotFoundRouteException>(() =>
             {
-                var response = router.Dispatch("lambda://call/throw-not-found-exception-abc");
+                router.Dispatch("lambda://call/throw-not-found-exception-abc");
             });
         }
 
@@ -423,7 +423,7 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var response = router.Dispatch("lambda://call/RoutingRecursiveCall-1");
+                router.Dispatch("lambda://call/RoutingRecursiveCall-1");
             });
         }
 

@@ -13,7 +13,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using CatLib.API;
-using CatLib.API.IO;
 using CatLib.API.Resources;
 using System.IO;
 
@@ -25,12 +24,6 @@ namespace CatLib.Resources
     public sealed class AssetBundleLoader : IAssetBundle
     {
         /// <summary>
-        /// IO
-        /// </summary>
-        [Inject]
-        public IIOFactory IO { get; set; }
-
-        /// <summary>
         /// 环境
         /// </summary>
         [Inject]
@@ -41,19 +34,6 @@ namespace CatLib.Resources
         /// </summary>
         [Inject]
         public IApplication App { get; set; }
-
-        /// <summary>
-        /// 磁盘
-        /// </summary>
-        private IDisk disk;
-
-        /// <summary>
-        /// 磁盘
-        /// </summary>
-        private IDisk Disk
-        {
-            get { return disk ?? (disk = IO.Disk()); }
-        }
 
         /// <summary>
         /// 主依赖文件
@@ -375,16 +355,7 @@ namespace CatLib.Resources
             AssetBundle assetTarget;
             if (!loadAssetBundles.ContainsKey(relPath) || loadAssetBundles[relPath].Bundle == null)
             {
-                if (Disk.IsCrypt)
-                {
-                    var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
-                    assetTarget = AssetBundle.LoadFromMemory(file.Read());
-                }
-                else
-                {
-                    assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + relPath);
-                }
-
+                assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + relPath);
                 loadAssetBundles.Remove(relPath);
                 loadAssetBundles.Add(relPath, new MainBundle(assetTarget));
             }
@@ -412,15 +383,7 @@ namespace CatLib.Resources
             {
                 if (!dependenciesBundles.ContainsKey(dependencies) || dependenciesBundles[dependencies].Bundle == null)
                 {
-                    if (Disk.IsCrypt)
-                    {
-                        var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
-                        assetTarget = AssetBundle.LoadFromMemory(file.Read());
-                    }
-                    else
-                    {
-                        assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + dependencies);
-                    }
+                    assetTarget = AssetBundle.LoadFromFile(envPath + Path.AltDirectorySeparatorChar + dependencies);
                     dependenciesBundles.Add(dependencies, new DependenciesBundle(assetTarget));
                 }
                 else
@@ -497,15 +460,7 @@ namespace CatLib.Resources
 
             //创建加载主包请求
             AssetBundleCreateRequest assetTargetBundleRequest;
-            if (Disk.IsCrypt)
-            {
-                var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + relPath, PathTypes.Absolute);
-                assetTargetBundleRequest = AssetBundle.LoadFromMemoryAsync(file.Read());
-            }
-            else
-            {
-                assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + relPath);
-            }
+            assetTargetBundleRequest = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + relPath);
 
             //等待主包加载完成
             yield return assetTargetBundleRequest;
@@ -573,15 +528,7 @@ namespace CatLib.Resources
 
                 //建立创建请求
                 AssetBundleCreateRequest assetBundleDependencies;
-                if (Disk.IsCrypt)
-                {
-                    var file = Disk.File(envPath + Path.AltDirectorySeparatorChar + dependencies, PathTypes.Absolute);
-                    assetBundleDependencies = AssetBundle.LoadFromMemoryAsync(file.Read());
-                }
-                else
-                {
-                    assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + dependencies);
-                }
+                assetBundleDependencies = AssetBundle.LoadFromFileAsync(envPath + Path.AltDirectorySeparatorChar + dependencies);
 
                 //等待请求完成
                 yield return assetBundleDependencies;

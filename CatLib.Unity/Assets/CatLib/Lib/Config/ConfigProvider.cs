@@ -22,28 +22,14 @@ namespace CatLib.Config
         /// </summary>
         public override void Register()
         {
-            App.Singleton<ConfigStore>().Alias<IConfigStore>().Alias("config").OnResolving((bind, obj) =>
+            App.Singleton<Config>().Alias<IConfig>().Alias("config").OnResolving((bind, obj) =>
             {
-                var store = obj as ConfigStore;
-                if (store == null)
-                {
-                    return null;
-                }
-
-                var types = Util.FindTypesWithInterface(typeof(IConfig));
-
-                IConfig conf;
-                for (var i = 0; i < types.Length; i++)
-                {
-                    conf = App.Make(types[i].ToString(), null) as IConfig;
-                    if (conf != null)
-                    {
-                        store.AddConfig(conf);
-                    }
-                }
-
+                var store = obj as Config;
+                store.Reg(App.Make<CodeConfigLocator>());
                 return store;
             });
+
+            App.Singleton<CodeConfigLocator>();
         }
     }
 }

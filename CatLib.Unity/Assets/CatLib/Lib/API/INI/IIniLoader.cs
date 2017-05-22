@@ -8,8 +8,8 @@
  *
  * Document: http://catlib.io/
  */
- 
-using CatLib.API.IO;
+
+using CatLib.API.FileSystem;
 
 namespace CatLib.API.INI
 {

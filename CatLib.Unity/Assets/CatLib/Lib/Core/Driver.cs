@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using CatLib.API;
 using CatLib.API.Event;
 using CatLib.Stl;
@@ -246,14 +247,17 @@ namespace CatLib
         /// <param name="type">识别的类型</param>
         /// <param name="method">识别的方法</param>
         /// <returns>优先级</returns>
-        protected int GetPriorities(Type type, string method)
+        public int GetPriorities(Type type, string method = null)
         {
+            Guard.Requires<ArgumentNullException>(type != null);
             var currentPriority = int.MaxValue;
-            var methodInfo = type.GetMethod(method);
-        
-            if (methodInfo.IsDefined(priority, false))
+
+            MethodInfo methodInfo;
+            if (method != null && 
+                (methodInfo = type.GetMethod(method)) != null &&
+                methodInfo.IsDefined(priority, false))
             {
-                currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities; ;
+                currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
             }
             else if (type.IsDefined(priority, false))
             {

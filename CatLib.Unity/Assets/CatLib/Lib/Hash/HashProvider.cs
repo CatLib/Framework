@@ -22,11 +22,11 @@ namespace CatLib.Hash
         {
             App.Singleton<Hash>().Alias<IHash>().OnResolving((bind, obj) =>{
 
-                IConfigStore config = App.Make<IConfigStore>();
-                Hash hash = obj as Hash;
+                var config = App.Make<IConfig>();
+                var hash = obj as Hash;
 
-                hash.SetFactor(config.Get(typeof(Hash) , "factor" , 6));
-                hash.SetGenerateSalt(config.Get(typeof(Hash) , "salt" , null));
+                hash.SetFactor(config.Get("hash.factor", 6));
+                hash.SetGenerateSalt(config.Get<string>("hash.salt"));
 
                 return obj;
 
