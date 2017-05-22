@@ -540,6 +540,31 @@ namespace CatLib.Tests.FileSystem
             });
         }
 
+        [TestMethod]
+        public void GetSizeTest()
+        {
+            local.CreateDir("GetSizeTest");
+            Assert.AreEqual(0, local.GetSize("GetSizeTest"));
+            local.Write("GetSizeTest/test.txt", GetByte("hello world"));
+            Assert.AreEqual(11, local.GetSize("GetSizeTest"));
+            local.Write("GetSizeTest/test1.txt", GetByte("hello world"));
+            Assert.AreEqual(22, local.GetSize("GetSizeTest"));
+            Assert.AreEqual(22, local.GetSize());
+            local.Write("GetSizeTest/hello1/test1.txt", GetByte("hello world"));
+            local.Write("GetSizeTest/hello2/test1.txt", GetByte("hello world"));
+            Assert.AreEqual(44, local.GetSize("GetSizeTest"));
+            Assert.AreEqual(44, local.GetSize());
+        }
+
+        [TestMethod]
+        public void InvalidGetSizeTest()
+        {
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                local.GetSize("../../");
+            });
+        }
+
         private byte[] GetByte(string str)
         {
             return System.Text.Encoding.Default.GetBytes(str);

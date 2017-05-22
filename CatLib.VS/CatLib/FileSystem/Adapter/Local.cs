@@ -263,6 +263,38 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
+        /// 获取文件/文件夹的大小(字节)
+        /// </summary>
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>文件/文件夹的大小</returns>
+        public long GetSize(string path = null)
+        {
+            path = Normalize(path ?? string.Empty);
+            GuardLimitedRoot(path);
+
+            long size = 0;
+            if (IsDir(path))
+            {
+                var files = SIO.Directory.GetFiles(path);
+                foreach (var file in files)
+                {
+                    size += new FileInfo(file).Length;
+                }
+
+                foreach (var info in SIO.Directory.GetDirectories(path))
+                {
+                    size += GetSize(info);
+                }
+            }
+            else
+            {
+                size += (new FileInfo(path)).Length;
+            }
+
+            return size;
+        }
+
+        /// <summary>
         /// 是否是文件夹
         /// </summary>
         /// <param name="path">文件/文件夹路径</param>

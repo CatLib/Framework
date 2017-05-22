@@ -91,12 +91,6 @@
     <Compile Include="API\Hash\IHash.cs" />
     <Compile Include="API\INI\IIniLoader.cs" />
     <Compile Include="API\INI\Internal\IIniResult.cs" />
-    <Compile Include="API\IO\Features\IIOCrypt.cs" />
-    <Compile Include="API\IO\IIOFactory.cs" />
-    <Compile Include="API\IO\Internal\IDirectory.cs" />
-    <Compile Include="API\IO\Internal\IDisk.cs" />
-    <Compile Include="API\IO\Internal\IFile.cs" />
-    <Compile Include="API\IO\PathTypes.cs" />
     <Compile Include="API\Json\IJson.cs" />
     <Compile Include="API\LocalSetting\ILocalSetting.cs" />
     <Compile Include="Config\CodeConfigLocator.cs" />
@@ -121,11 +115,6 @@
     <Compile Include="Config\Exception\ConverterException.cs" />
     <Compile Include="API\Config\Features\ITypeStringConverter.cs" />
     <Compile Include="FileSystem\FileSystem.cs" />
-    <Compile Include="IO\IO.cs" />
-    <Compile Include="IO\IOProvider.cs" />
-    <Compile Include="IO\Local\Directory.cs" />
-    <Compile Include="IO\Local\File.cs" />
-    <Compile Include="IO\Local\LocalDisk.cs" />
     <Compile Include="Routing\EventArgs\DispatchEventArgs.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="API\Stl\LruCache\ILruCache.cs" />
@@ -225,7 +214,6 @@
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
     <None Include="FilterChain\catlib.json" />
-    <None Include="IO\catlib.json" />
     <None Include="Routing\catlib.json" />
   </ItemGroup>
   <ItemGroup />

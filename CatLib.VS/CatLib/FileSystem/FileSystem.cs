@@ -120,6 +120,16 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
+        /// 获取文件/文件夹的大小(字节)
+        /// </summary>
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>文件/文件夹的大小</returns>
+        public long GetSize(string path = null)
+        {
+            return adapter.GetSize(path);
+        }
+
+        /// <summary>
         /// 获取文件/文件夹句柄
         /// </summary>
         /// <param name="path">文件/文件夹路径</param>

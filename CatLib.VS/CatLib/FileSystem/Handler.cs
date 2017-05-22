@@ -126,5 +126,14 @@ namespace CatLib.FileSystem
         {
             get { return (GetAttributes() & FileAttributes.Directory) == FileAttributes.Directory; }
         }
+
+        /// <summary>
+        /// 获取文件/文件夹大小(字节)
+        /// </summary>
+        /// <returns>文件/文件夹大小</returns>
+        public long GetSize()
+        {
+            return FileSystem.GetSize(Path);
+        }
     }
 }

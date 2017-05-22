@@ -124,6 +124,17 @@ namespace CatLib.Tests.FileSystem
             });
         }
 
+        [TestMethod]
+        public void HandlerGetSizeTest()
+        {
+            Env(() =>
+            {
+                Assert.AreEqual(11, handlerDir.GetSize());
+                Assert.AreEqual(11, handlerFile.GetSize());
+                Assert.AreEqual(22, local.GetSize());
+            });
+        }
+
         private void Env(Action action)
         {
             var path = Path.Combine(Environment.CurrentDirectory, "FileSystemTest");

@@ -84,5 +84,12 @@ namespace CatLib.FileSystem
         /// <param name="path">要获取列表的文件夹路径(如果传入的是一个文件那么将会返回文件自身路径)</param>
         /// <returns>指定目录下的文件夹和文件列表</returns>
         string[] GetList(string path = null);
+
+        /// <summary>
+        /// 获取文件/文件夹的大小(字节)
+        /// </summary>
+        /// <param name="path">文件/文件夹的路径</param>
+        /// <returns>文件/文件夹的大小</returns>
+        long GetSize(string path = null);
     }
 }

@@ -72,11 +72,18 @@ namespace CatLib.API.FileSystem
         void CreateDir(string path);
 
         /// <summary>
-        /// 
+        /// 获取文件/文件夹句柄
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>文件/文件夹句柄</returns>
         IHandler Get(string path);
+
+        /// <summary>
+        /// 获取文件/文件夹的大小(字节)
+        /// </summary>
+        /// <param name="path">文件/文件夹路径</param>
+        /// <returns>文件/文件夹的大小</returns>
+        long GetSize(string path = null);
 
         /// <summary>
         /// 获取文件/文件夹属性

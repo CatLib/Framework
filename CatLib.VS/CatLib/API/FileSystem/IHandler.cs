@@ -65,5 +65,10 @@ namespace CatLib.API.FileSystem
         /// </summary>
         /// <returns>是否是文件夹</returns>
         bool IsDir { get; }
+
+        /// <summary>
+        /// 文件/文件夹大小
+        /// </summary>
+        long GetSize();
     }
 }
