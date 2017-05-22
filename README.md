@@ -12,6 +12,8 @@
 
 > **审计中的组件(通过审计的组件将会在6月发布):** Container 组件 , CatLib核心 ，Stl 组件中的(SortSet,QuickList,LruCache) , FilterChain组件 , Routing组件
 
+> **组件临时移除通知** 6月100%不发布的组件已经从Master中移除，但您可以在 backup/master-20170522 分支中找到她们。
+
 > **Coming Soon:** English support
 
 ## 关于CatLib
