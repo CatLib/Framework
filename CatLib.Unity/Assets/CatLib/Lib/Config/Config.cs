@@ -25,8 +25,7 @@ namespace CatLib.Config
         /// <summary>
         /// 服务程序
         /// </summary>
-        [Inject]
-        public IApplication App { get; set; }
+        private IApplication App { get; set; }
 
         /// <summary>
         /// 配置定位器
@@ -41,8 +40,9 @@ namespace CatLib.Config
         /// <summary>
         /// 构造一个配置容器
         /// </summary>
-        public Config()
+        public Config(IApplication app)
         {
+            App = app;
             locators = new SortSet<IConfigLocator, int>();
             typeStringConverters = new Dictionary<Type, ITypeStringConverter>
             {
@@ -88,6 +88,17 @@ namespace CatLib.Config
             Guard.NotNull(locator, "locator");
             var priorities = App.GetPriorities(locator.GetType(), "TryGetValue");
             locators.Add(locator, priorities);
+        }
+
+        /// <summary>
+        /// 保存配置
+        /// </summary>
+        public void Save()
+        {
+            foreach (var locator in locators)
+            {
+                locator.Save();
+            }
         }
 
         /// <summary>

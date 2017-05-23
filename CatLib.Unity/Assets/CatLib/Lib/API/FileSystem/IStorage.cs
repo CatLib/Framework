@@ -26,10 +26,24 @@ namespace CatLib.API.FileSystem
         IFileSystem Disk(string name = null);
 
         /// <summary>
-        /// 自定义文件系统(磁盘)
+        /// 获取一个文件系统(磁盘)
         /// </summary>
         /// <param name="name">名字</param>
+        /// <returns>文件系统</returns>
+        IFileSystem Get(string name = null);
+
+        /// <summary>
+        /// 获取一个文件系统(磁盘)
+        /// </summary>
+        /// <param name="name">名字</param>
+        /// <returns>文件系统</returns>
+        IFileSystem this[string name] { get; }
+
+        /// <summary>
+        /// 自定义文件系统(磁盘)
+        /// </summary>
         /// <param name="resolve">文件系统解决方案</param>
-        void Extend(string name, Func<IFileSystem> resolve);
+        /// <param name="name">名字</param>
+        void Extend(Func<IFileSystem> resolve, string name = null);
     }
 }

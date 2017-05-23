@@ -3,7 +3,6 @@
   "folder": "FileSystem",
   "require": {
     "catlib/api": "~1.0",
-    "catlib/stl": "~1.0",
-    "catlib/config": "~1.0"
+    "catlib/stl": "~1.0"
   }
 }

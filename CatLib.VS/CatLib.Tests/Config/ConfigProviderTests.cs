@@ -48,5 +48,24 @@ namespace CatLib.Tests.Config
             var config = App.Instance.Make<IConfig>();
             Assert.AreEqual(typeof(CatLib.Config.Config), config.GetType());
         }
+
+        [TestMethod]
+        public void SetDefault()
+        {
+            var configManager = App.Instance.Make<IConfigManager>();
+
+            configManager.SetDefault("catlib");
+            configManager.Extend(() =>
+            {
+                return new CatLib.Config.Config(new Application());
+            });
+
+            Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get().GetType());
+            Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get("default").GetType());
+            Assert.AreNotSame(configManager.Get(), configManager["default"]);
+
+            configManager.SetDefault(string.Empty);
+            Assert.AreSame(configManager.Get(), configManager["default"]);
+        }
     }
 }

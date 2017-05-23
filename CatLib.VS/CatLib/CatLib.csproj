@@ -42,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Config\Features\IConfigLocator.cs" />
-    <Compile Include="API\Config\IConfig.cs" />
+    <Compile Include="API\Config\Internal\IConfig.cs" />
+    <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Container\IContainer.cs" />
     <Compile Include="API\Container\Internal\IBindData.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="API\FileSystem\Internal\IFileSystem.cs" />
     <Compile Include="API\FileSystem\Internal\IHandler.cs" />
     <Compile Include="API\FileSystem\IStorage.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="FileSystem\File.cs" />
@@ -85,7 +88,7 @@
     <Compile Include="API\Flux\IFluxDispatcher.cs" />
     <Compile Include="API\Hash\IHash.cs" />
     <Compile Include="API\LocalSetting\ILocalSetting.cs" />
-    <Compile Include="Config\CodeConfigLocator.cs" />
+    <Compile Include="Config\Locator\CodeConfigLocator.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
     <Compile Include="Config\Converters\BoolStringConverter.cs" />
@@ -180,6 +183,7 @@
     <Compile Include="Stl\QuickList\Internal\InternalList.cs" />
     <Compile Include="Stl\QuickList\QuickList.cs" />
     <Compile Include="Stl\SortSet\SortSet.cs" />
+    <Compile Include="Stl\Template\ManagerTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="API\catlib.json" />

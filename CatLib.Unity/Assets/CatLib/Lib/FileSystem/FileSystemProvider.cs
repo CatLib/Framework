@@ -57,7 +57,7 @@ namespace CatLib.FileSystem
 
             if (env != null)
             {
-                storage.Extend("local", () => new FileSystem(new Local(env.AssetPath)));
+                storage.Extend(() => new FileSystem(new Local(env.AssetPath)));
             }
         }
     }

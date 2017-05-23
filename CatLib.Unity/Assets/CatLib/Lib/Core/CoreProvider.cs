@@ -32,13 +32,13 @@ namespace CatLib
                     return null;
                 }
 
-                var config = App.Make<IConfig>();
-                if (config == null)
+                var configManager = App.Make<IConfigManager>();
+                if (configManager == null)
                 {
                     return obj;
                 }
 
-                env.SetDebugLevel(config.Get("env.debug", DebugLevels.Auto));
+                env.SetDebugLevel(configManager.Get().Get("env.debug", DebugLevels.Auto));
 
                 return obj;
             });

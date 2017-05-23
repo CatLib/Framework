@@ -16,6 +16,7 @@ using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.Config;
 using CatLib.FileSystem;
+using SIO = System.IO;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -48,6 +49,11 @@ namespace CatLib.Tests.FileSystem
         [TestInitialize]
         public void TestInitialize()
         {
+            var path = SIO.Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            if (SIO.Directory.Exists(path))
+            {
+                SIO.Directory.Delete(path, true);
+            }
             var app = new Application().Bootstrap();
             app.OnFindType((t) =>
             {
@@ -58,17 +64,6 @@ namespace CatLib.Tests.FileSystem
             app.Register(typeof(PrepareEnv));
             app.Register(typeof(ConfigProvider));
             app.Init();
-        }
-
-        [TestMethod]
-        public void NoConfigTest()
-        {
-            TestInitialize();
-            App.Instance.Instance(typeof(IConfig).ToString() , null);
-            var storage = App.Instance.Make<IStorage>();
-            storage.Disk().Write("GetDisk", GetByte("hello world"));
-            Assert.AreEqual(true, storage.Disk().Exists("GetDisk"));
-            Assert.AreEqual("hello world", GetString(storage.Disk().Read("GetDisk")));
         }
 
         [TestMethod]
@@ -89,8 +84,7 @@ namespace CatLib.Tests.FileSystem
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 var storage = App.Instance.Make<IStorage>();
-                storage.Extend("local",
-                    () => new CatLib.FileSystem.FileSystem(new Local(App.Instance.Make<IEnv>().AssetPath)));
+                storage.Extend(() => new CatLib.FileSystem.FileSystem(new Local(App.Instance.Make<IEnv>().AssetPath)));
             });
         }
 
@@ -100,11 +94,10 @@ namespace CatLib.Tests.FileSystem
             TestInitialize();
 
             var storage = App.Instance.Make<IStorage>();
-            storage.Extend("local-2",
-                () => new CatLib.FileSystem.FileSystem(new Local( Path.Combine(App.Instance.Make<IEnv>().AssetPath, "DefaultConfigTest"))));
+            storage.Extend(() => new CatLib.FileSystem.FileSystem(new Local( Path.Combine(App.Instance.Make<IEnv>().AssetPath, "DefaultConfigTest"))) , "local-2");
 
-            var config = App.Instance.Make<IConfig>();
-            config.Set("filesystems.default" , "local-2");
+            var config = App.Instance.Make<IConfigManager>();
+            config.Get().Set("filesystems.default" , "local-2");
 
             storage.Disk().Write("DefaultConfigTest", GetByte("hello world"));
             Assert.AreEqual(true, storage.Disk("local").Exists("DefaultConfigTest/DefaultConfigTest"));

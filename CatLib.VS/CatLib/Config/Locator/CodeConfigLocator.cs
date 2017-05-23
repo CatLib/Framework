@@ -56,5 +56,12 @@ namespace CatLib.Config
             Guard.NotNull(name, "name");
             return dict.TryGetValue(name, out value);
         }
+
+        /// <summary>
+        /// 保存配置
+        /// </summary>
+        public void Save()
+        {
+        }
     }
 }

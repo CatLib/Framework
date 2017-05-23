@@ -23,19 +23,51 @@ namespace CatLib.Config
         /// </summary>
         public override void Register()
         {
-            App.Singleton<Config>().Alias<IConfig>().OnResolving((bind, obj) =>
+            RegisterManager();
+            RegisterConfig();
+            RegisterLocator();
+        }
+
+        /// <summary>
+        /// 注册管理器
+        /// </summary>
+        private void RegisterManager()
+        {
+            App.Singleton<ConfigManager>().Alias<IConfigManager>().OnResolving((bind, obj) =>
             {
                 if (obj == null)
                 {
                     return null;
                 }
 
-                var store = obj as Config;
-                store.Reg(App.Make<CodeConfigLocator>());
-                return store;
-            });
+                var configManager = obj as ConfigManager;
 
+                configManager.Extend(() =>
+                {
+                    var config = App.Make<IConfig>();
+                    config.Reg(App.Make<CodeConfigLocator>());
+                    return config;
+                });
+
+                return configManager;
+            });
+        }
+
+        /// <summary>
+        /// 注册配置
+        /// </summary>
+        private void RegisterConfig()
+        {
+            App.Bind<Config>((app, param) => new Config(App)).Alias<IConfig>();
+        }
+
+        /// <summary>
+        /// 注册定位器
+        /// </summary>
+        private void RegisterLocator()
+        {
             App.Singleton<CodeConfigLocator>();
+            App.Singleton<UnitySettingLocator>();
         }
     }
 }
