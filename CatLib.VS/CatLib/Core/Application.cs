@@ -142,7 +142,7 @@ namespace CatLib
             {
                 if (!typeof(IBootstrap).IsAssignableFrom(t))
                 {
-                    throw new RuntimeException("type [" + t + "] is not implements IBootstrap");
+                    throw new RuntimeException("Type [" + t + "] is not implements IBootstrap.");
                 }
                 var bootstrap = Make(t.ToString()) as IBootstrap;
                 bootstrap.Bootstrap();
@@ -165,7 +165,7 @@ namespace CatLib
             }
             if (!bootstrapped)
             {
-                throw new RuntimeException("Must call Bootstrap() first!");
+                throw new RuntimeException("Must call Bootstrap() first.");
             }
 
             var providers = new List<ServiceProvider>(serviceProviders.Values);
@@ -196,12 +196,12 @@ namespace CatLib
             Guard.Requires<ArgumentNullException>(t != null);
             if (serviceProviders.ContainsKey(t))
             {
-                throw new RuntimeException("provider [" + t + "] is already register");
+                throw new RuntimeException("Provider [" + t + "] is already register.");
             }
 
             if (!typeof(ServiceProvider).IsAssignableFrom(t))
             {
-                throw new RuntimeException("type [" + t + "] is not inherit ServiceProvider");
+                throw new RuntimeException("Type [" + t + "] is not inherit ServiceProvider.");
             }
 
             var serviceProvider = Make(t.ToString()) as ServiceProvider;

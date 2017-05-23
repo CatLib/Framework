@@ -12,7 +12,6 @@
 using System;
 using UnityEngine;
 using CatLib.API;
-using System.IO;
 
 namespace CatLib
 {

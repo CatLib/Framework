@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Container;
+using CatLib.Stl;
 
 namespace CatLib.Container
 {
@@ -174,7 +175,7 @@ namespace CatLib.Container
             Guard.NotNull(action, "action");
             if (!IsStatic)
             {
-                throw new RuntimeException("Service [" + Service + "] is not Static , can not call OnRelease(...)");
+                throw new RuntimeException("Service [" + Service + "] is not Singleton(Static) Bind , Can not call OnRelease().");
             }
             lock (syncRoot)
             {
@@ -267,7 +268,7 @@ namespace CatLib.Container
                 }
                 if (contextual.ContainsKey(needs))
                 {
-                    throw new RuntimeException("needs [" + needs + "] is already exist");
+                    throw new RuntimeException("Needs [" + needs + "] is already exist.");
                 }
                 contextual.Add(needs, given);
                 return this;
@@ -281,7 +282,7 @@ namespace CatLib.Container
         {
             if (isDestroy)
             {
-                throw new RuntimeException("bind data has be destroy");
+                throw new RuntimeException("Current Instance has be mark Destroy.");
             }
         }
     }

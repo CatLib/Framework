@@ -1,8 +1,9 @@
 {
-    "source": "catlib/event",
-    "folder" : "Event",
-    "require": {
-        "catlib/api":"~1.0",
-        "catlib/core":"~1.0"
-    }
+  "source": "catlib/event",
+  "folder": "Event",
+  "require": {
+    "catlib/api": "~1.0",
+    "catlib/core": "~1.0",
+    "catlib/stl": "~1.0"
+  }
 }

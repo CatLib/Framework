@@ -18,7 +18,7 @@ namespace CatLib
     /// <summary>
     /// 全局事件
     /// </summary>
-    public sealed class GlobalEvent : IGlobalEvent
+    internal sealed class GlobalEvent : IGlobalEvent
     {
         /// <summary>
         /// 事件源
@@ -45,7 +45,7 @@ namespace CatLib
         /// </summary>
         /// <param name="eventName">事件名</param>
         /// <param name="sender">发送者</param>
-        public GlobalEvent(string eventName , object sender)
+        public GlobalEvent(string eventName, object sender)
         {
             this.eventName = eventName;
             this.sender = sender;

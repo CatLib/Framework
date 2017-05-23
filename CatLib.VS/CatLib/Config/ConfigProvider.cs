@@ -8,6 +8,7 @@
  *
  * Document: http://catlib.io/
  */
+
 using CatLib.API.Config;
 
 namespace CatLib.Config
@@ -22,7 +23,7 @@ namespace CatLib.Config
         /// </summary>
         public override void Register()
         {
-            App.Singleton<Config>().Alias<IConfig>().Alias("config").OnResolving((bind, obj) =>
+            App.Singleton<Config>().Alias<IConfig>().OnResolving((bind, obj) =>
             {
                 if (obj == null)
                 {

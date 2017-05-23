@@ -69,7 +69,7 @@ namespace CatLib.Stl
             /// 构造一个迭代器
             /// </summary>
             /// <param name="lruCache">近期最少使用缓存</param>
-            internal Enumerator(LruCache<TKey, TVal> lruCache , bool forward)
+            internal Enumerator(LruCache<TKey, TVal> lruCache, bool forward)
             {
                 this.lruCache = lruCache;
                 this.forward = forward;
@@ -139,7 +139,7 @@ namespace CatLib.Stl
         {
             Guard.Requires<ArgumentNullException>(key != null);
             CacheNode<TKey, TVal> result;
-            if (lruCache.TryGetValue(key , out result))
+            if (lruCache.TryGetValue(key, out result))
             {
                 result.Replace(value);
                 MakeUsed(result);
@@ -187,7 +187,7 @@ namespace CatLib.Stl
             {
                 header = result.Forward;
             }
-            if(result.Backward != null)
+            if (result.Backward != null)
             {
                 result.Backward.Forward = result.Forward;
             }
@@ -203,7 +203,7 @@ namespace CatLib.Stl
         {
             Guard.Requires<ArgumentNullException>(key != null);
             CacheNode<TKey, TVal> result;
-            if (!lruCache.TryGetValue(key , out result))
+            if (!lruCache.TryGetValue(key, out result))
             {
                 return defaultValue;
             }

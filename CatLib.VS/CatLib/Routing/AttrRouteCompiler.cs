@@ -232,7 +232,7 @@ namespace CatLib.Routing
         {
             if (buildRecord.ContainsKey(path))
             {
-                throw new RuntimeException("build attr route has be repeat , class: " + controllerType.FullName + " , method: " + method.Name + " , path: " + path);
+                throw new RuntimeException("Build attr route has be repeat , class: [" + controllerType.FullName + "] , method: [" + method.Name + "] , path: [" + path + "].");
             }
 
             buildRecord.Add(path, true);
@@ -320,7 +320,7 @@ namespace CatLib.Routing
                 fragment = segment[i].Split(split, StringSplitOptions.RemoveEmptyEntries);
                 if (fragment.Length != 2)
                 {
-                    throw new RuntimeException("routed options exception , can not resolve:" + input);
+                    throw new RuntimeException("Routed options exception , can not resolve: [" + input + "].");
                 }
                 data.Remove(fragment[0]);
                 data.Add(fragment[0], fragment[1]);

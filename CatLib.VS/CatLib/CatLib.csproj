@@ -166,7 +166,6 @@
     <Compile Include="Container\Container.cs" />
     <Compile Include="Container\ContainerHelper.cs" />
     <Compile Include="Container\GivenData.cs" />
-    <Compile Include="Container\Guard.cs" />
     <Compile Include="Core\App.cs" />
     <Compile Include="Core\Application.cs" />
     <Compile Include="Core\CoreProvider.cs" />
@@ -208,7 +207,6 @@
     <Compile Include="Stl\QuickList\Internal\InternalList.cs" />
     <Compile Include="Stl\QuickList\QuickList.cs" />
     <Compile Include="Stl\SortSet\SortSet.cs" />
-    <Compile Include="Stl\StlProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="API\catlib.json" />
@@ -216,8 +214,10 @@
     <None Include="Container\catlib.json" />
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
+    <None Include="FileSystem\catlib.json" />
     <None Include="FilterChain\catlib.json" />
     <None Include="Routing\catlib.json" />
+    <None Include="Stl\catlib.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

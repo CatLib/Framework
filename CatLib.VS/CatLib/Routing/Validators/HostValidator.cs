@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// Host验证器
     /// </summary>
-    internal class HostValidator : IValidators
+    internal sealed class HostValidator : IValidators
     {
         /// <summary>
         /// 是否匹配

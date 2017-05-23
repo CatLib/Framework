@@ -38,7 +38,7 @@ namespace CatLib.FileSystem
 
             if (!Path.IsPathRooted(root))
             {
-                throw new ArgumentException("Path need rooted! " + root, "root");
+                throw new ArgumentException("Path need rooted [" + root + "].", "root");
             }
 
             this.root = root;
@@ -94,7 +94,7 @@ namespace CatLib.FileSystem
             {
                 return SIO.File.ReadAllBytes(path);
             }
-            throw new FileNotFoundException("File is not exists " + path);
+            throw new FileNotFoundException("File is not exists [" + path + "].");
         }
 
         /// <summary>
@@ -119,12 +119,12 @@ namespace CatLib.FileSystem
 
             if (SIO.File.Exists(newPath))
             {
-                throw new IOException("duplicate name:" + newFileName);
+                throw new IOException("duplicate name [" + newFileName + "].");
             }
 
             if (SIO.Directory.Exists(newPath))
             {
-                throw new IOException("duplicate name:" + newFileName);
+                throw new IOException("duplicate name [" + newFileName + "].");
             }
 
             if (isDir)
@@ -322,7 +322,7 @@ namespace CatLib.FileSystem
         {
             if (!path.Contains(root))
             {
-                throw new RuntimeException("The path range is beyond root path " + path);
+                throw new RuntimeException("The path range is beyond root path [" + path + "].");
             }
         }
 

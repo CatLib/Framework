@@ -18,7 +18,7 @@ namespace CatLib.Config
     /// <summary>
     /// 代码配置定位器
     /// </summary>
-    internal sealed class CodeConfigLocator : IConfigLocator
+    public sealed class CodeConfigLocator : IConfigLocator
     {
         /// <summary>
         /// 配置字典

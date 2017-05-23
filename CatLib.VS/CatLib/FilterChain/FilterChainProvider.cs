@@ -16,7 +16,7 @@ namespace CatLib.FilterChain
     /// <summary>
     /// 过滤器链服务
     /// </summary>
-    public class FilterChainProvider : ServiceProvider
+    public sealed class FilterChainProvider : ServiceProvider
     {
         /// <summary>
         /// 注册过滤器链服务

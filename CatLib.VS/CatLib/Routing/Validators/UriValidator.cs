@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 统一资源定位符验证器
     /// </summary>
-    internal class UriValidator : IValidators
+    internal sealed class UriValidator : IValidators
     {
         /// <summary>
         /// 是否匹配

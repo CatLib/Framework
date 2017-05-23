@@ -17,7 +17,7 @@ namespace CatLib
     /// <summary>
     /// 核心服务提供商
     /// </summary>
-    public class CoreProvider : ServiceProvider
+    public sealed class CoreProvider : ServiceProvider
     {
         /// <summary>
         /// 注册核心服务提供商
@@ -39,7 +39,7 @@ namespace CatLib
                 }
 
                 env.SetDebugLevel(config.Get("env.debug", DebugLevels.Auto));
-         
+
                 return obj;
             });
         }

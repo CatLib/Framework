@@ -67,7 +67,7 @@ namespace CatLib.FileSystem
         {
             if (customResolve.ContainsKey(name))
             {
-                throw new RuntimeException("Custom resolve [" + name + "] is already exists");
+                throw new RuntimeException("Custom resolve [" + name + "] is already exists.");
             }
             customResolve.Add(name, resolve);
         }
@@ -102,7 +102,7 @@ namespace CatLib.FileSystem
                 return fileSystemCustomResolve.Invoke();
             }
 
-            throw new RuntimeException("Can not find [" + name + "] FileSystem Extend");
+            throw new RuntimeException("Can not find [" + name + "] FileSystem Extend.");
         }
 
         /// <summary>

@@ -319,7 +319,7 @@ namespace CatLib.Routing
             }
             else
             {
-                throw new RuntimeException("Undefine action type");
+                throw new RuntimeException("Undefine action type [" + action.Type + "].");
             } 
         }
 
@@ -334,7 +334,7 @@ namespace CatLib.Routing
 
             if (controller == null)
             {
-                throw new RuntimeException("Can not Make [" + action.Controller + "] Please check cross assembly Or achieve Container.OnFindType(...)");
+                throw new RuntimeException("Can not Make [" + action.Controller + "] Please check cross assembly Or achieve Container.OnFindType().");
             }
 
             IMiddleware mid = null;
