@@ -41,8 +41,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Buffer\IBufferBuilder.cs" />
-    <Compile Include="API\Compress\ICompress.cs" />
     <Compile Include="API\Config\Features\IConfigLocator.cs" />
     <Compile Include="API\Config\IConfig.cs" />
     <Compile Include="API\Container\Features\InjectAttribute.cs" />
@@ -66,12 +64,6 @@
     <Compile Include="API\Core\Internal\IGlobalEvent.cs" />
     <Compile Include="API\Crypt\Exception\DecryptException.cs" />
     <Compile Include="API\Crypt\ICrypt.cs" />
-    <Compile Include="API\CsvStore\ICsvStore.cs" />
-    <Compile Include="API\Csv\ICsvParser.cs" />
-    <Compile Include="API\DataTable\IDataTable.cs" />
-    <Compile Include="API\DataTable\Internal\IDataTableResult.cs" />
-    <Compile Include="API\DataTable\Internal\IDataTableSelector.cs" />
-    <Compile Include="API\DataTable\SelectorLinker.cs" />
     <Compile Include="API\Event\Features\IEvent.cs" />
     <Compile Include="API\Event\IEventImpl.cs" />
     <Compile Include="API\Event\Internal\IEventHandler.cs" />
@@ -92,9 +84,6 @@
     <Compile Include="API\Flux\IAction.cs" />
     <Compile Include="API\Flux\IFluxDispatcher.cs" />
     <Compile Include="API\Hash\IHash.cs" />
-    <Compile Include="API\INI\IIniLoader.cs" />
-    <Compile Include="API\INI\Internal\IIniResult.cs" />
-    <Compile Include="API\Json\IJson.cs" />
     <Compile Include="API\LocalSetting\ILocalSetting.cs" />
     <Compile Include="Config\CodeConfigLocator.cs" />
     <Compile Include="Config\Config.cs" />
@@ -121,21 +110,6 @@
     <Compile Include="Routing\EventArgs\DispatchEventArgs.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="API\Stl\LruCache\ILruCache.cs" />
-    <Compile Include="API\Network\Features\IPackage.cs" />
-    <Compile Include="API\Network\Features\IPacking.cs" />
-    <Compile Include="API\Network\Features\IProtocol.cs" />
-    <Compile Include="API\Network\Features\IRender.cs" />
-    <Compile Include="API\Network\INetworkFactory.cs" />
-    <Compile Include="API\Network\Internal\IConnector.cs" />
-    <Compile Include="API\Network\Internal\IConnectorHttp.cs" />
-    <Compile Include="API\Network\Internal\IConnectorSocket.cs" />
-    <Compile Include="API\Network\Internal\IConnectorTcp.cs" />
-    <Compile Include="API\Network\Internal\IConnectorUdp.cs" />
-    <Compile Include="API\Network\Internal\IHttpResponse.cs" />
-    <Compile Include="API\Network\Internal\IPackageResponse.cs" />
-    <Compile Include="API\Network\Internal\IResponse.cs" />
-    <Compile Include="API\Network\Restfuls.cs" />
-    <Compile Include="API\Protobuf\IProtobuf.cs" />
     <Compile Include="API\Resources\IAssetBundle.cs" />
     <Compile Include="API\Resources\Internal\IObject.cs" />
     <Compile Include="API\Resources\IResources.cs" />
@@ -161,7 +135,6 @@
     <Compile Include="API\TimeQueue\Internal\ITimeTaskHandler.cs" />
     <Compile Include="API\TimeQueue\ITimeQueue.cs" />
     <Compile Include="API\Time\ITime.cs" />
-    <Compile Include="API\Translation\ITranslator.cs" />
     <Compile Include="Container\BindData.cs" />
     <Compile Include="Container\Container.cs" />
     <Compile Include="Container\ContainerHelper.cs" />
