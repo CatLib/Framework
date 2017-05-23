@@ -375,6 +375,12 @@ namespace CatLib.Container
                 service = Normalize(service);
                 service = AliasToService(service);
 
+                object instance;
+                if (instances.TryGetValue(service, out instance))
+                {
+                    return instance;
+                }
+
                 if (buildStack.Contains(service))
                 {
                     throw new RuntimeException("Circular dependency detected while for [" + service + "].");
@@ -383,8 +389,7 @@ namespace CatLib.Container
                 buildStack.Push(service);
                 try
                 {
-                    object instance;
-                    return instances.TryGetValue(service, out instance) ? instance : BuildMake(service, null, true, param);
+                    return BuildMake(service, null, true, param);
                 }
                 finally
                 {
