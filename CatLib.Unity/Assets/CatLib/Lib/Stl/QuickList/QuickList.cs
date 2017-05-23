@@ -14,7 +14,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using CatLib.API;
 using CatLib.API.Stl;
 
 namespace CatLib.Stl

@@ -11,7 +11,6 @@
 
 using System.Text.RegularExpressions;
 using System.Collections;
-using CatLib.API.Routing;
 using System.Collections.Generic;
 
 namespace CatLib.Routing
@@ -128,17 +127,17 @@ namespace CatLib.Routing
 
                 if (IsMatch(@"^\d", varName))
                 {
-                    throw new DomainException(string.Format("variable name {0} cannot start with a digit in route pattern {1}. please use a different name.", varName, uri));
+                    throw new DomainException(string.Format("Variable name [{0}] cannot start with a digit in route pattern [{1}]. please use a different name.", varName, uri));
                 }
 
                 if (variables.Contains(varName))
                 {
-                    throw new DomainException(string.Format("route pattern {0} cannot reference variable name {1} more than once.", varName, uri));
+                    throw new DomainException(string.Format("Route pattern [{0}] cannot reference variable name [{1}] more than once.", varName, uri));
                 }
 
                 if (varName.Length > VARIABLE_MAXIMUM_LENGTH)
                 {
-                    throw new DomainException(string.Format("variable name {0} cannot be longer than {1} characters in route pattern {2}. please use a shorter name.", varName, VARIABLE_MAXIMUM_LENGTH, uri));
+                    throw new DomainException(string.Format("Variable name [{0}] cannot be longer than [{1}] characters in route pattern [{2}]. please use a shorter name.", varName, VARIABLE_MAXIMUM_LENGTH, uri));
                 }
 
                 if (isSeparator && precedingText != precedingChar)
@@ -313,7 +312,7 @@ namespace CatLib.Routing
         /// <param name="val">输入值</param>
         /// <param name="regstr">正则表达式</param>
         /// <returns></returns>
-        private static bool IsMatch(string regstr , string val)
+        private static bool IsMatch(string regstr, string val)
         {
             var reg = new Regex(regstr);
             return reg.IsMatch(val);
@@ -324,6 +323,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="uri">uri</param>
         /// <param name="regstr">正则表达式</param>
+        /// <param name="parameIndex">参数下标</param>
         /// <returns>匹配到的参数</returns>
         private static string[] MatchParameters(string uri, string regstr, ref int[] parameIndex)
         {

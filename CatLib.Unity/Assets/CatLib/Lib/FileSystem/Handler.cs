@@ -36,7 +36,7 @@ namespace CatLib.FileSystem
         /// <summary>
         /// 文件系统
         /// </summary>
-        private FileSystem fileSystem;
+        private readonly FileSystem fileSystem;
 
         /// <summary>
         /// 文件系统

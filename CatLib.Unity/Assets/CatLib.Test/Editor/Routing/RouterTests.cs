@@ -83,7 +83,7 @@ namespace CatLib.Tests.Routing
 
             router.OnNotFound((req, next) =>
             {
-                throw new NotFoundRouteException("not found route!");
+                throw new NotFoundRouteException("Can not found route.");
             });
 
             router.Middleware((req, res, next) =>
@@ -214,7 +214,7 @@ namespace CatLib.Tests.Routing
             router.Reg("lambda://call/throw-error-lambda-call", (req, res) =>
             {
                 res.SetContext("RouterTests.ThrowErrorLambdaCall");
-                throw new Exception("unit test exception");
+                throw new Exception("Unit test exception.");
             }).Group("throw-error-group");
 
             var response = router.Dispatch("lambda://call/throw-error-lambda-call");
@@ -245,7 +245,7 @@ namespace CatLib.Tests.Routing
             router.Reg("lambda://call/throw-not-found-exception", (req, res) =>
             {
                 res.SetContext("RouterTests.ThrowNotFoundExceptionCallInScheme");
-                throw new Exception("unit test exception");
+                throw new Exception("Unit test exception.");
             }).Group("throw-error-group");
 
             ExceptionAssert.Throws<NotFoundRouteException>(() =>
@@ -285,7 +285,7 @@ namespace CatLib.Tests.Routing
             router.Reg("lambda://call/route-exception", (req, res) =>
             {
                 res.SetContext("RouterTests.RouteException");
-                throw new Exception("unit test exception");
+                throw new Exception("Unit test exception.");
             }).Middleware((req, res, next) =>
             {
                 next(req, res);

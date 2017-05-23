@@ -34,7 +34,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="route">路由</param>
         /// <param name="request">请求</param>
-        public DispatchEventArgs(IRoute route , IRequest request)
+        public DispatchEventArgs(IRoute route, IRequest request)
         {
             Route = route;
             Request = request;

@@ -1,12 +1,12 @@
 {
-    "source": "catlib/routing",
-    "folder" : "Routing",
-    "require": {
-        "catlib/filterchain" : "~1.0",
-        "catlib/event":"~1.0",
-        "catlib/container":"~1.0",
-        "catlib/api":"~1.0",
-        "catlib/core":"~1.0",
-        "catlib/stl":"~1.0"
-    }
+  "source": "catlib/routing",
+  "folder": "Routing",
+  "require": {
+    "catlib/filterchain": "~1.0",
+    "catlib/event": "~1.0",
+    "catlib/container": "~1.0",
+    "catlib/api": "~1.0",
+    "catlib/core": "~1.0",
+    "catlib/stl": "~1.0"
+  }
 }

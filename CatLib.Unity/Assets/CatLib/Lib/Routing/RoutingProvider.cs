@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API.Routing;
 using CatLib.API.FilterChain;
 using System.Collections;

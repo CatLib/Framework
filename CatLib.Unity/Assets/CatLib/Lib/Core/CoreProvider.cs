@@ -17,7 +17,7 @@ namespace CatLib
     /// <summary>
     /// 核心服务提供商
     /// </summary>
-    public class CoreProvider : ServiceProvider
+    public sealed class CoreProvider : ServiceProvider
     {
         /// <summary>
         /// 注册核心服务提供商
@@ -26,16 +26,20 @@ namespace CatLib
         {
             App.Singleton<Env>().Alias<IEnv>().OnResolving((bind, obj) =>
             {
-                var config = App.Make<IConfig>();
+                var env = obj as Env;
+                if (env == null)
+                {
+                    return null;
+                }
 
+                var config = App.Make<IConfig>();
                 if (config == null)
                 {
                     return obj;
                 }
 
-                var env = obj as Env;
                 env.SetDebugLevel(config.Get("env.debug", DebugLevels.Auto));
-         
+
                 return obj;
             });
         }

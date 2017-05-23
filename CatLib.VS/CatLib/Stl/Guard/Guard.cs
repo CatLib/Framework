@@ -75,7 +75,7 @@ namespace CatLib.Stl
             {
                 if (string.IsNullOrEmpty(val))
                 {
-                    throw new ArgumentNullException(argumentName, "Argument element can not be Empty or Null");
+                    throw new ArgumentNullException(argumentName, "Argument element can not be Empty or Null.");
                 }
             }
         }

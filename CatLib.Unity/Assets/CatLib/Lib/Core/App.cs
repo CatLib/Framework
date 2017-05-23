@@ -55,7 +55,7 @@ namespace CatLib
                     return instance;
                 }
 #endif
-                throw new NullReferenceException("application not instance");
+                throw new NullReferenceException("Application is not instance.");
             }
             internal set
             {

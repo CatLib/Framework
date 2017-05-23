@@ -30,15 +30,6 @@ namespace CatLib.Config
         /// <summary>
         /// 转换异常
         /// </summary>
-        /// <param name="message">异常消息</param>
-        /// <param name="innerException">内部异常</param>
-        public ConverterException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        /// <summary>
-        /// 转换异常
-        /// </summary>
         /// <param name="field">异常字段</param>
         /// <param name="to">转换的类型</param>
         public ConverterException(string field, Type to)

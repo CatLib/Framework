@@ -26,7 +26,7 @@ namespace CatLib.Stl
     /// </summary>
     [DebuggerDisplay("Count = {Count}")]
     [ComVisible(false)]
-    public sealed class SortSet<TElement, TScore> : ISortSet<TElement,TScore>
+    public sealed class SortSet<TElement, TScore> : ISortSet<TElement, TScore>
         where TScore : IComparable<TScore>
     {
         /// <summary>
@@ -220,7 +220,7 @@ namespace CatLib.Stl
         /// </summary>
         public void Clear()
         {
-            for (var i = 0; i < header.Level.Length ; ++i)
+            for (var i = 0; i < header.Level.Length; ++i)
             {
                 header.Level[i].Span = 0;
                 header.Level[i].Forward = null;
@@ -284,7 +284,7 @@ namespace CatLib.Stl
             TElement result;
             if (!Remove(header.Level[0].Forward, out result))
             {
-                throw new RuntimeException("Can not shift element , unknow error");
+                throw new RuntimeException("Can not shift element , unknow error.");
             }
             return result;
         }
@@ -298,7 +298,7 @@ namespace CatLib.Stl
             TElement result;
             if (!Remove(tail, out result))
             {
-                throw new RuntimeException("Can not pop element , unknow error");
+                throw new RuntimeException("Can not pop element , unknow error.");
             }
             return result;
         }
@@ -722,7 +722,7 @@ namespace CatLib.Stl
         /// <param name="node">节点</param>
         /// <param name="element">元素</param>
         /// <returns>移除的元素</returns>
-        private bool Remove(SkipNode node , out TElement element)
+        private bool Remove(SkipNode node, out TElement element)
         {
             if (node == null)
             {

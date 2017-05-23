@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace CatLib.Stl
 {
@@ -44,6 +45,38 @@ namespace CatLib.Stl
             if (string.IsNullOrEmpty(argumentValue))
             {
                 throw new ArgumentNullException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// 长度大于0
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="argumentValue">参数值</param>
+        /// <param name="argumentName">参数名</param>
+        [System.Diagnostics.DebuggerNonUserCode]
+        public static void CountGreaterZero<T>(IList<T> argumentValue, string argumentName)
+        {
+            if (argumentValue.Count <= 0)
+            {
+                throw new ArgumentNullException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// 元素部位空或者null
+        /// </summary>
+        /// <param name="argumentValue">参数值</param>
+        /// <param name="argumentName">参数名</param>
+        [System.Diagnostics.DebuggerNonUserCode]
+        public static void ElementNotEmptyOrNull(IList<string> argumentValue, string argumentName)
+        {
+            foreach (var val in argumentValue)
+            {
+                if (string.IsNullOrEmpty(val))
+                {
+                    throw new ArgumentNullException(argumentName, "Argument element can not be Empty or Null.");
+                }
             }
         }
 

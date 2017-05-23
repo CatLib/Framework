@@ -85,7 +85,7 @@ namespace CatLib.Routing
                 return route;
             }
 
-            throw new NotFoundRouteException("can not find route: " + request.RouteUri.FullPath);
+            throw new NotFoundRouteException("Can not find route [" + request.RouteUri.FullPath + "].");
         }
 
         /// <summary>

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using CatLib.API;
 using CatLib.API.Container;
+using CatLib.Stl;
 
 namespace CatLib.Container
 {
@@ -61,7 +62,7 @@ namespace CatLib.Container
         /// 类型查询回调
         /// 当类型无法被解决时会尝试去开发者提供的查询器中查询类型
         /// </summary>
-        private readonly List<Func<string, Type>> findType;
+        private readonly SortSet<Func<string, Type> , int> findType;
 
         /// <summary>
         /// 同步锁
@@ -90,7 +91,7 @@ namespace CatLib.Container
             binds = new Dictionary<string, BindData>();
             resolving = new List<Func<IBindData, object, object>>();
             release = new List<Action<IBindData, object>>();
-            findType = new List<Func<string, Type>>();
+            findType = new SortSet<Func<string, Type>, int>();
             injectTarget = typeof(InjectAttribute);
             buildStack = new Stack<string>();
         }
@@ -212,11 +213,11 @@ namespace CatLib.Container
             {
                 if (aliases.ContainsKey(alias))
                 {
-                    throw new RuntimeException("[" + alias + "] in Alias is already exists.");
+                    throw new RuntimeException("Alias [" + alias + "] is already exists.");
                 }
                 if (!binds.ContainsKey(service) && !instances.ContainsKey(service))
                 {
-                    throw new RuntimeException("[" + service + "] must be Bind or Instance.");
+                    throw new RuntimeException("You must Bind() or Instance() serivce before you can call Alias().");
                 }
 
                 aliases.Add(alias, service);
@@ -297,17 +298,17 @@ namespace CatLib.Container
             {
                 if (binds.ContainsKey(service))
                 {
-                    throw new RuntimeException("[" + service + "] in Bind is already exists.");
+                    throw new RuntimeException("Bind [" + service + "] already exists.");
                 }
 
                 if (instances.ContainsKey(service))
                 {
-                    throw new RuntimeException("[" + service + "] in Instances is already exists.");
+                    throw new RuntimeException("Instances [" + service + "] is already exists.");
                 }
 
                 if (aliases.ContainsKey(service))
                 {
-                    throw new RuntimeException("[" + service + "] in Aliase is already exists.");
+                    throw new RuntimeException("Aliase [" + service + "] is already exists.");
                 }
 
                 var bindData = new BindData(this, service, concrete, isStatic);
@@ -376,7 +377,7 @@ namespace CatLib.Container
 
                 if (buildStack.Contains(service))
                 {
-                    throw new RuntimeException("Circular dependency detected while for [" + service + "]");
+                    throw new RuntimeException("Circular dependency detected while for [" + service + "].");
                 }
 
                 buildStack.Push(service);
@@ -422,7 +423,7 @@ namespace CatLib.Container
                 {
                     if (!bindData.IsStatic)
                     {
-                        throw new RuntimeException("[" + service + "] is not Static bind.");
+                        throw new RuntimeException("Service [" + service + "] is not Singleton(Static) Bind.");
                     }
                     instance = ((BindData)bindData).ExecResolvingDecorator(instance);
                 }
@@ -467,13 +468,14 @@ namespace CatLib.Container
         /// 当查找类型无法找到时会尝试去调用开发者提供的查找类型函数
         /// </summary>
         /// <param name="finder">查找类型的回调</param>
+        /// <param name="priority">查询优先级(值越小越优先)</param>
         /// <returns>当前容器实例</returns>
-        public IContainer OnFindType(Func<string, Type> finder)
+        public IContainer OnFindType(Func<string, Type> finder , int priority = int.MaxValue)
         {
             Guard.NotNull(finder, "finder");
             lock (syncRoot)
             {
-                findType.Add(finder);
+                findType.Add(finder, priority);
             }
             return this;
         }
@@ -504,7 +506,7 @@ namespace CatLib.Container
             lock (syncRoot)
             {
                 resolving.Add(func);
-                
+
                 var result = new Dictionary<string, object>();
                 foreach (var data in instances)
                 {
@@ -697,7 +699,7 @@ namespace CatLib.Container
                 }
 
                 var injectAttr = (InjectAttribute)property.GetCustomAttributes(injectTarget, false)[0];
-                var needService = string.IsNullOrEmpty(injectAttr.Alias) ? 
+                var needService = string.IsNullOrEmpty(injectAttr.Alias) ?
                                     property.PropertyType.ToString() : injectAttr.Alias;
                 object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
@@ -711,12 +713,12 @@ namespace CatLib.Container
 
                 if (injectAttr.Required && instance == null)
                 {
-                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr [" + property.PropertyType + "] required [" + needService + "] service");
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr [" + property.PropertyType + "] Required [" + needService + "] Service.");
                 }
 
                 if (instance != null && !property.PropertyType.IsInstanceOfType(instance))
                 {
-                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr injection type must be [" + property.PropertyType + "], Make Attr service [" + needService + "], but instance is [" + instance.GetType() + "]");
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr inject type must be [" + property.PropertyType + "] , But instance is [" + instance.GetType() + "] , Make service is [" + needService + "].");
                 }
 
                 property.SetValue(makeServiceInstance, instance, null);
@@ -796,12 +798,12 @@ namespace CatLib.Container
 
                 if (injectAttr != null && injectAttr.Required && instance == null)
                 {
-                    throw new RuntimeException("[" + makeServiceBindData.Service + "] required [" + makeServiceBindData.Service + "] service");
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Required [" + makeServiceBindData.Service + "] Service.");
                 }
 
                 if (instance != null && !info.ParameterType.IsInstanceOfType(instance))
                 {
-                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr injection type must be [" + info.ParameterType + "], Make Attr service [" + needService + "], but instance is [" + instance.GetType() + "]");
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Attr inject type must be [" + info.ParameterType + "] , But instance is [" + instance.GetType() + "] Make service is [" + needService + "].");
                 }
 
                 myParam.Add(instance);

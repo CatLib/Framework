@@ -182,9 +182,9 @@ namespace CatLib
 
             if (obj is IDestroy)
             {
-                if (destroy.Remove((IDestroy) obj))
+                if (destroy.Remove((IDestroy)obj))
                 {
-                    ((IDestroy) obj).OnDestroy();
+                    ((IDestroy)obj).OnDestroy();
                 }
             }
 
@@ -203,7 +203,7 @@ namespace CatLib
 
             if (loadSet.Contains(obj))
             {
-                throw new RuntimeException("[" + obj + "] is already load");
+                throw new RuntimeException("Object [" + obj + "] is already load.");
             }
 
             var isLoad = false;
@@ -253,7 +253,7 @@ namespace CatLib
             var currentPriority = int.MaxValue;
 
             MethodInfo methodInfo;
-            if (method != null && 
+            if (method != null &&
                 (methodInfo = type.GetMethod(method)) != null &&
                 methodInfo.IsDefined(priority, false))
             {
@@ -381,7 +381,7 @@ namespace CatLib
         /// <param name="routine">协程内容</param>
         /// <returns>协程</returns>
         /// <exception cref="routine">当<paramref name="routine"/>为<c>null</c>时引发</exception>
-        public UnityEngine.Coroutine StartCoroutine(IEnumerator routine)
+        public Coroutine StartCoroutine(IEnumerator routine)
         {
             Guard.Requires<ArgumentNullException>(routine != null);
             if (driverBehaviour == null)

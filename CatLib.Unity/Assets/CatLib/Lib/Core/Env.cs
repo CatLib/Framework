@@ -10,9 +10,9 @@
  */
 
 using System;
+using System.IO;
 using UnityEngine;
 using CatLib.API;
-using System.IO;
 
 namespace CatLib
 {
@@ -52,7 +52,7 @@ namespace CatLib
                 switch (DebugLevel)
                 {
                     case DebugLevels.Staging:
-                        return UnityEngine.Application.dataPath + Path.AltDirectorySeparatorChar + "StreamingAssets";
+                        return Path.Combine(UnityEngine.Application.dataPath, "StreamingAssets");
                     case DebugLevels.Auto:
                     case DebugLevels.Dev:
                         return UnityEngine.Application.dataPath;
@@ -63,7 +63,7 @@ namespace CatLib
 #if UNITY_5_OR_NEW
                 return UnityEngine.Application.persistentDataPath;
 #else
-                throw new RuntimeException("Not set asset path");
+                throw new RuntimeException("Not set asset path.");
 #endif
             }
         }
@@ -101,7 +101,7 @@ namespace CatLib
 #if UNITY_STANDALONE_OSX
 				 return RuntimePlatform.OSXPlayer;
 #endif
-                throw new Exception("Undefined Switch Platform");
+                throw new Exception("Undefined Switch Platform.");
             }
         }
 

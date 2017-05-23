@@ -161,7 +161,8 @@ namespace CatLib.API.Container
         /// 当查找类型无法找到时会尝试去调用开发者提供的查找类型函数
         /// </summary>
         /// <param name="func">查找类型的回调</param>
+        /// <param name="priority">查询优先级(值越小越优先)</param>
         /// <returns>当前容器实例</returns>
-        IContainer OnFindType(Func<string, Type> func);
+        IContainer OnFindType(Func<string, Type> func, int priority = int.MaxValue);
     }
 }

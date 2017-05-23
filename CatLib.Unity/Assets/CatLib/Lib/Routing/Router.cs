@@ -24,7 +24,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 路由服务
     /// </summary>
-    internal sealed class Router : IRouter
+    public sealed class Router : IRouter
     {
         /// <summary>
         /// 分隔符
@@ -162,7 +162,7 @@ namespace CatLib.Routing
         {
             Guard.NotEmptyOrNull(uris, "uris");
             Guard.Requires<ArgumentNullException>(controller != null);
-            Guard.NotEmptyOrNull(func , "func");
+            Guard.NotEmptyOrNull(func, "func");
             return RegisterRoute(uris, new RouteAction()
             {
                 Type = RouteAction.RouteTypes.ControllerCall,
@@ -243,7 +243,7 @@ namespace CatLib.Routing
                 var route = FindRoute(request);
                 if (routeStack.Contains(route))
                 {
-                    throw new RuntimeException("A circular dependency call was detected , uri: " + uri);   
+                    throw new RuntimeException("A circular dependency call was detected , uri [" + uri + "].");
                 }
                 try
                 {
@@ -264,7 +264,7 @@ namespace CatLib.Routing
                     container.Instance(typeof(IRequest).ToString(), requestStack.Count > 0 ? requestStack.Peek() : null);
                 }
             }
-            catch(NotFoundRouteException)
+            catch (NotFoundRouteException)
             {
                 ThrowOnNotFound(request);
                 return null;
@@ -403,7 +403,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         /// <returns>响应</returns>
         private IResponse RunRouteWithMiddleware(Route route, Request request)
-         {
+        {
             var response = new Response();
 
             try
@@ -413,10 +413,10 @@ namespace CatLib.Routing
 
                 if (middleware != null)
                 {
-                    middleware.Do(request , response , (req, res) =>
-                    {
-                        RunInRoute(route, request, response);
-                    });
+                    middleware.Do(request, response, (req, res) =>
+                  {
+                      RunInRoute(route, request, response);
+                  });
                 }
                 else
                 {
@@ -454,7 +454,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <returns>响应</returns>
-        private IResponse RunInRoute(Route route , Request request , Response response)
+        private IResponse RunInRoute(Route route, Request request, Response response)
         {
             var middleware = route.GatherMiddleware();
             if (middleware != null)
@@ -521,7 +521,7 @@ namespace CatLib.Routing
         /// <returns>处理后的url</returns>
         private string Prefix(string url)
         {
-            return (GetLastGroupPrefix().Trim(SEPARATOR) + SEPARATOR + url.Trim(SEPARATOR)).Trim(SEPARATOR) ?? SEPARATOR.ToString();
+            return (GetLastGroupPrefix().Trim(SEPARATOR) + SEPARATOR + url.Trim(SEPARATOR)).Trim(SEPARATOR);
         }
 
         /// <summary>
@@ -542,7 +542,7 @@ namespace CatLib.Routing
         {
             if (string.IsNullOrEmpty(uri))
             {
-                throw new RouterConfigException("reg uri is null or empty");
+                throw new RouterConfigException("Uri is Null or Empty.");
             }
 
             if (uri.IndexOf(@"://") >= 0)
@@ -551,7 +551,7 @@ namespace CatLib.Routing
             }
             if (string.IsNullOrEmpty(defaultScheme))
             {
-                throw new UndefinedDefaultSchemeException("undefined default scheme please call SetDefaultScheme(string)");
+                throw new UndefinedDefaultSchemeException("Undefined default scheme , Please call SetDefaultScheme(string) first.");
             }
             uri = defaultScheme + "://" + uri;
             return uri;

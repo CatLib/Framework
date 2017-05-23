@@ -119,12 +119,12 @@ namespace CatLib.FileSystem
 
             if (SIO.File.Exists(newPath))
             {
-                throw new IOException("duplicate name [" + newFileName + "].");
+                throw new IOException("Duplicate name [" + newFileName + "].");
             }
 
             if (SIO.Directory.Exists(newPath))
             {
-                throw new IOException("duplicate name [" + newFileName + "].");
+                throw new IOException("Duplicate name [" + newFileName + "].");
             }
 
             if (isDir)

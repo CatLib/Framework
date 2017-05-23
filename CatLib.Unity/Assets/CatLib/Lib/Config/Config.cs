@@ -70,7 +70,7 @@ namespace CatLib.Config
         /// </summary>
         /// <param name="type">类型对应的转换器</param>
         /// <param name="converter">转换器</param>
-        public void AddConverter(Type type , ITypeStringConverter converter)
+        public void AddConverter(Type type, ITypeStringConverter converter)
         {
             Guard.NotNull(type, "type");
             Guard.NotNull(converter, "converter");
@@ -111,7 +111,7 @@ namespace CatLib.Config
             Guard.NotNull(name, "name");
             if (locators.Count <= 0)
             {
-                throw new RuntimeException("no reg locator. please check code.");
+                throw new RuntimeException("No Reg locator. please Reg() locator first.");
             }
 
             IConfigLocator configLocator = null;
@@ -132,10 +132,10 @@ namespace CatLib.Config
             ITypeStringConverter converter;
             if (!typeStringConverters.TryGetValue(typeof(T), out converter))
             {
-                throw new ConverterException("Can not find [" + typeof(T) + "] coverter impl");
+                throw new ConverterException("Can not find [" + typeof(T) + "] coverter impl.");
             }
 
-            configLocator.Set(name , converter.ConvertToString(value));
+            configLocator.Set(name, converter.ConvertToString(value));
         }
 
         /// <summary>
@@ -172,9 +172,9 @@ namespace CatLib.Config
 
                 return def;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new ArgumentException(" field [" + name + "] is can not conversion to " + typeof(T), ex);
+                throw new ArgumentException("Field [" + name + "] is can not conversion to " + typeof(T) + ".", ex);
             }
         }
     }

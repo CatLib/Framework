@@ -423,7 +423,7 @@ namespace CatLib.Container
                 {
                     if (!bindData.IsStatic)
                     {
-                        throw new RuntimeException("[" + service + "] is not Singleton(Static) Bind.");
+                        throw new RuntimeException("Service [" + service + "] is not Singleton(Static) Bind.");
                     }
                     instance = ((BindData)bindData).ExecResolvingDecorator(instance);
                 }
