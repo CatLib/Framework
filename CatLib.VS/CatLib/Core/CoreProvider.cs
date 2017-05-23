@@ -26,14 +26,18 @@ namespace CatLib
         {
             App.Singleton<Env>().Alias<IEnv>().OnResolving((bind, obj) =>
             {
-                var config = App.Make<IConfig>();
+                var env = obj as Env;
+                if (env == null)
+                {
+                    return null;
+                }
 
+                var config = App.Make<IConfig>();
                 if (config == null)
                 {
                     return obj;
                 }
 
-                var env = obj as Env;
                 env.SetDebugLevel(config.Get("env.debug", DebugLevels.Auto));
          
                 return obj;

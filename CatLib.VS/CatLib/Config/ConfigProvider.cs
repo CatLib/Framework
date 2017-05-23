@@ -28,6 +28,7 @@ namespace CatLib.Config
                 {
                     return null;
                 }
+
                 var store = obj as Config;
                 store.Reg(App.Make<CodeConfigLocator>());
                 return store;
