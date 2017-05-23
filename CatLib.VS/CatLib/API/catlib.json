@@ -1,5 +1,5 @@
 {
-    "source": "catlib/api",
-    "folder" : "API",
-    "require": { }
+  "source": "catlib/api",
+  "folder": "API",
+  "require": {}
 }
