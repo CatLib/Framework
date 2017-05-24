@@ -44,7 +44,7 @@ namespace CatLib.FileSystem
         /// </summary>
         private void RegisterManager()
         {
-            App.Singleton<FileSystemManager>().Alias<IStorage>();
+            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace CatLib.FileSystem
         /// </summary>
         private void InitRegisterLocalDriver()
         {
-            var storage = App.Make<IStorage>();
+            var storage = App.Make<IFileSystemManager>();
             var env = App.Make<IEnv>();
 
             if (env != null)

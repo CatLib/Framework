@@ -63,7 +63,6 @@ namespace CatLib.FileSystem
         /// 复制文件或文件夹到指定路径
         /// </summary>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
-        /// <returns>是否成功</returns>
         public void Copy(string copyPath)
         {
             FileSystem.Copy(Path, copyPath);
@@ -72,7 +71,6 @@ namespace CatLib.FileSystem
         /// <summary>
         /// 删除文件或者文件夹
         /// </summary>
-        /// <returns>是否成功</returns>
         public void Delete()
         {
             FileSystem.Delete(Path);
@@ -82,7 +80,6 @@ namespace CatLib.FileSystem
         /// 重命名
         /// </summary>
         /// <param name="newName">新的文件/文件夹名字</param>
-        /// <returns>是否成功</returns>
         public void Rename(string newName)
         {
             var newPath = System.IO.Path.GetDirectoryName(Path);

@@ -14,9 +14,9 @@ using System;
 namespace CatLib.API.FileSystem
 {
     /// <summary>
-    /// 存储
+    /// 文件系统管理器
     /// </summary>
-    public interface IStorage
+    public interface IFileSystemManager
     {
         /// <summary>
         /// 获取一个文件系统(磁盘)

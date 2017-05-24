@@ -32,7 +32,6 @@ namespace CatLib.API.FileSystem
         /// 重命名
         /// </summary>
         /// <param name="newName">新的文件/文件夹名字</param>
-        /// <returns>是否成功</returns>
         void Rename(string newName);
 
         /// <summary>
@@ -45,13 +44,11 @@ namespace CatLib.API.FileSystem
         /// 复制文件或文件夹到指定路径
         /// </summary>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
-        /// <returns>是否成功</returns>
         void Copy(string copyPath);
 
         /// <summary>
         /// 删除文件或者文件夹
         /// </summary>
-        /// <returns>是否成功</returns>
         void Delete();
 
         /// <summary>

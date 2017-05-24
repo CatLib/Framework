@@ -58,7 +58,7 @@ namespace CatLib.Config
         /// </summary>
         private void RegisterConfig()
         {
-            App.Bind<Config>((app, param) => new Config(App)).Alias<IConfig>();
+            App.Bind<Config>((app, param) => new Config()).Alias<IConfig>();
         }
 
         /// <summary>

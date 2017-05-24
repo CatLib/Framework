@@ -72,7 +72,7 @@
     <Compile Include="API\FileSystem\Internal\IFile.cs" />
     <Compile Include="API\FileSystem\Internal\IFileSystem.cs" />
     <Compile Include="API\FileSystem\Internal\IHandler.cs" />
-    <Compile Include="API\FileSystem\IStorage.cs" />
+    <Compile Include="API\FileSystem\IFileSystemManager.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />

@@ -23,11 +23,6 @@ namespace CatLib.Config
     public sealed class Config : IConfig
     {
         /// <summary>
-        /// 服务程序
-        /// </summary>
-        private IApplication App { get; set; }
-
-        /// <summary>
         /// 配置定位器
         /// </summary>
         private readonly SortSet<IConfigLocator, int> locators;
@@ -40,9 +35,8 @@ namespace CatLib.Config
         /// <summary>
         /// 构造一个配置容器
         /// </summary>
-        public Config(IApplication app)
+        public Config()
         {
-            App = app;
             locators = new SortSet<IConfigLocator, int>();
             typeStringConverters = new Dictionary<Type, ITypeStringConverter>
             {
@@ -83,11 +77,11 @@ namespace CatLib.Config
         /// 框架会依次遍历配置定位器来获取配
         /// </summary>
         /// <param name="locator">配置定位器</param>
-        public void Reg(IConfigLocator locator)
+        /// <param name="priority">查询优先级(值越小越优先)</param>
+        public void Reg(IConfigLocator locator , int priority = int.MaxValue)
         {
             Guard.NotNull(locator, "locator");
-            var priorities = App.GetPriorities(locator.GetType(), "TryGetValue");
-            locators.Add(locator, priorities);
+            locators.Add(locator, priority);
         }
 
         /// <summary>

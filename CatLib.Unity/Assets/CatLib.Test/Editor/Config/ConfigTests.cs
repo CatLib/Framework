@@ -29,7 +29,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void ConfigTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
             config.AddConverter(typeof(string) , new StringStringConverter());
             config.Reg(new CodeConfigLocator());
 
@@ -46,7 +46,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void ConfigUnitSettingTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
             config.AddConverter(typeof(string), new StringStringConverter());
             config.Reg(new UnitySettingLocator());
 
@@ -63,7 +63,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void NoLocatorTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
@@ -74,7 +74,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void CanNotFindCoverterTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
             config.Reg(new CodeConfigLocator());
             ExceptionAssert.Throws<ConverterException>(() =>
             {
@@ -85,7 +85,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void GetUndefinedTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
             config.Reg(new CodeConfigLocator());
             config.Set("123", "123");
 
@@ -95,7 +95,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void GetWithUndefinedTypeConverterTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
             config.Reg(new CodeConfigLocator());
             config.Set("123", "123");
             Assert.AreEqual(null, config.Get<ConfigTests>("123"));
@@ -104,7 +104,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void ExceptionConverterTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
             config.Reg(new CodeConfigLocator());
             config.Set("123", "abc");
             
@@ -119,7 +119,7 @@ namespace CatLib.Tests.Config
         /// </summary>
         public void SaveTest()
         {
-            var config = new CatLib.Config.Config(new Application());
+            var config = new CatLib.Config.Config();
             config.Reg(new CodeConfigLocator());
             config.Set("123", "abc");
             config.Save();

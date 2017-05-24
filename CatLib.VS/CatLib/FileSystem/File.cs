@@ -33,7 +33,6 @@ namespace CatLib.FileSystem
         /// 如果数据已经存在则覆盖
         /// </summary>
         /// <param name="contents">写入数据</param>
-        /// <returns>是否成功</returns>
         public void Write(byte[] contents)
         {
             FileSystem.Write(Path, contents);

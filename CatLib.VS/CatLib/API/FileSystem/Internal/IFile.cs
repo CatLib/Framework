@@ -21,7 +21,6 @@ namespace CatLib.API.FileSystem
         /// 如果数据已经存在则覆盖
         /// </summary>
         /// <param name="contents">写入数据</param>
-        /// <returns>是否成功</returns>
         void Write(byte[] contents);
 
         /// <summary>

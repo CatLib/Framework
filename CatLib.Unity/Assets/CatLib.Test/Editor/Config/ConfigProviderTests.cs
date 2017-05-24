@@ -57,7 +57,7 @@ namespace CatLib.Tests.Config
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {
-                return new CatLib.Config.Config(new Application());
+                return new CatLib.Config.Config();
             });
 
             Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get().GetType());

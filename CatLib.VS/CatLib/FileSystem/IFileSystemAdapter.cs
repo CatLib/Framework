@@ -31,7 +31,6 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="contents">写入数据</param>
-        /// <returns>是否成功</returns>
         void Write(string path, byte[] contents);
 
         /// <summary>
@@ -46,7 +45,6 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">旧的文件/文件夹路径</param>
         /// <param name="newPath">新的文件/文件夹路径</param>
-        /// <returns>是否成功</returns>
         void Move(string path, string newPath);
 
         /// <summary>
@@ -54,21 +52,18 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
         /// <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
-        /// <returns>是否成功</returns>
         void Copy(string path, string copyPath);
 
         /// <summary>
         /// 删除文件或者文件夹
         /// </summary>
         /// <param name="path">路径</param>
-        /// <returns>是否成功</returns>
         void Delete(string path);
 
         /// <summary>
         /// 创建文件夹
         /// </summary>
         /// <param name="path">文件夹路径</param>
-        /// <returns>是否成功</returns>
         void CreateDir(string path);
 
         /// <summary>
