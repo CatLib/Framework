@@ -104,6 +104,7 @@
     <Compile Include="Stl\QuickList\InternalListTests.cs" />
     <Compile Include="Stl\QuickList\QuickListTests.cs" />
     <Compile Include="Stl\SortSet\SortSetTests.cs" />
+    <Compile Include="Time\TimeProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CatLib\CatLib.csproj">
@@ -111,9 +112,7 @@
       <Name>CatLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Time\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

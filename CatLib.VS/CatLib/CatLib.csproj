@@ -50,7 +50,7 @@
     <Compile Include="API\Container\Internal\IGivenData.cs" />
     <Compile Include="API\Core\ApplicationEvents.cs" />
     <Compile Include="API\Core\DebugLevels.cs" />
-    <Compile Include="API\Core\EventLevel.cs" />
+    <Compile Include="API\Core\EventLevels.cs" />
     <Compile Include="API\Core\Features\IBootstrap.cs" />
     <Compile Include="API\Core\Features\Behaviour\IDestroy.cs" />
     <Compile Include="API\Core\Features\IGuid.cs" />
