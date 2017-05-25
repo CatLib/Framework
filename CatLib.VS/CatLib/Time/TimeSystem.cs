@@ -10,6 +10,7 @@
  */
 
 using CatLib.API.Time;
+using UTime = UnityEngine.Time;
 
 namespace CatLib.Time
 {
@@ -23,7 +24,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float Time
         {
-            get { return UnityEngine.Time.time; }
+            get { return UTime.time; }
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float DeltaTime
         {
-            get { return UnityEngine.Time.deltaTime; }
+            get { return UTime.deltaTime; }
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float FixedTime
         {
-            get { return UnityEngine.Time.fixedTime; }
+            get { return UTime.fixedTime; }
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float TimeSinceLevelLoad
         {
-            get { return UnityEngine.Time.timeSinceLevelLoad; }
+            get { return UTime.timeSinceLevelLoad; }
         }
 
         /// <summary>
@@ -55,7 +56,8 @@ namespace CatLib.Time
         /// </summary>
         public virtual float FixedDeltaTime
         {
-            get { return UnityEngine.Time.fixedDeltaTime; }
+            get { return UTime.fixedDeltaTime; }
+            set { UTime.fixedDeltaTime = value; }
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float MaximumDeltaTime
         {
-            get { return UnityEngine.Time.maximumDeltaTime; }
+            get { return UTime.maximumDeltaTime; }
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float SmoothDeltaTime
         {
-            get { return UnityEngine.Time.smoothDeltaTime; }
+            get { return UTime.smoothDeltaTime; }
         }
 
         /// <summary>
@@ -79,7 +81,8 @@ namespace CatLib.Time
         /// </summary>
         public virtual float TimeScale
         {
-            get { return UnityEngine.Time.timeScale; }
+            get { return UTime.timeScale; }
+            set { UTime.timeScale = value; }
         }
 
         /// <summary>
@@ -87,7 +90,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float FrameCount
         {
-            get { return UnityEngine.Time.frameCount; }
+            get { return UTime.frameCount; }
         }
 
         /// <summary>
@@ -95,15 +98,16 @@ namespace CatLib.Time
         /// </summary>
         public virtual float RealtimeSinceStartup
         {
-            get { return UnityEngine.Time.realtimeSinceStartup; }
+            get { return UTime.realtimeSinceStartup; }
         }
 
         /// <summary>
         /// 每秒的帧率
         /// </summary>
-        public virtual float CaptureFramerate
+        public virtual int CaptureFramerate
         {
-            get { return UnityEngine.Time.captureFramerate; }
+            get { return UTime.captureFramerate; }
+            set { UTime.captureFramerate = value; }
         }
 
         /// <summary>
@@ -111,7 +115,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float UnscaledDeltaTime
         {
-            get { return UnityEngine.Time.unscaledDeltaTime; }
+            get { return UTime.unscaledDeltaTime; }
         }
 
         /// <summary>
@@ -119,6 +123,7 @@ namespace CatLib.Time
         /// </summary>
         public virtual float UnscaledTime
         {
-            get { return UnityEngine.Time.unscaledTime; }
+            get { return UTime.unscaledTime; }
         }
     }
+}
