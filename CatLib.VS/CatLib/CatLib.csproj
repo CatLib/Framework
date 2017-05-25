@@ -52,11 +52,11 @@
     <Compile Include="API\Core\DebugLevels.cs" />
     <Compile Include="API\Core\EventLevel.cs" />
     <Compile Include="API\Core\Features\IBootstrap.cs" />
-    <Compile Include="API\Core\Features\IDestroy.cs" />
+    <Compile Include="API\Core\Features\Behaviour\IDestroy.cs" />
     <Compile Include="API\Core\Features\IGuid.cs" />
-    <Compile Include="API\Core\Features\ILateUpdate.cs" />
-    <Compile Include="API\Core\Features\IStart.cs" />
-    <Compile Include="API\Core\Features\IUpdate.cs" />
+    <Compile Include="API\Core\Features\Behaviour\ILateUpdate.cs" />
+    <Compile Include="API\Core\Features\Behaviour\IStart.cs" />
+    <Compile Include="API\Core\Features\Behaviour\IUpdate.cs" />
     <Compile Include="API\Core\Features\PriorityAttribute.cs" />
     <Compile Include="API\Core\IApplication.cs" />
     <Compile Include="API\Core\IEnv.cs" />
@@ -73,6 +73,8 @@
     <Compile Include="API\FileSystem\Internal\IFileSystem.cs" />
     <Compile Include="API\FileSystem\Internal\IHandler.cs" />
     <Compile Include="API\FileSystem\IFileSystemManager.cs" />
+    <Compile Include="API\Stl\Template\IManager.cs" />
+    <Compile Include="API\Time\ITimeManager.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
@@ -137,7 +139,7 @@
     <Compile Include="API\TimeQueue\Internal\ITimeTask.cs" />
     <Compile Include="API\TimeQueue\Internal\ITimeTaskHandler.cs" />
     <Compile Include="API\TimeQueue\ITimeQueue.cs" />
-    <Compile Include="API\Time\ITime.cs" />
+    <Compile Include="API\Time\Internal\ITime.cs" />
     <Compile Include="Container\BindData.cs" />
     <Compile Include="Container\Container.cs" />
     <Compile Include="Container\ContainerHelper.cs" />
@@ -183,7 +185,10 @@
     <Compile Include="Stl\QuickList\Internal\InternalList.cs" />
     <Compile Include="Stl\QuickList\QuickList.cs" />
     <Compile Include="Stl\SortSet\SortSet.cs" />
-    <Compile Include="Stl\Template\ManagerTemplate.cs" />
+    <Compile Include="Stl\Template\Manager.cs" />
+    <Compile Include="Time\TimeManager.cs" />
+    <Compile Include="Time\TimeProvider.cs" />
+    <Compile Include="Time\UnityTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="API\catlib.json" />
@@ -195,6 +200,7 @@
     <None Include="FilterChain\catlib.json" />
     <None Include="Routing\catlib.json" />
     <None Include="Stl\catlib.json" />
+    <None Include="Time\catlib.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

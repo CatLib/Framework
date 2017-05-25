@@ -12,13 +12,14 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API;
+using CatLib.API.Stl;
 
 namespace CatLib.Stl
 {
     /// <summary>
     /// 管理器模版
     /// </summary>
-    public abstract class ManagerTemplate<TInterface>
+    public abstract class Manager<TInterface> : IManager<TInterface>
     {
         /// <summary>
         /// 自定义解决器
@@ -26,20 +27,20 @@ namespace CatLib.Stl
         private readonly Dictionary<string, Func<TInterface>> customResolve = new Dictionary<string, Func<TInterface>>();
 
         /// <summary>
-        /// 元素字典
+        /// 解决方案字典
         /// </summary>
         private readonly Dictionary<string, TInterface> elements = new Dictionary<string, TInterface>();
 
         /// <summary>
         /// 默认名字
         /// </summary>
-        private string defaultName = "default";
+        private readonly string defaultName = "default";
 
         /// <summary>
-        /// 获取元素
+        /// 获取解决方案
         /// </summary>
-        /// <param name="name">元素名</param>
-        /// <returns>元素</returns>
+        /// <param name="name">解决方案名</param>
+        /// <returns>解决方案</returns>
         public TInterface Get(string name = null)
         {
             name = string.IsNullOrEmpty(name) ? GetDefaultName() : name;
@@ -47,10 +48,18 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 获取元素
+        /// 默认值
         /// </summary>
-        /// <param name="name">元素名</param>
-        /// <returns>元素</returns>
+        public TInterface Default
+        {
+            get { return Get(); }
+        }
+
+        /// <summary>
+        /// 获取解决方案
+        /// </summary>
+        /// <param name="name">解决方案名</param>
+        /// <returns>解决方案</returns>
         public TInterface this[string name]
         {
             get { return Get(name); }
@@ -75,10 +84,19 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 获取文件系统
+        /// 释放解决方案
         /// </summary>
-        /// <param name="name">名字</param>
-        /// <returns>文件系统</returns>
+        /// <param name="name">解决方案名</param>
+        public void Release(string name)
+        {
+            elements.Remove(name);
+        }
+
+        /// <summary>
+        /// 生成解决方案
+        /// </summary>
+        /// <param name="name">解决方案名</param>
+        /// <returns>解决方案实现</returns>
         private TInterface Make(string name)
         {
             TInterface element;
@@ -101,10 +119,10 @@ namespace CatLib.Stl
         }
 
         /// <summary>
-        /// 生成所需求的文件系统解决方案
+        /// 生成所需求的解决方案
         /// </summary>
-        /// <param name="name">名字</param>
-        /// <returns>文件系统</returns>
+        /// <param name="name">解决方案名</param>
+        /// <returns>解决方案</returns>
         private TInterface Resolve(string name)
         {
             Func<TInterface> elementCustomResolve;

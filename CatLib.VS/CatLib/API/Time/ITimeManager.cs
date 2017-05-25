@@ -11,17 +11,12 @@
 
 using CatLib.API.Stl;
 
-namespace CatLib.API.Config
+namespace CatLib.API.Time
 {
     /// <summary>
-    /// 配置管理器
+    /// 时间服务管理器
     /// </summary>
-    public interface IConfigManager : IManager<IConfig>
+    public interface ITimeManager : IManager<ITime> , ITime
     {
-        /// <summary>
-        /// 设定默认的配置名
-        /// </summary>
-        /// <param name="name">配置名</param>
-        void SetDefault(string name);
     }
 }

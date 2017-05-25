@@ -416,7 +416,7 @@ namespace CatLib.Tests.Core
                 }
             });
 
-            app.TriggerGlobal("GlobalEvent", this).AppendInterface<IBootstrap>().SetEventLevel(EventLevel.All).Trigger(args);
+            app.TriggerGlobal("GlobalEvent", this).AppendInterface<IBootstrap>().SetEventLevel(EventLevels.All).Trigger(args);
             Assert.AreEqual(true, isCall);
             Assert.AreEqual(true, isCallInterface);
             Assert.AreEqual(true, isCallClass);
@@ -460,7 +460,7 @@ namespace CatLib.Tests.Core
                 }
             });
 
-            app.TriggerGlobal("GlobalEvent", cls).AppendInterface<IBootstrap>().SetEventLevel(EventLevel.All).Trigger(args);
+            app.TriggerGlobal("GlobalEvent", cls).AppendInterface<IBootstrap>().SetEventLevel(EventLevels.All).Trigger(args);
             Assert.AreEqual(true, isCall);
         }
 

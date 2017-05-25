@@ -18,7 +18,7 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件系统管理器
     /// </summary>
-    public sealed class FileSystemManager : ManagerTemplate<IFileSystem>, IFileSystemManager
+    public sealed class FileSystemManager : Manager<IFileSystem>, IFileSystemManager
     {
         /// <summary>
         /// 配置
@@ -49,7 +49,7 @@ namespace CatLib.FileSystem
         /// <returns>默认的文件系统名字</returns>
         protected override string GetDefaultName()
         {
-            return configManager == null ? "local" : configManager.Get().Get("filesystems.default", "local");
+            return configManager == null ? "local" : configManager.Default.Get("filesystems.default", "local");
         }
     }
 }

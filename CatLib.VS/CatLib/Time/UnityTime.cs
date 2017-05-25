@@ -15,14 +15,14 @@ using UTime = UnityEngine.Time;
 namespace CatLib.Time
 {
     /// <summary>
-    /// 时间系统
+    /// Unity时间系统
     /// </summary>
-    public class TimeSystem : ITime
+    public sealed class UnityTime : ITime
     {
         /// <summary>
         /// 从游戏开始到现在所用的时间(秒)
         /// </summary>
-        public virtual float Time
+        public float Time
         {
             get { return UTime.time; }
         }
@@ -30,7 +30,7 @@ namespace CatLib.Time
         /// <summary>
         /// 上一帧到当前帧的时间(秒)
         /// </summary>
-        public virtual float DeltaTime
+        public float DeltaTime
         {
             get { return UTime.deltaTime; }
         }
@@ -38,7 +38,7 @@ namespace CatLib.Time
         /// <summary>
         /// 从游戏开始到现在的时间（秒）使用固定时间来更新
         /// </summary>
-        public virtual float FixedTime
+        public float FixedTime
         {
             get { return UTime.fixedTime; }
         }
@@ -46,7 +46,7 @@ namespace CatLib.Time
         /// <summary>
         /// 从当前scene开始到目前为止的时间（秒）
         /// </summary>
-        public virtual float TimeSinceLevelLoad
+        public float TimeSinceLevelLoad
         {
             get { return UTime.timeSinceLevelLoad; }
         }
@@ -54,7 +54,7 @@ namespace CatLib.Time
         /// <summary>
         /// 固定的更新时间（秒）
         /// </summary>
-        public virtual float FixedDeltaTime
+        public float FixedDeltaTime
         {
             get { return UTime.fixedDeltaTime; }
             set { UTime.fixedDeltaTime = value; }
@@ -63,7 +63,7 @@ namespace CatLib.Time
         /// <summary>
         /// 能获取的最大更新时间
         /// </summary>
-        public virtual float MaximumDeltaTime
+        public float MaximumDeltaTime
         {
             get { return UTime.maximumDeltaTime; }
         }
@@ -71,7 +71,7 @@ namespace CatLib.Time
         /// <summary>
         /// 平稳的更新时间，根据前N帧的加权平均值
         /// </summary>
-        public virtual float SmoothDeltaTime
+        public float SmoothDeltaTime
         {
             get { return UTime.smoothDeltaTime; }
         }
@@ -79,7 +79,7 @@ namespace CatLib.Time
         /// <summary>
         /// 时间缩放系数
         /// </summary>
-        public virtual float TimeScale
+        public float TimeScale
         {
             get { return UTime.timeScale; }
             set { UTime.timeScale = value; }
@@ -88,7 +88,7 @@ namespace CatLib.Time
         /// <summary>
         /// 总帧数
         /// </summary>
-        public virtual float FrameCount
+        public float FrameCount
         {
             get { return UTime.frameCount; }
         }
@@ -96,7 +96,7 @@ namespace CatLib.Time
         /// <summary>
         /// 自游戏开始后的总时间（暂停也会增加）
         /// </summary>
-        public virtual float RealtimeSinceStartup
+        public float RealtimeSinceStartup
         {
             get { return UTime.realtimeSinceStartup; }
         }
@@ -104,7 +104,7 @@ namespace CatLib.Time
         /// <summary>
         /// 每秒的帧率
         /// </summary>
-        public virtual int CaptureFramerate
+        public int CaptureFramerate
         {
             get { return UTime.captureFramerate; }
             set { UTime.captureFramerate = value; }
@@ -113,7 +113,7 @@ namespace CatLib.Time
         /// <summary>
         /// 不考虑时间缩放的更新时间
         /// </summary>
-        public virtual float UnscaledDeltaTime
+        public float UnscaledDeltaTime
         {
             get { return UTime.unscaledDeltaTime; }
         }
@@ -121,7 +121,7 @@ namespace CatLib.Time
         /// <summary>
         /// 不考虑时间缩放的从游戏开始到现在的时间
         /// </summary>
-        public virtual float UnscaledTime
+        public float UnscaledTime
         {
             get { return UTime.unscaledTime; }
         }

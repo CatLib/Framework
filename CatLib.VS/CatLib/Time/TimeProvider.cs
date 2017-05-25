@@ -16,14 +16,33 @@ namespace CatLib.Time
     /// <summary>
     /// 时间服务
     /// </summary>
-    public class TimeProvider : ServiceProvider
+    public sealed class TimeProvider : ServiceProvider
     {
         /// <summary>
         /// 注册时间服务
         /// </summary>
         public override void Register()
         {
-            App.Singleton<TimeSystem>().Alias<ITime>();
+            RegisterTimeManager();
+        }
+
+        /// <summary>
+        /// 注册时间服务管理器
+        /// </summary>
+        private void RegisterTimeManager()
+        {
+            App.Singleton<TimeManager>().Alias<ITimeManager>().OnResolving((bind, obj) =>
+            {
+                if (obj == null)
+                {
+                    return null;
+                }
+
+                var timeManager = obj as ITimeManager;
+                timeManager.Extend(() => new UnityTime());
+
+                return timeManager;
+            });
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CatLib.API
     /// 事件等级
     /// </summary>
     [Flags]
-    public enum EventLevel
+    public enum EventLevels
     {
         /// <summary>
         /// 不通知
