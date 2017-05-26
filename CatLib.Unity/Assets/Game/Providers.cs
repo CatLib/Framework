@@ -19,7 +19,6 @@ using CatLib.Crypt;
 using CatLib.Hash;
 using CatLib.TimeQueue;
 using CatLib.Config;
-using CatLib.LocalSetting;
 using CatLib.FilterChain;
 using CatLib.Routing;
 
@@ -42,7 +41,6 @@ public class Providers
                 typeof(CoreProvider),
                 typeof(TimeQueueProvider),
                 typeof(ConfigProvider),
-                typeof(LocalSettingProvider),
                 typeof(FilterChainProvider),
                 typeof(RoutingProvider),
             };
