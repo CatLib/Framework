@@ -122,3 +122,4 @@ namespace CatLib.Time
             get { return UnityEngine.Time.unscaledTime; }
         }
     }
+}
