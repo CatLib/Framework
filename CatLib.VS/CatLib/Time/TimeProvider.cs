@@ -38,7 +38,7 @@ namespace CatLib.Time
                     return null;
                 }
 
-                var timeManager = obj as ITimeManager;
+                var timeManager = obj as TimeManager;
                 timeManager.Extend(() => new UnityTime());
 
                 return timeManager;

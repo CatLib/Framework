@@ -9,6 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Config;
+using CatLib.API.Time;
+using CatLib.Config;
+using CatLib.Time;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -26,8 +30,25 @@ namespace CatLib.Tests.Time
     public class TimeProviderTests
     {
         [TestMethod]
+        public void TestInitialize()
+        {
+            var app = new Application().Bootstrap();
+            app.Register(typeof(TimeProvider));
+            app.Register(typeof(ConfigProvider));
+            app.Init();
+
+            var timeManager = app.Make<ITimeManager>();
+            timeManager.Extend(() => null, "test");
+
+            var config = app.Make<IConfigManager>();
+            config.Default.Set("times.default", "test");
+        }
+
+        [TestMethod]
         public void TestMethod1()
         {
+            var timeManager = App.Instance.Make<ITimeManager>();
+            
         }
     }
 }
