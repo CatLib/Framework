@@ -38,7 +38,7 @@ namespace CatLib
         /// <summary>
         /// 事件广播级别
         /// </summary>
-        private EventLevel eventLevel = EventLevel.All;
+        private EventLevels eventLevel = EventLevels.All;
 
         /// <summary>
         /// 构造一个全局事件
@@ -82,7 +82,7 @@ namespace CatLib
         /// </summary>
         /// <param name="level">事件等级</param>
         /// <returns>全局事件实例</returns>
-        public IGlobalEvent SetEventLevel(EventLevel level)
+        public IGlobalEvent SetEventLevel(EventLevels level)
         {
             eventLevel = level;
             return this;
@@ -100,7 +100,7 @@ namespace CatLib
                 throw new RuntimeException("Global event , event name can not be null.");
             }
 
-            if ((eventLevel & EventLevel.Self) > 0)
+            if ((eventLevel & EventLevels.Self) > 0)
             {
                 var guid = sender as IGuid;
                 if (guid != null)
@@ -109,12 +109,12 @@ namespace CatLib
                 }
             }
 
-            if (sender != null && (eventLevel & EventLevel.Type) > 0)
+            if (sender != null && (eventLevel & EventLevels.Type) > 0)
             {
                 App.Instance.Trigger(eventName + sender.GetType(), sender, args);
             }
 
-            if (classInterface != null && (eventLevel & EventLevel.Interface) > 0)
+            if (classInterface != null && (eventLevel & EventLevels.Interface) > 0)
             {
                 for (var i = 0; i < classInterface.Count; i++)
                 {
@@ -122,7 +122,7 @@ namespace CatLib
                 }
             }
 
-            if ((eventLevel & EventLevel.Global) > 0)
+            if ((eventLevel & EventLevels.Global) > 0)
             {
                 App.Instance.Trigger(eventName, sender, args);
             }

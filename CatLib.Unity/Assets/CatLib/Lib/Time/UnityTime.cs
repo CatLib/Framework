@@ -10,116 +10,120 @@
  */
 
 using CatLib.API.Time;
+using UTime = UnityEngine.Time;
 
 namespace CatLib.Time
 {
     /// <summary>
-    /// 时间系统
+    /// Unity时间系统
     /// </summary>
-    public class TimeSystem : ITime
+    public sealed class UnityTime : ITime
     {
         /// <summary>
         /// 从游戏开始到现在所用的时间(秒)
         /// </summary>
-        public virtual float Time
+        public float Time
         {
-            get { return UnityEngine.Time.time; }
+            get { return UTime.time; }
         }
 
         /// <summary>
         /// 上一帧到当前帧的时间(秒)
         /// </summary>
-        public virtual float DeltaTime
+        public float DeltaTime
         {
-            get { return UnityEngine.Time.deltaTime; }
+            get { return UTime.deltaTime; }
         }
 
         /// <summary>
         /// 从游戏开始到现在的时间（秒）使用固定时间来更新
         /// </summary>
-        public virtual float FixedTime
+        public float FixedTime
         {
-            get { return UnityEngine.Time.fixedTime; }
+            get { return UTime.fixedTime; }
         }
 
         /// <summary>
         /// 从当前scene开始到目前为止的时间（秒）
         /// </summary>
-        public virtual float TimeSinceLevelLoad
+        public float TimeSinceLevelLoad
         {
-            get { return UnityEngine.Time.timeSinceLevelLoad; }
+            get { return UTime.timeSinceLevelLoad; }
         }
 
         /// <summary>
         /// 固定的更新时间（秒）
         /// </summary>
-        public virtual float FixedDeltaTime
+        public float FixedDeltaTime
         {
-            get { return UnityEngine.Time.fixedDeltaTime; }
+            get { return UTime.fixedDeltaTime; }
+            set { UTime.fixedDeltaTime = value; }
         }
 
         /// <summary>
         /// 能获取的最大更新时间
         /// </summary>
-        public virtual float MaximumDeltaTime
+        public float MaximumDeltaTime
         {
-            get { return UnityEngine.Time.maximumDeltaTime; }
+            get { return UTime.maximumDeltaTime; }
         }
 
         /// <summary>
         /// 平稳的更新时间，根据前N帧的加权平均值
         /// </summary>
-        public virtual float SmoothDeltaTime
+        public float SmoothDeltaTime
         {
-            get { return UnityEngine.Time.smoothDeltaTime; }
+            get { return UTime.smoothDeltaTime; }
         }
 
         /// <summary>
         /// 时间缩放系数
         /// </summary>
-        public virtual float TimeScale
+        public float TimeScale
         {
-            get { return UnityEngine.Time.timeScale; }
+            get { return UTime.timeScale; }
+            set { UTime.timeScale = value; }
         }
 
         /// <summary>
         /// 总帧数
         /// </summary>
-        public virtual float FrameCount
+        public float FrameCount
         {
-            get { return UnityEngine.Time.frameCount; }
+            get { return UTime.frameCount; }
         }
 
         /// <summary>
         /// 自游戏开始后的总时间（暂停也会增加）
         /// </summary>
-        public virtual float RealtimeSinceStartup
+        public float RealtimeSinceStartup
         {
-            get { return UnityEngine.Time.realtimeSinceStartup; }
+            get { return UTime.realtimeSinceStartup; }
         }
 
         /// <summary>
         /// 每秒的帧率
         /// </summary>
-        public virtual float CaptureFramerate
+        public int CaptureFramerate
         {
-            get { return UnityEngine.Time.captureFramerate; }
+            get { return UTime.captureFramerate; }
+            set { UTime.captureFramerate = value; }
         }
 
         /// <summary>
         /// 不考虑时间缩放的更新时间
         /// </summary>
-        public virtual float UnscaledDeltaTime
+        public float UnscaledDeltaTime
         {
-            get { return UnityEngine.Time.unscaledDeltaTime; }
+            get { return UTime.unscaledDeltaTime; }
         }
 
         /// <summary>
         /// 不考虑时间缩放的从游戏开始到现在的时间
         /// </summary>
-        public virtual float UnscaledTime
+        public float UnscaledTime
         {
-            get { return UnityEngine.Time.unscaledTime; }
+            get { return UTime.unscaledTime; }
         }
     }
 }

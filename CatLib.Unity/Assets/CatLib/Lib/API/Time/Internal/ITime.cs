@@ -32,29 +32,29 @@ namespace CatLib.API.Time
         float FixedTime { get; }
 
         /// <summary>
-        /// 从当前scene开始到目前为止的时间（秒）
+        /// 从当前scene开始到目前为止的时间(秒)
         /// </summary>
         float TimeSinceLevelLoad { get; }
 
         /// <summary>
-        /// 固定的更新时间（秒）
+        /// 固定的上一帧到当前帧的时间(秒)
         /// </summary>
-        float FixedDeltaTime { get; }
+        float FixedDeltaTime { get; set; }
 
         /// <summary>
-        /// 能获取的最大更新时间
+        /// 能获取最大的上一帧到当前帧的时间(秒)
         /// </summary>
         float MaximumDeltaTime { get; }
 
         /// <summary>
-        /// 平稳的更新时间，根据前N帧的加权平均值
+        /// 平稳的上一帧到当前帧的时间(秒)，根据前N帧的加权平均值
         /// </summary>
         float SmoothDeltaTime { get; }
 
         /// <summary>
         /// 时间缩放系数
         /// </summary>
-        float TimeScale { get; }
+        float TimeScale { get; set; }
 
         /// <summary>
         /// 总帧数
@@ -69,10 +69,10 @@ namespace CatLib.API.Time
         /// <summary>
         /// 每秒的帧率
         /// </summary>
-        float CaptureFramerate { get; }
+        int CaptureFramerate { get; set; }
 
         /// <summary>
-        /// 不考虑时间缩放的更新时间
+        /// 不考虑时间缩放上一帧到当前帧的时间(秒)
         /// </summary>
         float UnscaledDeltaTime { get; }
 

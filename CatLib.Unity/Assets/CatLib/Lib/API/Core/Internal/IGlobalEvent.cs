@@ -37,7 +37,7 @@ namespace CatLib.API
         /// </summary>
         /// <param name="level">事件等级</param>
         /// <returns>全局事件实例</returns>
-        IGlobalEvent SetEventLevel(EventLevel level);
+        IGlobalEvent SetEventLevel(EventLevels level);
 
         /// <summary>
         /// 触发一个全局事件
