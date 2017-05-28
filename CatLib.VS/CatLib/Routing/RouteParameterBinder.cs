@@ -37,8 +37,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         private static void BindPathParameters(Route route, Request request)
         {
-            var reg = new Regex(route.Compiled.RouteRegex);
-            MatchToKeys(route, request, reg.Match(request.RouteUri.NoParamFullPath));
+            MatchToKeys(route, request, route.Compiled.RouteRegex.Match(request.RouteUri.NoParamFullPath));
         }
 
         /// <summary>
@@ -48,8 +47,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         private static void BindHostParameters(Route route, Request request)
         {
-            var reg = new Regex(route.Compiled.HostRegex);
-            MatchToKeys(route, request, reg.Match(request.RouteUri.Host));
+            MatchToKeys(route, request, route.Compiled.HostRegex.Match(request.RouteUri.Host));
         }
 
         /// <summary>

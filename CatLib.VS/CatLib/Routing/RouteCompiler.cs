@@ -12,6 +12,7 @@
 using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
+using CatLib.API;
 
 namespace CatLib.Routing
 {
@@ -72,13 +73,19 @@ namespace CatLib.Routing
             var tokens = result["tokens"] as string[][];
             var regex = result["regex"].ToString();
 
+            if (string.IsNullOrEmpty(regex) ||
+                    string.IsNullOrEmpty(hostRegex))
+            {
+                throw new RuntimeException("Compiler route faild , uri:" + route.Uri.FullPath);
+            }
+
             return new CompiledRoute
             {
                 StaticPrefix = staticPrefix,
-                RouteRegex = regex,
+                RouteRegex = new Regex(regex),
                 Tokens = tokens,
                 PathVariables = pathVariables,
-                HostRegex = hostRegex,
+                HostRegex = new Regex(hostRegex),
                 HostTokens = hostTokens,
                 HostVariables = hostVariables,
                 Variables = variables

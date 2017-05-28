@@ -10,6 +10,7 @@
  */
 
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CatLib.Routing
 {
@@ -26,7 +27,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 路由匹配表达式
         /// </summary>
-        public string RouteRegex { get; set; }
+        public Regex RouteRegex { get; set; }
 
         /// <summary>
         /// 所有需要匹配的变量单独的正则匹配式
@@ -41,7 +42,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 匹配host的表达式
         /// </summary>
-        public string HostRegex { get; set; }
+        public Regex HostRegex { get; set; }
 
         /// <summary>
         /// host部分的需要匹配变量单独的正则表达式
