@@ -88,7 +88,6 @@
     <Compile Include="API\Flux\IAction.cs" />
     <Compile Include="API\Flux\IFluxDispatcher.cs" />
     <Compile Include="API\Hash\IHash.cs" />
-    <Compile Include="API\LocalSetting\ILocalSetting.cs" />
     <Compile Include="Config\Locator\CodeConfigLocator.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
