@@ -12,7 +12,7 @@
 using System;
 using CatLib.API;
 using CatLib.API.Routing;
-using CatLib.API.FilterChain;
+using CatLib.API.Stl;
 using CatLib.API.Container;
 using CatLib.Stl;
 
@@ -135,17 +135,6 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 设定过滤器链生成器
-        /// </summary>
-        /// <param name="filterChain">过滤器链</param>
-        /// <returns>当前路由条目</returns>
-        public Route SetFilterChain(IFilterChain filterChain)
-        {
-            options.SetFilterChain(filterChain);
-            return this;
-        }
-
-        /// <summary>
         /// 获取参数默认值
         /// </summary>
         /// <param name="name">参数名</param>
@@ -226,11 +215,12 @@ namespace CatLib.Routing
         /// 当路由出现错误时
         /// </summary>
         /// <param name="onError">执行的处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>路由条目实例</returns>
-        public IRoute OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
+        public IRoute OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError, int priority = int.MaxValue)
         {
             Guard.Requires<ArgumentNullException>(onError != null);
-            options.OnError(onError);
+            options.OnError(onError, priority);
             return this;
         }
 
@@ -238,11 +228,12 @@ namespace CatLib.Routing
         /// 路由中间件
         /// </summary>
         /// <param name="middleware">执行的处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>路由条目实例</returns>
-        public IRoute Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
+        public IRoute Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware, int priority = int.MaxValue)
         {
             Guard.Requires<ArgumentNullException>(middleware != null);
-            options.Middleware(middleware);
+            options.Middleware(middleware, priority);
             return this;
         }
 
@@ -320,7 +311,7 @@ namespace CatLib.Routing
             else
             {
                 throw new RuntimeException("Undefine action type [" + action.Type + "].");
-            } 
+            }
         }
 
         /// <summary>

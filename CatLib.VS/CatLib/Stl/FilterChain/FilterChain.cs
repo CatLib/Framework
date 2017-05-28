@@ -9,61 +9,22 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.FilterChain;
+using CatLib.API.Stl;
 using System.Collections.Generic;
 using System;
 
-namespace CatLib.FilterChain
+namespace CatLib.Stl
 {
     /// <summary>
     /// 过滤器链
     /// </summary>
-    public sealed class FilterChain : IFilterChain
-    {
-        /// <summary>
-        /// 创建过滤器链
-        /// </summary>
-        /// <typeparam name="TIn">输入参数类型</typeparam>
-        /// <returns>过滤器链</returns>
-        public IFilterChain<TIn> Create<TIn>()
-        {
-            return new FilterChain<TIn>();
-        }
-
-        /// <summary>
-        /// 创建过滤器链
-        /// </summary>
-        /// <typeparam name="TIn">输入参数类型</typeparam>
-        /// <typeparam name="TOut">输出参数类型</typeparam>
-        /// <returns>过滤器链</returns>
-        public IFilterChain<TIn, TOut> Create<TIn, TOut>()
-        {
-            return new FilterChain<TIn, TOut>();
-        }
-
-        /// <summary>
-        /// 创建过滤器链
-        /// </summary>
-        /// <typeparam name="TIn">输入参数类型</typeparam>
-        /// <typeparam name="TOut">输出参数类型</typeparam>
-        /// <typeparam name="TException">输入异常类型</typeparam>
-        /// <returns>过滤器链</returns>
-        public IFilterChain<TIn, TOut, TException> Create<TIn, TOut, TException>()
-        {
-            return new FilterChain<TIn, TOut, TException>();
-        }
-    }
-
-    /// <summary>
-    /// 过滤器链
-    /// </summary>
     /// <typeparam name="TIn">输入参数</typeparam>
-    internal sealed class FilterChain<TIn> : IFilterChain<TIn>
+    public sealed class FilterChain<TIn> : IFilterChain<TIn>
     {
         /// <summary>
         /// 过滤器链
         /// </summary>
-        private readonly List<Action<TIn, Action<TIn>>> filterList;
+        private readonly SortSet<Action<TIn, Action<TIn>>, int> filterList;
 
         /// <summary>
         /// 过滤器列表
@@ -84,17 +45,18 @@ namespace CatLib.FilterChain
         public FilterChain()
         {
             stack = new Stack<int>();
-            filterList = new List<Action<TIn, Action<TIn>>>();
+            filterList = new SortSet<Action<TIn, Action<TIn>>, int>();
         }
 
         /// <summary>
         /// 增加一个过滤器
         /// </summary>
         /// <param name="filter">过滤器</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>过滤器链</returns>
-        public IFilterChain<TIn> Add(Action<TIn, Action<TIn>> filter)
+        public IFilterChain<TIn> Add(Action<TIn, Action<TIn>> filter, int priority = int.MaxValue)
         {
-            filterList.Add(filter);
+            filterList.Add(filter, priority);
             return this;
         }
 
@@ -154,12 +116,12 @@ namespace CatLib.FilterChain
     /// </summary>
     /// <typeparam name="TIn">输入参数</typeparam>
     /// <typeparam name="TOut">输出参数</typeparam>
-    internal sealed class FilterChain<TIn, TOut> : IFilterChain<TIn, TOut>
+    public sealed class FilterChain<TIn, TOut> : IFilterChain<TIn, TOut>
     {
         /// <summary>
         /// 过滤器链
         /// </summary>
-        private readonly List<Action<TIn, TOut, Action<TIn, TOut>>> filterList;
+        private readonly SortSet<Action<TIn, TOut, Action<TIn, TOut>>, int> filterList;
 
         /// <summary>
         /// 过滤器列表
@@ -180,17 +142,18 @@ namespace CatLib.FilterChain
         public FilterChain()
         {
             stack = new Stack<int>();
-            filterList = new List<Action<TIn, TOut, Action<TIn, TOut>>>();
+            filterList = new SortSet<Action<TIn, TOut, Action<TIn, TOut>>, int>();
         }
 
         /// <summary>
         /// 增加一个过滤器
         /// </summary>
         /// <param name="filter">过滤器</param>
+        /// <param name="priority">优先级</param>
         /// <returns>过滤器链</returns>
-        public IFilterChain<TIn, TOut> Add(Action<TIn, TOut, Action<TIn, TOut>> filter)
+        public IFilterChain<TIn, TOut> Add(Action<TIn, TOut, Action<TIn, TOut>> filter, int priority = int.MaxValue)
         {
-            filterList.Add(filter);
+            filterList.Add(filter, priority);
             return this;
         }
 
@@ -253,12 +216,12 @@ namespace CatLib.FilterChain
     /// <typeparam name="TIn">输入参数</typeparam>
     /// <typeparam name="TOut">输出参数</typeparam>
     /// <typeparam name="TException">输入异常</typeparam>
-    internal sealed class FilterChain<TIn, TOut, TException> : IFilterChain<TIn, TOut, TException>
+    public sealed class FilterChain<TIn, TOut, TException> : IFilterChain<TIn, TOut, TException>
     {
         /// <summary>
         /// 过滤器链
         /// </summary>
-        private readonly List<Action<TIn, TOut, TException, Action<TIn, TOut, TException>>> filterList;
+        private readonly SortSet<Action<TIn, TOut, TException, Action<TIn, TOut, TException>>, int> filterList;
 
         /// <summary>
         /// 过滤器列表
@@ -279,17 +242,18 @@ namespace CatLib.FilterChain
         public FilterChain()
         {
             stack = new Stack<int>();
-            filterList = new List<Action<TIn, TOut, TException, Action<TIn, TOut, TException>>>();
+            filterList = new SortSet<Action<TIn, TOut, TException, Action<TIn, TOut, TException>>, int>();
         }
 
         /// <summary>
         /// 增加一个过滤器
         /// </summary>
         /// <param name="filter">过滤器</param>
+        /// <param name="priority">优先级</param>
         /// <returns>过滤器链</returns>
-        public IFilterChain<TIn, TOut, TException> Add(Action<TIn, TOut, TException, Action<TIn, TOut, TException>> filter)
+        public IFilterChain<TIn, TOut, TException> Add(Action<TIn, TOut, TException, Action<TIn, TOut, TException>> filter, int priority = int.MaxValue)
         {
-            filterList.Add(filter);
+            filterList.Add(filter, priority);
             return this;
         }
 

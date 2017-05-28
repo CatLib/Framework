@@ -11,8 +11,9 @@
 
 using System;
 using CatLib.API.Routing;
-using CatLib.API.FilterChain;
+using CatLib.API.Stl;
 using System.Collections.Generic;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -21,11 +22,6 @@ namespace CatLib.Routing
     /// </summary>
     internal sealed class RouteOptions
     {
-        /// <summary>
-        /// 过滤器链生成器
-        /// </summary>
-        private IFilterChain filterChain;
-
         /// <summary>
         /// 路由请求过滤链
         /// </summary>
@@ -50,17 +46,6 @@ namespace CatLib.Routing
         /// 当被编译的内容发生改变时
         /// </summary>
         public event Action OnCompiledChange;
-
-        /// <summary>
-        /// 设定过滤器链生成器
-        /// </summary>
-        /// <param name="filterChain">过滤器链</param>
-        /// <returns>当前路由配置实例</returns>
-        public RouteOptions SetFilterChain(IFilterChain filterChain)
-        {
-            this.filterChain = filterChain;
-            return this;
-        }
 
         /// <summary>
         /// 获取参数默认值
@@ -150,14 +135,15 @@ namespace CatLib.Routing
         /// 当路由出现错误时
         /// </summary>
         /// <param name="onError">错误处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前路由配置实例</returns>
-        public RouteOptions OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
+        public RouteOptions OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError, int priority = int.MaxValue)
         {
             if (this.onError == null)
             {
-                this.onError = filterChain.Create<IRequest, IResponse, Exception>();
+                this.onError = new FilterChain<IRequest, IResponse, Exception>();
             }
-            this.onError.Add(onError);
+            this.onError.Add(onError, priority);
             return this;
         }
 
@@ -165,14 +151,15 @@ namespace CatLib.Routing
         /// 路由中间件
         /// </summary>
         /// <param name="middleware">中间件</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前路由配置实例</returns>
-        public RouteOptions Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
+        public RouteOptions Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware, int priority = int.MaxValue)
         {
             if (this.middleware == null)
             {
-                this.middleware = filterChain.Create<IRequest, IResponse>();
+                this.middleware = new FilterChain<IRequest, IResponse>();
             }
-            this.middleware.Add(middleware);
+            this.middleware.Add(middleware, priority);
             return this;
         }
 

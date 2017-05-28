@@ -18,7 +18,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
-namespace CatLib.Tests.FilterChain
+namespace CatLib.Tests.Stl
 {
     [TestClass]
     public class FilterChainTests
@@ -26,9 +26,7 @@ namespace CatLib.Tests.FilterChain
         [TestMethod]
         public void TestFilterChainT1()
         {
-            var filter = new CatLib.FilterChain.FilterChain();
-
-            var chain = filter.Create<string>();
+            var chain = new CatLib.Stl.FilterChain<string>();
 
             var data = "123";
             var isCall = false;
@@ -58,8 +56,7 @@ namespace CatLib.Tests.FilterChain
         [TestMethod]
         public void NoFilterChainCallT1()
         {
-            var filter = new CatLib.FilterChain.FilterChain();
-            var chain = filter.Create<string>();
+            var chain = new CatLib.Stl.FilterChain<string>();
 
             var isCall = false;
             chain.Do("", (i) =>
@@ -74,9 +71,7 @@ namespace CatLib.Tests.FilterChain
         [TestMethod]
         public void RecursiveCallChain()
         {
-            var filter = new CatLib.FilterChain.FilterChain();
-
-            var chain = filter.Create<string>();
+            var chain = new CatLib.Stl.FilterChain<string>();
 
             var data = "123";
             var isCall = false;
@@ -113,9 +108,7 @@ namespace CatLib.Tests.FilterChain
         [TestMethod]
         public void TestFilterChainT1T2()
         {
-            var filter = new CatLib.FilterChain.FilterChain();
-
-            var chain = filter.Create<string,string>();
+            var chain = new CatLib.Stl.FilterChain<string,string>();
 
             var data1 = "123";
             var data2 = "222";
@@ -148,8 +141,7 @@ namespace CatLib.Tests.FilterChain
         [TestMethod]
         public void NoFilterChainCallT1T2()
         {
-            var filter = new CatLib.FilterChain.FilterChain();
-            var chain = filter.Create<string,string>();
+            var chain = new CatLib.Stl.FilterChain<string,string>();
 
             var isCall = false;
             chain.Do("","", (i,n) =>
@@ -164,9 +156,7 @@ namespace CatLib.Tests.FilterChain
         [TestMethod]
         public void TestFilterChainT1T2T3()
         {
-            var filter = new CatLib.FilterChain.FilterChain();
-
-            var chain = filter.Create<string, string, string>();
+            var chain = new CatLib.Stl.FilterChain<string, string , string>();
 
             var data1 = "123";
             var data2 = "222";
@@ -201,8 +191,7 @@ namespace CatLib.Tests.FilterChain
         [TestMethod]
         public void NoFilterChainCallT1T2T3()
         {
-            var filter = new CatLib.FilterChain.FilterChain();
-            var chain = filter.Create<string, string,string>();
+            var chain = new CatLib.Stl.FilterChain<string, string, string>();
 
             var isCall = false;
             chain.Do("", "", "", (i, n , f) =>

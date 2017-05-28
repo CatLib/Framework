@@ -84,8 +84,7 @@
     <Compile Include="FileSystem\FileSystemProvider.cs" />
     <Compile Include="FileSystem\Handler.cs" />
     <Compile Include="FileSystem\IFileSystemAdapter.cs" />
-    <Compile Include="API\FilterChain\IFilterChain.cs" />
-    <Compile Include="API\FilterChain\Internal\IFilter.cs" />
+    <Compile Include="API\Stl\FilterChain\IFilterChain.cs" />
     <Compile Include="API\Flux\IAction.cs" />
     <Compile Include="API\Flux\IFluxDispatcher.cs" />
     <Compile Include="API\Hash\IHash.cs" />
@@ -159,8 +158,7 @@
     <Compile Include="Event\EventHandler.cs" />
     <Compile Include="Event\EventImpl.cs" />
     <Compile Include="Event\EventProvider.cs" />
-    <Compile Include="FilterChain\FilterChain.cs" />
-    <Compile Include="FilterChain\FilterChainProvider.cs" />
+    <Compile Include="Stl\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />
     <Compile Include="Routing\CompiledRoute.cs" />
@@ -197,7 +195,6 @@
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
     <None Include="FileSystem\catlib.json" />
-    <None Include="FilterChain\catlib.json" />
     <None Include="Routing\catlib.json" />
     <None Include="Stl\catlib.json" />
     <None Include="Time\catlib.json" />

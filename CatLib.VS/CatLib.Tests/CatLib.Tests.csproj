@@ -89,7 +89,8 @@
     <Compile Include="FileSystem\DirectoryTests.cs" />
     <Compile Include="FileSystem\FileSystemTests.cs" />
     <Compile Include="FileSystem\FileSystemProviderTests.cs" />
-    <Compile Include="FilterChain\FilterChainTests.cs" />
+    <Compile Include="Routing\RoutingPriortityMiddleware.cs" />
+    <Compile Include="Stl\FilterChain\FilterChainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\OptionsParamsAttrRouting.cs" />
     <Compile Include="Routing\UTAttrRoutingSimple.cs" />

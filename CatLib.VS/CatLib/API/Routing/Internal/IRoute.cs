@@ -10,7 +10,7 @@
  */
 
 using System;
-using CatLib.API.FilterChain;
+using CatLib.API.Stl;
 
 namespace CatLib.API.Routing
 {
@@ -48,14 +48,16 @@ namespace CatLib.API.Routing
         /// 路由中间件
         /// </summary>
         /// <param name="middleware">执行的处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>路由条目实例</returns>
-        IRoute Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware);
+        IRoute Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware, int priority = int.MaxValue);
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="onError">执行的处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>路由条目实例</returns>
-        IRoute OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError);
+        IRoute OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError, int priority = int.MaxValue);
     }
 }

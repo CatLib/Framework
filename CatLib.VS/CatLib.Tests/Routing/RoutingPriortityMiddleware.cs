@@ -15,8 +15,8 @@ using CatLib.Stl;
 
 namespace CatLib.Tests.Routing
 {
-    [Routed("rm://")]
-    public class RoutingMiddleware : IMiddleware
+    [Routed]
+    class RoutingPriortityMiddleware : IMiddleware
     {
         /// <summary>
         /// 中间件
@@ -29,8 +29,18 @@ namespace CatLib.Tests.Routing
                 filter.Add((req, res, next) =>
                 {
                     next(req, res);
-                    res.SetContext(res.GetContext() + "[with middleware]");
-                });
+                    res.SetContext(res.GetContext() + "[with middleware 15]");
+                }, 15);
+                filter.Add((req, res, next) =>
+                {
+                    next(req, res);
+                    res.SetContext(res.GetContext() + "[with middleware 20]");
+                }, 20);
+                filter.Add((req, res, next) =>
+                {
+                    next(req, res);
+                    res.SetContext(res.GetContext() + "[with middleware 10]");
+                }, 10);
                 return filter;
             }
         }
@@ -38,7 +48,7 @@ namespace CatLib.Tests.Routing
         [Routed("call")]
         public void Call(IRequest request, IResponse response)
         {
-            response.SetContext("RoutingMiddleware.Call");
+            response.SetContext("RoutingPriortityMiddleware.Call");
         }
     }
 }

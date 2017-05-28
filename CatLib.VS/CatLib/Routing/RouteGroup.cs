@@ -10,7 +10,7 @@
  */
 
 using System;
-using CatLib.API.FilterChain;
+using CatLib.API.Stl;
 using CatLib.API.Routing;
 using System.Collections.Generic;
 using CatLib.Stl;
@@ -39,17 +39,6 @@ namespace CatLib.Routing
         {
             options = new RouteOptions();
             routes = new List<IRoute>();
-        }
-
-        /// <summary>
-        /// 设定过滤器链生成器
-        /// </summary>
-        /// <param name="filterChain">过滤器链</param>
-        /// <returns>路由组</returns>
-        public RouteGroup SetFilterChain(IFilterChain filterChain)
-        {
-            options.SetFilterChain(filterChain);
-            return this;
         }
 
         /// <summary>
@@ -105,14 +94,15 @@ namespace CatLib.Routing
         /// 添加路由中间件
         /// </summary>
         /// <param name="middleware">中间件</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前路由组实例</returns>
-        public IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware)
+        public IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware, int priority = int.MaxValue)
         {
             Guard.Requires<ArgumentNullException>(middleware != null);
             options.Middleware(middleware);
             for (var i = 0; i < routes.Count; i++)
             {
-                routes[i].Middleware(middleware);
+                routes[i].Middleware(middleware, priority);
             }
             return this;
         }
@@ -121,14 +111,15 @@ namespace CatLib.Routing
         /// 当路由出现错误时
         /// </summary>
         /// <param name="onError">错误处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前路由组实例</returns>
-        public IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError)
+        public IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError, int priority = int.MaxValue)
         {
             Guard.Requires<ArgumentNullException>(onError != null);
             options.OnError(onError);
             for (var i = 0; i < routes.Count; i++)
             {
-                routes[i].OnError(onError);
+                routes[i].OnError(onError, priority);
             }
             return this;
         }

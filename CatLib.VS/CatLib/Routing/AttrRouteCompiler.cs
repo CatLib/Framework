@@ -336,15 +336,6 @@ namespace CatLib.Routing
         /// <returns>是否过滤</returns>
         private bool IsStripping(Assembly assembly)
         {
-            string[] notStripping = { "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor", "CatLib", "CatLib.Tests" };
-            for (var i = 0; i < notStripping.Length; i++)
-            {
-                if (assembly.GetName().Name == notStripping[i])
-                {
-                    return false;
-                }
-            }
-
             foreach (var finder in stripping)
             {
                 if (!finder.Invoke(assembly))

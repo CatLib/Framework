@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.Event;
-using CatLib.FilterChain;
+using CatLib.Stl;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -41,12 +41,11 @@ namespace CatLib.Tests.Routing
                 return Type.GetType(t);
             });
             app.Register(typeof(EventProvider));
-            app.Register(typeof(FilterChainProvider));
             app.Register(typeof(RoutingProvider));
 
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
             var router = App.Instance.Make<IRouter>();
-            app.On(RouterEvents.OnRouterAttrCompiler, (sender, args) =>
+            app.On(RouterEvents.OnBeforeRouterAttrCompiler, (sender, args) =>
             {
                 router.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
                     (req, res, next) =>
@@ -483,6 +482,20 @@ namespace CatLib.Tests.Routing
             {
                 var response = router.Dispatch("options-params-attr-routing/call-response");
                 Assert.AreEqual("OptionsParamsAttrRouting.CallResponse[global middleware]", response.GetContext().ToString());
+            });
+        }
+
+        /// <summary>
+        /// 带有优先级的中间件测试
+        /// </summary>
+        [TestMethod]
+        public void RoutingPriortityMiddlewareTest()
+        {
+            var router = App.Instance.Make<IRouter>();
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                var response = router.Dispatch("routing-priortity-middleware/call");
+                Assert.AreEqual("RoutingPriortityMiddleware.Call[with middleware 20][with middleware 15][with middleware 10][global middleware]", response.GetContext().ToString());
             });
         }
     }
