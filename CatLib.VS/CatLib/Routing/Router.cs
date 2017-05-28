@@ -483,7 +483,7 @@ namespace CatLib.Routing
         /// <returns>当前路由实例</returns>
         private IRouter CreateScheme(string name)
         {
-            schemes.Add(name.ToLower(), (new Scheme(name)).SetRouter(this));
+            schemes.Add(name.ToLower(), new Scheme(name));
             return this;
         }
 

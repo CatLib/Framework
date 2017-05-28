@@ -10,8 +10,9 @@
  */
 
 using CatLib.API;
-using CatLib.API.FilterChain;
 using CatLib.API.Routing;
+using CatLib.API.Stl;
+using CatLib.Stl;
 using UnityEngine;
 
 namespace CatLib.Demo.Routing
@@ -79,8 +80,7 @@ namespace CatLib.Demo.Routing
             get
             {
                 //这里的代码只用作演示用途，现实代码请不要像这样生成中间件
-                var filterChain = App.Instance.Make<IFilterChain>();
-                var filter = filterChain.Create<IRequest, IResponse>();
+                var filter = new FilterChain<IRequest, IResponse>();
                 filter.Add((req, res, next) =>
                 {
                     Debug.Log("through controller middleware in");

@@ -19,7 +19,6 @@ using CatLib.Crypt;
 using CatLib.Hash;
 using CatLib.TimeQueue;
 using CatLib.Config;
-using CatLib.FilterChain;
 using CatLib.Routing;
 
 public class Providers
@@ -31,7 +30,8 @@ public class Providers
     {
         get
         {
-            return new[] {
+            return new[] 
+            {
                 typeof(ResourcesProvider),
                 typeof(EventProvider),
                 typeof(ThreadProvider),
@@ -41,7 +41,6 @@ public class Providers
                 typeof(CoreProvider),
                 typeof(TimeQueueProvider),
                 typeof(ConfigProvider),
-                typeof(FilterChainProvider),
                 typeof(RoutingProvider),
             };
         }

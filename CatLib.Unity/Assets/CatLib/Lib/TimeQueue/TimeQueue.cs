@@ -25,7 +25,7 @@ namespace CatLib.TimeQueue
         /// <summary>
         /// 时间
         /// </summary>
-        public ITime Time { get; set; }
+        public ITimeManager Time { get; set; }
 
         /// <summary>
         /// 当队列中的所有任务完成时

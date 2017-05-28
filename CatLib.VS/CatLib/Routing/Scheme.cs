@@ -25,11 +25,6 @@ namespace CatLib.Routing
         private readonly List<Route> routes = new List<Route>();
 
         /// <summary>
-        /// 路由器
-        /// </summary>
-        private Router router;
-
-        /// <summary>
         /// 方案名
         /// </summary>
         private readonly string name;
@@ -52,22 +47,11 @@ namespace CatLib.Routing
         }
 
         /// <summary>
-        /// 设定路由器
-        /// </summary>
-        /// <param name="router">路由器</param>
-        public Scheme SetRouter(Router router)
-        {
-            this.router = router;
-            return this;
-        }
-
-        /// <summary>
         /// 增加一个路由
         /// </summary>
         /// <param name="route">路由条目</param>
         public Scheme AddRoute(Route route)
         {
-            route.SetScheme(this);
             routes.Add(route);
             return this;
         }

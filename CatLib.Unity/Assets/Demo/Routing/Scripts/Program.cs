@@ -9,10 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API;
 using CatLib.Routing;
-using CatLib.FilterChain;
 using CatLib.Event;
 
 namespace CatLib.Demo.Routing
@@ -26,7 +24,6 @@ namespace CatLib.Demo.Routing
         public void Bootstrap()
         {
             App.Instance.Register(typeof(RoutingProvider));
-            App.Instance.Register(typeof(FilterChainProvider));
             App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(RoutingDemo));
         }

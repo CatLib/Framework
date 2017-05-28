@@ -45,14 +45,16 @@ namespace CatLib.API.Routing
         /// 添加路由中间件
         /// </summary>
         /// <param name="middleware">中间件</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前路由组实例</returns>
-        IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware);
+        IRouteGroup Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware, int priority = int.MaxValue);
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="onError">错误处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前路由组实例</returns>
-        IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError);
+        IRouteGroup OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError, int priority = int.MaxValue);
     }
 }

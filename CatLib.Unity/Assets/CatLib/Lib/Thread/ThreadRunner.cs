@@ -32,7 +32,7 @@ namespace CatLib.Thread
         /// 时间组件
         /// </summary>
         [Inject]
-        public ITime Time { get; set; }
+        public ITimeManager Time { get; set; }
 
         /// <summary>
         /// 任务列表

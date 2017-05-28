@@ -10,7 +10,7 @@
  */
 
 using CatLib.API;
-using CatLib.API.FilterChain;
+using CatLib.Stl;
 
 namespace CatLib.Demo.FilterChain
 {
@@ -22,10 +22,7 @@ namespace CatLib.Demo.FilterChain
         {
             App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
             {
-
-                IFilterChain filterChain = App.Make<IFilterChain>();
-
-                var filters = filterChain.Create<string>();
+                var filters = new FilterChain<string>();
 
                 bool isCall = true;
                 filters.Add((data, next) =>

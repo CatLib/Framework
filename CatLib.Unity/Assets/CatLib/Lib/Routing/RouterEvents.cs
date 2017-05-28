@@ -19,7 +19,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 当属性路由编译之前
         /// </summary>
-        public static readonly string OnRouterAttrCompiler = "router.attr.compiler";
+        public static readonly string OnBeforeRouterAttrCompiler = "router.attr.compiler";
 
         /// <summary>
         /// 当路由调度之前

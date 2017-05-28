@@ -36,17 +36,15 @@ namespace CatLib.Routing
         /// <summary>
         /// 统一资源标识
         /// </summary>
-        internal Uri Uri { get { return uri; } }
+        internal Uri Uri
+        {
+            get { return uri; }
+        }
 
         /// <summary>
         /// 路由器
         /// </summary>
         private Router router;
-
-        /// <summary>
-        /// 方案
-        /// </summary>
-        private Scheme scheme;
 
         /// <summary>
         /// 路由配置
@@ -109,17 +107,6 @@ namespace CatLib.Routing
         public Route SetContainer(IContainer container)
         {
             this.container = container;
-            return this;
-        }
-
-        /// <summary>
-        /// 设定方案
-        /// </summary>
-        /// <param name="scheme">所属方案</param>
-        /// <returns>当前路由条目</returns>
-        internal Route SetScheme(Scheme scheme)
-        {
-            this.scheme = scheme;
             return this;
         }
 

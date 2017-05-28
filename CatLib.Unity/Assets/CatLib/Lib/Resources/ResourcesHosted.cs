@@ -34,7 +34,7 @@ namespace CatLib.Resources
         /// 时间组件
         /// </summary>
         [Inject]
-        public ITime Time { get; set; }
+        public ITimeManager Time { get; set; }
 
         /// <summary>
         /// 自检间隔

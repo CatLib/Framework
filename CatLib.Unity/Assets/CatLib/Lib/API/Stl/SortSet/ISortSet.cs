@@ -158,6 +158,19 @@ namespace CatLib.API.Stl
         /// </summary>
         /// <returns>元素</returns>
         TElement Pop();
+
+        /// <summary>
+        /// 获取指定排名的元素(有序集成员按照Score从小到大排序)
+        /// </summary>
+        /// <param name="rank">排名,排名以0为底</param>
+        /// <returns>指定的元素</returns>
+        TElement this[long rank] { get; }
+
+        /// <summary>
+        /// 转为数组
+        /// </summary>
+        /// <returns>元素数组</returns>
+        TElement[] ToArray();
     }
 }
 

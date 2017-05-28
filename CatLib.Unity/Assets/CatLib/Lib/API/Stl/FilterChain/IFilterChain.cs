@@ -11,38 +11,8 @@
 
 using System;
 
-namespace CatLib.API.FilterChain
+namespace CatLib.API.Stl
 {
-    /// <summary>
-    /// 过滤器链
-    /// </summary>
-    public interface IFilterChain
-    {
-        /// <summary>
-        /// 创建过滤器链
-        /// </summary>
-        /// <typeparam name="TIn">输入参数类型</typeparam>
-        /// <returns>过滤器链</returns>
-        IFilterChain<TIn> Create<TIn>();
-
-        /// <summary>
-        /// 创建过滤器链
-        /// </summary>
-        /// <typeparam name="TIn">输入参数类型</typeparam>
-        /// <typeparam name="TOut">输出参数类型</typeparam>
-        /// <returns>过滤器链</returns>
-        IFilterChain<TIn, TOut> Create<TIn, TOut>();
-
-        /// <summary>
-        /// 创建过滤器链
-        /// </summary>
-        /// <typeparam name="TIn">输入参数类型</typeparam>
-        /// <typeparam name="TOut">输出参数类型</typeparam>
-        /// <typeparam name="TException">异常参数类型</typeparam>
-        /// <returns>过滤器链</returns>
-        IFilterChain<TIn, TOut, TException> Create<TIn, TOut, TException>();
-    }
-
     /// <summary>
     /// 过滤器链
     /// </summary>
@@ -58,8 +28,9 @@ namespace CatLib.API.FilterChain
         /// 增加过滤器
         /// </summary>
         /// <param name="filter">过滤器</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>过滤器链</returns>
-        IFilterChain<TIn> Add(Action<TIn, Action<TIn>> filter);
+        IFilterChain<TIn> Add(Action<TIn, Action<TIn>> filter, int priority = int.MaxValue);
 
         /// <summary>
         /// 执行过滤器链
@@ -91,8 +62,9 @@ namespace CatLib.API.FilterChain
         /// 增加一个过滤器
         /// </summary>
         /// <param name="filter">过滤器</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>过滤器链</returns>
-        IFilterChain<TIn, TOut> Add(Action<TIn, TOut, Action<TIn, TOut>> filter);
+        IFilterChain<TIn, TOut> Add(Action<TIn, TOut, Action<TIn, TOut>> filter, int priority = int.MaxValue);
 
         /// <summary>
         /// 执行过滤器链
@@ -127,8 +99,9 @@ namespace CatLib.API.FilterChain
         /// 增加一个过滤器
         /// </summary>
         /// <param name="filter">过滤器</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>过滤器链</returns>
-        IFilterChain<TIn, TOut, TException> Add(Action<TIn, TOut, TException, Action<TIn, TOut, TException>> filter);
+        IFilterChain<TIn, TOut, TException> Add(Action<TIn, TOut, TException, Action<TIn, TOut, TException>> filter, int priority = int.MaxValue);
 
         /// <summary>
         /// 执行过滤器链

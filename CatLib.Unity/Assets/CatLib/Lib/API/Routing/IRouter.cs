@@ -46,22 +46,25 @@ namespace CatLib.API.Routing
         /// 当路由没有找到时
         /// </summary>
         /// <param name="middleware">中间件</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前实例</returns>
-        IRouter OnNotFound(Action<IRequest, Action<IRequest>> middleware);
+        IRouter OnNotFound(Action<IRequest, Action<IRequest>> middleware, int priority = int.MaxValue);
 
         /// <summary>
         /// 全局路由中间件
         /// </summary>
         /// <param name="middleware">中间件</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前路由器实例</returns>
-        IRouter Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware);
+        IRouter Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware, int priority = int.MaxValue);
 
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
         /// <param name="onError">错误处理函数</param>
+        /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前实例</returns>
-        IRouter OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> middleware);
+        IRouter OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> middleware, int priority = int.MaxValue);
 
         /// <summary>
         /// 调度路由

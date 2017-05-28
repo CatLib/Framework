@@ -19,11 +19,6 @@ namespace CatLib.Stl
     internal sealed class InternalList<TElement>
     {
         /// <summary>
-        /// 容量
-        /// </summary>
-        private int capacity;
-
-        /// <summary>
         /// 列表元素
         /// </summary>
         private readonly TElement[] items;
@@ -44,7 +39,6 @@ namespace CatLib.Stl
         /// <param name="capacity">容量</param>
         internal InternalList(int capacity = 128)
         {
-            this.capacity = capacity;
             items = new TElement[capacity];
             Count = 0;
             IsDelete = false;

@@ -258,6 +258,23 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 转为数组
+        /// </summary>
+        /// <returns>数组</returns>
+        public TElement[] ToArray()
+        {
+            var elements = new TElement[Count];
+            var node = header.Level[0];
+            long i = 0;
+            while (node.Forward != null)
+            {
+                elements[i++] = node.Forward.Element;
+                node = node.Forward.Level[0];
+            }
+            return elements;
+        }
+
+        /// <summary>
         /// 获取第一个元素
         /// </summary>
         /// <returns>最后一个元素</returns>
@@ -301,6 +318,16 @@ namespace CatLib.Stl
                 throw new RuntimeException("Can not pop element , unknow error.");
             }
             return result;
+        }
+
+        /// <summary>
+        /// 获取指定排名的元素(有序集成员按照Score从小到大排序)
+        /// </summary>
+        /// <param name="rank">排名,排名以0为底</param>
+        /// <returns>指定的元素</returns>
+        public TElement this[long rank]
+        {
+            get { return GetElementByRank(rank); }
         }
 
         /// <summary>

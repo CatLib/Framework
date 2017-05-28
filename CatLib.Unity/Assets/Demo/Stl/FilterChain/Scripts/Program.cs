@@ -11,9 +11,7 @@
 
 using System;
 using CatLib.API;
-using CatLib.FilterChain;
 using CatLib.Event;
-using CatLib.Stl;
 
 namespace CatLib.Demo.FilterChain
 {
@@ -26,7 +24,6 @@ namespace CatLib.Demo.FilterChain
         public void Bootstrap()
         {
             App.Instance.Register(typeof(EventProvider));
-            App.Instance.Register(typeof(FilterChainProvider));
             App.Instance.Register(typeof(FilterChainDemo));
         }
 
