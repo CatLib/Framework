@@ -9,23 +9,26 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
+using System;
 
 namespace CatLib
 {
     /// <summary>
-    /// 注册服务提供商的引导程序
+    /// 引导程序
     /// </summary>
-    public class RegisterProvidersBootstrap : IBootstrap
+    public class Bootstrap
     {
         /// <summary>
         /// 引导程序
         /// </summary>
-        public void Bootstrap()
+        public static Type[] BootStrap
         {
-            foreach (var t in Providers.ServiceProviders)
+            get
             {
-                App.Instance.Register(t);
+                return new[]
+                {
+                    typeof(ProvidersBootstrap)
+                };
             }
         }
     }

@@ -81,6 +81,7 @@
     <Compile Include="API\Time\ITimeManager.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
+    <Compile Include="Define.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="FileSystem\File.cs" />

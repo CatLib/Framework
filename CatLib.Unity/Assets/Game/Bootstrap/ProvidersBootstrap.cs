@@ -9,22 +9,24 @@
  * Document: http://catlib.io/
  */
 
-using UnityEngine;
+using CatLib.API;
 
 namespace CatLib
 {
     /// <summary>
-    /// 程序入口
-    /// Program Entry
+    /// 注册服务提供商的引导程序
     /// </summary>
-    public sealed class Program : MonoBehaviour
+    public class ProvidersBootstrap : IBootstrap
     {
         /// <summary>
-        /// 初始化程序
+        /// 引导程序
         /// </summary>
-        public void Awake()
+        public void Bootstrap()
         {
-            new Application(this).Bootstrap(Bootstrap.BootStrap).Init();
+            foreach (var type in Providers.ServiceProviders)
+            {
+                App.Instance.Register(type);
+            }
         }
     }
 }

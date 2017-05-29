@@ -10,27 +10,29 @@
  */
 
 using System;
+using UnityEngine;
 
 namespace CatLib
 {
     /// <summary>
-    /// 引导程序
+    /// 程序入口
+    /// Program Entry
     /// </summary>
-    public class Bootstrap
+    public sealed class Program : MonoBehaviour
     {
         /// <summary>
-        /// 引导程序
+        /// 初始化程序
         /// </summary>
-        public static Type[] BootStrap
+        public void Awake()
         {
-            get
+            var application = new Application(this);
+#if CATLIB_DLL
+            application.OnFindType((type) =>
             {
-                return new []
-                {
-                    typeof(RegisterProvidersBootstrap)
-                };
-            }
-
+                return Type.GetType(type);
+            });
+#endif
+            application.Bootstrap(Bootstrap.BootStrap).Init();
         }
     }
 }

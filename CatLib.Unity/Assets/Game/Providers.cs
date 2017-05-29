@@ -26,11 +26,11 @@ public class Providers
     /// <summary>
     /// 服务提供者
     /// </summary>
-	public static Type[] ServiceProviders
+    public static Type[] ServiceProviders
     {
         get
         {
-            return new[] 
+            return new[]
             {
                 typeof(ResourcesProvider),
                 typeof(EventProvider),
