@@ -145,6 +145,16 @@ namespace CatLib.Timer
         internal bool Tick(ref float deltaTime)
         {
             deltaTime = Math.Max(0, deltaTime);
+
+            if (args == null)
+            {
+                if (task != null)
+                {
+                    task.Invoke();
+                }
+                return true;
+            }
+
             switch (args.Type)
             {
                 case TimerTypes.DelayFrame:

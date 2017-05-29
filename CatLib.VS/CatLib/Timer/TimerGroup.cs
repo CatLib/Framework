@@ -51,7 +51,7 @@ namespace CatLib.Timer
         /// </summary>
         private bool IsComplete
         {
-            get { return cursor < timers.Count; }
+            get { return cursor >= timers.Count; }
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 获取计时器
         /// </summary>
-        /// <returns></returns>
+        /// <returns>计时器</returns>
         private Timer GetTimer()
         {
             return !IsComplete ? timers[cursor] : null;
