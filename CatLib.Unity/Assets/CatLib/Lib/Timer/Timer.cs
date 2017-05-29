@@ -82,7 +82,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 当前逻辑帧后，延迟指定时间后执行
+        /// 延迟指定时间后执行
         /// </summary>
         /// <param name="time">延迟时间(秒)</param>
         public void Delay(float time)
@@ -97,8 +97,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 当前逻辑帧后 ，延迟指定帧数帧后执行
-        /// (如: 为0则表示当前逻辑帧后的下一帧执行)
+        /// 延迟指定帧数帧后执行
         /// </summary>
         /// <param name="frame">帧数</param>
         public void DelayFrame(int frame)
@@ -113,7 +112,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 当前逻辑帧后 ，循环执行指定时间
+        /// 循环执行指定时间
         /// </summary>
         /// <param name="time">循环时间(秒)</param>
         public void Loop(float time)
@@ -128,7 +127,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 当前逻辑帧后 ，循环执行，直到函数返回false
+        /// 循环执行，直到函数返回false
         /// </summary>
         /// <param name="callback">循环状态函数</param>
         public void Loop(Func<bool> callback)
@@ -143,7 +142,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 当前逻辑帧后 ，循环执行指定帧数
+        /// 循环执行指定帧数
         /// </summary>
         /// <param name="frame">循环执行的帧数</param>
         public void LoopFrame(int frame)
@@ -159,8 +158,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 当前逻辑帧后 ，间隔多少时间执行一次
-        /// 执行时的当前帧计算间隔
+        /// 间隔多少时间执行一次
         /// </summary>
         /// <param name="time">间隔的时间</param>
         public void Interval(float time)
@@ -181,8 +179,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 当前逻辑帧后 ，间隔多少帧执行一次
-        /// 执行时的当前帧计算间隔
+        /// 间隔多少帧执行一次
         /// </summary>
         /// <param name="frame">间隔的帧数</param>
         public void IntervalFrame(int frame)
