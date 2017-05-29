@@ -76,7 +76,7 @@
     <Compile Include="API\Stl\Template\IManager.cs" />
     <Compile Include="API\Stl\Template\ISingleManager.cs" />
     <Compile Include="API\Timer\Internal\ITimer.cs" />
-    <Compile Include="API\Timer\Internal\ITimerGroup.cs" />
+    <Compile Include="API\Timer\Internal\ITimerQueue.cs" />
     <Compile Include="API\Timer\ITimerManager.cs" />
     <Compile Include="API\Time\ITimeManager.cs" />
     <Compile Include="Config\ConfigManager.cs" />
@@ -186,7 +186,7 @@
     <Compile Include="Stl\Template\Manager.cs" />
     <Compile Include="Stl\Template\SingleManager.cs" />
     <Compile Include="Timer\Timer.cs" />
-    <Compile Include="Timer\TimerGroup.cs" />
+    <Compile Include="Timer\TimerQueue.cs" />
     <Compile Include="Timer\TimerManager.cs" />
     <Compile Include="Timer\TimerProvider.cs" />
     <Compile Include="Timer\TimerTypes.cs" />

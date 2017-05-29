@@ -63,21 +63,21 @@ namespace CatLib.Timer
         private bool isComplete;
 
         /// <summary>
-        /// 计时器组
+        /// 计时器队列
         /// </summary>
-        public ITimerGroup Group { get; private set; }
+        public ITimerQueue Queue { get; private set; }
 
         /// <summary>
         /// 创建一个计时器
         /// </summary>
         /// <param name="task">任务实现</param>
-        /// <param name="group">当前逻辑帧</param>
+        /// <param name="queue">当前逻辑帧</param>
         /// <param name="frame">当前逻辑帧</param>
         /// <returns>执行的任务</returns>
-        public Timer(ITimerGroup group, Action task)
+        public Timer(ITimerQueue queue, Action task)
         {
             this.task = task;
-            Group = group;
+            Queue = queue;
             isComplete = false;
         }
 

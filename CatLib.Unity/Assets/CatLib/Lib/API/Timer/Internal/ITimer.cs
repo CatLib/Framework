@@ -19,9 +19,9 @@ namespace CatLib.API.Timer
     public interface ITimer
     {
         /// <summary>
-        /// 计时器组
+        /// 计时器队列
         /// </summary>
-        ITimerGroup Group { get; }
+        ITimerQueue Queue { get; }
 
         /// <summary>
         /// 延迟指定时间后执行

@@ -14,9 +14,9 @@ using System;
 namespace CatLib.API.Timer
 {
     /// <summary>
-    /// 时间任务组
+    /// 计时器任务队列
     /// </summary>
-    public interface ITimerGroup
+    public interface ITimerQueue
     {
         /// <summary>
         /// 是否是暂停的
@@ -24,10 +24,10 @@ namespace CatLib.API.Timer
         bool IsPause { get; }
 
         /// <summary>
-        /// 当组的所有计时器完成时
+        /// 当队列的所有计时器完成时
         /// </summary>
         /// <param name="onComplete">完成时</param>
         /// <returns>当前组实例</returns>
-        ITimerGroup OnComplete(Action onComplete);
+        ITimerQueue OnComplete(Action onComplete);
     }
 }

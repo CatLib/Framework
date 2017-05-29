@@ -22,7 +22,7 @@ namespace CatLib.Timer
     /// 计时器管理器
     /// 创建计时器的当前逻辑帧不视作一个有效逻辑帧
     /// </summary>
-    public sealed class TimerManager : Manager<ITimerGroup> , ITimerManager, IUpdate
+    public sealed class TimerManager : Manager<ITimerQueue> , ITimerManager, IUpdate
     {
         /// <summary>
         /// 时间管理器
@@ -32,12 +32,12 @@ namespace CatLib.Timer
         /// <summary>
         /// 运行列表
         /// </summary>
-        private readonly SortSet<TimerGroup, int> executeList;
+        private readonly SortSet<TimerQueue, int> executeList;
 
         /// <summary>
         /// 路由器组
         /// </summary>
-        private readonly Stack<TimerGroup> timerGroup;
+        private readonly Stack<TimerQueue> timerQueue;
 
         /// <summary>
         /// 构建一个计时器管理器
@@ -46,8 +46,8 @@ namespace CatLib.Timer
         public TimerManager([Inject(Required = true)]ITimeManager timeManager)
         {
             this.timeManager = timeManager;
-            executeList = new SortSet<TimerGroup, int>();
-            timerGroup = new Stack<TimerGroup>();
+            executeList = new SortSet<TimerQueue, int>();
+            timerQueue = new Stack<TimerQueue>();
         }
 
         /// <summary>
@@ -57,74 +57,74 @@ namespace CatLib.Timer
         /// <returns>计时器</returns>
         public ITimer Make(Action task = null)
         {
-            var withGroupStack = timerGroup.Count > 0;
-            var group = withGroupStack
-                ? timerGroup.Peek()
-                : new TimerGroup(timeManager.Default);
-            var timer = new Timer(group, task);
-            group.Add(timer);
+            var withGroupStack = timerQueue.Count > 0;
+            var queue = withGroupStack
+                ? timerQueue.Peek()
+                : new TimerQueue(timeManager.Default);
+            var timer = new Timer(queue, task);
+            queue.Add(timer);
             if (!withGroupStack)
             {
-                executeList.Add(group, int.MaxValue);
+                executeList.Add(queue, int.MaxValue);
             }
             return timer;
         }
 
         /// <summary>
-        /// 创建一个计时器组
+        /// 创建一个计时器队列
         /// </summary>
-        /// <param name="area">区域</param>
+        /// <param name="area">在这个区域中Make的计时器会按照Make顺序加入同一个队列</param>
         /// <param name="priority">优先级(值越小越优先)</param>
-        /// <returns>计时器组</returns>
-        public ITimerGroup Group(Action area, int priority = int.MaxValue)
+        /// <returns>计时器队列</returns>
+        public ITimerQueue Queue(Action area, int priority = int.MaxValue)
         {
             Guard.NotNull(area, "area");
-            var group = new TimerGroup(timeManager.Default);
-            timerGroup.Push(group);
+            var queue = new TimerQueue(timeManager.Default);
+            timerQueue.Push(queue);
             try
             {
                 area.Invoke();
             }
             finally
             {
-                timerGroup.Pop();
+                timerQueue.Pop();
             }
 
-            executeList.Add(group, priority);
-            return group;
+            executeList.Add(queue, priority);
+            return queue;
         }
 
         /// <summary>
-        /// 停止计时器组的运行
+        /// 停止计时器队列的运行
         /// </summary>
-        /// <param name="group">计时器组</param>
-        public void Cancel(ITimerGroup group)
+        /// <param name="queue">计时器队列</param>
+        public void Cancel(ITimerQueue queue)
         {
-            var timerGroup = group as TimerGroup;
-            Guard.NotNull(timerGroup, "timerGroup");
-            executeList.Remove(timerGroup);
+            var timerQueue = queue as TimerQueue;
+            Guard.NotNull(timerQueue, "timerQueue");
+            executeList.Remove(timerQueue);
         }
 
         /// <summary>
-        /// 暂停计时器组
+        /// 暂停计时器队列
         /// </summary>
-        /// <param name="group">计时器组</param>
-        public void Pause(ITimerGroup group)
+        /// <param name="queue">计时器队列</param>
+        public void Pause(ITimerQueue queue)
         {
-            var timerGroup = group as TimerGroup;
-            Guard.NotNull(timerGroup, "timerGroup");
-            timerGroup.IsPause = true;
+            var timerQueue = queue as TimerQueue;
+            Guard.NotNull(timerQueue, "timerQueue");
+            timerQueue.IsPause = true;
         }
 
         /// <summary>
-        /// 重新开始播放计时器组
+        /// 重新开始播放计时器队列
         /// </summary>
-        /// <param name="group">计时器组</param>
-        public void Play(ITimerGroup group)
+        /// <param name="queue">计时器队列</param>
+        public void Play(ITimerQueue queue)
         {
-            var timerGroup = group as TimerGroup;
-            Guard.NotNull(timerGroup, "timerGroup");
-            timerGroup.IsPause = false;
+            var timerQueue = queue as TimerQueue;
+            Guard.NotNull(timerQueue, "timerQueue");
+            timerQueue.IsPause = false;
         }
 
         /// <summary>
@@ -132,11 +132,11 @@ namespace CatLib.Timer
         /// </summary>
         public void Update()
         {
-            foreach (var group in executeList)
+            foreach (var queue in executeList)
             {
-                if (group.Tick())
+                if (queue.Tick())
                 {
-                    executeList.Remove(group);
+                    executeList.Remove(queue);
                 }
             }
         }

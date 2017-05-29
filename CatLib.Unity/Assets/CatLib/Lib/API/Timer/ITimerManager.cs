@@ -26,29 +26,29 @@ namespace CatLib.API.Timer
         ITimer Make(Action task = null);
 
         /// <summary>
-        /// 创建一个计时器组
+        /// 创建一个计时器队列
         /// </summary>
-        /// <param name="area">区域</param>
+        /// <param name="area">在这个区域中Make的计时器会按照Make顺序加入同一个队列</param>
         /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>路由器组</returns>
-        ITimerGroup Group(Action area, int priority = int.MaxValue);
+        ITimerQueue Queue(Action area, int priority = int.MaxValue);
 
         /// <summary>
-        /// 停止计时器组的运行
+        /// 停止计时器队列的运行
         /// </summary>
-        /// <param name="group">计时器组</param>
-        void Cancel(ITimerGroup group);
+        /// <param name="queue">计时器队列</param>
+        void Cancel(ITimerQueue queue);
 
         /// <summary>
-        /// 暂停计时器组
+        /// 暂停计时器队列
         /// </summary>
-        /// <param name="group">计时器组</param>
-        void Pause(ITimerGroup group);
+        /// <param name="queue">计时器队列</param>
+        void Pause(ITimerQueue queue);
 
         /// <summary>
-        /// 重新开始播放计时器组
+        /// 重新开始播放计时器队列
         /// </summary>
-        /// <param name="group">计时器组</param>
-        void Play(ITimerGroup group);
+        /// <param name="queue">计时器队列</param>
+        void Play(ITimerQueue queue);
     }
 }

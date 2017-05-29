@@ -18,9 +18,9 @@ using CatLib.API.Timer;
 namespace CatLib.Timer
 {
     /// <summary>
-    /// 计时器组
+    /// 计时器队列
     /// </summary>
-    internal sealed class TimerGroup : ITimerGroup
+    internal sealed class TimerQueue : ITimerQueue
     {
         /// <summary>
         /// 是否是暂停的
@@ -53,7 +53,7 @@ namespace CatLib.Timer
         private readonly int frame;
 
         /// <summary>
-        /// 当前计时器组是否完成的
+        /// 当前计时器队列是否完成的
         /// </summary>
         private bool IsComplete
         {
@@ -61,10 +61,10 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 构建一个计时器组
+        /// 构建一个计时器队列
         /// </summary>
         /// <param name="time">时间实现</param>
-        public TimerGroup(ITime time)
+        public TimerQueue(ITime time)
         {
             this.time = time;
             timers = new List<Timer>();
@@ -78,7 +78,7 @@ namespace CatLib.Timer
         /// </summary>
         /// <param name="onComplete">完成时</param>
         /// <returns>当前组实例</returns>
-        public ITimerGroup OnComplete(Action onComplete)
+        public ITimerQueue OnComplete(Action onComplete)
         {
             GuardComplete("OnComplete");
             this.onComplete = onComplete;
@@ -88,7 +88,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 触发计时器
         /// </summary>
-        /// <returns>计时器组是否已经完成</returns>
+        /// <returns>计时器队列是否已经完成</returns>
         internal bool Tick()
         {
             if (IsPause || frame >= time.FrameCount)
@@ -121,7 +121,7 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 将计时器加入组
+        /// 将计时器加入队列
         /// </summary>
         /// <param name="timer">计时器</param>
         internal void Add(Timer timer)
@@ -146,7 +146,7 @@ namespace CatLib.Timer
         {
             if (IsComplete)
             {
-                throw new RuntimeException("Timer Group is complete , Can not call " + func + "();");
+                throw new RuntimeException("Timer Queue is complete , Can not call " + func + "();");
             }
         }
     }

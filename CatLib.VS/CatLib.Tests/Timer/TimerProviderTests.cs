@@ -355,7 +355,7 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            timer.Group(() =>
+            timer.Queue(() =>
             {
                 timer.Make(() =>
                 {
@@ -383,7 +383,7 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            timer.Group(() =>
+            timer.Queue(() =>
             {
                 timer.Make(() =>
                 {
@@ -413,7 +413,7 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            timer.Group(() =>
+            timer.Queue(() =>
             {
                 timer.Make(() =>
                 {
@@ -446,7 +446,7 @@ namespace CatLib.Tests.Timer
         public void GroupCompleteCallTest()
         {
             var timer = App.Instance.Make<ITimerManager>();
-            var group = timer.Group(() =>
+            var group = timer.Queue(() =>
             {
             });
 
@@ -468,12 +468,12 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            ITimerGroup group = null;
-            group = timer.Group(() =>
+            ITimerQueue queue = null;
+            queue = timer.Queue(() =>
             {
                 timer.Make(() =>
                 {
-                    timer.Cancel(group);
+                    timer.Cancel(queue);
                     statu++;
                 }).DelayFrame(1);
 
@@ -504,12 +504,12 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            ITimerGroup group = null;
-            group = timer.Group(() =>
+            ITimerQueue queue = null;
+            queue = timer.Queue(() =>
             {
                 timer.Make(() =>
                 {
-                    timer.Pause(group);
+                    timer.Pause(queue);
                     statu++;
                 }).DelayFrame(1);
 
@@ -531,15 +531,15 @@ namespace CatLib.Tests.Timer
 
             Assert.AreEqual(2, statu);
             Assert.AreEqual(false, isComplete);
-            Assert.AreEqual(true, group.IsPause);
+            Assert.AreEqual(true, queue.IsPause);
 
-            timer.Play(group);
+            timer.Play(queue);
 
             RunFrame(App.Instance, 5);
 
             Assert.AreEqual(3, statu);
             Assert.AreEqual(true, isComplete);
-            Assert.AreEqual(false, group.IsPause);
+            Assert.AreEqual(false, queue.IsPause);
         }
 
         [TestMethod]
@@ -547,12 +547,12 @@ namespace CatLib.Tests.Timer
         {
             var timer = App.Instance.Make<ITimerManager>();
             ITimer result = null;
-            var group = timer.Group(() =>
+            var group = timer.Queue(() =>
             {
                 result = timer.Make();
             });
 
-            Assert.AreSame(group, result.Group);
+            Assert.AreSame(group, result.Queue);
         }
 
         [TestMethod]
@@ -560,7 +560,7 @@ namespace CatLib.Tests.Timer
         {
             var timer = App.Instance.Make<ITimerManager>();
             ITimer result = null;
-            var group = timer.Group(() =>
+            var group = timer.Queue(() =>
             {
                 result = timer.Make();
             });
@@ -577,7 +577,7 @@ namespace CatLib.Tests.Timer
             var timer = App.Instance.Make<ITimerManager>();
             ITimer result = null;
             var statu = 0;
-            var group = timer.Group(() =>
+            var group = timer.Queue(() =>
             {
                 result = timer.Make(() =>
                 {
