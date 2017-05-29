@@ -1,9 +1,0 @@
-{
-    "source": "catlib/hash",
-    "folder" : "Hash",
-    "require": {
-        "catlib/api":"~1.0",
-        "catlib/config":"~1.0",
-        "catlib/core":"~1.0"
-    }
-}

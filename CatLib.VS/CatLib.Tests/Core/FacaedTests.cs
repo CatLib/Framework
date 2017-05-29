@@ -62,10 +62,7 @@ namespace CatLib.Tests.Core
         {
             App.Instance = null;
 
-#if UNITY_EDITOR
-            var f = TestClassFacaed.Instance;
-            Assert.AreNotEqual(null, f);
-#else
+#if !UNITY_EDITOR
             ExceptionAssert.Throws<NullReferenceException>(() =>
             {
                 var f = TestClassFacaed.Instance;

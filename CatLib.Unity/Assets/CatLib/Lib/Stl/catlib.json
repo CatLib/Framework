@@ -1,7 +1,0 @@
-{
-  "source": "catlib/stl",
-  "folder": "Stl",
-  "require": {
-    "catlib/api": "~1.0"
-  }
-}

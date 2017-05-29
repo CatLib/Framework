@@ -145,6 +145,10 @@ namespace CatLib
                     throw new RuntimeException("Type [" + t + "] is not implements IBootstrap.");
                 }
                 var bootstrap = Make(t.ToString()) as IBootstrap;
+                if (bootstrap == null)
+                {
+                    throw new RuntimeException("You need call OnFindType() To get the type of cross-assembly");
+                }
                 bootstrap.Bootstrap();
             }
 

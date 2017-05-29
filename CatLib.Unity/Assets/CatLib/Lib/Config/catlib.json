@@ -1,8 +1,0 @@
-{
-  "source": "catlib/config",
-  "folder": "Config",
-  "require": {
-    "catlib/stl": "~1.0",
-    "catlib/core": "~1.0"
-  }
-}

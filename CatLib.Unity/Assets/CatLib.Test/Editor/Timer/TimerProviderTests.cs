@@ -559,10 +559,10 @@ namespace CatLib.Tests.Timer
         public void NoParamsTest()
         {
             var timer = App.Instance.Make<ITimerManager>();
-            ITimer result = null;
-            var group = timer.Queue(() =>
+
+            timer.Queue(() =>
             {
-                result = timer.Make();
+                timer.Make();
             });
 
             ExceptionAssert.DoesNotThrow(() =>
@@ -575,11 +575,10 @@ namespace CatLib.Tests.Timer
         public void NoParamsHasTaskTest()
         {
             var timer = App.Instance.Make<ITimerManager>();
-            ITimer result = null;
             var statu = 0;
-            var group = timer.Queue(() =>
+            timer.Queue(() =>
             {
-                result = timer.Make(() =>
+                timer.Make(() =>
                 {
                     statu++;
                 });

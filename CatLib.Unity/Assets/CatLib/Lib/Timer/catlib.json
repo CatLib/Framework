@@ -1,8 +1,0 @@
-{
-    "source": "catlib/timer",
-    "folder" : "Timer",
-    "require": {
-        "catlib/api":"~1.0",
-        "catlib/stl":"~1.0"
-    }
-}
