@@ -53,5 +53,19 @@ namespace CatLib.API.Timer
         /// </summary>
         /// <param name="frame">循环的帧数</param>
         void LoopFrame(int frame);
+
+        /// <summary>
+        /// 当前逻辑帧后 ，间隔多少时间执行一次
+        /// 执行时的当前帧计算间隔
+        /// </summary>
+        /// <param name="time">间隔的时间</param>
+        void Interval(float time);
+
+        /// <summary>
+        /// 当前逻辑帧后 ，间隔多少帧执行一次
+        /// 执行时的当前帧计算间隔
+        /// </summary>
+        /// <param name="frame">间隔的帧数</param>
+        void IntervalFrame(int frame);
     }
 }

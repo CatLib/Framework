@@ -40,5 +40,15 @@ namespace CatLib.Timer
         /// 循环执行指定帧数
         /// </summary>
         LoopFrame,
+
+        /// <summary>
+        /// 间隔指定时间执行
+        /// </summary>
+        Interval,
+
+        /// <summary>
+        /// 间隔指定帧执行
+        /// </summary>
+        IntervalFrame,
     }
 }

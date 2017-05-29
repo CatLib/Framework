@@ -610,6 +610,104 @@ namespace CatLib.Tests.Timer
         }
 
         /// <summary>
+        /// 间隔执行测试
+        /// </summary>
+        [TestMethod]
+        public void TestInterval()
+        {
+            var timer = App.Instance.Make<ITimerManager>();
+            var statu = 0;
+
+            timer.Create(() =>
+            {
+                statu++;
+            }).Interval(3);
+
+            RunTime(App.Instance, 9);
+
+            Assert.AreEqual(3, statu);
+        }
+
+        /// <summary>
+        /// 间隔执行测试(边界)
+        /// </summary>
+        [TestMethod]
+        public void TestIntervalBound()
+        {
+            var timer = App.Instance.Make<ITimerManager>();
+            var statu = 0;
+
+            timer.Create(() =>
+            {
+                statu++;
+            }).Interval(3);
+
+            RunTime(App.Instance, 8.74999f);
+
+            Assert.AreEqual(2, statu);
+        }
+
+        [TestMethod]
+        public void TestIntervalInvalid()
+        {
+            var timer = App.Instance.Make<ITimerManager>();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                timer.Create().Interval(3);
+            });
+        }
+
+        /// <summary>
+        /// 间隔执行测试
+        /// </summary>
+        [TestMethod]
+        public void TestIntervalFrame()
+        {
+            var timer = App.Instance.Make<ITimerManager>();
+            var statu = 0;
+
+            timer.Create(() =>
+            {
+                statu++;
+            }).IntervalFrame(3);
+
+            RunFrame(App.Instance, 9);
+
+            Assert.AreEqual(3, statu);
+        }
+
+        /// <summary>
+        /// 间隔执行测试(边界)
+        /// </summary>
+        [TestMethod]
+        public void TestIntervalFrameBound()
+        {
+            var timer = App.Instance.Make<ITimerManager>();
+            var statu = 0;
+
+            timer.Create(() =>
+            {
+                statu++;
+            }).IntervalFrame(3);
+
+            RunFrame(App.Instance, 8);
+
+            Assert.AreEqual(2, statu);
+        }
+
+        [TestMethod]
+        public void TestIntervalFrameInvalid()
+        {
+            var timer = App.Instance.Make<ITimerManager>();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                timer.Create().IntervalFrame(3);
+            });
+        }
+
+        /// <summary>
         /// 运行的时长(已经忽略当前帧)
         /// </summary>
         /// <param name="app"></param>

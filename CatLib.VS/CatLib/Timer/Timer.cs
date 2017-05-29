@@ -160,6 +160,48 @@ namespace CatLib.Timer
         }
 
         /// <summary>
+        /// 当前逻辑帧后 ，间隔多少时间执行一次
+        /// 执行时的当前帧计算间隔
+        /// </summary>
+        /// <param name="time">间隔的时间</param>
+        public void Interval(float time)
+        {
+            GuardComplete("Interval");
+            if (task == null)
+            {
+                throw new RuntimeException("Timer Task can not be null");
+            }
+
+            time = Math.Max(0, time);
+            args = new TimerArgs
+            {
+                Type = TimerTypes.Interval,
+                FloatArgs = new[] { time, 0 }
+            };
+        }
+
+        /// <summary>
+        /// 当前逻辑帧后 ，间隔多少帧执行一次
+        /// 执行时的当前帧计算间隔
+        /// </summary>
+        /// <param name="frame">间隔的帧数</param>
+        public void IntervalFrame(int frame)
+        {
+            GuardComplete("IntervalFrame");
+            if (task == null)
+            {
+                throw new RuntimeException("Timer Task can not be null");
+            }
+
+            frame = Math.Max(0, frame);
+            args = new TimerArgs
+            {
+                Type = TimerTypes.IntervalFrame,
+                IntArgs = new[] { frame, 0 }
+            };
+        }
+
+        /// <summary>
         /// 触发计时器
         /// </summary>
         /// <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
@@ -206,6 +248,10 @@ namespace CatLib.Timer
                     return TaskLoopTime(this, ref deltaTime);
                 case TimerTypes.LoopFrame:
                     return TaskLoopFrame(this, ref deltaTime);
+                case TimerTypes.Interval:
+                    return TaskInterval(this, ref deltaTime);
+                case TimerTypes.IntervalFrame:
+                    return TaskIntervalFrame(this, ref deltaTime);
                 default:
                     throw new RuntimeException("Undefined TimerTypes.");
             }
@@ -318,6 +364,48 @@ namespace CatLib.Timer
             {
                 timer.task.Invoke();
             }
+            return false;
+        }
+
+        /// <summary>
+        /// 间隔指定时间执行
+        /// </summary>
+        /// <param name="timer">计时器</param>
+        /// <param name="deltaTime">一帧的时间</param>
+        /// <returns>是否完成</returns>
+        private static bool TaskInterval(Timer timer, ref float deltaTime)
+        {
+            timer.args.FloatArgs[1] += deltaTime;
+            if (timer.args.FloatArgs[1] >= timer.args.FloatArgs[0])
+            {
+                timer.args.FloatArgs[1] -= timer.args.FloatArgs[0];
+                if (timer.task != null)
+                {
+                    timer.task.Invoke();
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 间隔指定时间执行
+        /// </summary>
+        /// <param name="timer">计时器</param>
+        /// <param name="deltaTime">一帧的时间</param>
+        /// <returns>是否完成</returns>
+        private static bool TaskIntervalFrame(Timer timer, ref float deltaTime)
+        {
+            ++timer.args.IntArgs[1];
+            if (timer.args.IntArgs[1] >= timer.args.IntArgs[0])
+            {
+                timer.args.IntArgs[1] -= timer.args.IntArgs[0];
+                if (timer.task != null)
+                {
+                    timer.task.Invoke();
+                }
+            }
+
             return false;
         }
 
