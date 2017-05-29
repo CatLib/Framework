@@ -10,7 +10,7 @@
  */
 
 using System;
-using CatLib.API.Time;
+using CatLib.API;
 using CatLib.API.Timer;
 
 namespace CatLib.Timer
@@ -152,7 +152,7 @@ namespace CatLib.Timer
                 case TimerTypes.LoopFrame:
                     return TaskLoopFrame(this, ref deltaTime);
                 default:
-                    return true;
+                    throw new RuntimeException("Undefined TimerTypes.");
             }
         }
 
