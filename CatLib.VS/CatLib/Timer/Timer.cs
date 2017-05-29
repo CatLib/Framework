@@ -49,7 +49,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 任务行为
         /// </summary>
-        private Action taskAction;
+        private readonly Action task;
 
         /// <summary>
         /// 计时器参数
@@ -57,14 +57,19 @@ namespace CatLib.Timer
         private TimerArgs args;
 
         /// <summary>
-        /// 创建一个任务
+        /// 计时器组
+        /// </summary>
+        public ITimerGroup Group { get; private set; }
+
+        /// <summary>
+        /// 创建一个计时器
         /// </summary>
         /// <param name="task">任务实现</param>
         /// <returns>执行的任务</returns>
-        public ITimer Task(Action task)
+        public Timer(ITimerGroup group, Action task)
         {
-            taskAction = task;
-            return this;
+            this.task = task;
+            Group = group;
         }
 
         /// <summary>
@@ -137,8 +142,9 @@ namespace CatLib.Timer
         /// </summary>
         /// <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
         /// <returns>当前计时器是否完成了任务</returns>
-        public bool Tick(ref float deltaTime)
+        internal bool Tick(ref float deltaTime)
         {
+            deltaTime = Math.Max(0, deltaTime);
             switch (args.Type)
             {
                 case TimerTypes.DelayFrame:
@@ -174,7 +180,11 @@ namespace CatLib.Timer
             {
                 return false;
             }
-            timer.taskAction.Invoke();
+
+            if (timer.task != null)
+            {
+                timer.task.Invoke();
+            }
             return true;
         }
 
@@ -199,7 +209,11 @@ namespace CatLib.Timer
             }
 
             deltaTime = timer.args.FloatArgs[1] - timer.args.FloatArgs[0];
-            timer.taskAction.Invoke();
+
+            if (timer.task != null)
+            {
+                timer.task.Invoke();
+            }
             return true;
         }
 
@@ -216,7 +230,10 @@ namespace CatLib.Timer
                 return true;
             }
 
-            timer.taskAction.Invoke();
+            if (timer.task != null)
+            {
+                timer.task.Invoke();
+            }
             return false;
         }
 
@@ -239,7 +256,10 @@ namespace CatLib.Timer
                 }
             }
 
-            timer.taskAction.Invoke();
+            if (timer.task != null)
+            {
+                timer.task.Invoke();
+            }
             return false;
         }
 
@@ -261,7 +281,10 @@ namespace CatLib.Timer
                 }
             }
 
-            timer.taskAction.Invoke();
+            if (timer.task != null)
+            {
+                timer.task.Invoke();
+            }
             return false;
         }
     }

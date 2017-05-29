@@ -22,14 +22,14 @@ namespace CatLib.Timer
     internal sealed class TimerGroup : ITimerGroup
     {
         /// <summary>
+        /// 是否是暂停的
+        /// </summary>
+        internal bool IsPause { get; set; }
+
+        /// <summary>
         /// 时间实现
         /// </summary>
         private readonly ITime time;
-
-        /// <summary>
-        /// 计时器管理器
-        /// </summary>
-        private readonly TimerManager manager;
 
         /// <summary>
         /// 计时器列表
@@ -42,24 +42,28 @@ namespace CatLib.Timer
         private Action onComplete;
 
         /// <summary>
-        /// 构建一个计时器组
+        /// 游标,确定了当前执行的timer位置
         /// </summary>
-        /// <param name="manager">计时器管理器</param>
-        /// <param name="time">时间实现</param>
-        public TimerGroup(TimerManager manager, ITime time)
+        private int cursor;
+
+        /// <summary>
+        /// 当前计时器组是否完成的
+        /// </summary>
+        private bool IsComplete
         {
-            this.time = time;
-            this.manager = manager;
-            timers = new List<Timer>();
+            get { return cursor < timers.Count; }
         }
 
         /// <summary>
-        /// 将计时器加入组
+        /// 构建一个计时器组
         /// </summary>
-        /// <param name="timer">计时器</param>
-        public void Add(Timer timer)
+        /// <param name="time">时间实现</param>
+        public TimerGroup(ITime time)
         {
-            timers.Add(timer);
+            this.time = time;
+            timers = new List<Timer>();
+            cursor = 0;
+            IsPause = false;
         }
 
         /// <summary>
@@ -74,49 +78,55 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 每帧更新
+        /// 触发计时器
         /// </summary>
-        public void Update()
+        /// <returns>计时器组是否已经完成</returns>
+        internal bool Tick()
         {
-            var isAllComplete = true;
+            if (IsPause)
+            {
+                return IsComplete;
+            }
             var deltaTime = time.DeltaTime;
-            bool jumpFlag;
-            for (var i = 0; i < timers.Count; ++i)
+            Timer timer;
+            while ((timer = GetTimer()) != null)
             {
-                if (queueTasks[i].IsComplete)
-                {
-                    continue;
-                }
-
-                isAllComplete = false;
-                jumpFlag = false;
-
-                while (queueTasks[i].TimeLineIndex < queueTasks[i].TimeLine.Count)
-                {
-                    if (RunTask(queueTasks[i], ref deltaTime))
-                    {
-                        continue;
-                    }
-                    jumpFlag = true;
-                    break;
-                }
-
-                if (jumpFlag)
+                if (!timer.Tick(ref deltaTime))
                 {
                     break;
                 }
-                if (deltaTime <= 0)
-                {
-                    break;
-                }
-
-                CallTaskComplete(queueTasks[i]);
+                ++cursor;
             }
 
-            if (isAllComplete)
+            if (!IsComplete)
             {
-                QueueComplete();
+                return false;
             }
+
+            if (onComplete != null)
+            {
+                onComplete.Invoke();
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 将计时器加入组
+        /// </summary>
+        /// <param name="timer">计时器</param>
+        internal void Add(Timer timer)
+        {
+            timers.Add(timer);
+        }
+
+        /// <summary>
+        /// 获取计时器
+        /// </summary>
+        /// <returns></returns>
+        private Timer GetTimer()
+        {
+            return !IsComplete ? timers[cursor] : null;
         }
     }
 }

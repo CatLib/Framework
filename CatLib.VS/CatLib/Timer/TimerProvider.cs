@@ -9,16 +9,21 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.TimeQueue
+using CatLib.API.Timer;
+
+namespace CatLib.Timer
 {
     /// <summary>
-    /// 时间任务处理句柄
+    /// 计时器服务
     /// </summary>
-    public interface ITimeTaskHandler
+    public sealed class TimerProvider : ServiceProvider
     {
         /// <summary>
-        /// 撤销任务执行
+        /// 注册计时器服务
         /// </summary>
-        void Cancel();
+        public override void Register()
+        {
+            App.Singleton<TimerManager>().Alias<ITimerManager>();
+        }
     }
 }

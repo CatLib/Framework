@@ -74,8 +74,10 @@
     <Compile Include="API\FileSystem\Internal\IHandler.cs" />
     <Compile Include="API\FileSystem\IFileSystemManager.cs" />
     <Compile Include="API\Stl\Template\IManager.cs" />
-    <Compile Include="API\Timer\ITimer.cs" />
-    <Compile Include="API\Timer\ITimerGroup.cs" />
+    <Compile Include="API\Stl\Template\ISingleManager.cs" />
+    <Compile Include="API\Timer\Internal\ITimer.cs" />
+    <Compile Include="API\Timer\Internal\ITimerGroup.cs" />
+    <Compile Include="API\Timer\ITimerManager.cs" />
     <Compile Include="API\Time\ITimeManager.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
@@ -136,9 +138,6 @@
     <Compile Include="API\Thread\Internal\ITask.cs" />
     <Compile Include="API\Thread\Internal\ITaskHandler.cs" />
     <Compile Include="API\Thread\IThread.cs" />
-    <Compile Include="API\TimeQueue\Internal\ITimeTask.cs" />
-    <Compile Include="API\TimeQueue\Internal\ITimeTaskHandler.cs" />
-    <Compile Include="API\TimeQueue\ITimeQueue.cs" />
     <Compile Include="API\Time\Internal\ITime.cs" />
     <Compile Include="Container\BindData.cs" />
     <Compile Include="Container\Container.cs" />
@@ -185,15 +184,11 @@
     <Compile Include="Stl\QuickList\QuickList.cs" />
     <Compile Include="Stl\SortSet\SortSet.cs" />
     <Compile Include="Stl\Template\Manager.cs" />
-    <Compile Include="TimeQueue\TimeQueue.cs" />
-    <Compile Include="TimeQueue\TimeQueueProvider.cs" />
-    <Compile Include="TimeQueue\TimeRunner.cs" />
-    <Compile Include="TimeQueue\TimeTask.cs" />
-    <Compile Include="TimeQueue\TimeTaskAction.cs" />
-    <Compile Include="TimeQueue\TimeTaskActionTypes.cs" />
+    <Compile Include="Stl\Template\SingleManager.cs" />
     <Compile Include="Timer\Timer.cs" />
     <Compile Include="Timer\TimerGroup.cs" />
     <Compile Include="Timer\TimerManager.cs" />
+    <Compile Include="Timer\TimerProvider.cs" />
     <Compile Include="Timer\TimerTypes.cs" />
     <Compile Include="Time\TimeManager.cs" />
     <Compile Include="Time\TimeProvider.cs" />
@@ -208,7 +203,7 @@
     <None Include="FileSystem\catlib.json" />
     <None Include="Routing\catlib.json" />
     <None Include="Stl\catlib.json" />
-    <None Include="TimeQueue\catlib.json" />
+    <None Include="Timer\catlib.json" />
     <None Include="Time\catlib.json" />
   </ItemGroup>
   <ItemGroup />

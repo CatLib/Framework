@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+
 namespace CatLib.API.Timer
 {
     /// <summary>
@@ -16,5 +18,11 @@ namespace CatLib.API.Timer
     /// </summary>
     public interface ITimerGroup
     {
+        /// <summary>
+        /// 当组的所有计时器完成时
+        /// </summary>
+        /// <param name="onComplete">完成时</param>
+        /// <returns>当前组实例</returns>
+        ITimerGroup OnComplete(Action onComplete);
     }
 }

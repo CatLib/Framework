@@ -26,11 +26,6 @@ namespace CatLib.API.Stl
         TInterface Get(string name = null);
 
         /// <summary>
-        /// 获取默认的解决方案
-        /// </summary>
-        TInterface Default { get; }
-
-        /// <summary>
         /// 获取解决方案
         /// </summary>
         /// <param name="name">解决方案名</param>
@@ -43,11 +38,5 @@ namespace CatLib.API.Stl
         /// <param name="resolve">解决方案实现</param>
         /// <param name="name">解决方案名</param>
         void Extend(Func<TInterface> resolve, string name = null);
-
-        /// <summary>
-        /// 释放解决方案
-        /// </summary>
-        /// <param name="name">解决方案名</param>
-        void Release(string name);
     }
 }

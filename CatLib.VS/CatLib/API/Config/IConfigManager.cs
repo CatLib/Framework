@@ -16,7 +16,7 @@ namespace CatLib.API.Config
     /// <summary>
     /// 配置管理器
     /// </summary>
-    public interface IConfigManager : IManager<IConfig>
+    public interface IConfigManager : ISingleManager<IConfig>
     {
         /// <summary>
         /// 设定默认的配置名

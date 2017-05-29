@@ -9,21 +9,22 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API.Stl;
-
-namespace CatLib.API.FileSystem
+namespace CatLib.API.Stl
 {
     /// <summary>
-    /// 文件系统管理器
+    /// 管理器
     /// </summary>
-    public interface IFileSystemManager : ISingleManager<IFileSystem>
+    public interface ISingleManager<TInterface> : IManager<TInterface>
     {
         /// <summary>
-        /// 获取一个文件系统解决方案(磁盘)
+        /// 获取默认的解决方案
+        /// </summary>
+        TInterface Default { get; }
+
+        /// <summary>
+        /// 释放解决方案
         /// </summary>
         /// <param name="name">解决方案名</param>
-        /// <returns>文件系统</returns>
-        IFileSystem Disk(string name = null);
+        void Release(string name = null);
     }
 }

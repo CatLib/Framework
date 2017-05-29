@@ -105,6 +105,7 @@
     <Compile Include="Stl\QuickList\InternalListTests.cs" />
     <Compile Include="Stl\QuickList\QuickListTests.cs" />
     <Compile Include="Stl\SortSet\SortSetTests.cs" />
+    <Compile Include="Stl\Template\SingleManagerTests.cs" />
     <Compile Include="Time\TimeProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>

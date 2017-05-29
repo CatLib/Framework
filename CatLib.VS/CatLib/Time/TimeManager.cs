@@ -19,7 +19,7 @@ namespace CatLib.Time
     /// 时间服务管理器
     /// 时间服务允许获取一个或者多个不同类型的时间
     /// </summary>
-    public sealed class TimeManager : Manager<ITime> , ITimeManager
+    public sealed class TimeManager : SingleManager<ITime> , ITimeManager
     {
         /// <summary>
         /// 配置
