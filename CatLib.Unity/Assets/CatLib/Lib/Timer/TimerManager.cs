@@ -20,7 +20,6 @@ namespace CatLib.Timer
 {
     /// <summary>
     /// 计时器管理器
-    /// 创建计时器的当前逻辑帧不视作一个有效逻辑帧
     /// </summary>
     public sealed class TimerManager : Manager<ITimerQueue> , ITimerManager, IUpdate
     {
