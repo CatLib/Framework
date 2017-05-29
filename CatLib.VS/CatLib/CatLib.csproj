@@ -44,10 +44,10 @@
     <Compile Include="API\Config\Features\IConfigLocator.cs" />
     <Compile Include="API\Config\Internal\IConfig.cs" />
     <Compile Include="API\Config\IConfigManager.cs" />
-    <Compile Include="API\Container\Features\InjectAttribute.cs" />
-    <Compile Include="API\Container\IContainer.cs" />
-    <Compile Include="API\Container\Internal\IBindData.cs" />
-    <Compile Include="API\Container\Internal\IGivenData.cs" />
+    <Compile Include="API\Stl\Container\Features\InjectAttribute.cs" />
+    <Compile Include="API\Stl\Container\IContainer.cs" />
+    <Compile Include="API\Stl\Container\Internal\IBindData.cs" />
+    <Compile Include="API\Stl\Container\Internal\IGivenData.cs" />
     <Compile Include="API\Core\ApplicationEvents.cs" />
     <Compile Include="API\Core\DebugLevels.cs" />
     <Compile Include="API\Core\EventLevels.cs" />
@@ -139,10 +139,10 @@
     <Compile Include="API\Thread\Internal\ITaskHandler.cs" />
     <Compile Include="API\Thread\IThread.cs" />
     <Compile Include="API\Time\Internal\ITime.cs" />
-    <Compile Include="Container\BindData.cs" />
-    <Compile Include="Container\Container.cs" />
-    <Compile Include="Container\ContainerHelper.cs" />
-    <Compile Include="Container\GivenData.cs" />
+    <Compile Include="Stl\Container\BindData.cs" />
+    <Compile Include="Stl\Container\Container.cs" />
+    <Compile Include="Stl\Container\ContainerHelper.cs" />
+    <Compile Include="Stl\Container\GivenData.cs" />
     <Compile Include="Core\App.cs" />
     <Compile Include="Core\Application.cs" />
     <Compile Include="Core\CoreProvider.cs" />
@@ -197,7 +197,6 @@
   <ItemGroup>
     <None Include="API\catlib.json" />
     <None Include="Config\catlib.json" />
-    <None Include="Container\catlib.json" />
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
     <None Include="FileSystem\catlib.json" />

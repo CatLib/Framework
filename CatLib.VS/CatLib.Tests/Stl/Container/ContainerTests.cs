@@ -22,7 +22,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
-namespace CatLib.Tests.Container
+namespace CatLib.Tests.Stl
 {
     /// <summary>
     /// 容器测试用例
@@ -628,7 +628,7 @@ namespace CatLib.Tests.Container
         public void MakeBaseAssemblyToGetType()
         {
             var container = MakeContainer();
-            var cont = container.Make<CatLib.Container.Container>();
+            var cont = container.Make<CatLib.Stl.Container>();
             Assert.AreNotEqual(null, cont);
         }
 
@@ -1262,9 +1262,9 @@ namespace CatLib.Tests.Container
         /// 生成容器
         /// </summary>
         /// <returns>容器</returns>
-        private CatLib.Container.Container MakeContainer()
+        private CatLib.Stl.Container MakeContainer()
         {
-            var container = new CatLib.Container.Container();
+            var container = new CatLib.Stl.Container();
             return container;
         }
     }

@@ -13,10 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using CatLib.API;
-using CatLib.API.Container;
-using CatLib.Stl;
+using CatLib.API.Stl;
 
-namespace CatLib.Container
+namespace CatLib.Stl
 {
     ///<summary>
     /// 依赖注入容器

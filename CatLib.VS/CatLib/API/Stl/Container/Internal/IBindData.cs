@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.API.Container
+namespace CatLib.API.Stl
 {
     /// <summary>
     /// 服务绑定数据

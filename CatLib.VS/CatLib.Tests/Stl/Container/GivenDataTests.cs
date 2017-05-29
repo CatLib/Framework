@@ -19,7 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
-namespace CatLib.Tests.Container
+namespace CatLib.Tests.Stl
 {
     /// <summary>
     /// 给与数据测试用例
@@ -33,14 +33,14 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CanGiven()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CanGiven", (app, param) => "hello world", false);
-            var givenData = new CatLib.Container.GivenData(bindData);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CanGiven", (app, param) => "hello world", false);
+            var givenData = new CatLib.Stl.GivenData(bindData);
             givenData.Needs("needs1");
             givenData.Given("hello");
             Assert.AreEqual("hello", bindData.GetContextual("needs1"));
 
-            givenData = new CatLib.Container.GivenData(bindData);
+            givenData = new CatLib.Stl.GivenData(bindData);
             givenData.Needs("needs2");
             givenData.Given<GivenDataTest>();
             Assert.AreEqual(typeof(GivenDataTest).ToString(), bindData.GetContextual("needs2"));
@@ -52,9 +52,9 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CheckGivenIllegalValue()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CanGiven", (app, param) => "hello world", false);
-            var givenData = new CatLib.Container.GivenData(bindData);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CanGiven", (app, param) => "hello world", false);
+            var givenData = new CatLib.Stl.GivenData(bindData);
             givenData.Needs("needs");
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>

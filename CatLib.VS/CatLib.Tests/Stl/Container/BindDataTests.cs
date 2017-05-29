@@ -10,9 +10,8 @@
  */
 
 using System;
-using System.Collections.Generic;
 using CatLib.API;
-using CatLib.API.Container;
+using CatLib.Stl;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -23,7 +22,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
-namespace CatLib.Tests.Container
+namespace CatLib.Tests.Stl
 {
     /// <summary>
     /// 绑定数据测试用例
@@ -38,8 +37,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CheckNeedsIsNotNull()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "NeedsIsNotNull", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "NeedsIsNotNull", (app, param) => "hello world", false);
 
             var needs = bindData.Needs("TestService");
             var needsWithType = bindData.Needs<BindDataTest>();
@@ -54,8 +53,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CheckNeedsIllegalValue()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CheckNeedsIllegalValue", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CheckNeedsIllegalValue", (app, param) => "hello world", false);
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
@@ -74,8 +73,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CanGetContextual()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "NeedsIsNotNull", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "NeedsIsNotNull", (app, param) => "hello world", false);
 
             bindData.Needs("need1").Given("abc");
             bindData.Needs("need2").Given<BindDataTest>();
@@ -93,7 +92,7 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CanAddAlias()
         {
-            var container = new CatLib.Container.Container();
+            var container = new CatLib.Stl.Container();
             var bindData = container.Bind("CanAddAlias", (app, param) => "hello world", false);
 
             bindData.Alias("Alias");
@@ -113,8 +112,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CheckIllegalAlias()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CheckIllegalAlias", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CheckIllegalAlias", (app, param) => "hello world", false);
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
@@ -134,8 +133,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CanOnRelease()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CanAddOnRelease", (app, param) => "hello world", true);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CanAddOnRelease", (app, param) => "hello world", true);
 
             bindData.OnRelease((bind, obj) =>
             {
@@ -152,8 +151,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CheckIllegalRelease()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CheckIllegalRelease", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CheckIllegalRelease", (app, param) => "hello world", false);
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
@@ -180,12 +179,12 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CanAddOnResolving()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CanAddOnResolving", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CanAddOnResolving", (app, param) => "hello world", false);
 
             bindData.OnResolving((bind, obj) => null);
 
-            var data = bindData.ExecResolvingDecorator(new CatLib.Container.Container());
+            var data = bindData.ExecResolvingDecorator(new CatLib.Stl.Container());
             Assert.AreEqual(null, data);
         }
 
@@ -195,8 +194,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CheckIllegalResolving()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "CanAddOnResolving", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "CanAddOnResolving", (app, param) => "hello world", false);
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
@@ -212,7 +211,7 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CanUnBind()
         {
-            var container = new CatLib.Container.Container();
+            var container = new CatLib.Stl.Container();
             var bindData = container.Bind("CanUnBind", (app, param) => "hello world", false);
 
             Assert.AreEqual("hello world", container.Make("CanUnBind").ToString());
@@ -226,7 +225,7 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void CheckIllegalUnBindInput()
         {
-            var container = new CatLib.Container.Container();
+            var container = new CatLib.Stl.Container();
             var bindData = container.Bind("CanUnBind", (app, param) => "hello world", false);
             bindData.UnBind();
 
@@ -245,8 +244,8 @@ namespace CatLib.Tests.Container
         [TestMethod]
         public void AddContextualRepeat()
         {
-            var container = new CatLib.Container.Container();
-            var bindData = new CatLib.Container.BindData(container, "AddContextualRepeat", (app, param) => "hello world", false);
+            var container = new CatLib.Stl.Container();
+            var bindData = new CatLib.Stl.BindData(container, "AddContextualRepeat", (app, param) => "hello world", false);
 
             bindData.AddContextual("service", "service given");
             ExceptionAssert.Throws<RuntimeException>(() =>

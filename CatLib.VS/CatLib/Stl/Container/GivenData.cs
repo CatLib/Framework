@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Container;
-using CatLib.Stl;
+using CatLib.API.Stl;
 
-namespace CatLib.Container
+namespace CatLib.Stl
 {
     /// <summary>
     /// 绑定关系临时数据,用于支持链式调用

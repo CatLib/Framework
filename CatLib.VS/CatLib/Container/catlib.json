@@ -1,8 +1,0 @@
-{
-  "source": "catlib/container",
-  "folder": "Container",
-  "require": {
-    "catlib/api": "~1.0",
-    "catlib/stl": "~1.0"
-  }
-}

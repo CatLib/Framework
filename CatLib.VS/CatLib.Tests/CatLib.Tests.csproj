@@ -73,9 +73,9 @@
     <Compile Include="Config\Converters\UInt64StringConverterTests.cs" />
     <Compile Include="Config\ConfigTests.cs" />
     <Compile Include="Config\ConfigProviderTests.cs" />
-    <Compile Include="Container\BindDataTests.cs" />
-    <Compile Include="Container\ContainerTests.cs" />
-    <Compile Include="Container\GivenDataTests.cs" />
+    <Compile Include="Stl\Container\BindDataTests.cs" />
+    <Compile Include="Stl\Container\ContainerTests.cs" />
+    <Compile Include="Stl\Container\GivenDataTests.cs" />
     <Compile Include="Core\ApplicationTests.cs" />
     <Compile Include="Core\ContainerHelperTests.cs" />
     <Compile Include="Core\DriverTests.cs" />
@@ -106,6 +106,7 @@
     <Compile Include="Stl\QuickList\QuickListTests.cs" />
     <Compile Include="Stl\SortSet\SortSetTests.cs" />
     <Compile Include="Stl\Template\SingleManagerTests.cs" />
+    <Compile Include="Timer\TimerProviderTests.cs" />
     <Compile Include="Time\TimeProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>

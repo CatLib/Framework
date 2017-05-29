@@ -30,7 +30,6 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestMethod1()
         {
-
         }
     }
 }

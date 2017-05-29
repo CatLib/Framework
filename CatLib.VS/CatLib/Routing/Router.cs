@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API.Event;
-using CatLib.API.Container;
 using CatLib.API.Routing;
 using CatLib.API.Stl;
 using CatLib.Stl;

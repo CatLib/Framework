@@ -12,10 +12,9 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API;
-using CatLib.API.Container;
-using CatLib.Stl;
+using CatLib.API.Stl;
 
-namespace CatLib.Container
+namespace CatLib.Stl
 {
     /// <summary>
     /// 服务绑定数据

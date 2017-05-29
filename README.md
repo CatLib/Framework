@@ -10,7 +10,7 @@
 
 > **风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险（审计中的组件是可以放心使用的）(包括但不限于不完整的单元测试,接口的变化,组件的废弃,不完善的错误提示,运行时错误). 当前版本提出的issues一般情况下会在24小时内响应。
 
-> **审计中的组件(通过审计的组件将会在6月发布):** Container 组件 , CatLib 核心 ，Stl 组件中的(SortSet,QuickList,LruCache,FilterChain) , Routing 组件 , FileSystem 组件 , Config 组件 , Time 组件
+> **审计中的组件(通过审计的组件将会在6月发布):** CatLib 核心 ，Stl 组件中的(Container,SortSet,QuickList,LruCache,FilterChain) , Routing 组件 , FileSystem 组件 , Config 组件 , Time 组件
 
 > **组件临时移除通知:** 6月100%不发布的组件已经从Master中移除，但您可以在 backup/master-20170522 分支中找到她们。
 

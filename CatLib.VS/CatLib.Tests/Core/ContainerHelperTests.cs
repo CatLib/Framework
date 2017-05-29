@@ -107,9 +107,9 @@ namespace CatLib.Tests.Core
         /// 生成容器
         /// </summary>
         /// <returns>容器</returns>
-        private CatLib.Container.Container MakeContainer()
+        private CatLib.Stl.Container MakeContainer()
         {
-            var container = new CatLib.Container.Container();
+            var container = new CatLib.Stl.Container();
             container.Instance("ContainerHelperTests", this);
             container.Instance(typeof(ContainerHelperTests).ToString(), this);
             return container;
