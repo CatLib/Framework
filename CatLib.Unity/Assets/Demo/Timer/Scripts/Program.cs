@@ -15,7 +15,7 @@ using CatLib.Event;
 using CatLib.Time;
 using CatLib.Timer;
 
-namespace CatLib.Demo.TimeQueue
+namespace CatLib.Demo.Timer
 {
     /**
      * 这个类提供了当前demo演示时用到的组件 
@@ -28,7 +28,7 @@ namespace CatLib.Demo.TimeQueue
             App.Instance.Register(typeof(TimerProvider));
             App.Instance.Register(typeof(TimeProvider));
             App.Instance.Register(typeof(EventProvider));
-            App.Instance.Register(typeof(TimeQueueDemo));
+            App.Instance.Register(typeof(TimerDemo));
         }
 
     }

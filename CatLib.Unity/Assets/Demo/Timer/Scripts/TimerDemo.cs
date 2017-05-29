@@ -2,12 +2,10 @@
 using CatLib.API.Timer;
 using UnityEngine;
 
-namespace CatLib.Demo.TimeQueue
+namespace CatLib.Demo.Timer
 {
-
-    public class TimeQueueDemo : ServiceProvider
+    public class TimerDemo : ServiceProvider
     {
-
         public override void Init()
         {
             App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
@@ -16,6 +14,11 @@ namespace CatLib.Demo.TimeQueue
 
                 Debug.Log("frame count: " + UnityEngine.Time.frameCount);
 
+                var statu = 0;
+                timerManager.Make(() =>
+                {
+                    Debug.Log("tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
+                }).IntervalFrame(2);
             });
         }
 
@@ -23,6 +26,5 @@ namespace CatLib.Demo.TimeQueue
         {
 
         }
-
     }
 }

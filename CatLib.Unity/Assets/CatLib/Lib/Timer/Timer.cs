@@ -167,6 +167,7 @@ namespace CatLib.Timer
         public void Interval(float time)
         {
             GuardComplete("Interval");
+            Guard.Requires<ArgumentOutOfRangeException>(time > 0);
             if (task == null)
             {
                 throw new RuntimeException("Timer Task can not be null");
@@ -188,12 +189,12 @@ namespace CatLib.Timer
         public void IntervalFrame(int frame)
         {
             GuardComplete("IntervalFrame");
+            Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
             if (task == null)
             {
                 throw new RuntimeException("Timer Task can not be null");
             }
 
-            frame = Math.Max(0, frame);
             args = new TimerArgs
             {
                 Type = TimerTypes.IntervalFrame,
@@ -212,10 +213,6 @@ namespace CatLib.Timer
 
             if (args == null)
             {
-                if (task != null)
-                {
-                    task.Invoke();
-                }
                 isComplete = true;
                 return true;
             }
@@ -376,7 +373,7 @@ namespace CatLib.Timer
         private static bool TaskInterval(Timer timer, ref float deltaTime)
         {
             timer.args.FloatArgs[1] += deltaTime;
-            if (timer.args.FloatArgs[1] >= timer.args.FloatArgs[0])
+            while (timer.args.FloatArgs[1] >= timer.args.FloatArgs[0])
             {
                 timer.args.FloatArgs[1] -= timer.args.FloatArgs[0];
                 if (timer.task != null)
@@ -397,7 +394,7 @@ namespace CatLib.Timer
         private static bool TaskIntervalFrame(Timer timer, ref float deltaTime)
         {
             ++timer.args.IntArgs[1];
-            if (timer.args.IntArgs[1] >= timer.args.IntArgs[0])
+            while (timer.args.IntArgs[1] >= timer.args.IntArgs[0])
             {
                 timer.args.IntArgs[1] -= timer.args.IntArgs[0];
                 if (timer.task != null)

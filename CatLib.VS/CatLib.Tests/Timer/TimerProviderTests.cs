@@ -606,7 +606,7 @@ namespace CatLib.Tests.Timer
                 RunTime(App.Instance, 1);
             });
 
-            Assert.AreEqual(1, statu);
+            Assert.AreEqual(0, statu);
         }
 
         /// <summary>
