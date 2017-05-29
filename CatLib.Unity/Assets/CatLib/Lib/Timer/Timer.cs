@@ -104,7 +104,7 @@ namespace CatLib.Timer
         public void DelayFrame(int frame)
         {
             GuardComplete("DelayFrame");
-            frame = Math.Max(0, frame);
+            Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
             args = new TimerArgs
             {
                 Type = TimerTypes.DelayFrame,
@@ -114,7 +114,6 @@ namespace CatLib.Timer
 
         /// <summary>
         /// 当前逻辑帧后 ，循环执行指定时间
-        /// (如: 为0则表示当前逻辑帧后的下一帧执行)
         /// </summary>
         /// <param name="time">循环时间(秒)</param>
         public void Loop(float time)
@@ -256,7 +255,7 @@ namespace CatLib.Timer
         /// <returns>是否完成</returns>
         private static bool TaskDelayFrame(Timer timer, ref float deltaTime)
         {
-            if (++timer.args.IntArgs[1] <= timer.args.IntArgs[0])
+            if (++timer.args.IntArgs[1] < timer.args.IntArgs[0])
             {
                 deltaTime = 0;
                 return false;
@@ -322,7 +321,6 @@ namespace CatLib.Timer
         private static bool TaskLoopTime(Timer timer, ref float deltaTime)
         {
             timer.args.FloatArgs[1] += deltaTime;
-
             if (timer.args.FloatArgs[1] > timer.args.FloatArgs[0])
             {
                 deltaTime = timer.args.FloatArgs[1] - timer.args.FloatArgs[0];
@@ -344,8 +342,7 @@ namespace CatLib.Timer
         /// <returns>是否完成</returns>
         private static bool TaskLoopFrame(Timer timer, ref float deltaTime)
         {
-            timer.args.IntArgs[1] += 1;
-            if (timer.args.IntArgs[1] > timer.args.IntArgs[0])
+            if (++timer.args.IntArgs[1] > timer.args.IntArgs[0])
             {
                 deltaTime = 0;
                 return true;

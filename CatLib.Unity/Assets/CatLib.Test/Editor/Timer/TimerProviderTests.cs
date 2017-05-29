@@ -281,7 +281,7 @@ namespace CatLib.Tests.Timer
 
             Assert.AreEqual(false , statu);
             RunFrame(App.Instance, 1);
-            Assert.AreEqual(false, statu);
+            Assert.AreEqual(true, statu);
             RunFrame(App.Instance, 1);
             Assert.AreEqual(true, statu);
             RunFrame(App.Instance, 1);
@@ -299,23 +299,7 @@ namespace CatLib.Tests.Timer
             }).DelayFrame(1);
 
             RunFrame(App.Instance, 1);
-            Assert.AreEqual(false, statu);
-            RunFrame(App.Instance, 1);
             Assert.AreEqual(true, statu);
-            RunFrame(App.Instance, 1);
-            Assert.AreEqual(true, statu);
-        }
-
-        [TestMethod]
-        public void TestTimerSimpleDelayFrameZero()
-        {
-            var timer = App.Instance.Make<ITimerManager>();
-            var statu = false;
-            timer.Make(() =>
-            {
-                statu = !statu;
-            }).DelayFrame(0);
-
             RunFrame(App.Instance, 1);
             Assert.AreEqual(true, statu);
             RunFrame(App.Instance, 1);
@@ -331,7 +315,7 @@ namespace CatLib.Tests.Timer
             {
                 statu = !statu;
             });
-            t.DelayFrame(0);
+            t.DelayFrame(1);
             RunFrame(App.Instance, 1);
             Assert.AreEqual(true, statu);
 

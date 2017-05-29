@@ -19,6 +19,16 @@ namespace CatLib.Demo.Timer
                 {
                     Debug.Log("tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
                 }).IntervalFrame(2);
+
+                timerManager.Make(() =>
+                {
+                    Debug.Log("delay tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
+                }).DelayFrame(1);
+
+                timerManager.Make(() =>
+                {
+                    Debug.Log("loop frame tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
+                }).LoopFrame(3);
             });
         }
 
