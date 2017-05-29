@@ -217,13 +217,7 @@ namespace CatLib.Timer
                 return true;
             }
 
-            var result = ExecTask(ref deltaTime);
-            if (result)
-            {
-                isComplete = true;
-            }
-
-            return result;
+            return isComplete = ExecTask(ref deltaTime);
         }
 
         /// <summary>
