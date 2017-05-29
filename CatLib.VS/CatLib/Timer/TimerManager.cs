@@ -20,6 +20,7 @@ namespace CatLib.Timer
 {
     /// <summary>
     /// 计时器管理器
+    /// 创建计时器的当前逻辑帧不视作一个有效逻辑帧
     /// </summary>
     public sealed class TimerManager : Manager<ITimerGroup> , ITimerManager, IUpdate
     {
@@ -57,7 +58,9 @@ namespace CatLib.Timer
         public ITimer Create(Action task = null)
         {
             var withGroupStack = timerGroup.Count > 0;
-            var group = withGroupStack ? timerGroup.Peek() : new TimerGroup(timeManager.Default);
+            var group = withGroupStack
+                ? timerGroup.Peek()
+                : new TimerGroup(timeManager.Default);
             var timer = new Timer(group, task);
             group.Add(timer);
             if (!withGroupStack)
@@ -86,6 +89,7 @@ namespace CatLib.Timer
             {
                 timerGroup.Pop();
             }
+
             executeList.Add(group, priority);
             return group;
         }

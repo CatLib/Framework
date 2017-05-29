@@ -19,6 +19,11 @@ namespace CatLib.API.Timer
     public interface ITimerGroup
     {
         /// <summary>
+        /// 是否是暂停的
+        /// </summary>
+        bool IsPause { get; }
+
+        /// <summary>
         /// 当组的所有计时器完成时
         /// </summary>
         /// <param name="onComplete">完成时</param>

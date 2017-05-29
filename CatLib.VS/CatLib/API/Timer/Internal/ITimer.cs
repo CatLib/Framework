@@ -24,31 +24,32 @@ namespace CatLib.API.Timer
         ITimerGroup Group { get; }
 
         /// <summary>
-        /// 延迟时间执行
+        /// 当前逻辑帧后，延迟指定时间后执行
         /// </summary>
         /// <param name="time">延迟时间(秒)</param>
         void Delay(float time);
 
         /// <summary>
-        /// 延迟帧执行
+        /// 当前逻辑帧后 ，延迟指定帧数帧后执行
+        /// (如: 为0则表示当前逻辑帧后的下一帧执行)
         /// </summary>
         /// <param name="frame">帧数</param>
         void DelayFrame(int frame);
 
         /// <summary>
-        /// 循环执行指定时间
+        /// 当前逻辑帧后 ，循环执行指定时间
         /// </summary>
         /// <param name="time">循环时间(秒)</param>
         void Loop(float time);
 
         /// <summary>
-        /// 循环执行，直到函数返回false
+        /// 当前逻辑帧后 ，循环执行，直到函数返回false
         /// </summary>
         /// <param name="loopFunc">循环状态函数</param>
         void Loop(Func<bool> loopFunc);
 
         /// <summary>
-        /// 循环执行指定帧数
+        /// 当前逻辑帧后 ，循环执行指定帧数
         /// </summary>
         /// <param name="frame">循环的帧数</param>
         void LoopFrame(int frame);

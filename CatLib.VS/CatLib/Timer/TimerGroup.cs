@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Time;
 using CatLib.API.Timer;
 
@@ -24,7 +25,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 是否是暂停的
         /// </summary>
-        internal bool IsPause { get; set; }
+        public bool IsPause { get; internal set; }
 
         /// <summary>
         /// 时间实现
@@ -47,6 +48,11 @@ namespace CatLib.Timer
         private int cursor;
 
         /// <summary>
+        /// 构建时间组时的逻辑帧
+        /// </summary>
+        private readonly int frame;
+
+        /// <summary>
         /// 当前计时器组是否完成的
         /// </summary>
         private bool IsComplete
@@ -63,6 +69,7 @@ namespace CatLib.Timer
             this.time = time;
             timers = new List<Timer>();
             cursor = 0;
+            frame = time.FrameCount;
             IsPause = false;
         }
 
@@ -73,6 +80,7 @@ namespace CatLib.Timer
         /// <returns>当前组实例</returns>
         public ITimerGroup OnComplete(Action onComplete)
         {
+            GuardComplete("OnComplete");
             this.onComplete = onComplete;
             return this;
         }
@@ -83,10 +91,11 @@ namespace CatLib.Timer
         /// <returns>计时器组是否已经完成</returns>
         internal bool Tick()
         {
-            if (IsPause)
+            if (IsPause || frame >= time.FrameCount)
             {
                 return IsComplete;
             }
+
             var deltaTime = time.DeltaTime;
             Timer timer;
             while ((timer = GetTimer()) != null)
@@ -127,6 +136,18 @@ namespace CatLib.Timer
         private Timer GetTimer()
         {
             return !IsComplete ? timers[cursor] : null;
+        }
+
+        /// <summary>
+        /// 检测完成状态
+        /// </summary>
+        /// <param name="func">函数名</param>
+        private void GuardComplete(string func)
+        {
+            if (IsComplete)
+            {
+                throw new RuntimeException("Timer Group is complete , Can not call " + func + "();");
+            }
         }
     }
 }

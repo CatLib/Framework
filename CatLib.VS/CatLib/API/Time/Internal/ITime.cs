@@ -59,7 +59,7 @@ namespace CatLib.API.Time
         /// <summary>
         /// 总帧数
         /// </summary>
-        float FrameCount { get; }
+        int FrameCount { get; }
 
         /// <summary>
         /// 自游戏开始后的总时间（暂停也会增加）

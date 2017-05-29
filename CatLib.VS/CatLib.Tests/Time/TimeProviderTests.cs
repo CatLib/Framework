@@ -77,7 +77,7 @@ namespace CatLib.Tests.Time
             /// <summary>
             /// 总帧数
             /// </summary>
-            public float FrameCount { get; private set; }
+            public int FrameCount { get; private set; }
 
             /// <summary>
             /// 自游戏开始后的总时间（暂停也会增加）

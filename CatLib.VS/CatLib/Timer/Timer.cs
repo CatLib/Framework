@@ -12,6 +12,7 @@
 using System;
 using CatLib.API;
 using CatLib.API.Timer;
+using CatLib.Stl;
 
 namespace CatLib.Timer
 {
@@ -57,6 +58,11 @@ namespace CatLib.Timer
         private TimerArgs args;
 
         /// <summary>
+        /// 当前计时器是否已经被完成
+        /// </summary>
+        private bool isComplete;
+
+        /// <summary>
         /// 计时器组
         /// </summary>
         public ITimerGroup Group { get; private set; }
@@ -65,19 +71,24 @@ namespace CatLib.Timer
         /// 创建一个计时器
         /// </summary>
         /// <param name="task">任务实现</param>
+        /// <param name="group">当前逻辑帧</param>
+        /// <param name="frame">当前逻辑帧</param>
         /// <returns>执行的任务</returns>
         public Timer(ITimerGroup group, Action task)
         {
             this.task = task;
             Group = group;
+            isComplete = false;
         }
 
         /// <summary>
-        /// 延迟时间执行
+        /// 当前逻辑帧后，延迟指定时间后执行
         /// </summary>
         /// <param name="time">延迟时间(秒)</param>
         public void Delay(float time)
         {
+            GuardComplete("Delay");
+            Guard.Requires<ArgumentOutOfRangeException>(time > 0);
             args = new TimerArgs
             {
                 Type = TimerTypes.DelayTime,
@@ -86,11 +97,14 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 延迟帧执行
+        /// 当前逻辑帧后 ，延迟指定帧数帧后执行
+        /// (如: 为0则表示当前逻辑帧后的下一帧执行)
         /// </summary>
         /// <param name="frame">帧数</param>
         public void DelayFrame(int frame)
         {
+            GuardComplete("DelayFrame");
+            frame = Math.Max(0, frame);
             args = new TimerArgs
             {
                 Type = TimerTypes.DelayFrame,
@@ -99,11 +113,14 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 循环执行指定时间
+        /// 当前逻辑帧后 ，循环执行指定时间
+        /// (如: 为0则表示当前逻辑帧后的下一帧执行)
         /// </summary>
         /// <param name="time">循环时间(秒)</param>
         public void Loop(float time)
         {
+            GuardComplete("Loop");
+            Guard.Requires<ArgumentOutOfRangeException>(time > 0);
             args = new TimerArgs
             {
                 Type = TimerTypes.LoopTime,
@@ -112,24 +129,29 @@ namespace CatLib.Timer
         }
 
         /// <summary>
-        /// 循环执行，直到函数返回false
+        /// 当前逻辑帧后 ，循环执行，直到函数返回false
         /// </summary>
-        /// <param name="loopFunc">循环状态函数</param>
-        public void Loop(Func<bool> loopFunc)
+        /// <param name="callback">循环状态函数</param>
+        public void Loop(Func<bool> callback)
         {
+            GuardComplete("Loop");
+            Guard.NotNull(callback, "callback");
             args = new TimerArgs
             {
                 Type = TimerTypes.LoopFunc,
-                FuncBoolArg = loopFunc
+                FuncBoolArg = callback
             };
         }
 
         /// <summary>
-        /// 循环执行指定帧数
+        /// 当前逻辑帧后 ，循环执行指定帧数
         /// </summary>
-        /// <param name="frame">循环的帧数</param>
+        /// <param name="frame">循环执行的帧数</param>
         public void LoopFrame(int frame)
         {
+            GuardComplete("LoopFrame");
+            Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
+            frame = Math.Max(0, frame);
             args = new TimerArgs
             {
                 Type = TimerTypes.LoopFrame,
@@ -152,9 +174,26 @@ namespace CatLib.Timer
                 {
                     task.Invoke();
                 }
+                isComplete = true;
                 return true;
             }
 
+            var result = ExecTask(ref deltaTime);
+            if (result)
+            {
+                isComplete = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 执行任务
+        /// </summary>
+        /// <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
+        /// <returns>计时器是否已经完成</returns>
+        private bool ExecTask(ref float deltaTime)
+        {
             switch (args.Type)
             {
                 case TimerTypes.DelayFrame:
@@ -180,14 +219,9 @@ namespace CatLib.Timer
         /// <returns>是否完成</returns>
         private static bool TaskDelayFrame(Timer timer, ref float deltaTime)
         {
-            if (timer.args.IntArgs[0] < 0 || timer.args.IntArgs[1] >= timer.args.IntArgs[0])
+            if (++timer.args.IntArgs[1] <= timer.args.IntArgs[0])
             {
-                return false;
-            }
-            timer.args.IntArgs[1] += 1;
-            deltaTime = 0;
-            if (timer.args.IntArgs[1] < timer.args.IntArgs[0])
-            {
+                deltaTime = 0;
                 return false;
             }
 
@@ -206,15 +240,10 @@ namespace CatLib.Timer
         /// <returns>是否完成</returns>
         private static bool TaskDelayTime(Timer timer, ref float deltaTime)
         {
-            if (!(timer.args.FloatArgs[0] >= 0) || !(timer.args.FloatArgs[1] < timer.args.FloatArgs[0]))
-            {
-                return false;
-            }
-
             timer.args.FloatArgs[1] += deltaTime;
-
-            if (!(timer.args.FloatArgs[1] >= timer.args.FloatArgs[0]))
+            if (timer.args.FloatArgs[1] < timer.args.FloatArgs[0])
             {
+                deltaTime = 0;
                 return false;
             }
 
@@ -255,15 +284,12 @@ namespace CatLib.Timer
         /// <returns>是否完成</returns>
         private static bool TaskLoopTime(Timer timer, ref float deltaTime)
         {
-            if (timer.args.FloatArgs[0] >= 0 && timer.args.FloatArgs[1] <= timer.args.FloatArgs[0])
-            {
-                timer.args.FloatArgs[1] += deltaTime;
+            timer.args.FloatArgs[1] += deltaTime;
 
-                if (timer.args.FloatArgs[1] > timer.args.FloatArgs[0])
-                {
-                    deltaTime = timer.args.FloatArgs[1] - timer.args.FloatArgs[0];
-                    return true;
-                }
+            if (timer.args.FloatArgs[1] > timer.args.FloatArgs[0])
+            {
+                deltaTime = timer.args.FloatArgs[1] - timer.args.FloatArgs[0];
+                return true;
             }
 
             if (timer.task != null)
@@ -281,14 +307,11 @@ namespace CatLib.Timer
         /// <returns>是否完成</returns>
         private static bool TaskLoopFrame(Timer timer, ref float deltaTime)
         {
-            if (timer.args.IntArgs[0] >= 0 && timer.args.IntArgs[1] <= timer.args.IntArgs[0])
+            timer.args.IntArgs[1] += 1;
+            if (timer.args.IntArgs[1] > timer.args.IntArgs[0])
             {
-                timer.args.IntArgs[1] += 1;
-                if (timer.args.IntArgs[1] > timer.args.IntArgs[0])
-                {
-                    deltaTime = 0;
-                    return true;
-                }
+                deltaTime = 0;
+                return true;
             }
 
             if (timer.task != null)
@@ -296,6 +319,18 @@ namespace CatLib.Timer
                 timer.task.Invoke();
             }
             return false;
+        }
+
+        /// <summary>
+        /// 检测完成状态
+        /// </summary>
+        /// <param name="func">函数名</param>
+        private void GuardComplete(string func)
+        {
+            if (isComplete)
+            {
+                throw new RuntimeException("Timer is complete , Can not call " + func + "();");
+            }
         }
     }
 }
