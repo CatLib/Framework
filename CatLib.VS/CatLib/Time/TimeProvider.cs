@@ -33,12 +33,12 @@ namespace CatLib.Time
         {
             App.Singleton<TimeManager>().Alias<ITimeManager>().OnResolving((bind, obj) =>
             {
-                if (obj == null)
+                var timeManager = obj as TimeManager;
+                if (timeManager == null)
                 {
                     return null;
                 }
 
-                var timeManager = obj as TimeManager;
                 timeManager.Extend(() => new UnityTime());
 
                 return timeManager;

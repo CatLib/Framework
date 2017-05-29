@@ -10,7 +10,8 @@
  */
 
 using System;
-
+using CatLib.Time;
+using CatLib.Timer;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -27,6 +28,17 @@ namespace CatLib.Tests.Timer
     [TestClass]
     public class TimerProviderTests
     {
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            var app = new Application().Bootstrap();
+            app.Register(typeof(TimeProvider));
+            app.Register(typeof(TimerProvider));
+            app.Init();
+
+
+        }
+
         [TestMethod]
         public void TestMethod1()
         {
