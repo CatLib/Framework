@@ -230,7 +230,7 @@ namespace CatLib.Tests.Timer
                 ++statu;
             }).LoopFrame(3);
 
-            RunTime(App.Instance, 5);
+            RunFrame(App.Instance, 3);
             Assert.AreEqual(3, statu);
         }
 
