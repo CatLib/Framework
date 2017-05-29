@@ -88,7 +88,7 @@ namespace CatLib.Time
         /// <summary>
         /// 总帧数
         /// </summary>
-        public float FrameCount
+        public int FrameCount
         {
             get { return UTime.frameCount; }
         }

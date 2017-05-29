@@ -25,11 +25,11 @@ namespace CatLib.Tests.FileSystem
             Env(() =>
             {
                 Assert.AreEqual(false, fileSystem.Exists("FileSystemCreateDirTest-dir"));
-                fileSystem.CreateDir("FileSystemCreateDirTest-dir");
+                fileSystem.MakeDir("FileSystemCreateDirTest-dir");
                 Assert.AreEqual(true, fileSystem.Exists("FileSystemCreateDirTest-dir"));
 
                 Assert.AreEqual(false, fileSystem.Exists("FileSystemCreateDirTest2-dir/hello/world"));
-                fileSystem.CreateDir("FileSystemCreateDirTest2-dir/hello/world");
+                fileSystem.MakeDir("FileSystemCreateDirTest2-dir/hello/world");
                 Assert.AreEqual(true, fileSystem.Exists("FileSystemCreateDirTest2-dir/hello/world"));
             });
         }

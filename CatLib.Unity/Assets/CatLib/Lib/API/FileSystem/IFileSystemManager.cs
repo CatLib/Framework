@@ -17,7 +17,7 @@ namespace CatLib.API.FileSystem
     /// <summary>
     /// 文件系统管理器
     /// </summary>
-    public interface IFileSystemManager : IManager<IFileSystem>
+    public interface IFileSystemManager : ISingleManager<IFileSystem>
     {
         /// <summary>
         /// 获取一个文件系统解决方案(磁盘)

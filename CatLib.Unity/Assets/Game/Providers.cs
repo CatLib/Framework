@@ -17,9 +17,9 @@ using CatLib.Thread;
 using CatLib.Time;
 using CatLib.Crypt;
 using CatLib.Hash;
-using CatLib.TimeQueue;
 using CatLib.Config;
 using CatLib.Routing;
+using CatLib.Timer;
 
 public class Providers
 {
@@ -39,7 +39,7 @@ public class Providers
                 typeof(CryptProvider),
                 typeof(HashProvider),
                 typeof(CoreProvider),
-                typeof(TimeQueueProvider),
+                typeof(TimerProvider),
                 typeof(ConfigProvider),
                 typeof(RoutingProvider),
             };

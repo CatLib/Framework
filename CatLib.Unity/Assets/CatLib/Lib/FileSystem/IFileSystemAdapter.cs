@@ -64,7 +64,7 @@ namespace CatLib.FileSystem
         /// 创建文件夹
         /// </summary>
         /// <param name="path">文件夹路径</param>
-        void CreateDir(string path);
+        void MakeDir(string path);
 
         /// <summary>
         /// 获取文件/文件夹属性

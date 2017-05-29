@@ -13,7 +13,6 @@ using System;
 using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.API.Stl;
-using CatLib.API.Container;
 using CatLib.Stl;
 
 namespace CatLib.Routing

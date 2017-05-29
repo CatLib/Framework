@@ -145,7 +145,7 @@ namespace CatLib.Tests.FileSystem
             SIO.Directory.CreateDirectory(path);
 
             local = new Local(path);
-            local.CreateDir("TestHandler");
+            local.MakeDir("TestHandler");
             local.Write("TestHandler/InFile", GetByte("hello world"));
             local.Write("TestFileHandler", GetByte("hello world"));
             handlerDir = new HandlerTest(new CatLib.FileSystem.FileSystem(local), "TestHandler");

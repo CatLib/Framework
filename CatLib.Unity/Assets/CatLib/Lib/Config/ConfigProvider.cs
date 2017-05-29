@@ -35,12 +35,11 @@ namespace CatLib.Config
         {
             App.Singleton<ConfigManager>().Alias<IConfigManager>().OnResolving((bind, obj) =>
             {
-                if (obj == null)
+                var configManager = obj as ConfigManager;
+                if (configManager == null)
                 {
                     return null;
                 }
-
-                var configManager = obj as ConfigManager;
 
                 configManager.Extend(() =>
                 {

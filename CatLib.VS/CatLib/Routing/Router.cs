@@ -226,7 +226,7 @@ namespace CatLib.Routing
             uri = GuardUri(uri);
             uri = Prefix(uri);
 
-            var request = CreateRequest(uri, context);
+            var request = MakeRequest(uri, context);
 
             if (!schemes.ContainsKey(request.RouteUri.Scheme))
             {
@@ -335,7 +335,7 @@ namespace CatLib.Routing
 
             if (!schemes.ContainsKey(uri.Scheme))
             {
-                CreateScheme(uri.Scheme);
+                MakeScheme(uri.Scheme);
             }
 
             var route = MakeRoute(uri, action);
@@ -480,7 +480,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="name">scheme名字</param>
         /// <returns>当前路由实例</returns>
-        private IRouter CreateScheme(string name)
+        private IRouter MakeScheme(string name)
         {
             schemes.Add(name.ToLower(), new Scheme(name));
             return this;
@@ -503,7 +503,7 @@ namespace CatLib.Routing
         /// <param name="uri">uri</param>
         /// <param name="context">上下文</param>
         /// <returns>请求</returns>
-        private Request CreateRequest(string uri, object context)
+        private Request MakeRequest(string uri, object context)
         {
             return new Request(uri, context);
         }

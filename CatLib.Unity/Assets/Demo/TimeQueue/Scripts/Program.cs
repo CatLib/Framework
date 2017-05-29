@@ -13,7 +13,7 @@ using System;
 using CatLib.API;
 using CatLib.Event;
 using CatLib.Time;
-using CatLib.TimeQueue;
+using CatLib.Timer;
 
 namespace CatLib.Demo.TimeQueue
 {
@@ -25,7 +25,7 @@ namespace CatLib.Demo.TimeQueue
 
         public void Bootstrap()
         {
-            App.Instance.Register(typeof(TimeQueueProvider));
+            App.Instance.Register(typeof(TimerProvider));
             App.Instance.Register(typeof(TimeProvider));
             App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(TimeQueueDemo));

@@ -92,7 +92,7 @@ namespace CatLib.Tests.FileSystem
             local.Write("HasWriteToFile.txt", GetByte("hello world"));
             Assert.AreEqual(true, local.Exists("HasWriteToFile.txt"));
 
-            local.CreateDir("HasExistsTestDir");
+            local.MakeDir("HasExistsTestDir");
             Assert.AreEqual(true, local.Exists("HasExistsTestDir"));
         }
 
@@ -219,8 +219,8 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void CreateDirTest()
         {
-            local.CreateDir("CreateDirTest");
-            local.CreateDir("CreateDirTest-2/hello/test");
+            local.MakeDir("CreateDirTest");
+            local.MakeDir("CreateDirTest-2/hello/test");
         }
 
         /// <summary>
@@ -231,29 +231,29 @@ namespace CatLib.Tests.FileSystem
         {
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.CreateDir("");
+                local.MakeDir("");
             });
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                local.CreateDir(null);
+                local.MakeDir(null);
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                local.CreateDir("../test-InvalidCreateDirTest-1");
+                local.MakeDir("../test-InvalidCreateDirTest-1");
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                local.CreateDir("123/test/../../../test-InvalidCreateDirTest-2");
+                local.MakeDir("123/test/../../../test-InvalidCreateDirTest-2");
             });
         }
 
         [TestMethod]
         public void RenameDirTest()
         {
-            local.CreateDir("RenameTest-norename");
+            local.MakeDir("RenameTest-norename");
             Assert.AreEqual(true, local.Exists("RenameTest-norename"));
             local.Move("RenameTest-norename", "RenameTest");
             Assert.AreEqual(true, local.Exists("RenameTest"));
@@ -274,8 +274,8 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void RenameDuplicateDir()
         {
-            local.CreateDir("RenameDuplicateDir-norename");
-            local.CreateDir("RenameDuplicateDir");
+            local.MakeDir("RenameDuplicateDir-norename");
+            local.MakeDir("RenameDuplicateDir");
 
             ExceptionAssert.Throws<IOException>(() =>
             {
@@ -346,7 +346,7 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void RenameDirWithDuplicateNameTest()
         {
-            local.CreateDir("RenameDirWithDuplicateNameTest");
+            local.MakeDir("RenameDirWithDuplicateNameTest");
             local.Write("RenameDirWithDuplicateNameTest/RenameWithDuplicateNameTest-norename.txt", GetByte("hello"));
             local.Write("RenameDirWithDuplicateNameTest/RenameDirWithDuplicateNameTest.txt", GetByte("world"));
             local.Write("RenameDir", GetByte("111"));
@@ -362,9 +362,9 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void CopyDirTest()
         {
-            local.CreateDir("CopyDir-norename/Test1");
-            local.CreateDir("CopyDir-norename/Test2");
-            local.CreateDir("CopyDir-norename/Test2/SubDir");
+            local.MakeDir("CopyDir-norename/Test1");
+            local.MakeDir("CopyDir-norename/Test2");
+            local.MakeDir("CopyDir-norename/Test2/SubDir");
 
             local.Write("CopyDir-norename/Test1/text11.txt", GetByte("test11"));
             local.Write("CopyDir-norename/Test1/text12.txt", GetByte("test12"));
@@ -451,7 +451,7 @@ namespace CatLib.Tests.FileSystem
         public void DeleteDirTest()
         {
             Assert.AreEqual(false, local.Exists("DeleteDirTest"));
-            local.CreateDir("DeleteDirTest");
+            local.MakeDir("DeleteDirTest");
             local.Write("DeleteDirTest/test.txt", GetByte("test"));
             Assert.AreEqual(true, local.Exists("DeleteDirTest"));
             Assert.AreEqual(true, local.Exists("DeleteDirTest/test.txt"));
@@ -482,7 +482,7 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void GetAttributesTest()
         {
-            local.CreateDir("GetAttributesTest");
+            local.MakeDir("GetAttributesTest");
             local.Write("GetAttributesTest/test.txt", GetByte("test"));
 
             Assert.AreEqual(FileAttributes.Directory, local.GetAttributes("GetAttributesTest") & FileAttributes.Directory);
@@ -510,7 +510,7 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void GetListTest()
         {
-            local.CreateDir("GetListTest");
+            local.MakeDir("GetListTest");
             local.Write("GetListTest/test.txt", GetByte("test"));
 
             var lst = local.GetList("GetListTest");
@@ -524,7 +524,7 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void GetListWithFile()
         {
-            local.CreateDir("GetListWithFile");
+            local.MakeDir("GetListWithFile");
             local.Write("GetListWithFile/GetListWithFile.txt", GetByte("test"));
             var lst = local.GetList("GetListWithFile/GetListWithFile.txt");
             Assert.AreEqual(1, lst.Length);
@@ -543,7 +543,7 @@ namespace CatLib.Tests.FileSystem
         [TestMethod]
         public void GetSizeTest()
         {
-            local.CreateDir("GetSizeTest");
+            local.MakeDir("GetSizeTest");
             Assert.AreEqual(0, local.GetSize("GetSizeTest"));
             local.Write("GetSizeTest/test.txt", GetByte("hello world"));
             Assert.AreEqual(11, local.GetSize("GetSizeTest"));

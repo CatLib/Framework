@@ -41,7 +41,7 @@ namespace CatLib.Tests.FileSystem
             {
                 local.Write("DirectoryTests.Directory/helloworld" , GetByte("hello world"));
                 local.Write("DirectoryTests.Directory/helloworld2", GetByte("hello world2"));
-                local.CreateDir("DirectoryTests.Directory/helloworld-dir");
+                local.MakeDir("DirectoryTests.Directory/helloworld-dir");
 
                 var handlers = handlerDir.GetList();
                 Assert.AreEqual(3, handlers.Length);
@@ -76,7 +76,7 @@ namespace CatLib.Tests.FileSystem
             SIO.Directory.CreateDirectory(path);
 
             local = new Local(path);
-            local.CreateDir("DirectoryTests.Directory");
+            local.MakeDir("DirectoryTests.Directory");
             handlerDir = new Directory(new CatLib.FileSystem.FileSystem(local), "DirectoryTests.Directory");
 
             Assert.AreEqual(true, handlerDir.IsExists);

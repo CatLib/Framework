@@ -621,7 +621,7 @@ namespace CatLib.Stl
 
             if (node == null)
             {
-                newNode = CreateNode();
+                newNode = MakeNode();
                 newNode.List.InsertAt(insert, 0);
                 InsertNode(null, newNode, after);
                 ++Count;
@@ -695,7 +695,7 @@ namespace CatLib.Stl
             {
                 //如果当前结点是满的，且前置结点和后置结点都是满的那么
                 //就新建一个结点，插入在2个结点之间
-                newNode = CreateNode();
+                newNode = MakeNode();
                 newNode.List.InsertAt(insert, 0);
                 InsertNode(node, newNode, after);
             }
@@ -812,7 +812,7 @@ namespace CatLib.Stl
         /// <returns>拆分出的结点</returns>
         private QuickListNode SplitNode(QuickListNode node, int offset, bool after)
         {
-            var newNode = CreateNode();
+            var newNode = MakeNode();
             newNode.List.Init(node.List.Split(offset, after));
             return newNode;
         }
@@ -947,7 +947,7 @@ namespace CatLib.Stl
         /// 创建结点
         /// </summary>
         /// <returns></returns>
-        private QuickListNode CreateNode()
+        private QuickListNode MakeNode()
         {
             return new QuickListNode
             {
