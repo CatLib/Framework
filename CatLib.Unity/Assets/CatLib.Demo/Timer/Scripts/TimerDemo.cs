@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace CatLib.Demo.Timer
 {
+    /// <summary>
+    /// 计时器Demo
+    /// </summary>
     public class TimerDemo : ServiceProvider
     {
         public override void Init()

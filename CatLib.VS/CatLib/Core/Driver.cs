@@ -274,12 +274,10 @@ namespace CatLib.Core
         /// </summary>
         public void Update()
         {
-            var cursor = update.GetEnumerator();
-            while (cursor.MoveNext())
+            foreach (var current in update)
             {
-                cursor.Current.Update();
+                current.Update();
             }
-            cursor.Dispose();
             lock (mainThreadDispatcherQueueLocker)
             {
                 while (mainThreadDispatcherQueue.Count > 0)
@@ -294,12 +292,10 @@ namespace CatLib.Core
         /// </summary>
         public void LateUpdate()
         {
-            var cursor = lateUpdate.GetEnumerator();
-            while (cursor.MoveNext())
+            foreach (var current in lateUpdate)
             {
-                cursor.Current.LateUpdate();
+                current.LateUpdate();
             }
-            cursor.Dispose();
         }
 
         /// <summary>
@@ -307,13 +303,10 @@ namespace CatLib.Core
         /// </summary>
         public void OnDestroy()
         {
-            var cursor = destroy.GetEnumerator();
-            while (cursor.MoveNext())
+            foreach (var current in destroy)
             {
-                cursor.Current.OnDestroy();
+                current.OnDestroy();
             }
-            cursor.Dispose();
-
             update.Clear();
             lateUpdate.Clear();
             destroy.Clear();

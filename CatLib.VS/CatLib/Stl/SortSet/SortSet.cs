@@ -69,7 +69,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 有序集迭代器
         /// </summary>
-        private struct Enumerator : IEnumerable<TElement>
+        public struct Enumerator : IEnumerator<TElement>
         {
             /// <summary>
             /// 快速列表
@@ -82,6 +82,11 @@ namespace CatLib.Stl
             private readonly bool forward;
 
             /// <summary>
+            /// 当前节点
+            /// </summary>
+            private SkipNode current;
+
+            /// <summary>
             /// 构造一个迭代器
             /// </summary>
             /// <param name="sortSet">有序集</param>
@@ -90,46 +95,74 @@ namespace CatLib.Stl
             {
                 this.sortSet = sortSet;
                 this.forward = forward;
+                current = forward ? sortSet.header : null;
             }
 
             /// <summary>
-            /// 迭代器
+            /// 移动到下一个节点
             /// </summary>
-            /// <returns>元素迭代器</returns>
-            public IEnumerator<TElement> GetEnumerator()
+            /// <returns>下一个节点是否存在</returns>
+            public bool MoveNext()
             {
                 if (forward)
                 {
-                    var node = sortSet.header.Level[0];
-                    while (node.Forward != null)
-                    {
-                        yield return node.Forward.Element;
-                        node = node.Forward.Level[0];
-                    }
+                    current = current.Level[0].Forward;
+                    return current != null;
                 }
-                else
+
+                if (current == null)
                 {
-                    var node = sortSet.tail;
-                    if (node == null)
+                    current = sortSet.tail;
+                    return current != null;
+                }
+
+                current = current.Backward;
+                return current != null;
+            }
+
+            /// <summary>
+            /// 获取当前元素
+            /// </summary>
+            public TElement Current
+            {
+                get
+                {
+                    if (current != null)
                     {
-                        yield break;
+                        return current.Element;
                     }
-                    yield return node.Element;
-                    while (node.Backward != null)
-                    {
-                        yield return node.Backward.Element;
-                        node = node.Backward;
-                    }
+                    throw new RuntimeException("Can not get Current element");
                 }
             }
 
             /// <summary>
-            /// 获取迭代器
+            /// 获取当前元素
             /// </summary>
-            /// <returns>迭代器</returns>
-            IEnumerator IEnumerable.GetEnumerator()
+            object IEnumerator.Current
             {
-                return GetEnumerator();
+                get
+                {
+                    if (current != null)
+                    {
+                        return current.Element;
+                    }
+                    throw new RuntimeException("Can not get Current element");
+                }
+            }
+
+            /// <summary>
+            /// 重置迭代器
+            /// </summary>
+            void IEnumerator.Reset()
+            {
+                current = forward ? sortSet.header : null;
+            }
+
+            /// <summary>
+            /// 释放时
+            /// </summary>
+            public void Dispose()
+            {
             }
         }
 
@@ -241,9 +274,18 @@ namespace CatLib.Stl
         /// 迭代器
         /// </summary>
         /// <returns>迭代器</returns>
-        public IEnumerator<TElement> GetEnumerator()
+        public Enumerator GetEnumerator()
         {
-            return new Enumerator(this, forward).GetEnumerator();
+            return new Enumerator(this , forward);
+        }
+
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns>迭代器</returns>
+        IEnumerator<TElement> IEnumerable<TElement>.GetEnumerator()
+        {
+            return new Enumerator(this, forward);
         }
 
         /// <summary>
@@ -252,7 +294,7 @@ namespace CatLib.Stl
         /// <returns>迭代器</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return new Enumerator(this, forward);
         }
 
         /// <summary>

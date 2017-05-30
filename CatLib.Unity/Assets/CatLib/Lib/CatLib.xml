@@ -6203,6 +6203,11 @@
             是否是向前遍历
             </summary>
         </member>
+        <member name="F:CatLib.Stl.SortSet`2.Enumerator.current">
+            <summary>
+            当前节点
+            </summary>
+        </member>
         <member name="M:CatLib.Stl.SortSet`2.Enumerator.#ctor(CatLib.Stl.SortSet{`0,`1},System.Boolean)">
             <summary>
             构造一个迭代器
@@ -6210,17 +6215,31 @@
             <param name="sortSet">有序集</param>
             <param name="forward">是否向前遍历</param>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Enumerator.GetEnumerator">
+        <member name="M:CatLib.Stl.SortSet`2.Enumerator.MoveNext">
             <summary>
-            迭代器
+            移动到下一个节点
             </summary>
-            <returns>元素迭代器</returns>
+            <returns>下一个节点是否存在</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Enumerator.System#Collections#IEnumerable#GetEnumerator">
+        <member name="P:CatLib.Stl.SortSet`2.Enumerator.Current">
             <summary>
-            获取迭代器
+            获取当前元素
             </summary>
-            <returns>迭代器</returns>
+        </member>
+        <member name="P:CatLib.Stl.SortSet`2.Enumerator.System#Collections#IEnumerator#Current">
+            <summary>
+            获取当前元素
+            </summary>
+        </member>
+        <member name="M:CatLib.Stl.SortSet`2.Enumerator.System#Collections#IEnumerator#Reset">
+            <summary>
+            重置迭代器
+            </summary>
+        </member>
+        <member name="M:CatLib.Stl.SortSet`2.Enumerator.Dispose">
+            <summary>
+            释放时
+            </summary>
         </member>
         <member name="F:CatLib.Stl.SortSet`2.syncRoot">
             <summary>
@@ -6296,6 +6315,12 @@
             </summary>
         </member>
         <member name="M:CatLib.Stl.SortSet`2.GetEnumerator">
+            <summary>
+            迭代器
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.Stl.SortSet`2.System#Collections#Generic#IEnumerable{TElement}#GetEnumerator">
             <summary>
             迭代器
             </summary>
