@@ -20,7 +20,7 @@ namespace CatLib.Config
     /// <summary>
     /// 配置容器
     /// </summary>
-    public sealed class Config : IConfig
+    internal sealed class Config : IConfig
     {
         /// <summary>
         /// 配置定位器

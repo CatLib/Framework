@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System.Text.RegularExpressions;
-
 namespace CatLib.Routing
 {
     /// <summary>

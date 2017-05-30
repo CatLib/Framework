@@ -23,7 +23,7 @@ namespace CatLib.Event
         /// </summary>
         public override void Register()
         {
-            App.Bind<EventImpl>().Alias<IEventImpl>();
+            App.Bind<EventImpl>().Alias<IEventImpl>().Alias("event.impl");
         }
     }
 }

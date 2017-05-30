@@ -36,7 +36,7 @@ namespace CatLib.Tests.FileSystem
 
         private Local local;
 
-        public class HandlerTest : Handler
+        internal class HandlerTest : Handler
         {
             /// <summary>
             /// 文件夹

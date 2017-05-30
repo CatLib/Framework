@@ -67,6 +67,7 @@ namespace CatLib.Stl
             /// 构造一个迭代器
             /// </summary>
             /// <param name="lruCache">近期最少使用缓存</param>
+            /// <param name="forward">是否是前进迭代</param>
             internal Enumerator(LruCache<TKey, TVal> lruCache, bool forward)
             {
                 this.lruCache = lruCache;

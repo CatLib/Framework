@@ -37,6 +37,7 @@ namespace CatLib.FileSystem
         public override void Register()
         {
             RegisterManager();
+            RegisterAdapter();
         }
 
         /// <summary>
@@ -44,7 +45,15 @@ namespace CatLib.FileSystem
         /// </summary>
         private void RegisterManager()
         {
-            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>();
+            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>().Alias("filesystem.manager");
+        }
+
+        /// <summary>
+        /// 注册适配器
+        /// </summary>
+        private void RegisterAdapter()
+        {
+            App.Bind<Local>().Alias("filesystem.adapter.local");
         }
 
         /// <summary>

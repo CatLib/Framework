@@ -12,7 +12,7 @@
 using CatLib.API;
 using CatLib.API.Config;
 
-namespace CatLib
+namespace CatLib.Core
 {
     /// <summary>
     /// 核心服务提供商
@@ -41,7 +41,7 @@ namespace CatLib
                 env.SetDebugLevel(configManager.Get().Get("env.debug", DebugLevels.Auto));
 
                 return obj;
-            });
+            }).Alias("catlib.env");
         }
     }
 }

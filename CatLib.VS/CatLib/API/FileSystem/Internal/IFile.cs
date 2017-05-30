@@ -26,7 +26,6 @@ namespace CatLib.API.FileSystem
         /// <summary>
         /// 读取文件
         /// </summary>
-        /// <param name="path">路径</param>
         /// <returns>读取的数据</returns>
         byte[] Read();
     }

@@ -72,7 +72,6 @@ namespace CatLib.Timer
         /// </summary>
         /// <param name="task">任务实现</param>
         /// <param name="queue">当前逻辑帧</param>
-        /// <param name="frame">当前逻辑帧</param>
         /// <returns>执行的任务</returns>
         public Timer(ITimerQueue queue, Action task)
         {

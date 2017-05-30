@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.API.Stl;
 using CatLib.API.Routing;
 using System.Collections.Generic;
 using CatLib.Stl;

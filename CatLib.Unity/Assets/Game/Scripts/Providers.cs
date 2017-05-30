@@ -13,10 +13,11 @@ using System;
 using CatLib.Event;
 using CatLib.Time;
 using CatLib.Config;
+using CatLib.Core;
 using CatLib.Routing;
 using CatLib.Timer;
 
-namespace CatLib
+namespace CatLib.Bootstrap
 {
     /// <summary>
     /// 服务提供者

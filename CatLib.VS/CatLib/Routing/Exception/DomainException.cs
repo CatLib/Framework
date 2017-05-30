@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 参数范围及域异常
     /// </summary>
-    public class DomainException : RuntimeException
+    public sealed class DomainException : RuntimeException
     {
         /// <summary>
         /// 创建一个参数范围及域异常

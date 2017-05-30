@@ -21,6 +21,10 @@ namespace CatLib.API
         /// </summary>
         public System.Exception Exception { get; protected set; }
 
+        /// <summary>
+        /// 异常事件
+        /// </summary>
+        /// <param name="ex">出现的异常</param>
         public ExceptionEventArgs(System.Exception ex)
         {
             Exception = ex;

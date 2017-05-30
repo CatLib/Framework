@@ -61,7 +61,7 @@ namespace CatLib.API.Routing
         /// <summary>
         /// 当路由出现错误时
         /// </summary>
-        /// <param name="onError">错误处理函数</param>
+        /// <param name="middleware">错误处理函数</param>
         /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>当前实例</returns>
         IRouter OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> middleware, int priority = int.MaxValue);

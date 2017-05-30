@@ -18,7 +18,7 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件/文件夹句柄
     /// </summary>
-    public abstract class Handler : IHandler
+    internal abstract class Handler : IHandler
     {
         /// <summary>
         /// 文件/文件夹路径
@@ -51,7 +51,7 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="fileSystem">文件系统</param>
         /// <param name="path">文件/文件夹路径</param>
-        internal Handler(FileSystem fileSystem, string path)
+        protected Handler(FileSystem fileSystem, string path)
         {
             Guard.NotNull(fileSystem, "fileSystem");
             Guard.NotEmptyOrNull(path, "path");
@@ -108,7 +108,6 @@ namespace CatLib.FileSystem
         /// <summary>
         /// 获取文件/文件夹属性
         /// </summary>
-        /// <param name="path">文件/文件夹路径</param>
         /// <returns>文件/文件夹属性</returns>
         public FileAttributes GetAttributes()
         {

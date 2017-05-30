@@ -12,7 +12,7 @@
 using CatLib.API;
 using UnityEngine;
 
-namespace CatLib
+namespace CatLib.Bootstrap
 {
     /// <summary>
     /// 启动

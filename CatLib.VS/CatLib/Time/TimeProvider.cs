@@ -31,7 +31,7 @@ namespace CatLib.Time
         /// </summary>
         private void RegisterTimeManager()
         {
-            App.Singleton<TimeManager>().Alias<ITimeManager>().OnResolving((bind, obj) =>
+            App.Singleton<TimeManager>().Alias<ITimeManager>().Alias("time.manager").OnResolving((bind, obj) =>
             {
                 var timeManager = obj as TimeManager;
                 if (timeManager == null)

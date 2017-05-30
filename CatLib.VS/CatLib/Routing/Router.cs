@@ -23,7 +23,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 路由服务
     /// </summary>
-    public sealed class Router : IRouter
+    internal sealed class Router : IRouter
     {
         /// <summary>
         /// 分隔符

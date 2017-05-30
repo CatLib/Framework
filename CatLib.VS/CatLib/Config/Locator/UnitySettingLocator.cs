@@ -19,7 +19,7 @@ namespace CatLib.Config
     /// <summary>
     /// Unity设置定位器
     /// </summary>
-    public sealed class UnitySettingLocator : IConfigLocator
+    internal sealed class UnitySettingLocator : IConfigLocator
     {
 #if !UNITY_5_OR_NEW
         /// <summary>

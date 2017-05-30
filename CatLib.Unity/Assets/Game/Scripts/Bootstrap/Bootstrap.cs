@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib
+namespace CatLib.Bootstrap
 {
     /// <summary>
     /// 引导程序

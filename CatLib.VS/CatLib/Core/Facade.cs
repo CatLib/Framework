@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib
+namespace CatLib.Core
 {
     /// <summary>
     /// 门面

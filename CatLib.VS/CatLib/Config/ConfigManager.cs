@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// 配置管理器
     /// </summary>
-    public sealed class ConfigManager : SingleManager<IConfig> , IConfigManager
+    internal sealed class ConfigManager : SingleManager<IConfig> , IConfigManager
     {
         /// <summary>
         /// 默认的配置名字

@@ -14,6 +14,7 @@ using CatLib.API;
 using CatLib.Event;
 using CatLib.Time;
 using CatLib.Timer;
+using CatLib.Core;
 
 namespace CatLib.Demo.Timer
 {

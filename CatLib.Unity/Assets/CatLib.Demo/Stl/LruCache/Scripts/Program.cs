@@ -12,6 +12,7 @@
 using System;
 using CatLib.API;
 using CatLib.Event;
+using CatLib.Core;
 
 namespace CatLib.Demo.LruCache
 {

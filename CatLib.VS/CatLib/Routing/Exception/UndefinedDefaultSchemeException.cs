@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 未定义默认的Scheme
     /// </summary>
-    public class UndefinedDefaultSchemeException : RuntimeException
+    public sealed class UndefinedDefaultSchemeException : RuntimeException
     {
         /// <summary>
         /// 未定义默认的Scheme

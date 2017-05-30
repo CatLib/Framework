@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Routing;
+using CatLib.Core;
 using CatLib.Event;
 using CatLib.Stl;
 using CatLib.Routing;

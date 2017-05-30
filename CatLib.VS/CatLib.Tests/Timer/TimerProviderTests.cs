@@ -125,7 +125,7 @@ namespace CatLib.Tests.Timer
         [TestInitialize]
         public void TestInitialize()
         {
-            var app = new Application().Bootstrap();
+            var app = new CatLib.Core.Application().Bootstrap();
             app.Register(typeof(TimeProvider));
             app.Register(typeof(ConfigProvider));
             app.Register(typeof(TimerProvider));
@@ -148,7 +148,7 @@ namespace CatLib.Tests.Timer
                 statu = !statu;
             }).Delay(1);
 
-            var app = App.Instance as Application;
+            var app = App.Instance as CatLib.Core.Application;
 
             //0.25
             Assert.AreEqual(false, statu);
@@ -697,7 +697,7 @@ namespace CatLib.Tests.Timer
         /// <param name="time"></param>
         private void RunTime(IApplication app, float time)
         {
-            var application = app as Application;
+            var application = app as CatLib.Core.Application;
             var num = Mathf.Ceil(time / 0.25f);
 
             for (int i = 0; i < num; i++)
@@ -714,7 +714,7 @@ namespace CatLib.Tests.Timer
         /// <param name="frame"></param>
         private void RunFrame(IApplication app, int frame)
         {
-            var application = app as Application;
+            var application = app as CatLib.Core.Application;
             for (var i = 0; i < frame; i++)
             {
                 NextFrame();

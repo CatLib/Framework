@@ -21,7 +21,7 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 本地驱动器
     /// </summary>
-    public class Local : IFileSystemAdapter
+    internal class Local : IFileSystemAdapter
     {
         /// <summary>
         /// 根目录

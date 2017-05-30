@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using CatLib.API;
 
-namespace CatLib
+namespace CatLib.Core
 {
     /// <summary>
     /// 全局事件

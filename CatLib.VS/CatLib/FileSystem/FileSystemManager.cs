@@ -18,7 +18,7 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件系统管理器
     /// </summary>
-    public sealed class FileSystemManager : SingleManager<IFileSystem>, IFileSystemManager
+    internal sealed class FileSystemManager : SingleManager<IFileSystem>, IFileSystemManager
     {
         /// <summary>
         /// 配置

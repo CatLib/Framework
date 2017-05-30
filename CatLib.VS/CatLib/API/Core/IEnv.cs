@@ -45,7 +45,7 @@ namespace CatLib.API
         RuntimePlatform Platform { get; }
 
         /// <summary>
-        /// 当前所选择的编译平台
+        /// 当前所选择的编译平台
         /// </summary>
         RuntimePlatform SwitchPlatform { get; }
 

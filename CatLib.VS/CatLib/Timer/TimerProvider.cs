@@ -23,7 +23,7 @@ namespace CatLib.Timer
         /// </summary>
         public override void Register()
         {
-            App.Singleton<TimerManager>().Alias<ITimerManager>();
+            App.Singleton<TimerManager>().Alias<ITimerManager>().Alias("timer.manager");
         }
     }
 }

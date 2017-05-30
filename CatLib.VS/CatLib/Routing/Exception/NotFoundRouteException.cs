@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 未能找到路由条目
     /// </summary>
-    public class NotFoundRouteException : RuntimeException
+    public sealed class NotFoundRouteException : RuntimeException
     {
         /// <summary>
         /// 未能找到路由条目

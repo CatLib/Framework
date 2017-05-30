@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 未能找到 Scheme
     /// </summary>
-    public class NotFoundSchemeException : RuntimeException
+    public sealed class NotFoundSchemeException : RuntimeException
     {
         /// <summary>
         /// 未能找到 Scheme

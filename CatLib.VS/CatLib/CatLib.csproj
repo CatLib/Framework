@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\CatLib.Unity\Assets\CatLib\Lib\CatLib.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\CatLib.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -145,7 +147,7 @@
     <Compile Include="API\Time\Internal\ITime.cs" />
     <Compile Include="Stl\Container\BindData.cs" />
     <Compile Include="Stl\Container\Container.cs" />
-    <Compile Include="Stl\Container\ContainerHelper.cs" />
+    <Compile Include="Stl\Container\ContainerExpand.cs" />
     <Compile Include="Stl\Container\GivenData.cs" />
     <Compile Include="Core\App.cs" />
     <Compile Include="Core\Application.cs" />
@@ -155,8 +157,6 @@
     <Compile Include="Core\Env.cs" />
     <Compile Include="Core\Facade.cs" />
     <Compile Include="Core\GlobalEvent.cs" />
-    <Compile Include="Core\Object\MonoComponent.cs" />
-    <Compile Include="Core\Object\MonoObject.cs" />
     <Compile Include="Core\ServiceProvider.cs" />
     <Compile Include="Core\Util.cs" />
     <Compile Include="Event\EventHandler.cs" />

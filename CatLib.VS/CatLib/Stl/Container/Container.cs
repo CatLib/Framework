@@ -158,7 +158,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="service">服务名或别名</param>
         /// <returns>服务绑定数据或者null</returns>
-        /// <exception cref="service"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
         public IBindData GetBind(string service)
         {
             Guard.NotEmptyOrNull(service, "service");
@@ -268,7 +268,7 @@ namespace CatLib.Stl
         /// <param name="concrete">服务实现</param>
         /// <param name="isStatic">服务是否静态化</param>
         /// <returns>服务绑定数据</returns>
-        /// <exception cref="concrete"><paramref name="concrete"/>为<c>null</c>或者空字符串</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="concrete"/>为<c>null</c>或者空字符串</exception>
         public IBindData Bind(string service, Type concrete, bool isStatic)
         {
             Guard.NotNull(concrete, "concrete");
@@ -820,7 +820,7 @@ namespace CatLib.Stl
         /// 解决非类类型
         /// </summary>
         /// <param name="makeServiceBindData">请求注入操作的服务绑定数据</param>
-        /// <param name="info">参数信息</param>
+        /// <param name="service">希望解决的服务名或者别名</param>
         /// <returns>解决结果</returns>
         private object ResolveNonClass(BindData makeServiceBindData, string service)
         {

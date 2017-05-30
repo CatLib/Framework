@@ -18,7 +18,7 @@ using CatLib.API.Stl;
 using CatLib.Stl;
 using UnityEngine;
 
-namespace CatLib
+namespace CatLib.Core
 {
     /// <summary>
     /// CatLib程序

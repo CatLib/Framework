@@ -14,12 +14,12 @@ using System.IO;
 using UnityEngine;
 using CatLib.API;
 
-namespace CatLib
+namespace CatLib.Core
 {
     /// <summary>
     /// 环境
     /// </summary>
-    public sealed class Env : IEnv
+    internal sealed class Env : IEnv
     {
         /// <summary>
         /// 调试等级
@@ -80,7 +80,7 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 当前所选择的编译平台
+        /// 当前所选的编译平台
         /// </summary>
         public RuntimePlatform SwitchPlatform
         {

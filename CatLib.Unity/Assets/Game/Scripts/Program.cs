@@ -12,7 +12,7 @@
 using System;
 using UnityEngine;
 
-namespace CatLib
+namespace CatLib.Bootstrap
 {
     /// <summary>
     /// 程序入口
@@ -25,11 +25,8 @@ namespace CatLib
         /// </summary>
         public void Awake()
         {
-            var application = new Application(this);
-            application.OnFindType((type) =>
-            {
-                return Type.GetType(type);
-            });
+            var application = new Core.Application(this);
+            application.OnFindType((type) => Type.GetType(type));
             application.Bootstrap(Bootstrap.BootStrap).Init();
         }
     }

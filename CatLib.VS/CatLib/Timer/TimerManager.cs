@@ -21,7 +21,7 @@ namespace CatLib.Timer
     /// <summary>
     /// 计时器管理器
     /// </summary>
-    public sealed class TimerManager : Manager<ITimerQueue> , ITimerManager, IUpdate
+    internal sealed class TimerManager : Manager<ITimerQueue> , ITimerManager, IUpdate
     {
         /// <summary>
         /// 时间管理器

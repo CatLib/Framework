@@ -18,7 +18,7 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件系统
     /// </summary>
-    public sealed class FileSystem : IFileSystem
+    internal sealed class FileSystem : IFileSystem
     {
         /// <summary>
         /// 文件系统适配器

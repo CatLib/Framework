@@ -11,7 +11,7 @@
 
 using CatLib.API;
 
-namespace CatLib
+namespace CatLib.Bootstrap
 {
     /// <summary>
     /// 注册服务提供商的引导程序

@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using CatLib.API;
+using CatLib.Core;
 using CatLib.Event;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;

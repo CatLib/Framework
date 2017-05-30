@@ -12,6 +12,7 @@
 using CatLib.API.Config;
 using CatLib.API.Time;
 using CatLib.Config;
+using CatLib.Core;
 using CatLib.Time;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;

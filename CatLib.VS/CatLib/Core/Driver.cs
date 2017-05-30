@@ -18,7 +18,7 @@ using CatLib.API.Event;
 using CatLib.Stl;
 using UnityEngine;
 
-namespace CatLib
+namespace CatLib.Core
 {
     /// <summary>
     /// Application行为驱动器
@@ -380,7 +380,7 @@ namespace CatLib
         /// </summary>
         /// <param name="routine">协程内容</param>
         /// <returns>协程</returns>
-        /// <exception cref="routine">当<paramref name="routine"/>为<c>null</c>时引发</exception>
+        /// <exception cref="ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         public Coroutine StartCoroutine(IEnumerator routine)
         {
             Guard.Requires<ArgumentNullException>(routine != null);

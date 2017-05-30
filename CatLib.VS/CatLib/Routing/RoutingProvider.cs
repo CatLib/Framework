@@ -13,6 +13,7 @@ using CatLib.API.Routing;
 using System.Collections;
 using System.Collections.Generic;
 using CatLib.API;
+using CatLib.API.Config;
 
 namespace CatLib.Routing
 {
@@ -42,7 +43,7 @@ namespace CatLib.Routing
                 router.SetDefaultScheme("catlib");
                 return router;
 
-            }).Alias<IRouter>();
+            }).Alias<IRouter>().Alias("routing.router");
 
             RegisterAttrRouteCompiler();
         }
@@ -64,6 +65,13 @@ namespace CatLib.Routing
                 {
                     "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor", "CatLib", "CatLib.Tests"
                 };
+
+                var config = App.Make<IConfigManager>();
+                if (config != null)
+                {
+                    var reserved = config.Default.Get("routing.stripping.reserved", string.Empty);
+                    containList.AddRange(reserved.Split(';'));
+                }
 
                 compiler.OnStripping((assembly) =>
                 {

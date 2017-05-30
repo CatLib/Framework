@@ -90,7 +90,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="uri">uri信息</param>
         /// <param name="action">路由行为</param>
-        internal Route(Uri uri, RouteAction action)
+        public Route(Uri uri, RouteAction action)
         {
             this.uri = uri;
             this.action = action;

@@ -17,7 +17,7 @@ namespace CatLib.Config
     /// <summary>
     /// 转换异常
     /// </summary>
-    internal class ConverterException : RuntimeException
+    public sealed class ConverterException : RuntimeException
     {
         /// <summary>
         /// 转换异常

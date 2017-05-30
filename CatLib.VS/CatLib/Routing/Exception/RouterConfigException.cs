@@ -16,7 +16,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 路由配置异常
     /// </summary>
-    public class RouterConfigException : RuntimeException
+    public sealed class RouterConfigException : RuntimeException
     {
         /// <summary>
         /// 路由配置异常

@@ -15,6 +15,7 @@ using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.Config;
+using CatLib.Core;
 using CatLib.FileSystem;
 using SIO = System.IO;
 #if UNITY_EDITOR || NUNIT

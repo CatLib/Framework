@@ -20,7 +20,7 @@ namespace CatLib.Event
     /// <summary>
     /// 事件实现
     /// </summary>
-    public sealed class EventImpl : IEventImpl
+    internal sealed class EventImpl : IEventImpl
     {
         /// <summary>
         /// 应用程序

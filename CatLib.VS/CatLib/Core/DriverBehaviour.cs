@@ -11,12 +11,12 @@
 
 using UnityEngine;
 
-namespace CatLib
+namespace CatLib.Core
 {
     /// <summary>
     /// 驱动脚本
     /// </summary>
-    public sealed class DriverBehaviour : MonoBehaviour
+    internal sealed class DriverBehaviour : MonoBehaviour
     {
         /// <summary>
         /// 驱动器
