@@ -320,7 +320,11 @@ namespace CatLib.Stl
         /// <returns>最后一个元素</returns>
         public TElement First()
         {
-            return header.Level[0].Forward != null ? header.Level[0].Forward.Element : default(TElement);
+            if (header.Level[0].Forward != null)
+            {
+                return header.Level[0].Forward.Element;
+            }
+            throw new InvalidOperationException("SortSet is Null");
         }
 
         /// <summary>
@@ -329,7 +333,11 @@ namespace CatLib.Stl
         /// <returns>元素</returns>
         public TElement Last()
         {
-            return tail != null ? tail.Element : default(TElement);
+            if (tail != null)
+            {
+                return tail.Element;
+            }
+            throw new InvalidOperationException("SortSet is Null");
         }
 
         /// <summary>
@@ -341,7 +349,7 @@ namespace CatLib.Stl
             TElement result;
             if (!Remove(header.Level[0].Forward, out result))
             {
-                throw new RuntimeException("Can not shift element , unknow error.");
+                throw new InvalidOperationException("SortSet is Null");
             }
             return result;
         }
@@ -355,7 +363,7 @@ namespace CatLib.Stl
             TElement result;
             if (!Remove(tail, out result))
             {
-                throw new RuntimeException("Can not pop element , unknow error.");
+                throw new InvalidOperationException("SortSet is Null");
             }
             return result;
         }
@@ -595,6 +603,7 @@ namespace CatLib.Stl
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startRank"/>和<paramref name="stopRank"/>区间无效时引发</exception>
         public TElement[] GetElementRangeByRank(long startRank, long stopRank)
         {
+            startRank = Math.Max(startRank, 0);
             Guard.Requires<ArgumentOutOfRangeException>(startRank <= stopRank);
 
             long traversed = 0;
@@ -666,27 +675,28 @@ namespace CatLib.Stl
         /// <returns>元素</returns>
         public TElement GetElementByRank(long rank)
         {
-            rank = Math.Min(Math.Max(0, rank), Count);
+            rank = Math.Max(0, rank);
             rank += 1;
             long traversed = 0;
             var cursor = header;
-            if (cursor != null)
+            for (var i = level - 1; i >= 0; i--)
             {
-                for (var i = level - 1; i >= 0; i--)
+                while (cursor.Level[i].Forward != null &&
+                       (traversed + cursor.Level[i].Span) <= rank)
                 {
-                    while (cursor.Level[i].Forward != null &&
-                           (traversed + cursor.Level[i].Span) <= rank)
-                    {
-                        traversed += cursor.Level[i].Span;
-                        cursor = cursor.Level[i].Forward;
-                    }
-                    if (traversed == rank)
-                    {
-                        return cursor.Element;
-                    }
+                    traversed += cursor.Level[i].Span;
+                    cursor = cursor.Level[i].Forward;
+                }
+                if (traversed == rank)
+                {
+                    return cursor.Element;
                 }
             }
-            return default(TElement);
+            if (Count > 0)
+            {
+                throw new ArgumentOutOfRangeException("Rank is out of range [" + rank + "]");
+            }
+            throw new InvalidOperationException("SortSet is Null");
         }
 
         /// <summary>

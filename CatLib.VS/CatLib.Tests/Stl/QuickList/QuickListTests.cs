@@ -846,7 +846,11 @@ namespace CatLib.Tests.Stl
         public void EmptyListPop()
         {
             var master = new QuickList<object>();
-            Assert.AreEqual(null, master.Pop());
+
+            ExceptionAssert.Throws<InvalidOperationException>(() =>
+            {
+                master.Pop();
+            });
         }
 
         /// <summary>
@@ -856,7 +860,10 @@ namespace CatLib.Tests.Stl
         public void EmptyListShift()
         {
             var master = new QuickList<object>();
-            Assert.AreEqual(null, master.Shift());
+            ExceptionAssert.Throws<InvalidOperationException>(() =>
+            {
+                master.Shift();
+            });
         }
 
         /// <summary>
@@ -970,7 +977,7 @@ namespace CatLib.Tests.Stl
         public void BoundFirstTest()
         {
             var master = new QuickList<int>(5);
-            ExceptionAssert.DoesNotThrow(() =>
+            ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
                 master.First();
             });
@@ -983,7 +990,7 @@ namespace CatLib.Tests.Stl
         public void BoundLastTest()
         {
             var master = new QuickList<int>(5);
-            ExceptionAssert.DoesNotThrow(() =>
+            ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
                 master.Last();
             });

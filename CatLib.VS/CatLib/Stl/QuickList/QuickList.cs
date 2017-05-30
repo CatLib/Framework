@@ -255,7 +255,11 @@ namespace CatLib.Stl
         /// <returns>第一个元素</returns>
         public TElement First()
         {
-            return header != null ? header.List[0] : throw new InvalidOperationException("QuickList is Null");
+            if (header != null)
+            {
+                return header.List[0];
+            }
+            throw new InvalidOperationException("QuickList is Null");
         }
 
         /// <summary>
@@ -264,7 +268,11 @@ namespace CatLib.Stl
         /// <returns>最后一个元素</returns>
         public TElement Last()
         {
-            return tail != null ? tail.List[tail.List.Count - 1] : throw new InvalidOperationException("QuickList is Null");
+            if (tail != null)
+            {
+                return tail.List[tail.List.Count - 1];
+            }
+            throw new InvalidOperationException("QuickList is Null");
         }
 
         /// <summary>
