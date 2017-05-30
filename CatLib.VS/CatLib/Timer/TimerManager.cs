@@ -75,7 +75,7 @@ namespace CatLib.Timer
         /// <param name="area">在这个区域中Make的计时器会按照Make顺序加入同一个队列</param>
         /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>计时器队列</returns>
-        public ITimerQueue Queue(Action area, int priority = int.MaxValue)
+        public ITimerQueue MakeQueue(Action area, int priority = int.MaxValue)
         {
             Guard.NotNull(area, "area");
             var queue = new TimerQueue(timeManager.Default);

@@ -1542,7 +1542,7 @@
             <param name="task">计时器执行的任务</param>
             <returns>计时器</returns>
         </member>
-        <member name="M:CatLib.API.Timer.ITimerManager.Queue(System.Action,System.Int32)">
+        <member name="M:CatLib.API.Timer.ITimerManager.MakeQueue(System.Action,System.Int32)">
             <summary>
             创建一个计时器队列
             </summary>
@@ -2889,6 +2889,31 @@
             </summary>
             <param name="field">异常字段</param>
             <param name="to">转换的类型</param>
+        </member>
+        <member name="T:CatLib.Facade.ConfigManager">
+            <summary>
+            配置管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.FileSystemManager">
+            <summary>
+            文件系统管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Router">
+            <summary>
+            路由
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.TimeManager">
+            <summary>
+            时间管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.TimerManager">
+            <summary>
+            计时器管理器
+            </summary>
         </member>
         <member name="T:CatLib.FileSystem.Local">
             <summary>
@@ -7679,7 +7704,7 @@
             <param name="task">计时器执行的任务</param>
             <returns>计时器</returns>
         </member>
-        <member name="M:CatLib.Timer.TimerManager.Queue(System.Action,System.Int32)">
+        <member name="M:CatLib.Timer.TimerManager.MakeQueue(System.Action,System.Int32)">
             <summary>
             创建一个计时器队列
             </summary>

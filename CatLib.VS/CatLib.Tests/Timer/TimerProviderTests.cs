@@ -355,7 +355,7 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            timer.Queue(() =>
+            timer.MakeQueue(() =>
             {
                 timer.Make(() =>
                 {
@@ -383,7 +383,7 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            timer.Queue(() =>
+            timer.MakeQueue(() =>
             {
                 timer.Make(() =>
                 {
@@ -413,7 +413,7 @@ namespace CatLib.Tests.Timer
             var statu = 0;
             var isComplete = false;
 
-            timer.Queue(() =>
+            timer.MakeQueue(() =>
             {
                 timer.Make(() =>
                 {
@@ -446,7 +446,7 @@ namespace CatLib.Tests.Timer
         public void GroupCompleteCallTest()
         {
             var timer = App.Instance.Make<ITimerManager>();
-            var group = timer.Queue(() =>
+            var group = timer.MakeQueue(() =>
             {
             });
 
@@ -469,7 +469,7 @@ namespace CatLib.Tests.Timer
             var isComplete = false;
 
             ITimerQueue queue = null;
-            queue = timer.Queue(() =>
+            queue = timer.MakeQueue(() =>
             {
                 timer.Make(() =>
                 {
@@ -505,7 +505,7 @@ namespace CatLib.Tests.Timer
             var isComplete = false;
 
             ITimerQueue queue = null;
-            queue = timer.Queue(() =>
+            queue = timer.MakeQueue(() =>
             {
                 timer.Make(() =>
                 {
@@ -547,7 +547,7 @@ namespace CatLib.Tests.Timer
         {
             var timer = App.Instance.Make<ITimerManager>();
             ITimer result = null;
-            var group = timer.Queue(() =>
+            var group = timer.MakeQueue(() =>
             {
                 result = timer.Make();
             });
@@ -560,7 +560,7 @@ namespace CatLib.Tests.Timer
         {
             var timer = App.Instance.Make<ITimerManager>();
 
-            timer.Queue(() =>
+            timer.MakeQueue(() =>
             {
                 timer.Make();
             });
@@ -576,7 +576,7 @@ namespace CatLib.Tests.Timer
         {
             var timer = App.Instance.Make<ITimerManager>();
             var statu = 0;
-            timer.Queue(() =>
+            timer.MakeQueue(() =>
             {
                 timer.Make(() =>
                 {

@@ -1,0 +1,8 @@
+{
+  "source": "catlib/facade",
+  "folder": "Facade",
+  "require": {
+    "catlib/api": "~1.0",
+    "catlib/core": "~1.0"
+  }
+}

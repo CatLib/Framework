@@ -31,7 +31,7 @@ namespace CatLib.API.Timer
         /// <param name="area">在这个区域中Make的计时器会按照Make顺序加入同一个队列</param>
         /// <param name="priority">优先级(值越小越优先)</param>
         /// <returns>路由器组</returns>
-        ITimerQueue Queue(Action area, int priority = int.MaxValue);
+        ITimerQueue MakeQueue(Action area, int priority = int.MaxValue);
 
         /// <summary>
         /// 停止计时器队列的运行

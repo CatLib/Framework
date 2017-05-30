@@ -87,6 +87,11 @@
     <Compile Include="API\Time\ITimeManager.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
+    <Compile Include="Facade\ConfigManager.cs" />
+    <Compile Include="Facade\FileSystemManager.cs" />
+    <Compile Include="Facade\Router.cs" />
+    <Compile Include="Facade\TimeManager.cs" />
+    <Compile Include="Facade\TimerManager.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="FileSystem\File.cs" />
@@ -203,6 +208,7 @@
     <None Include="Config\catlib.json" />
     <None Include="Core\catlib.json" />
     <None Include="Event\catlib.json" />
+    <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
     <None Include="Routing\catlib.json" />
     <None Include="Stl\catlib.json" />
