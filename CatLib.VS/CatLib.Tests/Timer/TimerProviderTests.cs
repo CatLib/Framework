@@ -17,7 +17,6 @@ using CatLib.API.Timer;
 using CatLib.Config;
 using CatLib.Time;
 using CatLib.Timer;
-using UnityEngine;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -698,7 +697,7 @@ namespace CatLib.Tests.Timer
         private void RunTime(IApplication app, float time)
         {
             var application = app as CatLib.Core.Application;
-            var num = Mathf.Ceil(time / 0.25f);
+            var num = Math.Ceiling(time / 0.25f);
 
             for (int i = 0; i < num; i++)
             {
