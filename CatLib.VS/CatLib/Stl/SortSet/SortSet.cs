@@ -285,7 +285,7 @@ namespace CatLib.Stl
         /// <returns>迭代器</returns>
         IEnumerator<TElement> IEnumerable<TElement>.GetEnumerator()
         {
-            return new Enumerator(this, forward);
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace CatLib.Stl
         /// <returns>迭代器</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new Enumerator(this, forward);
+            return GetEnumerator();
         }
 
         /// <summary>

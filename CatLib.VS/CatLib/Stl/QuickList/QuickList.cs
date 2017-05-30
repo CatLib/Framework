@@ -53,7 +53,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 快速列表迭代器
         /// </summary>
-        private struct Enumerator : IEnumerable<TElement>
+        public struct Enumerator : IEnumerator<TElement>
         {
             /// <summary>
             /// 快速列表
@@ -71,6 +71,21 @@ namespace CatLib.Stl
             private readonly long version;
 
             /// <summary>
+            /// 当前元素
+            /// </summary>
+            private TElement current;
+
+            /// <summary>
+            /// 当前节点
+            /// </summary>
+            private QuickListNode node;
+
+            /// <summary>
+            /// 访问下标
+            /// </summary>
+            private int index;
+
+            /// <summary>
             /// 构造一个迭代器
             /// </summary>
             /// <param name="quickList"></param>
@@ -80,56 +95,86 @@ namespace CatLib.Stl
                 this.quickList = quickList;
                 this.forward = forward;
                 version = quickList.version;
+                current = default(TElement);
+                node = forward ? quickList.header : quickList.tail;
+                index = 0;
             }
 
             /// <summary>
-            /// 迭代器
+            /// 移动到下一个节点
             /// </summary>
-            /// <returns>元素迭代器</returns>
-            /// <exception cref="InvalidOperationException">在迭代过程中修改数据时引发</exception>
-            public IEnumerator<TElement> GetEnumerator()
+            /// <returns>下一个节点是否存在</returns>
+            public bool MoveNext()
             {
+                if (node == null)
+                {
+                    return false;
+                }
+
+                if (version != quickList.version)
+                {
+                    throw new InvalidOperationException("Can not modify data when iterates again.");
+                }
+
                 if (forward)
                 {
-                    var node = quickList.header;
-                    while (node != null)
+                    do
                     {
-                        for (var i = 0; i < node.List.Count; ++i)
+                        if (index < node.List.Count)
                         {
-                            if (version != quickList.version)
-                            {
-                                throw new InvalidOperationException("Can not modify data when iterates again.");
-                            }
-                            yield return node.List[i];
+                            current = node.List[index++];
+                            return true;
                         }
+                        index = 0;
                         node = node.Forward;
-                    }
+                    } while (node != null);
+                    return false;
                 }
-                else
+
+                do
                 {
-                    var node = quickList.tail;
-                    while (node != null)
+                    if (index < node.List.Count)
                     {
-                        for (var i = node.List.Count - 1; i >= 0; --i)
-                        {
-                            if (version != quickList.version)
-                            {
-                                throw new InvalidOperationException("Can not modify data when iterates again.");
-                            }
-                            yield return node.List[i];
-                        }
-                        node = node.Backward;
+                        current = node.List[node.List.Count - ++index];
+                        return true;
                     }
-                }
+                    index = 0;
+                    node = node.Backward;
+                } while (node != null);
+                return false;
             }
 
             /// <summary>
-            /// 获取迭代器
+            /// 获取当前元素
             /// </summary>
-            /// <returns>迭代器</returns>
-            IEnumerator IEnumerable.GetEnumerator()
+            public TElement Current
             {
-                return GetEnumerator();
+                get { return current; }
+            }
+
+            /// <summary>
+            /// 获取当前元素
+            /// </summary>
+            object IEnumerator.Current
+            {
+                get { return current; }
+            }
+
+            /// <summary>
+            /// 重置迭代器
+            /// </summary>
+            void IEnumerator.Reset()
+            {
+                current = default(TElement);
+                node = forward ? quickList.header : quickList.tail;
+                index = 0;
+            }
+
+            /// <summary>
+            /// 释放时
+            /// </summary>
+            public void Dispose()
+            {
             }
         }
 
@@ -210,7 +255,7 @@ namespace CatLib.Stl
         /// <returns>第一个元素</returns>
         public TElement First()
         {
-            return header != null ? header.List[0] : default(TElement);
+            return header != null ? header.List[0] : throw new InvalidOperationException("QuickList is Null");
         }
 
         /// <summary>
@@ -219,17 +264,24 @@ namespace CatLib.Stl
         /// <returns>最后一个元素</returns>
         public TElement Last()
         {
-            return tail != null ? tail.List[tail.List.Count - 1] : default(TElement);
+            return tail != null ? tail.List[tail.List.Count - 1] : throw new InvalidOperationException("QuickList is Null");
         }
 
         /// <summary>
         /// 将元素插入到列表尾部
         /// </summary>
         /// <param name="element">元素</param>
-        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
+        public void Add(TElement element)
+        {
+            Push(element);
+        }
+
+        /// <summary>
+        /// 将元素插入到列表尾部
+        /// </summary>
+        /// <param name="element">元素</param>
         public void Push(TElement element)
         {
-            Guard.Requires<ArgumentNullException>(element != null);
             Insert(element, tail, tail != null ? tail.List.Count - 1 : 0, true);
         }
 
@@ -237,10 +289,8 @@ namespace CatLib.Stl
         /// 将元素插入到列表头部
         /// </summary>
         /// <param name="element">元素</param>
-        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
-        public void Unshift(TElement element)
+        public void UnShift(TElement element)
         {
-            Guard.Requires<ArgumentNullException>(element != null);
             Insert(element, header, 0, false);
         }
 
@@ -254,7 +304,7 @@ namespace CatLib.Stl
             {
                 return ListPop(tail, false);
             }
-            return default(TElement);
+            throw new InvalidOperationException("QuickList is Null");
         }
 
         /// <summary>
@@ -267,7 +317,7 @@ namespace CatLib.Stl
             {
                 return ListPop(header, true);
             }
-            return default(TElement);
+            throw new InvalidOperationException("QuickList is Null");
         }
 
         /// <summary>
@@ -357,10 +407,8 @@ namespace CatLib.Stl
         /// <param name="element">要被移除的元素</param>
         /// <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
         /// <returns>被移除元素的数量</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public long Remove(TElement element, long count = 0)
         {
-            Guard.Requires<ArgumentNullException>(element != null);
             long remove = 0;
             QuickListNode node;
             int i;
@@ -372,17 +420,20 @@ namespace CatLib.Stl
                 {
                     for (i = 0; i < node.List.Count; ++i)
                     {
-                        if (node.List[i].Equals(element))
+                        if ((node.List[i] != null || element != null)
+                            && !node.List[i].Equals(element))
                         {
-                            node.List.RemoveAt(i);
-                            ++remove;
-                            --Count;
-                            ++version;
-                            --i;
-                            if (count != 0 && (--count) == 0)
-                            {
-                                return remove;
-                            }
+                            continue;
+                        }
+
+                        node.List.RemoveAt(i);
+                        ++remove;
+                        --Count;
+                        ++version;
+                        --i;
+                        if (count != 0 && (--count) == 0)
+                        {
+                            return remove;
                         }
                     }
                     node = node.Forward;
@@ -396,16 +447,19 @@ namespace CatLib.Stl
                 {
                     for (i = node.List.Count - 1; i >= 0; --i)
                     {
-                        if (node.List[i].Equals(element))
+                        if ((node.List[i] != null || element != null)
+                            && !node.List[i].Equals(element))
                         {
-                            node.List.RemoveAt(i);
-                            ++remove;
-                            --Count;
-                            ++version;
-                            if (count != 0 && (--count) == 0)
-                            {
-                                return remove;
-                            }
+                            continue;
+                        }
+
+                        node.List.RemoveAt(i);
+                        ++remove;
+                        --Count;
+                        ++version;
+                        if (count != 0 && (--count) == 0)
+                        {
+                            return remove;
                         }
                     }
                     node = node.Backward;
@@ -485,11 +539,8 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="finder">查找的元素</param>
         /// <param name="insert">要插入的元素</param>
-        /// <exception cref="ArgumentNullException"><paramref name="finder"/>或<paramref name="insert"/>为<c>null</c>时引发</exception>
         public void InsertAfter(TElement finder, TElement insert)
         {
-            Guard.Requires<ArgumentNullException>(finder != null);
-            Guard.Requires<ArgumentNullException>(insert != null);
             int offset;
             var node = FindNode(finder, out offset);
             if (node == null)
@@ -504,11 +555,8 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="finder">查找的元素</param>
         /// <param name="insert">要插入的元素</param>
-        /// <exception cref="ArgumentNullException"><paramref name="finder"/>或<paramref name="insert"/>为<c>null</c>时引发</exception>
         public void InsertBefore(TElement finder, TElement insert)
         {
-            Guard.Requires<ArgumentNullException>(finder != null);
-            Guard.Requires<ArgumentNullException>(insert != null);
             int offset;
             var node = FindNode(finder, out offset);
             if (node == null)
@@ -530,9 +578,18 @@ namespace CatLib.Stl
         /// 迭代器
         /// </summary>
         /// <returns>迭代器</returns>
-        public IEnumerator<TElement> GetEnumerator()
+        public Enumerator GetEnumerator()
         {
-            return new Enumerator(this, forward).GetEnumerator();
+            return new Enumerator(this, forward);
+        }
+
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns>迭代器</returns>
+        IEnumerator<TElement> IEnumerable<TElement>.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -541,7 +598,7 @@ namespace CatLib.Stl
         /// <returns>迭代器</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new Enumerator(this, forward).GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -828,11 +885,14 @@ namespace CatLib.Stl
             {
                 for (var i = 0; i < node.List.Count; ++i)
                 {
-                    if (node.List[i].Equals(element))
+                    if ((node.List[i] != null || element != null)
+                        && !node.List[i].Equals(element))
                     {
-                        offset = i;
-                        return node;
+                        continue;
                     }
+
+                    offset = i;
+                    return node;
                 }
                 node = node.Forward;
             }

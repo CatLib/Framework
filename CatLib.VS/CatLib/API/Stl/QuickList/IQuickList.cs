@@ -32,13 +32,19 @@ namespace CatLib.API.Stl
         /// 将元素插入到列表尾部
         /// </summary>
         /// <param name="element">元素</param>
+        void Add(TElement element);
+
+        /// <summary>
+        /// 将元素插入到列表尾部
+        /// </summary>
+        /// <param name="element">元素</param>
         void Push(TElement element);
 
         /// <summary>
         /// 将元素插入到列表头部
         /// </summary>
         /// <param name="element">元素</param>
-        void Unshift(TElement element);
+        void UnShift(TElement element);
 
         /// <summary>
         /// 移除并返回列表的尾部元素

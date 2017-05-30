@@ -20,7 +20,7 @@ namespace CatLib.Demo.Timer
                 var statu = 0;
                 timerManager.Make(() =>
                 {
-                    Debug.Log("tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
+                    //Debug.Log("tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
                 }).IntervalFrame(2);
 
                 timerManager.Make(() =>

@@ -69,7 +69,7 @@ namespace CatLib.Tests.Stl
             for (var i = 0; i < num; i++)
             {
                 var v = rand.Next();
-                lst.Unshift(v);
+                lst.UnShift(v);
                 lst2.Add(v);
             }
             foreach (var v in lst2)
@@ -1025,9 +1025,165 @@ namespace CatLib.Tests.Stl
             {
                 if (i < 254)
                 {
-                    Assert.AreEqual(254  - i, master.Last());
+                    Assert.AreEqual(254 - i, master.Last());
                 }
                 Assert.AreEqual(254 - i, master.Pop());
+            }
+        }
+
+        [TestMethod]
+        public void NullElementPushTest()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+
+            foreach (var r in result)
+            {
+                master.Push(r);
+            }
+
+            var index = 0;
+            foreach (var r in master)
+            {
+                Assert.AreEqual(result[index++], r);
+            }
+        }
+
+        [TestMethod]
+        public void NullElementUnShiftTest()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+
+            foreach (var r in result)
+            {
+                master.UnShift(r);
+            }
+
+            result.Reverse();
+            var index = 0;
+            foreach (var r in master)
+            {
+                Assert.AreEqual(result[index++], r);
+            }
+        }
+
+        [TestMethod]
+        public void NullElementPopTest()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+
+            foreach (var r in result)
+            {
+                master.Push(r);
+            }
+
+            result.Reverse();
+            foreach (var r in result)
+            {
+                Assert.AreEqual(r, master.Pop());
+            }
+        }
+
+        [TestMethod]
+        public void NullElementShiftTest()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+
+            foreach (var r in result)
+            {
+                master.Push(r);
+            }
+
+            foreach (var r in result)
+            {
+                Assert.AreEqual(r, master.Shift());
+            }
+        }
+
+        [TestMethod]
+        public void NullElementRemoveOne()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+
+            foreach (var r in result)
+            {
+                master.Add(r); // alias name of Push
+            }
+
+            master.Remove(null, 1);
+
+            Assert.AreEqual(4, master.Count);
+
+            var index = 0;
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+
+            Assert.AreEqual(0, master.Count);
+            Assert.AreEqual(1, index);
+        }
+
+        [TestMethod]
+        public void NullElementRemoveAll()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+
+            foreach (var r in result)
+            {
+                master.Push(r);
+            }
+
+            master.Remove(null);
+
+            Assert.AreEqual(3, master.Count);
+
+            var index = 0;
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+
+            Assert.AreEqual(0, master.Count);
+            Assert.AreEqual(0, index);
+        }
+
+        [TestMethod]
+        public void NullElementRemoveAllWithNum()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+
+            foreach (var r in result)
+            {
+                master.Push(r);
+            }
+
+            master.Remove(null, 5);
+
+            Assert.AreEqual(3, master.Count);
+
+            var index = 0;
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+
+            Assert.AreEqual(0, master.Count);
+            Assert.AreEqual(0, index);
+        }
+
+        [TestMethod]
+        public void EmptyForeachTest()
+        {
+            var master = new QuickList<object>(3);
+
+            foreach (var r in master)
+            {
+                Assert.Fail();
             }
         }
     }
