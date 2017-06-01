@@ -33,7 +33,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 全局调度器
         /// </summary>
-        private IEvent events;
+        private readonly IEvent events;
 
         /// <summary>
         /// 容器

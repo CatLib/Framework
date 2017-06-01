@@ -29,7 +29,7 @@ namespace CatLib.API.Config
         /// <param name="name">配置名</param>
         /// <param name="value">配置值</param>
         /// <returns>是否获取到配置</returns>
-        bool TryGetValue(string name , out string value);
+        bool TryGetValue(string name, out string value);
 
         /// <summary>
         /// 保存配置
