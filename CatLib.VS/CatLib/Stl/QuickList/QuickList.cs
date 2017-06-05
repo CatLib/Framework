@@ -915,15 +915,7 @@ namespace CatLib.Stl
         /// <param name="head">是否是头部</param>
         private TElement ListPop(QuickListNode node, bool head)
         {
-            TElement ele;
-            if (head)
-            {
-                ele = node.List.Shift();
-            }
-            else
-            {
-                ele = node.List.Pop();
-            }
+            var ele = head ? node.List.Shift() : node.List.Pop();
             if (node.List.Count <= 0)
             {
                 DeleteNode(node);

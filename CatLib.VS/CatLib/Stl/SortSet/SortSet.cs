@@ -56,6 +56,11 @@ namespace CatLib.Stl
             internal TScore Score;
 
             /// <summary>
+            /// 是否被删除
+            /// </summary>
+            internal bool IsDeleted;
+
+            /// <summary>
             /// 向后的结点
             /// </summary>
             internal SkipNode Backward;
@@ -106,17 +111,26 @@ namespace CatLib.Stl
             {
                 if (forward)
                 {
-                    current = current.Level[0].Forward;
+                    do
+                    {
+                        current = current.Level[0].Forward;
+                    } while (current != null && current.IsDeleted);
                     return current != null;
                 }
 
                 if (current == null)
                 {
-                    current = sortSet.tail;
+                    do
+                    {
+                        current = sortSet.tail;
+                    } while (current != null && current.IsDeleted);
                     return current != null;
                 }
 
-                current = current.Backward;
+                do
+                {
+                    current = current.Backward;
+                } while (current != null && current.IsDeleted);
                 return current != null;
             }
 
@@ -918,6 +932,7 @@ namespace CatLib.Stl
             {
                 --level;
             }
+            cursor.IsDeleted = true;
             --Count;
         }
 
