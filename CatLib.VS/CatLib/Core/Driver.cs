@@ -144,6 +144,7 @@ namespace CatLib.Core
         /// 初始化
         /// </summary>
         /// <param name="mainBehavior">mono脚本</param>
+        [ExcludeFromCodeCoverage]
         private void Initialization(Component mainBehavior)
         {
             if (mainBehavior == null)

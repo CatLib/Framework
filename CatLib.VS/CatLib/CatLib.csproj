@@ -50,6 +50,7 @@
     <Compile Include="API\Config\Features\IConfigLocator.cs" />
     <Compile Include="API\Config\Internal\IConfig.cs" />
     <Compile Include="API\Config\IConfigManager.cs" />
+    <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="API\Stl\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Stl\Container\IContainer.cs" />
     <Compile Include="API\Stl\Container\Internal\IBindData.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="API\Core\Features\PriorityAttribute.cs" />
     <Compile Include="API\Core\IApplication.cs" />
     <Compile Include="API\Core\IEnv.cs" />
-    <Compile Include="API\Core\Internal\EventArgs\ExceptionEventArgs.cs" />
     <Compile Include="API\Core\Internal\Exception\RuntimeException.cs" />
     <Compile Include="API\Core\Internal\IGlobalEvent.cs" />
     <Compile Include="API\Crypt\Exception\DecryptException.cs" />
@@ -136,7 +136,6 @@
     <Compile Include="API\Routing\Features\RoutedAttribute.cs" />
     <Compile Include="Routing\Exception\DomainException.cs" />
     <Compile Include="Routing\Exception\NotFoundRouteException.cs" />
-    <Compile Include="Routing\Exception\NotFoundSchemeException.cs" />
     <Compile Include="Routing\Exception\RouterConfigException.cs" />
     <Compile Include="Routing\Exception\UndefinedDefaultSchemeException.cs" />
     <Compile Include="API\Routing\Internal\IRequest.cs" />

@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.API.Time;
 using UTime = UnityEngine.Time;
 
@@ -17,6 +18,7 @@ namespace CatLib.Time
     /// <summary>
     /// Unity时间系统
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal sealed class UnityTime : ITime
     {
         /// <summary>

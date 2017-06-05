@@ -9,7 +9,12 @@
               <Exclude>  
                 <ModulePath>.*\.tests\.dll$</ModulePath>  
               </Exclude>  
-            </ModulePaths>  
+            </ModulePaths>
+            <Attributes>
+              <Exclude>
+                <Attribute>^CatLib\.API\.ExcludeFromCodeCoverageAttribute$</Attribute>
+              </Exclude>
+            </Attributes>
           </CodeCoverage>  
         </Configuration>  
       </DataCollector>  

@@ -16,6 +16,7 @@ namespace CatLib.API
     /// <summary>
     /// 运行时异常
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class RuntimeException : Exception
     {
         /// <summary>

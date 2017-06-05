@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using UnityEngine;
 
 namespace CatLib.Core
@@ -16,6 +17,7 @@ namespace CatLib.Core
     /// <summary>
     /// 驱动脚本
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal sealed class DriverBehaviour : MonoBehaviour
     {
         /// <summary>

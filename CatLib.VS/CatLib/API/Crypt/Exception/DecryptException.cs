@@ -14,6 +14,7 @@ namespace CatLib.API.Crypt
     /// <summary>
     /// 解析异常
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class DecryptException : RuntimeException
     {
         /// <summary>
