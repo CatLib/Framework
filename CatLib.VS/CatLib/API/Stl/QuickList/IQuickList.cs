@@ -21,7 +21,7 @@ namespace CatLib.API.Stl
         /// <summary>
         /// 列表元素基数
         /// </summary>
-        long Count { get; }
+        int Count { get; }
 
         /// <summary>
         /// 快速列表中的结点数量
@@ -64,7 +64,7 @@ namespace CatLib.API.Stl
         /// <param name="start">起始下标</param>
         /// <param name="end">结束下标</param>
         /// <returns>移除的元素数量</returns>
-        long Trim(long start, long end);
+        int Trim(int start, int end);
 
         /// <summary>
         /// 根据参数 <paramref name="count"/> 的值，移除列表中与参数 <paramref name="element"/> 相等的元素。
@@ -75,7 +75,7 @@ namespace CatLib.API.Stl
         /// <param name="element">要被移除的元素</param>
         /// <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
         /// <returns>被移除元素的数量</returns>
-        long Remove(TElement element, long count = 0);
+        int Remove(TElement element, int count = 0);
 
         /// <summary>
         /// 获取区间内的所有元素,1个元素占1个位置，范围不允许使用负数表示
@@ -83,14 +83,14 @@ namespace CatLib.API.Stl
         /// <param name="start">起始位置(包含)</param>
         /// <param name="end">结束位置(包含)</param>
         /// <returns>区间内的元素列表</returns>
-        TElement[] GetRange(long start, long end);
+        TElement[] GetRange(int start, int end);
 
         /// <summary>
         /// 通过下标访问元素,如果传入的是一个负数下标那么从末尾开始查找
         /// </summary>
         /// <param name="index">下标，允许为负数</param>
         /// <returns>元素</returns>
-        TElement this[long index] { get; set; }
+        TElement this[int index] { get; set; }
 
         /// <summary>
         /// 在指定元素之后插入

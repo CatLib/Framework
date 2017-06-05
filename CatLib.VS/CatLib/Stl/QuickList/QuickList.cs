@@ -68,7 +68,7 @@ namespace CatLib.Stl
             /// <summary>
             /// 版本
             /// </summary>
-            private readonly long version;
+            private readonly int version;
 
             /// <summary>
             /// 当前元素
@@ -201,7 +201,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 版本号
         /// </summary>
-        private long version;
+        private int version;
 
         /// <summary>
         /// 同步锁
@@ -219,7 +219,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 列表元素基数
         /// </summary>
-        public long Count { get; private set; }
+        public int Count { get; private set; }
 
         /// <summary>
         /// 快速列表中的结点数量
@@ -335,15 +335,15 @@ namespace CatLib.Stl
         /// <param name="end">结束下标(包含)</param>
         /// <returns>移除的元素数量</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>或者<paramref name="start"/>小于0时引发</exception>
-        public long Trim(long start, long end)
+        public int Trim(int start, int end)
         {
             end = Math.Min(end, Count);
             Guard.Requires<ArgumentOutOfRangeException>(start <= end);
             Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
 
-            long remove = 0;
-            long sumIndex = 0;
-            long endStep = (end - start);
+            var remove = 0;
+            var sumIndex = 0;
+            var endStep = (end - start);
             var node = header;
             while (node != null)
             {
@@ -357,7 +357,7 @@ namespace CatLib.Stl
                 }
 
                 //起始的偏移量，相对于当前结点
-                var offset = Math.Max((int)(start - sumIndex), 0);
+                var offset = Math.Max(start - sumIndex, 0);
 
                 for (var i = 0; i < node.List.Count; i++)
                 {
@@ -396,7 +396,7 @@ namespace CatLib.Stl
                             break;
                         }
 
-                        i += (int)endStep;
+                        i += endStep;
                         sumIndex += endStep + 1;
                         endStep = -1;
                     }
@@ -415,9 +415,9 @@ namespace CatLib.Stl
         /// <param name="element">要被移除的元素</param>
         /// <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
         /// <returns>被移除元素的数量</returns>
-        public long Remove(TElement element, long count = 0)
+        public int Remove(TElement element, int count = 0)
         {
-            long remove = 0;
+            var remove = 0;
             QuickListNode node;
             int i;
             if (count >= 0)
@@ -428,8 +428,8 @@ namespace CatLib.Stl
                 {
                     for (i = 0; i < node.List.Count; ++i)
                     {
-                        if ((node.List[i] != null || element != null)
-                            && !node.List[i].Equals(element))
+                        if (!(node.List[i] == null && element == null) &&
+                            (node.List[i] == null || !node.List[i].Equals(element)))
                         {
                             continue;
                         }
@@ -455,8 +455,8 @@ namespace CatLib.Stl
                 {
                     for (i = node.List.Count - 1; i >= 0; --i)
                     {
-                        if ((node.List[i] != null || element != null)
-                            && !node.List[i].Equals(element))
+                        if (!(node.List[i] == null && element == null) &&
+                            (node.List[i] == null || !node.List[i].Equals(element)))
                         {
                             continue;
                         }
@@ -483,14 +483,14 @@ namespace CatLib.Stl
         /// <param name="end">结束位置(包含)</param>
         /// <returns>区间内的元素列表</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>时引发</exception>
-        public TElement[] GetRange(long start, long end)
+        public TElement[] GetRange(int start, int end)
         {
             start = Math.Max(start, 0);
             end = Math.Min(end, Count);
             Guard.Requires<ArgumentOutOfRangeException>(start <= end);
 
             var elements = new TElement[end - start + 1];
-            long sumIndex = 0;
+            var sumIndex = 0;
             var node = header;
             while (node != null)
             {
@@ -502,7 +502,7 @@ namespace CatLib.Stl
                 }
 
                 //基础偏移量
-                var offset = (int)(start - sumIndex);
+                var offset = start - sumIndex;
 
                 for (var i = 0; i < elements.Length; i++)
                 {
@@ -524,7 +524,7 @@ namespace CatLib.Stl
         /// <param name="index">下标，允许为负数</param>
         /// <returns>元素</returns>
         /// <exception cref="ArgumentOutOfRangeException">下标越界时会引发</exception>
-        public TElement this[long index]
+        public TElement this[int index]
         {
             get
             {
@@ -615,7 +615,7 @@ namespace CatLib.Stl
         /// <param name="index">下标</param>
         /// <param name="offset">偏移量</param>
         /// <returns>元素</returns>
-        private QuickListNode FindByIndex(long index, out int offset)
+        private QuickListNode FindByIndex(int index, out int offset)
         {
             if (index >= Count)
             {
@@ -628,7 +628,7 @@ namespace CatLib.Stl
                 Guard.Requires<ArgumentOutOfRangeException>(index >= 0);
             }
 
-            long sumIndex;
+            int sumIndex;
             QuickListNode node;
 
             if (index < Count * 0.5)
@@ -644,7 +644,7 @@ namespace CatLib.Stl
                         continue;
                     }
 
-                    offset = (int)(index - sumIndex);
+                    offset = index - sumIndex;
                     return node;
                 }
             }
@@ -660,7 +660,7 @@ namespace CatLib.Stl
                         node = node.Backward;
                         continue;
                     }
-                    offset = (int)(node.List.Count - (sumIndex - index));
+                    offset = node.List.Count - (sumIndex - index);
                     return node;
                 }
             }
@@ -893,8 +893,8 @@ namespace CatLib.Stl
             {
                 for (var i = 0; i < node.List.Count; ++i)
                 {
-                    if ((node.List[i] != null || element != null)
-                        && !node.List[i].Equals(element))
+                    if (!(node.List[i] == null && element == null) &&
+                        (node.List[i] == null || !node.List[i].Equals(element)))
                     {
                         continue;
                     }

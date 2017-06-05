@@ -42,7 +42,7 @@ namespace CatLib.Stl
                 /// <summary>
                 /// 层跨越的结点数量
                 /// </summary>
-                internal long Span;
+                internal int Span;
             }
 
             /// <summary>
@@ -214,7 +214,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 有序集的基数
         /// </summary>
-        public long Count { get; private set; }
+        public int Count { get; private set; }
 
         /// <summary>
         /// 同步锁
@@ -305,7 +305,7 @@ namespace CatLib.Stl
         {
             var elements = new TElement[Count];
             var node = header.Level[0];
-            long i = 0;
+            int i = 0;
             while (node.Forward != null)
             {
                 elements[i++] = node.Forward.Element;
@@ -373,7 +373,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="rank">排名,排名以0为底</param>
         /// <returns>指定的元素</returns>
-        public TElement this[long rank]
+        public TElement this[int rank]
         {
             get { return GetElementByRank(rank); }
         }
@@ -430,13 +430,13 @@ namespace CatLib.Stl
         /// <param name="end">结束值(包含)</param>
         /// <returns>分数值在<paramref name="start"/>(包含)和<paramref name="end"/>(包含)之间的元素数量</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="start"/>和<paramref name="end"/>区间无效时引发</exception>
-        public long GetRangeCount(TScore start, TScore end)
+        public int GetRangeCount(TScore start, TScore end)
         {
             Guard.Requires<ArgumentNullException>(start != null);
             Guard.Requires<ArgumentNullException>(end != null);
             Guard.Requires<ArgumentOutOfRangeException>(start.CompareTo(end) <= 0);
 
-            long rank = 0, bakRank = 0;
+            int rank = 0, bakRank = 0;
             SkipNode bakCursor = null;
 
             var isRight = false;
@@ -492,12 +492,12 @@ namespace CatLib.Stl
         /// <param name="stopRank">结束的排名(包含),排名以0为底</param>
         /// <returns>被删除的元素个数</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startRank"/>和<paramref name="stopRank"/>区间无效时引发</exception>
-        public long RemoveRangeByRank(long startRank, long stopRank)
+        public int RemoveRangeByRank(int startRank, int stopRank)
         {
             startRank = Math.Max(startRank, 0);
             Guard.Requires<ArgumentOutOfRangeException>(startRank <= stopRank);
 
-            long traversed = 0, removed = 0;
+            int traversed = 0, removed = 0;
             var update = new SkipNode[maxLevel];
             var cursor = header;
             for (var i = level - 1; i >= 0; --i)
@@ -534,13 +534,13 @@ namespace CatLib.Stl
         /// <param name="stopScore">结束的分数（包含）</param>
         /// <returns>被删除的元素个数</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
-        public long RemoveRangeByScore(TScore startScore, TScore stopScore)
+        public int RemoveRangeByScore(TScore startScore, TScore stopScore)
         {
             Guard.Requires<ArgumentNullException>(startScore != null);
             Guard.Requires<ArgumentNullException>(stopScore != null);
             Guard.Requires<ArgumentOutOfRangeException>(startScore.CompareTo(stopScore) <= 0);
 
-            long removed = 0;
+            int removed = 0;
             var update = new SkipNode[maxLevel];
             var cursor = header;
             for (var i = level - 1; i >= 0; --i)
@@ -574,7 +574,7 @@ namespace CatLib.Stl
         /// <param name="element">元素</param>
         /// <returns>排名排名以0为底，为-1则表示没有找到元素</returns>
         /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
-        public long GetRank(TElement element)
+        public int GetRank(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
             TScore dictScore;
@@ -587,7 +587,7 @@ namespace CatLib.Stl
         /// <param name="element"></param>
         /// <returns>排名排名以0为底 , 为-1则表示没有找到元素</returns>
         /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
-        public long GetRevRank(TElement element)
+        public int GetRevRank(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
             var rank = GetRank(element);
@@ -601,12 +601,12 @@ namespace CatLib.Stl
         /// <param name="stopRank">结束的排名(包含),排名以0为底</param>
         /// <returns>元素列表</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startRank"/>和<paramref name="stopRank"/>区间无效时引发</exception>
-        public TElement[] GetElementRangeByRank(long startRank, long stopRank)
+        public TElement[] GetElementRangeByRank(int startRank, int stopRank)
         {
             startRank = Math.Max(startRank, 0);
             Guard.Requires<ArgumentOutOfRangeException>(startRank <= stopRank);
 
-            long traversed = 0;
+            int traversed = 0;
             var cursor = header;
             for (var i = level - 1; i >= 0; --i)
             {
@@ -673,11 +673,11 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="rank">排名,排名以0为底</param>
         /// <returns>元素</returns>
-        public TElement GetElementByRank(long rank)
+        public TElement GetElementByRank(int rank)
         {
             rank = Math.Max(0, rank);
             rank += 1;
-            long traversed = 0;
+            int traversed = 0;
             var cursor = header;
             for (var i = level - 1; i >= 0; i--)
             {
@@ -704,7 +704,7 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="rank">排名,排名以0为底</param>
         /// <returns>元素</returns>
-        public TElement GetElementByRevRank(long rank)
+        public TElement GetElementByRevRank(int rank)
         {
             return GetElementByRank(Count - rank - 1);
         }
@@ -721,7 +721,7 @@ namespace CatLib.Stl
 
             var update = new SkipNode[maxLevel];
             var cursor = header;
-            var rank = new long[maxLevel];
+            var rank = new int[maxLevel];
             //从跳跃层高到低的进行查找
             for (i = level - 1; i >= 0; --i)
             {
@@ -864,9 +864,9 @@ namespace CatLib.Stl
         /// <param name="element">元素</param>
         /// <param name="score">分数</param>
         /// <returns>排名，排名以0为底</returns>
-        private long GetRank(TElement element, TScore score)
+        private int GetRank(TElement element, TScore score)
         {
-            long rank = 0;
+            int rank = 0;
             var cursor = header;
             for (var i = level - 1; i >= 0; --i)
             {

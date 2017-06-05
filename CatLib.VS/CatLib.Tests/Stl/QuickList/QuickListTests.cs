@@ -1160,6 +1160,27 @@ namespace CatLib.Tests.Stl
         }
 
         [TestMethod]
+        public void ElementRemoveNotNullElementTest()
+        {
+            var master = new QuickList<object>(3);
+            var result = new List<object> { null, 1, 2, null, 3 };
+            foreach (var r in result)
+            {
+                master.Push(r);
+            }
+            master.Remove(1);
+            Assert.AreEqual(4, master.Count);
+            var index = 0;
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+            if (master.Pop() == null) { index++; }
+
+            Assert.AreEqual(0, master.Count);
+            Assert.AreEqual(2, index);
+        }
+
+        [TestMethod]
         public void NullElementRemoveAllWithNum()
         {
             var master = new QuickList<object>(3);
