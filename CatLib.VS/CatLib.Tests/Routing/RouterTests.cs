@@ -413,7 +413,11 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void RoutingCircularDependencyCall()
         {
-            var router = App.Instance.Make<IRouter>();
+            var app = new Application();
+            var router = new Router(app, app);
+
+            router.SetDefaultScheme("catlib");
+
             router.Reg("lambda://call/RoutingCircularDependencyCall-1", (req, res) =>
             {
                 res.SetContext("RouterTests.RoutingCircularDependencyCall1");
@@ -423,7 +427,7 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                router.Dispatch("lambda://call/RoutingRecursiveCall-1");
+                router.Dispatch("lambda://call/RoutingCircularDependencyCall-1");
             });
         }
 
@@ -498,6 +502,20 @@ namespace CatLib.Tests.Routing
                 var response = router.Dispatch("routing-priortity-middleware/call");
                 Assert.AreEqual("RoutingPriortityMiddleware.Call[with middleware 20][with middleware 15][with middleware 10][global middleware]", response.GetContext().ToString());
             });
+        }
+
+        [TestMethod]
+        public void TestUndefindScheme()
+        {
+            var router = App.Instance.Make<IRouter>();
+            router.SetDefaultScheme(null);
+
+            ExceptionAssert.Throws<UndefinedDefaultSchemeException>(() =>
+            {
+                router.Dispatch("TestUndefindScheme/call");
+            });
+
+            router.SetDefaultScheme("catlib");
         }
     }
 }

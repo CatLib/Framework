@@ -40,6 +40,7 @@ namespace CatLib.Core
         /// <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
         /// <para>如果开发者有手动设置资源路径，将使用开发者设置的路径</para>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public string AssetPath
         {
             get
@@ -71,6 +72,7 @@ namespace CatLib.Core
         /// <summary>
         /// 当前运行的平台(和编辑器所在平台有关)
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public RuntimePlatform Platform
         {
             get
@@ -82,6 +84,7 @@ namespace CatLib.Core
         /// <summary>
         /// 当前所选的编译平台
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public RuntimePlatform SwitchPlatform
         {
             get
@@ -130,6 +133,8 @@ namespace CatLib.Core
                 case RuntimePlatform.OSXEditor:
                 case RuntimePlatform.OSXPlayer:
                     return "OSX";
+                case RuntimePlatform.WebGLPlayer:
+                    return "Web";
                 default:
                     throw new ArgumentException("Undefined Platform");
             }

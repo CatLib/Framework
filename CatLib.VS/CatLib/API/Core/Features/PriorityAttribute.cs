@@ -6,7 +6,7 @@ namespace CatLib.API
     /// <summary>
     /// 执行优先级
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field)]
     public sealed class PriorityAttribute : Attribute
     {
         /// <summary>

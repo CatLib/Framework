@@ -76,6 +76,8 @@
     <Compile Include="Config\Converters\UInt64StringConverterTests.cs" />
     <Compile Include="Config\ConfigTests.cs" />
     <Compile Include="Config\ConfigProviderTests.cs" />
+    <Compile Include="Core\EnvTests.cs" />
+    <Compile Include="Routing\RouterExceptionTests.cs" />
     <Compile Include="Stl\Container\BindDataTests.cs" />
     <Compile Include="Stl\Container\ContainerTests.cs" />
     <Compile Include="Stl\Container\GivenDataTests.cs" />

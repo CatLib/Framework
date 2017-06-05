@@ -136,7 +136,6 @@
     <Compile Include="API\Routing\Features\RoutedAttribute.cs" />
     <Compile Include="Routing\Exception\DomainException.cs" />
     <Compile Include="Routing\Exception\NotFoundRouteException.cs" />
-    <Compile Include="Routing\Exception\RouterConfigException.cs" />
     <Compile Include="Routing\Exception\UndefinedDefaultSchemeException.cs" />
     <Compile Include="API\Routing\Internal\IRequest.cs" />
     <Compile Include="API\Routing\Internal\IResponse.cs" />
