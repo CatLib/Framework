@@ -104,6 +104,11 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
+        <member name="T:CatLib.API.ExcludeFromCodeCoverageAttribute">
+            <summary>
+            标记的类，函数，属性不再进行覆盖率分析
+            </summary>
+        </member>
         <member name="T:CatLib.API.Stl.IContainer">
             <summary>
             容器接口
@@ -572,7 +577,7 @@
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.API.Stl.IQuickList`1.Trim(System.Int64,System.Int64)">
+        <member name="M:CatLib.API.Stl.IQuickList`1.Trim(System.Int32,System.Int32)">
             <summary>
             对列表进行修剪，只保留下标范围内的元素
             </summary>
@@ -580,7 +585,7 @@
             <param name="end">结束下标</param>
             <returns>移除的元素数量</returns>
         </member>
-        <member name="M:CatLib.API.Stl.IQuickList`1.Remove(`0,System.Int64)">
+        <member name="M:CatLib.API.Stl.IQuickList`1.Remove(`0,System.Int32)">
             <summary>
             根据参数 <paramref name="count"/> 的值，移除列表中与参数 <paramref name="element"/> 相等的元素。
             <para><c>count &gt; 0</c> : 从表头开始向表尾搜索，移除与 <paramref name="element"/> 相等的元素，数量为 <paramref name="count"/>。</para>
@@ -591,7 +596,7 @@
             <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
             <returns>被移除元素的数量</returns>
         </member>
-        <member name="M:CatLib.API.Stl.IQuickList`1.GetRange(System.Int64,System.Int64)">
+        <member name="M:CatLib.API.Stl.IQuickList`1.GetRange(System.Int32,System.Int32)">
             <summary>
             获取区间内的所有元素,1个元素占1个位置，范围不允许使用负数表示
             </summary>
@@ -599,7 +604,7 @@
             <param name="end">结束位置(包含)</param>
             <returns>区间内的元素列表</returns>
         </member>
-        <member name="P:CatLib.API.Stl.IQuickList`1.Item(System.Int64)">
+        <member name="P:CatLib.API.Stl.IQuickList`1.Item(System.Int32)">
             <summary>
             通过下标访问元素,如果传入的是一个负数下标那么从末尾开始查找
             </summary>
@@ -699,7 +704,7 @@
             <param name="element">元素</param>
             <returns>是否成功</returns>
         </member>
-        <member name="M:CatLib.API.Stl.ISortSet`2.RemoveRangeByRank(System.Int64,System.Int64)">
+        <member name="M:CatLib.API.Stl.ISortSet`2.RemoveRangeByRank(System.Int32,System.Int32)">
             <summary>
             根据排名区间移除区间内的元素
             </summary>
@@ -729,7 +734,7 @@
             <param name="element"></param>
             <returns>排名排名以0为底 , 为-1则表示没有找到元素</returns>
         </member>
-        <member name="M:CatLib.API.Stl.ISortSet`2.GetElementRangeByRank(System.Int64,System.Int64)">
+        <member name="M:CatLib.API.Stl.ISortSet`2.GetElementRangeByRank(System.Int32,System.Int32)">
             <summary>
             根据排名区间获取区间内的所有元素
             </summary>
@@ -745,14 +750,14 @@
             <param name="stopScore">结束的分数（包含）</param>
             <returns>元素列表</returns>
         </member>
-        <member name="M:CatLib.API.Stl.ISortSet`2.GetElementByRank(System.Int64)">
+        <member name="M:CatLib.API.Stl.ISortSet`2.GetElementByRank(System.Int32)">
             <summary>
             根据排名获取元素 (有序集成员按照Score从小到大排序)
             </summary>
             <param name="rank">排名,排名以0为底</param>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.API.Stl.ISortSet`2.GetElementByRevRank(System.Int64)">
+        <member name="M:CatLib.API.Stl.ISortSet`2.GetElementByRevRank(System.Int32)">
             <summary>
             根据排名获取元素 (有序集成员按照Score从大到小排序)
             </summary>
@@ -788,7 +793,7 @@
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="P:CatLib.API.Stl.ISortSet`2.Item(System.Int64)">
+        <member name="P:CatLib.API.Stl.ISortSet`2.Item(System.Int32)">
             <summary>
             获取指定排名的元素(有序集成员按照Score从小到大排序)
             </summary>
@@ -1111,22 +1116,6 @@
             </summary>
             <param name="platform">平台名</param>
             <returns>转换后的名字</returns>
-        </member>
-        <member name="T:CatLib.API.ExceptionEventArgs">
-            <summary>
-            异常事件
-            </summary>
-        </member>
-        <member name="P:CatLib.API.ExceptionEventArgs.Exception">
-            <summary>
-            异常
-            </summary>
-        </member>
-        <member name="M:CatLib.API.ExceptionEventArgs.#ctor(System.Exception)">
-            <summary>
-            异常事件
-            </summary>
-            <param name="ex">出现的异常</param>
         </member>
         <member name="T:CatLib.API.RuntimeException">
             <summary>
@@ -3444,28 +3433,6 @@
             </summary>
             <param name="message">异常消息</param>
         </member>
-        <member name="T:CatLib.Routing.NotFoundSchemeException">
-            <summary>
-            未能找到 Scheme
-            </summary>
-        </member>
-        <member name="M:CatLib.Routing.NotFoundSchemeException.#ctor(System.String)">
-            <summary>
-            未能找到 Scheme
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
-        <member name="T:CatLib.Routing.RouterConfigException">
-            <summary>
-            路由配置异常
-            </summary>
-        </member>
-        <member name="M:CatLib.Routing.RouterConfigException.#ctor(System.String)">
-            <summary>
-            路由配置异常
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
         <member name="T:CatLib.Routing.UndefinedDefaultSchemeException">
             <summary>
             未定义默认的Scheme
@@ -4566,13 +4533,15 @@
             <param name="request">请求</param>
             <param name="response">响应</param>
             <param name="ex">异常</param>
+            <returns>是否被拦截</returns>
         </member>
-        <member name="M:CatLib.Routing.Router.RunRouteWithMiddleware(CatLib.Routing.Route,CatLib.Routing.Request)">
+        <member name="M:CatLib.Routing.Router.RunRouteWithMiddleware(CatLib.Routing.Route,CatLib.Routing.Request,CatLib.Routing.Response)">
             <summary>
             通过中间件后执行路由请求
             </summary>
             <param name="route">路由条目</param>
             <param name="request">请求</param>
+            <param name="response">响应</param>
             <returns>响应</returns>
         </member>
         <member name="M:CatLib.Routing.Router.RunInRoute(CatLib.Routing.Route,CatLib.Routing.Request,CatLib.Routing.Response)">
@@ -6024,7 +5993,7 @@
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Trim(System.Int64,System.Int64)">
+        <member name="M:CatLib.Stl.QuickList`1.Trim(System.Int32,System.Int32)">
             <summary>
             对列表进行修剪，只保留下标范围内的元素
             </summary>
@@ -6033,7 +6002,7 @@
             <returns>移除的元素数量</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>或者<paramref name="start"/>小于0时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Remove(`0,System.Int64)">
+        <member name="M:CatLib.Stl.QuickList`1.Remove(`0,System.Int32)">
             <summary>
             根据参数 <paramref name="count"/> 的值，移除列表中与参数 <paramref name="element"/> 相等的元素。
             <para><c>count &gt; 0</c> : 从表头开始向表尾搜索，移除与 <paramref name="element"/> 相等的元素，数量为 <paramref name="count"/>。</para>
@@ -6044,7 +6013,7 @@
             <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
             <returns>被移除元素的数量</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.GetRange(System.Int64,System.Int64)">
+        <member name="M:CatLib.Stl.QuickList`1.GetRange(System.Int32,System.Int32)">
             <summary>
             获取区间内的所有元素,1个元素占1个位置
             </summary>
@@ -6053,7 +6022,7 @@
             <returns>区间内的元素列表</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>时引发</exception>
         </member>
-        <member name="P:CatLib.Stl.QuickList`1.Item(System.Int64)">
+        <member name="P:CatLib.Stl.QuickList`1.Item(System.Int32)">
             <summary>
             通过下标访问元素,如果传入的是一个负数下标那么从末尾开始查找
             </summary>
@@ -6098,7 +6067,7 @@
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.FindByIndex(System.Int64,System.Int32@)">
+        <member name="M:CatLib.Stl.QuickList`1.FindByIndex(System.Int32,System.Int32@)">
             <summary>
             根据下标查找元素,如果传入的是一个负数下标那么从末尾开始查找
             </summary>
@@ -6217,6 +6186,11 @@
         <member name="F:CatLib.Stl.SortSet`2.SkipNode.Score">
             <summary>
             分数
+            </summary>
+        </member>
+        <member name="F:CatLib.Stl.SortSet`2.SkipNode.IsDeleted">
+            <summary>
+            是否被删除
             </summary>
         </member>
         <member name="F:CatLib.Stl.SortSet`2.SkipNode.Backward">
@@ -6403,7 +6377,7 @@
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="P:CatLib.Stl.SortSet`2.Item(System.Int64)">
+        <member name="P:CatLib.Stl.SortSet`2.Item(System.Int32)">
             <summary>
             获取指定排名的元素(有序集成员按照Score从小到大排序)
             </summary>
@@ -6450,7 +6424,7 @@
             <returns>是否成功</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.RemoveRangeByRank(System.Int64,System.Int64)">
+        <member name="M:CatLib.Stl.SortSet`2.RemoveRangeByRank(System.Int32,System.Int32)">
             <summary>
             根据排名区间移除区间内的元素
             </summary>
@@ -6484,7 +6458,7 @@
             <returns>排名排名以0为底 , 为-1则表示没有找到元素</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetElementRangeByRank(System.Int64,System.Int64)">
+        <member name="M:CatLib.Stl.SortSet`2.GetElementRangeByRank(System.Int32,System.Int32)">
             <summary>
             根据排名区间获取区间内的所有元素
             </summary>
@@ -6502,14 +6476,14 @@
             <returns>元素列表</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetElementByRank(System.Int64)">
+        <member name="M:CatLib.Stl.SortSet`2.GetElementByRank(System.Int32)">
             <summary>
             根据排名获取元素 (有序集成员按照Score从小到大排序)
             </summary>
             <param name="rank">排名,排名以0为底</param>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetElementByRevRank(System.Int64)">
+        <member name="M:CatLib.Stl.SortSet`2.GetElementByRevRank(System.Int32)">
             <summary>
             根据排名获取元素 (有序集成员按照Score从大到小排序)
             </summary>

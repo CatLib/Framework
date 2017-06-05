@@ -1,0 +1,53 @@
+﻿/*
+ * This file is part of the CatLib package.
+ *
+ * (c) Yu Bin <support@catlib.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Document: http://catlib.io/
+ */
+
+using CatLib.API;
+using CatLib.Core;
+using UnityEngine;
+#if UNITY_EDITOR || NUNIT
+using NUnit.Framework;
+using TestClass = NUnit.Framework.TestFixtureAttribute;
+using TestMethod = NUnit.Framework.TestAttribute;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
+#endif
+
+namespace CatLib.Tests.Core
+{
+    [TestClass]
+    public class EnvTests
+    {
+        [TestMethod]
+        public void TestPlatformToName()
+        {
+            var env = new Env();
+
+            Assert.AreEqual("Linux", env.PlatformToName(RuntimePlatform.LinuxPlayer));
+            Assert.AreEqual("Win", env.PlatformToName(RuntimePlatform.WindowsPlayer));
+            Assert.AreEqual("Win", env.PlatformToName(RuntimePlatform.WindowsEditor));
+            Assert.AreEqual("Android", env.PlatformToName(RuntimePlatform.Android));
+            Assert.AreEqual("IOS", env.PlatformToName(RuntimePlatform.IPhonePlayer));
+            Assert.AreEqual("OSX", env.PlatformToName(RuntimePlatform.OSXEditor));
+            Assert.AreEqual("OSX", env.PlatformToName(RuntimePlatform.OSXPlayer));
+            Assert.AreEqual("Web", env.PlatformToName(RuntimePlatform.WebGLPlayer));
+        }
+
+        [TestMethod]
+        public void TestSetDebugLevel()
+        {
+            var env = new Env();
+            env.SetDebugLevel(DebugLevels.Prod);
+
+            Assert.AreEqual(DebugLevels.Prod, env.DebugLevel);
+        }
+    }
+}

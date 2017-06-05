@@ -785,5 +785,44 @@ namespace CatLib.Tests.Stl
                 master.Last();
             });
         }
+
+        /// <summary>
+        /// 有序集迭代删除(连续删除元素立即生效测试)
+        /// </summary>
+        [TestMethod]
+        public void TestIterationsDeleted()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+
+            for (var i = 0; i < 100; i++)
+            {
+                master.Add(i, i);
+            }
+
+            var assertList = new List<int>() {0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
+            var tmpList = new List<int>();
+            foreach (var i in master)
+            {
+                tmpList.Add(i);
+                master.Remove(i);
+                master.Remove(i+1);
+                master.Remove(i+2);
+                master.Remove(i+3);
+                master.Remove(i+4);
+                master.Remove(i+5);
+                master.Remove(i+6);
+                master.Remove(i+7);
+                master.Remove(i+8);
+                master.Remove(i+9);
+            }
+
+            var n = 0;
+            foreach (var v in tmpList)
+            {
+                Assert.AreEqual(assertList[n++], v);
+            }
+
+            Assert.AreEqual(assertList.Count, tmpList.Count);
+        }
     }
 }
