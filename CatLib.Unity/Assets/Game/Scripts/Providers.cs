@@ -39,7 +39,6 @@ namespace CatLib.Bootstrap
                     typeof(TimerProvider),
                     typeof(ConfigProvider),
                     typeof(RoutingProvider),
-                    typeof(StartProvider)
                 };
             }
         }

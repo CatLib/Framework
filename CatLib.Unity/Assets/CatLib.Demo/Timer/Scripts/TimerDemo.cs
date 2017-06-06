@@ -1,4 +1,5 @@
-﻿using CatLib.API;
+﻿using System.Collections;
+using CatLib.API;
 using CatLib.API.Timer;
 using UnityEngine;
 
@@ -9,9 +10,9 @@ namespace CatLib.Demo.Timer
     /// </summary>
     public class TimerDemo : ServiceProvider
     {
-        public override void Init()
+        public override IEnumerator Init()
         {
-            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
             {
                 var timerManager = App.Make<ITimerManager>();
 
@@ -33,6 +34,8 @@ namespace CatLib.Demo.Timer
                     Debug.Log("loop frame tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
                 }).LoopFrame(3);
             });
+
+            yield return base.Init();
         }
 
         public override void Register()

@@ -9,28 +9,28 @@
  * Document: http://catlib.io/
  */
 
-using System;
+using CatLib.API;
+using CatLib.Facade;
 
 namespace CatLib.Bootstrap
 {
     /// <summary>
-    /// 引导程序
+    /// 启动到用户代码
     /// </summary>
-    public class Bootstrap
+    public class StartBootstrap : IBootstrap
     {
         /// <summary>
         /// 引导程序
         /// </summary>
-        public static Type[] BootStrap
+        public void Bootstrap()
         {
-            get
+            App.Instance.On(ApplicationEvents.OnStartComplete, (sender, e) =>
             {
-                return new[]
+                if (Router.Instance != null)
                 {
-                    typeof(ProvidersBootstrap),
-                    typeof(StartBootstrap)
-                };
-            }
+                    Router.Instance.Dispatch("bootstrap://main");
+                }
+            });
         }
     }
 }

@@ -198,6 +198,10 @@ namespace CatLib.Core
             }
 
             var serviceProvider = Make(t.ToString()) as ServiceProvider;
+            if (serviceProvider == null)
+            {
+                throw new RuntimeException("You need call OnFindType() To get the type of cross-assembly");
+            }
             serviceProvider.Register();
             serviceProviders.Add(t, serviceProvider);
         }
@@ -236,7 +240,7 @@ namespace CatLib.Core
 
             process = StartProcess.Inited;
 
-            TriggerGlobal(ApplicationEvents.OnApplicationStartComplete, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnStartComplete, this).Trigger();
         }
     }
 }

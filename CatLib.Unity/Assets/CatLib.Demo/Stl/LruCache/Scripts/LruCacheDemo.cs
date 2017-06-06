@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections;
 using CatLib.API;
 using CatLib.API.Stl;
 using CatLib.Stl;
@@ -20,9 +21,9 @@ namespace CatLib.Demo.LruCache
     public class LruCacheDemo : ServiceProvider
     {
 
-        public override void Init()
+        public override IEnumerator Init()
         {
-            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
             {
 
                 ILruCache<string,string> cache = new LruCache<string, string>(3);
@@ -57,6 +58,8 @@ namespace CatLib.Demo.LruCache
                 }
 
             });
+
+            yield return base.Init();
         }
 
         public override void Register(){ }

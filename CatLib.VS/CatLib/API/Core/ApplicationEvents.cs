@@ -29,6 +29,6 @@ namespace CatLib.API
         /// <summary>
         /// 当程序启动完成
         /// </summary>
-        public static readonly string OnApplicationStartComplete = "application.complete";
+        public static readonly string OnStartComplete = "application.complete";
     }
 }

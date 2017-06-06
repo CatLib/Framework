@@ -194,7 +194,6 @@ namespace CatLib.Tests.Core
         [TestMethod]
         public void InitedAfterRegister()
         {
-            inited = false;
             prioritiesTest = true;
             var app = new Application();
             app.OnFindType((t) =>

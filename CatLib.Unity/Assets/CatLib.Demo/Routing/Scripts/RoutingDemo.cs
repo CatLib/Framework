@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections;
 using System.Runtime.InteropServices;
 using CatLib.API;
 using CatLib.API.Routing;
@@ -20,9 +21,9 @@ namespace CatLib.Demo.Routing
     public class RoutingDemo : ServiceProvider
     {
 
-        public override void Init()
+        public override IEnumerator Init()
         {
-            App.On(ApplicationEvents.OnApplicationStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
             {
                 IRouter router = App.Make<IRouter>();
 
@@ -105,6 +106,8 @@ namespace CatLib.Demo.Routing
                 router.Dispatch("catlib://group-callback-routing/with-name-group-1");
 
             });
+
+            yield return base.Init();
         }
 
         public override void Register()

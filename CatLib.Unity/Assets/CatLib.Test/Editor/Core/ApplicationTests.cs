@@ -33,7 +33,11 @@ namespace CatLib.Tests.Core
         public void RepeatInitTest()
         {
             var app = MakeApplication();
-            app.Init();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Init();
+            });
         }
 
         /// <summary>
@@ -67,7 +71,7 @@ namespace CatLib.Tests.Core
         public void GetCurrentProcess()
         {
             var app = MakeApplication();
-            Assert.AreEqual(Application.StartProcess.OnComplete, app.Process);
+            Assert.AreEqual(Application.StartProcess.Inited, app.Process);
         }
 
         /// <summary>
@@ -80,7 +84,7 @@ namespace CatLib.Tests.Core
             app.Bootstrap();
             app.Init();
             app.Bootstrap();
-            Assert.AreEqual(Application.StartProcess.OnComplete, app.Process);
+            Assert.AreEqual(Application.StartProcess.Inited, app.Process);
         }
 
         /// <summary>
@@ -123,12 +127,10 @@ namespace CatLib.Tests.Core
 
         private static bool prioritiesTest;
 
-        private static bool inited;
-
         private class ProviderTest1 : ServiceProvider
         {
             [CatLib.API.Priority(10)]
-            public override IEnumerator OnProviderProcess()
+            public override IEnumerator Init()
             {
                 prioritiesTest = true;
                 yield break;
@@ -143,13 +145,7 @@ namespace CatLib.Tests.Core
         [CatLib.API.Priority(5)]
         private class ProviderTest2 : ServiceProvider
         {
-            public override void Init()
-            {
-                inited = true;
-                base.Init();
-            }
-
-            public override IEnumerator OnProviderProcess()
+            public override IEnumerator Init()
             {
                 prioritiesTest = false;
                 yield break;
@@ -198,7 +194,6 @@ namespace CatLib.Tests.Core
         [TestMethod]
         public void InitedAfterRegister()
         {
-            inited = false;
             prioritiesTest = true;
             var app = new Application();
             app.OnFindType((t) =>
@@ -208,9 +203,11 @@ namespace CatLib.Tests.Core
             app.Bootstrap();
             App.Instance.Register(typeof(ProviderTest1));
             app.Init();
-            App.Instance.Register(typeof(ProviderTest2));
-            Assert.AreEqual(true , inited);
-            Assert.AreEqual(false , prioritiesTest);
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                App.Instance.Register(typeof(ProviderTest2));
+            });
         }
 
         private Application MakeApplication()
