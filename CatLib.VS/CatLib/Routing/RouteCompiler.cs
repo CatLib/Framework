@@ -24,12 +24,12 @@ namespace CatLib.Routing
         /// <summary>
         /// 分隔符
         /// </summary>
-        private const string SEPARATORS = @"/,;.:-_~+*=@|";
+        private const string Separators = @"/,;.:-_~+*=@|";
 
         /// <summary>
         /// 变量最大长度
         /// </summary>
-        private const int VARIABLE_MAXIMUM_LENGTH = 32;
+        private const int VariableMaximumLength = 32;
 
         /// <summary>
         /// 编译路由条目
@@ -130,7 +130,7 @@ namespace CatLib.Routing
 
                 precedingChar = precedingText.Length <= 0 ? string.Empty : precedingText.Substring(precedingText.Length - 1);
 
-                isSeparator = string.Empty != precedingChar && SEPARATORS.Contains(precedingChar);
+                isSeparator = string.Empty != precedingChar && Separators.Contains(precedingChar);
 
                 if (IsMatch(@"^\d", varName))
                 {
@@ -142,9 +142,9 @@ namespace CatLib.Routing
                     throw new DomainException(string.Format("Route pattern [{0}] cannot reference variable name [{1}] more than once.", varName, uri));
                 }
 
-                if (varName.Length > VARIABLE_MAXIMUM_LENGTH)
+                if (varName.Length > VariableMaximumLength)
                 {
-                    throw new DomainException(string.Format("Variable name [{0}] cannot be longer than [{1}] characters in route pattern [{2}]. please use a shorter name.", varName, VARIABLE_MAXIMUM_LENGTH, uri));
+                    throw new DomainException(string.Format("Variable name [{0}] cannot be longer than [{1}] characters in route pattern [{2}]. please use a shorter name.", varName, VariableMaximumLength, uri));
                 }
 
                 if (isSeparator && precedingText != precedingChar)
@@ -310,7 +310,7 @@ namespace CatLib.Routing
             {
                 return string.Empty;
             }
-            return SEPARATORS.Contains(uri[0].ToString()) ? uri[0].ToString() : string.Empty;
+            return Separators.Contains(uri[0].ToString()) ? uri[0].ToString() : string.Empty;
         }
 
         /// <summary>

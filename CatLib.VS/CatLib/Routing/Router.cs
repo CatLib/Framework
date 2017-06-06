@@ -28,7 +28,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 分隔符
         /// </summary>
-        private const char SEPARATOR = '/';
+        private const char Separator = '/';
 
         /// <summary>
         /// 全局调度器
@@ -542,7 +542,7 @@ namespace CatLib.Routing
         /// <returns>处理后的url</returns>
         private string Prefix(string url)
         {
-            return (GetLastGroupPrefix().Trim(SEPARATOR) + SEPARATOR + url.Trim(SEPARATOR)).Trim(SEPARATOR);
+            return (GetLastGroupPrefix().Trim(Separator) + Separator + url.Trim(Separator)).Trim(Separator);
         }
 
         /// <summary>

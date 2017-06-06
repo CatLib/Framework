@@ -27,7 +27,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 合并系数
         /// </summary>
-        private const float MERGE_PRO = 0.9f;
+        private const float MergeCoefficient = 0.9f;
 
         /// <summary>
         /// 快速列表结点
@@ -872,7 +872,7 @@ namespace CatLib.Stl
                 return false;
             }
 
-            return a.List.Count + b.List.Count < (fill * MERGE_PRO);
+            return a.List.Count + b.List.Count < (fill * MergeCoefficient);
         }
 
         /// <summary>

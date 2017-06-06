@@ -26,18 +26,13 @@ namespace CatLib.Core
     public sealed class Application : Driver, IApplication
     {
         /// <summary>
-        /// CatLib框架版本
-        /// </summary>
-        private const string VERSION = "1.0.0";
-
-        /// <summary>
         /// CatLib版本号
         /// </summary>
         public string Version
         {
             get
             {
-                return VERSION;
+                return "1.0.0";
             }
         }
 
