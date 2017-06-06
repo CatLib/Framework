@@ -44,22 +44,17 @@ namespace CatLib.Core
             /// <summary>
             /// 引导流程
             /// </summary>
-            OnBootstrap = 1,
+            Bootstrap = 1,
 
             /// <summary>
-            /// 初始化流程
+            /// 初始化中
             /// </summary>
-            OnInit = 2,
+            Initing = 2,
 
             /// <summary>
-            /// 服务提供商启动流程
+            /// 初始化完成
             /// </summary>
-            OnProviderProcess = 3,
-
-            /// <summary>
-            /// 启动完成
-            /// </summary>
-            OnComplete = 4,
+            Inited = 4,
         }
 
         /// <summary>
@@ -80,7 +75,7 @@ namespace CatLib.Core
         /// <summary>
         /// 启动流程
         /// </summary>
-        private StartProcess process = StartProcess.OnBootstrap;
+        private StartProcess process = StartProcess.Bootstrap;
 
         /// <summary>
         /// 启动流程
@@ -130,7 +125,7 @@ namespace CatLib.Core
                 return this;
             }
 
-            process = StartProcess.OnBootstrap;
+            process = StartProcess.Bootstrap;
 
             App.Instance = this;
 
@@ -164,31 +159,18 @@ namespace CatLib.Core
         /// <exception cref="RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
         public void Init()
         {
-            if (inited)
-            {
-                return;
-            }
             if (!bootstrapped)
             {
                 throw new RuntimeException("Must call Bootstrap() first.");
             }
-
-            var providers = new List<ServiceProvider>(serviceProviders.Values);
-
-            process = StartProcess.OnInit;
-
-            TriggerGlobal(ApplicationEvents.OnIniting, this).Trigger();
-
-            foreach (var serviceProvider in providers)
+            if (process != StartProcess.Bootstrap)
             {
-                serviceProvider.Init();
+                throw new RuntimeException("StartProcess is not Bootstrap.");
             }
 
             inited = true;
-
-            TriggerGlobal(ApplicationEvents.OnInited, this).Trigger();
-
-            StartCoroutine(StartProviderPorcess());
+            process = StartProcess.Initing;
+            StartCoroutine(InitPorcess());
         }
 
         /// <summary>
@@ -199,6 +181,12 @@ namespace CatLib.Core
         public void Register(Type t)
         {
             Guard.Requires<ArgumentNullException>(t != null);
+
+            if (inited)
+            {
+                throw new RuntimeException("Register() Only be called before Init()");
+            }
+
             if (serviceProviders.ContainsKey(t))
             {
                 throw new RuntimeException("Provider [" + t + "] is already register.");
@@ -212,11 +200,6 @@ namespace CatLib.Core
             var serviceProvider = Make(t.ToString()) as ServiceProvider;
             serviceProvider.Register();
             serviceProviders.Add(t, serviceProvider);
-            if (inited)
-            {
-                serviceProvider.Init();
-                StartCoroutine(serviceProvider.OnProviderProcess());
-            }
         }
 
         /// <summary>
@@ -232,28 +215,26 @@ namespace CatLib.Core
         /// 启动服务提供商启动流程
         /// </summary>
         /// <returns>迭代器</returns>
-        private IEnumerator StartProviderPorcess()
+        private IEnumerator InitPorcess()
         {
-            process = StartProcess.OnProviderProcess;
-
-            TriggerGlobal(ApplicationEvents.OnProviderProcessing, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnIniting, this).Trigger();
 
             var providers = new List<ServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) =>
             {
-                var leftPriorities = GetPriorities(left.GetType(), "OnProviderProcess");
-                var rightPriorities = GetPriorities(right.GetType(), "OnProviderProcess");
+                var leftPriorities = GetPriorities(left.GetType(), "Init");
+                var rightPriorities = GetPriorities(right.GetType(), "Init");
                 return leftPriorities.CompareTo(rightPriorities);
             });
 
             foreach (var provider in providers)
             {
-                yield return provider.OnProviderProcess();
+                yield return provider.Init();
             }
 
-            TriggerGlobal(ApplicationEvents.OnProviderProcessed, this).Trigger();
+            TriggerGlobal(ApplicationEvents.OnInited, this).Trigger();
 
-            process = StartProcess.OnComplete;
+            process = StartProcess.Inited;
 
             TriggerGlobal(ApplicationEvents.OnApplicationStartComplete, this).Trigger();
         }

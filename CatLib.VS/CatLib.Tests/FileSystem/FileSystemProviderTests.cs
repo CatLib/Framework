@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections;
 using System.IO;
 using CatLib.API;
 using CatLib.API.Config;
@@ -37,11 +38,11 @@ namespace CatLib.Tests.FileSystem
 
         public class PrepareEnv : ServiceProvider
         {
-            public override void Init()
+            public override IEnumerator Init()
             {
-                base.Init();
                 var path = Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
                 App.Make<IEnv>().SetAssetPath(path);
+                yield return base.Init();
             }
 
             public override void Register(){ }

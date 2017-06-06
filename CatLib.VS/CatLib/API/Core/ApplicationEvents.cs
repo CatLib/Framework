@@ -27,16 +27,6 @@ namespace CatLib.API
         public static readonly string OnInited = "application.inited";
 
         /// <summary>
-        /// 当服务提供商流程开始前
-        /// </summary>
-        public static readonly string OnProviderProcessing = "application.provider.processing";
-
-        /// <summary>
-        /// 当服务提供商流程结束
-        /// </summary>
-        public static readonly string OnProviderProcessed = "application.provider.processed";
-
-        /// <summary>
         /// 当程序启动完成
         /// </summary>
         public static readonly string OnApplicationStartComplete = "application.complete";

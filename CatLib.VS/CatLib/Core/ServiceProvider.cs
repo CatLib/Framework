@@ -20,22 +20,6 @@ namespace CatLib
     public abstract class ServiceProvider
     {
         /// <summary>
-        /// 服务提供商初始化
-        /// </summary>
-        public virtual void Init()
-        {
-        }
-
-        /// <summary>
-        /// 当服务提供商触发启动流程时
-        /// </summary>
-        /// <returns>迭代器</returns>
-        public virtual IEnumerator OnProviderProcess()
-        {
-            yield break;
-        }
-
-        /// <summary>
         /// CatLib实例
         /// </summary>
         public IApplication App
@@ -44,6 +28,15 @@ namespace CatLib
             {
                 return CatLib.App.Instance;
             }
+        }
+
+        /// <summary>
+        /// 服务提供者初始化
+        /// </summary>
+        /// <returns>迭代器</returns>
+        public virtual IEnumerator Init()
+        {
+            yield break;
         }
 
         /// <summary>

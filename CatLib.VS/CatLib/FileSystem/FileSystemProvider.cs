@@ -25,10 +25,10 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority]
-        public override IEnumerator OnProviderProcess()
+        public override IEnumerator Init()
         {
             InitRegisterLocalDriver();
-            return base.OnProviderProcess();
+            return base.Init();
         }
 
         /// <summary>
