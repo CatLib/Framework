@@ -26,7 +26,10 @@ namespace CatLib.Time
         /// </summary>
         public float Time
         {
-            get { return UTime.time; }
+            get
+            {
+                return UTime.time;
+            }
         }
 
         /// <summary>
@@ -34,7 +37,10 @@ namespace CatLib.Time
         /// </summary>
         public float DeltaTime
         {
-            get { return UTime.deltaTime; }
+            get
+            {
+                return UTime.deltaTime;
+            }
         }
 
         /// <summary>
@@ -42,7 +48,10 @@ namespace CatLib.Time
         /// </summary>
         public float FixedTime
         {
-            get { return UTime.fixedTime; }
+            get
+            {
+                return UTime.fixedTime;
+            }
         }
 
         /// <summary>
@@ -50,7 +59,10 @@ namespace CatLib.Time
         /// </summary>
         public float TimeSinceLevelLoad
         {
-            get { return UTime.timeSinceLevelLoad; }
+            get
+            {
+                return UTime.timeSinceLevelLoad;
+            }
         }
 
         /// <summary>
@@ -58,8 +70,14 @@ namespace CatLib.Time
         /// </summary>
         public float FixedDeltaTime
         {
-            get { return UTime.fixedDeltaTime; }
-            set { UTime.fixedDeltaTime = value; }
+            get
+            {
+                return UTime.fixedDeltaTime;
+            }
+            set
+            {
+                UTime.fixedDeltaTime = value;
+            }
         }
 
         /// <summary>
@@ -67,7 +85,10 @@ namespace CatLib.Time
         /// </summary>
         public float MaximumDeltaTime
         {
-            get { return UTime.maximumDeltaTime; }
+            get
+            {
+                return UTime.maximumDeltaTime;
+            }
         }
 
         /// <summary>
@@ -75,7 +96,10 @@ namespace CatLib.Time
         /// </summary>
         public float SmoothDeltaTime
         {
-            get { return UTime.smoothDeltaTime; }
+            get
+            {
+                return UTime.smoothDeltaTime;
+            }
         }
 
         /// <summary>
@@ -83,8 +107,14 @@ namespace CatLib.Time
         /// </summary>
         public float TimeScale
         {
-            get { return UTime.timeScale; }
-            set { UTime.timeScale = value; }
+            get
+            {
+                return UTime.timeScale;
+            }
+            set
+            {
+                UTime.timeScale = value;
+            }
         }
 
         /// <summary>
@@ -92,7 +122,10 @@ namespace CatLib.Time
         /// </summary>
         public int FrameCount
         {
-            get { return UTime.frameCount; }
+            get
+            {
+                return UTime.frameCount;
+            }
         }
 
         /// <summary>
@@ -100,7 +133,10 @@ namespace CatLib.Time
         /// </summary>
         public float RealtimeSinceStartup
         {
-            get { return UTime.realtimeSinceStartup; }
+            get
+            {
+                return UTime.realtimeSinceStartup;
+            }
         }
 
         /// <summary>
@@ -108,8 +144,14 @@ namespace CatLib.Time
         /// </summary>
         public int CaptureFramerate
         {
-            get { return UTime.captureFramerate; }
-            set { UTime.captureFramerate = value; }
+            get
+            {
+                return UTime.captureFramerate;
+            }
+            set
+            {
+                UTime.captureFramerate = value;
+            }
         }
 
         /// <summary>
@@ -117,7 +159,10 @@ namespace CatLib.Time
         /// </summary>
         public float UnscaledDeltaTime
         {
-            get { return UTime.unscaledDeltaTime; }
+            get
+            {
+                return UTime.unscaledDeltaTime;
+            }
         }
 
         /// <summary>
@@ -125,7 +170,10 @@ namespace CatLib.Time
         /// </summary>
         public float UnscaledTime
         {
-            get { return UTime.unscaledTime; }
+            get
+            {
+                return UTime.unscaledTime;
+            }
         }
     }
 }

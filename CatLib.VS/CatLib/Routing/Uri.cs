@@ -26,7 +26,10 @@ namespace CatLib.Routing
         /// </summary>
         public System.Uri Original
         {
-            get { return uri; }
+            get
+            {
+                return uri;
+            }
         }
 
         /// <summary>
@@ -52,7 +55,10 @@ namespace CatLib.Routing
         /// </summary>
         public string FullPath
         {
-            get { return System.Uri.UnescapeDataString(uri.Scheme + "://" + uri.Host + uri.PathAndQuery.TrimEnd('/')); }
+            get
+            {
+                return System.Uri.UnescapeDataString(uri.Scheme + "://" + uri.Host + uri.PathAndQuery.TrimEnd('/'));
+            }
         }
 
         /// <summary>
@@ -72,7 +78,10 @@ namespace CatLib.Routing
         /// </summary>
         public string Scheme
         {
-            get { return uri.Scheme; }
+            get
+            {
+                return uri.Scheme;
+            }
         }
 
         /// <summary>
@@ -80,7 +89,10 @@ namespace CatLib.Routing
         /// </summary>
         public string Host
         {
-            get { return uri.Host; }
+            get
+            {
+                return uri.Host;
+            }
         }
 
         /// <summary>
@@ -88,7 +100,10 @@ namespace CatLib.Routing
         /// </summary>
         public string UserInfo
         {
-            get { return uri.UserInfo; }
+            get
+            {
+                return uri.UserInfo;
+            }
         }
 
         /// <summary>
@@ -96,7 +111,10 @@ namespace CatLib.Routing
         /// </summary>
         public string[] Segments
         {
-            get { return uri.Segments; }
+            get
+            {
+                return uri.Segments;
+            }
         }
     }
 }

@@ -149,7 +149,10 @@ namespace CatLib.Stl
             /// </summary>
             public TElement Current
             {
-                get { return current; }
+                get
+                {
+                    return current;
+                }
             }
 
             /// <summary>
@@ -157,7 +160,10 @@ namespace CatLib.Stl
             /// </summary>
             object IEnumerator.Current
             {
-                get { return current; }
+                get
+                {
+                    return current;
+                }
             }
 
             /// <summary>
@@ -213,7 +219,10 @@ namespace CatLib.Stl
         /// </summary>
         public object SyncRoot
         {
-            get { return syncRoot; }
+            get
+            {
+                return syncRoot;
+            }
         }
 
         /// <summary>

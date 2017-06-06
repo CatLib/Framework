@@ -40,7 +40,10 @@ namespace CatLib.Stl
         /// </summary>
         public TInterface Default
         {
-            get { return Get(); }
+            get
+            {
+                return Get();
+            }
         }
 
         /// <summary>
@@ -50,7 +53,10 @@ namespace CatLib.Stl
         /// <returns>解决方案</returns>
         public new TInterface this[string name]
         {
-            get { return Get(name); }
+            get
+            {
+                return Get(name);
+            }
         }
 
         /// <summary>

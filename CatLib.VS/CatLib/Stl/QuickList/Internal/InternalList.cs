@@ -51,7 +51,10 @@ namespace CatLib.Stl
         /// <returns>元素</returns>
         internal TElement this[int offset]
         {
-            get { return items[offset]; }
+            get
+            {
+                return items[offset];
+            }
         }
 
         /// <summary>

@@ -22,6 +22,8 @@ namespace CatLib.Routing
         /// 创建一个参数范围及域异常
         /// </summary>
         /// <param name="message">错误描述</param>
-        public DomainException(string message) : base(message) { }
+        public DomainException(string message) : base(message)
+        {
+        }
     }
 }

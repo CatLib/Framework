@@ -22,6 +22,8 @@ namespace CatLib.Routing
         /// 未能找到路由条目
         /// </summary>
         /// <param name="message">异常消息</param>
-        public NotFoundRouteException(string message) : base(message) { }
+        public NotFoundRouteException(string message) : base(message)
+        {
+        }
     }
 }

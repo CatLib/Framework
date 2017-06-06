@@ -22,6 +22,8 @@ namespace CatLib.Routing
         /// 未定义默认的Scheme
         /// </summary>
         /// <param name="message">异常消息</param>
-        public UndefinedDefaultSchemeException(string message) : base(message) { }
+        public UndefinedDefaultSchemeException(string message) : base(message)
+        {
+        }
     }
 }

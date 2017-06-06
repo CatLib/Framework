@@ -36,7 +36,10 @@ namespace CatLib.Routing
         /// </summary>
         public IRoute Route
         {
-            get { return route; }
+            get
+            {
+                return route;
+            }
         }
 
         /// <summary>
@@ -49,7 +52,10 @@ namespace CatLib.Routing
         /// </summary>
         public System.Uri Uri
         {
-            get { return uri.Original; }
+            get
+            {
+                return uri.Original;
+            }
         }
 
         /// <summary>
@@ -57,7 +63,10 @@ namespace CatLib.Routing
         /// </summary>
         internal Uri RouteUri
         {
-            get { return uri; }
+            get
+            {
+                return uri;
+            }
         }
 
         /// <summary>

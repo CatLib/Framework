@@ -30,7 +30,10 @@ namespace CatLib.FileSystem
         /// </summary>
         public string Path
         {
-            get { return path; }
+            get
+            {
+                return path;
+            }
         }
 
         /// <summary>
@@ -43,7 +46,10 @@ namespace CatLib.FileSystem
         /// </summary>
         protected FileSystem FileSystem
         {
-            get { return fileSystem; }
+            get
+            {
+                return fileSystem;
+            }
         }
 
         /// <summary>

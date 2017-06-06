@@ -235,7 +235,10 @@ namespace CatLib.Stl
         /// </summary>
         public object SyncRoot
         {
-            get { return syncRoot; }
+            get
+            {
+                return syncRoot;
+            }
         }
 
         /// <summary>

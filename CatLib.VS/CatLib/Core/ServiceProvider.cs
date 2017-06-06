@@ -22,7 +22,9 @@ namespace CatLib
         /// <summary>
         /// 服务提供商初始化
         /// </summary>
-        public virtual void Init() { }
+        public virtual void Init()
+        {
+        }
 
         /// <summary>
         /// 当服务提供商触发启动流程时
@@ -38,7 +40,10 @@ namespace CatLib
         /// </summary>
         public IApplication App
         {
-            get { return CatLib.App.Instance; }
+            get
+            {
+                return CatLib.App.Instance;
+            }
         }
 
         /// <summary>

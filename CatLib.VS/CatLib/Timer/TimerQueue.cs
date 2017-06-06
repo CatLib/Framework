@@ -57,7 +57,10 @@ namespace CatLib.Timer
         /// </summary>
         private bool IsComplete
         {
-            get { return cursor >= timers.Count; }
+            get
+            {
+                return cursor >= timers.Count;
+            }
         }
 
         /// <summary>

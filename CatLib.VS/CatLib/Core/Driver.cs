@@ -65,7 +65,10 @@ namespace CatLib.Core
         /// </summary>
         private IEventImpl EventSystem
         {
-            get { return eventImpl ?? (eventImpl = this.Make<IEventImpl>()); }
+            get
+            {
+                return eventImpl ?? (eventImpl = this.Make<IEventImpl>());
+            }
         }
 
         /// <summary>
@@ -97,7 +100,9 @@ namespace CatLib.Core
         /// <summary>
         /// Application行为驱动器
         /// </summary>
-        public Driver() : this(null) { }
+        public Driver() : this(null)
+        {
+        }
 
         /// <summary>
         /// Application行为驱动器

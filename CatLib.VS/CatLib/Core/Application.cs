@@ -35,7 +35,10 @@ namespace CatLib.Core
         /// </summary>
         public string Version
         {
-            get { return VERSION; }
+            get
+            {
+                return VERSION;
+            }
         }
 
         /// <summary>
@@ -89,7 +92,10 @@ namespace CatLib.Core
         /// </summary>
         public StartProcess Process
         {
-            get { return process; }
+            get
+            {
+                return process;
+            }
         }
 
         /// <summary>

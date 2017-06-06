@@ -37,7 +37,10 @@ namespace CatLib.Routing
         /// </summary>
         internal Uri Uri
         {
-            get { return uri; }
+            get
+            {
+                return uri;
+            }
         }
 
         /// <summary>
@@ -55,7 +58,10 @@ namespace CatLib.Routing
         /// </summary>
         internal RouteOptions Options
         {
-            get { return options; }
+            get
+            {
+                return options;
+            }
         }
 
         /// <summary>

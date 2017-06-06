@@ -40,7 +40,10 @@ namespace CatLib.Time
         /// </summary>
         public float Time
         {
-            get { return Default.Time; }
+            get
+            {
+                return Default.Time;
+            }
         }
 
         /// <summary>
@@ -48,7 +51,10 @@ namespace CatLib.Time
         /// </summary>
         public float DeltaTime
         {
-            get { return Default.DeltaTime; }
+            get
+            {
+                return Default.DeltaTime;
+            }
         }
 
         /// <summary>
@@ -56,7 +62,10 @@ namespace CatLib.Time
         /// </summary>
         public float FixedTime
         {
-            get { return Default.FixedTime; }
+            get
+            {
+                return Default.FixedTime;
+            }
         }
 
         /// <summary>
@@ -64,7 +73,10 @@ namespace CatLib.Time
         /// </summary>
         public float TimeSinceLevelLoad
         {
-            get { return Default.TimeSinceLevelLoad; }
+            get
+            {
+                return Default.TimeSinceLevelLoad;
+            }
         }
 
         /// <summary>
@@ -72,8 +84,14 @@ namespace CatLib.Time
         /// </summary>
         public float FixedDeltaTime
         {
-            get { return Default.FixedDeltaTime; }
-            set { Default.FixedDeltaTime = value; }
+            get
+            {
+                return Default.FixedDeltaTime;
+            }
+            set
+            {
+                Default.FixedDeltaTime = value;
+            }
         }
 
         /// <summary>
@@ -81,7 +99,10 @@ namespace CatLib.Time
         /// </summary>
         public float MaximumDeltaTime
         {
-            get { return Default.MaximumDeltaTime; }
+            get
+            {
+                return Default.MaximumDeltaTime;
+            }
         }
 
         /// <summary>
@@ -89,7 +110,10 @@ namespace CatLib.Time
         /// </summary>
         public float SmoothDeltaTime
         {
-            get { return Default.SmoothDeltaTime; }
+            get
+            {
+                return Default.SmoothDeltaTime;
+            }
         }
 
         /// <summary>
@@ -97,8 +121,14 @@ namespace CatLib.Time
         /// </summary>
         public float TimeScale
         {
-            get { return Default.TimeScale; }
-            set { Default.TimeScale = value; }
+            get
+            {
+                return Default.TimeScale;
+            }
+            set
+            {
+                Default.TimeScale = value;
+            }
         }
 
         /// <summary>
@@ -106,7 +136,10 @@ namespace CatLib.Time
         /// </summary>
         public int FrameCount
         {
-            get { return Default.FrameCount; }
+            get
+            {
+                return Default.FrameCount;
+            }
         }
 
         /// <summary>
@@ -114,7 +147,10 @@ namespace CatLib.Time
         /// </summary>
         public float RealtimeSinceStartup
         {
-            get { return Default.RealtimeSinceStartup; }
+            get
+            {
+                return Default.RealtimeSinceStartup;
+            }
         }
 
         /// <summary>
@@ -122,8 +158,14 @@ namespace CatLib.Time
         /// </summary>
         public int CaptureFramerate
         {
-            get { return Default.CaptureFramerate; }
-            set { Default.CaptureFramerate = value; }
+            get
+            {
+                return Default.CaptureFramerate;
+            }
+            set
+            {
+                Default.CaptureFramerate = value;
+            }
         }
 
         /// <summary>
@@ -131,7 +173,10 @@ namespace CatLib.Time
         /// </summary>
         public float UnscaledDeltaTime
         {
-            get { return Default.UnscaledDeltaTime; }
+            get
+            {
+                return Default.UnscaledDeltaTime;
+            }
         }
 
         /// <summary>
@@ -139,7 +184,10 @@ namespace CatLib.Time
         /// </summary>
         public float UnscaledTime
         {
-            get { return Default.UnscaledTime; }
+            get
+            {
+                return Default.UnscaledTime;
+            }
         }
 
         /// <summary>

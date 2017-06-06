@@ -31,7 +31,10 @@ namespace CatLib.Stl
         /// </summary>
         public Action<TIn, Action<TIn>>[] FilterList
         {
-            get { return filterList.ToArray(); }
+            get
+            {
+                return filterList.ToArray();
+            }
         }
 
         /// <summary>
@@ -128,7 +131,10 @@ namespace CatLib.Stl
         /// </summary>
         public Action<TIn, TOut, Action<TIn, TOut>>[] FilterList
         {
-            get { return filterList.ToArray(); }
+            get
+            {
+                return filterList.ToArray();
+            }
         }
 
         /// <summary>
@@ -228,7 +234,10 @@ namespace CatLib.Stl
         /// </summary>
         public Action<TIn, TOut, TException, Action<TIn, TOut, TException>>[] FilterList
         {
-            get { return filterList.ToArray(); }
+            get
+            {
+                return filterList.ToArray();
+            }
         }
 
         /// <summary>

@@ -33,7 +33,10 @@ namespace CatLib.Routing
         /// </summary>
         public string Name
         {
-            get { return name; }
+            get
+            {
+                return name;
+            }
         }
 
         /// <summary>
