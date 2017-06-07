@@ -36,7 +36,8 @@ namespace CatLib.API
         /// <summary>
         /// 初始化程序
         /// </summary>
-        void Init();
+        /// <param name="callback">初始化完成后的回调</param>
+        void Init(Action callback = null);
 
         /// <summary>
         /// 注册服务提供商
@@ -100,14 +101,14 @@ namespace CatLib.API
         /// 从驱动器中卸载对象会引发IDestroy增强接口
         /// </summary>
         /// <param name="obj">对象</param>
-        void UnLoad(object obj);
+        void Detach(object obj);
 
         /// <summary>
         /// 如果对象实现了增强接口那么将对象装载进对应驱动器
         /// 在装载的时候会引发IStart接口
         /// </summary>
         /// <param name="obj">对象</param>
-        void Load(object obj);
+        void Attach(object obj);
 
         /// <summary>
         /// 获取优先级，如果存在方法优先级定义那么优先返回方法的优先级

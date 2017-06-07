@@ -78,6 +78,11 @@ namespace CatLib.Core
         private StartProcess process = StartProcess.Bootstrap;
 
         /// <summary>
+        /// 当初始化完成时
+        /// </summary>
+        private Action onInited;
+
+        /// <summary>
         /// 启动流程
         /// </summary>
         public StartProcess Process
@@ -156,8 +161,9 @@ namespace CatLib.Core
         /// <summary>
         /// 初始化
         /// </summary>
+        /// <param name="callback">初始化完成后的回调</param>
         /// <exception cref="RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
-        public void Init()
+        public void Init(Action callback = null)
         {
             if (!bootstrapped)
             {
@@ -168,6 +174,7 @@ namespace CatLib.Core
                 throw new RuntimeException("StartProcess is not Bootstrap.");
             }
 
+            onInited = callback;
             inited = true;
             process = StartProcess.Initing;
             StartCoroutine(InitPorcess());
@@ -221,8 +228,6 @@ namespace CatLib.Core
         /// <returns>迭代器</returns>
         private IEnumerator InitPorcess()
         {
-            TriggerGlobal(ApplicationEvents.OnIniting, this).Trigger();
-
             var providers = new List<ServiceProvider>(serviceProviders.Values);
             providers.Sort((left, right) =>
             {
@@ -236,11 +241,14 @@ namespace CatLib.Core
                 yield return provider.Init();
             }
 
-            TriggerGlobal(ApplicationEvents.OnInited, this).Trigger();
-
             process = StartProcess.Inited;
 
             TriggerGlobal(ApplicationEvents.OnStartComplete, this).Trigger();
+
+            if (onInited != null)
+            {
+                onInited.Invoke();
+            }
         }
     }
 }

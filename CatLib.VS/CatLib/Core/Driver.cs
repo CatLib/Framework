@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using CatLib.API;
 using CatLib.API.Event;
+using CatLib.API.Stl;
 using CatLib.Stl;
 using UnityEngine;
 
@@ -116,33 +117,8 @@ namespace CatLib.Core
 
             mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
-            OnResolving((bindData, obj) =>
-            {
-                if (obj == null)
-                {
-                    return null;
-                }
-
-                if (bindData.IsStatic)
-                {
-                    Load(obj);
-                }
-
-                return obj;
-            });
-
-            OnRelease((bindData, obj) =>
-            {
-                if (obj == null)
-                {
-                    return;
-                }
-
-                if (bindData.IsStatic)
-                {
-                    UnLoad(obj);
-                }
-            });
+            OnResolving(DefaultOnResolving);
+            OnRelease(DefaultOnRelease);
         }
 
         /// <summary>
@@ -167,7 +143,7 @@ namespace CatLib.Core
         /// </summary>
         /// <param name="obj">对象</param>
         /// <exception cref="ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
-        public void UnLoad(object obj)
+        public void Detach(object obj)
         {
             Guard.Requires<ArgumentNullException>(obj != null);
 
@@ -176,22 +152,12 @@ namespace CatLib.Core
                 return;
             }
 
-            if (obj is IUpdate)
-            {
-                update.Remove((IUpdate)obj);
-            }
+            ConvertAndRemove(update, obj);
+            ConvertAndRemove(lateUpdate, obj);
 
-            if (obj is ILateUpdate)
+            if (ConvertAndRemove(destroy, obj))
             {
-                lateUpdate.Remove((ILateUpdate)obj);
-            }
-
-            if (obj is IDestroy)
-            {
-                if (destroy.Remove((IDestroy)obj))
-                {
-                    ((IDestroy)obj).OnDestroy();
-                }
+                ((IDestroy)obj).OnDestroy();
             }
 
             loadSet.Remove(obj);
@@ -203,7 +169,7 @@ namespace CatLib.Core
         /// </summary>
         /// <param name="obj">对象</param>
         /// <exception cref="ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
-        public void Load(object obj)
+        public void Attach(object obj)
         {
             Guard.Requires<ArgumentNullException>(obj != null);
 
@@ -213,34 +179,22 @@ namespace CatLib.Core
             }
 
             var isLoad = false;
-
             if (obj is IStart)
             {
-                isLoad = true;
                 ((IStart)obj).Start();
             }
-
-            if (obj is IUpdate)
+            if (ConvertAndAdd(update, obj, "Update"))
             {
                 isLoad = true;
-                var priorities = GetPriorities(obj.GetType(), "Update");
-                update.Add((IUpdate)obj, priorities);
             }
-
-            if (obj is ILateUpdate)
+            if (ConvertAndAdd(lateUpdate, obj, "LateUpdate"))
             {
                 isLoad = true;
-                var priorities = GetPriorities(obj.GetType(), "LateUpdate");
-                lateUpdate.Add((ILateUpdate)obj, priorities);
             }
-
-            if (obj is IDestroy)
+            if (ConvertAndAdd(destroy, obj, "OnDestroy"))
             {
                 isLoad = true;
-                var priorities = GetPriorities(obj.GetType(), "OnDestroy");
-                destroy.Add((IDestroy)obj, priorities);
             }
-
             if (isLoad)
             {
                 loadSet.Add(obj);
@@ -532,5 +486,76 @@ namespace CatLib.Core
             return null;
         }
         #endregion
+
+        /// <summary>
+        /// 默认的解决事件
+        /// </summary>
+        /// <param name="binder">绑定数据</param>
+        /// <param name="obj">对象</param>
+        /// <returns>处理后的对象</returns>
+        private object DefaultOnResolving(IBindData binder , object obj)
+        {
+            if (obj == null)
+            {
+                return null;
+            }
+
+            if (binder.IsStatic)
+            {
+                Attach(obj);
+            }
+
+            return obj;
+        }
+
+        /// <summary>
+        /// 默认的释放事件
+        /// </summary>
+        /// <param name="binder">绑定数据</param>
+        /// <param name="obj">对象</param>
+        private void DefaultOnRelease(IBindData binder, object obj)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+
+            if (binder.IsStatic)
+            {
+                Detach(obj);
+            }
+        }
+
+        /// <summary>
+        /// 转换到指定目标并且删除
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="sortset">有序集</param>
+        /// <param name="obj">对象</param>
+        /// <returns>是否成功</returns>
+        private bool ConvertAndRemove<T>(ISortSet<T, int> sortset, object obj) where T : class
+        {
+            var ele = obj as T;
+            return ele != null && sortset.Remove(ele);
+        }
+
+        /// <summary>
+        /// 转换到指定目标并且添加
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="sortset">有序集</param>
+        /// <param name="obj">对象</param>
+        /// <param name="function">获取优先级的函数名</param>
+        /// <returns>是否成功</returns>
+        private bool ConvertAndAdd<T>(ISortSet<T, int> sortset, object obj , string function) where T : class
+        {
+            var ele = obj as T;
+            if (ele == null)
+            {
+                return false;
+            }
+            sortset.Add(ele , GetPriorities(obj.GetType(), function));
+            return true;
+        }
     }
 }

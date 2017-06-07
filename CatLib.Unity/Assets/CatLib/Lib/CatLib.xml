@@ -811,16 +811,6 @@
             应用程序事件
             </summary>
         </member>
-        <member name="F:CatLib.API.ApplicationEvents.OnIniting">
-            <summary>
-            当初始化时
-            </summary>
-        </member>
-        <member name="F:CatLib.API.ApplicationEvents.OnInited">
-            <summary>
-            当初始化结束
-            </summary>
-        </member>
         <member name="F:CatLib.API.ApplicationEvents.OnStartComplete">
             <summary>
             当程序启动完成
@@ -979,10 +969,11 @@
             <param name="bootstraps">引导程序</param>
             <returns>当前应用程序</returns>
         </member>
-        <member name="M:CatLib.API.IApplication.Init">
+        <member name="M:CatLib.API.IApplication.Init(System.Action)">
             <summary>
             初始化程序
             </summary>
+            <param name="callback">初始化完成后的回调</param>
         </member>
         <member name="M:CatLib.API.IApplication.Register(System.Type)">
             <summary>
@@ -1040,7 +1031,7 @@
             </summary>
             <param name="routine">协程</param>
         </member>
-        <member name="M:CatLib.API.IApplication.UnLoad(System.Object)">
+        <member name="M:CatLib.API.IApplication.Detach(System.Object)">
             <summary>
             从驱动器中卸载对象
             如果对象使用了增强接口，那么卸载对应增强接口
@@ -1048,7 +1039,7 @@
             </summary>
             <param name="obj">对象</param>
         </member>
-        <member name="M:CatLib.API.IApplication.Load(System.Object)">
+        <member name="M:CatLib.API.IApplication.Attach(System.Object)">
             <summary>
             如果对象实现了增强接口那么将对象装载进对应驱动器
             在装载的时候会引发IStart接口
@@ -6796,6 +6787,11 @@
             启动流程
             </summary>
         </member>
+        <member name="F:CatLib.Core.Application.onInited">
+            <summary>
+            当初始化完成时
+            </summary>
+        </member>
         <member name="P:CatLib.Core.Application.Process">
             <summary>
             启动流程
@@ -6826,10 +6822,11 @@
             <exception cref="T:System.ArgumentNullException">当引导类型为null时引发</exception>
             <exception cref="T:CatLib.API.RuntimeException">当引导类型没有实现<see cref="T:CatLib.API.IBootstrap"/>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Application.Init">
+        <member name="M:CatLib.Core.Application.Init(System.Action)">
             <summary>
             初始化
             </summary>
+            <param name="callback">初始化完成后的回调</param>
             <exception cref="T:CatLib.API.RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
         </member>
         <member name="M:CatLib.Core.Application.Register(System.Type)">
@@ -6942,7 +6939,7 @@
             </summary>
             <param name="mainBehavior">mono脚本</param>
         </member>
-        <member name="M:CatLib.Core.Driver.UnLoad(System.Object)">
+        <member name="M:CatLib.Core.Driver.Detach(System.Object)">
             <summary>
             从驱动器中卸载对象
             如果对象使用了增强接口，那么卸载对应增强接口
@@ -6951,7 +6948,7 @@
             <param name="obj">对象</param>
             <exception cref="T:System.ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Driver.Load(System.Object)">
+        <member name="M:CatLib.Core.Driver.Attach(System.Object)">
             <summary>
             如果对象实现了增强接口那么将对象装载进对应驱动器
             在装载的时候会引发IStart接口
@@ -7080,6 +7077,40 @@
             <param name="eventName">事件名</param>
             <param name="handler">事件回调</param>
             <returns>事件句柄</returns>
+        </member>
+        <member name="M:CatLib.Core.Driver.DefaultOnResolving(CatLib.API.Stl.IBindData,System.Object)">
+            <summary>
+            默认的解决事件
+            </summary>
+            <param name="binder">绑定数据</param>
+            <param name="obj">对象</param>
+            <returns>处理后的对象</returns>
+        </member>
+        <member name="M:CatLib.Core.Driver.DefaultOnRelease(CatLib.API.Stl.IBindData,System.Object)">
+            <summary>
+            默认的释放事件
+            </summary>
+            <param name="binder">绑定数据</param>
+            <param name="obj">对象</param>
+        </member>
+        <member name="M:CatLib.Core.Driver.ConvertAndRemove``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object)">
+            <summary>
+            转换到指定目标并且删除
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="sortset">有序集</param>
+            <param name="obj">对象</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CatLib.Core.Driver.ConvertAndAdd``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object,System.String)">
+            <summary>
+            转换到指定目标并且添加
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="sortset">有序集</param>
+            <param name="obj">对象</param>
+            <param name="function">获取优先级的函数名</param>
+            <returns>是否成功</returns>
         </member>
         <member name="T:CatLib.Core.DriverBehaviour">
             <summary>

@@ -17,18 +17,8 @@ namespace CatLib.API
     public sealed class ApplicationEvents
     {
         /// <summary>
-        /// 当初始化时
-        /// </summary>
-        public static readonly string OnIniting = "application.initing";
-
-        /// <summary>
-        /// 当初始化结束
-        /// </summary>
-        public static readonly string OnInited = "application.inited";
-
-        /// <summary>
         /// 当程序启动完成
         /// </summary>
-        public static readonly string OnStartComplete = "application.complete";
+        public static readonly string OnStartComplete = "catlib.application.start.complete";
     }
 }
