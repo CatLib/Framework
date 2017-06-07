@@ -240,10 +240,8 @@ namespace CatLib.Routing
                 return RegexQuote(token[1]);
             }
 
-            //变量匹配格式
             if (index == 0 && firstOptional == 0)
             {
-                // 如果唯一一个变量token那么必须加入分隔符
                 return string.Format("{0}(?<{1}>{2})?", RegexQuote(token[1]), token[3], token[2]);
             }
 

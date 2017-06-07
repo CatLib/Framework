@@ -210,6 +210,65 @@ namespace CatLib.Tests.Core
             });
         }
 
+        [TestMethod]
+        public void TestInitedCallBack()
+        {
+            var app = new Application();
+            app.OnFindType((t) =>
+            {
+                return Type.GetType(t);
+            });
+            app.Bootstrap(typeof(BootstrapClass));
+
+            var isCallback = false;
+            app.Init(() =>
+            {
+                isCallback = true;
+            });
+
+            Assert.AreEqual(true, isCallback);
+        }
+
+        [TestMethod]
+        public void TestNotSetOnFindType()
+        {
+            var app = new Application();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Bootstrap(typeof(BootstrapClass));
+            });
+        }
+
+        [TestMethod]
+        public void TestNotSetOnFindTypeToRegisert()
+        {
+            var app = new Application();
+            app.Bootstrap();
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Register(typeof(ProviderTest1));
+            });
+        }
+
+        [TestMethod]
+        public void TestRepeatRegister()
+        {
+            var app = new Application();
+            app.OnFindType((t) =>
+            {
+                return Type.GetType(t);
+            });
+
+            app.Bootstrap();
+            app.Register(typeof(ProviderTest1));
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Register(typeof(ProviderTest1));
+            });
+        }
+
         private Application MakeApplication()
         {
             var app = new Application();

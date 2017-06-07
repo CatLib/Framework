@@ -505,6 +505,22 @@ namespace CatLib.Tests.Routing
         }
 
         [TestMethod]
+        public void WrongRouteTest()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            //变量含有特殊字符将会被降级为字符串
+            bool tf = false;
+            router.Reg("wrong://hellworld/nihao/{miaomiao*&^$}", (req,res) =>
+            {
+                tf = true;
+            });
+
+            router.Dispatch("wrong://hellworld/nihao/{miaomiao*&^$}");
+            Assert.AreEqual(true , tf);
+        }
+
+        [TestMethod]
         public void TestUndefindScheme()
         {
             var router = App.Instance.Make<IRouter>();

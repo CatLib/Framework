@@ -142,7 +142,7 @@ namespace CatLib.Tests.Core
 
             c.Update();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
-            c.UnLoad(cls);
+            c.Detach(cls);
             c.Update();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
         }
@@ -161,7 +161,7 @@ namespace CatLib.Tests.Core
             c.Update();
             c.LateUpdate();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
-            c.UnLoad(cls);
+            c.Detach(cls);
             c.Update();
             c.LateUpdate();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
@@ -226,11 +226,11 @@ namespace CatLib.Tests.Core
             var c = MakeDriver();
             var obj = new TestStaticClass();
 
-            c.Load(obj);
+            c.Attach(obj);
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                c.Load(obj);
+                c.Attach(obj);
             });
         }
 
@@ -243,7 +243,7 @@ namespace CatLib.Tests.Core
             var c = MakeDriver();
             var obj = new TestStaticClass();
 
-            c.Load(obj);
+            c.Attach(obj);
 
             updateResult = string.Empty;
             c.OnDestroy();
@@ -261,7 +261,7 @@ namespace CatLib.Tests.Core
             onDestroyResult = string.Empty;
             var c = MakeDriver();
             var obj = new TestStaticClass();
-            c.UnLoad(obj);
+            c.Detach(obj);
             Assert.AreEqual(string.Empty, onDestroyResult);
         }
 

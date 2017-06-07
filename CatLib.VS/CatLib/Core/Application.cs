@@ -109,6 +109,7 @@ namespace CatLib.Core
         /// 构建一个CatLib实例
         /// </summary>
         /// <param name="behaviour">驱动脚本</param>
+        [ExcludeFromCodeCoverage]
         public Application(Component behaviour)
             : base(behaviour)
         {
