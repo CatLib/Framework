@@ -44,15 +44,6 @@ namespace CatLib.Core
         /// 触发一个事件
         /// </summary>
         /// <param name="eventName">事件名称</param>
-        public void Trigger(string eventName)
-        {
-            Trigger(eventName, null, EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// 触发一个事件
-        /// </summary>
-        /// <param name="eventName">事件名称</param>
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, EventArgs e)
         {
@@ -64,21 +55,12 @@ namespace CatLib.Core
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="sender">发送者</param>
-        public void Trigger(string eventName, object sender)
-        {
-            Trigger(eventName, sender, EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// 触发一个事件
-        /// </summary>
-        /// <param name="eventName">事件名称</param>
-        /// <param name="sender">发送者</param>
         /// <param name="e">事件参数</param>
-        public void Trigger(string eventName, object sender, EventArgs e)
+        public void Trigger(string eventName, object sender = null, EventArgs e = null)
         {
-            Guard.Requires<NullReferenceException>(App != null);
             Guard.NotEmptyOrNull(eventName, "eventName");
+
+            e = e ?? EventArgs.Empty;
 
             if (!App.IsMainThread)
             {

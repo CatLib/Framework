@@ -1066,25 +1066,12 @@
             事件实现
             </summary>
         </member>
-        <member name="M:CatLib.API.IEvent.Trigger(System.String)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-        </member>
         <member name="M:CatLib.API.IEvent.Trigger(System.String,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名称</param>
             <param name="e">事件参数</param>
-        </member>
-        <member name="M:CatLib.API.IEvent.Trigger(System.String,System.Object)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="sender">发送者</param>
         </member>
         <member name="M:CatLib.API.IEvent.Trigger(System.String,System.Object,System.EventArgs)">
             <summary>
@@ -6770,25 +6757,12 @@
             </summary>
             <param name="app">应用程序</param>
         </member>
-        <member name="M:CatLib.Core.Event.Trigger(System.String)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-        </member>
         <member name="M:CatLib.Core.Event.Trigger(System.String,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名称</param>
             <param name="e">事件参数</param>
-        </member>
-        <member name="M:CatLib.Core.Event.Trigger(System.String,System.Object)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="sender">发送者</param>
         </member>
         <member name="M:CatLib.Core.Event.Trigger(System.String,System.Object,System.EventArgs)">
             <summary>

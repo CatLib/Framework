@@ -22,12 +22,6 @@ namespace CatLib.API
         /// 触发一个事件
         /// </summary>
         /// <param name="eventName">事件名称</param>
-        void Trigger(string eventName);
-
-        /// <summary>
-        /// 触发一个事件
-        /// </summary>
-        /// <param name="eventName">事件名称</param>
         /// <param name="e">事件参数</param>
         void Trigger(string eventName, EventArgs e);
 
@@ -36,15 +30,8 @@ namespace CatLib.API
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="sender">发送者</param>
-        void Trigger(string eventName, object sender);
-
-        /// <summary>
-        /// 触发一个事件
-        /// </summary>
-        /// <param name="eventName">事件名称</param>
-        /// <param name="sender">发送者</param>
         /// <param name="e">事件参数</param>
-        void Trigger(string eventName, object sender, EventArgs e);
+        void Trigger(string eventName, object sender = null, EventArgs e = null);
 
         /// <summary>
         /// 注册一个事件
