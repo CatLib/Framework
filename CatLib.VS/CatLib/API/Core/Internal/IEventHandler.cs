@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Event
+namespace CatLib.API
 {
     /// <summary>
     /// 事件句柄

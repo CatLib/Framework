@@ -10,12 +10,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.Core;
-using CatLib.Event;
-using CatLib.Stl;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -41,7 +38,6 @@ namespace CatLib.Tests.Routing
             {
                 return Type.GetType(t);
             });
-            app.Register(typeof(EventProvider));
             app.Register(typeof(RoutingProvider));
 
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务

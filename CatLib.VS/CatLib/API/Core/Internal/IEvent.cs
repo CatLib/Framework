@@ -11,12 +11,12 @@
 
 using System;
 
-namespace CatLib.API.Event
+namespace CatLib.API
 {
     /// <summary>
     /// 事件实现
     /// </summary>
-    public interface IEventImpl
+    public interface IEvent
     {
         /// <summary>
         /// 触发一个事件

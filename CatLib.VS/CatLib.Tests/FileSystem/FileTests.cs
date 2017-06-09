@@ -11,6 +11,7 @@
 
 using System;
 using CatLib.FileSystem;
+using CatLib.FileSystem.Adapter;
 using SIO = System.IO;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;

@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CatLib.API.Stl

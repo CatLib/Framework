@@ -11,27 +11,34 @@
 
 using System;
 using System.Collections.Generic;
-using CatLib.API.Event;
 using CatLib.API;
 using CatLib.Stl;
 
-namespace CatLib.Event
+namespace CatLib.Core
 {
     /// <summary>
     /// 事件实现
     /// </summary>
-    internal sealed class EventImpl : IEventImpl
+    public sealed class Event : IEvent
     {
         /// <summary>
         /// 应用程序
         /// </summary>
-        [Inject]
-        public IApplication App { get; set; }
+        private IApplication App { get; set; }
 
         /// <summary>
         /// 事件地图
         /// </summary>
         private Dictionary<string, List<EventHandler>> handlers;
+
+        /// <summary>
+        /// 构造一个事件实现
+        /// </summary>
+        /// <param name="app">应用程序</param>
+        public Event(IApplication app)
+        {
+            App = app;
+        }
 
         /// <summary>
         /// 触发一个事件

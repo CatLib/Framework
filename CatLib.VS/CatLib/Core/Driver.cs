@@ -14,7 +14,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using CatLib.API;
-using CatLib.API.Event;
 using CatLib.API.Stl;
 using CatLib.Stl;
 using UnityEngine;
@@ -24,7 +23,7 @@ namespace CatLib.Core
     /// <summary>
     /// Application行为驱动器
     /// </summary>
-    public class Driver : Container, IEventImpl
+    public class Driver : Container, IEvent
     {
         /// <summary>
         /// 主线程调度队列锁
@@ -59,16 +58,16 @@ namespace CatLib.Core
         /// <summary>
         /// 事件实体
         /// </summary>
-        private IEventImpl eventImpl;
+        private IEvent eventImpl;
 
         /// <summary>
         /// 事件系统
         /// </summary>
-        private IEventImpl EventSystem
+        private IEvent EventSystem
         {
             get
             {
-                return eventImpl ?? (eventImpl = this.Make<IEventImpl>());
+                return eventImpl ?? (eventImpl = new Event(App.Instance));
             }
         }
 
@@ -374,7 +373,7 @@ namespace CatLib.Core
         /// <summary>
         /// 事件系统
         /// </summary>
-        public IEventImpl Event
+        public IEvent Event
         {
             get
             {
@@ -441,7 +440,7 @@ namespace CatLib.Core
         /// <param name="handler">事件回调</param>
         /// <param name="life">事件生命，当生命为0则自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler On(string eventName, EventHandler handler, int life = 0)
+        public IEventHandler On(string eventName, System.EventHandler handler, int life = 0)
         {
             if (EventSystem != null)
             {
@@ -456,7 +455,7 @@ namespace CatLib.Core
         /// <param name="eventName">事件名</param>
         /// <param name="handler">事件回调</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler One(string eventName, EventHandler handler)
+        public IEventHandler One(string eventName, System.EventHandler handler)
         {
             if (EventSystem != null)
             {

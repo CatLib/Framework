@@ -10,19 +10,19 @@
  */
 
 using System;
-using CatLib.API.Event;
+using CatLib.API;
 
-namespace CatLib.Event
+namespace CatLib.Core
 {
     /// <summary>
     /// 事件句柄
     /// </summary>
-    internal sealed class EventHandler : IEventHandler
+    public sealed class EventHandler : IEventHandler
     {
         /// <summary>
         /// 监听对象
         /// </summary>
-        private EventImpl Target { get; set; }
+        private Event Target { get; set; }
 
         /// <summary>
         /// 事件句柄
@@ -56,7 +56,7 @@ namespace CatLib.Event
         /// <param name="eventName">事件名</param>
         /// <param name="eventHandler">事件句柄</param>
         /// <param name="life">生命次数</param>
-        public EventHandler(EventImpl target, string eventName, System.EventHandler eventHandler, int life)
+        public EventHandler(Event target, string eventName, System.EventHandler eventHandler, int life)
         {
             life = Math.Max(0, life);
             Handler = eventHandler;

@@ -12,8 +12,8 @@
 using System;
 using System.Collections;
 using CatLib.API;
+using CatLib.Config;
 using CatLib.Core;
-using CatLib.Event;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -111,7 +111,7 @@ namespace CatLib.Tests.Core
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Register(typeof(EventProvider));
+                app.Register(typeof(ConfigProvider));
             });
         }
 
@@ -284,7 +284,7 @@ namespace CatLib.Tests.Core
         {
             public void Bootstrap()
             {
-                App.Instance.Register(typeof(EventProvider));
+                App.Instance.Register(typeof(ConfigProvider));
             }
         }
     }

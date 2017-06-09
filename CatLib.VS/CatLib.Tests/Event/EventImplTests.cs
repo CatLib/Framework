@@ -13,7 +13,6 @@ using System;
 using System.Collections;
 using CatLib.API;
 using CatLib.Core;
-using CatLib.Event;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -35,7 +34,7 @@ namespace CatLib.Tests.Event
         public void EventOn()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
 
             Assert.AreNotEqual(null , eventImpl);
 
@@ -56,7 +55,7 @@ namespace CatLib.Tests.Event
         public void EventOnLife()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
 
             Assert.AreNotEqual(null, eventImpl);
 
@@ -79,7 +78,7 @@ namespace CatLib.Tests.Event
         public void EventOne()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             eventImpl.One("TestOne", (sender, e) =>
             {
@@ -97,7 +96,7 @@ namespace CatLib.Tests.Event
         public void TriggerEventWithSender()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             var sender = new object();
             eventImpl.One("TestOne", (s, e) =>
@@ -119,7 +118,7 @@ namespace CatLib.Tests.Event
         public void TriggerEventWithSenderArgs()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             var sender = new object();
             var args = new EventArgs();
@@ -142,7 +141,7 @@ namespace CatLib.Tests.Event
         public void TriggerEventWithArgs()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             var args = new EventArgs();
             eventImpl.One("TriggerEventWithArgs", (s, e) =>
@@ -164,15 +163,15 @@ namespace CatLib.Tests.Event
         public void OffNotExistsEvent()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
 
             var handler = eventImpl.One("OffNotExistsEvent", (s, e) =>
             {
             });
 
             //这里为了测试需要强制转换
-            eventImpl.Off(handler as CatLib.Event.EventHandler);
-            eventImpl.Off(handler as CatLib.Event.EventHandler);
+            eventImpl.Off(handler as CatLib.Core.EventHandler);
+            eventImpl.Off(handler as CatLib.Core.EventHandler);
         }
 
         /// <summary>
@@ -182,7 +181,7 @@ namespace CatLib.Tests.Event
         public void EventOff()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             var handler = eventImpl.One("TestOff", (sender, e) =>
             {
@@ -201,7 +200,7 @@ namespace CatLib.Tests.Event
         public void RepeatCancel()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             var handler = eventImpl.One("RepeatCancel", (sender, e) =>
             {
@@ -221,7 +220,7 @@ namespace CatLib.Tests.Event
         public void IllegalTrigger()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             eventImpl.One("IllegalTrigger", (sender, e) =>
             {
@@ -246,7 +245,7 @@ namespace CatLib.Tests.Event
         public void IllegalOn()
         {
             var app = MakeApplication();
-            var eventImpl = app.Make<EventImpl>();
+            var eventImpl = app.Make<CatLib.Core.Event>();
             var isCall = false;
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
@@ -282,13 +281,13 @@ namespace CatLib.Tests.Event
         [TestMethod]
         public void IllegalEventHandlerTest()
         {
-            var e = new CatLib.Event.EventHandler(null, "test", null, 1);
+            var e = new CatLib.Core.EventHandler(null, "test", null, 1);
             e.Call(null, null);
 
             Assert.AreEqual(false, e.IsLife);
 
             bool isCall = false;
-            e = new CatLib.Event.EventHandler(null, "test", (s, arg) =>
+            e = new CatLib.Core.EventHandler(null, "test", (s, arg) =>
             {
                 isCall = !isCall;
             }, 1);
@@ -310,16 +309,8 @@ namespace CatLib.Tests.Event
             {
                 return Type.GetType(t);
             });
-            app.Bootstrap(typeof(BootstrapClass)).Init();
+            app.Bootstrap().Init();
             return app;
-        }
-
-        private class BootstrapClass : IBootstrap
-        {
-            public void Bootstrap()
-            {
-                App.Instance.Register(typeof(EventProvider));
-            }
         }
     }
 }

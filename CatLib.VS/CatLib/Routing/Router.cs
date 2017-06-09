@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using CatLib.API.Event;
 using CatLib.API.Routing;
 using CatLib.API.Stl;
 using CatLib.Stl;
@@ -33,7 +32,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 全局调度器
         /// </summary>
-        private readonly IEvent events;
+        private readonly IEvent eventHub;
 
         /// <summary>
         /// 容器
@@ -93,11 +92,11 @@ namespace CatLib.Routing
         /// <summary>
         /// 创建一个新的路由器
         /// </summary>
-        /// <param name="events">事件</param>
+        /// <param name="eventHub">事件</param>
         /// <param name="container">容器</param>
-        public Router(IEvent events, IContainer container)
+        public Router(IEvent eventHub, IContainer container)
         {
-            this.events = events;
+            this.eventHub = eventHub;
             this.container = container;
             schemes = new Dictionary<string, Scheme>();
             routeGroupStack = new Stack<IRouteGroup>();
@@ -310,7 +309,7 @@ namespace CatLib.Routing
         /// <returns>迭代器</returns>
         public IEnumerator RouterCompiler()
         {
-            events.Event.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
+            eventHub.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
             var compiler = container.Make<AttrRouteCompiler>();
             if (compiler != null)
             {
@@ -419,7 +418,7 @@ namespace CatLib.Routing
                     }
                 }
 
-                events.Event.Trigger(RouterEvents.OnDispatcher, this, new DispatchEventArgs(route, request));
+                eventHub.Trigger(RouterEvents.OnDispatcher, this, new DispatchEventArgs(route, request));
 
                 if (middleware != null)
                 {

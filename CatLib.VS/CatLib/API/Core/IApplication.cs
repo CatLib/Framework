@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Stl;
-using CatLib.API.Event;
 using System;
 using System.Collections;
 
@@ -19,7 +18,7 @@ namespace CatLib.API
     /// <summary>
     /// 应用程序接口
     /// </summary>
-    public interface IApplication : IContainer, IEventImpl, IEvent
+    public interface IApplication : IContainer, IEvent
     {
         /// <summary>
         /// CatLib版本号

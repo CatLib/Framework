@@ -18,8 +18,7 @@ namespace CatLib
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface | 
                     AttributeTargets.Parameter |
-                    AttributeTargets.Property | 
-                    AttributeTargets.GenericParameter)]
+                    AttributeTargets.Property)]
     public sealed class InjectAttribute : Attribute
     {
         /// <summary>

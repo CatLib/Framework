@@ -12,9 +12,7 @@
 using System;
 using System.Collections;
 using CatLib.API;
-using CatLib.API.Event;
 using CatLib.Core;
-using CatLib.Event;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -399,7 +397,6 @@ namespace CatLib.Tests.Core
         {
             var driver = new Application();
             driver.Bootstrap().Init();
-            driver.Bind<EventImpl>().Alias<IEventImpl>();
             return driver;
         }
     }

@@ -67,11 +67,8 @@
     <Compile Include="API\Core\IApplication.cs" />
     <Compile Include="API\Core\IEnv.cs" />
     <Compile Include="API\Core\Exception\RuntimeException.cs" />
-    <Compile Include="API\Crypt\Exception\DecryptException.cs" />
-    <Compile Include="API\Crypt\ICrypt.cs" />
-    <Compile Include="API\Event\Features\IEvent.cs" />
-    <Compile Include="API\Event\IEventImpl.cs" />
-    <Compile Include="API\Event\Internal\IEventHandler.cs" />
+    <Compile Include="API\Core\Internal\IEvent.cs" />
+    <Compile Include="API\Core\Internal\IEventHandler.cs" />
     <Compile Include="API\FileSystem\Internal\IDirectory.cs" />
     <Compile Include="API\FileSystem\Internal\IFile.cs" />
     <Compile Include="API\FileSystem\Internal\IFileSystem.cs" />
@@ -99,9 +96,6 @@
     <Compile Include="FileSystem\Handler.cs" />
     <Compile Include="FileSystem\Adapter\IFileSystemAdapter.cs" />
     <Compile Include="API\Stl\FilterChain\IFilterChain.cs" />
-    <Compile Include="API\Flux\IAction.cs" />
-    <Compile Include="API\Flux\IFluxDispatcher.cs" />
-    <Compile Include="API\Hash\IHash.cs" />
     <Compile Include="Config\Locator\CodeConfigLocator.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
@@ -127,10 +121,6 @@
     <Compile Include="Routing\EventArgs\DispatchEventArgs.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="API\Stl\LruCache\ILruCache.cs" />
-    <Compile Include="API\Resources\IAssetBundle.cs" />
-    <Compile Include="API\Resources\Internal\IObject.cs" />
-    <Compile Include="API\Resources\IResources.cs" />
-    <Compile Include="API\Resources\LoadTypes.cs" />
     <Compile Include="API\Routing\Features\IMiddleware.cs" />
     <Compile Include="API\Routing\Features\RoutedAttribute.cs" />
     <Compile Include="Routing\Exception\DomainException.cs" />
@@ -143,9 +133,6 @@
     <Compile Include="API\Routing\IRouter.cs" />
     <Compile Include="API\Stl\QuickList\IQuickList.cs" />
     <Compile Include="API\Stl\SortSet\ISortSet.cs" />
-    <Compile Include="API\Thread\Internal\ITask.cs" />
-    <Compile Include="API\Thread\Internal\ITaskHandler.cs" />
-    <Compile Include="API\Thread\IThread.cs" />
     <Compile Include="API\Time\Internal\ITime.cs" />
     <Compile Include="Stl\Container\BindData.cs" />
     <Compile Include="Stl\Container\Container.cs" />
@@ -160,9 +147,8 @@
     <Compile Include="Core\Facade.cs" />
     <Compile Include="Core\ServiceProvider.cs" />
     <Compile Include="Core\Util.cs" />
-    <Compile Include="Event\EventHandler.cs" />
-    <Compile Include="Event\EventImpl.cs" />
-    <Compile Include="Event\EventProvider.cs" />
+    <Compile Include="Core\EventHandler.cs" />
+    <Compile Include="Core\Event.cs" />
     <Compile Include="Stl\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />
@@ -203,7 +189,6 @@
     <None Include="API\catlib.json" />
     <None Include="Config\catlib.json" />
     <None Include="Core\catlib.json" />
-    <None Include="Event\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
     <None Include="Routing\catlib.json" />
