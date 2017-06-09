@@ -130,13 +130,13 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <param name="path">文件/文件夹路径</param>
         /// <returns>文件/文件夹句柄</returns>
-        public IHandler Get(string path)
+        public T GetHandler<T>(string path) where T : class , IHandler
         {
             if (IsDir(path))
             {
-                return new Directory(this, path);
+                return new Directory(this, path) as T;
             }
-            return new File(this, path);
+            return new File(this, path) as T;
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace CatLib.FileSystem
             var i = 0;
             foreach (var fd in paths)
             {
-                handlers[i++] = Get(fd);
+                handlers[i++] = GetHandler<IHandler>(fd);
             }
             return handlers;
         }

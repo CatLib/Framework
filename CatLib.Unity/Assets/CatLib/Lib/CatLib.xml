@@ -1200,7 +1200,7 @@
             </summary>
             <param name="path">文件夹路径</param>
         </member>
-        <member name="M:CatLib.API.FileSystem.IFileSystem.Get(System.String)">
+        <member name="M:CatLib.API.FileSystem.IFileSystem.GetHandler``1(System.String)">
             <summary>
             获取文件/文件夹句柄
             </summary>
@@ -2683,7 +2683,7 @@
             <param name="path">文件/文件夹路径</param>
             <returns>文件/文件夹的大小</returns>
         </member>
-        <member name="M:CatLib.FileSystem.FileSystem.Get(System.String)">
+        <member name="M:CatLib.FileSystem.FileSystem.GetHandler``1(System.String)">
             <summary>
             获取文件/文件夹句柄
             </summary>
