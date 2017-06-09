@@ -12,12 +12,12 @@
 using System;
 using CatLib.API.Config;
 
-namespace CatLib.Config
+namespace CatLib.Config.Converters
 {
     /// <summary>
     /// ulong转换
     /// </summary>
-    internal sealed class UInt64StringConverter : ITypeStringConverter
+    public sealed class UInt64StringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

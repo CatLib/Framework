@@ -12,12 +12,12 @@
 using System;
 using CatLib.API.Config;
 
-namespace CatLib.Config
+namespace CatLib.Config.Converters
 {
     /// <summary>
     /// Char转换器
     /// </summary>
-    internal sealed class CharStringConverter : ITypeStringConverter
+    public sealed class CharStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

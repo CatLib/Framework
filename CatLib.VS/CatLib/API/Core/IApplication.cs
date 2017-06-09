@@ -69,21 +69,6 @@ namespace CatLib.API
         void MainThread(Action action);
 
         /// <summary>
-        /// 触发一个全局事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <returns>全局事件</returns>
-        IGlobalEvent TriggerGlobal(string eventName);
-
-        /// <summary>
-        /// 触发一个全局事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="sender">发送者</param>
-        /// <returns>全局事件</returns>
-        IGlobalEvent TriggerGlobal(string eventName, object sender);
-
-        /// <summary>
         /// 启动协程
         /// </summary>
         /// <param name="routine">协程</param>

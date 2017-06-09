@@ -13,12 +13,12 @@ using System;
 using System.Globalization;
 using CatLib.API.Config;
 
-namespace CatLib.Config
+namespace CatLib.Config.Converters
 {
     /// <summary>
     /// double转换
     /// </summary>
-    internal sealed class DoubleStringConverter : ITypeStringConverter
+    public sealed class DoubleStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

@@ -13,12 +13,12 @@ using System.Collections.Generic;
 using CatLib.API.Config;
 using CatLib.Stl;
 
-namespace CatLib.Config
+namespace CatLib.Config.Locator
 {
     /// <summary>
     /// 代码配置定位器
     /// </summary>
-    internal sealed class CodeConfigLocator : IConfigLocator
+    public sealed class CodeConfigLocator : IConfigLocator
     {
         /// <summary>
         /// 配置字典

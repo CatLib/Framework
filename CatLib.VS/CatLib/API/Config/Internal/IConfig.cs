@@ -38,7 +38,7 @@ namespace CatLib.API.Config
         /// </summary>
         /// <param name="locator">配置定位器</param>
         /// <param name="priority">查询优先级(值越小越优先)</param>
-        void Reg(IConfigLocator locator, int priority = int.MaxValue);
+        void AddLocator(IConfigLocator locator, int priority = int.MaxValue);
 
         /// <summary>
         /// 设定配置的值
@@ -47,6 +47,11 @@ namespace CatLib.API.Config
         /// <param name="name">配置名</param>
         /// <param name="value">配置的值</param>
         void Set<T>(string name, T value);
+
+        /// <summary>
+        /// 保存配置
+        /// </summary>
+        void Save();
 
         /// <summary>
         /// 根据配置名获取配置

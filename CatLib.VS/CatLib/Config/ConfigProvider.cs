@@ -10,6 +10,7 @@
  */
 
 using CatLib.API.Config;
+using CatLib.Config.Locator;
 
 namespace CatLib.Config
 {
@@ -24,8 +25,6 @@ namespace CatLib.Config
         public override void Register()
         {
             RegisterManager();
-            RegisterConfig();
-            RegisterLocator();
         }
 
         /// <summary>
@@ -43,30 +42,13 @@ namespace CatLib.Config
 
                 configManager.Extend(() =>
                 {
-                    var config = App.Make<IConfig>();
-                    config.Reg(App.Make<CodeConfigLocator>());
+                    var config = new Config();
+                    config.AddLocator(new CodeConfigLocator());
                     return config;
                 });
 
                 return configManager;
             }).Alias("config.manager");
-        }
-
-        /// <summary>
-        /// 注册配置
-        /// </summary>
-        private void RegisterConfig()
-        {
-            App.Bind<Config>((app, param) => new Config()).Alias<IConfig>().Alias("config.container");
-        }
-
-        /// <summary>
-        /// 注册定位器
-        /// </summary>
-        private void RegisterLocator()
-        {
-            App.Bind<CodeConfigLocator>().Alias("config.locator.code");
-            App.Singleton<UnitySettingLocator>().Alias("config.locator.unity");
         }
     }
 }

@@ -12,12 +12,12 @@
 using System;
 using CatLib.API.Config;
 
-namespace CatLib.Config
+namespace CatLib.Config.Converters
 {
     /// <summary>
     /// Int32转换
     /// </summary>
-    internal sealed class Int32StringConverter : ITypeStringConverter
+    public sealed class Int32StringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Config;
+using CatLib.Config.Converters;
 using CatLib.Stl;
 
 namespace CatLib.Config
@@ -20,7 +21,7 @@ namespace CatLib.Config
     /// <summary>
     /// 配置容器
     /// </summary>
-    internal sealed class Config : IConfig
+    public sealed class Config : IConfig
     {
         /// <summary>
         /// 配置定位器
@@ -78,7 +79,7 @@ namespace CatLib.Config
         /// </summary>
         /// <param name="locator">配置定位器</param>
         /// <param name="priority">查询优先级(值越小越优先)</param>
-        public void Reg(IConfigLocator locator , int priority = int.MaxValue)
+        public void AddLocator(IConfigLocator locator , int priority = int.MaxValue)
         {
             Guard.NotNull(locator, "locator");
             locators.Add(locator, priority);
@@ -116,7 +117,7 @@ namespace CatLib.Config
             Guard.NotNull(name, "name");
             if (locators.Count <= 0)
             {
-                throw new RuntimeException("No Reg locator. please Reg() locator first.");
+                throw new RuntimeException("No locator. please AddLocator() locator first.");
             }
 
             IConfigLocator configLocator = null;

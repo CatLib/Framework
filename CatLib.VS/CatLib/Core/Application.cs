@@ -244,7 +244,7 @@ namespace CatLib.Core
 
             process = StartProcess.Inited;
 
-            TriggerGlobal(ApplicationEvents.OnStartComplete, this).Trigger();
+            Trigger(ApplicationEvents.OnStartComplete, this);
 
             if (onInited != null)
             {

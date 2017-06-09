@@ -383,27 +383,6 @@ namespace CatLib.Core
         }
 
         /// <summary>
-        /// 触发一个全局事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <returns>全局事件</returns>
-        public IGlobalEvent TriggerGlobal(string eventName)
-        {
-            return TriggerGlobal(eventName, null);
-        }
-
-        /// <summary>
-        /// 触发一个全局事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="sender">发送者</param>
-        /// <returns>全局事件</returns>
-        public IGlobalEvent TriggerGlobal(string eventName, object sender)
-        {
-            return new GlobalEvent(eventName, sender);
-        }
-
-        /// <summary>
         /// 触发一个事件
         /// </summary>
         /// <param name="eventName">事件名</param>

@@ -12,12 +12,12 @@
 using System;
 using CatLib.API.Config;
 
-namespace CatLib.Config
+namespace CatLib.Config.Converters
 {
     /// <summary>
     /// sbyte转换
     /// </summary>
-    internal sealed class SByteStringConverter : ITypeStringConverter
+    public sealed class SByteStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

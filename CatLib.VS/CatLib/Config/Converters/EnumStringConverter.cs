@@ -12,12 +12,12 @@
 using System;
 using CatLib.API.Config;
 
-namespace CatLib.Config
+namespace CatLib.Config.Converters
 {
     /// <summary>
     /// 枚举类型转换
     /// </summary>
-    internal sealed class EnumStringConverter : ITypeStringConverter
+    public sealed class EnumStringConverter : ITypeStringConverter
     {
         /// <summary>
         /// 转换目标类型到字符串

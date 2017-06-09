@@ -42,14 +42,6 @@ namespace CatLib.Tests.Config
             app.Init();
         }
 
-        
-        [TestMethod]
-        public void GetConfig()
-        {
-            var config = App.Instance.Make<IConfig>();
-            Assert.AreEqual(typeof(CatLib.Config.Config), config.GetType());
-        }
-
         [TestMethod]
         public void SetDefault()
         {

@@ -14,12 +14,12 @@ using CatLib.API.Config;
 using CatLib.Stl;
 using UnityEngine;
 
-namespace CatLib.Config
+namespace CatLib.Config.Locator
 {
     /// <summary>
     /// Unity设置定位器
     /// </summary>
-    internal sealed class UnitySettingLocator : IConfigLocator
+    public sealed class UnitySettingLocator : IConfigLocator
     {
 #if !UNITY_5_OR_NEW
         /// <summary>
