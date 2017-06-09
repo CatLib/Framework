@@ -97,7 +97,7 @@
     <Compile Include="FileSystem\FileSystem.cs" />
     <Compile Include="FileSystem\FileSystemProvider.cs" />
     <Compile Include="FileSystem\Handler.cs" />
-    <Compile Include="FileSystem\IFileSystemAdapter.cs" />
+    <Compile Include="FileSystem\Adapter\IFileSystemAdapter.cs" />
     <Compile Include="API\Stl\FilterChain\IFilterChain.cs" />
     <Compile Include="API\Flux\IAction.cs" />
     <Compile Include="API\Flux\IFluxDispatcher.cs" />
