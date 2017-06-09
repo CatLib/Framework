@@ -16,12 +16,12 @@ using CatLib.API;
 using CatLib.Stl;
 using SIO = System.IO;
 
-namespace CatLib.FileSystem
+namespace CatLib.FileSystem.Adapter
 {
     /// <summary>
     /// 本地驱动器
     /// </summary>
-    internal class Local : IFileSystemAdapter
+    public class Local : IFileSystemAdapter
     {
         /// <summary>
         /// 根目录

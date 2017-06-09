@@ -11,7 +11,7 @@
 
 using System.IO;
 
-namespace CatLib.FileSystem
+namespace CatLib.FileSystem.Adapter
 {
     /// <summary>
     /// 文件系统适配器

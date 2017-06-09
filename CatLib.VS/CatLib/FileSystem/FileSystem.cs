@@ -11,6 +11,7 @@
 
 using System.IO;
 using CatLib.API.FileSystem;
+using CatLib.FileSystem.Adapter;
 using CatLib.Stl;
 
 namespace CatLib.FileSystem
