@@ -12,7 +12,6 @@
 using System;
 using CatLib.API;
 using CatLib.Routing;
-using CatLib.Event;
 using CatLib.Core;
 
 namespace CatLib.Demo.Routing
@@ -26,7 +25,6 @@ namespace CatLib.Demo.Routing
         public void Bootstrap()
         {
             App.Instance.Register(typeof(RoutingProvider));
-            App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(RoutingDemo));
         }
 

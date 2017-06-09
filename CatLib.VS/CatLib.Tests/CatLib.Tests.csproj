@@ -86,7 +86,7 @@
     <Compile Include="Core\DriverTests.cs" />
     <Compile Include="Core\FacaedTests.cs" />
     <Compile Include="Core\UtilTests.cs" />
-    <Compile Include="Event\EventImplTests.cs" />
+    <Compile Include="Core\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FileSystem\Adapter\LocalTests.cs" />
     <Compile Include="FileSystem\HandlerTests.cs" />

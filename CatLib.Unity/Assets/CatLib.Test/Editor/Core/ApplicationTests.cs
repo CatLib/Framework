@@ -12,8 +12,8 @@
 using System;
 using System.Collections;
 using CatLib.API;
+using CatLib.Config;
 using CatLib.Core;
-using CatLib.Event;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -111,7 +111,7 @@ namespace CatLib.Tests.Core
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Register(typeof(EventProvider));
+                app.Register(typeof(ConfigProvider));
             });
         }
 
@@ -210,6 +210,65 @@ namespace CatLib.Tests.Core
             });
         }
 
+        [TestMethod]
+        public void TestInitedCallBack()
+        {
+            var app = new Application();
+            app.OnFindType((t) =>
+            {
+                return Type.GetType(t);
+            });
+            app.Bootstrap(typeof(BootstrapClass));
+
+            var isCallback = false;
+            app.Init(() =>
+            {
+                isCallback = true;
+            });
+
+            Assert.AreEqual(true, isCallback);
+        }
+
+        [TestMethod]
+        public void TestNotSetOnFindType()
+        {
+            var app = new Application();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Bootstrap(typeof(BootstrapClass));
+            });
+        }
+
+        [TestMethod]
+        public void TestNotSetOnFindTypeToRegisert()
+        {
+            var app = new Application();
+            app.Bootstrap();
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Register(typeof(ProviderTest1));
+            });
+        }
+
+        [TestMethod]
+        public void TestRepeatRegister()
+        {
+            var app = new Application();
+            app.OnFindType((t) =>
+            {
+                return Type.GetType(t);
+            });
+
+            app.Bootstrap();
+            app.Register(typeof(ProviderTest1));
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                app.Register(typeof(ProviderTest1));
+            });
+        }
+
         private Application MakeApplication()
         {
             var app = new Application();
@@ -225,7 +284,7 @@ namespace CatLib.Tests.Core
         {
             public void Bootstrap()
             {
-                App.Instance.Register(typeof(EventProvider));
+                App.Instance.Register(typeof(ConfigProvider));
             }
         }
     }

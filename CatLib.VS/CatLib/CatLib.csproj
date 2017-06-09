@@ -59,7 +59,6 @@
     <Compile Include="API\Core\DebugLevels.cs" />
     <Compile Include="API\Core\Features\IBootstrap.cs" />
     <Compile Include="API\Core\Features\Behaviour\IDestroy.cs" />
-    <Compile Include="API\Core\Features\IGuid.cs" />
     <Compile Include="API\Core\Features\Behaviour\ILateUpdate.cs" />
     <Compile Include="API\Core\Features\Behaviour\IStart.cs" />
     <Compile Include="API\Core\Features\Behaviour\IUpdate.cs" />

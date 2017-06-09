@@ -11,7 +11,6 @@
 
 using System;
 using CatLib.API;
-using CatLib.Event;
 using CatLib.Time;
 using CatLib.Timer;
 using CatLib.Core;
@@ -28,7 +27,6 @@ namespace CatLib.Demo.Timer
         {
             App.Instance.Register(typeof(TimerProvider));
             App.Instance.Register(typeof(TimeProvider));
-            App.Instance.Register(typeof(EventProvider));
             App.Instance.Register(typeof(TimerDemo));
         }
 

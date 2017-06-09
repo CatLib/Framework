@@ -361,32 +361,6 @@ namespace CatLib.Tests.Core
             Assert.AreEqual(true, isCall);
         }
 
-        public class TestGloablEventSelfClass : IGuid
-        {
-            private long guid;
-            public long Guid
-            {
-                get
-                {
-                    if (guid <= 0)
-                    {
-                        guid = App.Instance.GetGuid();
-                    }
-                    return guid;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 获取事件
-        /// </summary>
-        [TestMethod]
-        public void GetDriverEvent()
-        {
-            var app = MakeDriver();
-            Assert.AreEqual(app, app.Event);
-        }
-
         private IEnumerator Coroutine()
         {
             yield return null;

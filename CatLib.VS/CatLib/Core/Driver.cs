@@ -371,17 +371,6 @@ namespace CatLib.Core
         #region Dispatcher
 
         /// <summary>
-        /// 事件系统
-        /// </summary>
-        public IEvent Event
-        {
-            get
-            {
-                return this;
-            }
-        }
-
-        /// <summary>
         /// 触发一个事件
         /// </summary>
         /// <param name="eventName">事件名</param>

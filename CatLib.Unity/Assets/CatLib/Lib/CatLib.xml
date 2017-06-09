@@ -48,7 +48,7 @@
             <param name="type">类型</param>
             <param name="converter">类型对应转换器</param>
         </member>
-        <member name="M:CatLib.API.Config.IConfig.Reg(CatLib.API.Config.IConfigLocator,System.Int32)">
+        <member name="M:CatLib.API.Config.IConfig.AddLocator(CatLib.API.Config.IConfigLocator,System.Int32)">
             <summary>
             注册一个配置定位器
             框架会依次遍历配置定位器来获取配置
@@ -63,6 +63,11 @@
             <typeparam name="T">值的类型</typeparam>
             <param name="name">配置名</param>
             <param name="value">配置的值</param>
+        </member>
+        <member name="M:CatLib.API.Config.IConfig.Save">
+            <summary>
+            保存配置
+            </summary>
         </member>
         <member name="M:CatLib.API.Config.IConfig.Get``1(System.String,``0)">
             <summary>
@@ -841,41 +846,6 @@
             自动模式（如果在编辑器模式下则使用开发者模式（非仿真环境）如果发布则使用生产环境）
             </summary>
         </member>
-        <member name="T:CatLib.API.EventLevels">
-            <summary>
-            事件等级
-            </summary>
-        </member>
-        <member name="F:CatLib.API.EventLevels.None">
-            <summary>
-            不通知
-            </summary>
-        </member>
-        <member name="F:CatLib.API.EventLevels.Self">
-            <summary>
-            自身对象级通知
-            </summary>
-        </member>
-        <member name="F:CatLib.API.EventLevels.Type">
-            <summary>
-            类型级通知
-            </summary>
-        </member>
-        <member name="F:CatLib.API.EventLevels.Interface">
-            <summary>
-            接口级通知
-            </summary>
-        </member>
-        <member name="F:CatLib.API.EventLevels.Global">
-            <summary>
-            全局通知
-            </summary>
-        </member>
-        <member name="F:CatLib.API.EventLevels.All">
-            <summary>
-            全部通知
-            </summary>
-        </member>
         <member name="T:CatLib.API.IBootstrap">
             <summary>
             引导程序接口
@@ -894,16 +864,6 @@
         <member name="M:CatLib.API.IDestroy.OnDestroy">
             <summary>
             当被释放时调用
-            </summary>
-        </member>
-        <member name="T:CatLib.API.IGuid">
-            <summary>
-            唯一标识符接口
-            </summary>
-        </member>
-        <member name="P:CatLib.API.IGuid.Guid">
-            <summary>
-            获取当前类的全局唯一标识符
             </summary>
         </member>
         <member name="T:CatLib.API.ILateUpdate">
@@ -1004,21 +964,6 @@
             </summary>
             <param name="action">回调，回调的内容会处于主线程</param>
         </member>
-        <member name="M:CatLib.API.IApplication.TriggerGlobal(System.String)">
-            <summary>
-            触发一个全局事件
-            </summary>
-            <param name="eventName">事件名</param>
-            <returns>全局事件</returns>
-        </member>
-        <member name="M:CatLib.API.IApplication.TriggerGlobal(System.String,System.Object)">
-            <summary>
-            触发一个全局事件
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="sender">发送者</param>
-            <returns>全局事件</returns>
-        </member>
         <member name="M:CatLib.API.IApplication.StartCoroutine(System.Collections.IEnumerator)">
             <summary>
             启动协程
@@ -1116,104 +1061,32 @@
             <param name="message">异常消息</param>
             <param name="innerException">内部异常</param>
         </member>
-        <member name="T:CatLib.API.IGlobalEvent">
-            <summary>
-            全局事件
-            </summary>
-        </member>
-        <member name="M:CatLib.API.IGlobalEvent.AppendInterface``1">
-            <summary>
-            增加事件响应接口
-            </summary>
-            <typeparam name="T">接口类型</typeparam>
-            <returns>全局事件实例</returns>
-        </member>
-        <member name="M:CatLib.API.IGlobalEvent.AppendInterface(System.Type)">
-            <summary>
-            增加事件响应接口
-            </summary>
-            <param name="t">接口类型</param>
-            <returns>全局事件实例</returns>
-        </member>
-        <member name="M:CatLib.API.IGlobalEvent.SetEventLevel(CatLib.API.EventLevels)">
-            <summary>
-            设定事件等级
-            </summary>
-            <param name="level">事件等级</param>
-            <returns>全局事件实例</returns>
-        </member>
-        <member name="M:CatLib.API.IGlobalEvent.Trigger(System.EventArgs)">
-            <summary>
-            触发一个全局事件
-            </summary>
-            <param name="args">事件参数</param>
-        </member>
-        <member name="T:CatLib.API.Crypt.DecryptException">
-            <summary>
-            解析异常
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Crypt.DecryptException.#ctor(System.String)">
-            <summary>
-            解析异常
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
-        <member name="T:CatLib.API.Crypt.ICrypt">
-            <summary>
-            加解密
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Crypt.ICrypt.Encrypt(System.String)">
-            <summary>
-            加密字符串
-            </summary>
-            <param name="str">需要被加密的字符串</param>
-            <returns>加密后的字符串</returns>
-        </member>
-        <member name="M:CatLib.API.Crypt.ICrypt.Decrypt(System.String)">
-            <summary>
-            解密被加密的字符串
-            </summary>
-            <param name="str">需要被解密的字符串</param>
-            <returns>解密后的字符串</returns>
-        </member>
-        <member name="T:CatLib.API.Event.IEvent">
-            <summary>
-            事件接口
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Event.IEvent.Event">
+        <member name="T:CatLib.API.IEvent">
             <summary>
             事件实现
             </summary>
         </member>
-        <member name="T:CatLib.API.Event.IEventImpl">
-            <summary>
-            事件实现
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Event.IEventImpl.Trigger(System.String)">
+        <member name="M:CatLib.API.IEvent.Trigger(System.String)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名称</param>
         </member>
-        <member name="M:CatLib.API.Event.IEventImpl.Trigger(System.String,System.EventArgs)">
+        <member name="M:CatLib.API.IEvent.Trigger(System.String,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名称</param>
             <param name="e">事件参数</param>
         </member>
-        <member name="M:CatLib.API.Event.IEventImpl.Trigger(System.String,System.Object)">
+        <member name="M:CatLib.API.IEvent.Trigger(System.String,System.Object)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名称</param>
             <param name="sender">发送者</param>
         </member>
-        <member name="M:CatLib.API.Event.IEventImpl.Trigger(System.String,System.Object,System.EventArgs)">
+        <member name="M:CatLib.API.IEvent.Trigger(System.String,System.Object,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
@@ -1221,7 +1094,7 @@
             <param name="sender">发送者</param>
             <param name="e">事件参数</param>
         </member>
-        <member name="M:CatLib.API.Event.IEventImpl.On(System.String,System.EventHandler,System.Int32)">
+        <member name="M:CatLib.API.IEvent.On(System.String,System.EventHandler,System.Int32)">
             <summary>
             注册一个事件
             </summary>
@@ -1230,7 +1103,7 @@
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.API.Event.IEventImpl.One(System.String,System.EventHandler)">
+        <member name="M:CatLib.API.IEvent.One(System.String,System.EventHandler)">
             <summary>
             注册一个事件，调用一次后就释放
             </summary>
@@ -1238,22 +1111,22 @@
             <param name="handler">事件句柄</param>
             <returns></returns>
         </member>
-        <member name="T:CatLib.API.Event.IEventHandler">
+        <member name="T:CatLib.API.IEventHandler">
             <summary>
             事件句柄
             </summary>
         </member>
-        <member name="M:CatLib.API.Event.IEventHandler.Cancel">
+        <member name="M:CatLib.API.IEventHandler.Cancel">
             <summary>
             取消注册的事件
             </summary>
         </member>
-        <member name="P:CatLib.API.Event.IEventHandler.Life">
+        <member name="P:CatLib.API.IEventHandler.Life">
             <summary>
             剩余的调用次数，当为0时事件会被释放
             </summary>
         </member>
-        <member name="P:CatLib.API.Event.IEventHandler.IsLife">
+        <member name="P:CatLib.API.IEventHandler.IsLife">
             <summary>
             事件是否是有效的
             </summary>
@@ -1619,307 +1492,6 @@
             不考虑时间缩放的从游戏开始到现在的时间
             </summary>
         </member>
-        <member name="T:CatLib.API.Flux.IAction">
-            <summary>
-            行为
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Flux.IAction.Action">
-            <summary>
-            行为
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Flux.IAction.Payload">
-            <summary>
-            附加数据
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Flux.IAction.ToString">
-            <summary>
-            字符串化行为
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:CatLib.API.Flux.IFluxDispatcher">
-            <summary>
-            Flux调度器
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Flux.IFluxDispatcher.IsDispatching">
-            <summary>
-            是否处于调度中
-            </summary>
-            <returns>是否处于调度中</returns>
-        </member>
-        <member name="M:CatLib.API.Flux.IFluxDispatcher.On(System.Action{CatLib.API.Flux.IAction})">
-            <summary>
-            注册一个匿名调度事件
-            </summary>
-            <param name="action">响应调度事件的回调</param>
-        </member>
-        <member name="M:CatLib.API.Flux.IFluxDispatcher.On(System.String,System.Action{CatLib.API.Flux.IAction})">
-            <summary>
-            注册一个调度事件
-            </summary>
-            <param name="token">标识符</param>
-            <param name="action">响应调度事件的回调</param>
-        </member>
-        <member name="M:CatLib.API.Flux.IFluxDispatcher.Off(System.String)">
-            <summary>
-            解除调度事件
-            </summary>
-            <param name="token">标识符</param>
-        </member>
-        <member name="M:CatLib.API.Flux.IFluxDispatcher.WaitFor(System.String,CatLib.API.Flux.IAction)">
-            <summary>
-            等待调度器完成另外的调度
-            </summary>
-            <param name="token">标识符</param>
-            <param name="action">行为</param>
-        </member>
-        <member name="M:CatLib.API.Flux.IFluxDispatcher.Dispatch(System.String,CatLib.API.Flux.IAction)">
-            <summary>
-            将行为调度到指定标识符的Store中
-            </summary>
-            <param name="token">标识符</param>
-            <param name="action">行为</param>
-        </member>
-        <member name="M:CatLib.API.Flux.IFluxDispatcher.Dispatch(CatLib.API.Flux.IAction)">
-            <summary>
-            调度行为
-            </summary>
-            <param name="action">行为</param>
-        </member>
-        <member name="T:CatLib.API.Hash.IHash">
-            <summary>
-            哈希
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Hash.IHash.GenerateSalt">
-            <summary>
-            盐
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Hash.IHash.Make(System.String)">
-            <summary>
-            哈希一个输入值
-            </summary>
-            <param name="input">输入值</param>
-            <returns></returns>
-        </member>
-        <member name="M:CatLib.API.Hash.IHash.Check(System.String,System.String)">
-            <summary>
-            检查是否匹配
-            </summary>
-            <param name="input">输入值</param>
-            <param name="hash">需要验证的hash</param>
-            <returns>是否匹配</returns>
-        </member>
-        <member name="M:CatLib.API.Hash.IHash.FileMd5(System.String)">
-            <summary>
-            用于计算文件的md5，您不应该用它进行密码等高敏感的hash加密
-            </summary>
-            <param name="path">文件路径</param>
-            <returns>md5加密的值</returns>
-        </member>
-        <member name="M:CatLib.API.Hash.IHash.StringMd5(System.String)">
-            <summary>
-            字符串md5，您不应该用它进行密码等高敏感的hash加密
-            </summary>
-            <param name="input">输入的字符串</param>
-            <returns>md5加密的值</returns>
-        </member>
-        <member name="T:CatLib.API.Resources.IAssetBundle">
-            <summary>
-            Assetbundle
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.LoadAssetBundle(System.String)">
-            <summary>
-            获取AssetBundle资源包
-            </summary>
-            <param name="path">资源包路径</param>
-            <returns>AssetBundle资源包</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.LoadAssetBundleAsync(System.String,System.Action{UnityEngine.AssetBundle})">
-            <summary>
-            获取AssetBundle资源包
-            </summary>
-            <param name="path">资源包路径</param>
-            <param name="callback">加载完成的回调</param>
-            <returns>协程</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.LoadAsset(System.String)">
-            <summary>
-            加载资源
-            </summary>
-            <param name="path">加载路径</param>
-            <returns>加载的对象</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.LoadAssetAll(System.String)">
-            <summary>
-            加载全部资源
-            </summary>
-            <param name="path">加载路径</param>
-            <returns></returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.LoadAssetAsync(System.String,System.Action{UnityEngine.Object})">
-            <summary>
-            加载资源（异步） 
-            </summary>
-            <param name="path">资源路径</param>
-            <param name="callback">回调</param>
-            <returns>协程</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.LoadAssetAllAsync(System.String,System.Action{UnityEngine.Object[]})">
-            <summary>
-            加载资源（异步） 
-            </summary>
-            <param name="path">资源路径</param>
-            <param name="callback">回调</param>
-            <returns>协程</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.UnloadAll">
-            <summary>
-            强制卸载全部资源包（一般情况请不要调用）
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Resources.IAssetBundle.UnloadAssetBundle(System.String)">
-            <summary>
-            卸载指定资源包
-            </summary>
-            <param name="assetbundlePath">资源包路径</param>
-        </member>
-        <member name="T:CatLib.API.Resources.IObject">
-            <summary>
-            对象信息
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Resources.IObject.Instantiate">
-            <summary>
-            实例化对象
-            </summary>
-            <returns>GameObject</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IObject.Get``1(System.Object)">
-            <summary>
-            获取对象
-            </summary>
-            <typeparam name="T">转换的类型</typeparam>
-            <param name="hostedObject">宿主</param>
-            <returns>获取对象</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IObject.Get(System.Object)">
-            <summary>
-            获取对象
-            </summary>
-            <param name="hostedObject">宿主</param>
-            <returns>获取对象</returns>
-        </member>
-        <member name="P:CatLib.API.Resources.IObject.Original">
-            <summary>
-            原始对象，注意这个访问将不会引用计数
-            </summary>
-        </member>
-        <member name="T:CatLib.API.Resources.IResources">
-            <summary>
-            资源
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.AddExtension(System.Type,System.String)">
-            <summary>
-            增加后缀关系
-            </summary>
-            <param name="type">类型</param>
-            <param name="extension">对应后缀</param>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.Load(System.String,CatLib.API.Resources.LoadTypes)">
-            <summary>
-            加载资源
-            </summary>
-            <param name="path">资源路径</param>
-            <param name="loadType">加载类型</param>
-            <returns>加载的对象</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.Load(System.String,System.Type,CatLib.API.Resources.LoadTypes)">
-            <summary>
-            加载资源
-            </summary>
-            <param name="path">资源路径</param>
-            <param name="type">资源类型</param>
-            <param name="loadType">加载类型</param>
-            <returns>加载的对象</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.Load``1(System.String,CatLib.API.Resources.LoadTypes)">
-            <summary>
-            加载资源
-            </summary>
-            <typeparam name="T">资源类型</typeparam>
-            <param name="path">资源路径</param>
-            <param name="loadType">加载类型</param>
-            <returns>加载的对象</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.LoadAll(System.String,CatLib.API.Resources.LoadTypes)">
-            <summary>
-            加载全部
-            </summary>
-            <param name="path">资源路径</param>
-            <param name="loadType">加载类型</param>
-            <returns>加载的对象数组</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.LoadAsync(System.String,System.Action{CatLib.API.Resources.IObject},CatLib.API.Resources.LoadTypes)">
-            <summary>
-            异步加载
-            </summary>
-            <param name="path">加载路径</param>
-            <param name="callback">回调</param>
-            <param name="loadType">加载类型</param>
-            <returns>协程</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.LoadAsync(System.String,System.Type,System.Action{CatLib.API.Resources.IObject},CatLib.API.Resources.LoadTypes)">
-            <summary>
-            异步加载
-            </summary>
-            <param name="path">加载路径</param>
-            <param name="type">资源类型</param>
-            <param name="callback">回调</param>
-            <param name="loadType">加载类型</param>
-            <returns>协程</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.LoadAsync``1(System.String,System.Action{CatLib.API.Resources.IObject},CatLib.API.Resources.LoadTypes)">
-            <summary>
-            异步加载
-            </summary>
-            <typeparam name="T">资源类型</typeparam>
-            <param name="path">加载路径</param>
-            <param name="callback">回调</param>
-            <param name="loadType">加载类型</param>
-            <returns>协程</returns>
-        </member>
-        <member name="M:CatLib.API.Resources.IResources.LoadAllAsync(System.String,System.Action{CatLib.API.Resources.IObject[]},CatLib.API.Resources.LoadTypes)">
-            <summary>
-            异步加载全部资源
-            </summary>
-            <param name="path">资源路径</param>
-            <param name="callback">回调</param>
-            <param name="loadType">加载类型</param>
-            <returns>协程</returns>
-        </member>
-        <member name="T:CatLib.API.Resources.LoadTypes">
-            <summary>
-            加载类型
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Resources.LoadTypes.Resources">
-            <summary>
-            从 Resources 中加载
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Resources.LoadTypes.AssetBundle">
-            <summary>
-            从 AssetBundle中 加载
-            </summary>
-        </member>
         <member name="T:CatLib.API.Routing.IMiddleware">
             <summary>
             中间件
@@ -2252,74 +1824,6 @@
             <param name="name">路由组名字</param>
             <returns>当前实例</returns>
         </member>
-        <member name="T:CatLib.API.Thread.ITask">
-            <summary>
-            线程任务
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Thread.ITask.Delay(System.Single)">
-            <summary>
-            延迟多少秒执行这个线程
-            </summary>
-            <param name="time">延迟秒数</param>
-            <returns>线程任务实例</returns>
-        </member>
-        <member name="M:CatLib.API.Thread.ITask.OnComplete(System.Action)">
-            <summary>
-            当线程任务完成时
-            </summary>
-            <param name="onComplete">完成时的回调</param>
-            <returns>线程任务实例</returns>
-        </member>
-        <member name="M:CatLib.API.Thread.ITask.OnComplete(System.Action{System.Object})">
-            <summary>
-            当线程任务完成时
-            </summary>
-            <param name="onComplete">完成时的回调</param>
-            <returns>线程任务实例</returns>
-        </member>
-        <member name="M:CatLib.API.Thread.ITask.OnError(System.Action{System.Exception})">
-            <summary>
-            当线程执行过程时抛出异常
-            </summary>
-            <param name="onError">当异常时</param>
-            <returns>线程任务实例</returns>
-        </member>
-        <member name="M:CatLib.API.Thread.ITask.Start">
-            <summary>
-            启动线程任务
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:CatLib.API.Thread.ITaskHandler">
-            <summary>
-            线程任务句柄
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Thread.ITaskHandler.Cancel">
-            <summary>
-            撤销线程执行，只有在delay状态才能撤销
-            </summary>
-        </member>
-        <member name="T:CatLib.API.Thread.IThread">
-            <summary>
-            多线程运行器
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Thread.IThread.Task(System.Action)">
-            <summary>
-            新建一个多线程任务
-            </summary>
-            <param name="task">任务内容</param>
-            <returns>任务</returns>
-        </member>
-        <member name="M:CatLib.API.Thread.IThread.Task(System.Func{System.Object})">
-            <summary>
-            新建一个多线程任务允许产生回调
-            </summary>
-            <param name="task">任务内容</param>
-            <returns>任务</returns>
-        </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>
             注入标记
@@ -2369,29 +1873,29 @@
             </summary>
             <returns>默认的文件系统名字</returns>
         </member>
-        <member name="T:CatLib.Config.UnitySettingLocator">
+        <member name="T:CatLib.Config.Locator.UnitySettingLocator">
             <summary>
             Unity设置定位器
             </summary>
         </member>
-        <member name="F:CatLib.Config.UnitySettingLocator.dict">
+        <member name="F:CatLib.Config.Locator.UnitySettingLocator.dict">
             <summary>
             配置字典
             </summary>
         </member>
-        <member name="M:CatLib.Config.UnitySettingLocator.#ctor">
+        <member name="M:CatLib.Config.Locator.UnitySettingLocator.#ctor">
             <summary>
             配置定位器
             </summary>
         </member>
-        <member name="M:CatLib.Config.UnitySettingLocator.Set(System.String,System.String)">
+        <member name="M:CatLib.Config.Locator.UnitySettingLocator.Set(System.String,System.String)">
             <summary>
             设定值
             </summary>
             <param name="name">配置名</param>
             <param name="value">配置值</param>
         </member>
-        <member name="M:CatLib.Config.UnitySettingLocator.TryGetValue(System.String,System.String@)">
+        <member name="M:CatLib.Config.Locator.UnitySettingLocator.TryGetValue(System.String,System.String@)">
             <summary>
             根据配置名获取配置的值
             </summary>
@@ -2399,34 +1903,34 @@
             <param name="value">配置值</param>
             <returns>是否获取到配置</returns>
         </member>
-        <member name="M:CatLib.Config.UnitySettingLocator.Save">
+        <member name="M:CatLib.Config.Locator.UnitySettingLocator.Save">
             <summary>
             保存配置
             </summary>
         </member>
-        <member name="T:CatLib.Config.CodeConfigLocator">
+        <member name="T:CatLib.Config.Locator.CodeConfigLocator">
             <summary>
             代码配置定位器
             </summary>
         </member>
-        <member name="F:CatLib.Config.CodeConfigLocator.dict">
+        <member name="F:CatLib.Config.Locator.CodeConfigLocator.dict">
             <summary>
             配置字典
             </summary>
         </member>
-        <member name="M:CatLib.Config.CodeConfigLocator.#ctor">
+        <member name="M:CatLib.Config.Locator.CodeConfigLocator.#ctor">
             <summary>
             代码配置定位器
             </summary>
         </member>
-        <member name="M:CatLib.Config.CodeConfigLocator.Set(System.String,System.String)">
+        <member name="M:CatLib.Config.Locator.CodeConfigLocator.Set(System.String,System.String)">
             <summary>
             设定值
             </summary>
             <param name="name">配置名</param>
             <param name="value">配置值</param>
         </member>
-        <member name="M:CatLib.Config.CodeConfigLocator.TryGetValue(System.String,System.String@)">
+        <member name="M:CatLib.Config.Locator.CodeConfigLocator.TryGetValue(System.String,System.String@)">
             <summary>
             根据配置名获取配置的值
             </summary>
@@ -2434,7 +1938,7 @@
             <param name="value">配置值</param>
             <returns>是否获取到配置</returns>
         </member>
-        <member name="M:CatLib.Config.CodeConfigLocator.Save">
+        <member name="M:CatLib.Config.Locator.CodeConfigLocator.Save">
             <summary>
             保存配置
             </summary>
@@ -2466,7 +1970,7 @@
             <param name="type">类型对应的转换器</param>
             <param name="converter">转换器</param>
         </member>
-        <member name="M:CatLib.Config.Config.Reg(CatLib.API.Config.IConfigLocator,System.Int32)">
+        <member name="M:CatLib.Config.Config.AddLocator(CatLib.API.Config.IConfigLocator,System.Int32)">
             <summary>
             注册一个配置定位器
             框架会依次遍历配置定位器来获取配
@@ -2518,29 +2022,19 @@
             注册管理器
             </summary>
         </member>
-        <member name="M:CatLib.Config.ConfigProvider.RegisterConfig">
-            <summary>
-            注册配置
-            </summary>
-        </member>
-        <member name="M:CatLib.Config.ConfigProvider.RegisterLocator">
-            <summary>
-            注册定位器
-            </summary>
-        </member>
-        <member name="T:CatLib.Config.BoolStringConverter">
+        <member name="T:CatLib.Config.Converters.BoolStringConverter">
             <summary>
             bool转换器
             </summary>
         </member>
-        <member name="M:CatLib.Config.BoolStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.BoolStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.BoolStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.BoolStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2548,19 +2042,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.ByteStringConverter">
+        <member name="T:CatLib.Config.Converters.ByteStringConverter">
             <summary>
             byte转换器
             </summary>
         </member>
-        <member name="M:CatLib.Config.ByteStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.ByteStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.ByteStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.ByteStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2568,19 +2062,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.CharStringConverter">
+        <member name="T:CatLib.Config.Converters.CharStringConverter">
             <summary>
             Char转换器
             </summary>
         </member>
-        <member name="M:CatLib.Config.CharStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.CharStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.CharStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.CharStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2588,19 +2082,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.DateTimeStringConverter">
+        <member name="T:CatLib.Config.Converters.DateTimeStringConverter">
             <summary>
             时间转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.DateTimeStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.DateTimeStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.DateTimeStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.DateTimeStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2608,19 +2102,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.DecimalStringConverter">
+        <member name="T:CatLib.Config.Converters.DecimalStringConverter">
             <summary>
             decimal转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.DecimalStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.DecimalStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.DecimalStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.DecimalStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2628,19 +2122,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.DoubleStringConverter">
+        <member name="T:CatLib.Config.Converters.DoubleStringConverter">
             <summary>
             double转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.DoubleStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.DoubleStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.DoubleStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.DoubleStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2648,19 +2142,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.EnumStringConverter">
+        <member name="T:CatLib.Config.Converters.EnumStringConverter">
             <summary>
             枚举类型转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.EnumStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.EnumStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.EnumStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.EnumStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2668,19 +2162,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.Int16StringConverter">
+        <member name="T:CatLib.Config.Converters.Int16StringConverter">
             <summary>
             int16（short）转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.Int16StringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.Int16StringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.Int16StringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.Int16StringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2688,19 +2182,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.Int32StringConverter">
+        <member name="T:CatLib.Config.Converters.Int32StringConverter">
             <summary>
             Int32转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.Int32StringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.Int32StringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.Int32StringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.Int32StringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2708,19 +2202,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.Int64StringConverter">
+        <member name="T:CatLib.Config.Converters.Int64StringConverter">
             <summary>
             Int64(long)转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.Int64StringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.Int64StringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.Int64StringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.Int64StringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2728,19 +2222,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.SByteStringConverter">
+        <member name="T:CatLib.Config.Converters.SByteStringConverter">
             <summary>
             sbyte转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.SByteStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.SByteStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.SByteStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.SByteStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2748,19 +2242,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.SingleStringConverter">
+        <member name="T:CatLib.Config.Converters.SingleStringConverter">
             <summary>
             float转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.SingleStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.SingleStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.SingleStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.SingleStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2768,19 +2262,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.StringStringConverter">
+        <member name="T:CatLib.Config.Converters.StringStringConverter">
             <summary>
             字符串转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.StringStringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.StringStringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.StringStringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.StringStringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2788,19 +2282,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.UInt16StringConverter">
+        <member name="T:CatLib.Config.Converters.UInt16StringConverter">
             <summary>
             ushort转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.UInt16StringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.UInt16StringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.UInt16StringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.UInt16StringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2808,19 +2302,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.UInt32StringConverter">
+        <member name="T:CatLib.Config.Converters.UInt32StringConverter">
             <summary>
             unit转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.UInt32StringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.UInt32StringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.UInt32StringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.UInt32StringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2828,19 +2322,19 @@
             <param name="to">目标类型</param>
             <returns>转换后的目标对象</returns>
         </member>
-        <member name="T:CatLib.Config.UInt64StringConverter">
+        <member name="T:CatLib.Config.Converters.UInt64StringConverter">
             <summary>
             ulong转换
             </summary>
         </member>
-        <member name="M:CatLib.Config.UInt64StringConverter.ConvertToString(System.Object)">
+        <member name="M:CatLib.Config.Converters.UInt64StringConverter.ConvertToString(System.Object)">
             <summary>
             转换目标类型到字符串
             </summary>
             <param name="value">要被转换的对象</param>
             <returns>转换后的字符串</returns>
         </member>
-        <member name="M:CatLib.Config.UInt64StringConverter.ConvertFromString(System.String,System.Type)">
+        <member name="M:CatLib.Config.Converters.UInt64StringConverter.ConvertFromString(System.String,System.Type)">
             <summary>
             转换自字符串到目标类型
             </summary>
@@ -2871,6 +2365,11 @@
             配置管理器
             </summary>
         </member>
+        <member name="T:CatLib.Facade.Env">
+            <summary>
+            环境
+            </summary>
+        </member>
         <member name="T:CatLib.Facade.FileSystemManager">
             <summary>
             文件系统管理器
@@ -2891,30 +2390,30 @@
             计时器管理器
             </summary>
         </member>
-        <member name="T:CatLib.FileSystem.Local">
+        <member name="T:CatLib.FileSystem.Adapter.Local">
             <summary>
             本地驱动器
             </summary>
         </member>
-        <member name="F:CatLib.FileSystem.Local.root">
+        <member name="F:CatLib.FileSystem.Adapter.Local.root">
             <summary>
             根目录
             </summary>
         </member>
-        <member name="M:CatLib.FileSystem.Local.#ctor(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.#ctor(System.String)">
             <summary>
             构建一个本地驱动器
             </summary>
             <param name="root">根目录</param>
         </member>
-        <member name="M:CatLib.FileSystem.Local.Exists(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.Exists(System.String)">
             <summary>
             文件或文件夹是否存在
             </summary>
             <param name="path">文件或文件夹是否存在</param>
             <returns>是否存在</returns>
         </member>
-        <member name="M:CatLib.FileSystem.Local.Write(System.String,System.Byte[])">
+        <member name="M:CatLib.FileSystem.Adapter.Local.Write(System.String,System.Byte[])">
             <summary>
             写入数据
             如果数据已经存在则覆盖
@@ -2922,85 +2421,159 @@
             <param name="path">路径</param>
             <param name="contents">写入数据</param>
         </member>
-        <member name="M:CatLib.FileSystem.Local.Read(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.Read(System.String)">
             <summary>
             读取文件
             </summary>
             <param name="path">路径</param>
             <returns>读取的数据</returns>
         </member>
-        <member name="M:CatLib.FileSystem.Local.Move(System.String,System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.Move(System.String,System.String)">
             <summary>
             移动文件到指定目录(可以被用于重命名)
             </summary>
             <param name="path">旧的文件/文件夹路径</param>
             <param name="newPath">新的文件/文件夹路径</param>
         </member>
-        <member name="M:CatLib.FileSystem.Local.Copy(System.String,System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.Copy(System.String,System.String)">
             <summary>
             复制文件或文件夹到指定路径
             </summary>
             <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
             <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
         </member>
-        <member name="M:CatLib.FileSystem.Local.Delete(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.Delete(System.String)">
             <summary>
             删除文件或者文件夹
             </summary>
             <param name="path">路径</param>
         </member>
-        <member name="M:CatLib.FileSystem.Local.MakeDir(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.MakeDir(System.String)">
             <summary>
             创建文件夹
             </summary>
             <param name="path">文件夹路径</param>
         </member>
-        <member name="M:CatLib.FileSystem.Local.GetAttributes(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.GetAttributes(System.String)">
             <summary>
             获取文件/文件夹属性
             </summary>
             <param name="path">文件/文件夹路径</param>
             <returns>文件/文件夹属性</returns>
         </member>
-        <member name="M:CatLib.FileSystem.Local.GetList(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.GetList(System.String)">
             <summary>
             获取列表（不会迭代子文件夹）
             </summary>
             <param name="path">要获取列表的路径</param>
             <returns>指定目录下的文件夹和文件列表</returns>
         </member>
-        <member name="M:CatLib.FileSystem.Local.GetSize(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.GetSize(System.String)">
             <summary>
             获取文件/文件夹的大小(字节)
             </summary>
             <param name="path">文件/文件夹路径</param>
             <returns>文件/文件夹的大小</returns>
         </member>
-        <member name="M:CatLib.FileSystem.Local.IsDir(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.IsDir(System.String)">
             <summary>
             是否是文件夹
             </summary>
             <param name="path">文件/文件夹路径</param>
             <returns>是否是文件夹</returns>
         </member>
-        <member name="M:CatLib.FileSystem.Local.Normalize(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.Normalize(System.String)">
             <summary>
             标准化路径
             </summary>
             <param name="path"></param>
             <returns></returns>
         </member>
-        <member name="M:CatLib.FileSystem.Local.GuardLimitedRoot(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.GuardLimitedRoot(System.String)">
             <summary>
             判断限定范围是否在root下
             </summary>
             <param name="path">绝对路径</param>
         </member>
-        <member name="M:CatLib.FileSystem.Local.EnsureDirectory(System.String)">
+        <member name="M:CatLib.FileSystem.Adapter.Local.EnsureDirectory(System.String)">
             <summary>
             保证目录存在
             </summary>
             <param name="root">路径</param>
+        </member>
+        <member name="T:CatLib.FileSystem.Adapter.IFileSystemAdapter">
+            <summary>
+            文件系统适配器
+            </summary>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.Exists(System.String)">
+            <summary>
+            文件或文件夹是否存在
+            </summary>
+            <param name="path">文件或文件夹是否存在</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.Write(System.String,System.Byte[])">
+            <summary>
+            写入数据
+            如果数据已经存在则覆盖
+            </summary>
+            <param name="path">路径</param>
+            <param name="contents">写入数据</param>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.Read(System.String)">
+            <summary>
+            读取文件
+            </summary>
+            <param name="path">路径</param>
+            <returns>读取的数据</returns>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.Move(System.String,System.String)">
+            <summary>
+            移动文件到指定目录
+            </summary>
+            <param name="path">旧的文件/文件夹路径</param>
+            <param name="newPath">新的文件/文件夹路径</param>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.Copy(System.String,System.String)">
+            <summary>
+            复制文件或文件夹到指定路径
+            </summary>
+            <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
+            <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.Delete(System.String)">
+            <summary>
+            删除文件或者文件夹
+            </summary>
+            <param name="path">路径</param>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.MakeDir(System.String)">
+            <summary>
+            创建文件夹
+            </summary>
+            <param name="path">文件夹路径</param>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.GetAttributes(System.String)">
+            <summary>
+            获取文件/文件夹属性
+            </summary>
+            <param name="path">文件/文件夹路径</param>
+            <returns>文件/文件夹属性</returns>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.GetList(System.String)">
+            <summary>
+            获取列表（不会迭代子文件夹）
+            </summary>
+            <param name="path">要获取列表的文件夹路径(如果传入的是一个文件那么将会返回文件自身路径)</param>
+            <returns>指定目录下的文件夹和文件列表</returns>
+        </member>
+        <member name="M:CatLib.FileSystem.Adapter.IFileSystemAdapter.GetSize(System.String)">
+            <summary>
+            获取文件/文件夹的大小(字节)
+            </summary>
+            <param name="path">文件/文件夹的路径</param>
+            <returns>文件/文件夹的大小</returns>
         </member>
         <member name="T:CatLib.FileSystem.Directory">
             <summary>
@@ -3055,7 +2628,7 @@
             文件系统适配器
             </summary>
         </member>
-        <member name="M:CatLib.FileSystem.FileSystem.#ctor(CatLib.FileSystem.IFileSystemAdapter)">
+        <member name="M:CatLib.FileSystem.FileSystem.#ctor(CatLib.FileSystem.Adapter.IFileSystemAdapter)">
             <summary>
             文件系统
             </summary>
@@ -3165,11 +2738,6 @@
             注册管理器
             </summary>
         </member>
-        <member name="M:CatLib.FileSystem.FileSystemProvider.RegisterAdapter">
-            <summary>
-            注册适配器
-            </summary>
-        </member>
         <member name="M:CatLib.FileSystem.FileSystemProvider.InitRegisterLocalDriver">
             <summary>
             初始化本地磁盘驱动
@@ -3252,80 +2820,6 @@
             获取文件/文件夹大小(字节)
             </summary>
             <returns>文件/文件夹大小</returns>
-        </member>
-        <member name="T:CatLib.FileSystem.IFileSystemAdapter">
-            <summary>
-            文件系统适配器
-            </summary>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.Exists(System.String)">
-            <summary>
-            文件或文件夹是否存在
-            </summary>
-            <param name="path">文件或文件夹是否存在</param>
-            <returns>是否存在</returns>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.Write(System.String,System.Byte[])">
-            <summary>
-            写入数据
-            如果数据已经存在则覆盖
-            </summary>
-            <param name="path">路径</param>
-            <param name="contents">写入数据</param>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.Read(System.String)">
-            <summary>
-            读取文件
-            </summary>
-            <param name="path">路径</param>
-            <returns>读取的数据</returns>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.Move(System.String,System.String)">
-            <summary>
-            移动文件到指定目录
-            </summary>
-            <param name="path">旧的文件/文件夹路径</param>
-            <param name="newPath">新的文件/文件夹路径</param>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.Copy(System.String,System.String)">
-            <summary>
-            复制文件或文件夹到指定路径
-            </summary>
-            <param name="path">文件或文件夹路径(应该包含文件夹或者文件名)</param>
-            <param name="copyPath">复制到的路径(不应该包含文件夹或者文件名)</param>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.Delete(System.String)">
-            <summary>
-            删除文件或者文件夹
-            </summary>
-            <param name="path">路径</param>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.MakeDir(System.String)">
-            <summary>
-            创建文件夹
-            </summary>
-            <param name="path">文件夹路径</param>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.GetAttributes(System.String)">
-            <summary>
-            获取文件/文件夹属性
-            </summary>
-            <param name="path">文件/文件夹路径</param>
-            <returns>文件/文件夹属性</returns>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.GetList(System.String)">
-            <summary>
-            获取列表（不会迭代子文件夹）
-            </summary>
-            <param name="path">要获取列表的文件夹路径(如果传入的是一个文件那么将会返回文件自身路径)</param>
-            <returns>指定目录下的文件夹和文件列表</returns>
-        </member>
-        <member name="M:CatLib.FileSystem.IFileSystemAdapter.GetSize(System.String)">
-            <summary>
-            获取文件/文件夹的大小(字节)
-            </summary>
-            <param name="path">文件/文件夹的路径</param>
-            <returns>文件/文件夹的大小</returns>
         </member>
         <member name="T:CatLib.FileSystem.FileSystemManager">
             <summary>
@@ -4335,7 +3829,7 @@
             分隔符
             </summary>
         </member>
-        <member name="F:CatLib.Routing.Router.events">
+        <member name="F:CatLib.Routing.Router.eventHub">
             <summary>
             全局调度器
             </summary>
@@ -4395,11 +3889,11 @@
             默认的scheme
             </summary>
         </member>
-        <member name="M:CatLib.Routing.Router.#ctor(CatLib.API.Event.IEvent,CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.Routing.Router.#ctor(CatLib.API.IEvent,CatLib.API.Stl.IContainer)">
             <summary>
             创建一个新的路由器
             </summary>
-            <param name="events">事件</param>
+            <param name="eventHub">事件</param>
             <param name="container">容器</param>
         </member>
         <member name="M:CatLib.Routing.Router.SetDefaultScheme(System.String)">
@@ -7013,26 +6507,6 @@
             <param name="routine">协程</param>
             <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="P:CatLib.Core.Driver.Event">
-            <summary>
-            事件系统
-            </summary>
-        </member>
-        <member name="M:CatLib.Core.Driver.TriggerGlobal(System.String)">
-            <summary>
-            触发一个全局事件
-            </summary>
-            <param name="eventName">事件名</param>
-            <returns>全局事件</returns>
-        </member>
-        <member name="M:CatLib.Core.Driver.TriggerGlobal(System.String,System.Object)">
-            <summary>
-            触发一个全局事件
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="sender">发送者</param>
-            <returns>全局事件</returns>
-        </member>
         <member name="M:CatLib.Core.Driver.Trigger(System.String)">
             <summary>
             触发一个事件
@@ -7218,65 +6692,149 @@
             门面实例
             </summary>
         </member>
-        <member name="T:CatLib.Core.GlobalEvent">
+        <member name="T:CatLib.Core.EventHandler">
             <summary>
-            全局事件
+            事件句柄
             </summary>
         </member>
-        <member name="F:CatLib.Core.GlobalEvent.sender">
+        <member name="P:CatLib.Core.EventHandler.Target">
             <summary>
-            事件源
+            监听对象
             </summary>
         </member>
-        <member name="F:CatLib.Core.GlobalEvent.eventName">
+        <member name="P:CatLib.Core.EventHandler.Handler">
             <summary>
-            事件名称
+            事件句柄
             </summary>
         </member>
-        <member name="F:CatLib.Core.GlobalEvent.classInterface">
+        <member name="P:CatLib.Core.EventHandler.EventName">
             <summary>
-            触发接口级事件的接口
+            事件名
             </summary>
         </member>
-        <member name="F:CatLib.Core.GlobalEvent.eventLevel">
+        <member name="F:CatLib.Core.EventHandler.isCancel">
             <summary>
-            事件广播级别
+            是否取消事件
             </summary>
         </member>
-        <member name="M:CatLib.Core.GlobalEvent.#ctor(System.String,System.Object)">
+        <member name="P:CatLib.Core.EventHandler.Life">
             <summary>
-            构造一个全局事件
+            剩余的调用次数
             </summary>
+        </member>
+        <member name="P:CatLib.Core.EventHandler.IsLife">
+            <summary>
+            事件是否是有效的
+            </summary>
+        </member>
+        <member name="M:CatLib.Core.EventHandler.#ctor(CatLib.Core.Event,System.String,System.EventHandler,System.Int32)">
+            <summary>
+            创建一个事件句柄
+            </summary>
+            <param name="target">事件监听对象</param>
             <param name="eventName">事件名</param>
+            <param name="eventHandler">事件句柄</param>
+            <param name="life">生命次数</param>
+        </member>
+        <member name="M:CatLib.Core.EventHandler.Cancel">
+            <summary>
+            撤销事件监听
+            </summary>
+            <returns>是否撤销成功</returns>
+        </member>
+        <member name="M:CatLib.Core.EventHandler.Call(System.Object,System.EventArgs)">
+            <summary>
+            激活事件
+            </summary>
+            <param name="sender">事件发送者</param>
+            <param name="e">事件参数</param>
+        </member>
+        <member name="T:CatLib.Core.Event">
+            <summary>
+            事件实现
+            </summary>
+        </member>
+        <member name="P:CatLib.Core.Event.App">
+            <summary>
+            应用程序
+            </summary>
+        </member>
+        <member name="F:CatLib.Core.Event.handlers">
+            <summary>
+            事件地图
+            </summary>
+        </member>
+        <member name="M:CatLib.Core.Event.#ctor(CatLib.API.IApplication)">
+            <summary>
+            构造一个事件实现
+            </summary>
+            <param name="app">应用程序</param>
+        </member>
+        <member name="M:CatLib.Core.Event.Trigger(System.String)">
+            <summary>
+            触发一个事件
+            </summary>
+            <param name="eventName">事件名称</param>
+        </member>
+        <member name="M:CatLib.Core.Event.Trigger(System.String,System.EventArgs)">
+            <summary>
+            触发一个事件
+            </summary>
+            <param name="eventName">事件名称</param>
+            <param name="e">事件参数</param>
+        </member>
+        <member name="M:CatLib.Core.Event.Trigger(System.String,System.Object)">
+            <summary>
+            触发一个事件
+            </summary>
+            <param name="eventName">事件名称</param>
             <param name="sender">发送者</param>
         </member>
-        <member name="M:CatLib.Core.GlobalEvent.AppendInterface``1">
+        <member name="M:CatLib.Core.Event.Trigger(System.String,System.Object,System.EventArgs)">
             <summary>
-            增加事件响应接口
+            触发一个事件
             </summary>
-            <typeparam name="T">接口类型</typeparam>
-            <returns>全局事件实例</returns>
+            <param name="eventName">事件名称</param>
+            <param name="sender">发送者</param>
+            <param name="e">事件参数</param>
         </member>
-        <member name="M:CatLib.Core.GlobalEvent.AppendInterface(System.Type)">
+        <member name="M:CatLib.Core.Event.On(System.String,System.EventHandler,System.Int32)">
             <summary>
-            增加事件响应接口
+            注册一个事件
             </summary>
-            <param name="t">接口类型</param>
-            <returns>全局事件实例</returns>
+            <param name="eventName">事件名称</param>
+            <param name="handler">事件句柄</param>
+            <param name="life">在几次后事件会被自动释放</param>
+            <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Core.GlobalEvent.SetEventLevel(CatLib.API.EventLevels)">
+        <member name="M:CatLib.Core.Event.One(System.String,System.EventHandler)">
             <summary>
-            设定事件等级
+            注册一个事件，调用一次后就释放
             </summary>
-            <param name="level">事件等级</param>
-            <returns>全局事件实例</returns>
+            <param name="eventName">事件名</param>
+            <param name="handler">事件句柄</param>
+            <returns></returns>
         </member>
-        <member name="M:CatLib.Core.GlobalEvent.Trigger(System.EventArgs)">
+        <member name="M:CatLib.Core.Event.Off(CatLib.Core.EventHandler)">
             <summary>
-            触发一个全局事件
+            移除一个事件
             </summary>
-            <param name="args">事件参数</param>
-            <exception cref="T:CatLib.API.RuntimeException">当事件名无效时引发</exception>
+            <param name="handler">操作句柄</param>
+        </member>
+        <member name="M:CatLib.Core.Event.On(System.String,CatLib.Core.EventHandler)">
+            <summary>
+            注册事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="handler">事件句柄</param>
+        </member>
+        <member name="M:CatLib.Core.Event.CallEvent(System.Collections.Generic.IList{CatLib.Core.EventHandler},System.Object,System.EventArgs)">
+            <summary>
+            调用事件
+            </summary>
+            <param name="handler">事件</param>
+            <param name="sender">发送者</param>
+            <param name="e">事件参数</param>
         </member>
         <member name="T:CatLib.ServiceProvider">
             <summary>
@@ -7314,154 +6872,6 @@
         <member name="M:CatLib.Util.StandardPath(System.String)">
             <summary>
             标准化路径
-            </summary>
-        </member>
-        <member name="T:CatLib.Event.EventHandler">
-            <summary>
-            事件句柄
-            </summary>
-        </member>
-        <member name="P:CatLib.Event.EventHandler.Target">
-            <summary>
-            监听对象
-            </summary>
-        </member>
-        <member name="P:CatLib.Event.EventHandler.Handler">
-            <summary>
-            事件句柄
-            </summary>
-        </member>
-        <member name="P:CatLib.Event.EventHandler.EventName">
-            <summary>
-            事件名
-            </summary>
-        </member>
-        <member name="F:CatLib.Event.EventHandler.isCancel">
-            <summary>
-            是否取消事件
-            </summary>
-        </member>
-        <member name="P:CatLib.Event.EventHandler.Life">
-            <summary>
-            剩余的调用次数
-            </summary>
-        </member>
-        <member name="P:CatLib.Event.EventHandler.IsLife">
-            <summary>
-            事件是否是有效的
-            </summary>
-        </member>
-        <member name="M:CatLib.Event.EventHandler.#ctor(CatLib.Event.EventImpl,System.String,System.EventHandler,System.Int32)">
-            <summary>
-            创建一个事件句柄
-            </summary>
-            <param name="target">事件监听对象</param>
-            <param name="eventName">事件名</param>
-            <param name="eventHandler">事件句柄</param>
-            <param name="life">生命次数</param>
-        </member>
-        <member name="M:CatLib.Event.EventHandler.Cancel">
-            <summary>
-            撤销事件监听
-            </summary>
-            <returns>是否撤销成功</returns>
-        </member>
-        <member name="M:CatLib.Event.EventHandler.Call(System.Object,System.EventArgs)">
-            <summary>
-            激活事件
-            </summary>
-            <param name="sender">事件发送者</param>
-            <param name="e">事件参数</param>
-        </member>
-        <member name="T:CatLib.Event.EventImpl">
-            <summary>
-            事件实现
-            </summary>
-        </member>
-        <member name="P:CatLib.Event.EventImpl.App">
-            <summary>
-            应用程序
-            </summary>
-        </member>
-        <member name="F:CatLib.Event.EventImpl.handlers">
-            <summary>
-            事件地图
-            </summary>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.Trigger(System.String)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.Trigger(System.String,System.EventArgs)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="e">事件参数</param>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.Trigger(System.String,System.Object)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="sender">发送者</param>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.Trigger(System.String,System.Object,System.EventArgs)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="sender">发送者</param>
-            <param name="e">事件参数</param>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.On(System.String,System.EventHandler,System.Int32)">
-            <summary>
-            注册一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="handler">事件句柄</param>
-            <param name="life">在几次后事件会被自动释放</param>
-            <returns>事件句柄</returns>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.One(System.String,System.EventHandler)">
-            <summary>
-            注册一个事件，调用一次后就释放
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="handler">事件句柄</param>
-            <returns></returns>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.Off(CatLib.Event.EventHandler)">
-            <summary>
-            移除一个事件
-            </summary>
-            <param name="handler">操作句柄</param>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.On(System.String,CatLib.Event.EventHandler)">
-            <summary>
-            注册事件
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="handler">事件句柄</param>
-        </member>
-        <member name="M:CatLib.Event.EventImpl.CallEvent(System.Collections.Generic.IList{CatLib.Event.EventHandler},System.Object,System.EventArgs)">
-            <summary>
-            调用事件
-            </summary>
-            <param name="handler">事件</param>
-            <param name="sender">发送者</param>
-            <param name="e">事件参数</param>
-        </member>
-        <member name="T:CatLib.Event.EventProvider">
-            <summary>
-            事件服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Event.EventProvider.Register">
-            <summary>
-            注册事件服务
             </summary>
         </member>
         <member name="T:CatLib.Timer.Timer">

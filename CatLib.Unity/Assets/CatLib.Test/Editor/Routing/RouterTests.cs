@@ -10,12 +10,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.Core;
-using CatLib.Event;
-using CatLib.Stl;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -41,7 +38,6 @@ namespace CatLib.Tests.Routing
             {
                 return Type.GetType(t);
             });
-            app.Register(typeof(EventProvider));
             app.Register(typeof(RoutingProvider));
 
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
@@ -502,6 +498,22 @@ namespace CatLib.Tests.Routing
                 var response = router.Dispatch("routing-priortity-middleware/call");
                 Assert.AreEqual("RoutingPriortityMiddleware.Call[with middleware 20][with middleware 15][with middleware 10][global middleware]", response.GetContext().ToString());
             });
+        }
+
+        [TestMethod]
+        public void WrongRouteTest()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            //变量含有特殊字符将会被降级为字符串
+            bool tf = false;
+            router.Reg("wrong://hellworld/nihao/{miaomiao*&^$}", (req,res) =>
+            {
+                tf = true;
+            });
+
+            router.Dispatch("wrong://hellworld/nihao/{miaomiao*&^$}");
+            Assert.AreEqual(true , tf);
         }
 
         [TestMethod]

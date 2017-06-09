@@ -12,9 +12,7 @@
 using System;
 using System.Collections;
 using CatLib.API;
-using CatLib.API.Event;
 using CatLib.Core;
-using CatLib.Event;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -363,118 +361,6 @@ namespace CatLib.Tests.Core
             Assert.AreEqual(true, isCall);
         }
 
-        /// <summary>
-        /// 无效的全局事件
-        /// </summary>
-        [TestMethod]
-        public void IllegalGlobalEvent()
-        {
-            var app = MakeDriver();
-
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                app.TriggerGlobal(null).Trigger();
-            });
-        }
-
-        /// <summary>
-        /// 全局事件
-        /// </summary>
-        [TestMethod]
-        public void GlobalEvent()
-        {
-            var app = MakeDriver();
-            var isCall = false;
-            var isCallInterface = false;
-            var isCallClass = false;
-            var args = new EventArgs();
-            app.On("GlobalEvent", (s, e) =>
-            {
-                if (s == this && e == args)
-                {
-                    isCall = !isCall;
-                }
-
-                if (s == null && e == args)
-                {
-                    isCall = false;
-                }
-            });
-
-            app.On("GlobalEvent" + typeof(IBootstrap), (s, e) =>
-            {
-                if (s == this && e == args)
-                {
-                    isCallInterface = !isCallInterface;
-                }
-            });
-
-            app.On("GlobalEvent" + GetType(), (s, e) =>
-            {
-                if (s == this && e == args)
-                {
-                    isCallClass = !isCallClass;
-                }
-            });
-
-            app.TriggerGlobal("GlobalEvent", this).AppendInterface<IBootstrap>().SetEventLevel(EventLevels.All).Trigger(args);
-            Assert.AreEqual(true, isCall);
-            Assert.AreEqual(true, isCallInterface);
-            Assert.AreEqual(true, isCallClass);
-
-            app.TriggerGlobal("GlobalEvent").Trigger(args);
-            Assert.AreEqual(false, isCall);
-
-        }
-
-        public class TestGloablEventSelfClass : IGuid
-        {
-            private long guid;
-            public long Guid
-            {
-                get
-                {
-                    if (guid <= 0)
-                    {
-                        guid = App.Instance.GetGuid();
-                    }
-                    return guid;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 自身的全局事件
-        /// </summary>
-        [TestMethod]
-        public void GlobalEventSelf()
-        {
-            var app = MakeDriver();
-            var isCall = false;
-            var args = new EventArgs();
-            var cls = new TestGloablEventSelfClass();
-            app.On("GlobalEvent" + cls.GetType() + cls.Guid, (s, e) =>
-            {
-                if (s == cls && e == args)
-                {
-                    isCall = !isCall;
-                }
-            });
-
-            app.TriggerGlobal("GlobalEvent", cls).AppendInterface<IBootstrap>().SetEventLevel(EventLevels.All).Trigger(args);
-            Assert.AreEqual(true, isCall);
-        }
-
-        /// <summary>
-        /// 获取事件
-        /// </summary>
-        [TestMethod]
-        public void GetDriverEvent()
-        {
-            var app = MakeDriver();
-            Assert.AreEqual(app, app.Event);
-        }
-
         private IEnumerator Coroutine()
         {
             yield return null;
@@ -485,7 +371,6 @@ namespace CatLib.Tests.Core
         {
             var driver = new Application();
             driver.Bootstrap().Init();
-            driver.Bind<EventImpl>().Alias<IEventImpl>();
             return driver;
         }
     }

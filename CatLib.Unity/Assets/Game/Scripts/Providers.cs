@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.Event;
 using CatLib.Time;
 using CatLib.Config;
 using CatLib.Core;
@@ -33,7 +32,6 @@ namespace CatLib.Bootstrap
             {
                 return new[]
                 {
-                    typeof(EventProvider),
                     typeof(TimeProvider),
                     typeof(CoreProvider),
                     typeof(TimerProvider),
