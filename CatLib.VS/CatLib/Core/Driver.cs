@@ -374,18 +374,6 @@ namespace CatLib.Core
         /// 触发一个事件
         /// </summary>
         /// <param name="eventName">事件名</param>
-        public void Trigger(string eventName)
-        {
-            if (EventSystem != null)
-            {
-                EventSystem.Trigger(eventName);
-            }
-        }
-
-        /// <summary>
-        /// 触发一个事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
         /// <param name="e">事件参数</param>
         public void Trigger(string eventName, EventArgs e)
         {
@@ -400,21 +388,8 @@ namespace CatLib.Core
         /// </summary>
         /// <param name="eventName">事件名</param>
         /// <param name="sender">事件发送者</param>
-        public void Trigger(string eventName, object sender)
-        {
-            if (EventSystem != null)
-            {
-                EventSystem.Trigger(eventName, sender);
-            }
-        }
-
-        /// <summary>
-        /// 触发一个事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="sender">事件发送者</param>
         /// <param name="e">事件参数</param>
-        public void Trigger(string eventName, object sender, EventArgs e)
+        public void Trigger(string eventName, object sender = null, EventArgs e = null)
         {
             if (EventSystem != null)
             {
