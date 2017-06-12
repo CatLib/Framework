@@ -619,7 +619,7 @@ namespace CatLib.Tests.Stl
             master.Push(8);
             master.Push(9);
 
-            master.ReverseForeach();
+            master.ReverseIterator();
 
             var i = 0;
             foreach (var v in master)
@@ -646,7 +646,7 @@ namespace CatLib.Tests.Stl
                 Assert.Fail();
             }
 
-            master.ReverseForeach();
+            master.ReverseIterator();
             foreach (var v in master)
             {
                 Assert.Fail();

@@ -109,7 +109,7 @@ namespace CatLib.API.Stl
         /// <summary>
         /// 反转遍历顺序(并不是反转整个列表)
         /// </summary>
-        void ReverseForeach();
+        void ReverseIterator();
 
         /// <summary>
         /// 清空快速列表

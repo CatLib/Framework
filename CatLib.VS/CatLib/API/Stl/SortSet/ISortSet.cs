@@ -133,7 +133,7 @@ namespace CatLib.API.Stl
         /// <summary>
         /// 反转遍历顺序(并不是反转整个有序集)
         /// </summary>
-        void ReverseForeach();
+        void ReverseIterator();
 
         /// <summary>
         /// 获取第一个元素
