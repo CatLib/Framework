@@ -124,7 +124,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 反转遍历顺序(并不是反转整个有序集)
         /// </summary>
-        public void ReverseForeach()
+        public void ReverseIterator()
         {
             forward = !forward;
         }

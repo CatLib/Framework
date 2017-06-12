@@ -200,7 +200,7 @@ namespace CatLib.Tests.Stl
             {
                 cache.Add(i.ToString(), i.ToString());
             }
-            cache.ReverseForeach();
+            cache.ReverseIterator();
             var n = 0;
             foreach (var v in cache)
             {
