@@ -152,9 +152,9 @@ namespace CatLib.Routing
 
             foreach (var route in routeList)
             {
-                ComplieOptionsGroup(route, baseRouted);
                 ComplieOptionsWhere(route, controllerWhere);
                 ComplieOptionsDefaults(route, controllerDefaults);
+                ComplieOptionsGroup(route, baseRouted);
             }
         }
 
@@ -245,9 +245,9 @@ namespace CatLib.Routing
         /// <param name="routed">路由特性</param>
         private void ComplieOptions(IRoute route, RoutedAttribute routed)
         {
-            ComplieOptionsGroup(route, routed);
             ComplieOptionsWhere(route, ComplieDirection(routed.Where));
             ComplieOptionsDefaults(route, ComplieDirection(routed.Defaults));
+            ComplieOptionsGroup(route, routed);
         }
 
         /// <summary>

@@ -59,6 +59,7 @@ namespace CatLib.Tests.Routing
                     next(req, res);
                     res.SetContext(res.GetContext() + "[with throw error group middleware]");
                 });
+                router.Group("DefaultGroup2").Defaults("str", "TestUseGroupAndLocalDefaults");
             });
 
             app.On(RouterEvents.OnDispatcher, (sender, args) =>
@@ -528,6 +529,23 @@ namespace CatLib.Tests.Routing
             });
 
             router.SetDefaultScheme("catlib");
+        }
+
+        [TestMethod]
+        public void TestFirstCompilerThenAddGroup()
+        {
+            var router = App.Instance.Make<IRouter>();
+            router.Group("DefaultGroup").Defaults("str", "TestFirstCompilerThenAddGroup");
+            var response = router.Dispatch("routed://first-compiler-then-group");
+            Assert.AreEqual("TestFirstCompilerThenAddGroup[global middleware]", response.GetContext());
+        }
+
+        [TestMethod]
+        public void TestUseGroupAndLocalDefaults()
+        {
+            var router = App.Instance.Make<IRouter>();
+            var response = router.Dispatch("routed://use-group-and-local-defaults");
+            Assert.AreEqual("hello world[global middleware]", response.GetContext());
         }
     }
 }
