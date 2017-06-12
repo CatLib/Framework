@@ -57,7 +57,6 @@ namespace CatLib.Stl
             /// 构造一个迭代器
             /// </summary>
             /// <param name="lruCache">近期最少使用缓存</param>
-            /// <param name="forward">是否是前进迭代</param>
             internal Enumerator(LruCache<TKey, TVal> lruCache)
             {
                 this.lruCache = lruCache;
@@ -136,7 +135,7 @@ namespace CatLib.Stl
         /// <summary>
         /// 移除元素
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">键</param>
         public void Remove(TKey key)
         {
             Guard.Requires<ArgumentNullException>(key != null);

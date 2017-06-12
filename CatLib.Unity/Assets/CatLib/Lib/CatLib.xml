@@ -520,6 +520,12 @@
             <param name="defaultValue">默认返回值</param>
             <returns>值</returns>
         </member>
+        <member name="M:CatLib.API.Stl.ILruCache`2.Remove(`0)">
+            <summary>
+            移除元素
+            </summary>
+            <param name="key">键</param>
+        </member>
         <member name="P:CatLib.API.Stl.ILruCache`2.Count">
             <summary>
             获取Lru缓存中的元素数量
@@ -5059,7 +5065,6 @@
             构造一个迭代器
             </summary>
             <param name="lruCache">近期最少使用缓存</param>
-            <param name="forward">是否是前进迭代</param>
         </member>
         <member name="M:CatLib.Stl.LruCache`2.Enumerator.GetEnumerator">
             <summary>
@@ -5089,7 +5094,7 @@
             <summary>
             移除元素
             </summary>
-            <param name="key"></param>
+            <param name="key">键</param>
         </member>
         <member name="M:CatLib.Stl.LruCache`2.Get(`0,`1)">
             <summary>

@@ -36,6 +36,12 @@ namespace CatLib.API.Stl
         TVal Get(TKey key, TVal defaultValue = default(TVal));
 
         /// <summary>
+        /// 移除元素
+        /// </summary>
+        /// <param name="key">键</param>
+        void Remove(TKey key);
+
+        /// <summary>
         /// 获取Lru缓存中的元素数量
         /// </summary>
         int Count { get; }
