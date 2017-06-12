@@ -195,7 +195,7 @@ namespace CatLib.Tests.Stl
             }
 
             int n = 0;
-            list.ReverseForeach();
+            list.ReverseIterator();
             foreach (var v in list)
             {
                 Assert.AreEqual(num - ++n, v);
@@ -425,7 +425,7 @@ namespace CatLib.Tests.Stl
                 Assert.Fail();
             }
 
-            master.ReverseForeach();
+            master.ReverseIterator();
             foreach (var v in master)
             {
                 Assert.Fail();

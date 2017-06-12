@@ -5,7 +5,6 @@
     <namespace fullname="CatLib.API" preserve="all" />
     <namespace fullname="CatLib.Config" preserve="all" />
     <namespace fullname="CatLib.Core" preserve="all" />
-    <namespace fullname="CatLib.Event" preserve="all" />
     <namespace fullname="CatLib.FileSystem" preserve="all" />
     <namespace fullname="CatLib.Routing" preserve="all" />
     <namespace fullname="CatLib.Stl" preserve="all" />

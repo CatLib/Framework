@@ -630,7 +630,7 @@
             <param name="finder">查找的元素</param>
             <param name="insert">要插入的元素</param>
         </member>
-        <member name="M:CatLib.API.Stl.IQuickList`1.ReverseForeach">
+        <member name="M:CatLib.API.Stl.IQuickList`1.ReverseIterator">
             <summary>
             反转遍历顺序(并不是反转整个列表)
             </summary>
@@ -769,7 +769,7 @@
             <param name="rank">排名,排名以0为底</param>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.API.Stl.ISortSet`2.ReverseForeach">
+        <member name="M:CatLib.API.Stl.ISortSet`2.ReverseIterator">
             <summary>
             反转遍历顺序(并不是反转整个有序集)
             </summary>
@@ -5506,7 +5506,7 @@
             <param name="finder">查找的元素</param>
             <param name="insert">要插入的元素</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.ReverseForeach">
+        <member name="M:CatLib.Stl.QuickList`1.ReverseIterator">
             <summary>
             反转遍历顺序(并不是反转整个列表)
             </summary>
@@ -5786,7 +5786,7 @@
             清空SortSet
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.ReverseForeach">
+        <member name="M:CatLib.Stl.SortSet`2.ReverseIterator">
             <summary>
             反转遍历顺序(并不是反转整个有序集)
             </summary>
@@ -6494,25 +6494,12 @@
             <param name="routine">协程</param>
             <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Driver.Trigger(System.String)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名</param>
-        </member>
         <member name="M:CatLib.Core.Driver.Trigger(System.String,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名</param>
             <param name="e">事件参数</param>
-        </member>
-        <member name="M:CatLib.Core.Driver.Trigger(System.String,System.Object)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="sender">事件发送者</param>
         </member>
         <member name="M:CatLib.Core.Driver.Trigger(System.String,System.Object,System.EventArgs)">
             <summary>
