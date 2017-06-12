@@ -505,11 +505,6 @@
             <typeparam name="TKey">键的类型</typeparam>
             <typeparam name="TVal">值的类型</typeparam>
         </member>
-        <member name="M:CatLib.API.Stl.ILruCache`2.ReverseForeach">
-            <summary>
-            反转遍历顺序(并不是反转整个有序集)
-            </summary>
-        </member>
         <member name="M:CatLib.API.Stl.ILruCache`2.Add(`0,`1)">
             <summary>
             在lru缓存中增加一个元素
@@ -5049,11 +5044,6 @@
             尾节点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.LruCache`2.forward">
-            <summary>
-            是否是向前的迭代方向
-            </summary>
-        </member>
         <member name="T:CatLib.Stl.LruCache`2.Enumerator">
             <summary>
             近期最少使用缓存迭代器
@@ -5064,12 +5054,7 @@
             近期最少使用缓存
             </summary>
         </member>
-        <member name="F:CatLib.Stl.LruCache`2.Enumerator.forward">
-            <summary>
-            是否是向前遍历
-            </summary>
-        </member>
-        <member name="M:CatLib.Stl.LruCache`2.Enumerator.#ctor(CatLib.Stl.LruCache{`0,`1},System.Boolean)">
+        <member name="M:CatLib.Stl.LruCache`2.Enumerator.#ctor(CatLib.Stl.LruCache{`0,`1})">
             <summary>
             构造一个迭代器
             </summary>
@@ -5091,11 +5076,6 @@
         <member name="M:CatLib.Stl.LruCache`2.#ctor(System.Int32)">
             <summary>
             创建一个Lru缓存
-            </summary>
-        </member>
-        <member name="M:CatLib.Stl.LruCache`2.ReverseForeach">
-            <summary>
-            反转遍历顺序(并不是反转整个有序集)
             </summary>
         </member>
         <member name="M:CatLib.Stl.LruCache`2.Add(`0,`1)">

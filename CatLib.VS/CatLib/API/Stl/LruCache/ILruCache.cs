@@ -21,11 +21,6 @@ namespace CatLib.API.Stl
     public interface ILruCache<TKey, TVal> : IEnumerable<KeyValuePair<TKey, TVal>>
     {
         /// <summary>
-        /// 反转遍历顺序(并不是反转整个有序集)
-        /// </summary>
-        void ReverseIterator();
-
-        /// <summary>
         /// 在lru缓存中增加一个元素
         /// </summary>
         /// <param name="key">键</param>

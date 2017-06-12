@@ -44,11 +44,6 @@ namespace CatLib.Stl
         private CacheNode<TKey, TVal> tail;
 
         /// <summary>
-        /// 是否是向前的迭代方向
-        /// </summary>
-        private bool forward;
-
-        /// <summary>
         /// 近期最少使用缓存迭代器
         /// </summary>
         private struct Enumerator : IEnumerable<KeyValuePair<TKey, TVal>>
@@ -59,19 +54,13 @@ namespace CatLib.Stl
             private readonly LruCache<TKey, TVal> lruCache;
 
             /// <summary>
-            /// 是否是向前遍历
-            /// </summary>
-            private readonly bool forward;
-
-            /// <summary>
             /// 构造一个迭代器
             /// </summary>
             /// <param name="lruCache">近期最少使用缓存</param>
             /// <param name="forward">是否是前进迭代</param>
-            internal Enumerator(LruCache<TKey, TVal> lruCache, bool forward)
+            internal Enumerator(LruCache<TKey, TVal> lruCache)
             {
                 this.lruCache = lruCache;
-                this.forward = forward;
             }
 
             /// <summary>
@@ -80,23 +69,11 @@ namespace CatLib.Stl
             /// <returns>元素迭代器</returns>
             public IEnumerator<KeyValuePair<TKey, TVal>> GetEnumerator()
             {
-                if (forward)
+                var cursor = lruCache.header;
+                while (cursor != null)
                 {
-                    var cursor = lruCache.header;
-                    while (cursor != null)
-                    {
-                        yield return cursor.KeyValue;
-                        cursor = cursor.Forward;
-                    }
-                }
-                else
-                {
-                    var cursor = lruCache.tail;
-                    while (cursor != null)
-                    {
-                        yield return cursor.KeyValue;
-                        cursor = cursor.Backward;
-                    }
+                    yield return cursor.KeyValue;
+                    cursor = cursor.Forward;
                 }
             }
 
@@ -118,15 +95,6 @@ namespace CatLib.Stl
             Guard.Requires<ArgumentOutOfRangeException>(maxCapacity > 0);
             this.maxCapacity = maxCapacity;
             lruCache = new Dictionary<TKey, CacheNode<TKey, TVal>>();
-            forward = true;
-        }
-
-        /// <summary>
-        /// 反转遍历顺序(并不是反转整个有序集)
-        /// </summary>
-        public void ReverseIterator()
-        {
-            forward = !forward;
         }
 
         /// <summary>
@@ -237,7 +205,7 @@ namespace CatLib.Stl
         /// <returns>迭代器</returns>
         public IEnumerator<KeyValuePair<TKey, TVal>> GetEnumerator()
         {
-            return new Enumerator(this, forward).GetEnumerator();
+            return new Enumerator(this).GetEnumerator();
         }
 
         /// <summary>
