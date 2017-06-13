@@ -18,7 +18,7 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件/文件夹句柄
     /// </summary>
-    internal abstract class Handler : IHandler
+    public abstract class Handler : IHandler
     {
         /// <summary>
         /// 文件/文件夹路径

@@ -16,7 +16,7 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件夹
     /// </summary>
-    internal sealed class Directory : Handler, IDirectory
+    public sealed class Directory : Handler, IDirectory
     {
         /// <summary>
         /// 文件夹
