@@ -412,12 +412,6 @@
             <param name="priority">优先级(值越小越优先)</param>
             <returns>过滤器链</returns>
         </member>
-        <member name="M:CatLib.API.Stl.IFilterChain`1.Do(`0)">
-            <summary>
-            执行过滤器链
-            </summary>
-            <param name="inData">输入数据</param>
-        </member>
         <member name="M:CatLib.API.Stl.IFilterChain`1.Do(`0,System.Action{`0})">
             <summary>
             执行过滤器链
@@ -444,13 +438,6 @@
             <param name="filter">过滤器</param>
             <param name="priority">优先级(值越小越优先)</param>
             <returns>过滤器链</returns>
-        </member>
-        <member name="M:CatLib.API.Stl.IFilterChain`2.Do(`0,`1)">
-            <summary>
-            执行过滤器链
-            </summary>
-            <param name="inData">输入参数</param>
-            <param name="outData">输出参数</param>
         </member>
         <member name="M:CatLib.API.Stl.IFilterChain`2.Do(`0,`1,System.Action{`0,`1})">
             <summary>
@@ -480,14 +467,6 @@
             <param name="filter">过滤器</param>
             <param name="priority">优先级(值越小越优先)</param>
             <returns>过滤器链</returns>
-        </member>
-        <member name="M:CatLib.API.Stl.IFilterChain`3.Do(`0,`1,`2)">
-            <summary>
-            执行过滤器链
-            </summary>
-            <param name="inData">输入参数</param>
-            <param name="outData">输出参数</param>
-            <param name="exception">输入异常</param>
         </member>
         <member name="M:CatLib.API.Stl.IFilterChain`3.Do(`0,`1,`2,System.Action{`0,`1,`2})">
             <summary>
@@ -4814,12 +4793,6 @@
             <param name="priority">优先级(值越小越优先)</param>
             <returns>过滤器链</returns>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`1.Do(`0)">
-            <summary>
-            执行过滤器链
-            </summary>
-            <param name="inData">输入数据</param>
-        </member>
         <member name="M:CatLib.Stl.FilterChain`1.Do(`0,System.Action{`0})">
             <summary>
             执行过滤器链
@@ -4868,13 +4841,6 @@
             <param name="filter">过滤器</param>
             <param name="priority">优先级</param>
             <returns>过滤器链</returns>
-        </member>
-        <member name="M:CatLib.Stl.FilterChain`2.Do(`0,`1)">
-            <summary>
-            执行过滤器链
-            </summary>
-            <param name="inData">输入参数</param>
-            <param name="outData">输出参数</param>
         </member>
         <member name="M:CatLib.Stl.FilterChain`2.Do(`0,`1,System.Action{`0,`1})">
             <summary>
@@ -4926,14 +4892,6 @@
             <param name="filter">过滤器</param>
             <param name="priority">优先级</param>
             <returns>过滤器链</returns>
-        </member>
-        <member name="M:CatLib.Stl.FilterChain`3.Do(`0,`1,`2)">
-            <summary>
-            执行过滤器链
-            </summary>
-            <param name="inData">输入参数</param>
-            <param name="outData">输出参数</param>
-            <param name="exception">输入异常</param>
         </member>
         <member name="M:CatLib.Stl.FilterChain`3.Do(`0,`1,`2,System.Action{`0,`1,`2})">
             <summary>

@@ -67,17 +67,8 @@ namespace CatLib.Stl
         /// 执行过滤器链
         /// </summary>
         /// <param name="inData">输入数据</param>
-        public void Do(TIn inData)
-        {
-            Do(inData, null);
-        }
-
-        /// <summary>
-        /// 执行过滤器链
-        /// </summary>
-        /// <param name="inData">输入数据</param>
         /// <param name="then">当过滤器执行完成后执行的操作</param>
-        public void Do(TIn inData, Action<TIn> then)
+        public void Do(TIn inData, Action<TIn> then = null)
         {
             if (filterList.Count <= 0)
             {
@@ -168,18 +159,8 @@ namespace CatLib.Stl
         /// </summary>
         /// <param name="inData">输入参数</param>
         /// <param name="outData">输出参数</param>
-        public void Do(TIn inData, TOut outData)
-        {
-            Do(inData, outData, null);
-        }
-
-        /// <summary>
-        /// 执行过滤器链
-        /// </summary>
-        /// <param name="inData">输入参数</param>
-        /// <param name="outData">输出参数</param>
         /// <param name="then">当过滤器执行完成后执行的操作</param>
-        public void Do(TIn inData, TOut outData, Action<TIn, TOut> then)
+        public void Do(TIn inData, TOut outData, Action<TIn, TOut> then = null)
         {
             if (filterList.Count <= 0)
             {
@@ -272,19 +253,8 @@ namespace CatLib.Stl
         /// <param name="inData">输入参数</param>
         /// <param name="outData">输出参数</param>
         /// <param name="exception">输入异常</param>
-        public void Do(TIn inData, TOut outData, TException exception)
-        {
-            Do(inData, outData, exception, null);
-        }
-
-        /// <summary>
-        /// 执行过滤器链
-        /// </summary>
-        /// <param name="inData">输入参数</param>
-        /// <param name="outData">输出参数</param>
-        /// <param name="exception">输入异常</param>
         /// <param name="then">当过滤器执行完成后执行的操作</param>
-        public void Do(TIn inData, TOut outData, TException exception, Action<TIn, TOut, TException> then)
+        public void Do(TIn inData, TOut outData, TException exception, Action<TIn, TOut, TException> then = null)
         {
             if (filterList.Count <= 0)
             {

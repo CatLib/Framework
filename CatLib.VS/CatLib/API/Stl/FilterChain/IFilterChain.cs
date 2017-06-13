@@ -36,14 +36,8 @@ namespace CatLib.API.Stl
         /// 执行过滤器链
         /// </summary>
         /// <param name="inData">输入数据</param>
-        void Do(TIn inData);
-
-        /// <summary>
-        /// 执行过滤器链
-        /// </summary>
-        /// <param name="inData">输入数据</param>
         /// <param name="then">当过滤器执行完成后执行的操作</param>
-        void Do(TIn inData, Action<TIn> then);
+        void Do(TIn inData, Action<TIn> then = null);
     }
 
     /// <summary>
@@ -71,15 +65,8 @@ namespace CatLib.API.Stl
         /// </summary>
         /// <param name="inData">输入参数</param>
         /// <param name="outData">输出参数</param>
-        void Do(TIn inData, TOut outData);
-
-        /// <summary>
-        /// 执行过滤器链
-        /// </summary>
-        /// <param name="inData">输入参数</param>
-        /// <param name="outData">输出参数</param>
         /// <param name="then">当过滤器执行完成后执行的操作</param>
-        void Do(TIn inData, TOut outData, Action<TIn, TOut> then);
+        void Do(TIn inData, TOut outData, Action<TIn, TOut> then = null);
     }
 
     /// <summary>
@@ -109,15 +96,7 @@ namespace CatLib.API.Stl
         /// <param name="inData">输入参数</param>
         /// <param name="outData">输出参数</param>
         /// <param name="exception">输入异常</param>
-        void Do(TIn inData, TOut outData, TException exception);
-
-        /// <summary>
-        /// 执行过滤器链
-        /// </summary>
-        /// <param name="inData">输入参数</param>
-        /// <param name="outData">输出参数</param>
-        /// <param name="exception">输入异常</param>
         /// <param name="then">当过滤器执行完成后执行的操作</param>
-        void Do(TIn inData, TOut outData, TException exception, Action<TIn, TOut, TException> then);
+        void Do(TIn inData, TOut outData, TException exception, Action<TIn, TOut, TException> then = null);
     }
 }
