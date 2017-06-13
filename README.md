@@ -7,7 +7,6 @@
 <a href="https://codecov.io/gh/CatLib/CatLib">
   <img src="https://codecov.io/gh/CatLib/CatLib/branch/master/graph/badge.svg" alt="Codecov" />
 </a>
-<img src="https://img.shields.io/badge/unity-min%205.3-red.svg" alt="min unity" />
 
 > **风险提示:** 当前框架尚未正式发布，应用于商业项目时请注意使用风险（审计中的组件是可以放心使用的）(包括但不限于不完整的单元测试,接口的变化,组件的废弃,不完善的错误提示,运行时错误). 当前版本提出的issues一般情况下会在24小时内响应。
 
