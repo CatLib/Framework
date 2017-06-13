@@ -21,15 +21,12 @@
 
 CatLib是为Unity3D开发的全栈开发框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
 
-- [依赖注入容器](http://catlib.io/?page=catlib.container.container).
-- [文件服务](http://catlib.io/?page=catlib.io.io).
-- 多级[事件系统](http://catlib.io/?page=catlib.event.event)
-- 网络服务[Tcp,Udp,Http](http://catlib.io/?page=catlib.network.network).
-- 支持自动引用计数的[AssetBundle](http://catlib.io/?page=catlib.resources.resources).
-- 项目 [国际化](http://catlib.io/?page=catlib.translation.translator).
-- [时间库](http://catlib.io/?page=catlib.time-queue.time-queue).
-- [Json](http://catlib.io/?page=catlib.json.json), [Protobuf](http://catlib.io/?page=catlib.protobuf.protobuf)等主流协议的解析支持
-- [加密](http://catlib.io/?page=catlib.crypt.crypt), [哈希](http://catlib.io/?page=catlib.hash.hash), [压缩](http://catlib.io/?page=catlib.compress.compress)
+- [依赖注入容器](http://catlib.io/v1/guide/container.html).
+- [路由系统](http://catlib.io/v1/guide/routing.html).
+- 支持任意来源的[配置](http://catlib.io/v1/guide/config.html).
+- [标准库](http://catlib.io/v1/guide/stl.html)
+- 抽象[文件系统](http://catlib.io/v1/guide/file-system.html).
+- 多功能[计时器](http://catlib.io/v1/guide/timer.html).
 
 CatLib提供了构建一个游戏所必备的基础组件 , 您可以通过接口简单的调用就可以访问这些组件的特性. 您也可以根据业务需求自由组合搭配这些组件，来构建一个完整的项目。
 
