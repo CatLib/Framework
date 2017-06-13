@@ -25,22 +25,7 @@ namespace CatLib.Tests.Core
 {
     [TestClass]
     public class EnvTests
-    {
-        [TestMethod]
-        public void TestPlatformToName()
-        {
-            var env = new Env();
-
-            Assert.AreEqual("Linux", env.PlatformToName(RuntimePlatform.LinuxPlayer));
-            Assert.AreEqual("Win", env.PlatformToName(RuntimePlatform.WindowsPlayer));
-            Assert.AreEqual("Win", env.PlatformToName(RuntimePlatform.WindowsEditor));
-            Assert.AreEqual("Android", env.PlatformToName(RuntimePlatform.Android));
-            Assert.AreEqual("IOS", env.PlatformToName(RuntimePlatform.IPhonePlayer));
-            Assert.AreEqual("OSX", env.PlatformToName(RuntimePlatform.OSXEditor));
-            Assert.AreEqual("OSX", env.PlatformToName(RuntimePlatform.OSXPlayer));
-            Assert.AreEqual("Web", env.PlatformToName(RuntimePlatform.WebGLPlayer));
-        }
-
+    {   
         [TestMethod]
         public void TestSetDebugLevel()
         {

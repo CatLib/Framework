@@ -1006,23 +1006,6 @@
             </summary>
             <param name="path">路径</param>
         </member>
-        <member name="P:CatLib.API.IEnv.Platform">
-            <summary>
-            当前运行的平台(和编辑器所在平台有关)
-            </summary>
-        </member>
-        <member name="P:CatLib.API.IEnv.SwitchPlatform">
-            <summary>
-            当前所选择的编译平台
-            </summary>
-        </member>
-        <member name="M:CatLib.API.IEnv.PlatformToName(System.Nullable{UnityEngine.RuntimePlatform})">
-            <summary>
-            将平台转为名字
-            </summary>
-            <param name="platform">平台名</param>
-            <returns>转换后的名字</returns>
-        </member>
         <member name="T:CatLib.API.RuntimeException">
             <summary>
             运行时异常
@@ -6564,23 +6547,6 @@
             <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
             <para>如果开发者有手动设置资源路径，将使用开发者设置的路径</para>
             </summary>
-        </member>
-        <member name="P:CatLib.Core.Env.Platform">
-            <summary>
-            当前运行的平台(和编辑器所在平台有关)
-            </summary>
-        </member>
-        <member name="P:CatLib.Core.Env.SwitchPlatform">
-            <summary>
-            当前所选的编译平台
-            </summary>
-        </member>
-        <member name="M:CatLib.Core.Env.PlatformToName(System.Nullable{UnityEngine.RuntimePlatform})">
-            <summary>
-            将平台转为名字
-            </summary>
-            <param name="platform">平台名</param>
-            <returns>转换后的名字</returns>
         </member>
         <member name="M:CatLib.Core.Env.#ctor">
             <summary>

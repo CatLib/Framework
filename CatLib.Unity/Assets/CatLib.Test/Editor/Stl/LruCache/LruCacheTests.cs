@@ -188,25 +188,5 @@ namespace CatLib.Tests.Stl
             var cache = new LruCache<string, string>(5);
             cache.Remove("999");
         }
-
-        /// <summary>
-        /// 反转foreach测试
-        /// </summary>
-        [TestMethod]
-        public void ReverseForeachTest()
-        {
-            var cache = new LruCache<string, string>(5);
-            for (var i = 0; i < 5; i++)
-            {
-                cache.Add(i.ToString(), i.ToString());
-            }
-            cache.ReverseForeach();
-            var n = 0;
-            foreach (var v in cache)
-            {
-                Assert.AreEqual(n.ToString(), v.Value);
-                n++;
-            }
-        }
     }
 }

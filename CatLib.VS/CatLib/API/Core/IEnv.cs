@@ -38,22 +38,5 @@ namespace CatLib.API
         /// </summary>
         /// <param name="path">路径</param>
         void SetAssetPath(string path);
-
-        /// <summary>
-        /// 当前运行的平台(和编辑器所在平台有关)
-        /// </summary>
-        RuntimePlatform Platform { get; }
-
-        /// <summary>
-        /// 当前所选择的编译平台
-        /// </summary>
-        RuntimePlatform SwitchPlatform { get; }
-
-        /// <summary>
-        /// 将平台转为名字
-        /// </summary>
-        /// <param name="platform">平台名</param>
-        /// <returns>转换后的名字</returns>
-        string PlatformToName(RuntimePlatform? platform = null);
     }
 }
