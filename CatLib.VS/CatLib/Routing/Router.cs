@@ -424,12 +424,12 @@ namespace CatLib.Routing
                 {
                     middleware.Do(request, response, (req, res) =>
                     {
-                        RunInRoute(route, request, response);
+                        route.Run(request, response);
                     });
                 }
                 else
                 {
-                    RunInRoute(route, request, response);
+                    route.Run(request, response);
                 }
                 return response;
             }
@@ -461,40 +461,6 @@ namespace CatLib.Routing
                 }
                 return null;
             }
-        }
-
-        /// <summary>
-        /// 执行路由请求
-        /// </summary>
-        /// <param name="route">路由</param>
-        /// <param name="request">请求</param>
-        /// <param name="response">响应</param>
-        /// <returns>响应</returns>
-        private IResponse RunInRoute(Route route, Request request, Response response)
-        {
-            var middleware = route.GatherMiddleware();
-            if (middleware != null)
-            {
-                middleware.Do(request, response, (req, res) =>
-                {
-                    PrepareResponse(req, route.Run(req as Request, res as Response));
-                });
-            }
-            else
-            {
-                PrepareResponse(request, route.Run(request, response));
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 准备响应的内容
-        /// </summary>
-        /// <param name="request">请求</param>
-        /// <param name="response">响应</param>
-        private void PrepareResponse(IRequest request, IResponse response)
-        {
-            //todo: 预留函数  
         }
 
         /// <summary>
