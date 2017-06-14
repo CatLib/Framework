@@ -294,7 +294,7 @@ namespace CatLib.Routing
         {
             if (action.Type == RouteAction.RouteTypes.CallBack)
             {
-                ThroughRouteMiddleware(request, response , null, ActionCall);
+                ThroughRouteMiddleware(request, response, null, ActionCall);
             }
             else if (action.Type == RouteAction.RouteTypes.ControllerCall)
             {
@@ -313,7 +313,7 @@ namespace CatLib.Routing
         /// <param name="response">响应</param>
         /// <param name="context">上下文</param>
         /// <param name="callback">完成中间件的回调</param>
-        private void ThroughRouteMiddleware(Request request, Response response, object context, Action<Request, Response , object> callback)
+        private void ThroughRouteMiddleware(Request request, Response response, object context, Action<Request, Response, object> callback)
         {
             var middleware = GatherMiddleware();
             if (middleware != null)
@@ -346,7 +346,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <param name="callback">回调</param>
-        private void ThroughControllerMiddleware(Request request, Response response , Action<Request, Response ,object> callback)
+        private void ThroughControllerMiddleware(Request request, Response response, Action<Request, Response, object> callback)
         {
             var controller = container.Make(action.Controller);
 

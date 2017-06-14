@@ -35,6 +35,7 @@ namespace CatLib.Tests.Routing
         internal Router MakeRouter()
         {
             var app = new CatLib.Core.Application();
+            app.Bootstrap().Init();
             var router = new Router(app, app);
 
             router.SetDefaultScheme("catlib");
@@ -187,7 +188,7 @@ namespace CatLib.Tests.Routing
                 router.Dispatch("ui://helloworld/call3");
             }).OnError((req, res, ex ,next) =>
             {
-                if (throwError == 0)
+                if (throwError == 1)
                 {
                     throwError = 10;
                 }
@@ -217,7 +218,7 @@ namespace CatLib.Tests.Routing
                 router.Dispatch("ui://helloworld/call");
             });
 
-            Assert.AreEqual(11, throwError);
+            Assert.AreEqual(12, throwError);
             Assert.AreEqual(0, throwNotFound);
         }
 
@@ -237,7 +238,7 @@ namespace CatLib.Tests.Routing
                 router.Dispatch("ui://helloworld/call3");
             }).OnError((req, res, ex, next) =>
             {
-                if (throwError == 0)
+                if (throwError == 1)
                 {
                     throwError = 10;
                 }

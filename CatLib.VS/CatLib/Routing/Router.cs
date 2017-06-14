@@ -226,7 +226,7 @@ namespace CatLib.Routing
 
             var request = MakeRequest(uri, context);
             Route route;
-    
+
             try
             {
                 route = FindRoute(request);
@@ -247,7 +247,7 @@ namespace CatLib.Routing
                 responseStack.Push(response);
                 requestStack.Push(request);
                 request.SetRoute(route);
-                
+
                 container.Instance(typeof(IRequest).ToString(), request);
                 container.Instance(typeof(IResponse).ToString(), response);
                 return RunRouteWithMiddleware(route, request, response);
@@ -369,10 +369,10 @@ namespace CatLib.Routing
             var isIntercept = (onNotFound != null);
             if (isIntercept)
             {
-                onNotFound.Do(request , (req) =>
-                {
-                    isIntercept = false;
-                });
+                onNotFound.Do(request, (req) =>
+               {
+                   isIntercept = false;
+               });
             }
             return isIntercept;
         }
@@ -389,7 +389,7 @@ namespace CatLib.Routing
             var isIntercept = (onError != null);
             if (isIntercept)
             {
-                onError.Do(request, response, ex , (req, res, exception) =>
+                onError.Do(request, response, ex, (req, res, exception) =>
                 {
                     isIntercept = false;
                 });
@@ -405,7 +405,7 @@ namespace CatLib.Routing
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <returns>响应</returns>
-        private IResponse RunRouteWithMiddleware(Route route, Request request , Response response)
+        private IResponse RunRouteWithMiddleware(Route route, Request request, Response response)
         {
             try
             {
@@ -452,8 +452,7 @@ namespace CatLib.Routing
 
                 if (throwBubble)
                 {
-                    //只有是最外层的调用才触发全局异常冒泡
-                    if (routeStack.Count == 1 && ThrowOnError(request, response, ex))
+                    if (ThrowOnError(request, response, ex))
                     {
                         return null;
                     }

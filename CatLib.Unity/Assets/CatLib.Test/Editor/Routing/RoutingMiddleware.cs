@@ -40,5 +40,11 @@ namespace CatLib.Tests.Routing
         {
             response.SetContext("RoutingMiddleware.Call");
         }
+
+        [Routed(Group = "RoutingMiddleware.ClassMiddlewareThenRouteMiddleTest")]
+        public void ClassMiddlewareThenRouteMiddleTest(IRequest request, IResponse response)
+        {
+            response.SetContext("ClassMiddlewareThenRouteMiddleTest");
+        }
     }
 }

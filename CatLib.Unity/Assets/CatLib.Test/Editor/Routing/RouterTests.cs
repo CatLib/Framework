@@ -547,5 +547,22 @@ namespace CatLib.Tests.Routing
             var response = router.Dispatch("routed://use-group-and-local-defaults");
             Assert.AreEqual("hello world[global middleware]", response.GetContext());
         }
+
+        [TestMethod]
+        public void TestClassMiddlewareThenRouteMiddleware()
+        {
+            var router = App.Instance.Make<IRouter>();
+
+            router.Group("RoutingMiddleware.ClassMiddlewareThenRouteMiddleTest")
+                .Middleware((req, res, next) =>
+                {
+                    next(req, res);
+                    res.SetContext(res.GetContext() + "[middleware with route group]");
+                });
+
+            var response = router.Dispatch("rm://class-middleware-then-route-middle-test");
+
+            Assert.AreEqual("ClassMiddlewareThenRouteMiddleTest[middleware with route group][with middleware][global middleware]", response.GetContext());
+        }
     }
 }

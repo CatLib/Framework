@@ -3405,12 +3405,46 @@
             <param name="request">请求</param>
             <param name="response">响应</param>
         </member>
-        <member name="M:CatLib.Routing.Route.ControllerCall(CatLib.Routing.Request,CatLib.Routing.Response)">
+        <member name="M:CatLib.Routing.Route.ThroughRouteMiddleware(CatLib.Routing.Request,CatLib.Routing.Response,System.Object,System.Action{CatLib.Routing.Request,CatLib.Routing.Response,System.Object})">
+            <summary>
+            通过路由中间件
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+            <param name="context">上下文</param>
+            <param name="callback">完成中间件的回调</param>
+        </member>
+        <member name="M:CatLib.Routing.Route.ActionCall(CatLib.Routing.Request,CatLib.Routing.Response,System.Object)">
+            <summary>
+            行为调用
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+            <param name="context">上下文</param>
+        </member>
+        <member name="M:CatLib.Routing.Route.ThroughControllerMiddleware(CatLib.Routing.Request,CatLib.Routing.Response,System.Action{CatLib.Routing.Request,CatLib.Routing.Response,System.Object})">
+            <summary>
+            通过控制器中间件
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+            <param name="callback">回调</param>
+        </member>
+        <member name="M:CatLib.Routing.Route.ControllerCallRouteMiddlewareWrap(CatLib.Routing.Request,CatLib.Routing.Response,System.Object)">
+            <summary>
+            控制器调用路由中间件包装
+            </summary>
+            <param name="request"></param>
+            <param name="response"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:CatLib.Routing.Route.ControllerCall(CatLib.Routing.Request,CatLib.Routing.Response,System.Object)">
             <summary>
             控制器调用
             </summary>
             <param name="request">请求</param>
             <param name="response">响应</param>
+            <param name="context">上下文</param>
         </member>
         <member name="M:CatLib.Routing.Route.ClearCompile">
             <summary>
@@ -3968,22 +4002,6 @@
             <param name="request">请求</param>
             <param name="response">响应</param>
             <returns>响应</returns>
-        </member>
-        <member name="M:CatLib.Routing.Router.RunInRoute(CatLib.Routing.Route,CatLib.Routing.Request,CatLib.Routing.Response)">
-            <summary>
-            执行路由请求
-            </summary>
-            <param name="route">路由</param>
-            <param name="request">请求</param>
-            <param name="response">响应</param>
-            <returns>响应</returns>
-        </member>
-        <member name="M:CatLib.Routing.Router.PrepareResponse(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse)">
-            <summary>
-            准备响应的内容
-            </summary>
-            <param name="request">请求</param>
-            <param name="response">响应</param>
         </member>
         <member name="M:CatLib.Routing.Router.MakeScheme(System.String)">
             <summary>
