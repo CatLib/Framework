@@ -824,5 +824,16 @@ namespace CatLib.Tests.Stl
 
             Assert.AreEqual(assertList.Count, tmpList.Count);
         }
+
+        [TestMethod]
+        public void TestGetScoreThrowException()
+        {
+            var master = new SortSet<int, int>(0.25, 32);
+
+            ExceptionAssert.Throws<KeyNotFoundException>(() =>
+            {
+                master.GetScore(123);
+            });
+        }
     }
 }

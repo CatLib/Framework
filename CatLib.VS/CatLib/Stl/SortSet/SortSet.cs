@@ -430,13 +430,17 @@ namespace CatLib.Stl
         /// 返回有序集的分数
         /// </summary>
         /// <param name="element">元素</param>
-        /// <returns>分数，如果元素不存在则返回<c>default(TScore)</c></returns>
+        /// <returns>分数，如果元素不存在则引发异常</returns>
+        /// <exception cref="KeyNotFoundException"><paramref name="element"/>不存在时引发</exception>
         /// <exception cref="ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         public TScore GetScore(TElement element)
         {
             Guard.Requires<ArgumentNullException>(element != null);
             TScore score;
-            dict.TryGetValue(element, out score);
+            if (!dict.TryGetValue(element, out score))
+            {
+                throw new KeyNotFoundException();
+            }
             return score;
         }
 
