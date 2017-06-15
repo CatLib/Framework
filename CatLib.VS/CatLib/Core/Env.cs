@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using System.IO;
-using UnityEngine;
 using CatLib.API;
 
 namespace CatLib.Core

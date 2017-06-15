@@ -25,7 +25,6 @@ namespace CatLib.Tests.Config
     [TestClass]
     public class EnumStringConverterTests
     {
-
         private enum TestEnums
         {
             Hello = 1,

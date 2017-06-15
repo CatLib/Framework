@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using UnityEngine;
-
 namespace CatLib.API
 {
     /// <summary>
