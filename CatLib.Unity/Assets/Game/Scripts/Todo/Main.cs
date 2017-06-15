@@ -20,11 +20,19 @@ namespace CatLib.Bootstrap
     [Routed]
     public class Main
     {
-        [Routed("bootstrap://main")]
+        [Routed("bootstrap://config")]
+        public void Config()
+        {
+            //可以在这里完成常规配置（如果有的话）。
+            Debug.Log("config code here!");
+        }
+
+        [Routed("bootstrap://start")]
         public void Bootstrap()
         {
             //todo: user code here
             Debug.Log("hello world! user code here!");
+            GameObject.CreatePrimitive(PrimitiveType.Cube);
         }
     }
 }

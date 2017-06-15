@@ -39,6 +39,7 @@ namespace CatLib.Core
                 }
 
                 env.SetDebugLevel(configManager.Get().Get("env.debug", DebugLevels.Auto));
+                env.SetAssetPath(configManager.Get().Get("env.asset.path", string.Empty));
 
                 return obj;
             }).Alias("catlib.env");
