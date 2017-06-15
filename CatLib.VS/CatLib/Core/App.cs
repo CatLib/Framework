@@ -39,7 +39,7 @@ namespace CatLib
 #if UNITY_EDITOR
                 if (!UnityEngine.Application.isPlaying)
                 {
-                    instance = new Application().Bootstrap(Bootstrap.BootStrap);
+                    instance = new CatLib.Core.Application().Bootstrap(CatLib.Bootstrap.Bootstrap.BootStrap);
 
                     foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                     {
