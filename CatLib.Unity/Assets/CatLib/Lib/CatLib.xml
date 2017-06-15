@@ -64,6 +64,14 @@
             <param name="name">配置名</param>
             <param name="value">配置的值</param>
         </member>
+        <member name="M:CatLib.API.Config.IConfig.Set(System.String,System.Object,System.Type)">
+            <summary>
+            设定配置的值
+            </summary>
+            <param name="name">配置名</param>
+            <param name="value">配置的值</param>
+            <param name="type">配置值的类型</param>
+        </member>
         <member name="M:CatLib.API.Config.IConfig.Save">
             <summary>
             保存配置
@@ -1946,9 +1954,17 @@
             <summary>
             设定配置的值
             </summary>
-            <typeparam name="T">值的类型</typeparam>
+            <typeparam name="T">配置值的类型</typeparam>
             <param name="name">配置名</param>
             <param name="value">配置的值</param>
+        </member>
+        <member name="M:CatLib.Config.Config.Set(System.String,System.Object,System.Type)">
+            <summary>
+            设定配置的值
+            </summary>
+            <param name="name">配置名</param>
+            <param name="value">配置的值</param>
+            <param name="type">配置值的类型</param>
         </member>
         <member name="M:CatLib.Config.Config.Get``1(System.String,``0)">
             <summary>
@@ -1958,6 +1974,14 @@
             <param name="name">配置所属类型的名字</param>
             <param name="def">当找不到配置时的默认值</param>
             <returns>配置的值，如果找不到则返回默认值</returns>
+        </member>
+        <member name="M:CatLib.Config.Config.GetCoverter(System.Type,CatLib.API.Config.ITypeStringConverter@)">
+            <summary>
+            获取类型所需的转换器
+            </summary>
+            <param name="type">类型</param>
+            <param name="converter">转换器</param>
+            <returns></returns>
         </member>
         <member name="T:CatLib.Config.ConfigProvider">
             <summary>

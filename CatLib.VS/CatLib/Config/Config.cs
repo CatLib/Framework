@@ -109,10 +109,21 @@ namespace CatLib.Config
         /// <summary>
         /// 设定配置的值
         /// </summary>
-        /// <typeparam name="T">值的类型</typeparam>
+        /// <typeparam name="T">配置值的类型</typeparam>
         /// <param name="name">配置名</param>
         /// <param name="value">配置的值</param>
         public void Set<T>(string name, T value)
+        {
+            Set(name, value, typeof(T));
+        }
+
+        /// <summary>
+        /// 设定配置的值
+        /// </summary>
+        /// <param name="name">配置名</param>
+        /// <param name="value">配置的值</param>
+        /// <param name="type">配置值的类型</param>
+        public void Set(string name, object value , Type type)
         {
             Guard.NotNull(name, "name");
             if (locators.Count <= 0)
@@ -136,9 +147,9 @@ namespace CatLib.Config
             }
 
             ITypeStringConverter converter;
-            if (!typeStringConverters.TryGetValue(typeof(T), out converter))
+            if (!GetCoverter(type, out converter))
             {
-                throw new ConverterException("Can not find [" + typeof(T) + "] coverter impl.");
+                throw new ConverterException("Can not find [" + type + "] coverter impl.");
             }
 
             configLocator.Set(name, converter.ConvertToString(value));
@@ -171,7 +182,7 @@ namespace CatLib.Config
                 }
 
                 ITypeStringConverter converter;
-                if (typeStringConverters.TryGetValue(typeof(T), out converter))
+                if (GetCoverter(typeof(T), out converter))
                 {
                     return (T)converter.ConvertFromString(val, typeof(T));
                 }
@@ -182,6 +193,23 @@ namespace CatLib.Config
             {
                 throw new ArgumentException("Field [" + name + "] is can not conversion to " + typeof(T) + ".", ex);
             }
+        }
+
+        /// <summary>
+        /// 获取类型所需的转换器
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <param name="converter">转换器</param>
+        /// <returns></returns>
+        private bool GetCoverter(Type type , out ITypeStringConverter converter)
+        {
+            bool status;
+            do
+            {
+                status = typeStringConverters.TryGetValue(type, out converter);
+                type = type.BaseType;
+            } while (!status && type != null);
+            return status;
         }
     }
 }

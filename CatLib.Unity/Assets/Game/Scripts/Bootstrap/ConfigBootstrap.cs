@@ -10,28 +10,35 @@
  */
 
 using CatLib.API;
-using CatLib.Facade;
+using CatLib.API.Config;
 
 namespace CatLib.Bootstrap
 {
     /// <summary>
-    /// 启动到用户代码
+    /// 初始配置引导
     /// </summary>
-    public class StartBootstrap : IBootstrap
+    public class ConfigBootstrap : IBootstrap
     {
         /// <summary>
         /// 引导程序
         /// </summary>
         public void Bootstrap()
         {
-            App.Instance.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            if (Configs.ConfigsMap == null)
             {
-                if (Router.Instance != null)
-                {
-                    Router.Instance.Dispatch("bootstrap://config");
-                    Router.Instance.Dispatch("bootstrap://start");
-                }
-            });
+                return;
+            }
+
+            var config = App.Instance.Make<IConfigManager>();
+            if (config == null)
+            {
+                return;
+            }
+
+            foreach (var kvp in Configs.ConfigsMap)
+            {
+                config.Default.Set(kvp.Key, kvp.Value, kvp.Value.GetType());
+            }
         }
     }
 }

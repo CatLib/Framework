@@ -49,6 +49,14 @@ namespace CatLib.API.Config
         void Set<T>(string name, T value);
 
         /// <summary>
+        /// 设定配置的值
+        /// </summary>
+        /// <param name="name">配置名</param>
+        /// <param name="value">配置的值</param>
+        /// <param name="type">配置值的类型</param>
+        void Set(string name, object value, Type type);
+
+        /// <summary>
         /// 保存配置
         /// </summary>
         void Save();

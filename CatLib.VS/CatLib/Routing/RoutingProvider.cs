@@ -42,7 +42,6 @@ namespace CatLib.Routing
                 var router = new Router(App, App);
                 router.SetDefaultScheme("catlib");
                 return router;
-
             }).Alias<IRouter>().Alias("routing.router");
 
             RegisterAttrRouteCompiler();

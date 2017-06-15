@@ -20,6 +20,7 @@ namespace CatLib.Bootstrap
     {
         /// <summary>
         /// 引导程序
+        /// 请不要随意调整引导顺序，除非您非常了解启动流程
         /// </summary>
         public static Type[] BootStrap
         {
@@ -28,6 +29,7 @@ namespace CatLib.Bootstrap
                 return new[]
                 {
                     typeof(ProvidersBootstrap),
+                    typeof(ConfigBootstrap),
                     typeof(StartBootstrap)
                 };
             }
