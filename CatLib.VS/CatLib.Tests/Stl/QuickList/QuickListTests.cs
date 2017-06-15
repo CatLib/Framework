@@ -221,11 +221,17 @@ namespace CatLib.Tests.Stl
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var val = master[master.Count];
+                if (val < 0)
+                {
+                }
             });
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var val = master[-(master.Count + 1)];
+                if (val < 0)
+                {
+                }
             });
         }
 
@@ -591,13 +597,15 @@ namespace CatLib.Tests.Stl
             var i = 0;
             foreach (var v in master)
             {
-                Assert.AreEqual(i, master[i++]);
+                Assert.AreEqual(i, master[i]);
+                Assert.AreEqual(i++, v);
                 break;
             }
             i = 0;
             foreach (var v in master)
             {
-                Assert.AreEqual(i, master[i++]);
+                Assert.AreEqual(i, master[i]);
+                Assert.AreEqual(i++, v);
             }
         }
 
@@ -644,12 +652,18 @@ namespace CatLib.Tests.Stl
             foreach (var v in master)
             {
                 Assert.Fail();
+                if (v < 0)
+                {
+                }
             }
 
             master.ReverseIterator();
             foreach (var v in master)
             {
                 Assert.Fail();
+                if (v < 0)
+                {
+                }
             }
         }
 
@@ -772,11 +786,17 @@ namespace CatLib.Tests.Stl
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var v = master[256];
+                if (v < 0)
+                {
+                }
             });
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 var v = master[-256];
+                if (v < 0)
+                {
+                }
             });
         }
 
@@ -1212,6 +1232,9 @@ namespace CatLib.Tests.Stl
             foreach (var r in master)
             {
                 Assert.Fail();
+                if (r == null)
+                {
+                }
             }
         }
     }

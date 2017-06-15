@@ -112,7 +112,7 @@ namespace CatLib.Tests.Config
             
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                Assert.AreEqual(null, config.Get<int>("123"));
+                Assert.AreEqual(null, config.Get("123", 0));
             });
         }
 

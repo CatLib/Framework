@@ -311,6 +311,9 @@ namespace CatLib.Tests.Stl
             foreach (var val in list)
             {
                 Assert.Fail();
+                if (val < 0)
+                {
+                }
             }
 
             if (list.Count != 0)
@@ -423,12 +426,18 @@ namespace CatLib.Tests.Stl
             foreach (var v in master)
             {
                 Assert.Fail();
+                if (v < 0)
+                {
+                }
             }
 
             master.ReverseIterator();
             foreach (var v in master)
             {
                 Assert.Fail();
+                if (v < 0)
+                {
+                }
             }
         }
 

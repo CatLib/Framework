@@ -59,6 +59,11 @@ namespace CatLib.Tests.Stl
             var result = cache["0"];
             result = cache["1"];
 
+            if (result == null)
+            {
+                Assert.Fail();
+            }
+
             foreach (var v in new [] {"1", "0", "4", "3", "2"})
             {
                 Assert.AreEqual(v, cache[v]);
