@@ -16,7 +16,7 @@ namespace CatLib.Translation
 {
     /// <summary>
     /// 国际化(I18N)
-    /// 语言环境代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准
+    /// 语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准
     /// </summary>
     public sealed class Translator : ITranslator
     {
