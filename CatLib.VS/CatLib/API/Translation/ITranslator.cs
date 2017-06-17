@@ -42,7 +42,7 @@ namespace CatLib.API.Translation
         /// <summary>
         /// 设定默认本地语言
         /// </summary>
-        /// <param name="local">设定默认本地语言</param>
-        void SetLocale(string local);
+        /// <param name="locale">设定默认本地语言</param>
+        void SetLocale(string locale);
     }
 }

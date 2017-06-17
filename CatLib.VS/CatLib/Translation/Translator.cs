@@ -9,8 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Translation;
+using CatLib.Stl;
 
 namespace CatLib.Translation
 {
@@ -20,19 +23,14 @@ namespace CatLib.Translation
     public sealed class Translator : ITranslator
     {
         /// <summary>
-        /// 已经被加载的语言集(locale , file , IFileMapping)
+        /// 片段分隔符
         /// </summary>
-        private readonly Dictionary<string, IFileMapping> loaded;
-
+        private static readonly char[] Segments = { '.' , ':' , '/' };
+        
         /// <summary>
         /// 消息选择器
         /// </summary>
         private ISelector selector;
-
-        /// <summary>
-        /// 根目录
-        /// </summary>
-        private string root;
 
         /// <summary>
         /// 当前语言
@@ -45,25 +43,32 @@ namespace CatLib.Translation
         private string fallback;
 
         /// <summary>
-        /// 加载器
-        /// </summary>
-        private IFileLoader loader;
-
-        /// <summary>
         /// 已经被转义过的key缓存
         /// </summary>
-        private readonly Dictionary<string, string[]> parsed;
+        private readonly LruCache<string, string[]> parsed;
 
         /// <summary>
-        /// 设定根目录
+        /// 翻译映射
         /// </summary>
-        /// <param name="root">根目录</param>
-        public void SetRoot(string root)
+        private readonly SortSet<ITranslatorMapping, int> maps;
+
+        /// <summary>
+        /// 构建一个国际化组件
+        /// </summary>
+        public Translator()
         {
-            if (!string.IsNullOrEmpty(root))
-            {
-                this.root = root;
-            }
+            maps = new SortSet<ITranslatorMapping, int>();
+            parsed = new LruCache<string, string[]>(64);
+        }
+
+        /// <summary>
+        /// 增加翻译资源映射
+        /// </summary>
+        /// <param name="map">映射</param>
+        /// <param name="priority">优先级</param>
+        public void AddMapping(ITranslatorMapping map , int priority)
+        {
+            maps.Add(map, priority);
         }
 
         /// <summary>
@@ -79,30 +84,12 @@ namespace CatLib.Translation
         }
 
         /// <summary>
-        /// 构建一个国际化组件
-        /// </summary>
-        public Translator()
-        {
-            loaded = new Dictionary<string, IFileMapping>();
-            parsed = new Dictionary<string, string[]>();
-        }
-
-        /// <summary>
         /// 设定消息选择器
         /// </summary>
         /// <param name="selector">选择器</param>
         public void SetSelector(ISelector selector)
         {
             this.selector = selector;
-        }
-
-        /// <summary>
-        /// 设定文件加载器
-        /// </summary>
-        /// <param name="loader">加载器</param>
-        public void SetFileLoader(IFileLoader loader)
-        {
-            this.loader = loader;
         }
 
         /// <summary>
@@ -178,32 +165,28 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         private string Get(string locale, string key, string[] replace)
         {
-            //segments: file , key
-            var segments = ParseKey(key);
-
-            return GetLine(segments[0], segments[1], locale, replace);
+            return GetLine(ParseKey(key), locale, replace);
         }
 
         /// <summary>
         /// 获取一行数据
         /// </summary>
-        /// <param name="file">文件名</param>
-        /// <param name="key">键</param>
+        /// <param name="segments">key的片段</param>
         /// <param name="locale">当前语言</param>
         /// <param name="replace">替换的值</param>
         /// <returns>翻译的值</returns>
-        private string GetLine(string file, string key, string locale, string[] replace)
+        private string GetLine(string[] segments, string locale, string[] replace)
         {
-            Load(file, key, locale);
-
-            if (loaded[locale + "." + file] == null)
+            string line = null;
+            foreach (var map in maps)
             {
-                return null;
+                if (map.TryGetValue(segments, out line))
+                {
+                    break;
+                }
             }
 
-            var line = loaded[locale + "." + file].Get(key);
-
-            return MakeReplacements(line, replace);
+            return line != null ? MakeReplacements(line, replace) : line;
         }
 
         /// <summary>
@@ -255,48 +238,25 @@ namespace CatLib.Translation
         }
 
         /// <summary>
-        /// 加载数据
-        /// </summary>
-        /// <param name="file">文件名</param>
-        /// <param name="key">键</param>
-        /// <param name="locale">当前语言</param>
-        private void Load(string file, string key, string locale)
-        {
-            if (loaded.ContainsKey(locale + "." + file))
-            {
-                return;
-            }
-
-            var mapping = loader.Load(root, locale, file);
-            loaded.Add(locale + "." + file, mapping);
-        }
-
-        /// <summary>
         /// 格式化key
         /// </summary>
         /// <param name="key">key</param>
-        /// <returns>解析的结果为file 和 key</returns>
+        /// <returns>key的片段</returns>
         private string[] ParseKey(string key)
         {
-            if (parsed.ContainsKey(key))
+            string[] segments;
+            if (parsed.Get(key, out segments))
             {
-                return parsed[key];
+                return segments;
             }
 
-            var segments = new string[2];
-
-            var keySegments = key.Split('.');
-            if (keySegments.Length > 1)
+            segments = key.Split(Segments, StringSplitOptions.RemoveEmptyEntries);
+            if (segments.Length > 1)
             {
-                segments[0] = keySegments[0];
-                segments[1] = keySegments[1];
+                parsed.Add(key, segments);
+                return segments;
             }
-            else
-            {
-                throw new System.Exception("translator key is invalid");
-            }
-
-            return segments;
+            throw new RuntimeException("translator key is invalid");
         }
     }
 }

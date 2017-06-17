@@ -185,8 +185,7 @@
     <Compile Include="Time\TimeManager.cs" />
     <Compile Include="Time\TimeProvider.cs" />
     <Compile Include="Time\UnityTime.cs" />
-    <Compile Include="Translation\IFileLoader.cs" />
-    <Compile Include="Translation\IFileMapping.cs" />
+    <Compile Include="API\Translation\Features\ITranslatorMapping.cs" />
     <Compile Include="Translation\ISelector.cs" />
     <Compile Include="Translation\MessageSelector.cs" />
     <Compile Include="Translation\TranslationProvider.cs" />

@@ -33,10 +33,8 @@ namespace CatLib.Translation
                 var config = App.Make<IConfigManager>();
                 var tran = obj as Translator;
 
-                var loader = App.Make("translation.loader") as IFileLoader;
                 var selector = App.Make("translation.selector") as ISelector;
 
-                tran.SetFileLoader(loader);
                 tran.SetSelector(selector);
 
                 if (config == null)
@@ -45,7 +43,6 @@ namespace CatLib.Translation
                 }
 
                 tran.SetLocale(config.Default.Get("translation.default", "zh"));
-                tran.SetRoot(config.Default.Get("translation.root", string.Empty));
                 tran.SetFallback(config.Default.Get("translation.fallback", string.Empty));
 
                 return obj;

@@ -9,19 +9,20 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.Translation
+namespace CatLib.API.Translation
 {
     /// <summary>
-    /// 文件映射
+    /// 翻译映射
     /// </summary>
-    public interface IFileMapping
+    public interface ITranslatorMapping
     {
         /// <summary>
         /// 获取映射
         /// </summary>
-        /// <param name="key">键</param>
+        /// <param name="segments">片段</param>
+        /// <param name="str">返回的值</param>
         /// <param name="def">默认值</param>
-        /// <returns>值</returns>
-        string Get(string key, string def = null);
+        /// <returns>是否成功获取</returns>
+        bool TryGetValue(string[] segments, out string str, string def = null);
     }
 }
