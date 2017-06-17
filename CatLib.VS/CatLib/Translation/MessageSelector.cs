@@ -177,31 +177,26 @@ namespace CatLib.Translation
                 case Language.Faeroese:
                 case Language.Frisian:
                 case Language.Galician:
-                case "gu":
-                case "ha":
-                case "he":
-                case "hu":
-                case "is":
-                case "it":
-                case "ku":
-                case "lb":
-                case "ml":
-                case "mn":
-                case "mr":
-                case "nah":
-                case "nb":
-                case "ne":
-                case "nl":
-                case "nn":
-                case "no":
-                case "om":
-                case "or":
-                case "pa":
-                case "pap":
-                case "ps":
-                case "pt":
-                case "so":
-                case "sq":
+                case Language.Gujarati:
+                case Language.Hausa:
+                case Language.Hebrew:
+                case Language.Hungarian:
+                case Language.Icelandic:
+                case Language.Italian:
+                case Language.Kurdish:
+                case Language.Malayalam:
+                case Language.Mongolian:
+                case Language.Marathi:
+                case Language.Nepali:
+                case Language.Dutch:
+                case Language.Norwegian:
+                case Language.Oromo:
+                case Language.Oriya:
+                case Language.Punjabi:
+                case Language.Pashto:
+                case Language.Portuguese:
+                case Language.Somali:
+                case Language.Albanian:
                 case "sv":
                 case "sw":
                 case "ta":

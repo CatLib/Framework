@@ -28,6 +28,11 @@ namespace CatLib.API.Translation
         public const string Afrikaans = "af";
 
         /// <summary>
+        /// 阿尔巴尼亚人
+        /// </summary>
+        public const string Albanian = "sq";
+
+        /// <summary>
         /// 阿拉伯语
         /// </summary>
         public const string Arabic = "ar";
@@ -153,6 +158,16 @@ namespace CatLib.API.Translation
         public const string Greek = "el";
 
         /// <summary>
+        /// 古吉拉特语
+        /// </summary>
+        public const string Gujarati = "gu";
+
+        /// <summary>
+        /// 豪萨语
+        /// </summary>
+        public const string Hausa = "ha";
+
+        /// <summary>
         /// 希伯来语
         /// </summary>
         public const string Hebrew = "he";
@@ -198,6 +213,11 @@ namespace CatLib.API.Translation
         public const string Korean = "ko";
 
         /// <summary>
+        /// 库尔德
+        /// </summary>
+        public const string Kurdish = "ku";
+
+        /// <summary>
         /// 拉脱维亚
         /// </summary>
         public const string Latvian = "lv";
@@ -213,9 +233,44 @@ namespace CatLib.API.Translation
         public const string Malay = "ms";
 
         /// <summary>
+        /// 马拉雅拉姆语
+        /// </summary>
+        public const string Malayalam = "ml";
+
+        /// <summary>
+        /// 马拉语
+        /// </summary>
+        public const string Marathi = "mr";
+
+        /// <summary>
+        /// 蒙古语
+        /// </summary>
+        public const string Mongolian = "mn";
+
+        /// <summary>
+        /// 尼泊尔
+        /// </summary>
+        public const string Nepali = "ne";
+
+        /// <summary>
         /// 挪威语
         /// </summary>
         public const string Norwegian = "no";
+
+        /// <summary>
+        /// 奥里亚语
+        /// </summary>
+        public const string Oriya = "or";
+
+        /// <summary>
+        /// 奥罗莫
+        /// </summary>
+        public const string Oromo = "om";
+
+        /// <summary>
+        /// 普什图语
+        /// </summary>
+        public const string Pashto = "ps";
 
         /// <summary>
         /// 波兰语
@@ -226,6 +281,11 @@ namespace CatLib.API.Translation
         /// 葡萄牙语
         /// </summary>
         public const string Portuguese = "pt";
+
+        /// <summary>
+        /// 旁遮普
+        /// </summary>
+        public const string Punjabi = "pa";
 
         /// <summary>
         /// 罗马尼亚语
@@ -251,6 +311,11 @@ namespace CatLib.API.Translation
         /// 斯洛文尼亚语
         /// </summary>
         public const string Slovenian = "sl";
+
+        /// <summary>
+        /// 索马里
+        /// </summary>
+        public const string Somali = "so";
 
         /// <summary>
         /// 西班牙语
