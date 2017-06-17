@@ -197,13 +197,13 @@ namespace CatLib.Translation
                 case Language.Portuguese:
                 case Language.Somali:
                 case Language.Albanian:
-                case "sv":
-                case "sw":
-                case "ta":
-                case "te":
-                case "tk":
-                case "ur":
-                case "zu":
+                case Language.Swedish:
+                case Language.Swahili:
+                case Language.Tamil:
+                case Language.Telugu:
+                case Language.Turkmen:
+                case Language.Urdu:
+                case Language.Zulu:
                     return (number == 1) ? 0 : 1;
                 case "am":
                 case "bh":

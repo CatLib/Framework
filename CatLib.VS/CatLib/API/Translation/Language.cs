@@ -323,9 +323,24 @@ namespace CatLib.API.Translation
         public const string Spanish = "es";
 
         /// <summary>
+        /// 斯瓦希里
+        /// </summary>
+        public const string Swahili = "sw";
+
+        /// <summary>
         /// 瑞典语
         /// </summary>
         public const string Swedish = "sv";
+
+        /// <summary>
+        /// 泰米尔人
+        /// </summary>
+        public const string Tamil = "ta";
+
+        /// <summary>
+        /// 泰卢固语
+        /// </summary>
+        public const string Telugu = "te";
 
         /// <summary>
         /// 泰语
@@ -343,13 +358,28 @@ namespace CatLib.API.Translation
         public const string Turkish = "tr";
 
         /// <summary>
+        /// 土库曼
+        /// </summary>
+        public const string Turkmen = "tk";
+
+        /// <summary>
         /// 乌克兰语
         /// </summary>
         public const string Ukrainian = "uk";
 
         /// <summary>
+        /// 乌尔都语
+        /// </summary>
+        public const string Urdu = "ur";
+
+        /// <summary>
         /// 越南语
         /// </summary>
         public const string Vietnamese = "vi";
+
+        /// <summary>
+        /// 祖鲁
+        /// </summary>
+        public const string Zulu = "zu";
     }
 }
