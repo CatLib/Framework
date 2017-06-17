@@ -81,6 +81,7 @@
     <Compile Include="API\Timer\ITimerManager.cs" />
     <Compile Include="API\Time\ITimeManager.cs" />
     <Compile Include="API\Translation\ITranslator.cs" />
+    <Compile Include="API\Translation\Language.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="Facade\ConfigManager.cs" />

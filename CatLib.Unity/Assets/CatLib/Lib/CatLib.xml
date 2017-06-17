@@ -1463,20 +1463,46 @@
         </member>
         <member name="T:CatLib.API.Translation.ITranslator">
             <summary>
-            翻译(国际化)
+            国际化(I18N)
+            语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准
             </summary>
         </member>
-        <member name="M:CatLib.API.Translation.ITranslator.Trans(System.String,System.String[])">
+        <member name="M:CatLib.API.Translation.ITranslator.AddMapping(CatLib.API.Translation.ITranslatorMapping,System.Int32)">
             <summary>
-            翻译内容
+            增加映射
+            </summary>
+            <param name="map">映射方案</param>
+            <param name="priority">优先级</param>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.GetBy(System.String,System.String[],System.String[])">
+            <summary>
+            依次遍历给定的语言获取翻译,如果都没有命中则使用替补语言
+            </summary>
+            <param name="key">键</param>
+            <param name="locales">多语言</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的内容</returns>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.GetBy(System.String,System.String,System.String[])">
+            <summary>
+            从指定的语言获取翻译,如果没有命中则使用替补语言
+            </summary>
+            <param name="key">键</param>
+            <param name="locale">语言</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的内容</returns>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.Get(System.String,System.String[])">
+            <summary>
+            在当前语言环境下翻译内容，如果没有命中则使用替补语言
             </summary>
             <param name="key">键</param>
             <param name="replace">替换翻译内容的占位符</param>
             <returns>翻译的值</returns>
         </member>
-        <member name="M:CatLib.API.Translation.ITranslator.TransChoice(System.String,System.Int32,System.String[])">
+        <member name="M:CatLib.API.Translation.ITranslator.Get(System.String,System.Int32,System.String[])">
             <summary>
-            翻译内容的复数形式
+            在当前语言环境下翻译带有数量的内容，如果没有命中则使用替补语言
             </summary>
             <param name="key">键</param>
             <param name="number">数值</param>
@@ -1485,28 +1511,464 @@
         </member>
         <member name="M:CatLib.API.Translation.ITranslator.GetLocale">
             <summary>
-            获取默认本地语言
+            获取当前语言环境
             </summary>
-            <returns></returns>
+            <returns>当前语言</returns>
         </member>
         <member name="M:CatLib.API.Translation.ITranslator.SetLocale(System.String)">
             <summary>
-            设定默认本地语言
+            设定当前语言环境
             </summary>
-            <param name="locale">设定默认本地语言</param>
+            <param name="locale">当前语言</param>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.SetFallback(System.String)">
+            <summary>
+            设定替补语言
+            </summary>
+            <param name="fallback">替补语言</param>
+        </member>
+        <member name="T:CatLib.API.Translation.Language">
+            <summary>
+            语言代码(ISO 639, ISO 639-1, ISO 639-2, ISO 639-3)
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Azerbaijani">
+            <summary>
+            阿塞拜疆
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Afrikaans">
+            <summary>
+            南非荷兰语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Albanian">
+            <summary>
+            阿尔巴尼亚人
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Amharic">
+            <summary>
+            阿姆哈拉语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Arabic">
+            <summary>
+            阿拉伯语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Armenian">
+            <summary>
+            亚美尼亚
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Basque">
+            <summary>
+            巴斯克语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Byelorussian">
+            <summary>
+            白俄罗斯
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Bengali">
+            <summary>
+            孟加拉
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Bhutani">
+            <summary>
+            不丹
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Bihari">
+            <summary>
+            比哈里
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Bulgarian">
+            <summary>
+            保加利亚语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Cambodian">
+            <summary>
+            柬埔寨
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Catalan">
+            <summary>
+            加泰罗尼亚
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Chinese">
+            <summary>
+            中文
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.ChineseTw">
+            <summary>
+            中文(繁体)
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Croatian">
+            <summary>
+            克罗地亚
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Czech">
+            <summary>
+            捷克语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Danish">
+            <summary>
+            丹麦语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Dutch">
+            <summary>
+            荷兰语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.English">
+            <summary>
+            英语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Esperanto">
+            <summary>
+            世界语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Estonian">
+            <summary>
+            爱沙尼亚语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Faeroese">
+            <summary>
+            法罗语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Farsi">
+            <summary>
+            波斯语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Finnish">
+            <summary>
+            芬兰语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.French">
+            <summary>
+            法语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Frisian">
+            <summary>
+            弗里斯兰
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Galician">
+            <summary>
+            加利西亚
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Georgian">
+            <summary>
+            格鲁吉亚
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.German">
+            <summary>
+            德语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Greek">
+            <summary>
+            希腊语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Gujarati">
+            <summary>
+            古吉拉特语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Hausa">
+            <summary>
+            豪萨语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Hebrew">
+            <summary>
+            希伯来语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Hindi">
+            <summary>
+            印地语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Hungarian">
+            <summary>
+            匈牙利
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Icelandic">
+            <summary>
+            冰岛语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Indonesian">
+            <summary>
+            印度尼西亚语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Irish">
+            <summary>
+            爱尔兰
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Italian">
+            <summary>
+            意大利语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Japanese">
+            <summary>
+            日语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Javanese">
+            <summary>
+            爪哇
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Kannada">
+            <summary>
+            卡纳达语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Korean">
+            <summary>
+            朝鲜语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Kurdish">
+            <summary>
+            库尔德
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Latvian">
+            <summary>
+            拉脱维亚
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Lingala">
+            <summary>
+            林加拉语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Lithuanian">
+            <summary>
+            立陶宛语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Macedonian">
+            <summary>
+            马其顿
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Malagasy">
+            <summary>
+            马尔加什
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Malay">
+            <summary>
+            马来语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Malayalam">
+            <summary>
+            马拉雅拉姆语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Maltese">
+            <summary>
+            马耳他语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Marathi">
+            <summary>
+            马拉语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Mongolian">
+            <summary>
+            蒙古语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Nepali">
+            <summary>
+            尼泊尔
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Norwegian">
+            <summary>
+            挪威语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Oriya">
+            <summary>
+            奥里亚语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Oromo">
+            <summary>
+            奥罗莫
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Pashto">
+            <summary>
+            普什图语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Polish">
+            <summary>
+            波兰语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Portuguese">
+            <summary>
+            葡萄牙语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Punjabi">
+            <summary>
+            旁遮普
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Romanian">
+            <summary>
+            罗马尼亚语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Russian">
+            <summary>
+            俄语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Serbian">
+            <summary>
+            塞尔维亚克罗地亚语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Slovak">
+            <summary>
+            斯洛伐克语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Slovenian">
+            <summary>
+            斯洛文尼亚语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Somali">
+            <summary>
+            索马里
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Spanish">
+            <summary>
+            西班牙语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Swahili">
+            <summary>
+            斯瓦希里
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Swedish">
+            <summary>
+            瑞典语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Tamil">
+            <summary>
+            泰米尔人
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Telugu">
+            <summary>
+            泰卢固语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Thai">
+            <summary>
+            泰语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Tibetan">
+            <summary>
+            藏语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Tigrinya">
+            <summary>
+            提格雷语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Turkish">
+            <summary>
+            土耳其语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Turkmen">
+            <summary>
+            土库曼
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Ukrainian">
+            <summary>
+            乌克兰语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Urdu">
+            <summary>
+            乌尔都语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Vietnamese">
+            <summary>
+            越南语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Welsh">
+            <summary>
+            威尔士语
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Translation.Language.Zulu">
+            <summary>
+            祖鲁
+            </summary>
         </member>
         <member name="T:CatLib.API.Translation.ITranslatorMapping">
             <summary>
             翻译映射
             </summary>
         </member>
-        <member name="M:CatLib.API.Translation.ITranslatorMapping.TryGetValue(System.String[],System.String@,System.String)">
+        <member name="M:CatLib.API.Translation.ITranslatorMapping.TryGetValue(System.String,System.String,System.String@)">
             <summary>
             获取映射
             </summary>
-            <param name="segments">片段</param>
+            <param name="locale">语言</param>
+            <param name="key">键</param>
             <param name="str">返回的值</param>
-            <param name="def">默认值</param>
             <returns>是否成功获取</returns>
         </member>
         <member name="T:CatLib.API.Routing.IMiddleware">
@@ -7414,6 +7876,16 @@
             消息选择器
             </summary>
         </member>
+        <member name="F:CatLib.Translation.MessageSelector.RangMatchStr">
+            <summary>
+            区间匹配表达式
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.MessageSelector.rangeReg">
+            <summary>
+            范围处理
+            </summary>
+        </member>
         <member name="M:CatLib.Translation.MessageSelector.Choose(System.String,System.Int32,System.String)">
             <summary>
             对翻译进行处理
@@ -7471,12 +7943,8 @@
         </member>
         <member name="T:CatLib.Translation.Translator">
             <summary>
-            国际化
-            </summary>
-        </member>
-        <member name="F:CatLib.Translation.Translator.Segments">
-            <summary>
-            片段分隔符
+            国际化(I18N)
+            语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准
             </summary>
         </member>
         <member name="F:CatLib.Translation.Translator.selector">
@@ -7492,11 +7960,6 @@
         <member name="F:CatLib.Translation.Translator.fallback">
             <summary>
             备选语言
-            </summary>
-        </member>
-        <member name="F:CatLib.Translation.Translator.parsed">
-            <summary>
-            已经被转义过的key缓存
             </summary>
         </member>
         <member name="F:CatLib.Translation.Translator.maps">
@@ -7528,17 +7991,35 @@
             </summary>
             <param name="selector">选择器</param>
         </member>
-        <member name="M:CatLib.Translation.Translator.Trans(System.String,System.String[])">
+        <member name="M:CatLib.Translation.Translator.GetBy(System.String,System.String[],System.String[])">
             <summary>
-            翻译内容
+            依次遍历给定的语言获取翻译,如果都没有命中则使用替补语言
+            </summary>
+            <param name="key">键</param>
+            <param name="locales">多语言</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的内容</returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.GetBy(System.String,System.String,System.String[])">
+            <summary>
+            从指定的语言获取翻译,如果没有命中则使用替补语言
+            </summary>
+            <param name="key">键</param>
+            <param name="locale">语言</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的内容</returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.Get(System.String,System.String[])">
+            <summary>
+            在当前语言环境下翻译内容，如果没有命中则使用替补语言
             </summary>
             <param name="key">键</param>
             <param name="replace">替换翻译内容的占位符</param>
             <returns>翻译的值</returns>
         </member>
-        <member name="M:CatLib.Translation.Translator.TransChoice(System.String,System.Int32,System.String[])">
+        <member name="M:CatLib.Translation.Translator.Get(System.String,System.Int32,System.String[])">
             <summary>
-            翻译内容的复数形式
+            在当前语言环境下翻译带有数量的内容，如果没有命中则使用替补语言
             </summary>
             <param name="key">键</param>
             <param name="number">数值</param>
@@ -7547,39 +8028,30 @@
         </member>
         <member name="M:CatLib.Translation.Translator.GetLocale">
             <summary>
-            获取默认本地语言
+            获取当前语言环境
             </summary>
             <returns></returns>
         </member>
         <member name="M:CatLib.Translation.Translator.SetLocale(System.String)">
             <summary>
-            设定默认本地语言
+            设定当前语言环境
             </summary>
             <param name="locale">设定默认本地语言</param>
         </member>
         <member name="M:CatLib.Translation.Translator.Choice(System.String,System.Int32,System.String[])">
             <summary>
-            执行翻译
+            选择性翻译（选择合适的复数形式进行翻译）
             </summary>
             <param name="key">键</param>
             <param name="number">值</param>
             <param name="replace">替换的内容</param>
             <returns>翻译的值</returns>
         </member>
-        <member name="M:CatLib.Translation.Translator.Get(System.String,System.String,System.String[])">
-            <summary>
-            获取翻译
-            </summary>
-            <param name="locale">当前语言</param>
-            <param name="key">键</param>
-            <param name="replace">替换的值</param>
-            <returns>翻译的值</returns>
-        </member>
-        <member name="M:CatLib.Translation.Translator.GetLine(System.String[],System.String,System.String[])">
+        <member name="M:CatLib.Translation.Translator.GetLine(System.String,System.String,System.String[])">
             <summary>
             获取一行数据
             </summary>
-            <param name="segments">key的片段</param>
+            <param name="key">键</param>
             <param name="locale">当前语言</param>
             <param name="replace">替换的值</param>
             <returns>翻译的值</returns>
@@ -7590,13 +8062,6 @@
             </summary>
             <param name="line">字符串</param>
             <param name="replace">替换的内容</param>
-        </member>
-        <member name="M:CatLib.Translation.Translator.ParseKey(System.String)">
-            <summary>
-            格式化key
-            </summary>
-            <param name="key">key</param>
-            <returns>key的片段</returns>
         </member>
     </members>
 </doc>
