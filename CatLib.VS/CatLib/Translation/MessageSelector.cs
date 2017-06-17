@@ -205,19 +205,14 @@ namespace CatLib.Translation
                 case Language.Urdu:
                 case Language.Zulu:
                     return (number == 1) ? 0 : 1;
-                case "am":
-                case "bh":
-                case "fil":
-                case "fr":
-                case "gun":
-                case "hi":
-                case "hy":
-                case "ln":
-                case "mg":
-                case "nso":
-                case "xbr":
-                case "ti":
-                case "wa":
+                case Language.Amharic:
+                case Language.Bihari:
+                case Language.French:
+                case Language.Hindi:
+                case Language.Armenian:
+                case Language.Lingala:
+                case Language.Malagasy:
+                case Language.Tigrinya:
                     return ((number == 0) || (number == 1)) ? 0 : 1;
                 case "be":
                 case "bs":

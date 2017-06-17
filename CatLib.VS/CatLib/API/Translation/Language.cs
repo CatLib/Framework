@@ -33,9 +33,19 @@ namespace CatLib.API.Translation
         public const string Albanian = "sq";
 
         /// <summary>
+        /// 阿姆哈拉语
+        /// </summary>
+        public const string Amharic = "am";
+
+        /// <summary>
         /// 阿拉伯语
         /// </summary>
         public const string Arabic = "ar";
+
+        /// <summary>
+        /// 亚美尼亚
+        /// </summary>
+        public const string Armenian = "hy";
 
         /// <summary>
         /// 巴斯克语
@@ -56,6 +66,11 @@ namespace CatLib.API.Translation
         /// 不丹
         /// </summary>
         public const string Bhutani = "dz";
+
+        /// <summary>
+        /// 比哈里
+        /// </summary>
+        public const string Bihari = "bh";
 
         /// <summary>
         /// 保加利亚语
@@ -173,6 +188,11 @@ namespace CatLib.API.Translation
         public const string Hebrew = "he";
 
         /// <summary>
+        /// 印地语
+        /// </summary>
+        public const string Hindi = "hi";
+
+        /// <summary>
         /// 匈牙利
         /// </summary>
         public const string Hungarian = "hu";
@@ -223,9 +243,19 @@ namespace CatLib.API.Translation
         public const string Latvian = "lv";
 
         /// <summary>
+        /// 林加拉语
+        /// </summary>
+        public const string Lingala = "ln";
+
+        /// <summary>
         /// 立陶宛语
         /// </summary>
         public const string Lithuanian = "lt";
+
+        /// <summary>
+        /// 马尔加什
+        /// </summary>
+        public const string Malagasy = "mg";
 
         /// <summary>
         /// 马来语
@@ -351,6 +381,11 @@ namespace CatLib.API.Translation
         /// 藏语
         /// </summary>
         public const string Tibetan = "bo";
+
+        /// <summary>
+        /// 提格雷语
+        /// </summary>
+        public const string Tigrinya = "ti";
 
         /// <summary>
         /// 土耳其语
