@@ -10,6 +10,7 @@
  */
 
 using System.Text.RegularExpressions;
+using CatLib.API.Translation;
 
 namespace CatLib.Translation
 {
@@ -142,40 +143,40 @@ namespace CatLib.Translation
         {
             switch (locale)
             {
-                case "az":
-                case "bo":
-                case "dz":
-                case "id":
-                case "ja":
-                case "jv":
-                case "ka":
-                case "km":
-                case "kn":
-                case "ko":
-                case "ms":
-                case "th":
-                case "tr":
-                case "vi":
-                case "zh":
+                case Language.Azerbaijani:
+                case Language.Tibetan:
+                case Language.Bhutani:
+                case Language.Indonesian:
+                case Language.Japanese:
+                case Language.Javanese:
+                case Language.Georgian:
+                case Language.Cambodian:
+                case Language.Kannada:
+                case Language.Korean:
+                case Language.Malay:
+                case Language.Thai:
+                case Language.Turkish:
+                case Language.Vietnamese:
+                case Language.Chinese:
+                case Language.ChineseTw:
                     return 0;
-                case "af":
-                case "bn":
-                case "bg":
-                case "ca":
-                case "da":
-                case "de":
-                case "el":
-                case "en":
-                case "eo":
-                case "es":
-                case "et":
-                case "eu":
-                case "fa":
-                case "fi":
-                case "fo":
-                case "fur":
-                case "fy":
-                case "gl":
+                case Language.Afrikaans:
+                case Language.Bengali:
+                case Language.Bulgarian:
+                case Language.Catalan:
+                case Language.Danish:
+                case Language.German:
+                case Language.Greek:
+                case Language.English:
+                case Language.Esperanto:
+                case Language.Spanish:
+                case Language.Estonian:
+                case Language.Basque:
+                case Language.Farsi:
+                case Language.Finnish:
+                case Language.Faeroese:
+                case Language.Frisian:
+                case Language.Galician:
                 case "gu":
                 case "ha":
                 case "he":

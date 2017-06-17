@@ -10,7 +10,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Stl;
@@ -100,7 +99,7 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         public string Trans(string key, params string[] replace)
         {
-            var line = Get(locale, key, replace) ?? Get(fallback, key, replace);
+            var line = GetTrans(locale, key, replace) ?? GetTrans(fallback, key, replace);
             return line ?? string.Empty;
         }
 
@@ -144,10 +143,10 @@ namespace CatLib.Translation
         private string Choice(string key, int number, string[] replace)
         {
             var locale = this.locale;
-            var line = Get(locale, key, replace);
+            var line = GetTrans(locale, key, replace);
             if (line == null)
             {
-                line = Get(fallback, key, replace);
+                line = GetTrans(fallback, key, replace);
                 locale = fallback;
             }
 
@@ -163,7 +162,7 @@ namespace CatLib.Translation
         /// <param name="key">键</param>
         /// <param name="replace">替换的值</param>
         /// <returns>翻译的值</returns>
-        private string Get(string locale, string key, string[] replace)
+        private string GetTrans(string locale, string key, string[] replace)
         {
             return GetLine(ParseKey(key), locale, replace);
         }
