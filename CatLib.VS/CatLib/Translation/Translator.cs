@@ -9,23 +9,17 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Stl;
 
 namespace CatLib.Translation
 {
     /// <summary>
-    /// 国际化
+    /// 国际化(I18N)
+    /// 语言环境代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准
     /// </summary>
     public sealed class Translator : ITranslator
     {
-        /// <summary>
-        /// 片段分隔符
-        /// </summary>
-        private static readonly char[] Segments = { '.' , ':' , '/' };
-        
         /// <summary>
         /// 消息选择器
         /// </summary>
@@ -42,11 +36,6 @@ namespace CatLib.Translation
         private string fallback;
 
         /// <summary>
-        /// 已经被转义过的key缓存
-        /// </summary>
-        private readonly LruCache<string, string[]> parsed;
-
-        /// <summary>
         /// 翻译映射
         /// </summary>
         private readonly SortSet<ITranslatorMapping, int> maps;
@@ -57,7 +46,6 @@ namespace CatLib.Translation
         public Translator()
         {
             maps = new SortSet<ITranslatorMapping, int>();
-            parsed = new LruCache<string, string[]>(64);
         }
 
         /// <summary>
@@ -65,7 +53,7 @@ namespace CatLib.Translation
         /// </summary>
         /// <param name="map">映射</param>
         /// <param name="priority">优先级</param>
-        public void AddMapping(ITranslatorMapping map , int priority)
+        public void AddMapping(ITranslatorMapping map, int priority = int.MaxValue)
         {
             maps.Add(map, priority);
         }
@@ -92,31 +80,65 @@ namespace CatLib.Translation
         }
 
         /// <summary>
-        /// 翻译内容
+        /// 依次遍历给定的语言获取翻译,如果都没有命中则使用替补语言
         /// </summary>
         /// <param name="key">键</param>
+        /// <param name="locales">多语言</param>
         /// <param name="replace">替换翻译内容的占位符</param>
-        /// <returns>翻译的值</returns>
-        public string Trans(string key, params string[] replace)
+        /// <returns>翻译的内容</returns>
+        public string GetBy(string key, string[] locales, params string[] replace)
         {
-            var line = GetTrans(locale, key, replace) ?? GetTrans(fallback, key, replace);
+            foreach (var locale in locales)
+            {
+                var line = GetLine(locale, key, replace);
+                if (line != null)
+                {
+                    return line;
+                }
+            }
+
+            return GetLine(fallback, key, replace) ?? string.Empty;
+        }
+
+        /// <summary>
+        /// 从指定的语言获取翻译,如果没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="locale">语言</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译的内容</returns>
+        public string GetBy(string key, string locale, params string[] replace)
+        {
+            var line = GetLine(locale, key, replace) ?? GetLine(fallback, key, replace);
             return line ?? string.Empty;
         }
 
         /// <summary>
-        /// 翻译内容的复数形式
+        /// 在当前语言环境下翻译内容，如果没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译的值</returns>
+        public string Get(string key, params string[] replace)
+        {
+            var line = GetLine(locale, key, replace) ?? GetLine(fallback, key, replace);
+            return line ?? string.Empty;
+        }
+
+        /// <summary>
+        /// 在当前语言环境下翻译带有数量的内容，如果没有命中则使用替补语言
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="number">数值</param>
         /// <param name="replace">替换翻译内容的占位符</param>
         /// <returns>翻译的值</returns>
-        public string TransChoice(string key, int number, params string[] replace)
+        public string Get(string key, int number, params string[] replace)
         {
             return Choice(key, number, replace);
         }
 
         /// <summary>
-        /// 获取默认本地语言
+        /// 获取当前语言环境
         /// </summary>
         /// <returns></returns>
         public string GetLocale()
@@ -125,7 +147,7 @@ namespace CatLib.Translation
         }
 
         /// <summary>
-        /// 设定默认本地语言
+        /// 设定当前语言环境
         /// </summary>
         /// <param name="locale">设定默认本地语言</param>
         public void SetLocale(string locale)
@@ -134,7 +156,7 @@ namespace CatLib.Translation
         }
 
         /// <summary>
-        /// 执行翻译
+        /// 选择性翻译（选择合适的复数形式进行翻译）
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="number">值</param>
@@ -143,10 +165,10 @@ namespace CatLib.Translation
         private string Choice(string key, int number, string[] replace)
         {
             var locale = this.locale;
-            var line = GetTrans(locale, key, replace);
+            var line = GetLine(locale, key, replace);
             if (line == null)
             {
-                line = GetTrans(fallback, key, replace);
+                line = GetLine(fallback, key, replace);
                 locale = fallback;
             }
 
@@ -156,36 +178,24 @@ namespace CatLib.Translation
         }
 
         /// <summary>
-        /// 获取翻译
-        /// </summary>
-        /// <param name="locale">当前语言</param>
-        /// <param name="key">键</param>
-        /// <param name="replace">替换的值</param>
-        /// <returns>翻译的值</returns>
-        private string GetTrans(string locale, string key, string[] replace)
-        {
-            return GetLine(ParseKey(key), locale, replace);
-        }
-
-        /// <summary>
         /// 获取一行数据
         /// </summary>
-        /// <param name="segments">key的片段</param>
+        /// <param name="key">键</param>
         /// <param name="locale">当前语言</param>
         /// <param name="replace">替换的值</param>
         /// <returns>翻译的值</returns>
-        private string GetLine(string[] segments, string locale, string[] replace)
+        private string GetLine(string key, string locale, string[] replace)
         {
             string line = null;
             foreach (var map in maps)
             {
-                if (map.TryGetValue(segments, out line))
+                if (map.TryGetValue(locale, key, out line))
                 {
                     break;
                 }
             }
 
-            return line != null ? MakeReplacements(line, replace) : line;
+            return line != null ? MakeReplacements(line, replace) : null;
         }
 
         /// <summary>
@@ -234,28 +244,6 @@ namespace CatLib.Translation
                 }
             }
             return line;
-        }
-
-        /// <summary>
-        /// 格式化key
-        /// </summary>
-        /// <param name="key">key</param>
-        /// <returns>key的片段</returns>
-        private string[] ParseKey(string key)
-        {
-            string[] segments;
-            if (parsed.Get(key, out segments))
-            {
-                return segments;
-            }
-
-            segments = key.Split(Segments, StringSplitOptions.RemoveEmptyEntries);
-            if (segments.Length > 1)
-            {
-                parsed.Add(key, segments);
-                return segments;
-            }
-            throw new RuntimeException("translator key is invalid");
         }
     }
 }

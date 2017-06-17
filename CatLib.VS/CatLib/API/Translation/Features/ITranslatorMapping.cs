@@ -19,10 +19,10 @@ namespace CatLib.API.Translation
         /// <summary>
         /// 获取映射
         /// </summary>
-        /// <param name="segments">片段</param>
+        /// <param name="locale">语言</param>
+        /// <param name="key">键</param>
         /// <param name="str">返回的值</param>
-        /// <param name="def">默认值</param>
         /// <returns>是否成功获取</returns>
-        bool TryGetValue(string[] segments, out string str, string def = null);
+        bool TryGetValue(string locale, string key, out string str);
     }
 }

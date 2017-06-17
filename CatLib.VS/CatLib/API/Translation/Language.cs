@@ -12,8 +12,7 @@
 namespace CatLib.API.Translation
 {
     /// <summary>
-    /// 语言代码
-    /// 未经列出的语言标准见：ISO 639, ISO 639-1, ISO 639-2, ISO 639-3
+    /// 语言代码(ISO 639, ISO 639-1, ISO 639-2, ISO 639-3)
     /// </summary>
     public sealed class Language
     {

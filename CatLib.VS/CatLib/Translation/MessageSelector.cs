@@ -20,9 +20,14 @@ namespace CatLib.Translation
     public sealed class MessageSelector : ISelector
     {
         /// <summary>
+        /// 区间匹配表达式
+        /// </summary>
+        private const string RangMatchStr = @"[\{\[]([^\[\]\{\}]*)[\}\]]";
+        
+        /// <summary>
         /// 范围处理
         /// </summary>
-        private readonly Regex rangeReg = new Regex(@"^[\{\[]([^\[\]\{\}]*)[\}\]](.*)");
+        private readonly Regex rangeReg = new Regex(RangMatchStr);
 
         /// <summary>
         /// 对翻译进行处理
@@ -130,7 +135,7 @@ namespace CatLib.Translation
         {
             for (var i = 0; i < segments.Length; i++)
             {
-                segments[i] = Regex.Replace(segments[i], @"^[\{\[]([^\[\]\{\}]*)[\}\]]", string.Empty);
+                segments[i] = Regex.Replace(segments[i], RangMatchStr, string.Empty);
             }
 
             return segments;
