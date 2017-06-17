@@ -55,7 +55,7 @@ namespace CatLib.API.Translation
         /// <summary>
         /// 白俄罗斯
         /// </summary>
-        public const string Belarusian = "be";
+        public const string Byelorussian = "be";
 
         /// <summary>
         /// 孟加拉
@@ -96,6 +96,11 @@ namespace CatLib.API.Translation
         /// 中文(繁体)
         /// </summary>
         public const string ChineseTw = "zh-TW";
+
+        /// <summary>
+        /// 克罗地亚
+        /// </summary>
+        public const string Croatian = "hr";
 
         /// <summary>
         /// 捷克语
@@ -208,6 +213,11 @@ namespace CatLib.API.Translation
         public const string Indonesian = "id";
 
         /// <summary>
+        /// 爱尔兰
+        /// </summary>
+        public const string Irish = "ga";
+
+        /// <summary>
         /// 意大利语
         /// </summary>
         public const string Italian = "it";
@@ -253,6 +263,11 @@ namespace CatLib.API.Translation
         public const string Lithuanian = "lt";
 
         /// <summary>
+        /// 马其顿
+        /// </summary>
+        public const string Macedonian = "mk";
+
+        /// <summary>
         /// 马尔加什
         /// </summary>
         public const string Malagasy = "mg";
@@ -266,6 +281,11 @@ namespace CatLib.API.Translation
         /// 马拉雅拉姆语
         /// </summary>
         public const string Malayalam = "ml";
+
+        /// <summary>
+        /// 马耳他语
+        /// </summary>
+        public const string Maltese = "mt";
 
         /// <summary>
         /// 马拉语
@@ -411,6 +431,11 @@ namespace CatLib.API.Translation
         /// 越南语
         /// </summary>
         public const string Vietnamese = "vi";
+
+        /// <summary>
+        /// 威尔士语
+        /// </summary>
+        public const string Welsh = "cy";
 
         /// <summary>
         /// 祖鲁

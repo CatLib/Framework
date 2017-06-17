@@ -20,6 +20,11 @@ namespace CatLib.Translation
     public sealed class MessageSelector : ISelector
     {
         /// <summary>
+        /// 范围处理
+        /// </summary>
+        private readonly Regex rangeReg = new Regex(@"^[\{\[]([^\[\]\{\}]*)[\}\]](.*)");
+
+        /// <summary>
         /// 对翻译进行处理
         /// </summary>
         /// <param name="line">语言字符串</param>
@@ -78,9 +83,7 @@ namespace CatLib.Translation
         /// <returns></returns>
         private string RangeExtract(string parts, int number)
         {
-            var regstr = @"^[\{\[]([^\[\]\{\}]*)[\}\]](.*)";
-            var reg = new Regex(regstr);
-            var mc = reg.Matches(parts);
+            var mc = rangeReg.Matches(parts);
 
             if (mc.Count < 1)
             {
@@ -214,35 +217,34 @@ namespace CatLib.Translation
                 case Language.Malagasy:
                 case Language.Tigrinya:
                     return ((number == 0) || (number == 1)) ? 0 : 1;
-                case "be":
-                case "bs":
-                case "hr":
-                case "ru":
-                case "sr":
-                case "uk":
+                case Language.Byelorussian:
+                case Language.Croatian:
+                case Language.Russian:
+                case Language.Serbian:
+                case Language.Ukrainian:
                     return ((number % 10 == 1) && (number % 100 != 11)) ? 0 : (((number % 10 >= 2) && (number % 10 <= 4) && ((number % 100 < 10) || (number % 100 >= 20))) ? 1 : 2);
-                case "cs":
-                case "sk":
+                case Language.Czech:
+                case Language.Slovak:
                     return (number == 1) ? 0 : (((number >= 2) && (number <= 4)) ? 1 : 2);
-                case "ga":
+                case Language.Irish:
                     return (number == 1) ? 0 : ((number == 2) ? 1 : 2);
-                case "lt":
+                case Language.Lithuanian:
                     return ((number % 10 == 1) && (number % 100 != 11)) ? 0 : (((number % 10 >= 2) && ((number % 100 < 10) || (number % 100 >= 20))) ? 1 : 2);
-                case "sl":
+                case Language.Slovenian:
                     return (number % 100 == 1) ? 0 : ((number % 100 == 2) ? 1 : (((number % 100 == 3) || (number % 100 == 4)) ? 2 : 3));
-                case "mk":
+                case Language.Macedonian:
                     return (number % 10 == 1) ? 0 : 1;
-                case "mt":
+                case Language.Maltese:
                     return (number == 1) ? 0 : (((number == 0) || ((number % 100 > 1) && (number % 100 < 11))) ? 1 : (((number % 100 > 10) && (number % 100 < 20)) ? 2 : 3));
-                case "lv":
+                case Language.Latvian:
                     return (number == 0) ? 0 : (((number % 10 == 1) && (number % 100 != 11)) ? 1 : 2);
-                case "pl":
+                case Language.Polish:
                     return (number == 1) ? 0 : (((number % 10 >= 2) && (number % 10 <= 4) && ((number % 100 < 12) || (number % 100 > 14))) ? 1 : 2);
-                case "cy":
+                case Language.Welsh:
                     return (number == 1) ? 0 : ((number == 2) ? 1 : (((number == 8) || (number == 11)) ? 2 : 3));
-                case "ro":
+                case Language.Romanian:
                     return (number == 1) ? 0 : (((number == 0) || ((number % 100 > 0) && (number % 100 < 20))) ? 1 : 2);
-                case "ar":
+                case Language.Arabic:
                     return (number == 0) ? 0 : ((number == 1) ? 1 : ((number == 2) ? 2 : (((number % 100 >= 3) && (number % 100 <= 10)) ? 3 : (((number % 100 >= 11) && (number % 100 <= 99)) ? 4 : 5))));
                 default:
                     return 0;
