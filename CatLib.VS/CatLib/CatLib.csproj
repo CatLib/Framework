@@ -80,6 +80,7 @@
     <Compile Include="API\Timer\Internal\ITimerQueue.cs" />
     <Compile Include="API\Timer\ITimerManager.cs" />
     <Compile Include="API\Time\ITimeManager.cs" />
+    <Compile Include="API\Translation\ITranslator.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
@@ -184,6 +185,12 @@
     <Compile Include="Time\TimeManager.cs" />
     <Compile Include="Time\TimeProvider.cs" />
     <Compile Include="Time\UnityTime.cs" />
+    <Compile Include="Translation\IFileLoader.cs" />
+    <Compile Include="Translation\IFileMapping.cs" />
+    <Compile Include="Translation\ISelector.cs" />
+    <Compile Include="Translation\MessageSelector.cs" />
+    <Compile Include="Translation\TranslationProvider.cs" />
+    <Compile Include="Translation\Translator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="API\catlib.json" />
@@ -195,6 +202,7 @@
     <None Include="Stl\catlib.json" />
     <None Include="Timer\catlib.json" />
     <None Include="Time\catlib.json" />
+    <None Include="Translation\catlib.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

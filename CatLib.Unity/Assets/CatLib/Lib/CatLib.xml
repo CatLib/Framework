@@ -1452,6 +1452,40 @@
             不考虑时间缩放的从游戏开始到现在的时间
             </summary>
         </member>
+        <member name="T:CatLib.API.Translation.ITranslator">
+            <summary>
+            翻译(国际化)
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.Trans(System.String,System.String[])">
+            <summary>
+            翻译内容
+            </summary>
+            <param name="key">键</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的值</returns>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.TransChoice(System.String,System.Int32,System.String[])">
+            <summary>
+            翻译内容的复数形式
+            </summary>
+            <param name="key">键</param>
+            <param name="number">数值</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的值</returns>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.GetLocale">
+            <summary>
+            获取默认本地语言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.API.Translation.ITranslator.SetLocale(System.String)">
+            <summary>
+            设定默认本地语言
+            </summary>
+            <param name="local">设定默认本地语言</param>
+        </member>
         <member name="T:CatLib.API.Routing.IMiddleware">
             <summary>
             中间件
@@ -7328,6 +7362,255 @@
             <summary>
             不考虑时间缩放的从游戏开始到现在的时间
             </summary>
+        </member>
+        <member name="T:CatLib.Translation.IFileLoader">
+            <summary>
+            文件加载器
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.IFileLoader.Load(System.String,System.String,System.String)">
+            <summary>
+            加载资源
+            </summary>
+            <param name="root">根目录</param>
+            <param name="locale">语言</param>
+            <param name="file">文件名</param>
+            <returns>文件映射</returns>
+        </member>
+        <member name="T:CatLib.Translation.IFileMapping">
+            <summary>
+            文件映射
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.IFileMapping.Get(System.String,System.String)">
+            <summary>
+            获取映射
+            </summary>
+            <param name="key">键</param>
+            <param name="def">默认值</param>
+            <returns>值</returns>
+        </member>
+        <member name="T:CatLib.Translation.ISelector">
+            <summary>
+            选择器
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.ISelector.Choose(System.String,System.Int32,System.String)">
+            <summary>
+            对翻译进行处理
+            </summary>
+            <param name="line">语言字符串</param>
+            <param name="number">数量</param>
+            <param name="locale">语言</param>
+            <returns>处理后的字符串</returns>
+        </member>
+        <member name="T:CatLib.Translation.MessageSelector">
+            <summary>
+            消息选择器
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.MessageSelector.Choose(System.String,System.Int32,System.String)">
+            <summary>
+            对翻译进行处理
+            </summary>
+            <param name="line">语言字符串</param>
+            <param name="number">数量</param>
+            <param name="locale">语言</param>
+            <returns>处理后的字符串</returns>
+        </member>
+        <member name="M:CatLib.Translation.MessageSelector.Extract(System.String[],System.Int32)">
+            <summary>
+            处理
+            </summary>
+            <param name="segments">片段</param>
+            <param name="number">数字</param>
+            <returns>字符串</returns>
+        </member>
+        <member name="M:CatLib.Translation.MessageSelector.RangeExtract(System.String,System.Int32)">
+            <summary>
+            范围处理
+            </summary>
+            <param name="parts">单片段</param>
+            <param name="number">数字</param>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.Translation.MessageSelector.StripConditions(System.String[])">
+            <summary>
+            过滤未被处理的片段
+            </summary>
+            <param name="segments">片段</param>
+            <returns>处理后的结果</returns>
+        </member>
+        <member name="M:CatLib.Translation.MessageSelector.GetPluralIndex(System.String,System.Int32)">
+            <summary>
+            获取语言的复数形式
+            </summary>
+            <param name="locale">语言</param>
+            <param name="number">数量</param>
+            <returns>复数形式</returns>
+        </member>
+        <member name="T:CatLib.Translation.TranslationProvider">
+            <summary>
+            国际化服务提供商
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.TranslationProvider.Register">
+            <summary>
+            当注册国际化服务时
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.TranslationProvider.RegisterSelector">
+            <summary>
+            注册消息选择器
+            </summary>
+        </member>
+        <member name="T:CatLib.Translation.Translator">
+            <summary>
+            国际化
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.Translator.loaded">
+            <summary>
+            已经被加载的语言集(locale , file , IFileMapping)
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.Translator.selector">
+            <summary>
+            消息选择器
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.Translator.root">
+            <summary>
+            根目录
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.Translator.locale">
+            <summary>
+            当前语言
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.Translator.fallback">
+            <summary>
+            备选语言
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.Translator.loader">
+            <summary>
+            加载器
+            </summary>
+        </member>
+        <member name="F:CatLib.Translation.Translator.parsed">
+            <summary>
+            已经被转义过的key缓存
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.Translator.SetRoot(System.String)">
+            <summary>
+            设定根目录
+            </summary>
+            <param name="root">根目录</param>
+        </member>
+        <member name="M:CatLib.Translation.Translator.SetFallback(System.String)">
+            <summary>
+            设定替补语言
+            </summary>
+            <param name="fallback">替补语言</param>
+        </member>
+        <member name="M:CatLib.Translation.Translator.#ctor">
+            <summary>
+            构建一个国际化组件
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.Translator.SetSelector(CatLib.Translation.ISelector)">
+            <summary>
+            设定消息选择器
+            </summary>
+            <param name="selector">选择器</param>
+        </member>
+        <member name="M:CatLib.Translation.Translator.SetFileLoader(CatLib.Translation.IFileLoader)">
+            <summary>
+            设定文件加载器
+            </summary>
+            <param name="loader">加载器</param>
+        </member>
+        <member name="M:CatLib.Translation.Translator.Trans(System.String,System.String[])">
+            <summary>
+            翻译内容
+            </summary>
+            <param name="key">键</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的值</returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.TransChoice(System.String,System.Int32,System.String[])">
+            <summary>
+            翻译内容的复数形式
+            </summary>
+            <param name="key">键</param>
+            <param name="number">数值</param>
+            <param name="replace">替换翻译内容的占位符</param>
+            <returns>翻译的值</returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.GetLocale">
+            <summary>
+            获取默认本地语言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.SetLocale(System.String)">
+            <summary>
+            设定默认本地语言
+            </summary>
+            <param name="locale">设定默认本地语言</param>
+        </member>
+        <member name="M:CatLib.Translation.Translator.Choice(System.String,System.Int32,System.String[])">
+            <summary>
+            执行翻译
+            </summary>
+            <param name="key">键</param>
+            <param name="number">值</param>
+            <param name="replace">替换的内容</param>
+            <returns>翻译的值</returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.Get(System.String,System.String,System.String[])">
+            <summary>
+            获取翻译
+            </summary>
+            <param name="locale">当前语言</param>
+            <param name="key">键</param>
+            <param name="replace">替换的值</param>
+            <returns>翻译的值</returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.GetLine(System.String,System.String,System.String,System.String[])">
+            <summary>
+            获取一行数据
+            </summary>
+            <param name="file">文件名</param>
+            <param name="key">键</param>
+            <param name="locale">当前语言</param>
+            <param name="replace">替换的值</param>
+            <returns>翻译的值</returns>
+        </member>
+        <member name="M:CatLib.Translation.Translator.MakeReplacements(System.String,System.String[])">
+            <summary>
+            替换内容
+            </summary>
+            <param name="line">字符串</param>
+            <param name="replace">替换的内容</param>
+        </member>
+        <member name="M:CatLib.Translation.Translator.Load(System.String,System.String,System.String)">
+            <summary>
+            加载数据
+            </summary>
+            <param name="file">文件名</param>
+            <param name="key">键</param>
+            <param name="locale">当前语言</param>
+        </member>
+        <member name="M:CatLib.Translation.Translator.ParseKey(System.String)">
+            <summary>
+            格式化key
+            </summary>
+            <param name="key">key</param>
+            <returns>解析的结果为file 和 key</returns>
         </member>
     </members>
 </doc>
