@@ -22,12 +22,12 @@ namespace CatLib.Translation
         /// <summary>
         /// 区间匹配表达式
         /// </summary>
-        private const string RangMatchStr = @"[\{\[]([^\[\]\{\}]*)[\}\]]";
-        
+        private const string StripMatchStr = @"[\{\[]([^\[\]\{\}]*)[\}\]]";
+
         /// <summary>
-        /// 范围处理
+        /// 展开处理匹配式
         /// </summary>
-        private readonly Regex rangeReg = new Regex(RangMatchStr);
+        private readonly Regex extractReg = new Regex(@"[\{\[]([^\[\]\{\}]*)[\}\]](.*)");
 
         /// <summary>
         /// 对翻译进行处理
@@ -88,7 +88,7 @@ namespace CatLib.Translation
         /// <returns></returns>
         private string RangeExtract(string parts, int number)
         {
-            var mc = rangeReg.Matches(parts);
+            var mc = extractReg.Matches(parts);
 
             if (mc.Count < 1)
             {
@@ -102,28 +102,35 @@ namespace CatLib.Translation
             var condition = mc[0].Groups[1].ToString();
             var val = mc[0].Groups[2].ToString();
 
-            if (!condition.Contains(","))
+            if (condition.Contains(","))
             {
-                return null;
+                var fromTo = condition.Split(new[] { ',' }, 2);
+
+                if (fromTo[0] == "*" && fromTo[1] == "*")
+                {
+                    return val;
+                }
+
+                if (fromTo[1] == "*" && number >= int.Parse(fromTo[0]))
+                {
+                    return val;
+                }
+
+                if (fromTo[0] == "*" && number <= int.Parse(fromTo[1]))
+                {
+                    return val;
+                }
+
+                if (fromTo[0] != "*" &&
+                    fromTo[1] != "*" &&
+                    number >= int.Parse(fromTo[0]) &&
+                    number <= int.Parse(fromTo[1]))
+                {
+                    return val;
+                }
             }
 
-            var fromTo = condition.Split(new[] { ',' }, 2);
-            if (fromTo[1] == "*" && number >= int.Parse(fromTo[0]))
-            {
-                return val;
-            }
-
-            if (fromTo[0] == "*" && number <= int.Parse(fromTo[1]))
-            {
-                return val;
-            }
-
-            if (number >= int.Parse(fromTo[0]) && number <= int.Parse(fromTo[1]))
-            {
-                return val;
-            }
-
-            return null;
+            return (condition == "*" || condition == number.ToString()) ? val : null;
         }
 
         /// <summary>
@@ -135,7 +142,7 @@ namespace CatLib.Translation
         {
             for (var i = 0; i < segments.Length; i++)
             {
-                segments[i] = Regex.Replace(segments[i], RangMatchStr, string.Empty);
+                segments[i] = Regex.Replace(segments[i], StripMatchStr, string.Empty);
             }
 
             return segments;

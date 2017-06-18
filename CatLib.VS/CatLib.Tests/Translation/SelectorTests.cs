@@ -33,5 +33,12 @@ namespace CatLib.Tests.Translation
             var selector = new Selector();
             Assert.AreEqual("hello this is test", selector.Choose("hello this is test", 10, Language.Chinese));
         }
+
+        [TestMethod]
+        public void TestRangSelect()
+        {
+            var selector = new Selector();
+            Assert.AreEqual("world", selector.Choose("[*,9]hello|[10,20]world", 10, Language.Chinese));
+        }
     }
 }

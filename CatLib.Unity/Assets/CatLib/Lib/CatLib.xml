@@ -1519,13 +1519,13 @@
             <summary>
             设定当前语言环境
             </summary>
-            <param name="locale">当前语言</param>
+            <param name="locale">当前语言(语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准)</param>
         </member>
         <member name="M:CatLib.API.Translation.ITranslator.SetFallback(System.String)">
             <summary>
             设定替补语言
             </summary>
-            <param name="fallback">替补语言</param>
+            <param name="fallback">替补语言(语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准)</param>
         </member>
         <member name="T:CatLib.API.Translation.Language">
             <summary>
@@ -1962,7 +1962,7 @@
             翻译映射
             </summary>
         </member>
-        <member name="M:CatLib.API.Translation.ITranslatorMapping.TryGetValue(System.String,System.String,System.String@)">
+        <member name="M:CatLib.API.Translation.ITranslatorMapping.Get(System.String,System.String,System.String@)">
             <summary>
             获取映射
             </summary>
@@ -7871,22 +7871,22 @@
             <param name="locale">语言</param>
             <returns>处理后的字符串</returns>
         </member>
-        <member name="T:CatLib.Translation.MessageSelector">
+        <member name="T:CatLib.Translation.Selector">
             <summary>
-            消息选择器
+            选择器
             </summary>
         </member>
-        <member name="F:CatLib.Translation.MessageSelector.RangMatchStr">
+        <member name="F:CatLib.Translation.Selector.RangMatchStr">
             <summary>
             区间匹配表达式
             </summary>
         </member>
-        <member name="F:CatLib.Translation.MessageSelector.rangeReg">
+        <member name="F:CatLib.Translation.Selector.rangeReg">
             <summary>
             范围处理
             </summary>
         </member>
-        <member name="M:CatLib.Translation.MessageSelector.Choose(System.String,System.Int32,System.String)">
+        <member name="M:CatLib.Translation.Selector.Choose(System.String,System.Int32,System.String)">
             <summary>
             对翻译进行处理
             </summary>
@@ -7895,7 +7895,7 @@
             <param name="locale">语言</param>
             <returns>处理后的字符串</returns>
         </member>
-        <member name="M:CatLib.Translation.MessageSelector.Extract(System.String[],System.Int32)">
+        <member name="M:CatLib.Translation.Selector.Extract(System.String[],System.Int32)">
             <summary>
             处理
             </summary>
@@ -7903,7 +7903,7 @@
             <param name="number">数字</param>
             <returns>字符串</returns>
         </member>
-        <member name="M:CatLib.Translation.MessageSelector.RangeExtract(System.String,System.Int32)">
+        <member name="M:CatLib.Translation.Selector.RangeExtract(System.String,System.Int32)">
             <summary>
             范围处理
             </summary>
@@ -7911,14 +7911,14 @@
             <param name="number">数字</param>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Translation.MessageSelector.StripConditions(System.String[])">
+        <member name="M:CatLib.Translation.Selector.StripConditions(System.String[])">
             <summary>
             过滤未被处理的片段
             </summary>
             <param name="segments">片段</param>
             <returns>处理后的结果</returns>
         </member>
-        <member name="M:CatLib.Translation.MessageSelector.GetPluralIndex(System.String,System.Int32)">
+        <member name="M:CatLib.Translation.Selector.GetPluralIndex(System.String,System.Int32)">
             <summary>
             获取语言的复数形式
             </summary>
@@ -7934,11 +7934,6 @@
         <member name="M:CatLib.Translation.TranslationProvider.Register">
             <summary>
             当注册国际化服务时
-            </summary>
-        </member>
-        <member name="M:CatLib.Translation.TranslationProvider.RegisterSelector">
-            <summary>
-            注册消息选择器
             </summary>
         </member>
         <member name="T:CatLib.Translation.Translator">
@@ -8036,7 +8031,7 @@
             <summary>
             设定当前语言环境
             </summary>
-            <param name="locale">设定默认本地语言</param>
+            <param name="locale">设定默认本地语言(语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准)</param>
         </member>
         <member name="M:CatLib.Translation.Translator.Choice(System.String,System.Int32,System.String[])">
             <summary>
