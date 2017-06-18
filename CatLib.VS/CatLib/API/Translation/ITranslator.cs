@@ -68,13 +68,13 @@ namespace CatLib.API.Translation
         /// <summary>
         /// 设定当前语言环境
         /// </summary>
-        /// <param name="locale">当前语言</param>
+        /// <param name="locale">当前语言(语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准)</param>
         void SetLocale(string locale);
 
         /// <summary>
         /// 设定替补语言
         /// </summary>
-        /// <param name="fallback">替补语言</param>
+        /// <param name="fallback">替补语言(语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准)</param>
         void SetFallback(string fallback);
     }
 }

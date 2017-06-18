@@ -15,9 +15,9 @@ using CatLib.API.Translation;
 namespace CatLib.Translation
 {
     /// <summary>
-    /// 消息选择器
+    /// 选择器
     /// </summary>
-    public sealed class MessageSelector : ISelector
+    public sealed class Selector : ISelector
     {
         /// <summary>
         /// 区间匹配表达式

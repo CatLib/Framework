@@ -23,6 +23,6 @@ namespace CatLib.API.Translation
         /// <param name="key">键</param>
         /// <param name="str">返回的值</param>
         /// <returns>是否成功获取</returns>
-        bool TryGetValue(string locale, string key, out string str);
+        bool Get(string locale, string key, out string str);
     }
 }

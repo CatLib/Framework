@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Translation;
 
@@ -26,35 +24,22 @@ namespace CatLib.Translation
         /// </summary>
         public override void Register()
         {
-            RegisterSelector();
-
             App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving((bind, obj) =>
             {
                 var config = App.Make<IConfigManager>();
                 var tran = obj as Translator;
-
-                var selector = App.Make("translation.selector") as ISelector;
-
-                tran.SetSelector(selector);
+                tran.SetSelector(new Selector());
 
                 if (config == null)
                 {
                     return obj;
                 }
 
-                tran.SetLocale(config.Default.Get("translation.default", "zh"));
-                tran.SetFallback(config.Default.Get("translation.fallback", string.Empty));
+                tran.SetLocale(config.Default.Get("translation.default", Language.Chinese));
+                tran.SetFallback(config.Default.Get("translation.fallback", Language.Chinese));
 
                 return obj;
             });
-        }
-
-        /// <summary>
-        /// 注册消息选择器
-        /// </summary>
-        private void RegisterSelector()
-        {
-            App.Singleton("translation.selector", (app, param) => new MessageSelector());
         }
     }
 }

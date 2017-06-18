@@ -149,7 +149,7 @@ namespace CatLib.Translation
         /// <summary>
         /// 设定当前语言环境
         /// </summary>
-        /// <param name="locale">设定默认本地语言</param>
+        /// <param name="locale">设定默认本地语言(语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准)</param>
         public void SetLocale(string locale)
         {
             this.locale = locale;
@@ -189,7 +189,7 @@ namespace CatLib.Translation
             string line = null;
             foreach (var map in maps)
             {
-                if (map.TryGetValue(locale, key, out line))
+                if (map.Get(locale, key, out line))
                 {
                     break;
                 }
