@@ -9,7 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Text.RegularExpressions;
+using CatLib.API;
 using CatLib.API.Translation;
 
 namespace CatLib.Translation
@@ -38,7 +40,7 @@ namespace CatLib.Translation
         /// <returns>处理后的字符串</returns>
         public string Choose(string line, int number, string locale)
         {
-            if (line == null)
+            if (string.IsNullOrEmpty(line))
             {
                 return string.Empty;
             }
@@ -104,7 +106,7 @@ namespace CatLib.Translation
 
             if (condition.Contains(","))
             {
-                var fromTo = condition.Split(new[] { ',' }, 2);
+                var fromTo = condition.Split(',');
 
                 if (fromTo[0] == "*" && fromTo[1] == "*")
                 {
@@ -150,10 +152,16 @@ namespace CatLib.Translation
 
         /// <summary>
         /// 获取语言的复数形式
+        /// 
+        /// 语言复数形式规则来自于：Zend Framework
+        /// The plural rules are derived from code of the Zend Framework (2010-09-25), which
+        /// is subject to the new BSD license(http://framework.zend.com/license/new-bsd)
+        /// Copyright (c) 2005-2010 - Zend Technologies USA Inc. (http://www.zend.com)
         /// </summary>
         /// <param name="locale">语言</param>
         /// <param name="number">数量</param>
         /// <returns>复数形式</returns>
+        [ExcludeFromCodeCoverage]
         private int GetPluralIndex(string locale, int number)
         {
             switch (locale)
