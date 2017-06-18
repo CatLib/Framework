@@ -188,7 +188,7 @@
     <Compile Include="Time\UnityTime.cs" />
     <Compile Include="API\Translation\Features\ITranslatorMapping.cs" />
     <Compile Include="Translation\ISelector.cs" />
-    <Compile Include="Translation\MessageSelector.cs" />
+    <Compile Include="Translation\Selector.cs" />
     <Compile Include="Translation\TranslationProvider.cs" />
     <Compile Include="Translation\Translator.cs" />
   </ItemGroup>

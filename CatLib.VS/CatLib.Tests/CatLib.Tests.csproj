@@ -115,6 +115,7 @@
     <Compile Include="Stl\Template\SingleManagerTests.cs" />
     <Compile Include="Timer\TimerProviderTests.cs" />
     <Compile Include="Time\TimeProviderTests.cs" />
+    <Compile Include="Translation\SelectorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CatLib\CatLib.csproj">
