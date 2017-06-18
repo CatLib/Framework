@@ -10,6 +10,7 @@
  */
 
 using System;
+using CatLib.API.Time;
 
 namespace CatLib.API.Timer
 {
@@ -29,5 +30,12 @@ namespace CatLib.API.Timer
         /// <param name="onComplete">完成时</param>
         /// <returns>当前组实例</returns>
         ITimerQueue OnComplete(Action onComplete);
+
+        /// <summary>
+        /// 设定使用的时间系统
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <returns>当前组实例</returns>
+        ITimerQueue SetTime(ITime time);
     }
 }
