@@ -6598,6 +6598,12 @@
             构造一个环境
             </summary>
         </member>
+        <member name="M:CatLib.Core.Env.GetAssetPathWithUnity">
+            <summary>
+            从Unity获取资源路径
+            </summary>
+            <returns>资源路径</returns>
+        </member>
         <member name="M:CatLib.Core.Env.SetDebugLevel(CatLib.API.DebugLevels)">
             <summary>
             设定调试等级
