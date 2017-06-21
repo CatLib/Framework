@@ -34,7 +34,7 @@ namespace CatLib.Timer
         private readonly SortSet<TimerQueue, int> executeList;
 
         /// <summary>
-        /// 路由器组
+        /// 计时器队列堆栈
         /// </summary>
         private readonly Stack<TimerQueue> timerQueue;
 
