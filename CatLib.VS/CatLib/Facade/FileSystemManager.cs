@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Config;
+using CatLib.API.FileSystem;
 using CatLib.Core;
 
 namespace CatLib.Facade
@@ -17,7 +17,7 @@ namespace CatLib.Facade
     /// <summary>
     /// 文件系统管理器
     /// </summary>
-    public sealed class FileSystemManager : Facade<IConfigManager>
+    public sealed class FileSystemManager : Facade<IFileSystemManager>
     {
     }
 }
