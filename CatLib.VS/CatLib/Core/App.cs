@@ -36,25 +36,6 @@ namespace CatLib
                 {
                     return instance;
                 }
-#if UNITY_EDITOR
-                if (!UnityEngine.Application.isPlaying)
-                {
-                    instance = new CatLib.Core.Application().Bootstrap(CatLib.Bootstrap.Bootstrap.BootStrap);
-
-                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                    {
-                        if (IsStripping(assembly))
-                        {
-                            continue;
-                        }
-                        foreach (var type in assembly.GetTypes())
-                        {
-                            instance.Bind(type.ToString(), type, false);
-                        }
-                    }
-                    return instance;
-                }
-#endif
                 throw new NullReferenceException("Application is not instance.");
             }
             internal set
@@ -62,25 +43,5 @@ namespace CatLib
                 instance = value;
             }
         }
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// 程序集是否是被剥离的
-        /// </summary>
-        /// <param name="assembly">资源集</param>
-        /// <returns>是否过滤</returns>
-        private static bool IsStripping(Assembly assembly)
-        {
-            string[] notStripping = { "Assembly-CSharp-Editor" };
-            foreach (var notStrippingAssembly in notStripping)
-            {
-                if (assembly.GetName().Name == notStrippingAssembly)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-#endif
     }
 }
