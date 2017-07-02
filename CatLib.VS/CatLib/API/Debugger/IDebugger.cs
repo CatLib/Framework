@@ -13,26 +13,26 @@ namespace CatLib.API.Debugger
 {
     /// <summary>
     /// 调试器
-    /// 
     /// </summary>
     public interface IDebugger : ILogger
     {
         /// <summary>
-        /// 定义命名空间对应的组名
+        /// 定义命名空间对应的分类
         /// </summary>
         /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
-        /// <param name="groupName">组名(用于在调试控制器显示)</param>
-        void Defined(string namespaces, string groupName);
+        /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
+        void DefinedCategory(string namespaces, string categroyName);
 
         /// <summary>
-        /// 设定监控实行方案
+        /// 定义监控实行方案
         /// </summary>
         /// <param name="moitorName">监控名</param>
         /// <param name="handler">执行句柄</param>
-        void DefinedMonitor(string moitorName, IMonitor handler);
+        /// <param name="sort">排序</param>
+        void DefinedMonitor(string moitorName, IMonitor handler , int sort = int.MaxValue);
 
         /// <summary>
-        /// 监控
+        /// 监控一个内容
         /// </summary>
         /// <param name="monitorName">监控名</param>
         /// <param name="value">监控值</param>
