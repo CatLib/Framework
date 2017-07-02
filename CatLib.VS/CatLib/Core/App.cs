@@ -10,7 +10,6 @@
  */
 
 using System;
-using System.Reflection;
 using CatLib.API;
 
 namespace CatLib
