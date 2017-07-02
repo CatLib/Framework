@@ -18,7 +18,6 @@ namespace CatLib.API.Debugger
     /// </summary>
     public interface ILogger
     {
-
         /// <summary>
         /// 输出一条日志，日志级别为传入的等级
         /// </summary>

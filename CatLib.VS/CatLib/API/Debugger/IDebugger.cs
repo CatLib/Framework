@@ -32,6 +32,12 @@ namespace CatLib.API.Debugger
         void DefinedMonitor(string moitorName, IMonitor handler , int sort = int.MaxValue);
 
         /// <summary>
+        /// 增加日志记录器
+        /// </summary>
+        /// <param name="logger">记录器</param>
+        void AddLogHandler(ILogHandler logger);
+
+        /// <summary>
         /// 监控一个内容
         /// </summary>
         /// <param name="monitorName">监控名</param>
