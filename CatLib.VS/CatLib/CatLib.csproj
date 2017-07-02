@@ -53,6 +53,7 @@
     <Compile Include="API\Config\Internal\IConfig.cs" />
     <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
+    <Compile Include="API\Debugger\Features\ILogHandler.cs" />
     <Compile Include="API\Debugger\IDebugger.cs" />
     <Compile Include="API\Debugger\Internal\ILogger.cs" />
     <Compile Include="API\Debugger\Features\IMonitor.cs" />
