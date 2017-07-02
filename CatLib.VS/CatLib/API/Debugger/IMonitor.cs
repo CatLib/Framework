@@ -9,18 +9,18 @@
  * Document: http://catlib.io/
  */
 
-using System;
-
-namespace CatLib.Debugger
+namespace CatLib.API.Debugger
 {
     /// <summary>
-    /// 调试器
+    /// 监控处理
     /// </summary>
-    internal sealed class Debugger
+    public interface IMonitor
     {
-        public void Test()
-        {
-            //UnityEngine.Debug.Log();
-        }
+        /// <summary>
+        /// 处理句柄
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns>返回数据将会被推送至显示端</returns>
+        string Handler(object value);
     }
 }
