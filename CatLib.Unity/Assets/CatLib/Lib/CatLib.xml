@@ -866,16 +866,6 @@
             LateUpdate时调用
             </summary>
         </member>
-        <member name="T:CatLib.API.IStart">
-            <summary>
-            当启动时
-            </summary>
-        </member>
-        <member name="M:CatLib.API.IStart.Start">
-            <summary>
-            启动时触发
-            </summary>
-        </member>
         <member name="T:CatLib.API.IUpdate">
             <summary>
             Update 接口
@@ -1308,19 +1298,21 @@
             </summary>
             <param name="frame">循环的帧数</param>
         </member>
-        <member name="M:CatLib.API.Timer.ITimer.Interval(System.Single)">
+        <member name="M:CatLib.API.Timer.ITimer.Interval(System.Single,System.Int32)">
             <summary>
             间隔多少时间执行一次
             执行时的当前帧计算间隔
             </summary>
             <param name="time">间隔的时间</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
-        <member name="M:CatLib.API.Timer.ITimer.IntervalFrame(System.Int32)">
+        <member name="M:CatLib.API.Timer.ITimer.IntervalFrame(System.Int32,System.Int32)">
             <summary>
             间隔多少帧执行一次
             执行时的当前帧计算间隔
             </summary>
             <param name="frame">间隔的帧数</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
         <member name="T:CatLib.API.Timer.ITimerQueue">
             <summary>
@@ -1337,6 +1329,13 @@
             当队列的所有计时器完成时
             </summary>
             <param name="onComplete">完成时</param>
+            <returns>当前组实例</returns>
+        </member>
+        <member name="M:CatLib.API.Timer.ITimerQueue.SetTime(CatLib.API.Time.ITime)">
+            <summary>
+            设定使用的时间系统
+            </summary>
+            <param name="time">时间</param>
             <returns>当前组实例</returns>
         </member>
         <member name="T:CatLib.API.Timer.ITimerManager">
@@ -6883,17 +6882,19 @@
             </summary>
             <param name="frame">循环执行的帧数</param>
         </member>
-        <member name="M:CatLib.Timer.Timer.Interval(System.Single)">
+        <member name="M:CatLib.Timer.Timer.Interval(System.Single,System.Int32)">
             <summary>
             间隔多少时间执行一次
             </summary>
             <param name="time">间隔的时间</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
-        <member name="M:CatLib.Timer.Timer.IntervalFrame(System.Int32)">
+        <member name="M:CatLib.Timer.Timer.IntervalFrame(System.Int32,System.Int32)">
             <summary>
             间隔多少帧执行一次
             </summary>
             <param name="frame">间隔的帧数</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
         <member name="M:CatLib.Timer.Timer.Tick(System.Single@)">
             <summary>
@@ -7024,6 +7025,13 @@
             <param name="onComplete">完成时</param>
             <returns>当前组实例</returns>
         </member>
+        <member name="M:CatLib.Timer.TimerQueue.SetTime(CatLib.API.Time.ITime)">
+            <summary>
+            设定使用的时间系统
+            </summary>
+            <param name="time">时间</param>
+            <returns>当前组实例</returns>
+        </member>
         <member name="M:CatLib.Timer.TimerQueue.Tick">
             <summary>
             触发计时器
@@ -7065,7 +7073,7 @@
         </member>
         <member name="F:CatLib.Timer.TimerManager.timerQueue">
             <summary>
-            路由器组
+            计时器队列堆栈
             </summary>
         </member>
         <member name="M:CatLib.Timer.TimerManager.#ctor(CatLib.API.Time.ITimeManager)">

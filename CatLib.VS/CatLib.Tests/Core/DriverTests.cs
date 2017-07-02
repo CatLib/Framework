@@ -28,13 +28,12 @@ namespace CatLib.Tests.Core
     [TestClass]
     public class DriverTests
     {
-        private static string start;
         private static string updateResult;
         private static string lateUpdateResult;
         private static bool lateUpdateIsAfter;
         private static string onDestroyResult;
 
-        public class TestStaticClass : IUpdate, ILateUpdate , IDestroy , IStart
+        public class TestStaticClass : IUpdate, ILateUpdate , IDestroy
         {
             public void Update()
             {
@@ -46,11 +45,6 @@ namespace CatLib.Tests.Core
                 {
                     updateResult = "TestStaticClassUpdate";
                 }
-            }
-
-            public void Start()
-            {
-                start = "TestStaticClassUpdateStart";
             }
 
             public void LateUpdate()
@@ -165,7 +159,6 @@ namespace CatLib.Tests.Core
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
             Assert.AreEqual(true, lateUpdateIsAfter);
             Assert.AreEqual("TestStaticClassDestroy", onDestroyResult);
-            Assert.AreEqual("TestStaticClassUpdateStart", start);
             Assert.AreEqual("TestStaticClassLateUpdate", lateUpdateResult);
         }
 

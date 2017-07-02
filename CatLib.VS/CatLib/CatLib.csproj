@@ -62,7 +62,6 @@
     <Compile Include="API\Core\Features\IBootstrap.cs" />
     <Compile Include="API\Core\Features\Behaviour\IDestroy.cs" />
     <Compile Include="API\Core\Features\Behaviour\ILateUpdate.cs" />
-    <Compile Include="API\Core\Features\Behaviour\IStart.cs" />
     <Compile Include="API\Core\Features\Behaviour\IUpdate.cs" />
     <Compile Include="API\Core\Features\PriorityAttribute.cs" />
     <Compile Include="API\Core\IApplication.cs" />

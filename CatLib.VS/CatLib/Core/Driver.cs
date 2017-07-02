@@ -177,23 +177,10 @@ namespace CatLib.Core
                 throw new RuntimeException("Object [" + obj + "] is already load.");
             }
 
-            var isLoad = false;
-            if (obj is IStart)
-            {
-                ((IStart)obj).Start();
-            }
-            if (ConvertAndAdd(update, obj, "Update"))
-            {
-                isLoad = true;
-            }
-            if (ConvertAndAdd(lateUpdate, obj, "LateUpdate"))
-            {
-                isLoad = true;
-            }
-            if (ConvertAndAdd(destroy, obj, "OnDestroy"))
-            {
-                isLoad = true;
-            }
+            var isLoad = ConvertAndAdd(update, obj, "Update");
+            isLoad = ConvertAndAdd(lateUpdate, obj, "LateUpdate") || isLoad;
+            isLoad = ConvertAndAdd(destroy, obj, "OnDestroy") || isLoad;
+
             if (isLoad)
             {
                 loadSet.Add(obj);
