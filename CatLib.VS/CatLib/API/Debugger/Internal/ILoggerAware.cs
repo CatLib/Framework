@@ -12,12 +12,12 @@
 namespace CatLib.API.Debugger
 {
     /// <summary>
-    /// 设定实例接口
+    /// 设定记录器实例接口
     /// </summary>
     public interface ILoggerAware
     {
         /// <summary>
-        /// 设定记录器接口
+        /// 设定记录器实例接口
         /// </summary>
         /// <param name="logger">记录器</param>
         void SetLogger(ILogger logger);
