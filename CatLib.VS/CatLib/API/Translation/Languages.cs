@@ -14,7 +14,7 @@ namespace CatLib.API.Translation
     /// <summary>
     /// 语言代码(ISO 639, ISO 639-1, ISO 639-2, ISO 639-3)
     /// </summary>
-    public sealed class Language
+    public sealed class Languages
     {
         /// <summary>
         /// 阿塞拜疆

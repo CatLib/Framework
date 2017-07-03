@@ -165,105 +165,105 @@ namespace CatLib.Translation
         {
             switch (locale)
             {
-                case Language.Azerbaijani:
-                case Language.Tibetan:
-                case Language.Bhutani:
-                case Language.Indonesian:
-                case Language.Japanese:
-                case Language.Javanese:
-                case Language.Georgian:
-                case Language.Cambodian:
-                case Language.Kannada:
-                case Language.Korean:
-                case Language.Malay:
-                case Language.Thai:
-                case Language.Turkish:
-                case Language.Vietnamese:
-                case Language.Chinese:
-                case Language.ChineseTw:
+                case Languages.Azerbaijani:
+                case Languages.Tibetan:
+                case Languages.Bhutani:
+                case Languages.Indonesian:
+                case Languages.Japanese:
+                case Languages.Javanese:
+                case Languages.Georgian:
+                case Languages.Cambodian:
+                case Languages.Kannada:
+                case Languages.Korean:
+                case Languages.Malay:
+                case Languages.Thai:
+                case Languages.Turkish:
+                case Languages.Vietnamese:
+                case Languages.Chinese:
+                case Languages.ChineseTw:
                     return 0;
-                case Language.Afrikaans:
-                case Language.Bengali:
-                case Language.Bulgarian:
-                case Language.Catalan:
-                case Language.Danish:
-                case Language.German:
-                case Language.Greek:
-                case Language.English:
-                case Language.Esperanto:
-                case Language.Spanish:
-                case Language.Estonian:
-                case Language.Basque:
-                case Language.Farsi:
-                case Language.Finnish:
-                case Language.Faeroese:
-                case Language.Frisian:
-                case Language.Galician:
-                case Language.Gujarati:
-                case Language.Hausa:
-                case Language.Hebrew:
-                case Language.Hungarian:
-                case Language.Icelandic:
-                case Language.Italian:
-                case Language.Kurdish:
-                case Language.Malayalam:
-                case Language.Mongolian:
-                case Language.Marathi:
-                case Language.Nepali:
-                case Language.Dutch:
-                case Language.Norwegian:
-                case Language.Oromo:
-                case Language.Oriya:
-                case Language.Punjabi:
-                case Language.Pashto:
-                case Language.Portuguese:
-                case Language.Somali:
-                case Language.Albanian:
-                case Language.Swedish:
-                case Language.Swahili:
-                case Language.Tamil:
-                case Language.Telugu:
-                case Language.Turkmen:
-                case Language.Urdu:
-                case Language.Zulu:
+                case Languages.Afrikaans:
+                case Languages.Bengali:
+                case Languages.Bulgarian:
+                case Languages.Catalan:
+                case Languages.Danish:
+                case Languages.German:
+                case Languages.Greek:
+                case Languages.English:
+                case Languages.Esperanto:
+                case Languages.Spanish:
+                case Languages.Estonian:
+                case Languages.Basque:
+                case Languages.Farsi:
+                case Languages.Finnish:
+                case Languages.Faeroese:
+                case Languages.Frisian:
+                case Languages.Galician:
+                case Languages.Gujarati:
+                case Languages.Hausa:
+                case Languages.Hebrew:
+                case Languages.Hungarian:
+                case Languages.Icelandic:
+                case Languages.Italian:
+                case Languages.Kurdish:
+                case Languages.Malayalam:
+                case Languages.Mongolian:
+                case Languages.Marathi:
+                case Languages.Nepali:
+                case Languages.Dutch:
+                case Languages.Norwegian:
+                case Languages.Oromo:
+                case Languages.Oriya:
+                case Languages.Punjabi:
+                case Languages.Pashto:
+                case Languages.Portuguese:
+                case Languages.Somali:
+                case Languages.Albanian:
+                case Languages.Swedish:
+                case Languages.Swahili:
+                case Languages.Tamil:
+                case Languages.Telugu:
+                case Languages.Turkmen:
+                case Languages.Urdu:
+                case Languages.Zulu:
                     return (number == 1) ? 0 : 1;
-                case Language.Amharic:
-                case Language.Bihari:
-                case Language.French:
-                case Language.Hindi:
-                case Language.Armenian:
-                case Language.Lingala:
-                case Language.Malagasy:
-                case Language.Tigrinya:
+                case Languages.Amharic:
+                case Languages.Bihari:
+                case Languages.French:
+                case Languages.Hindi:
+                case Languages.Armenian:
+                case Languages.Lingala:
+                case Languages.Malagasy:
+                case Languages.Tigrinya:
                     return ((number == 0) || (number == 1)) ? 0 : 1;
-                case Language.Byelorussian:
-                case Language.Croatian:
-                case Language.Russian:
-                case Language.Serbian:
-                case Language.Ukrainian:
+                case Languages.Byelorussian:
+                case Languages.Croatian:
+                case Languages.Russian:
+                case Languages.Serbian:
+                case Languages.Ukrainian:
                     return ((number % 10 == 1) && (number % 100 != 11)) ? 0 : (((number % 10 >= 2) && (number % 10 <= 4) && ((number % 100 < 10) || (number % 100 >= 20))) ? 1 : 2);
-                case Language.Czech:
-                case Language.Slovak:
+                case Languages.Czech:
+                case Languages.Slovak:
                     return (number == 1) ? 0 : (((number >= 2) && (number <= 4)) ? 1 : 2);
-                case Language.Irish:
+                case Languages.Irish:
                     return (number == 1) ? 0 : ((number == 2) ? 1 : 2);
-                case Language.Lithuanian:
+                case Languages.Lithuanian:
                     return ((number % 10 == 1) && (number % 100 != 11)) ? 0 : (((number % 10 >= 2) && ((number % 100 < 10) || (number % 100 >= 20))) ? 1 : 2);
-                case Language.Slovenian:
+                case Languages.Slovenian:
                     return (number % 100 == 1) ? 0 : ((number % 100 == 2) ? 1 : (((number % 100 == 3) || (number % 100 == 4)) ? 2 : 3));
-                case Language.Macedonian:
+                case Languages.Macedonian:
                     return (number % 10 == 1) ? 0 : 1;
-                case Language.Maltese:
+                case Languages.Maltese:
                     return (number == 1) ? 0 : (((number == 0) || ((number % 100 > 1) && (number % 100 < 11))) ? 1 : (((number % 100 > 10) && (number % 100 < 20)) ? 2 : 3));
-                case Language.Latvian:
+                case Languages.Latvian:
                     return (number == 0) ? 0 : (((number % 10 == 1) && (number % 100 != 11)) ? 1 : 2);
-                case Language.Polish:
+                case Languages.Polish:
                     return (number == 1) ? 0 : (((number % 10 >= 2) && (number % 10 <= 4) && ((number % 100 < 12) || (number % 100 > 14))) ? 1 : 2);
-                case Language.Welsh:
+                case Languages.Welsh:
                     return (number == 1) ? 0 : ((number == 2) ? 1 : (((number == 8) || (number == 11)) ? 2 : 3));
-                case Language.Romanian:
+                case Languages.Romanian:
                     return (number == 1) ? 0 : (((number == 0) || ((number % 100 > 0) && (number % 100 < 20))) ? 1 : 2);
-                case Language.Arabic:
+                case Languages.Arabic:
                     return (number == 0) ? 0 : ((number == 1) ? 1 : ((number == 2) ? 2 : (((number % 100 >= 3) && (number % 100 <= 10)) ? 3 : (((number % 100 >= 11) && (number % 100 <= 99)) ? 4 : 5))));
                 default:
                     return 0;

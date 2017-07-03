@@ -35,8 +35,8 @@ namespace CatLib.Translation
                     return obj;
                 }
 
-                tran.SetLocale(config.Default.Get("translation.default", Language.Chinese));
-                tran.SetFallback(config.Default.Get("translation.fallback", Language.Chinese));
+                tran.SetLocale(config.Default.Get("translation.default", Languages.Chinese));
+                tran.SetFallback(config.Default.Get("translation.fallback", Languages.Chinese));
 
                 return obj;
             });

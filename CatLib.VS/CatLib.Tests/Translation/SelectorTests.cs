@@ -31,47 +31,47 @@ namespace CatLib.Tests.Translation
         public void TestBaseSelect()
         {
             var selector = new Selector();
-            Assert.AreEqual("hello this is test", selector.Choose("hello this is test", 10, Language.Chinese));
+            Assert.AreEqual("hello this is test", selector.Choose("hello this is test", 10, Languages.Chinese));
         }
 
         [TestMethod]
         public void TestRangSelect()
         {
             var selector = new Selector();
-            Assert.AreEqual("world", selector.Choose("[*,9]hello|[10,20]world", 10, Language.Chinese));
-            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world", 7, Language.Chinese));
-            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world", -1, Language.Chinese));
-            Assert.AreEqual("hello", selector.Choose("[*,9}hello|{10,20]world", 7, Language.Chinese));
+            Assert.AreEqual("world", selector.Choose("[*,9]hello|[10,20]world", 10, Languages.Chinese));
+            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world", 7, Languages.Chinese));
+            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world", -1, Languages.Chinese));
+            Assert.AreEqual("hello", selector.Choose("[*,9}hello|{10,20]world", 7, Languages.Chinese));
 
-            Assert.AreEqual("world", selector.Choose("[*,9]hello|[10,*]world", 30, Language.Chinese));
-            Assert.AreEqual("hello", selector.Choose("[*,*]hello|[10,*]world", 30, Language.Chinese));
+            Assert.AreEqual("world", selector.Choose("[*,9]hello|[10,*]world", 30, Languages.Chinese));
+            Assert.AreEqual("hello", selector.Choose("[*,*]hello|[10,*]world", 30, Languages.Chinese));
 
-            Assert.AreEqual("hello", selector.Choose("{*}hello|[10,*]world", 30, Language.Chinese));
-            Assert.AreEqual("hello", selector.Choose("[*]hello|[10,*]world", 30, Language.Chinese));
+            Assert.AreEqual("hello", selector.Choose("{*}hello|[10,*]world", 30, Languages.Chinese));
+            Assert.AreEqual("hello", selector.Choose("[*]hello|[10,*]world", 30, Languages.Chinese));
 
-            Assert.AreEqual("catlib", selector.Choose("[*,9]hello|[10,20]world|{21,*}catlib", 30, Language.Chinese));
+            Assert.AreEqual("catlib", selector.Choose("[*,9]hello|[10,20]world|{21,*}catlib", 30, Languages.Chinese));
 
             //如果什么都没有则过滤区间范围使用复数规则
-            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world", 30, Language.Chinese));
-            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world|catlib", 30, Language.Chinese));
+            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world", 30, Languages.Chinese));
+            Assert.AreEqual("hello", selector.Choose("[*,9]hello|[10,20]world|catlib", 30, Languages.Chinese));
         }
 
         [TestMethod]
         public void TestNullEmptyLine()
         {
             var selector = new Selector();
-            Assert.AreEqual(string.Empty, selector.Choose(null, 30, Language.Chinese));
-            Assert.AreEqual(string.Empty, selector.Choose("", 30, Language.Chinese));
+            Assert.AreEqual(string.Empty, selector.Choose(null, 30, Languages.Chinese));
+            Assert.AreEqual(string.Empty, selector.Choose("", 30, Languages.Chinese));
         }
 
         [TestMethod]
         public void TestErrorRange()
         {
             var selector = new Selector();
-            Assert.AreEqual("world", selector.Choose("[*,9,10]hello|[10,20,3030]world", 10, Language.Chinese));
-            Assert.AreEqual(string.Empty, selector.Choose("[*,9,10]|[19,20,3030]", 10, Language.Chinese));
-            Assert.AreEqual("world", selector.Choose("[*,9,1hello|[10,20,3030]world", 10, Language.Chinese));
-            Assert.AreEqual("[*,9,1hello", selector.Choose("[*,9,1hello|[10,20,3030]world", 2, Language.Chinese));
+            Assert.AreEqual("world", selector.Choose("[*,9,10]hello|[10,20,3030]world", 10, Languages.Chinese));
+            Assert.AreEqual(string.Empty, selector.Choose("[*,9,10]|[19,20,3030]", 10, Languages.Chinese));
+            Assert.AreEqual("world", selector.Choose("[*,9,1hello|[10,20,3030]world", 10, Languages.Chinese));
+            Assert.AreEqual("[*,9,1hello", selector.Choose("[*,9,1hello|[10,20,3030]world", 2, Languages.Chinese));
         }
 
         [TestMethod]
@@ -81,22 +81,22 @@ namespace CatLib.Tests.Translation
 
             var langs = new []
             {
-                Language.Azerbaijani,
-                Language.Tibetan,
-                Language.Bhutani,
-                Language.Indonesian,
-                Language.Japanese,
-                Language.Javanese,
-                Language.Georgian,
-                Language.Cambodian,
-                Language.Kannada,
-                Language.Korean,
-                Language.Malay,
-                Language.Thai,
-                Language.Turkish,
-                Language.Vietnamese,
-                Language.Chinese,
-                Language.ChineseTw,
+                Languages.Azerbaijani,
+                Languages.Tibetan,
+                Languages.Bhutani,
+                Languages.Indonesian,
+                Languages.Japanese,
+                Languages.Javanese,
+                Languages.Georgian,
+                Languages.Cambodian,
+                Languages.Kannada,
+                Languages.Korean,
+                Languages.Malay,
+                Languages.Thai,
+                Languages.Turkish,
+                Languages.Vietnamese,
+                Languages.Chinese,
+                Languages.ChineseTw,
             };
 
             foreach (var lang in langs)
@@ -113,50 +113,50 @@ namespace CatLib.Tests.Translation
 
             var langs = new[]
             {
-                Language.Afrikaans,
-                Language.Bengali,
-                Language.Bulgarian,
-                Language.Catalan,
-                Language.Danish,
-                Language.German,
-                Language.Greek,
-                Language.English,
-                Language.Esperanto,
-                Language.Spanish,
-                Language.Estonian,
-                Language.Basque,
-                Language.Farsi,
-                Language.Finnish,
-                Language.Faeroese,
-                Language.Frisian,
-                Language.Galician,
-                Language.Gujarati,
-                Language.Hausa,
-                Language.Hebrew,
-                Language.Hungarian,
-                Language.Icelandic,
-                Language.Italian,
-                Language.Kurdish,
-                Language.Malayalam,
-                Language.Mongolian,
-                Language.Marathi,
-                Language.Nepali,
-                Language.Dutch,
-                Language.Norwegian,
-                Language.Oromo,
-                Language.Oriya,
-                Language.Punjabi,
-                Language.Pashto,
-                Language.Portuguese,
-                Language.Somali,
-                Language.Albanian,
-                Language.Swedish,
-                Language.Swahili,
-                Language.Tamil,
-                Language.Telugu,
-                Language.Turkmen,
-                Language.Urdu,
-                Language.Zulu,
+                Languages.Afrikaans,
+                Languages.Bengali,
+                Languages.Bulgarian,
+                Languages.Catalan,
+                Languages.Danish,
+                Languages.German,
+                Languages.Greek,
+                Languages.English,
+                Languages.Esperanto,
+                Languages.Spanish,
+                Languages.Estonian,
+                Languages.Basque,
+                Languages.Farsi,
+                Languages.Finnish,
+                Languages.Faeroese,
+                Languages.Frisian,
+                Languages.Galician,
+                Languages.Gujarati,
+                Languages.Hausa,
+                Languages.Hebrew,
+                Languages.Hungarian,
+                Languages.Icelandic,
+                Languages.Italian,
+                Languages.Kurdish,
+                Languages.Malayalam,
+                Languages.Mongolian,
+                Languages.Marathi,
+                Languages.Nepali,
+                Languages.Dutch,
+                Languages.Norwegian,
+                Languages.Oromo,
+                Languages.Oriya,
+                Languages.Punjabi,
+                Languages.Pashto,
+                Languages.Portuguese,
+                Languages.Somali,
+                Languages.Albanian,
+                Languages.Swedish,
+                Languages.Swahili,
+                Languages.Tamil,
+                Languages.Telugu,
+                Languages.Turkmen,
+                Languages.Urdu,
+                Languages.Zulu,
             };
 
             foreach (var lang in langs)
