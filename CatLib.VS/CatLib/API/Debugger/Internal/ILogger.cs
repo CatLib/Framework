@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
-
 namespace CatLib.API.Debugger
 {
     /// <summary>
@@ -24,7 +22,7 @@ namespace CatLib.API.Debugger
         /// <param name="level">日志等级</param>
         /// <param name="message">日志内容</param>
         /// <param name="context">上下文,用于替换占位符</param>
-        /// <exception cref="ArgumentException">当传入的日志等级无效</exception>
+        /// <exception cref="InvalidArgumentException">当传入的日志等级无效</exception>
         void Log(LogLevels level, object message, params object[] context);
 
         /// <summary>
