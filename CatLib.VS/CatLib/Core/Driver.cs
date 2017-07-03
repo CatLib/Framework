@@ -249,14 +249,18 @@ namespace CatLib.Core
         /// </summary>
         public void OnDestroy()
         {
+            Trigger(ApplicationEvents.OnBeforeDestroy, this);
             foreach (var current in destroy)
             {
                 current.OnDestroy();
             }
+            ReleaseAll();
             update.Clear();
             lateUpdate.Clear();
             destroy.Clear();
             loadSet.Clear();
+            App.Instance = null;
+            Trigger(ApplicationEvents.OnDestroyed, this);
         }
 
         #endregion

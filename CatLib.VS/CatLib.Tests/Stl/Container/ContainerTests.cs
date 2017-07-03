@@ -1259,6 +1259,26 @@ namespace CatLib.Tests.Stl
         }
 
         /// <summary>
+        /// 测试释放所有静态服务
+        /// </summary>
+        [TestMethod]
+        public void TestReleaseAllStaticService()
+        {
+            var container = MakeContainer();
+            var data = new List<string> { "hello world" };
+            var isCallTest = false;
+            container.Singleton("Test", (c, p) => { return "Test1"; }).OnRelease((bind , o)=> { isCallTest = true; });
+            container.Instance("TestInstance2", data);
+
+            Assert.AreEqual("Test1", container.Make("Test")); 
+
+            container.ReleaseAll();
+
+            Assert.AreEqual(true, isCallTest);
+            Assert.AreEqual(null, container.Make("TestInstance2"));
+        }
+
+        /// <summary>
         /// 生成容器
         /// </summary>
         /// <returns>容器</returns>
