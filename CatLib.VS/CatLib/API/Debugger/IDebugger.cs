@@ -29,7 +29,7 @@ namespace CatLib.API.Debugger
         /// <param name="moitorName">监控名</param>
         /// <param name="handler">执行句柄</param>
         /// <param name="sort">排序</param>
-        void DefinedMonitor(string moitorName, IMonitor handler , int sort = int.MaxValue);
+        void DefinedMonitor(string moitorName, IMonitorHandler handler , int sort = int.MaxValue);
 
         /// <summary>
         /// 增加日志记录器
