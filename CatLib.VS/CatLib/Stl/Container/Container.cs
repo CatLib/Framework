@@ -469,6 +469,26 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 是否全部静态实例
+        /// </summary>
+        public void ReleaseAll()
+        {
+            lock (syncRoot)
+            {
+                var releaseList = new string[instances.Count];
+                var i = 0;
+                foreach (var instance in instances)
+                {
+                    releaseList[i++] = instance.Key;
+                }
+                foreach (var service in releaseList)
+                {
+                    Release(service);
+                }
+            }
+        }
+
+        /// <summary>
         /// 当查找类型无法找到时会尝试去调用开发者提供的查找类型函数
         /// </summary>
         /// <param name="finder">查找类型的回调</param>

@@ -211,6 +211,11 @@
             </summary>
             <param name="service">服务名或别名</param>
         </member>
+        <member name="M:CatLib.API.Stl.IContainer.ReleaseAll">
+            <summary>
+            释放全部静态化实例
+            </summary>
+        </member>
         <member name="M:CatLib.API.Stl.IContainer.OnRelease(System.Action{CatLib.API.Stl.IBindData,System.Object})">
             <summary>
             当静态服务被释放时
@@ -809,6 +814,16 @@
         <member name="F:CatLib.API.ApplicationEvents.OnStartComplete">
             <summary>
             当程序启动完成
+            </summary>
+        </member>
+        <member name="F:CatLib.API.ApplicationEvents.OnBeforeDestroy">
+            <summary>
+            当释放之前
+            </summary>
+        </member>
+        <member name="F:CatLib.API.ApplicationEvents.OnDestroyed">
+            <summary>
+            当释放完成后
             </summary>
         </member>
         <member name="T:CatLib.API.DebugLevels">
@@ -4584,6 +4599,11 @@
             释放静态化实例
             </summary>
             <param name="service">服务名或别名</param>
+        </member>
+        <member name="M:CatLib.Stl.Container.ReleaseAll">
+            <summary>
+            是否全部静态实例
+            </summary>
         </member>
         <member name="M:CatLib.Stl.Container.OnFindType(System.Func{System.String,System.Type},System.Int32)">
             <summary>

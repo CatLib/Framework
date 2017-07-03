@@ -104,6 +104,11 @@ namespace CatLib.API.Stl
         void Release(string service);
 
         /// <summary>
+        /// 释放全部静态化实例
+        /// </summary>
+        void ReleaseAll();
+
+        /// <summary>
         /// 当静态服务被释放时
         /// </summary>
         /// <param name="action">处理释放时的回调</param>
