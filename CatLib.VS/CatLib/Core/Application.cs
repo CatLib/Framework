@@ -32,7 +32,7 @@ namespace CatLib.Core
         {
             get
             {
-                return "0.8.1";
+                return "1.0.0";
             }
         }
 
