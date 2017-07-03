@@ -53,10 +53,12 @@
     <Compile Include="API\Config\Internal\IConfig.cs" />
     <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
+    <Compile Include="API\Debugger\Exception\InvalidArgumentException.cs" />
     <Compile Include="API\Debugger\Features\ILogHandler.cs" />
     <Compile Include="API\Debugger\IDebugger.cs" />
     <Compile Include="API\Debugger\Internal\ILogger.cs" />
     <Compile Include="API\Debugger\Features\IMonitorHandler.cs" />
+    <Compile Include="API\Debugger\Internal\ILoggerAware.cs" />
     <Compile Include="API\Debugger\LogLevels.cs" />
     <Compile Include="API\Stl\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Stl\Container\IContainer.cs" />
@@ -203,9 +205,7 @@
     <None Include="Timer\catlib.json" />
     <None Include="Time\catlib.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\Debugger\Exception\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
