@@ -564,5 +564,18 @@ namespace CatLib.Tests.Routing
 
             Assert.AreEqual("ClassMiddlewareThenRouteMiddleTest[middleware with route group][with middleware][global middleware]", response.GetContext());
         }
+
+        [TestMethod]
+        public void TestParamsNameHasString()
+        {
+            var router = App.Instance.Make<IRouter>();
+            router.Reg("catlib://test-params-name-has-string/hello{param}/{param2?}", (req, res) =>
+            {
+                res.SetContext(req.Get("param") + "_" + req.Get("param2"));
+            });
+
+            var result = router.Dispatch("catlib://test-params-name-has-string/helloworld/123");
+            Assert.AreEqual("world_123[global middleware]", result.GetContext());
+        }
     }
 }
