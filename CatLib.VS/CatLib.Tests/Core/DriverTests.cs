@@ -354,6 +354,39 @@ namespace CatLib.Tests.Core
             Assert.AreEqual(true, isCall);
         }
 
+        private static int destroyNum_DoubleDestroyClass;
+
+        public class DoubleDestroyClass : IDestroy
+        {
+            /// <summary>
+            /// 当释放时
+            /// </summary>
+            public void OnDestroy()
+            {
+                destroyNum_DoubleDestroyClass++;
+            }
+        }
+        
+        /// <summary>
+        /// 防止双重释放
+        /// </summary>
+        [TestMethod]
+        public void TestDoubleDestroyClass()
+        {
+            var app = MakeDriver();
+            var onRelease = false;
+            app.Singleton<DoubleDestroyClass>().OnRelease((bind, obj) =>
+            {
+                onRelease = true;
+            });
+
+            app.Make<DoubleDestroyClass>();
+            app.OnDestroy();
+
+            Assert.AreEqual(true, onRelease);
+            Assert.AreEqual(1, destroyNum_DoubleDestroyClass);
+        }
+
         private IEnumerator Coroutine()
         {
             yield return null;
