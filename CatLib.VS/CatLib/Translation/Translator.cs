@@ -90,14 +90,14 @@ namespace CatLib.Translation
         {
             foreach (var locale in locales)
             {
-                var line = GetLine(locale, key, replace);
+                var line = GetLine(key ,locale, replace);
                 if (line != null)
                 {
                     return line;
                 }
             }
 
-            return GetLine(fallback, key, replace) ?? string.Empty;
+            return GetLine(key , fallback, replace) ?? string.Empty;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace CatLib.Translation
         /// <returns>翻译的内容</returns>
         public string GetBy(string key, string locale, params string[] replace)
         {
-            var line = GetLine(locale, key, replace) ?? GetLine(fallback, key, replace);
+            var line = GetLine(key , locale, replace) ?? GetLine(key , fallback, replace);
             return line ?? string.Empty;
         }
 
@@ -121,7 +121,7 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         public string Get(string key, params string[] replace)
         {
-            var line = GetLine(locale, key, replace) ?? GetLine(fallback, key, replace);
+            var line = GetLine(key , locale, replace) ?? GetLine(key , fallback, replace);
             return line ?? string.Empty;
         }
 
@@ -165,10 +165,10 @@ namespace CatLib.Translation
         private string Choice(string key, int number, string[] replace)
         {
             var locale = this.locale;
-            var line = GetLine(locale, key, replace);
+            var line = GetLine(key , locale, replace);
             if (line == null)
             {
-                line = GetLine(fallback, key, replace);
+                line = GetLine(key, fallback, replace);
                 locale = fallback;
             }
 

@@ -116,6 +116,7 @@
     <Compile Include="Timer\TimerProviderTests.cs" />
     <Compile Include="Time\TimeProviderTests.cs" />
     <Compile Include="Translation\SelectorTests.cs" />
+    <Compile Include="Translation\TranslationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CatLib\CatLib.csproj">
