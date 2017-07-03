@@ -250,11 +250,11 @@ namespace CatLib.Core
         public void OnDestroy()
         {
             Trigger(ApplicationEvents.OnBeforeDestroy, this);
+            ReleaseAll();
             foreach (var current in destroy)
             {
                 current.OnDestroy();
             }
-            ReleaseAll();
             update.Clear();
             lateUpdate.Clear();
             destroy.Clear();
