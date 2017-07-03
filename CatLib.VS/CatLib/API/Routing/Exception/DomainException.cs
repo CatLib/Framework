@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
-namespace CatLib.Routing
+namespace CatLib.API.Routing
 {
     /// <summary>
     /// 参数范围及域异常

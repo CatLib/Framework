@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Routing;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;

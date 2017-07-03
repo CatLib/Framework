@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
-namespace CatLib.Routing
+namespace CatLib.API.Routing
 {
     /// <summary>
     /// 未定义默认的Scheme

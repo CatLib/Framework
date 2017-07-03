@@ -10,9 +10,8 @@
  */
 
 using System;
-using CatLib.API.Routing;
 
-namespace CatLib.Routing
+namespace CatLib.API.Routing
 {
     /// <summary>
     /// 调度事件

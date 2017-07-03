@@ -1466,6 +1466,28 @@
             不考虑时间缩放的从游戏开始到现在的时间
             </summary>
         </member>
+        <member name="T:CatLib.API.Routing.DispatchEventArgs">
+            <summary>
+            调度事件
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Routing.DispatchEventArgs.Route">
+            <summary>
+            异常
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Routing.DispatchEventArgs.Request">
+            <summary>
+            请求
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Routing.DispatchEventArgs.#ctor(CatLib.API.Routing.IRoute,CatLib.API.Routing.IRequest)">
+            <summary>
+            请求
+            </summary>
+            <param name="route">路由</param>
+            <param name="request">请求</param>
+        </member>
         <member name="T:CatLib.API.Routing.IMiddleware">
             <summary>
             中间件
@@ -1511,6 +1533,39 @@
             路由路径
             </summary>
             <param name="path"></param>
+        </member>
+        <member name="T:CatLib.API.Routing.DomainException">
+            <summary>
+            参数范围及域异常
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Routing.DomainException.#ctor(System.String)">
+            <summary>
+            创建一个参数范围及域异常
+            </summary>
+            <param name="message">错误描述</param>
+        </member>
+        <member name="T:CatLib.API.Routing.NotFoundRouteException">
+            <summary>
+            未能找到路由条目
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Routing.NotFoundRouteException.#ctor(System.String)">
+            <summary>
+            未能找到路由条目
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="T:CatLib.API.Routing.UndefinedDefaultSchemeException">
+            <summary>
+            未定义默认的Scheme
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Routing.UndefinedDefaultSchemeException.#ctor(System.String)">
+            <summary>
+            未定义默认的Scheme
+            </summary>
+            <param name="message">异常消息</param>
         </member>
         <member name="T:CatLib.API.Routing.IRequest">
             <summary>
@@ -2839,28 +2894,6 @@
             </summary>
             <returns>默认的文件系统名字</returns>
         </member>
-        <member name="T:CatLib.Routing.DispatchEventArgs">
-            <summary>
-            调度事件
-            </summary>
-        </member>
-        <member name="P:CatLib.Routing.DispatchEventArgs.Route">
-            <summary>
-            异常
-            </summary>
-        </member>
-        <member name="P:CatLib.Routing.DispatchEventArgs.Request">
-            <summary>
-            请求
-            </summary>
-        </member>
-        <member name="M:CatLib.Routing.DispatchEventArgs.#ctor(CatLib.API.Routing.IRoute,CatLib.API.Routing.IRequest)">
-            <summary>
-            请求
-            </summary>
-            <param name="route">路由</param>
-            <param name="request">请求</param>
-        </member>
         <member name="T:CatLib.Routing.RouterEvents">
             <summary>
             路由事件
@@ -2875,39 +2908,6 @@
             <summary>
             当路由调度之前
             </summary>
-        </member>
-        <member name="T:CatLib.Routing.DomainException">
-            <summary>
-            参数范围及域异常
-            </summary>
-        </member>
-        <member name="M:CatLib.Routing.DomainException.#ctor(System.String)">
-            <summary>
-            创建一个参数范围及域异常
-            </summary>
-            <param name="message">错误描述</param>
-        </member>
-        <member name="T:CatLib.Routing.NotFoundRouteException">
-            <summary>
-            未能找到路由条目
-            </summary>
-        </member>
-        <member name="M:CatLib.Routing.NotFoundRouteException.#ctor(System.String)">
-            <summary>
-            未能找到路由条目
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
-        <member name="T:CatLib.Routing.UndefinedDefaultSchemeException">
-            <summary>
-            未定义默认的Scheme
-            </summary>
-        </member>
-        <member name="M:CatLib.Routing.UndefinedDefaultSchemeException.#ctor(System.String)">
-            <summary>
-            未定义默认的Scheme
-            </summary>
-            <param name="message">异常消息</param>
         </member>
         <member name="T:CatLib.Routing.AttrRouteCompiler">
             <summary>
