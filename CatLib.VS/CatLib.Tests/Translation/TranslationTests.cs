@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using CatLib.API.Translation;
+using CatLib.Config;
 using CatLib.Core;
 using CatLib.Translation;
 #if UNITY_EDITOR || NUNIT
@@ -34,6 +35,7 @@ namespace CatLib.Tests.Translation
             var app = new Application();
             app.Bootstrap();
             app.Register(typeof(TranslationProvider));
+            app.Register(typeof(ConfigProvider));
             app.Init();
             return app;
         }
@@ -44,18 +46,26 @@ namespace CatLib.Tests.Translation
             {
                 { "hello" , "[1,10]zh_hello_1|[11,*]zh_hello_2" },
                 { "world" , "zh_world_1" },
-                { "helloworld" , "zh_helloworld_1" }
+                { "helloworld" , "zh_helloworld_1" },
+                { "null" , null },
+                { "replace" , "zh :start , my name is :name" },
+                { "count" , "count is::count" }
             };
 
             private Dictionary<string, string> dictJp = new Dictionary<string, string>
             {
                 { "world" , "jp_world_1" },
+                { "null" , null },
+                { "replace" , "jp :start , my name is :name" },
+                { "count" , "jp count is::count" }
             };
 
             private Dictionary<string, string> dictEn = new Dictionary<string, string>
             {
                 { "hello" , "[1,10]en_hello_1|[11,*]en_hello_2" },
                 { "world" , "en_world_1" },
+                { "null" , null },
+                { "replace" , "en :start , my name is :name" }
             };
 
             /// <summary>
@@ -115,6 +125,186 @@ namespace CatLib.Tests.Translation
 
             Assert.AreEqual("[1,10]en_hello_1|[11,*]en_hello_2", translator.GetBy("hello", Languages.English));
             Assert.AreEqual("[1,10]en_hello_1|[11,*]en_hello_2", translator.GetBy("hello", new[] { Languages.Japanese ,Languages.English, Languages.Chinese}));
+        }
+
+        [TestMethod]
+        public void TestGetNullTranslation()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(Languages.English);
+
+            Assert.AreEqual(string.Empty, translator.Get("null"));
+        }
+
+        [TestMethod]
+        public void TestNullLocaleDefiend()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(null);
+            Assert.AreEqual("zh_world_1", translator.Get("world"));
+        }
+
+        [TestMethod]
+        public void TestNullFallbackDefiend()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(null);
+            translator.SetLocale(Languages.English);
+            Assert.AreEqual(string.Empty, translator.Get("helloworld"));
+        }
+
+        [TestMethod]
+        public void TestNullLocaleAndFallbackDefiend()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(null);
+            translator.SetLocale(null);
+
+            Assert.AreEqual(string.Empty, translator.Get("hello"));
+        }
+
+        [TestMethod]
+        public void TestNullLocaleAndFallbackDefiendAndUseGetBy()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(null);
+            translator.SetLocale(null);
+
+            Assert.AreEqual("[1,10]en_hello_1|[11,*]en_hello_2", translator.GetBy("hello", Languages.English));
+        }
+
+        [TestMethod]
+        public void TestTranslationReplace()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(null);
+
+            Assert.AreEqual("zh hello , my name is catlib", translator.Get("replace", "start:hello" , "name" , "catlib"));
+        }
+
+        [TestMethod]
+        public void TestTranslationReplaceWithGetBy()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(null);
+            Assert.AreEqual("jp hello , my name is catlib", translator.GetBy("replace",new []{ Languages.Japanese, Languages.English }, "start:hello", "name", "catlib"));
+        }
+
+        [TestMethod]
+        public void TestGetWithNumber()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(null);
+
+            Assert.AreEqual("count is:10", translator.Get("count", 10));
+        }
+
+        [TestMethod]
+        public void TestGetByLocalesWithNumber()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(null);
+
+            Assert.AreEqual("jp count is:10",
+                translator.GetBy("count", 10, new[] {Languages.Japanese, Languages.English}));
+        }
+
+        [TestMethod]
+        public void TestGetByWithNumber()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(null);
+
+            Assert.AreEqual("count is:10",
+                translator.GetBy("count", 10, Languages.English));
+        }
+
+        [TestMethod]
+        public void TestGetLocale()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(Languages.Chinese);
+            translator.SetLocale(Languages.English);
+
+            Assert.AreEqual(Languages.English, translator.GetLocale());
+        }
+
+        [TestMethod]
+        public void TestGetUndefinedWithNumber()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(null);
+            translator.SetLocale(null);
+
+            Assert.AreEqual(string.Empty, translator.Get("undefined", 10));
+        }
+
+        [TestMethod]
+        public void TestGetByUndefinedWithNumber()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(null);
+            translator.SetLocale(null);
+
+            Assert.AreEqual(string.Empty, translator.GetBy("undefined", 10, new[] {Languages.Afrikaans}));
+            Assert.AreEqual(string.Empty, translator.GetBy("undefined" , 10, Languages.Afrikaans));
+        }
+
+        [TestMethod]
+        public void TestGetByUndefinedLocale()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(null);
+            translator.SetLocale(null);
+
+            Assert.AreEqual(string.Empty, translator.GetBy("undefined", Languages.Afrikaans));
+        }
+
+        [TestMethod]
+        public void TestGetByUndefiendLocales()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetFallback(null);
+            translator.SetLocale(null);
+
+            Assert.AreEqual(string.Empty, translator.GetBy("undefined", new[] {Languages.Afrikaans}));
         }
     }
 }
