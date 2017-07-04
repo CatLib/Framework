@@ -10,6 +10,7 @@
  */
 
 using System;
+using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Stl;
 
@@ -230,6 +231,11 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         private string GetLine(string key, string locale, string[] replace)
         {
+            if (maps.Count <= 0)
+            {
+                throw new RuntimeException("Undefiend lanuages mapping , Please call AddMappingHandler()");
+            }
+
             if (string.IsNullOrEmpty(locale))
             {
                 return null;

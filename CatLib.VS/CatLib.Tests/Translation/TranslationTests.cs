@@ -10,6 +10,7 @@
  */
 
 using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Config;
 using CatLib.Core;
@@ -305,6 +306,20 @@ namespace CatLib.Tests.Translation
             translator.SetLocale(null);
 
             Assert.AreEqual(string.Empty, translator.GetBy("undefined", new[] {Languages.Afrikaans}));
+        }
+
+        [TestMethod]
+        public void TestUndefiendMapping()
+        {
+            var app = GetApplication();
+            var translator = app.Make<ITranslator>();
+            translator.SetFallback(null);
+            translator.SetLocale(null);
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                translator.Get("undefined");
+            });
         }
     }
 }
