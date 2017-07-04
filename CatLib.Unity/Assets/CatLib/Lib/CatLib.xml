@@ -1838,16 +1838,6 @@
             Unity设置定位器
             </summary>
         </member>
-        <member name="F:CatLib.Config.Locator.UnitySettingLocator.dict">
-            <summary>
-            配置字典
-            </summary>
-        </member>
-        <member name="M:CatLib.Config.Locator.UnitySettingLocator.#ctor">
-            <summary>
-            配置定位器
-            </summary>
-        </member>
         <member name="M:CatLib.Config.Locator.UnitySettingLocator.Set(System.String,System.String)">
             <summary>
             设定值
