@@ -38,7 +38,7 @@ namespace CatLib.Tests.Translation
             return app;
         }
 
-        private class BasicMapping : ITranslatorMapping
+        private class BasicMappingHandler : IMappingHandler
         {
             private Dictionary<string, string> dictZh = new Dictionary<string,string>
             {
@@ -65,7 +65,7 @@ namespace CatLib.Tests.Translation
             /// <param name="key">键</param>
             /// <param name="str">返回的值</param>
             /// <returns>是否成功获取</returns>
-            public bool Get(string locale, string key, out string str)
+            public bool TryGetValue(string locale, string key, out string str)
             {
                 if (locale == Languages.English)
                 {
@@ -83,7 +83,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMapping(new BasicMapping());
+            translator.AddMappingHandler(new BasicMappingHandler());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.English);
 
@@ -97,7 +97,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMapping(new BasicMapping());
+            translator.AddMappingHandler(new BasicMappingHandler());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.English);
 
@@ -109,7 +109,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMapping(new BasicMapping());
+            translator.AddMappingHandler(new BasicMappingHandler());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.Chinese);
 

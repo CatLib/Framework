@@ -39,14 +39,14 @@ namespace CatLib.Translation
         /// <summary>
         /// 翻译映射
         /// </summary>
-        private readonly SortSet<ITranslatorMapping, int> maps;
+        private readonly SortSet<IMappingHandler, int> maps;
 
         /// <summary>
         /// 构建一个国际化组件
         /// </summary>
         public Translator()
         {
-            maps = new SortSet<ITranslatorMapping, int>();
+            maps = new SortSet<IMappingHandler, int>();
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace CatLib.Translation
         /// </summary>
         /// <param name="map">映射</param>
         /// <param name="priority">优先级</param>
-        public void AddMapping(ITranslatorMapping map, int priority = int.MaxValue)
+        public void AddMappingHandler(IMappingHandler map, int priority = int.MaxValue)
         {
             maps.Add(map, priority);
         }
@@ -238,7 +238,7 @@ namespace CatLib.Translation
             string line = null;
             foreach (var map in maps)
             {
-                if (map.Get(locale, key, out line))
+                if (map.TryGetValue(locale, key, out line))
                 {
                     break;
                 }

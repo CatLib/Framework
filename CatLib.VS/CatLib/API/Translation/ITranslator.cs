@@ -22,7 +22,7 @@ namespace CatLib.API.Translation
         /// </summary>
         /// <param name="map">映射方案</param>
         /// <param name="priority">优先级</param>
-        void AddMapping(ITranslatorMapping map, int priority = int.MaxValue);
+        void AddMappingHandler(IMappingHandler map, int priority = int.MaxValue);
 
         /// <summary>
         /// 在当前语言环境下翻译内容，如果没有命中则使用替补语言
