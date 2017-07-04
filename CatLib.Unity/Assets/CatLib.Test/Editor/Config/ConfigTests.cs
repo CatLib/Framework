@@ -46,23 +46,6 @@ namespace CatLib.Tests.Config
         }
 
         [TestMethod]
-        public void ConfigUnitSettingTest()
-        {
-            var config = new CatLib.Config.Config();
-            config.AddConverter(typeof(string), new StringStringConverter());
-            config.AddLocator(new UnitySettingLocator());
-
-            Assert.AreEqual(null, config.Get<string>("test"));
-            config.Set("test", "test");
-            Assert.AreEqual("test", config.Get<string>("test"));
-
-            config.Set("test", "222");
-            Assert.AreEqual("222", config.Get<string>("test"));
-
-            config.Save();
-        }
-
-        [TestMethod]
         public void NoLocatorTest()
         {
             var config = new CatLib.Config.Config();
