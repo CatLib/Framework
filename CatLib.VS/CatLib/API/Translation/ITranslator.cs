@@ -25,24 +25,6 @@ namespace CatLib.API.Translation
         void AddMapping(ITranslatorMapping map, int priority = int.MaxValue);
 
         /// <summary>
-        /// 依次遍历给定的语言获取翻译,如果都没有命中则使用替补语言
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="locales">多语言</param>
-        /// <param name="replace">替换翻译内容的占位符</param>
-        /// <returns>翻译的内容</returns>
-        string GetBy(string key, string[] locales, params string[] replace);
-
-        /// <summary>
-        /// 从指定的语言获取翻译,如果没有命中则使用替补语言
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="locale">语言</param>
-        /// <param name="replace">替换翻译内容的占位符</param>
-        /// <returns>翻译的内容</returns>
-        string GetBy(string key, string locale, params string[] replace);
-
-        /// <summary>
         /// 在当前语言环境下翻译内容，如果没有命中则使用替补语言
         /// </summary>
         /// <param name="key">键</param>
@@ -58,6 +40,44 @@ namespace CatLib.API.Translation
         /// <param name="replace">替换翻译内容的占位符</param>
         /// <returns>翻译的值</returns>
         string Get(string key, int number, params string[] replace);
+
+        /// <summary>
+        /// 依次遍历给定的语言获取翻译,如果都没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="locales">多语言</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译的内容</returns>
+        string GetBy(string key, string[] locales, params string[] replace);
+
+        /// <summary>
+        /// 依次遍历给定的语言获取翻译,翻译根据传入数量使用指定复数形式,如果都没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="number">数量</param>
+        /// <param name="locales">遍历的语言</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译后的内容</returns>
+        string GetBy(string key, int number, string[] locales, params string[] replace);
+
+        /// <summary>
+        /// 从指定的语言获取翻译,如果没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="locale">语言</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译的内容</returns>
+        string GetBy(string key, string locale, params string[] replace);
+
+        /// <summary>
+        /// 从指定的语言获取翻译,翻译根据传入数量使用指定复数形式,如果没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="number">语言</param>
+        /// <param name="locale">指定语言</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译后的内容</returns>
+        string GetBy(string key, int number, string locale, params string[] replace);
 
         /// <summary>
         /// 获取当前语言环境

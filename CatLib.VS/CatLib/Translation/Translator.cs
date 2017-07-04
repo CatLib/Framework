@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Translation;
 using CatLib.Stl;
 
@@ -64,10 +65,7 @@ namespace CatLib.Translation
         /// <param name="fallback">替补语言</param>
         public void SetFallback(string fallback)
         {
-            if (!string.IsNullOrEmpty(fallback))
-            {
-                this.fallback = fallback;
-            }
+            this.fallback = fallback;
         }
 
         /// <summary>
@@ -77,6 +75,27 @@ namespace CatLib.Translation
         public void SetSelector(ISelector selector)
         {
             this.selector = selector;
+        }
+
+        /// <summary>
+        /// 依次遍历给定的语言获取翻译,翻译根据传入数量使用指定复数形式,如果都没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="number">数量</param>
+        /// <param name="locales">遍历的语言</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译后的内容</returns>
+        public string GetBy(string key, int number, string[] locales, params string[] replace)
+        {
+            foreach (var locale in locales)
+            {
+                var line = Choice(key, number, locale, replace);
+                if (line != null)
+                {
+                    return line;
+                }
+            }
+            return Choice(key, number, fallback, replace) ?? string.Empty;
         }
 
         /// <summary>
@@ -90,14 +109,27 @@ namespace CatLib.Translation
         {
             foreach (var locale in locales)
             {
-                var line = GetLine(key ,locale, replace);
+                var line = GetLine(key, locale, replace);
                 if (line != null)
                 {
                     return line;
                 }
             }
+            return GetLine(key, fallback, replace) ?? string.Empty;
+        }
 
-            return GetLine(key , fallback, replace) ?? string.Empty;
+        /// <summary>
+        /// 从指定的语言获取翻译,翻译根据传入数量使用指定复数形式,如果没有命中则使用替补语言
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="number">语言</param>
+        /// <param name="locale">指定语言</param>
+        /// <param name="replace">替换翻译内容的占位符</param>
+        /// <returns>翻译后的内容</returns>
+        public string GetBy(string key, int number, string locale, params string[] replace)
+        {
+            var line = Choice(key, number, locale, replace) ?? Choice(key, number, fallback, replace);
+            return line ?? string.Empty;
         }
 
         /// <summary>
@@ -109,7 +141,7 @@ namespace CatLib.Translation
         /// <returns>翻译的内容</returns>
         public string GetBy(string key, string locale, params string[] replace)
         {
-            var line = GetLine(key , locale, replace) ?? GetLine(key , fallback, replace);
+            var line = GetLine(key, locale, replace) ?? GetLine(key, fallback, replace);
             return line ?? string.Empty;
         }
 
@@ -121,7 +153,7 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         public string Get(string key, params string[] replace)
         {
-            var line = GetLine(key , locale, replace) ?? GetLine(key , fallback, replace);
+            var line = GetLine(key, locale, replace) ?? GetLine(key, fallback, replace);
             return line ?? string.Empty;
         }
 
@@ -134,7 +166,8 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         public string Get(string key, int number, params string[] replace)
         {
-            return Choice(key, number, replace);
+            var line = Choice(key, number, locale, replace) ?? Choice(key, number, fallback, replace);
+            return line ?? string.Empty;
         }
 
         /// <summary>
@@ -160,21 +193,32 @@ namespace CatLib.Translation
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="number">值</param>
+        /// <param name="locale">语言</param>
         /// <param name="replace">替换的内容</param>
         /// <returns>翻译的值</returns>
-        private string Choice(string key, int number, string[] replace)
+        private string Choice(string key, int number, string locale, string[] replace)
         {
-            var locale = this.locale;
-            var line = GetLine(key , locale, replace);
-            if (line == null)
+            if (string.IsNullOrEmpty(locale))
             {
-                line = GetLine(key, fallback, replace);
-                locale = fallback;
+                return null;
             }
 
-            replace = new[] { "count", number.ToString() };
+            var line = GetLine(key, locale, replace);
+            if (line == null)
+            {
+                return null;
+            }
 
-            return MakeReplacements(selector.Choose(line, number, locale), replace);
+            var newReplace = new string[replace.Length + 2];
+            Array.Copy(replace, newReplace, replace.Length);
+            newReplace[replace.Length] = "count";
+            newReplace[replace.Length + 1] = number.ToString();
+
+            if (selector != null)
+            {
+                line = selector.Choose(line, number, locale);
+            }
+            return MakeReplacements(line, newReplace);
         }
 
         /// <summary>
@@ -186,6 +230,11 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         private string GetLine(string key, string locale, string[] replace)
         {
+            if (string.IsNullOrEmpty(locale))
+            {
+                return null;
+            }
+
             string line = null;
             foreach (var map in maps)
             {
