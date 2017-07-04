@@ -47,7 +47,28 @@ namespace CatLib.Core
                 {
                     return assetPath;
                 }
-#if UNITY_EDITOR
+
+                return GetAssetPathWithUnity();
+            }
+        }
+
+        /// <summary>
+        /// 构造一个环境
+        /// </summary>
+        public Env()
+        {
+            SetDebugLevel(DebugLevels.Auto);
+        }
+
+        /// <summary>
+        /// 从Unity获取资源路径
+        /// </summary>
+        /// <returns>资源路径</returns>
+        [ExcludeFromCodeCoverage]
+        private string GetAssetPathWithUnity()
+        {
+            if (UnityEngine.Application.isEditor)
+            {
                 switch (DebugLevel)
                 {
                     case DebugLevels.Staging:
@@ -58,21 +79,9 @@ namespace CatLib.Core
                     case DebugLevels.Prod:
                         return UnityEngine.Application.persistentDataPath;
                 }
-#endif
-#if UNITY_5_OR_NEW
-                return UnityEngine.Application.persistentDataPath;
-#else
-                throw new RuntimeException("Not set asset path.");
-#endif
             }
-        }
 
-        /// <summary>
-        /// 构造一个环境
-        /// </summary>
-        public Env()
-        {
-            SetDebugLevel(DebugLevels.Auto);
+            return UnityEngine.Application.persistentDataPath;
         }
 
         /// <summary>

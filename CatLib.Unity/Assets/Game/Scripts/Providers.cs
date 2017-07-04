@@ -13,6 +13,7 @@ using System;
 using CatLib.Time;
 using CatLib.Config;
 using CatLib.Core;
+using CatLib.FileSystem;
 using CatLib.Routing;
 using CatLib.Timer;
 
@@ -37,6 +38,7 @@ namespace CatLib.Bootstrap
                     typeof(TimerProvider),
                     typeof(ConfigProvider),
                     typeof(RoutingProvider),
+                    typeof(FileSystemProvider)
                 };
             }
         }

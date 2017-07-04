@@ -30,7 +30,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 时间实现
         /// </summary>
-        private readonly ITime time;
+        private ITime time;
 
         /// <summary>
         /// 计时器列表
@@ -85,6 +85,17 @@ namespace CatLib.Timer
         {
             GuardComplete("OnComplete");
             this.onComplete = onComplete;
+            return this;
+        }
+
+        /// <summary>
+        /// 设定使用的时间系统
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <returns>当前组实例</returns>
+        public ITimerQueue SetTime(ITime time)
+        {
+            this.time = time;
             return this;
         }
 

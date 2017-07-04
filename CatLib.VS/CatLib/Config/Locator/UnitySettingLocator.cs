@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Stl;
 using UnityEngine;
@@ -19,23 +19,9 @@ namespace CatLib.Config.Locator
     /// <summary>
     /// Unity设置定位器
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class UnitySettingLocator : IConfigLocator
     {
-#if !UNITY_5_OR_NEW
-        /// <summary>
-        /// 配置字典
-        /// </summary>
-        private readonly Dictionary<string, string> dict;
-
-        /// <summary>
-        /// 配置定位器
-        /// </summary>
-        public UnitySettingLocator()
-        {
-            dict = new Dictionary<string, string>();
-        }
-#endif
-
         /// <summary>
         /// 设定值
         /// </summary>
@@ -44,12 +30,7 @@ namespace CatLib.Config.Locator
         public void Set(string name, string value)
         {
             Guard.NotNull(name, "name");
-#if UNITY_5_OR_NEW
             PlayerPrefs.SetString(name, value);
-#else
-            dict.Remove(name);
-            dict.Add(name, value);
-#endif
         }
 
         /// <summary>
@@ -61,7 +42,7 @@ namespace CatLib.Config.Locator
         public bool TryGetValue(string name, out string value)
         {
             Guard.NotNull(name, "name");
-#if UNITY_5_OR_NEW
+
             value = string.Empty;
             if (PlayerPrefs.HasKey(name))
             {
@@ -69,9 +50,6 @@ namespace CatLib.Config.Locator
             }
             value = PlayerPrefs.GetString(name);
             return true;
-#else
-            return dict.TryGetValue(name, out value);
-#endif
         }
 
         /// <summary>
@@ -79,9 +57,7 @@ namespace CatLib.Config.Locator
         /// </summary>
         public void Save()
         {
-#if UNITY_5_OR_NEW
             PlayerPrefs.Save();
-#endif
         }
     }
 }
