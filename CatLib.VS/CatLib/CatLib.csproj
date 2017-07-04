@@ -138,14 +138,14 @@
     <Compile Include="Stl\Container\Container.cs" />
     <Compile Include="Stl\Container\ContainerExpand.cs" />
     <Compile Include="Stl\Container\GivenData.cs" />
-    <Compile Include="Core\App.cs" />
+    <Compile Include="API\Core\App.cs" />
     <Compile Include="Core\Application.cs" />
     <Compile Include="Core\CoreProvider.cs" />
     <Compile Include="Core\Driver.cs" />
     <Compile Include="Core\DriverBehaviour.cs" />
     <Compile Include="Core\Env.cs" />
     <Compile Include="Core\Facade.cs" />
-    <Compile Include="Core\ServiceProvider.cs" />
+    <Compile Include="API\Core\ServiceProvider.cs" />
     <Compile Include="Core\Util.cs" />
     <Compile Include="Core\EventHandler.cs" />
     <Compile Include="Core\Event.cs" />

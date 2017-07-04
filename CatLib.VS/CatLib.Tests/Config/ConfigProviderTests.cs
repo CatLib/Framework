@@ -10,6 +10,7 @@
  */
 
 using System;
+using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Core;

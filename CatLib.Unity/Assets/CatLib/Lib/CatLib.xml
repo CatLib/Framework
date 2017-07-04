@@ -1853,6 +1853,42 @@
             <param name="name">路由组名字</param>
             <returns>当前实例</returns>
         </member>
+        <member name="T:CatLib.API.App">
+            <summary>
+            CatLib实例
+            </summary>
+        </member>
+        <member name="F:CatLib.API.App.instance">
+            <summary>
+            CatLib实例
+            </summary>
+        </member>
+        <member name="P:CatLib.API.App.Instance">
+            <summary>
+            CatLib实例
+            </summary>
+        </member>
+        <member name="T:CatLib.API.ServiceProvider">
+            <summary>
+            服务提供者
+            </summary>
+        </member>
+        <member name="P:CatLib.API.ServiceProvider.App">
+            <summary>
+            CatLib实例
+            </summary>
+        </member>
+        <member name="M:CatLib.API.ServiceProvider.Init">
+            <summary>
+            服务提供者初始化
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.API.ServiceProvider.Register">
+            <summary>
+            当注册服务提供商
+            </summary>
+        </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>
             注入标记
@@ -6183,21 +6219,6 @@
             <param name="container">服务容器</param>
             <param name="instance">实例值</param>
         </member>
-        <member name="T:CatLib.App">
-            <summary>
-            CatLib实例
-            </summary>
-        </member>
-        <member name="F:CatLib.App.instance">
-            <summary>
-            CatLib实例
-            </summary>
-        </member>
-        <member name="P:CatLib.App.Instance">
-            <summary>
-            CatLib实例
-            </summary>
-        </member>
         <member name="T:CatLib.Core.Application">
             <summary>
             CatLib程序
@@ -6295,7 +6316,7 @@
             注册服务提供者
             </summary>
             <param name="t">注册类型</param>
-            <exception cref="T:CatLib.API.RuntimeException">服务提供商被重复注册或者服务提供商没有继承自<see cref="T:CatLib.ServiceProvider"/></exception>
+            <exception cref="T:CatLib.API.RuntimeException">服务提供商被重复注册或者服务提供商没有继承自<see cref="T:CatLib.API.ServiceProvider"/></exception>
         </member>
         <member name="M:CatLib.Core.Application.GetGuid">
             <summary>
@@ -6765,27 +6786,6 @@
             <param name="handler">事件</param>
             <param name="sender">发送者</param>
             <param name="e">事件参数</param>
-        </member>
-        <member name="T:CatLib.ServiceProvider">
-            <summary>
-            服务提供者
-            </summary>
-        </member>
-        <member name="P:CatLib.ServiceProvider.App">
-            <summary>
-            CatLib实例
-            </summary>
-        </member>
-        <member name="M:CatLib.ServiceProvider.Init">
-            <summary>
-            服务提供者初始化
-            </summary>
-            <returns>迭代器</returns>
-        </member>
-        <member name="M:CatLib.ServiceProvider.Register">
-            <summary>
-            当注册服务提供商
-            </summary>
         </member>
         <member name="T:CatLib.Util">
             <summary>

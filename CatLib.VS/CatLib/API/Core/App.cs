@@ -10,9 +10,8 @@
  */
 
 using System;
-using CatLib.API;
 
-namespace CatLib
+namespace CatLib.API
 {
     /// <summary>
     /// CatLib实例
