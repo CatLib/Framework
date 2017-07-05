@@ -14,7 +14,7 @@ namespace CatLib.API.Debugger
     /// <summary>
     /// 调试器
     /// </summary>
-    public interface IDebugger : ILogger
+    public interface IDebugger : ILogger , ILoggerAware
     {
         /// <summary>
         /// 定义命名空间对应的分类
@@ -30,12 +30,6 @@ namespace CatLib.API.Debugger
         /// <param name="handler">执行句柄</param>
         /// <param name="sort">排序</param>
         void DefinedMonitor(string moitorName, IMonitorHandler handler , int sort = int.MaxValue);
-        
-        /// <summary>
-        /// 增加日志记录器
-        /// </summary>
-        /// <param name="logger">记录器</param>
-        void AddLogHandler(ILogHandler logger);
 
         /// <summary>
         /// 监控一个内容

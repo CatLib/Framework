@@ -9,15 +9,17 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Debugger
+using CatLib.API.Debugger;
+
+namespace CatLib.Debugger
 {
     /// <summary>
-    /// 日志处理脚本
+    /// 日志处理器
     /// </summary>
     public interface ILogHandler
     {
         /// <summary>
-        /// 日志处理脚本
+        /// 日志处理器
         /// </summary>
         /// <param name="level">日志等级</param>
         /// <param name="message">日志内容</param>
