@@ -243,8 +243,7 @@ namespace CatLib.Routing
         /// <param name="val">值</param>
         public Request AddParameters(string key, string val)
         {
-            parameters.Remove(key);
-            parameters.Add(key, val);
+            parameters[key] = val;
             return this;
         }
 
