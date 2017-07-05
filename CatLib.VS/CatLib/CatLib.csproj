@@ -54,7 +54,8 @@
     <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="API\Debugger\Exception\InvalidArgumentException.cs" />
-    <Compile Include="API\Debugger\Features\ILogHandler.cs" />
+    <Compile Include="Debugger\Logger.cs" />
+    <Compile Include="Debugger\LogHandler\ILogHandler.cs" />
     <Compile Include="API\Debugger\IDebugger.cs" />
     <Compile Include="API\Debugger\Internal\ILogger.cs" />
     <Compile Include="API\Debugger\Features\IMonitorHandler.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="Debugger\Debugger.cs" />
+    <Compile Include="Debugger\LogHandler\UnityConsoleLogHandler.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
     <Compile Include="Facade\Env.cs" />
     <Compile Include="Facade\FileSystemManager.cs" />

@@ -122,6 +122,209 @@
             标记的类，函数，属性不再进行覆盖率分析
             </summary>
         </member>
+        <member name="T:CatLib.API.Debugger.InvalidArgumentException">
+            <summary>
+            无效的参数异常
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor">
+            <summary>
+            无效的参数
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.Exception)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="innerException">异常结构</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="paramName">诱发异常的参数</param>
+            <param name="innerException">异常结构</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="paramName">诱发异常的参数</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.IDebugger">
+            <summary>
+            调试器
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.IDebugger.DefinedCategory(System.String,System.String)">
+            <summary>
+            定义命名空间对应的分类
+            </summary>
+            <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
+            <param name="categroyName">分类名(用于在调试控制器显示)</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.IDebugger.SetMonitorHandler(System.String,CatLib.API.Debugger.IMonitorHandler)">
+            <summary>
+            设定监控处理器
+            </summary>
+            <param name="moitorName">监控名</param>
+            <param name="handler">处理器</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.IDebugger.Monitor(System.String,System.Object)">
+            <summary>
+            监控一个内容
+            </summary>
+            <param name="monitorName">监控名</param>
+            <param name="value">监控值</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.ILogger">
+            <summary>
+            日志接口
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            输出一条日志，日志级别为传入的等级
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Debug(System.Object,System.Object[])">
+            <summary>
+            输出一条调试级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Info(System.Object,System.Object[])">
+            <summary>
+            输出一条信息级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Notice(System.Object,System.Object[])">
+            <summary>
+            输出一条通知级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Warning(System.Object,System.Object[])">
+            <summary>
+            输出一条警告级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Error(System.Object,System.Object[])">
+            <summary>
+            输出一条错误级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Critical(System.Object,System.Object[])">
+            <summary>
+            输出一条关键级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Alert(System.Object,System.Object[])">
+            <summary>
+            输出一条警报级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Emergency(System.Object,System.Object[])">
+            <summary>
+            输出一条紧急级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.IMonitorHandler">
+            <summary>
+            监控处理
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.IMonitorHandler.Handler(System.Object)">
+            <summary>
+            处理句柄
+            </summary>
+            <param name="value">值</param>
+            <returns>返回数据将会被推送至显示端</returns>
+        </member>
+        <member name="T:CatLib.API.Debugger.ILoggerAware">
+            <summary>
+            设定记录器实例接口
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILoggerAware.SetLogger(CatLib.API.Debugger.ILogger)">
+            <summary>
+            设定记录器实例接口
+            </summary>
+            <param name="logger">记录器</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.LogLevels">
+            <summary>
+            日志等级
+            细节见：https://tools.ietf.org/html/rfc5424
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Emergency">
+            <summary>
+            紧急(系统不可用)
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Alert">
+            <summary>
+            警报(必须立即采取行动)
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Critical">
+            <summary>
+            关键（关键日志）
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Error">
+            <summary>
+            错误
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Warning">
+            <summary>
+            警告
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Notice">
+            <summary>
+            通知
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Informational">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Debug">
+            <summary>
+            调试级消息
+            </summary>
+        </member>
         <member name="T:CatLib.API.Stl.IContainer">
             <summary>
             容器接口
@@ -1308,19 +1511,21 @@
             </summary>
             <param name="frame">循环的帧数</param>
         </member>
-        <member name="M:CatLib.API.Timer.ITimer.Interval(System.Single)">
+        <member name="M:CatLib.API.Timer.ITimer.Interval(System.Single,System.Int32)">
             <summary>
             间隔多少时间执行一次
             执行时的当前帧计算间隔
             </summary>
             <param name="time">间隔的时间</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
-        <member name="M:CatLib.API.Timer.ITimer.IntervalFrame(System.Int32)">
+        <member name="M:CatLib.API.Timer.ITimer.IntervalFrame(System.Int32,System.Int32)">
             <summary>
             间隔多少帧执行一次
             执行时的当前帧计算间隔
             </summary>
             <param name="frame">间隔的帧数</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
         <member name="T:CatLib.API.Timer.ITimerQueue">
             <summary>
@@ -1337,6 +1542,13 @@
             当队列的所有计时器完成时
             </summary>
             <param name="onComplete">完成时</param>
+            <returns>当前组实例</returns>
+        </member>
+        <member name="M:CatLib.API.Timer.ITimerQueue.SetTime(CatLib.API.Time.ITime)">
+            <summary>
+            设定使用的时间系统
+            </summary>
+            <param name="time">时间</param>
             <returns>当前组实例</returns>
         </member>
         <member name="T:CatLib.API.Timer.ITimerManager">
@@ -1783,6 +1995,235 @@
             <param name="area">区域</param>
             <param name="name">路由组名字</param>
             <returns>当前实例</returns>
+        </member>
+        <member name="T:CatLib.Debugger.Logger">
+            <summary>
+            日志系统
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Logger.handlers">
+            <summary>
+            处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.#ctor">
+            <summary>
+            构造一个日志系统
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.AddLogHandler(CatLib.Debugger.ILogHandler)">
+            <summary>
+            增加日志处理器
+            </summary>
+            <param name="handler">处理器</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            输出一条日志，日志级别为传入的等级
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Debug(System.Object,System.Object[])">
+            <summary>
+            输出一条调试级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Info(System.Object,System.Object[])">
+            <summary>
+            输出一条信息级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Notice(System.Object,System.Object[])">
+            <summary>
+            输出一条通知级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Warning(System.Object,System.Object[])">
+            <summary>
+            输出一条警告级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Error(System.Object,System.Object[])">
+            <summary>
+            输出一条错误级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Critical(System.Object,System.Object[])">
+            <summary>
+            输出一条关键级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Alert(System.Object,System.Object[])">
+            <summary>
+            输出一条警报级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.Emergency(System.Object,System.Object[])">
+            <summary>
+            输出一条紧急级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="T:CatLib.Debugger.ILogHandler">
+            <summary>
+            日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.ILogHandler.Handler(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="T:CatLib.Debugger.Debugger">
+            <summary>
+            调试器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Debugger.logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Debugger.monitors">
+            <summary>
+            监控处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Debugger.monitorResults">
+            <summary>
+            监控处理结果
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.#ctor">
+            <summary>
+            构造一个调试器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.SetLogger(CatLib.API.Debugger.ILogger)">
+            <summary>
+            设定记录器实例接口
+            </summary>
+            <param name="logger">记录器</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.DefinedCategory(System.String,System.String)">
+            <summary>
+            定义命名空间对应的分类
+            </summary>
+            <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
+            <param name="categroyName">分类名(用于在调试控制器显示)</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.SetMonitorHandler(System.String,CatLib.API.Debugger.IMonitorHandler)">
+            <summary>
+            设定监控处理器
+            </summary>
+            <param name="monitorName">监控名</param>
+            <param name="handler">执行句柄</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Monitor(System.String,System.Object)">
+            <summary>
+            监控一个内容
+            </summary>
+            <param name="monitorName">监控名</param>
+            <param name="value">监控值</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            输出一条日志，日志级别为传入的等级
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Debug(System.Object,System.Object[])">
+            <summary>
+            输出一条调试级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Info(System.Object,System.Object[])">
+            <summary>
+            输出一条信息级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Notice(System.Object,System.Object[])">
+            <summary>
+            输出一条通知级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Warning(System.Object,System.Object[])">
+            <summary>
+            输出一条警告级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Error(System.Object,System.Object[])">
+            <summary>
+            输出一条错误级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Critical(System.Object,System.Object[])">
+            <summary>
+            输出一条关键级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Alert(System.Object,System.Object[])">
+            <summary>
+            输出一条警报级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.Emergency(System.Object,System.Object[])">
+            <summary>
+            输出一条紧急级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="T:CatLib.Debugger.LogHandler.UnityConsoleLogHandler">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.LogHandler.UnityConsoleLogHandler.Handler(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
         </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>
@@ -6873,17 +7314,19 @@
             </summary>
             <param name="frame">循环执行的帧数</param>
         </member>
-        <member name="M:CatLib.Timer.Timer.Interval(System.Single)">
+        <member name="M:CatLib.Timer.Timer.Interval(System.Single,System.Int32)">
             <summary>
             间隔多少时间执行一次
             </summary>
             <param name="time">间隔的时间</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
-        <member name="M:CatLib.Timer.Timer.IntervalFrame(System.Int32)">
+        <member name="M:CatLib.Timer.Timer.IntervalFrame(System.Int32,System.Int32)">
             <summary>
             间隔多少帧执行一次
             </summary>
             <param name="frame">间隔的帧数</param>
+            <param name="life">最多允许触发的次数</param>
         </member>
         <member name="M:CatLib.Timer.Timer.Tick(System.Single@)">
             <summary>
@@ -7014,6 +7457,13 @@
             <param name="onComplete">完成时</param>
             <returns>当前组实例</returns>
         </member>
+        <member name="M:CatLib.Timer.TimerQueue.SetTime(CatLib.API.Time.ITime)">
+            <summary>
+            设定使用的时间系统
+            </summary>
+            <param name="time">时间</param>
+            <returns>当前组实例</returns>
+        </member>
         <member name="M:CatLib.Timer.TimerQueue.Tick">
             <summary>
             触发计时器
@@ -7055,7 +7505,7 @@
         </member>
         <member name="F:CatLib.Timer.TimerManager.timerQueue">
             <summary>
-            路由器组
+            计时器队列堆栈
             </summary>
         </member>
         <member name="M:CatLib.Timer.TimerManager.#ctor(CatLib.API.Time.ITimeManager)">

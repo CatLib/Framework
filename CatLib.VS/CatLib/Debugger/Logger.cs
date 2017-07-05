@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using CatLib.API.Debugger;
 using CatLib.Stl;
 
@@ -23,25 +24,24 @@ namespace CatLib.Debugger
         /// <summary>
         /// 处理器
         /// </summary>
-        private readonly SortSet<ILogHandler, int> handlers;
+        private readonly List<ILogHandler> handlers;
 
         /// <summary>
         /// 构造一个日志系统
         /// </summary>
         public Logger()
         {
-            handlers = new SortSet<ILogHandler, int>();
+            handlers = new List<ILogHandler>();
         }
 
         /// <summary>
         /// 增加日志处理器
         /// </summary>
         /// <param name="handler">处理器</param>
-        /// <param name="sort">排序</param>
-        public void AddLogHandler(ILogHandler handler , int sort = int.MaxValue)
+        public void AddLogHandler(ILogHandler handler)
         {
             Guard.Requires<ArgumentNullException>(handler != null);
-            handlers.Add(handler, sort);
+            handlers.Add(handler);
         }
 
         /// <summary>

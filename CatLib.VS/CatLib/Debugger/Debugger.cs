@@ -9,7 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using System;
+using System.Collections.Generic;
+using CatLib.API;
 using CatLib.API.Debugger;
+using CatLib.Stl;
 
 namespace CatLib.Debugger
 {
@@ -22,6 +26,25 @@ namespace CatLib.Debugger
         /// 日志记录器
         /// </summary>
         private ILogger logger;
+
+        /// <summary>
+        /// 监控处理器
+        /// </summary>
+        private readonly Dictionary<string ,IMonitorHandler> monitors;
+
+        /// <summary>
+        /// 监控处理结果
+        /// </summary>
+        private readonly Dictionary<string, string> monitorResults;
+
+        /// <summary>
+        /// 构造一个调试器
+        /// </summary>
+        internal Debugger()
+        {
+            monitors = new Dictionary<string, IMonitorHandler>();
+            monitorResults = new Dictionary<string, string>();
+        }
 
         /// <summary>
         /// 设定记录器实例接口
@@ -43,14 +66,15 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
-        /// 定义监控实行方案
+        /// 设定监控处理器
         /// </summary>
-        /// <param name="moitorName">监控名</param>
+        /// <param name="monitorName">监控名</param>
         /// <param name="handler">执行句柄</param>
-        /// <param name="sort">排序</param>
-        public void DefinedMonitor(string moitorName, IMonitorHandler handler, int sort = int.MaxValue)
+        public void SetMonitorHandler(string monitorName, IMonitorHandler handler)
         {
-            
+            Guard.NotEmptyOrNull(monitorName, "moitorName");
+            Guard.Requires<ArgumentNullException>(handler != null);
+            monitors[monitorName] = handler;
         }
 
         /// <summary>
@@ -60,7 +84,15 @@ namespace CatLib.Debugger
         /// <param name="value">监控值</param>
         public void Monitor(string monitorName, object value)
         {
-            
+            Guard.NotEmptyOrNull(monitorName, "moitorName");
+            IMonitorHandler handler;
+            if (!monitors.TryGetValue(monitorName, out handler))
+            {
+                throw new RuntimeException("You must SetMonitorHandler with [" + monitorName + "]");
+            }
+
+            var result = handler.Handler(value);
+            monitorResults[monitorName] = result;
         }
 
         /// <summary>
