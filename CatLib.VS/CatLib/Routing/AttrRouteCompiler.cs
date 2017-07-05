@@ -322,8 +322,7 @@ namespace CatLib.Routing
                 {
                     throw new RuntimeException("Routed options exception , can not resolve [" + input + "].");
                 }
-                data.Remove(fragment[0]);
-                data.Add(fragment[0], fragment[1]);
+                data[fragment[0]] = fragment[1];
             }
 
             return data;
