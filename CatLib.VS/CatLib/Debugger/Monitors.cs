@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using CatLib.API;
 using CatLib.API.Debugger;
 using CatLib.Stl;
 
@@ -28,17 +27,11 @@ namespace CatLib.Debugger
         private readonly Dictionary<string, IMonitorHandler> monitors;
 
         /// <summary>
-        /// 监控处理结果
-        /// </summary>
-        private readonly Dictionary<string, string> monitorResults;
-
-        /// <summary>
         /// 监控器
         /// </summary>
         public Monitors()
         {
             monitors = new Dictionary<string, IMonitorHandler>();
-            monitorResults = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -62,13 +55,10 @@ namespace CatLib.Debugger
         {
             Guard.NotEmptyOrNull(monitorName, "moitorName");
             IMonitorHandler handler;
-            if (!monitors.TryGetValue(monitorName, out handler))
+            if (monitors.TryGetValue(monitorName, out handler))
             {
-                throw new RuntimeException("You must DefinedMoitor with [" + monitorName + "]");
+                handler.Handler(value);
             }
-
-            var result = handler.Handler(value);
-            monitorResults[monitorName] = result;
         }
     }
 }

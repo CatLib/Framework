@@ -48,6 +48,23 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
+        /// 获取监控器实例
+        /// </summary>
+        public IMonitor GetMonitor()
+        {
+            return monitor;
+        }
+
+        /// <summary>
+        /// 获取记录器实例
+        /// </summary>
+        /// <returns>记录器实例</returns>
+        public ILogger GetLogger()
+        {
+            return logger;
+        }
+
+        /// <summary>
         /// 定义命名空间对应的分类
         /// </summary>
         /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
