@@ -9,9 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System;
+using System.Collections.Generic;
 using CatLib.API.Debugger;
-using CatLib.Stl;
 
 namespace CatLib.Debugger.MonitorHandler
 {
@@ -21,14 +20,32 @@ namespace CatLib.Debugger.MonitorHandler
     public sealed class SizeSumMonitorHandler : IMonitorHandler
     {
         /// <summary>
+        /// 单位映射
+        /// </summary>
+        private readonly Dictionary<long, string> unitMapping;
+
+        /// <summary>
         /// 监控值的单位描述
         /// </summary>
-        public string Unit { get; private set; }
+        public string Unit
+        {
+            get
+            {
+                foreach (var unit in unitMapping)
+                {
+                    if (value < unit.Key)
+                    {
+                        return unit.Value;
+                    }
+                }
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// 监控的值
         /// </summary>
-        private int value;
+        private long value;
 
         /// <summary>
         /// 实时的监控值
@@ -44,21 +61,26 @@ namespace CatLib.Debugger.MonitorHandler
         /// <summary>
         /// 累加监控处理器
         /// </summary>
-        /// <param name="unit">单位描述</param>
-        public SizeSumMonitorHandler(string unit)
+        public SizeSumMonitorHandler()
         {
-            Guard.Requires<ArgumentNullException>(unit != null);
-            Unit = unit;
+            unitMapping = new Dictionary<long, string>()
+            {
+                { 1024 , "B"},
+                { 1048576 , "KB" },
+                { 1073741824 ,"MB" },
+                { 1099511627776 , "GB" },
+                { 1125899906842624 , "TB" },
+                { long.MaxValue , "PB" }
+            };
         }
 
         /// <summary>
         /// 处理句柄
         /// </summary>
         /// <param name="value">值</param>
-        /// <returns>返回数据将会被推送至显示端</returns>
         public void Handler(object value)
         {
-            this.value = (int)value;
+            this.value += (long)value;
         }
     }
 }
