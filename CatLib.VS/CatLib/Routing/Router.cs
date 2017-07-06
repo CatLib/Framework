@@ -157,7 +157,7 @@ namespace CatLib.Routing
             return RegisterRoute(uris, new RouteAction()
             {
                 Type = RouteAction.RouteTypes.ControllerCall,
-                Controller = controller.ToString(),
+                Controller = controller,
                 Func = func
             });
         }
