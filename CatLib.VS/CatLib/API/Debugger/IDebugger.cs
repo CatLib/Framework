@@ -28,7 +28,7 @@ namespace CatLib.API.Debugger
         /// </summary>
         /// <param name="moitorName">监控名</param>
         /// <param name="handler">处理器</param>
-        void SetMonitorHandler(string moitorName, IMonitorHandler handler);
+        void DefinedMoitor(string moitorName, IMonitorHandler handler);
 
         /// <summary>
         /// 监控一个内容

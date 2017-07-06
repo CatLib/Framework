@@ -70,9 +70,9 @@ namespace CatLib.Debugger
         /// </summary>
         /// <param name="monitorName">监控名</param>
         /// <param name="handler">执行句柄</param>
-        public void SetMonitorHandler(string monitorName, IMonitorHandler handler)
+        public void DefinedMoitor(string monitorName, IMonitorHandler handler)
         {
-            monitor.SetMonitorHandler(monitorName, handler);
+            monitor.DefinedMoitor(monitorName, handler);
         }
 
         /// <summary>
