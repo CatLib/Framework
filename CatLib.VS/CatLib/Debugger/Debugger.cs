@@ -9,11 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Debugger;
-using CatLib.Stl;
 
 namespace CatLib.Debugger
 {
@@ -28,22 +25,17 @@ namespace CatLib.Debugger
         private ILogger logger;
 
         /// <summary>
-        /// 监控处理器
+        /// 监控器
         /// </summary>
-        private readonly Dictionary<string ,IMonitorHandler> monitors;
+        private IMonitor monitor;
 
         /// <summary>
-        /// 监控处理结果
+        /// 设定监控器
         /// </summary>
-        private readonly Dictionary<string, string> monitorResults;
-
-        /// <summary>
-        /// 构造一个调试器
-        /// </summary>
-        internal Debugger()
+        /// <param name="monitor"></param>
+        private void SetMonitor(IMonitor monitor)
         {
-            monitors = new Dictionary<string, IMonitorHandler>();
-            monitorResults = new Dictionary<string, string>();
+            this.monitor = monitor;
         }
 
         /// <summary>
@@ -62,7 +54,15 @@ namespace CatLib.Debugger
         /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
         public void DefinedCategory(string namespaces, string categroyName)
         {
-            
+            if (logger != null)
+            {
+                var logger = this.logger as ILogCategory;
+                if (logger == null)
+                {
+                    throw new RuntimeException("Current Logger is not support category.");
+                }
+                logger.DefinedCategory(namespaces, categroyName);
+            }
         }
 
         /// <summary>
@@ -72,9 +72,7 @@ namespace CatLib.Debugger
         /// <param name="handler">执行句柄</param>
         public void SetMonitorHandler(string monitorName, IMonitorHandler handler)
         {
-            Guard.NotEmptyOrNull(monitorName, "moitorName");
-            Guard.Requires<ArgumentNullException>(handler != null);
-            monitors[monitorName] = handler;
+            monitor.SetMonitorHandler(monitorName, handler);
         }
 
         /// <summary>
@@ -84,15 +82,7 @@ namespace CatLib.Debugger
         /// <param name="value">监控值</param>
         public void Monitor(string monitorName, object value)
         {
-            Guard.NotEmptyOrNull(monitorName, "moitorName");
-            IMonitorHandler handler;
-            if (!monitors.TryGetValue(monitorName, out handler))
-            {
-                throw new RuntimeException("You must SetMonitorHandler with [" + monitorName + "]");
-            }
-
-            var result = handler.Handler(value);
-            monitorResults[monitorName] = result;
+            monitor.Monitor(monitorName, value);
         }
 
         /// <summary>

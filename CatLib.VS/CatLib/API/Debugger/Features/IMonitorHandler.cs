@@ -12,7 +12,7 @@
 namespace CatLib.API.Debugger
 {
     /// <summary>
-    /// 监控处理
+    /// 监控处理器
     /// </summary>
     public interface IMonitorHandler
     {
