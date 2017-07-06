@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API.Debugger;
+using CatLib.API.Routing;
 using CatLib.Stl;
 
 namespace CatLib.Debugger
@@ -19,6 +20,7 @@ namespace CatLib.Debugger
     /// <summary>
     /// 监控器
     /// </summary>
+    [Routed]
     public sealed class Monitors : IMonitor
     {
         /// <summary>
@@ -59,6 +61,17 @@ namespace CatLib.Debugger
             {
                 handler.Handler(value);
             }
+        }
+
+        /// <summary>
+        /// 获取监控的详细数据
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
+        [Routed("debug://monitors/get-monitors/{limit?}" , Defaults = "limit=>6")]
+        public void GetMonitors(IRequest request, IResponse response)
+        {
+            response.SetContext("hello world");
         }
     }
 }

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API.Debugger;
+using CatLib.API.Routing;
 using CatLib.Stl;
 
 namespace CatLib.Debugger
@@ -19,6 +20,7 @@ namespace CatLib.Debugger
     /// <summary>
     /// 日志系统
     /// </summary>
+    [Routed("debug://logger")]
     public sealed class Logger : ILogger
     {
         /// <summary>
@@ -134,6 +136,17 @@ namespace CatLib.Debugger
         public void Emergency(object message, params object[] context)
         {
             
+        }
+
+        /// <summary>
+        /// 获取日志
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
+        [Routed("get-logger/{lastId?}", Defaults = "lastId=>0")]
+        public void GetLogger(IRequest request, IResponse response)
+        {
+            response.SetContext("hello world");
         }
     }
 }
