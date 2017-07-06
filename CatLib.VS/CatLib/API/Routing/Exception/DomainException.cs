@@ -9,20 +9,18 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
-namespace CatLib.Routing
+namespace CatLib.API.Routing
 {
     /// <summary>
-    /// 未定义默认的Scheme
+    /// 参数范围及域异常
     /// </summary>
-    public sealed class UndefinedDefaultSchemeException : RuntimeException
+    public sealed class DomainException : RuntimeException
     {
         /// <summary>
-        /// 未定义默认的Scheme
+        /// 创建一个参数范围及域异常
         /// </summary>
-        /// <param name="message">异常消息</param>
-        public UndefinedDefaultSchemeException(string message) : base(message)
+        /// <param name="message">错误描述</param>
+        public DomainException(string message) : base(message)
         {
         }
     }

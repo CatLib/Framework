@@ -32,7 +32,7 @@ namespace CatLib.Core
         {
             get
             {
-                return "0.8.3";
+                return "1.0.0";
             }
         }
 
@@ -135,10 +135,10 @@ namespace CatLib.Core
 
             App.Instance = this;
 
-            Instance(typeof(Application).ToString(), this);
-            Alias(typeof(IApplication).ToString(), typeof(Application).ToString());
-            Alias(typeof(App).ToString(), typeof(Application).ToString());
-            Alias(typeof(IContainer).ToString(), typeof(Application).ToString());
+            Instance(Type2Service(typeof(Application)), this);
+            Alias(Type2Service(typeof(IApplication)), Type2Service(typeof(Application)));
+            Alias(Type2Service(typeof(App)), Type2Service(typeof(Application)));
+            Alias(Type2Service(typeof(IContainer)), Type2Service(typeof(Application)));
 
             foreach (var t in bootstraps)
             {
@@ -146,7 +146,7 @@ namespace CatLib.Core
                 {
                     throw new RuntimeException("Type [" + t + "] is not implements IBootstrap.");
                 }
-                var bootstrap = Make(t.ToString()) as IBootstrap;
+                var bootstrap = Make(Type2Service(t)) as IBootstrap;
                 if (bootstrap == null)
                 {
                     throw new RuntimeException("You need call OnFindType() To get the type of cross-assembly");
@@ -205,7 +205,7 @@ namespace CatLib.Core
                 throw new RuntimeException("Type [" + t + "] is not inherit ServiceProvider.");
             }
 
-            var serviceProvider = Make(t.ToString()) as ServiceProvider;
+            var serviceProvider = Make(Type2Service(t)) as ServiceProvider;
             if (serviceProvider == null)
             {
                 throw new RuntimeException("You need call OnFindType() To get the type of cross-assembly");

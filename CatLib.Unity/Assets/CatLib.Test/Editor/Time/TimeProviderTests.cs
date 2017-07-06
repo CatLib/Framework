@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Time;
 using CatLib.Config;

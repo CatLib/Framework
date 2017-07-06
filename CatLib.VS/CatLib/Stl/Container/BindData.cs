@@ -101,7 +101,7 @@ namespace CatLib.Stl
                 GuardIsDestroy();
                 if (given == null)
                 {
-                    given = new GivenData(this);
+                    given = new GivenData(container, this);
                 }
                 given.Needs(service);
             }
@@ -115,7 +115,7 @@ namespace CatLib.Stl
         /// <returns>绑定关系临时数据</returns>
         public IGivenData Needs<T>()
         {
-            return Needs(typeof(T).ToString());
+            return Needs(container.Type2Service(typeof(T)));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace CatLib.Stl
         /// <returns>服务绑定数据</returns>
         public IBindData Alias<T>()
         {
-            return Alias(typeof(T).ToString());
+            return Alias(container.Type2Service(typeof(T)));
         }
 
         /// <summary>

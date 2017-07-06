@@ -10,9 +10,8 @@
  */
  
 using System.Collections;
-using CatLib.API;
 
-namespace CatLib
+namespace CatLib.API
 {
     /// <summary>
     /// 服务提供者
@@ -26,7 +25,7 @@ namespace CatLib
         {
             get
             {
-                return CatLib.App.Instance;
+                return API.App.Instance;
             }
         }
 

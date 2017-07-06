@@ -20,5 +20,15 @@ namespace CatLib.API
         /// 当程序启动完成
         /// </summary>
         public static readonly string OnStartComplete = "catlib.application.start.complete";
+
+        /// <summary>
+        /// 当释放之前
+        /// </summary>
+        public static readonly string OnBeforeDestroy = "catlib.application.destroy.before";
+
+        /// <summary>
+        /// 当释放完成后
+        /// </summary>
+        public static readonly string OnDestroyed = "catlib.application.destroyed";
     }
 }
