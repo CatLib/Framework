@@ -17,10 +17,19 @@ namespace CatLib.API.Debugger
     public interface IMonitorHandler
     {
         /// <summary>
+        /// 监控值的单位描述
+        /// </summary>
+        string Unit { get; }
+
+        /// <summary>
+        /// 实时的监控值
+        /// </summary>
+        string Value { get; }
+
+        /// <summary>
         /// 处理句柄
         /// </summary>
         /// <param name="value">值</param>
-        /// <returns>返回数据将会被推送至显示端</returns>
-        string Handler(object value);
+        void Handler(object value);
     }
 }

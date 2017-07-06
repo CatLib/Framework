@@ -16,28 +16,39 @@ using CatLib.Stl;
 namespace CatLib.Debugger.MonitorHandler
 {
     /// <summary>
-    /// 累加监控处理器
+    /// 大小累加监控处理器
     /// </summary>
-    public sealed class SumMonitorHandler<TType> : IMonitorHandler where TType : struct
+    public sealed class SizeSumMonitorHandler : IMonitorHandler
     {
         /// <summary>
-        /// 累加值
+        /// 监控值的单位描述
         /// </summary>
-        private TType value;
+        public string Unit { get; private set; }
 
         /// <summary>
-        /// 单位描述
+        /// 监控的值
         /// </summary>
-        private string unit;
+        private int value;
+
+        /// <summary>
+        /// 实时的监控值
+        /// </summary>
+        public string Value
+        {
+            get
+            {
+                return value.ToString("#0.00");
+            }
+        }
 
         /// <summary>
         /// 累加监控处理器
         /// </summary>
         /// <param name="unit">单位描述</param>
-        public SumMonitorHandler(string unit)
+        public SizeSumMonitorHandler(string unit)
         {
             Guard.Requires<ArgumentNullException>(unit != null);
-            this.unit = unit;
+            Unit = unit;
         }
 
         /// <summary>
@@ -45,10 +56,9 @@ namespace CatLib.Debugger.MonitorHandler
         /// </summary>
         /// <param name="value">值</param>
         /// <returns>返回数据将会被推送至显示端</returns>
-        public string Handler(object value)
+        public void Handler(object value)
         {
-            this.value = (TType)value;
-            return string.Empty;
+            this.value = (int)value;
         }
     }
 }
