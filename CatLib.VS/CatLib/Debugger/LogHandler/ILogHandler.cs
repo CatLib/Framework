@@ -11,7 +11,7 @@
 
 using CatLib.API.Debugger;
 
-namespace CatLib.Debugger
+namespace CatLib.Debugger.LogHandler
 {
     /// <summary>
     /// 日志处理器
@@ -23,7 +23,6 @@ namespace CatLib.Debugger
         /// </summary>
         /// <param name="level">日志等级</param>
         /// <param name="message">日志内容</param>
-        /// <param name="context">上下文,用于替换占位符</param>
-        void Handler(LogLevels level , object message, params object[] context);
+        void Handler(LogLevels level , string message);
     }
 }

@@ -9,24 +9,29 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Debugger;
+using CatLib.Debugger.LogHandler;
+using CatLib.Stl;
 using System;
 using System.Collections.Generic;
-using CatLib.API.Debugger;
 using CatLib.API.Routing;
-using CatLib.Stl;
 
 namespace CatLib.Debugger
 {
     /// <summary>
     /// 日志系统
     /// </summary>
-    [Routed("debug://logger")]
-    public sealed class Logger : ILogger
+    public sealed class Logger : ILogger , ILogCategory
     {
         /// <summary>
-        /// 处理器
+        /// 日志处理器
         /// </summary>
         private readonly List<ILogHandler> handlers;
+
+        /// <summary>
+        /// 分组信息
+        /// </summary>
+        private readonly Dictionary<string, string> categroy;
 
         /// <summary>
         /// 构造一个日志系统
@@ -34,6 +39,17 @@ namespace CatLib.Debugger
         public Logger()
         {
             handlers = new List<ILogHandler>();
+            categroy = new Dictionary<string, string>();
+        }
+
+        /// <summary>
+        /// 定义命名空间对应的分类
+        /// </summary>
+        /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
+        /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
+        public void DefinedCategory(string namespaces, string categroyName)
+        {
+            categroy[namespaces] = categroyName;
         }
 
         /// <summary>
@@ -55,7 +71,11 @@ namespace CatLib.Debugger
         /// <exception cref="InvalidArgumentException">当传入的日志等级无效</exception>
         public void Log(LogLevels level, object message, params object[] context)
         {
-            
+            var result = string.Format(message.ToString(), context);
+            foreach (var handler in handlers)
+            {
+                handler.Handler(level, result);
+            }
         }
 
         /// <summary>
@@ -65,7 +85,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Debug(object message, params object[] context)
         {
-            
+            Log(LogLevels.Debug, message , context);
         }
 
         /// <summary>
@@ -75,7 +95,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Info(object message, params object[] context)
         {
-            
+            Log(LogLevels.Info, message, context);
         }
 
         /// <summary>
@@ -85,7 +105,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Notice(object message, params object[] context)
         {
-            
+            Log(LogLevels.Notice, message, context);
         }
 
         /// <summary>
@@ -95,7 +115,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Warning(object message, params object[] context)
         {
-            
+            Log(LogLevels.Warning, message, context);
         }
 
         /// <summary>
@@ -105,7 +125,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Error(object message, params object[] context)
         {
-            
+            Log(LogLevels.Error, message, context);
         }
 
         /// <summary>
@@ -115,7 +135,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Critical(object message, params object[] context)
         {
-            
+            Log(LogLevels.Critical, message, context);
         }
 
         /// <summary>
@@ -125,7 +145,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Alert(object message, params object[] context)
         {
-            
+            Log(LogLevels.Alert, message, context);
         }
 
         /// <summary>
@@ -135,7 +155,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Emergency(object message, params object[] context)
         {
-            
+            Log(LogLevels.Emergency, message, context);
         }
 
         /// <summary>

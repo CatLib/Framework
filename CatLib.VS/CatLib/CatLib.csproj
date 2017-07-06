@@ -54,6 +54,7 @@
     <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="API\Debugger\Exception\InvalidArgumentException.cs" />
+    <Compile Include="Debugger\DebuggerProvider.cs" />
     <Compile Include="Debugger\ILogCategory.cs" />
     <Compile Include="Debugger\IMonitor.cs" />
     <Compile Include="Debugger\Logger.cs" />

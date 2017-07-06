@@ -50,7 +50,7 @@ namespace CatLib.API.Debugger
         /// <summary>
         /// 信息
         /// </summary>
-        Informational = 6,
+        Info = 6,
 
         /// <summary>
         /// 调试级消息

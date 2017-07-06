@@ -39,7 +39,7 @@ namespace CatLib.Debugger.LogHandler
                 { LogLevels.Error, Debug.LogError },
                 { LogLevels.Warning, Debug.LogWarning },
                 { LogLevels.Notice, Debug.Log },
-                { LogLevels.Informational, Debug.Log },
+                { LogLevels.Info, Debug.Log },
                 { LogLevels.Debug , Debug.Log }
             };
         }
@@ -49,14 +49,12 @@ namespace CatLib.Debugger.LogHandler
         /// </summary>
         /// <param name="level">日志等级</param>
         /// <param name="message">日志内容</param>
-        /// <param name="context">上下文,用于替换占位符</param>
-        public void Handler(LogLevels level, object message, params object[] context)
+        public void Handler(LogLevels level, string message)
         {
-            var result = string.Format(message.ToString(), context);
             Action<object> handler;
             if (mapping.TryGetValue(level, out handler))
             {
-                handler.Invoke(result);
+                handler.Invoke(message);
             }
         }
     }
