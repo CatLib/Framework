@@ -248,8 +248,8 @@ namespace CatLib.Routing
                 requestStack.Push(request);
                 request.SetRoute(route);
 
-                container.Instance(typeof(IRequest).ToString(), request);
-                container.Instance(typeof(IResponse).ToString(), response);
+                container.Instance(container.Type2Service(typeof(IRequest)), request);
+                container.Instance(container.Type2Service(typeof(IResponse)), response);
                 return RunRouteWithMiddleware(route, request, response);
             }
             finally
@@ -257,8 +257,8 @@ namespace CatLib.Routing
                 routeStack.Pop();
                 requestStack.Pop();
                 responseStack.Pop();
-                container.Instance(typeof(IResponse).ToString(), responseStack.Count > 0 ? responseStack.Peek() : null);
-                container.Instance(typeof(IRequest).ToString(), requestStack.Count > 0 ? requestStack.Peek() : null);
+                container.Instance(container.Type2Service(typeof(IResponse)), responseStack.Count > 0 ? responseStack.Peek() : null);
+                container.Instance(container.Type2Service(typeof(IRequest)), requestStack.Count > 0 ? requestStack.Peek() : null);
             }
         }
 

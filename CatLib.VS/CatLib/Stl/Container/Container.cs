@@ -352,7 +352,7 @@ namespace CatLib.Stl
 
             lock (syncRoot)
             {
-                var bindData = GetBindData(type.ToString());
+                var bindData = GetBindData(Type2Service(type));
                 param = parameter.Count > 0 ? GetDependencies(bindData, parameter, param) : new object[] { };
                 return methodInfo.Invoke(instance, param);
             }
@@ -572,6 +572,16 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 将类型转为服务名
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns>服务名</returns>
+        public string Type2Service(Type type)
+        {
+            return type.ToString();
+        }
+
+        /// <summary>
         /// 执行全局解决修饰器
         /// </summary>
         /// <param name="bindData">服务绑定数据</param>
@@ -723,8 +733,9 @@ namespace CatLib.Stl
                 }
 
                 var injectAttr = (InjectAttribute)property.GetCustomAttributes(injectTarget, false)[0];
-                var needService = string.IsNullOrEmpty(injectAttr.Alias) ?
-                                    property.PropertyType.ToString() : injectAttr.Alias;
+                var needService = string.IsNullOrEmpty(injectAttr.Alias)
+                    ? Type2Service(property.PropertyType)
+                    : injectAttr.Alias;
                 object instance;
                 if (property.PropertyType.IsClass || property.PropertyType.IsInterface)
                 {
@@ -795,7 +806,7 @@ namespace CatLib.Stl
                     }
                 }
 
-                var needService = info.ParameterType.ToString();
+                var needService = Type2Service(info.ParameterType);
                 InjectAttribute injectAttr = null;
                 if (info.IsDefined(injectTarget, false))
                 {

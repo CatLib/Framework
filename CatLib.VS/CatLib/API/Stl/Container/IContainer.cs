@@ -169,5 +169,12 @@ namespace CatLib.API.Stl
         /// <param name="priority">查询优先级(值越小越优先)</param>
         /// <returns>当前容器实例</returns>
         IContainer OnFindType(Func<string, Type> func, int priority = int.MaxValue);
+
+        /// <summary>
+        /// 类型转为服务名
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns>转换后的服务名</returns>
+        string Type2Service(Type type);
     }
 }

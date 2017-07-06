@@ -290,9 +290,9 @@ namespace CatLib.Tests.Stl
             bind.Alias("AliasName");
             Assert.IsTrue(container.HasBind("CanHasBind"));
             Assert.IsTrue(container.HasBind("AliasName"));
-            Assert.IsFalse(container.HasBind(typeof(ContainerTest).ToString()));
+            Assert.IsFalse(container.HasBind(container.Type2Service(typeof(ContainerTest))));
             bind.Alias<ContainerTest>();
-            Assert.IsTrue(container.HasBind(typeof(ContainerTest).ToString()));
+            Assert.IsTrue(container.HasBind(container.Type2Service(typeof(ContainerTest))));
         }
 
         /// <summary>
@@ -637,7 +637,7 @@ namespace CatLib.Tests.Stl
         {
             var container = MakeContainer();
             container.Bind<MakeTestClassDependency>();
-            var result = container.Make(typeof(MakeTestClassDependency).ToString(), null);
+            var result = container.Make(container.Type2Service(typeof(MakeTestClassDependency)), null);
             Assert.AreNotEqual(null, result);
         }
 
@@ -688,7 +688,7 @@ namespace CatLib.Tests.Stl
             var result2 = container.MakeParams<MakeTestClass>(dep);
             Assert.AreEqual(typeof(MakeTestClass), result2.GetType());
 
-            var result3 = container[typeof(MakeTestClass).ToString()] as MakeTestClass;
+            var result3 = container[container.Type2Service(typeof(MakeTestClass))] as MakeTestClass;
             Assert.AreEqual(typeof(MakeTestClass), result3.GetType());
         }
 
@@ -807,7 +807,7 @@ namespace CatLib.Tests.Stl
             bind.OnResolving((bindData, obj) => "local resolve");
             container.OnResolving((bindData, obj) => obj + " global resolve");
 
-            var result = container.Make(typeof(MakeTestClassDependency).ToString());
+            var result = container.Make(container.Type2Service(typeof(MakeTestClassDependency)));
 
             Assert.AreEqual("local resolve global resolve", result);
         }
@@ -829,7 +829,7 @@ namespace CatLib.Tests.Stl
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                container.Make(typeof(MakeTestClass).ToString());
+                container.Make(container.Type2Service(typeof(MakeTestClass)));
             });
         }
 

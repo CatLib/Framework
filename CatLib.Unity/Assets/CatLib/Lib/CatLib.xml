@@ -278,6 +278,13 @@
             <param name="priority">查询优先级(值越小越优先)</param>
             <returns>当前容器实例</returns>
         </member>
+        <member name="M:CatLib.API.Stl.IContainer.Type2Service(System.Type)">
+            <summary>
+            类型转为服务名
+            </summary>
+            <param name="type">类型</param>
+            <returns>转换后的服务名</returns>
+        </member>
         <member name="T:CatLib.API.Stl.IBindData">
             <summary>
             服务绑定数据
@@ -4659,6 +4666,13 @@
             </summary>
             <param name="service">服务名或者别名</param>
         </member>
+        <member name="M:CatLib.Stl.Container.Type2Service(System.Type)">
+            <summary>
+            将类型转为服务名
+            </summary>
+            <param name="type">类型</param>
+            <returns>服务名</returns>
+        </member>
         <member name="M:CatLib.Stl.Container.ExecOnResolvingDecorator(CatLib.API.Stl.IBindData,System.Object)">
             <summary>
             执行全局解决修饰器
@@ -4799,15 +4813,21 @@
             绑定数据
             </summary>
         </member>
+        <member name="F:CatLib.Stl.GivenData.container">
+            <summary>
+            服务容器
+            </summary>
+        </member>
         <member name="F:CatLib.Stl.GivenData.needs">
             <summary>
             需求什么服务
             </summary>
         </member>
-        <member name="M:CatLib.Stl.GivenData.#ctor(CatLib.Stl.BindData)">
+        <member name="M:CatLib.Stl.GivenData.#ctor(CatLib.Stl.Container,CatLib.Stl.BindData)">
             <summary>
             绑定关系临时数据
             </summary>
+            <param name="container">服务容器</param>
             <param name="bindData">服务绑定数据</param>
         </member>
         <member name="M:CatLib.Stl.GivenData.Needs(System.String)">

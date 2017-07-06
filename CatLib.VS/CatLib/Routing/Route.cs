@@ -348,7 +348,7 @@ namespace CatLib.Routing
         /// <param name="callback">回调</param>
         private void ThroughControllerMiddleware(Request request, Response response, Action<Request, Response, object> callback)
         {
-            var controller = container.Make(action.Controller.ToString());
+            var controller = container.Make(container.Type2Service(action.Controller));
 
             if (controller == null)
             {
