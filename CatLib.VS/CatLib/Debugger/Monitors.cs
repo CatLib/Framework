@@ -46,7 +46,7 @@ namespace CatLib.Debugger
         /// </summary>
         /// <param name="monitorName">监控名</param>
         /// <param name="handler">执行句柄</param>
-        public void SetMonitorHandler(string monitorName, IMonitorHandler handler)
+        public void DefinedMoitor(string monitorName, IMonitorHandler handler)
         {
             Guard.NotEmptyOrNull(monitorName, "moitorName");
             Guard.Requires<ArgumentNullException>(handler != null);
@@ -64,7 +64,7 @@ namespace CatLib.Debugger
             IMonitorHandler handler;
             if (!monitors.TryGetValue(monitorName, out handler))
             {
-                throw new RuntimeException("You must SetMonitorHandler with [" + monitorName + "]");
+                throw new RuntimeException("You must DefinedMoitor with [" + monitorName + "]");
             }
 
             var result = handler.Handler(value);

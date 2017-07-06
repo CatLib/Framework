@@ -95,8 +95,9 @@
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="Debugger\Debugger.cs" />
     <Compile Include="Debugger\LogHandler\UnityConsoleLogHandler.cs" />
+    <Compile Include="Debugger\MonitorHandler\OnceRecordMonitorHandler.cs" />
     <Compile Include="Debugger\Monitors.cs" />
-    <Compile Include="Debugger\MonitorHandler\SumMonitorHandler.cs" />
+    <Compile Include="Debugger\MonitorHandler\SizeSumMonitorHandler.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
     <Compile Include="Facade\Env.cs" />
     <Compile Include="Facade\FileSystemManager.cs" />
