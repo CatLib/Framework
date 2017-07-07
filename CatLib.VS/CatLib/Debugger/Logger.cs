@@ -168,5 +168,17 @@ namespace CatLib.Debugger
         {
             response.SetContext("hello world");
         }
+
+        /// <summary>
+        /// 传入一个命名空间字符串查找对应的分组
+        /// </summary>
+        /// <param name="namespaces">命名空间</param>
+        /// <returns>对应分组名</returns>
+        internal string FindCategroy(string namespaces)
+        {
+            string categroy;
+            this.categroy.TryGetValue(namespaces, out categroy);
+            return categroy;
+        }
     }
 }
