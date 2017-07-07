@@ -23,7 +23,7 @@ namespace CatLib.Debugger.LogHandler
         /// <summary>
         /// 实际处理方法
         /// </summary>
-        private Dictionary<LogLevels, Action<object>> mapping;
+        private readonly Dictionary<LogLevels, Action<object>> mapping;
 
         /// <summary>
         /// 标准输出日志处理器

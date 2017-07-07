@@ -188,6 +188,15 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
+        /// 获取分组信息
+        /// </summary>
+        [Routed("get-catergroy")]
+        public void GetCategroy(IRequest request, IResponse response)
+        {
+            response.SetContext("hello world");
+        }
+
+        /// <summary>
         /// 传入一个命名空间字符串查找对应的分组
         /// </summary>
         /// <param name="namespaces">命名空间</param>
