@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using CatLib.API;
 using CatLib.API.Debugger;
 
 namespace CatLib.Debugger
@@ -20,17 +18,6 @@ namespace CatLib.Debugger
     /// </summary>
     public sealed class DebuggerProvider : ServiceProvider
     {
-        /// <summary>
-        /// 服务提供商进程
-        /// </summary>
-        /// <returns>迭代器</returns>
-        [Priority(0)]
-        public override IEnumerator Init()
-        {
-            App.Make<IDebugger>();
-            return base.Init();
-        }
-
         /// <summary>
         /// 注册文件系统服务
         /// </summary>
