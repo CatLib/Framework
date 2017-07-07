@@ -54,6 +54,8 @@
     <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="API\Core\Features\IServiceProvider.cs" />
+    <Compile Include="API\Json\IJson.cs" />
+    <Compile Include="API\Json\IJsonAware.cs" />
     <Compile Include="API\Stl\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Stl\Container\IContainer.cs" />
     <Compile Include="API\Stl\Container\Internal\IBindData.cs" />
@@ -122,6 +124,10 @@
     <Compile Include="API\Config\Features\ITypeStringConverter.cs" />
     <Compile Include="FileSystem\FileSystemManager.cs" />
     <Compile Include="API\Routing\EventArgs\DispatchEventArgs.cs" />
+    <Compile Include="Json\3rd\SimpleJson.cs" />
+    <Compile Include="Json\JsonProvider.cs" />
+    <Compile Include="Json\JsonUtility.cs" />
+    <Compile Include="Json\SimpleJsonAdapter.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="API\Stl\LruCache\ILruCache.cs" />
     <Compile Include="API\Routing\Features\IMiddleware.cs" />
