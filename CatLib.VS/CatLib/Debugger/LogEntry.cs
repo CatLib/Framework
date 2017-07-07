@@ -10,6 +10,7 @@
  */
 
 using System.Diagnostics;
+using System.Threading;
 
 namespace CatLib.Debugger
 {
@@ -18,6 +19,11 @@ namespace CatLib.Debugger
     /// </summary>
     internal sealed class LogEntry
     {
+        /// <summary>
+        /// 日志ID
+        /// </summary>
+        private static long lastId = 0;
+        
         /// <summary>
         /// 日志记录器
         /// </summary>
@@ -39,16 +45,28 @@ namespace CatLib.Debugger
         private string categroy;
 
         /// <summary>
+        /// 条目id
+        /// </summary>
+        private long id;
+
+        /// <summary>
         /// 日志条目记录
         /// </summary>
         /// <param name="logger">日志系统</param>
         /// <param name="message">消息内容</param>
-        private LogEntry(Logger logger , string message)
+        internal LogEntry(Logger logger , string message)
         {
             this.logger = logger;
             this.message = message;
-            stackTrace = new StackTrace();
-            categroy = logger.FindCategroy(stackTrace.GetFrame(0).GetMethod().Name);
+            categroy = string.Empty;
+            stackTrace = new StackTrace(3);
+            var declaringType = stackTrace.GetFrame(0).GetMethod().DeclaringType;
+            if (declaringType != null)
+            {
+                categroy = logger.FindCategroy(declaringType.Namespace);
+            }
+
+            id = Interlocked.Increment(ref lastId);
         }
     }
 }

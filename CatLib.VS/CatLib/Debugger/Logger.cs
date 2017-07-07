@@ -21,6 +21,7 @@ namespace CatLib.Debugger
     /// <summary>
     /// 日志系统
     /// </summary>
+    [Routed("debug://logger")]
     public sealed class Logger : ILogger , ILogCategory
     {
         /// <summary>
@@ -34,12 +35,23 @@ namespace CatLib.Debugger
         private readonly Dictionary<string, string> categroy;
 
         /// <summary>
+        /// 日志记录
+        /// </summary>
+        private readonly Queue<LogEntry> logEntrys;
+
+        /// <summary>
+        /// 最大储存的日志记录数
+        /// </summary>
+        private int maxLogEntrys = 1024;
+
+        /// <summary>
         /// 构造一个日志系统
         /// </summary>
         public Logger()
         {
             handlers = new List<ILogHandler>();
             categroy = new Dictionary<string, string>();
+            logEntrys = new Queue<LogEntry>(maxLogEntrys);
         }
 
         /// <summary>
@@ -76,6 +88,12 @@ namespace CatLib.Debugger
             {
                 handler.Handler(level, result);
             }
+            
+            if (logEntrys.Count >= maxLogEntrys)
+            {
+                logEntrys.Dequeue();
+            }
+            logEntrys.Enqueue(MakeLogEntry(result));
         }
 
         /// <summary>
@@ -179,6 +197,16 @@ namespace CatLib.Debugger
             string categroy;
             this.categroy.TryGetValue(namespaces, out categroy);
             return categroy;
+        }
+
+        /// <summary>
+        /// 制作一个日志条目
+        /// </summary>
+        /// <param name="message">日志</param>
+        /// <returns>日志条目</returns>
+        private LogEntry MakeLogEntry(string message)
+        {
+            return new LogEntry(this, message);
         }
     }
 }
