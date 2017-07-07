@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using CatLib.API;
 using CatLib.API.Stl;
@@ -58,9 +57,9 @@ namespace CatLib.Core
         }
 
         /// <summary>
-        /// 服务提供商
+        /// 服务提供者
         /// </summary>
-        private readonly Dictionary<Type, ServiceProvider> serviceProviders = new Dictionary<Type, ServiceProvider>();
+        private readonly SortSet<API.IServiceProvider, int> serviceProviders = new SortSet<API.IServiceProvider , int>();
 
         /// <summary>
         /// 是否已经完成引导程序
@@ -122,7 +121,7 @@ namespace CatLib.Core
         /// <returns>CatLib实例</returns>
         /// <exception cref="ArgumentNullException">当引导类型为null时引发</exception>
         /// <exception cref="RuntimeException">当引导类型没有实现<see cref="IBootstrap"/>时引发</exception>
-        public IApplication Bootstrap(params Type[] bootstraps)
+        public IApplication Bootstrap(params IBootstrap[] bootstraps)
         {
             Guard.Requires<ArgumentNullException>(bootstraps != null);
 
@@ -140,18 +139,12 @@ namespace CatLib.Core
             Alias(Type2Service(typeof(App)), Type2Service(typeof(Application)));
             Alias(Type2Service(typeof(IContainer)), Type2Service(typeof(Application)));
 
-            foreach (var t in bootstraps)
+            foreach (var bootstrap in bootstraps)
             {
-                if (!typeof(IBootstrap).IsAssignableFrom(t))
+                if (bootstrap != null)
                 {
-                    throw new RuntimeException("Type [" + t + "] is not implements IBootstrap.");
+                    bootstrap.Bootstrap();
                 }
-                var bootstrap = Make(Type2Service(t)) as IBootstrap;
-                if (bootstrap == null)
-                {
-                    throw new RuntimeException("You need call OnFindType() To get the type of cross-assembly");
-                }
-                bootstrap.Bootstrap();
             }
 
             bootstrapped = true;
@@ -184,34 +177,24 @@ namespace CatLib.Core
         /// <summary>
         /// 注册服务提供者
         /// </summary>
-        /// <param name="t">注册类型</param>
-        /// <exception cref="RuntimeException">服务提供商被重复注册或者服务提供商没有继承自<see cref="ServiceProvider"/></exception>
-        public void Register(Type t)
+        /// <param name="provider">注册服务提供者</param>
+        /// <exception cref="RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="ServiceProvider"/></exception>
+        public void Register(API.IServiceProvider provider)
         {
-            Guard.Requires<ArgumentNullException>(t != null);
+            Guard.Requires<ArgumentNullException>(provider != null);
 
             if (inited)
             {
                 throw new RuntimeException("Register() Only be called before Init()");
             }
 
-            if (serviceProviders.ContainsKey(t))
+            if (serviceProviders.Contains(provider))
             {
-                throw new RuntimeException("Provider [" + t + "] is already register.");
+                throw new RuntimeException("Provider [" + provider + "] is already register.");
             }
 
-            if (!typeof(ServiceProvider).IsAssignableFrom(t))
-            {
-                throw new RuntimeException("Type [" + t + "] is not inherit ServiceProvider.");
-            }
-
-            var serviceProvider = Make(Type2Service(t)) as ServiceProvider;
-            if (serviceProvider == null)
-            {
-                throw new RuntimeException("You need call OnFindType() To get the type of cross-assembly");
-            }
-            serviceProvider.Register();
-            serviceProviders.Add(t, serviceProvider);
+            provider.Register();
+            serviceProviders.Add(provider, GetPriorities(provider.GetType(), "Init"));
         }
 
         /// <summary>
@@ -224,20 +207,12 @@ namespace CatLib.Core
         }
 
         /// <summary>
-        /// 启动服务提供商启动流程
+        /// 启动服务提供者启动流程
         /// </summary>
         /// <returns>迭代器</returns>
         private IEnumerator InitPorcess()
         {
-            var providers = new List<ServiceProvider>(serviceProviders.Values);
-            providers.Sort((left, right) =>
-            {
-                var leftPriorities = GetPriorities(left.GetType(), "Init");
-                var rightPriorities = GetPriorities(right.GetType(), "Init");
-                return leftPriorities.CompareTo(rightPriorities);
-            });
-
-            foreach (var provider in providers)
+            foreach (var provider in serviceProviders)
             {
                 yield return provider.Init();
             }

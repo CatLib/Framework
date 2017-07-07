@@ -8,7 +8,7 @@
  *
  * Document: http://catlib.io/
  */
- 
+
 using System.Collections;
 
 namespace CatLib.API
@@ -16,7 +16,7 @@ namespace CatLib.API
     /// <summary>
     /// 服务提供者
     /// </summary>
-    public abstract class ServiceProvider
+    public abstract class ServiceProvider : IServiceProvider
     {
         /// <summary>
         /// CatLib实例
@@ -39,8 +39,31 @@ namespace CatLib.API
         }
 
         /// <summary>
-        /// 当注册服务提供商
+        /// 当注册服务提供者
         /// </summary>
         public abstract void Register();
+
+        /// <summary>
+        /// 相等性比较
+        /// </summary>
+        /// <param name="obj">比较对象</param>
+        /// <returns>是否相等</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            return GetType() == obj.GetType();
+        }
+
+        /// <summary>
+        /// 获取HashCode
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return GetType().GetHashCode();
+        }
     }
 }

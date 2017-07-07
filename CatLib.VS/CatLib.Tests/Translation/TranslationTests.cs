@@ -35,8 +35,8 @@ namespace CatLib.Tests.Translation
         {
             var app = new Application();
             app.Bootstrap();
-            app.Register(typeof(TranslationProvider));
-            app.Register(typeof(ConfigProvider));
+            app.Register(new TranslationProvider());
+            app.Register(new ConfigProvider());
             app.Init();
             return app;
         }

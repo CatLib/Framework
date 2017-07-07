@@ -122,6 +122,22 @@
             标记的类，函数，属性不再进行覆盖率分析
             </summary>
         </member>
+        <member name="T:CatLib.API.IServiceProvider">
+            <summary>
+            服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.API.IServiceProvider.Init">
+            <summary>
+            服务提供者初始化
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.API.IServiceProvider.Register">
+            <summary>
+            当注册服务提供者
+            </summary>
+        </member>
         <member name="T:CatLib.API.Stl.IContainer">
             <summary>
             容器接口
@@ -933,7 +949,7 @@
             CatLib版本号
             </summary>
         </member>
-        <member name="M:CatLib.API.IApplication.Bootstrap(System.Type[])">
+        <member name="M:CatLib.API.IApplication.Bootstrap(CatLib.API.IBootstrap[])">
             <summary>
             引导程序类型
             </summary>
@@ -946,11 +962,11 @@
             </summary>
             <param name="callback">初始化完成后的回调</param>
         </member>
-        <member name="M:CatLib.API.IApplication.Register(System.Type)">
+        <member name="M:CatLib.API.IApplication.Register(CatLib.API.IServiceProvider)">
             <summary>
-            注册服务提供商
+            注册服务提供者
             </summary>
-            <param name="type">服务提供商类型</param>
+            <param name="provider">服务提供者</param>
         </member>
         <member name="M:CatLib.API.IApplication.GetGuid">
             <summary>
@@ -2432,8 +2448,21 @@
         </member>
         <member name="M:CatLib.API.ServiceProvider.Register">
             <summary>
-            当注册服务提供商
+            当注册服务提供者
             </summary>
+        </member>
+        <member name="M:CatLib.API.ServiceProvider.Equals(System.Object)">
+            <summary>
+            相等性比较
+            </summary>
+            <param name="obj">比较对象</param>
+            <returns>是否相等</returns>
+        </member>
+        <member name="M:CatLib.API.ServiceProvider.GetHashCode">
+            <summary>
+            获取HashCode
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>
@@ -2626,7 +2655,7 @@
         </member>
         <member name="T:CatLib.Config.ConfigProvider">
             <summary>
-            配置服务提供商
+            配置服务提供者
             </summary>
         </member>
         <member name="M:CatLib.Config.ConfigProvider.Register">
@@ -3336,12 +3365,12 @@
         </member>
         <member name="T:CatLib.FileSystem.FileSystemProvider">
             <summary>
-            文件系统服务提供商
+            文件系统服务提供者
             </summary>
         </member>
         <member name="M:CatLib.FileSystem.FileSystemProvider.Init">
             <summary>
-            服务提供商进程
+            服务提供者进程
             </summary>
             <returns>迭代器</returns>
         </member>
@@ -6819,7 +6848,7 @@
         </member>
         <member name="F:CatLib.Core.Application.serviceProviders">
             <summary>
-            服务提供商
+            服务提供者
             </summary>
         </member>
         <member name="F:CatLib.Core.Application.bootstrapped">
@@ -6863,7 +6892,7 @@
             </summary>
             <param name="behaviour">驱动脚本</param>
         </member>
-        <member name="M:CatLib.Core.Application.Bootstrap(System.Type[])">
+        <member name="M:CatLib.Core.Application.Bootstrap(CatLib.API.IBootstrap[])">
             <summary>
             引导程序
             </summary>
@@ -6879,12 +6908,12 @@
             <param name="callback">初始化完成后的回调</param>
             <exception cref="T:CatLib.API.RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
         </member>
-        <member name="M:CatLib.Core.Application.Register(System.Type)">
+        <member name="M:CatLib.Core.Application.Register(CatLib.API.IServiceProvider)">
             <summary>
             注册服务提供者
             </summary>
-            <param name="t">注册类型</param>
-            <exception cref="T:CatLib.API.RuntimeException">服务提供商被重复注册或者服务提供商没有继承自<see cref="T:CatLib.API.ServiceProvider"/></exception>
+            <param name="provider">注册服务提供者</param>
+            <exception cref="T:CatLib.API.RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="T:CatLib.API.ServiceProvider"/></exception>
         </member>
         <member name="M:CatLib.Core.Application.GetGuid">
             <summary>
@@ -6894,18 +6923,18 @@
         </member>
         <member name="M:CatLib.Core.Application.InitPorcess">
             <summary>
-            启动服务提供商启动流程
+            启动服务提供者启动流程
             </summary>
             <returns>迭代器</returns>
         </member>
         <member name="T:CatLib.Core.CoreProvider">
             <summary>
-            核心服务提供商
+            核心服务提供者
             </summary>
         </member>
         <member name="M:CatLib.Core.CoreProvider.Register">
             <summary>
-            注册核心服务提供商
+            注册核心服务提供者
             </summary>
         </member>
         <member name="T:CatLib.Core.Driver">
@@ -7997,7 +8026,7 @@
         </member>
         <member name="T:CatLib.Translation.TranslationProvider">
             <summary>
-            国际化服务提供商
+            国际化服务提供者
             </summary>
         </member>
         <member name="M:CatLib.Translation.TranslationProvider.Register">

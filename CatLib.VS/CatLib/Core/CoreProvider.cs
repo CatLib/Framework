@@ -15,12 +15,12 @@ using CatLib.API.Config;
 namespace CatLib.Core
 {
     /// <summary>
-    /// 核心服务提供商
+    /// 核心服务提供者
     /// </summary>
     public sealed class CoreProvider : ServiceProvider
     {
         /// <summary>
-        /// 注册核心服务提供商
+        /// 注册核心服务提供者
         /// </summary>
         public override void Register()
         {

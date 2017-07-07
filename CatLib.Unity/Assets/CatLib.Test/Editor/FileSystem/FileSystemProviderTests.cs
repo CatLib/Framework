@@ -62,10 +62,10 @@ namespace CatLib.Tests.FileSystem
             {
                 return Type.GetType(t);
             });
-            app.Register(typeof(FileSystemProvider));
-            app.Register(typeof(CoreProvider));
-            app.Register(typeof(PrepareEnv));
-            app.Register(typeof(ConfigProvider));
+            app.Register(new FileSystemProvider());
+            app.Register(new CoreProvider());
+            app.Register(new PrepareEnv());
+            app.Register(new ConfigProvider());
             app.Init();
         }
 

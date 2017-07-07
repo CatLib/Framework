@@ -373,6 +373,7 @@ namespace CatLib.Tests.Core
         [TestMethod]
         public void TestDoubleDestroyClass()
         {
+            destroyNum_DoubleDestroyClass = 0;
             var app = MakeDriver();
             var onRelease = false;
             app.Singleton<DoubleDestroyClass>().OnRelease((bind, obj) =>

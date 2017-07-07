@@ -16,7 +16,7 @@ using CatLib.Config.Locator;
 namespace CatLib.Config
 {
     /// <summary>
-    /// 配置服务提供商
+    /// 配置服务提供者
     /// </summary>
     public sealed class ConfigProvider : ServiceProvider
     {

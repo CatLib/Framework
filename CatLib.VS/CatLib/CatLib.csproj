@@ -53,6 +53,7 @@
     <Compile Include="API\Config\Internal\IConfig.cs" />
     <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
+    <Compile Include="API\Core\Features\IServiceProvider.cs" />
     <Compile Include="API\Stl\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Stl\Container\IContainer.cs" />
     <Compile Include="API\Stl\Container\Internal\IBindData.cs" />

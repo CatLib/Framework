@@ -38,7 +38,7 @@ namespace CatLib.Tests.Routing
             {
                 return Type.GetType(t);
             });
-            app.Register(typeof(RoutingProvider));
+            app.Register(new RoutingProvider());
 
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
             var router = App.Instance.Make<IRouter>();

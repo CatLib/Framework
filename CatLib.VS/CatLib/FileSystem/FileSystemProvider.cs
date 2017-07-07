@@ -17,12 +17,12 @@ using CatLib.FileSystem.Adapter;
 namespace CatLib.FileSystem
 {
     /// <summary>
-    /// 文件系统服务提供商
+    /// 文件系统服务提供者
     /// </summary>
     public sealed class FileSystemProvider : ServiceProvider
     {
         /// <summary>
-        /// 服务提供商进程
+        /// 服务提供者进程
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority]

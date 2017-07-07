@@ -23,8 +23,8 @@ namespace CatLib.Demo.Translation
     {
         public void Bootstrap()
         {
-            App.Instance.Register(typeof(TranslationProvider));
-            App.Instance.Register(typeof(TranslationDemo));
+            App.Instance.Register(new TranslationProvider());
+            App.Instance.Register(new TranslationDemo());
         }
     }
 
@@ -40,7 +40,7 @@ namespace CatLib.Demo.Translation
             {
                 return Type.GetType(type);
             });
-            application.Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
+            application.Bootstrap(new Bootstraps()).Init();
         }
     }
 }

@@ -125,9 +125,9 @@ namespace CatLib.Tests.Timer
         public void TestInitialize()
         {
             var app = new CatLib.Core.Application().Bootstrap();
-            app.Register(typeof(TimeProvider));
-            app.Register(typeof(ConfigProvider));
-            app.Register(typeof(TimerProvider));
+            app.Register(new TimeProvider());
+            app.Register(new ConfigProvider());
+            app.Register(new TimerProvider());
             app.Init();
 
             var manager = app.Make<ITimeManager>();

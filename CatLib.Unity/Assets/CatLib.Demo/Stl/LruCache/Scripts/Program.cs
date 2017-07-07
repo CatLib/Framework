@@ -23,7 +23,7 @@ namespace CatLib.Demo.LruCache
 
         public void Bootstrap()
         {
-            App.Instance.Register(typeof(LruCacheDemo));
+            App.Instance.Register(new LruCacheDemo());
         }
 
     }
@@ -40,7 +40,7 @@ namespace CatLib.Demo.LruCache
             {
                 return Type.GetType(type);
             });
-            application.Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
+            application.Bootstrap(new Bootstraps()).Init();
         }
     }
 

@@ -16,7 +16,7 @@ using CatLib.API.Translation;
 namespace CatLib.Translation
 {
     /// <summary>
-    /// 国际化服务提供商
+    /// 国际化服务提供者
     /// </summary>
     public sealed class TranslationProvider : ServiceProvider
     {

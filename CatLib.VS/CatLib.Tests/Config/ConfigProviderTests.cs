@@ -39,7 +39,7 @@ namespace CatLib.Tests.Config
             {
                 return Type.GetType(t);
             });
-            app.Register(typeof(ConfigProvider));
+            app.Register(new ConfigProvider());
             app.Init();
         }
 

@@ -30,7 +30,7 @@ namespace CatLib.API
         /// </summary>
         /// <param name="bootstraps">引导程序</param>
         /// <returns>当前应用程序</returns>
-        IApplication Bootstrap(params Type[] bootstraps);
+        IApplication Bootstrap(params IBootstrap[] bootstraps);
 
         /// <summary>
         /// 初始化程序
@@ -39,10 +39,10 @@ namespace CatLib.API
         void Init(Action callback = null);
 
         /// <summary>
-        /// 注册服务提供商
+        /// 注册服务提供者
         /// </summary>
-        /// <param name="type">服务提供商类型</param>
-        void Register(Type type);
+        /// <param name="provider">服务提供者</param>
+        void Register(IServiceProvider provider);
 
         /// <summary>
         /// 获取应用程序内的唯一Id
