@@ -96,6 +96,7 @@
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="Debugger\Debugger.cs" />
+    <Compile Include="Debugger\LogHandler\StdOutLogHandler.cs" />
     <Compile Include="Debugger\LogHandler\UnityConsoleLogHandler.cs" />
     <Compile Include="Debugger\LogEntry.cs" />
     <Compile Include="Debugger\MonitorHandler\OnceRecordMonitorHandler.cs" />
