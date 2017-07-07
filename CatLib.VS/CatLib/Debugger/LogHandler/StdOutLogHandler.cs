@@ -12,14 +12,13 @@
 using CatLib.API.Debugger;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace CatLib.Debugger.LogHandler
 {
     /// <summary>
-    /// Unity控制台日志处理器
+    /// 标准输出日志处理器
     /// </summary>
-    public sealed class UnityConsoleLogHandler : ILogHandler
+    public sealed class StdOutLogHandler : ILogHandler
     {
         /// <summary>
         /// 实际处理方法
@@ -27,20 +26,20 @@ namespace CatLib.Debugger.LogHandler
         private Dictionary<LogLevels, Action<object>> mapping;
 
         /// <summary>
-        /// Unity控制台日志处理器
+        /// 标准输出日志处理器
         /// </summary>
-        public UnityConsoleLogHandler()
+        public StdOutLogHandler()
         {
             mapping = new Dictionary<LogLevels, Action<object>>
             {
-                { LogLevels.Emergency , Debug.LogError },
-                { LogLevels.Alert , Debug.LogError },
-                { LogLevels.Critical , Debug.LogError },
-                { LogLevels.Error, Debug.LogError },
-                { LogLevels.Warning, Debug.LogWarning },
-                { LogLevels.Notice, Debug.Log },
-                { LogLevels.Info, Debug.Log },
-                { LogLevels.Debug , Debug.Log }
+                {LogLevels.Emergency, Console.WriteLine},
+                {LogLevels.Alert, Console.WriteLine},
+                {LogLevels.Critical, Console.WriteLine},
+                {LogLevels.Error, Console.WriteLine},
+                {LogLevels.Warning, Console.WriteLine},
+                {LogLevels.Notice, Console.WriteLine},
+                {LogLevels.Info, Console.WriteLine},
+                {LogLevels.Debug, Console.WriteLine}
             };
         }
 
