@@ -172,7 +172,7 @@
             <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
             <param name="categroyName">分类名(用于在调试控制器显示)</param>
         </member>
-        <member name="M:CatLib.API.Debugger.IDebugger.SetMonitorHandler(System.String,CatLib.API.Debugger.IMonitorHandler)">
+        <member name="M:CatLib.API.Debugger.IDebugger.DefinedMoitor(System.String,CatLib.API.Debugger.IMonitorHandler)">
             <summary>
             设定监控处理器
             </summary>
@@ -258,7 +258,17 @@
         </member>
         <member name="T:CatLib.API.Debugger.IMonitorHandler">
             <summary>
-            监控处理
+            监控处理器
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Debugger.IMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Debugger.IMonitorHandler.Value">
+            <summary>
+            实时的监控值
             </summary>
         </member>
         <member name="M:CatLib.API.Debugger.IMonitorHandler.Handler(System.Object)">
@@ -266,11 +276,10 @@
             处理句柄
             </summary>
             <param name="value">值</param>
-            <returns>返回数据将会被推送至显示端</returns>
         </member>
         <member name="T:CatLib.API.Debugger.ILoggerAware">
             <summary>
-            设定记录器实例接口
+            记录器实例接口
             </summary>
         </member>
         <member name="M:CatLib.API.Debugger.ILoggerAware.SetLogger(CatLib.API.Debugger.ILogger)">
@@ -315,7 +324,7 @@
             通知
             </summary>
         </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Informational">
+        <member name="F:CatLib.API.Debugger.LogLevels.Info">
             <summary>
             信息
             </summary>
@@ -1996,6 +2005,72 @@
             <param name="name">路由组名字</param>
             <returns>当前实例</returns>
         </member>
+        <member name="T:CatLib.Debugger.IDebugResponse">
+            <summary>
+            调试响应
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.IDebugResponse.Response">
+            <summary>
+            响应内容
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.DebuggerProvider">
+            <summary>
+            调试服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.Register">
+            <summary>
+            注册文件系统服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterDebugger">
+            <summary>
+            注册调试服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterLogger">
+            <summary>
+            注册日志系统
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterMonitors">
+            <summary>
+            注册监控器
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.ILogCategory">
+            <summary>
+            日志分组
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.ILogCategory.DefinedCategory(System.String,System.String)">
+            <summary>
+            定义命名空间对应的分类
+            </summary>
+            <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
+            <param name="categroyName">分类名(用于在调试控制器显示)</param>
+        </member>
+        <member name="T:CatLib.Debugger.IMonitor">
+            <summary>
+            监控器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.IMonitor.DefinedMoitor(System.String,CatLib.API.Debugger.IMonitorHandler)">
+            <summary>
+            设定监控处理器
+            </summary>
+            <param name="moitorName">监控名</param>
+            <param name="handler">处理器</param>
+        </member>
+        <member name="M:CatLib.Debugger.IMonitor.Monitor(System.String,System.Object)">
+            <summary>
+            监控一个内容
+            </summary>
+            <param name="monitorName">监控名</param>
+            <param name="value">监控值</param>
+        </member>
         <member name="T:CatLib.Debugger.Logger">
             <summary>
             日志系统
@@ -2003,7 +2078,22 @@
         </member>
         <member name="F:CatLib.Debugger.Logger.handlers">
             <summary>
-            处理器
+            日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Logger.categroy">
+            <summary>
+            分组信息
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Logger.logEntrys">
+            <summary>
+            日志记录
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Logger.maxLogEntrys">
+            <summary>
+            最大储存的日志记录数
             </summary>
         </member>
         <member name="M:CatLib.Debugger.Logger.#ctor">
@@ -2011,7 +2101,14 @@
             构造一个日志系统
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.Logger.AddLogHandler(CatLib.Debugger.ILogHandler)">
+        <member name="M:CatLib.Debugger.Logger.DefinedCategory(System.String,System.String)">
+            <summary>
+            定义命名空间对应的分类
+            </summary>
+            <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
+            <param name="categroyName">分类名(用于在调试控制器显示)</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.AddLogHandler(CatLib.Debugger.LogHandler.ILogHandler)">
             <summary>
             增加日志处理器
             </summary>
@@ -2082,18 +2179,87 @@
             <param name="message">日志内容</param>
             <param name="context">上下文,用于替换占位符</param>
         </member>
-        <member name="T:CatLib.Debugger.ILogHandler">
+        <member name="M:CatLib.Debugger.Logger.GetLogger(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse)">
+            <summary>
+            获取日志
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.GetCategroy(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse)">
+            <summary>
+            获取分组信息
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.FindCategroy(System.String)">
+            <summary>
+            传入一个命名空间字符串查找对应的分组
+            </summary>
+            <param name="namespaces">命名空间</param>
+            <returns>对应分组名</returns>
+        </member>
+        <member name="M:CatLib.Debugger.Logger.MakeLogEntry(System.String)">
+            <summary>
+            制作一个日志条目
+            </summary>
+            <param name="message">日志</param>
+            <returns>日志条目</returns>
+        </member>
+        <member name="T:CatLib.Debugger.LogHandler.ILogHandler">
             <summary>
             日志处理器
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.ILogHandler.Handler(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+        <member name="M:CatLib.Debugger.LogHandler.ILogHandler.Handler(CatLib.API.Debugger.LogLevels,System.String)">
             <summary>
             日志处理器
             </summary>
             <param name="level">日志等级</param>
             <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="T:CatLib.Debugger.LogHandler.StdOutLogHandler">
+            <summary>
+            标准输出日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.LogHandler.StdOutLogHandler.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.LogHandler.StdOutLogHandler.#ctor">
+            <summary>
+            标准输出日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.LogHandler.StdOutLogHandler.Handler(CatLib.API.Debugger.LogLevels,System.String)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+        </member>
+        <member name="T:CatLib.Debugger.LogHandler.UnityConsoleLogHandler">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.LogHandler.UnityConsoleLogHandler.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.LogHandler.UnityConsoleLogHandler.#ctor">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.LogHandler.UnityConsoleLogHandler.Handler(CatLib.API.Debugger.LogLevels,System.String)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
         </member>
         <member name="T:CatLib.Debugger.Debugger">
             <summary>
@@ -2105,26 +2271,40 @@
             日志记录器
             </summary>
         </member>
-        <member name="F:CatLib.Debugger.Debugger.monitors">
+        <member name="F:CatLib.Debugger.Debugger.monitor">
             <summary>
-            监控处理器
+            监控器
             </summary>
         </member>
-        <member name="F:CatLib.Debugger.Debugger.monitorResults">
-            <summary>
-            监控处理结果
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Debugger.#ctor">
+        <member name="M:CatLib.Debugger.Debugger.#ctor(CatLib.API.Debugger.ILogger,CatLib.Debugger.IMonitor)">
             <summary>
             构造一个调试器
             </summary>
+            <param name="logger"></param>
+            <param name="monitor"></param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.SetMonitor(CatLib.Debugger.IMonitor)">
+            <summary>
+            设定监控器
+            </summary>
+            <param name="monitor"></param>
         </member>
         <member name="M:CatLib.Debugger.Debugger.SetLogger(CatLib.API.Debugger.ILogger)">
             <summary>
             设定记录器实例接口
             </summary>
             <param name="logger">记录器</param>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.GetMonitor">
+            <summary>
+            获取监控器实例
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Debugger.GetLogger">
+            <summary>
+            获取记录器实例
+            </summary>
+            <returns>记录器实例</returns>
         </member>
         <member name="M:CatLib.Debugger.Debugger.DefinedCategory(System.String,System.String)">
             <summary>
@@ -2133,7 +2313,7 @@
             <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
             <param name="categroyName">分类名(用于在调试控制器显示)</param>
         </member>
-        <member name="M:CatLib.Debugger.Debugger.SetMonitorHandler(System.String,CatLib.API.Debugger.IMonitorHandler)">
+        <member name="M:CatLib.Debugger.Debugger.DefinedMoitor(System.String,CatLib.API.Debugger.IMonitorHandler)">
             <summary>
             设定监控处理器
             </summary>
@@ -2212,18 +2392,146 @@
             <param name="message">日志内容</param>
             <param name="context">上下文,用于替换占位符</param>
         </member>
-        <member name="T:CatLib.Debugger.LogHandler.UnityConsoleLogHandler">
+        <member name="T:CatLib.Debugger.LogEntry">
             <summary>
-            Unity控制台日志处理器
+            日志条目记录
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.LogHandler.UnityConsoleLogHandler.Handler(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+        <member name="F:CatLib.Debugger.LogEntry.lastId">
             <summary>
-            日志处理器
+            日志ID
             </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="F:CatLib.Debugger.LogEntry.logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.LogEntry.message">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.LogEntry.stackTrace">
+            <summary>
+            调用堆栈
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.LogEntry.categroy">
+            <summary>
+            当前日志条目的分组
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.LogEntry.id">
+            <summary>
+            条目id
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.LogEntry.#ctor(CatLib.Debugger.Logger,System.String)">
+            <summary>
+            日志条目记录
+            </summary>
+            <param name="logger">日志系统</param>
+            <param name="message">消息内容</param>
+        </member>
+        <member name="T:CatLib.Debugger.MonitorHandler.OnceRecordMonitorHandler">
+            <summary>
+            单次监控处理器
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.MonitorHandler.OnceRecordMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.MonitorHandler.OnceRecordMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.MonitorHandler.OnceRecordMonitorHandler.#ctor(System.String)">
+            <summary>
+            单次记录监控处理器
+            </summary>
+            <param name="unit">单位值</param>
+        </member>
+        <member name="M:CatLib.Debugger.MonitorHandler.OnceRecordMonitorHandler.Handler(System.Object)">
+            <summary>
+            处理句柄
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="T:CatLib.Debugger.MonitorHandler.SizeSumMonitorHandler">
+            <summary>
+            大小累加监控处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.MonitorHandler.SizeSumMonitorHandler.unitMapping">
+            <summary>
+            单位映射
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.MonitorHandler.SizeSumMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.MonitorHandler.SizeSumMonitorHandler.value">
+            <summary>
+            监控的值
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.MonitorHandler.SizeSumMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.MonitorHandler.SizeSumMonitorHandler.#ctor">
+            <summary>
+            累加监控处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.MonitorHandler.SizeSumMonitorHandler.Handler(System.Object)">
+            <summary>
+            处理句柄
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="T:CatLib.Debugger.Monitors">
+            <summary>
+            监控器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Monitors.monitors">
+            <summary>
+            监控处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Monitors.#ctor">
+            <summary>
+            监控器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Monitors.DefinedMoitor(System.String,CatLib.API.Debugger.IMonitorHandler)">
+            <summary>
+            设定监控处理器
+            </summary>
+            <param name="monitorName">监控名</param>
+            <param name="handler">执行句柄</param>
+        </member>
+        <member name="M:CatLib.Debugger.Monitors.Monitor(System.String,System.Object)">
+            <summary>
+            监控一个内容
+            </summary>
+            <param name="monitorName">监控名</param>
+            <param name="value">监控值</param>
+        </member>
+        <member name="M:CatLib.Debugger.Monitors.GetMonitors(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse)">
+            <summary>
+            获取监控的详细数据
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
         </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>
