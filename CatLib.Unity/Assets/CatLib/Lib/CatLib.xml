@@ -138,6 +138,37 @@
             当注册服务提供者
             </summary>
         </member>
+        <member name="T:CatLib.API.Json.IJson">
+            <summary>
+            Json 工具
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Json.IJson.Decode``1(System.String)">
+            <summary>
+            反序列化
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="json">json数据</param>
+            <returns>反序列化的类型</returns>
+        </member>
+        <member name="M:CatLib.API.Json.IJson.Encode(System.Object)">
+            <summary>
+            序列化
+            </summary>
+            <param name="item">需要序列化的对象</param>
+            <returns>json数据</returns>
+        </member>
+        <member name="T:CatLib.API.Json.IJsonAware">
+            <summary>
+            Json实例接口
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Json.IJsonAware.SetJson(CatLib.API.Json.IJson)">
+            <summary>
+            设定json处理器实例接口
+            </summary>
+            <param name="handler">json处理器</param>
+        </member>
         <member name="T:CatLib.API.Stl.IContainer">
             <summary>
             容器接口
@@ -3494,6 +3525,72 @@
             获取默认的文件系统名字
             </summary>
             <returns>默认的文件系统名字</returns>
+        </member>
+        <member name="T:CatLib.Json.JsonProvider">
+            <summary>
+            Json 服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Json.JsonProvider.Register">
+            <summary>
+            当注册服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.Json.JsonUtility">
+            <summary>
+            Json处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Json.JsonUtility.handler">
+            <summary>
+            处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Json.JsonUtility.SetJson(CatLib.API.Json.IJson)">
+            <summary>
+            设定记录器实例接口
+            </summary>
+            <param name="handler">记录器</param>
+        </member>
+        <member name="M:CatLib.Json.JsonUtility.Decode``1(System.String)">
+            <summary>
+            反序列化
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="json">json数据</param>
+            <returns>反序列化的类型</returns>
+        </member>
+        <member name="M:CatLib.Json.JsonUtility.Encode(System.Object)">
+            <summary>
+            序列化
+            </summary>
+            <param name="item">需要序列化的对象</param>
+            <returns>json数据</returns>
+        </member>
+        <member name="M:CatLib.Json.JsonUtility.GuardHandler">
+            <summary>
+            校验json处理器有效性
+            </summary>
+        </member>
+        <member name="T:CatLib.Json.SimpleJsonAdapter">
+            <summary>
+            Facebook Simple Json 适配器
+            </summary>
+        </member>
+        <member name="M:CatLib.Json.SimpleJsonAdapter.Decode``1(System.String)">
+            <summary>
+            反序列化
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="json">json数据</param>
+            <returns>反序列化的类型</returns>
+        </member>
+        <member name="M:CatLib.Json.SimpleJsonAdapter.Encode(System.Object)">
+            <summary>
+            序列化
+            </summary>
+            <param name="item">需要序列化的对象</param>
+            <returns>json数据</returns>
         </member>
         <member name="T:CatLib.Routing.RouterEvents">
             <summary>
@@ -8176,6 +8273,218 @@
             </summary>
             <param name="line">字符串</param>
             <param name="replace">替换的内容</param>
+        </member>
+        <member name="T:SimpleJson.JsonArray">
+            <summary>
+            Represents the json array.
+            </summary>
+        </member>
+        <member name="M:SimpleJson.JsonArray.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SimpleJson.JsonArray"/> class. 
+            </summary>
+        </member>
+        <member name="M:SimpleJson.JsonArray.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SimpleJson.JsonArray"/> class. 
+            </summary>
+            <param name="capacity">The capacity of the json array.</param>
+        </member>
+        <member name="M:SimpleJson.JsonArray.ToString">
+            <summary>
+            The json representation of the array.
+            </summary>
+            <returns>The json representation of the array.</returns>
+        </member>
+        <member name="T:SimpleJson.JsonObject">
+            <summary>
+            Represents the json object.
+            </summary>
+        </member>
+        <member name="F:SimpleJson.JsonObject._members">
+            <summary>
+            The internal member dictionary.
+            </summary>
+        </member>
+        <member name="M:SimpleJson.JsonObject.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:SimpleJson.JsonObject"/>.
+            </summary>
+        </member>
+        <member name="M:SimpleJson.JsonObject.#ctor(System.Collections.Generic.IEqualityComparer{System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:SimpleJson.JsonObject"/>.
+            </summary>
+            <param name="comparer">The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing keys, or null to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> for the type of the key.</param>
+        </member>
+        <member name="P:SimpleJson.JsonObject.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:System.Object"/> at the specified index.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:SimpleJson.JsonObject.Add(System.String,System.Object)">
+            <summary>
+            Adds the specified key.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:SimpleJson.JsonObject.ContainsKey(System.String)">
+            <summary>
+            Determines whether the specified key contains key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>
+                <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:SimpleJson.JsonObject.Keys">
+            <summary>
+            Gets the keys.
+            </summary>
+            <value>The keys.</value>
+        </member>
+        <member name="M:SimpleJson.JsonObject.Remove(System.String)">
+            <summary>
+            Removes the specified key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleJson.JsonObject.TryGetValue(System.String,System.Object@)">
+            <summary>
+            Tries the get value.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="P:SimpleJson.JsonObject.Values">
+            <summary>
+            Gets the values.
+            </summary>
+            <value>The values.</value>
+        </member>
+        <member name="P:SimpleJson.JsonObject.Item(System.String)">
+            <summary>
+            Gets or sets the <see cref="T:System.Object"/> with the specified key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:SimpleJson.JsonObject.Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            Adds the specified item.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="M:SimpleJson.JsonObject.Clear">
+            <summary>
+            Clears this instance.
+            </summary>
+        </member>
+        <member name="M:SimpleJson.JsonObject.Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            Determines whether [contains] [the specified item].
+            </summary>
+            <param name="item">The item.</param>
+            <returns>
+            	<c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SimpleJson.JsonObject.CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)">
+            <summary>
+            Copies to.
+            </summary>
+            <param name="array">The array.</param>
+            <param name="arrayIndex">Index of the array.</param>
+        </member>
+        <member name="P:SimpleJson.JsonObject.Count">
+            <summary>
+            Gets the count.
+            </summary>
+            <value>The count.</value>
+        </member>
+        <member name="P:SimpleJson.JsonObject.IsReadOnly">
+            <summary>
+            Gets a value indicating whether this instance is read only.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is read only; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:SimpleJson.JsonObject.Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            Removes the specified item.
+            </summary>
+            <param name="item">The item.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleJson.JsonObject.GetEnumerator">
+            <summary>
+            Gets the enumerator.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SimpleJson.JsonObject.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:SimpleJson.JsonObject.ToString">
+            <summary>
+            Returns a json <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A json <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="T:SimpleJson.SimpleJson">
+            <summary>
+            This class encodes and decodes JSON strings.
+            Spec. details, see http://www.json.org/
+            
+            JSON uses Arrays and Objects. These correspond here to the datatypes JsonArray(IList&lt;object>) and JsonObject(IDictionary&lt;string,object>).
+            All numbers are parsed to doubles.
+            </summary>
+        </member>
+        <member name="M:SimpleJson.SimpleJson.DeserializeObject(System.String)">
+            <summary>
+            Parses the string json into a value
+            </summary>
+            <param name="json">A JSON string.</param>
+            <returns>An IList&lt;object>, a IDictionary&lt;string,object>, a double, a string, null, true, or false</returns>
+        </member>
+        <member name="M:SimpleJson.SimpleJson.TryDeserializeObject(System.String,System.Object@)">
+            <summary>
+            Try parsing the json string into a value.
+            </summary>
+            <param name="json">
+            A JSON string.
+            </param>
+            <param name="obj">
+            The object.
+            </param>
+            <returns>
+            Returns true if successfull otherwise false.
+            </returns>
+        </member>
+        <member name="M:SimpleJson.SimpleJson.SerializeObject(System.Object,SimpleJson.IJsonSerializerStrategy)">
+            <summary>
+            Converts a IDictionary&lt;string,object> / IList&lt;object> object into a JSON string
+            </summary>
+            <param name="json">A IDictionary&lt;string,object> / IList&lt;object></param>
+            <param name="jsonSerializerStrategy">Serializer strategy to use</param>
+            <returns>A JSON encoded string, or null if object 'json' is not serializable</returns>
+        </member>
+        <member name="M:SimpleJson.SimpleJson.IsNumeric(System.Object)">
+            <summary>
+            Determines if a given object is numeric in any way
+            (can be integer, double, null, etc).
+            </summary>
         </member>
     </members>
 </doc>

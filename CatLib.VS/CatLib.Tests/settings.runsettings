@@ -15,6 +15,11 @@
                 <Attribute>^CatLib\.API\.ExcludeFromCodeCoverageAttribute$</Attribute>
               </Exclude>
             </Attributes>
+            <Sources>
+              <Exclude>
+                <Source>.*\\3rd\\.*</Source>
+              </Exclude>
+            </Sources>
           </CodeCoverage>  
         </Configuration>  
       </DataCollector>  
