@@ -27,10 +27,6 @@ namespace CatLib.Core
             App.Singleton<Env>().Alias<IEnv>().OnResolving((bind, obj) =>
             {
                 var env = obj as Env;
-                if (env == null)
-                {
-                    return null;
-                }
 
                 var configManager = App.Make<IConfigManager>();
                 if (configManager == null)

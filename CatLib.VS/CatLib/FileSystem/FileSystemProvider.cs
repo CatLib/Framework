@@ -45,7 +45,7 @@ namespace CatLib.FileSystem
         /// </summary>
         private void RegisterManager()
         {
-            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>().Alias("filesystem.manager");
+            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>().Alias("catlib.filesystem.manager");
         }
 
         /// <summary>

@@ -36,10 +36,6 @@ namespace CatLib.Config
             App.Singleton<ConfigManager>().Alias<IConfigManager>().OnResolving((bind, obj) =>
             {
                 var configManager = obj as ConfigManager;
-                if (configManager == null)
-                {
-                    return null;
-                }
 
                 configManager.Extend(() =>
                 {
@@ -49,7 +45,7 @@ namespace CatLib.Config
                 });
 
                 return configManager;
-            }).Alias("config.manager");
+            }).Alias("catlib.config.manager");
         }
     }
 }

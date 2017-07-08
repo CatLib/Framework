@@ -25,11 +25,12 @@ namespace CatLib.Translation
         /// </summary>
         public override void Register()
         {
-            App.Singleton<Translator>().Alias<ITranslator>().Alias("translation").OnResolving((bind, obj) =>
+            App.Singleton<Translator>().Alias<ITranslator>().Alias("catlib.translation.translator").OnResolving((bind, obj) =>
             {
-                var config = App.Make<IConfigManager>();
                 var tran = obj as Translator;
                 tran.SetSelector(new Selector());
+
+                var config = App.Make<IConfigManager>();
 
                 if (config == null)
                 {

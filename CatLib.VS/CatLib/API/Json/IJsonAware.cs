@@ -9,22 +9,17 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-using CatLib.API.Timer;
-
-namespace CatLib.Timer
+namespace CatLib.API.Json
 {
     /// <summary>
-    /// 计时器服务
+    /// Json实例接口
     /// </summary>
-    public sealed class TimerProvider : ServiceProvider
+    public interface IJsonAware
     {
         /// <summary>
-        /// 注册计时器服务
+        /// 设定json处理器实例接口
         /// </summary>
-        public override void Register()
-        {
-            App.Singleton<TimerManager>().Alias<ITimerManager>().Alias("catlib.timer.manager");
-        }
+        /// <param name="handler">json处理器</param>
+        void SetJson(IJson handler);
     }
 }

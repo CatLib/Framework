@@ -45,17 +45,17 @@ namespace CatLib.Tests.Config
             var coverter = new BoolStringConverter();
             Assert.AreEqual(true, coverter.ConvertFromString("True", typeof(bool)));
             Assert.AreEqual(true, coverter.ConvertFromString("true", typeof(bool)));
-            Assert.AreEqual(true, coverter.ConvertFromString("1", typeof(bool)));
-            Assert.AreEqual(true, coverter.ConvertFromString("yes", typeof(bool)));
             Assert.AreEqual(true, coverter.ConvertFromString("on", typeof(bool)));
+            Assert.AreEqual(true, coverter.ConvertFromString("yes", typeof(bool)));
             Assert.AreEqual(true, coverter.ConvertFromString("y", typeof(bool)));
+            Assert.AreEqual(true, coverter.ConvertFromString("1", typeof(bool)));
 
-            Assert.AreEqual(false, coverter.ConvertFromString("No", typeof(bool)));
             Assert.AreEqual(false, coverter.ConvertFromString("false", typeof(bool)));
             Assert.AreEqual(false, coverter.ConvertFromString("faLse", typeof(bool)));
+            Assert.AreEqual(false, coverter.ConvertFromString("off", typeof(bool)));
+            Assert.AreEqual(false, coverter.ConvertFromString("No", typeof(bool)));
             Assert.AreEqual(false, coverter.ConvertFromString("n", typeof(bool)));
             Assert.AreEqual(false, coverter.ConvertFromString("0", typeof(bool)));
-            Assert.AreEqual(false, coverter.ConvertFromString("off", typeof(bool)));
 
             ExceptionAssert.Throws<ConverterException>(() =>
             {
