@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
+
 namespace CatLib.API.Json
 {
     /// <summary>
@@ -29,7 +31,7 @@ namespace CatLib.API.Json
         /// </summary>
         /// <param name="json">json数据</param>
         /// <returns>反序列化的对象</returns>
-        object Decode(string json);
+        IDictionary<string, object> Decode(string json);
 
         /// <summary>
         /// 序列化

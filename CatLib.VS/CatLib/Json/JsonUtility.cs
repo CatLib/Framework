@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Json;
 
@@ -55,7 +56,7 @@ namespace CatLib.Json
         /// </summary>
         /// <param name="json">json数据</param>
         /// <returns>反序列化的对象</returns>
-        public object Decode(string json)
+        public IDictionary<string, object> Decode(string json)
         {
             GuardHandler();
             return handler.Decode(json);

@@ -9,7 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
 using CatLib.API.Json;
+using SimpleJson;
 
 namespace CatLib.Json
 {
@@ -34,9 +36,9 @@ namespace CatLib.Json
         /// </summary>
         /// <param name="json">json数据</param>
         /// <returns>反序列化的对象</returns>
-        public object Decode(string json)
+        public IDictionary<string, object> Decode(string json)
         {
-            return SimpleJson.SimpleJson.DeserializeObject(json);
+            return SimpleJson.SimpleJson.DeserializeObject(json) as JsonObject;
         }
 
         /// <summary>
