@@ -68,8 +68,7 @@ namespace CatLib.Config
         {
             Guard.NotNull(type, "type");
             Guard.NotNull(converter, "converter");
-            typeStringConverters.Remove(type);
-            typeStringConverters.Add(type, converter);
+            typeStringConverters[type] = converter;
         }
 
         /// <summary>
