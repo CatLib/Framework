@@ -8,6 +8,10 @@
   <img src="https://codecov.io/gh/CatLib/CatLib/branch/master/graph/badge.svg" alt="Codecov" />
 </a>
 
+> English Document: [en.catlib.io](http://en.catlib.io)  / 中文文档: [catlib.io](http://catlib.io)
+
+> We are currently preparing to convert the comments in the code to the English version. We look forward to your joining.
+
 ## 关于CatLib
 
 CatLib是为Unity3D开发的全栈开发框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
