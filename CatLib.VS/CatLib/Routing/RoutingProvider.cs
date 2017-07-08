@@ -42,7 +42,7 @@ namespace CatLib.Routing
                 var router = new Router(App, App);
                 router.SetDefaultScheme("catlib");
                 return router;
-            }).Alias<IRouter>().Alias("routing.router");
+            }).Alias<IRouter>().Alias("catlib.routing.router");
 
             RegisterAttrRouteCompiler();
         }
@@ -55,10 +55,6 @@ namespace CatLib.Routing
             App.Bind<AttrRouteCompiler>().OnResolving((bind, obj) =>
             {
                 var compiler = obj as AttrRouteCompiler;
-                if (compiler == null)
-                {
-                    return null;
-                }
 
                 var containList = new List<string>()
                 {

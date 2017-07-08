@@ -29,7 +29,7 @@ namespace CatLib.Json
                 var jsonUtility = obj as JsonUtility;
                 jsonUtility.SetJson(new SimpleJsonAdapter());
                 return jsonUtility;
-            }).Alias<IJson>().Alias<IJsonAware>();
+            }).Alias<IJson>().Alias<IJsonAware>().Alias("catlib.json.parse");
         }
     }
 }
