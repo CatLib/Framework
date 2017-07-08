@@ -33,7 +33,7 @@ namespace CatLib.Tests.Config
         {
             var config = new CatLib.Config.Config();
             config.AddConverter(typeof(string) , new StringStringConverter());
-            config.AddLocator(new CodeConfigLocator());
+            config.SetLocator(new CodeConfigLocator());
 
             Assert.AreEqual(null, config.Get<string>("test"));
             config.Set("test", "test");
@@ -60,7 +60,7 @@ namespace CatLib.Tests.Config
         public void CanNotFindCoverterTest()
         {
             var config = new CatLib.Config.Config();
-            config.AddLocator(new CodeConfigLocator());
+            config.SetLocator(new CodeConfigLocator());
             ExceptionAssert.Throws<ConverterException>(() =>
             {
                 config.Set("123", new ConfigTests());
@@ -71,7 +71,7 @@ namespace CatLib.Tests.Config
         public void GetUndefinedTest()
         {
             var config = new CatLib.Config.Config();
-            config.AddLocator(new CodeConfigLocator());
+            config.SetLocator(new CodeConfigLocator());
             config.Set("123", "123");
 
             Assert.AreEqual(null, config["222"]);
@@ -81,7 +81,7 @@ namespace CatLib.Tests.Config
         public void GetWithUndefinedTypeConverterTest()
         {
             var config = new CatLib.Config.Config();
-            config.AddLocator(new CodeConfigLocator());
+            config.SetLocator(new CodeConfigLocator());
             config.Set("123", "123");
             Assert.AreEqual(null, config.Get<ConfigTests>("123"));
         }
@@ -90,7 +90,7 @@ namespace CatLib.Tests.Config
         public void ExceptionConverterTest()
         {
             var config = new CatLib.Config.Config();
-            config.AddLocator(new CodeConfigLocator());
+            config.SetLocator(new CodeConfigLocator());
             config.Set("123", "abc");
             
             ExceptionAssert.Throws<ArgumentException>(() =>
@@ -105,7 +105,7 @@ namespace CatLib.Tests.Config
         public void SaveTest()
         {
             var config = new CatLib.Config.Config();
-            config.AddLocator(new CodeConfigLocator());
+            config.SetLocator(new CodeConfigLocator());
             config.Set("123", "abc");
             config.Save();
         }

@@ -48,13 +48,11 @@
             <param name="type">类型</param>
             <param name="converter">类型对应转换器</param>
         </member>
-        <member name="M:CatLib.API.Config.IConfig.AddLocator(CatLib.API.Config.IConfigLocator,System.Int32)">
+        <member name="M:CatLib.API.Config.IConfig.SetLocator(CatLib.API.Config.IConfigLocator)">
             <summary>
-            注册一个配置定位器
-            框架会依次遍历配置定位器来获取配置
+            设定配置定位器
             </summary>
             <param name="locator">配置定位器</param>
-            <param name="priority">查询优先级(值越小越优先)</param>
         </member>
         <member name="M:CatLib.API.Config.IConfig.Set``1(System.String,``0)">
             <summary>
@@ -2578,7 +2576,7 @@
             配置容器
             </summary>
         </member>
-        <member name="F:CatLib.Config.Config.locators">
+        <member name="F:CatLib.Config.Config.locator">
             <summary>
             配置定位器
             </summary>
@@ -2600,13 +2598,12 @@
             <param name="type">类型对应的转换器</param>
             <param name="converter">转换器</param>
         </member>
-        <member name="M:CatLib.Config.Config.AddLocator(CatLib.API.Config.IConfigLocator,System.Int32)">
+        <member name="M:CatLib.Config.Config.SetLocator(CatLib.API.Config.IConfigLocator)">
             <summary>
             注册一个配置定位器
             框架会依次遍历配置定位器来获取配
             </summary>
             <param name="locator">配置定位器</param>
-            <param name="priority">查询优先级(值越小越优先)</param>
         </member>
         <member name="M:CatLib.Config.Config.Save">
             <summary>
@@ -2652,6 +2649,11 @@
             <param name="type">类型</param>
             <param name="converter">转换器</param>
             <returns></returns>
+        </member>
+        <member name="M:CatLib.Config.Config.GuardLocator">
+            <summary>
+            检验定位器是否有效
+            </summary>
         </member>
         <member name="T:CatLib.Config.ConfigProvider">
             <summary>

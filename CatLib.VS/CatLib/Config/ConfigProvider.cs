@@ -44,7 +44,7 @@ namespace CatLib.Config
                 configManager.Extend(() =>
                 {
                     var config = new Config();
-                    config.AddLocator(new CodeConfigLocator());
+                    config.SetLocator(new CodeConfigLocator());
                     return config;
                 });
 

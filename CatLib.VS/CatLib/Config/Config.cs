@@ -26,7 +26,7 @@ namespace CatLib.Config
         /// <summary>
         /// 配置定位器
         /// </summary>
-        private readonly SortSet<IConfigLocator, int> locators;
+        private IConfigLocator locator;
 
         /// <summary>
         /// 类型转换器
@@ -38,7 +38,6 @@ namespace CatLib.Config
         /// </summary>
         public Config()
         {
-            locators = new SortSet<IConfigLocator, int>();
             typeStringConverters = new Dictionary<Type, ITypeStringConverter>
             {
                 { typeof(bool), new BoolStringConverter() },
@@ -78,11 +77,10 @@ namespace CatLib.Config
         /// 框架会依次遍历配置定位器来获取配
         /// </summary>
         /// <param name="locator">配置定位器</param>
-        /// <param name="priority">查询优先级(值越小越优先)</param>
-        public void AddLocator(IConfigLocator locator , int priority = int.MaxValue)
+        public void SetLocator(IConfigLocator locator)
         {
             Guard.NotNull(locator, "locator");
-            locators.Add(locator, priority);
+            this.locator = locator;
         }
 
         /// <summary>
@@ -90,10 +88,8 @@ namespace CatLib.Config
         /// </summary>
         public void Save()
         {
-            foreach (var locator in locators)
-            {
-                locator.Save();
-            }
+            GuardLocator();
+            locator.Save();
         }
 
         /// <summary>
@@ -125,26 +121,8 @@ namespace CatLib.Config
         /// <param name="type">配置值的类型</param>
         public void Set(string name, object value , Type type)
         {
+            GuardLocator();
             Guard.NotNull(name, "name");
-            if (locators.Count <= 0)
-            {
-                throw new RuntimeException("No locator. please AddLocator() locator first.");
-            }
-
-            IConfigLocator configLocator = null;
-            string val;
-            foreach (var locator in locators)
-            {
-                if (locator.TryGetValue(name, out val))
-                {
-                    configLocator = locator;
-                }
-            }
-
-            if (configLocator == null)
-            {
-                configLocator = locators.Last();
-            }
 
             ITypeStringConverter converter;
             if (!GetCoverter(type, out converter))
@@ -152,7 +130,7 @@ namespace CatLib.Config
                 throw new ConverterException("Can not find [" + type + "] coverter impl.");
             }
 
-            configLocator.Set(name, converter.ConvertToString(value));
+            locator.Set(name, converter.ConvertToString(value));
         }
 
         /// <summary>
@@ -164,19 +142,12 @@ namespace CatLib.Config
         /// <returns>配置的值，如果找不到则返回默认值</returns>
         public T Get<T>(string name, T def = default(T))
         {
+            GuardLocator();
             Guard.NotNull(name, "name");
             try
             {
-                string val = null;
-                foreach (var locator in locators)
-                {
-                    if (locator.TryGetValue(name, out val))
-                    {
-                        break;
-                    }
-                }
-
-                if (val == null)
+                string val;
+                if (!locator.TryGetValue(name, out val))
                 {
                     return def;
                 }
@@ -210,6 +181,17 @@ namespace CatLib.Config
                 type = type.BaseType;
             } while (!status && type != null);
             return status;
+        }
+
+        /// <summary>
+        /// 检验定位器是否有效
+        /// </summary>
+        private void GuardLocator()
+        {
+            if (locator == null)
+            {
+                throw new RuntimeException("Undefiend config locator , please call IConfig.SetLocator");
+            }
         }
     }
 }
