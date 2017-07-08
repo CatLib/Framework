@@ -22,7 +22,7 @@ namespace CatLib.API.Config
         /// 获取值
         /// </summary>
         /// <param name="name">配置名</param>
-        /// <returns></returns>
+        /// <returns>配置值</returns>
         string this[string name] { get; }
 
         /// <summary>
@@ -33,12 +33,10 @@ namespace CatLib.API.Config
         void AddConverter(Type type, ITypeStringConverter converter);
 
         /// <summary>
-        /// 注册一个配置定位器
-        /// 框架会依次遍历配置定位器来获取配置
+        /// 设定配置定位器
         /// </summary>
         /// <param name="locator">配置定位器</param>
-        /// <param name="priority">查询优先级(值越小越优先)</param>
-        void AddLocator(IConfigLocator locator, int priority = int.MaxValue);
+        void SetLocator(IConfigLocator locator);
 
         /// <summary>
         /// 设定配置的值

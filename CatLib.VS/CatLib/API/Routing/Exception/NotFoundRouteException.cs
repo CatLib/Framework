@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
-namespace CatLib.Routing
+namespace CatLib.API.Routing
 {
     /// <summary>
     /// 未能找到路由条目

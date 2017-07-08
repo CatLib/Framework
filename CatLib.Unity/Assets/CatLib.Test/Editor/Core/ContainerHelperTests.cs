@@ -80,8 +80,8 @@ namespace CatLib.Tests.Core
         {
             var container = MakeContainer();
             container.Singleton<TestClassService, ContainerHelperTestClass>();
-            var obj = container.Make(typeof(TestClassService).ToString());
-            var obj2 = container.Make(typeof(TestClassService).ToString());
+            var obj = container.Make(container.Type2Service(typeof(TestClassService)));
+            var obj2 = container.Make(container.Type2Service(typeof(TestClassService)));
 
             Assert.AreSame(obj, obj2);
         }
@@ -97,8 +97,8 @@ namespace CatLib.Tests.Core
             {
                 return new object();
             });
-            var obj = container.Make(typeof(TestClassService).ToString());
-            var obj2 = container.Make(typeof(TestClassService).ToString());
+            var obj = container.Make(container.Type2Service(typeof(TestClassService)));
+            var obj2 = container.Make(container.Type2Service(typeof(TestClassService)));
 
             Assert.AreSame(obj, obj2);
         }
@@ -111,7 +111,7 @@ namespace CatLib.Tests.Core
         {
             var container = new CatLib.Stl.Container();
             container.Instance("ContainerHelperTests", this);
-            container.Instance(typeof(ContainerHelperTests).ToString(), this);
+            container.Instance(container.Type2Service(typeof(ContainerHelperTests)), this);
             return container;
         }
     }

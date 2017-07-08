@@ -24,8 +24,8 @@ namespace CatLib.Demo.Routing
 
         public void Bootstrap()
         {
-            App.Instance.Register(typeof(RoutingProvider));
-            App.Instance.Register(typeof(RoutingDemo));
+            App.Instance.Register(new RoutingProvider());
+            App.Instance.Register(new RoutingDemo());
         }
 
     }
@@ -42,7 +42,7 @@ namespace CatLib.Demo.Routing
             {
                 return Type.GetType(type);
             });
-            application.Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
+            application.Bootstrap(new Bootstraps()).Init();
         }
     }
 

@@ -36,6 +36,15 @@ namespace CatLib.API.Stl
         TVal Get(TKey key, TVal defaultValue = default(TVal));
 
         /// <summary>
+        /// 根据key获取val，如果被淘汰则返回传入的默认值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="val">值</param>
+        /// <param name="defaultVal">默认值</param>
+        /// <returns>是否获取</returns>
+        bool Get(TKey key, out TVal val, TVal defaultVal = default(TVal));
+
+        /// <summary>
         /// 移除元素
         /// </summary>
         /// <param name="key">键</param>

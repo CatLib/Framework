@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Time;
 using CatLib.Config;
@@ -122,8 +123,8 @@ namespace CatLib.Tests.Time
         public void TestInitialize()
         {
             var app = new Application().Bootstrap();
-            app.Register(typeof(TimeProvider));
-            app.Register(typeof(ConfigProvider));
+            app.Register(new TimeProvider());
+            app.Register(new ConfigProvider());
             app.Init();
 
             var timeManager = app.Make<ITimeManager>();

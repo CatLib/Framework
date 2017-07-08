@@ -25,9 +25,9 @@ namespace CatLib.Demo.Timer
 
         public void Bootstrap()
         {
-            App.Instance.Register(typeof(TimerProvider));
-            App.Instance.Register(typeof(TimeProvider));
-            App.Instance.Register(typeof(TimerDemo));
+            App.Instance.Register(new TimerProvider());
+            App.Instance.Register(new TimeProvider());
+            App.Instance.Register(new TimerDemo());
         }
 
     }
@@ -44,7 +44,7 @@ namespace CatLib.Demo.Timer
             {
                 return Type.GetType(type);
             });
-            application.Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
+            application.Bootstrap(new Bootstraps()).Init();
         }
     }
 

@@ -193,5 +193,19 @@ namespace CatLib.Tests.Stl
             var cache = new LruCache<string, string>(5);
             cache.Remove("999");
         }
+
+        [TestMethod]
+        public void TestGet()
+        {
+            var cache = new LruCache<string, string>(5);
+            cache.Add("10", "5");
+
+            string val;
+            Assert.AreEqual(true, cache.Get("10", out val, "100"));
+            Assert.AreEqual("5", val);
+
+            Assert.AreEqual(false, cache.Get("11", out val, "100"));
+            Assert.AreEqual("100", val);
+        }
     }
 }

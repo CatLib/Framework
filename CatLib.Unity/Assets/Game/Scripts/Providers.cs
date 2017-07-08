@@ -9,13 +9,14 @@
  * Document: http://catlib.io/
  */
 
-using System;
+using CatLib.API;
 using CatLib.Time;
 using CatLib.Config;
 using CatLib.Core;
 using CatLib.FileSystem;
 using CatLib.Routing;
 using CatLib.Timer;
+using CatLib.Translation;
 
 namespace CatLib.Bootstrap
 {
@@ -27,18 +28,19 @@ namespace CatLib.Bootstrap
         /// <summary>
         /// 服务提供者
         /// </summary>
-        public static Type[] ServiceProviders
+        public static IServiceProvider[] ServiceProviders
         {
             get
             {
-                return new[]
+                return new IServiceProvider[]
                 {
-                    typeof(TimeProvider),
-                    typeof(CoreProvider),
-                    typeof(TimerProvider),
-                    typeof(ConfigProvider),
-                    typeof(RoutingProvider),
-                    typeof(FileSystemProvider)
+                    new TimeProvider(),
+                    new CoreProvider(),
+                    new TimerProvider(),
+                    new ConfigProvider(),
+                    new RoutingProvider(),
+                    new FileSystemProvider(),
+                    new TranslationProvider(), 
                 };
             }
         }

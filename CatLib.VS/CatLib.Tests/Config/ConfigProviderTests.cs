@@ -10,6 +10,7 @@
  */
 
 using System;
+using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Core;
@@ -38,7 +39,7 @@ namespace CatLib.Tests.Config
             {
                 return Type.GetType(t);
             });
-            app.Register(typeof(ConfigProvider));
+            app.Register(new ConfigProvider());
             app.Init();
         }
 

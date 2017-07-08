@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System;
+using CatLib.API;
 
 namespace CatLib.Bootstrap
 {
@@ -22,15 +22,15 @@ namespace CatLib.Bootstrap
         /// 引导程序
         /// 请不要随意调整引导顺序，除非您非常了解启动流程
         /// </summary>
-        public static Type[] BootStrap
+        public static IBootstrap[] BootStrap
         {
             get
             {
-                return new[]
+                return new IBootstrap[]
                 {
-                    typeof(ProvidersBootstrap),
-                    typeof(ConfigBootstrap),
-                    typeof(StartBootstrap)
+                    new ProvidersBootstrap(),
+                    new ConfigBootstrap(),
+                    new StartBootstrap()
                 };
             }
         }

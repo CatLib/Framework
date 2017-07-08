@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.API.Debugger;
 
 namespace CatLib.Debugger

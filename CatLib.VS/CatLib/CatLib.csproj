@@ -65,6 +65,9 @@
     <Compile Include="API\Debugger\Features\IMonitorHandler.cs" />
     <Compile Include="API\Debugger\Internal\ILoggerAware.cs" />
     <Compile Include="API\Debugger\LogLevels.cs" />
+    <Compile Include="API\Core\Features\IServiceProvider.cs" />
+    <Compile Include="API\Json\IJson.cs" />
+    <Compile Include="API\Json\IJsonAware.cs" />
     <Compile Include="API\Stl\Container\Features\InjectAttribute.cs" />
     <Compile Include="API\Stl\Container\IContainer.cs" />
     <Compile Include="API\Stl\Container\Internal\IBindData.cs" />
@@ -74,7 +77,6 @@
     <Compile Include="API\Core\Features\IBootstrap.cs" />
     <Compile Include="API\Core\Features\Behaviour\IDestroy.cs" />
     <Compile Include="API\Core\Features\Behaviour\ILateUpdate.cs" />
-    <Compile Include="API\Core\Features\Behaviour\IStart.cs" />
     <Compile Include="API\Core\Features\Behaviour\IUpdate.cs" />
     <Compile Include="API\Core\Features\PriorityAttribute.cs" />
     <Compile Include="API\Core\IApplication.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="API\Timer\Internal\ITimerQueue.cs" />
     <Compile Include="API\Timer\ITimerManager.cs" />
     <Compile Include="API\Time\ITimeManager.cs" />
+    <Compile Include="API\Translation\ITranslator.cs" />
+    <Compile Include="API\Translation\Languages.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="Debugger\Debugger.cs" />
@@ -138,14 +142,18 @@
     <Compile Include="Config\ConverterException.cs" />
     <Compile Include="API\Config\Features\ITypeStringConverter.cs" />
     <Compile Include="FileSystem\FileSystemManager.cs" />
-    <Compile Include="Routing\EventArgs\DispatchEventArgs.cs" />
+    <Compile Include="API\Routing\EventArgs\DispatchEventArgs.cs" />
+    <Compile Include="Json\3rd\SimpleJson.cs" />
+    <Compile Include="Json\JsonProvider.cs" />
+    <Compile Include="Json\JsonUtility.cs" />
+    <Compile Include="Json\SimpleJsonAdapter.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="API\Stl\LruCache\ILruCache.cs" />
     <Compile Include="API\Routing\Features\IMiddleware.cs" />
     <Compile Include="API\Routing\Features\RoutedAttribute.cs" />
-    <Compile Include="Routing\Exception\DomainException.cs" />
-    <Compile Include="Routing\Exception\NotFoundRouteException.cs" />
-    <Compile Include="Routing\Exception\UndefinedDefaultSchemeException.cs" />
+    <Compile Include="API\Routing\Exception\DomainException.cs" />
+    <Compile Include="API\Routing\Exception\NotFoundRouteException.cs" />
+    <Compile Include="API\Routing\Exception\UndefinedDefaultSchemeException.cs" />
     <Compile Include="API\Routing\Internal\IRequest.cs" />
     <Compile Include="API\Routing\Internal\IResponse.cs" />
     <Compile Include="API\Routing\Internal\IRoute.cs" />
@@ -158,14 +166,14 @@
     <Compile Include="Stl\Container\Container.cs" />
     <Compile Include="Stl\Container\ContainerExpand.cs" />
     <Compile Include="Stl\Container\GivenData.cs" />
-    <Compile Include="Core\App.cs" />
+    <Compile Include="API\Core\App.cs" />
     <Compile Include="Core\Application.cs" />
     <Compile Include="Core\CoreProvider.cs" />
     <Compile Include="Core\Driver.cs" />
     <Compile Include="Core\DriverBehaviour.cs" />
     <Compile Include="Core\Env.cs" />
     <Compile Include="Core\Facade.cs" />
-    <Compile Include="Core\ServiceProvider.cs" />
+    <Compile Include="API\Core\ServiceProvider.cs" />
     <Compile Include="Core\Util.cs" />
     <Compile Include="Core\EventHandler.cs" />
     <Compile Include="Core\Event.cs" />
@@ -204,6 +212,11 @@
     <Compile Include="Time\TimeManager.cs" />
     <Compile Include="Time\TimeProvider.cs" />
     <Compile Include="Time\UnityTime.cs" />
+    <Compile Include="API\Translation\Features\IMappingHandler.cs" />
+    <Compile Include="Translation\ISelector.cs" />
+    <Compile Include="Translation\Selector.cs" />
+    <Compile Include="Translation\TranslationProvider.cs" />
+    <Compile Include="Translation\Translator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="API\catlib.json" />
@@ -215,6 +228,7 @@
     <None Include="Stl\catlib.json" />
     <None Include="Timer\catlib.json" />
     <None Include="Time\catlib.json" />
+    <None Include="Translation\catlib.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

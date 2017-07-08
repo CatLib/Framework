@@ -95,9 +95,9 @@ namespace CatLib.Tests.Core
         {
             var app = new Application();
             app.Bootstrap();
-            ExceptionAssert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                app.Register(typeof(ApplicationTests));
+                app.Register(null);
             });
         }
 
@@ -111,7 +111,7 @@ namespace CatLib.Tests.Core
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Register(typeof(ConfigProvider));
+                app.Register(new ConfigProvider());
             });
         }
 
@@ -169,8 +169,8 @@ namespace CatLib.Tests.Core
                 return Type.GetType(t);
             });
             app.Bootstrap();
-            App.Instance.Register(typeof(ProviderTest1));
-            App.Instance.Register(typeof(ProviderTest2));
+            App.Instance.Register(new ProviderTest1());
+            App.Instance.Register(new ProviderTest2());
             app.Init();
             Assert.AreEqual(true, prioritiesTest);
         }
@@ -182,9 +182,9 @@ namespace CatLib.Tests.Core
         public void IllegalBootstrap()
         {
             var app = new Application();
-            ExceptionAssert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                app.Bootstrap(typeof(ApplicationTests)).Init();
+                app.Bootstrap(null).Init();
             });
         }
 
@@ -201,12 +201,12 @@ namespace CatLib.Tests.Core
                 return Type.GetType(t);
             });
             app.Bootstrap();
-            App.Instance.Register(typeof(ProviderTest1));
+            App.Instance.Register(new ProviderTest1());
             app.Init();
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                App.Instance.Register(typeof(ProviderTest2));
+                App.Instance.Register(new ProviderTest2());
             });
         }
 
@@ -218,7 +218,7 @@ namespace CatLib.Tests.Core
             {
                 return Type.GetType(t);
             });
-            app.Bootstrap(typeof(BootstrapClass));
+            app.Bootstrap(new BootstrapClass());
 
             var isCallback = false;
             app.Init(() =>
@@ -227,28 +227,6 @@ namespace CatLib.Tests.Core
             });
 
             Assert.AreEqual(true, isCallback);
-        }
-
-        [TestMethod]
-        public void TestNotSetOnFindType()
-        {
-            var app = new Application();
-
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                app.Bootstrap(typeof(BootstrapClass));
-            });
-        }
-
-        [TestMethod]
-        public void TestNotSetOnFindTypeToRegisert()
-        {
-            var app = new Application();
-            app.Bootstrap();
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                app.Register(typeof(ProviderTest1));
-            });
         }
 
         [TestMethod]
@@ -261,11 +239,11 @@ namespace CatLib.Tests.Core
             });
 
             app.Bootstrap();
-            app.Register(typeof(ProviderTest1));
+            app.Register(new ProviderTest1());
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Register(typeof(ProviderTest1));
+                app.Register(new ProviderTest1());
             });
         }
 
@@ -276,7 +254,7 @@ namespace CatLib.Tests.Core
             {
                 return Type.GetType(t);
             });
-            app.Bootstrap(typeof(BootstrapClass)).Init();
+            app.Bootstrap(new BootstrapClass()).Init();
             return app;
         }
 
@@ -284,7 +262,7 @@ namespace CatLib.Tests.Core
         {
             public void Bootstrap()
             {
-                App.Instance.Register(typeof(ConfigProvider));
+                App.Instance.Register(new ConfigProvider());
             }
         }
     }
