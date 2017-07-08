@@ -74,7 +74,6 @@ namespace CatLib.Config
 
         /// <summary>
         /// 注册一个配置定位器
-        /// 框架会依次遍历配置定位器来获取配
         /// </summary>
         /// <param name="locator">配置定位器</param>
         public void SetLocator(IConfigLocator locator)
@@ -95,8 +94,8 @@ namespace CatLib.Config
         /// <summary>
         /// 根据配置名获取配置
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">配置名</param>
+        /// <returns>配置的值</returns>
         public string this[string name]
         {
             get { return Get<string>(name); }
@@ -171,7 +170,7 @@ namespace CatLib.Config
         /// </summary>
         /// <param name="type">类型</param>
         /// <param name="converter">转换器</param>
-        /// <returns></returns>
+        /// <returns>是否成功转换</returns>
         private bool GetCoverter(Type type , out ITypeStringConverter converter)
         {
             bool status;

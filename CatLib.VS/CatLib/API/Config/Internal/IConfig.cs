@@ -22,7 +22,7 @@ namespace CatLib.API.Config
         /// 获取值
         /// </summary>
         /// <param name="name">配置名</param>
-        /// <returns></returns>
+        /// <returns>配置值</returns>
         string this[string name] { get; }
 
         /// <summary>
