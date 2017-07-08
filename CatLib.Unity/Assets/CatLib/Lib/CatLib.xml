@@ -39,7 +39,7 @@
             获取值
             </summary>
             <param name="name">配置名</param>
-            <returns></returns>
+            <returns>配置值</returns>
         </member>
         <member name="M:CatLib.API.Config.IConfig.AddConverter(System.Type,CatLib.API.Config.ITypeStringConverter)">
             <summary>
@@ -2639,7 +2639,6 @@
         <member name="M:CatLib.Config.Config.SetLocator(CatLib.API.Config.IConfigLocator)">
             <summary>
             注册一个配置定位器
-            框架会依次遍历配置定位器来获取配
             </summary>
             <param name="locator">配置定位器</param>
         </member>
@@ -2652,8 +2651,8 @@
             <summary>
             根据配置名获取配置
             </summary>
-            <param name="name"></param>
-            <returns></returns>
+            <param name="name">配置名</param>
+            <returns>配置的值</returns>
         </member>
         <member name="M:CatLib.Config.Config.Set``1(System.String,``0)">
             <summary>
@@ -2686,7 +2685,7 @@
             </summary>
             <param name="type">类型</param>
             <param name="converter">转换器</param>
-            <returns></returns>
+            <returns>是否成功转换</returns>
         </member>
         <member name="M:CatLib.Config.Config.GuardLocator">
             <summary>
