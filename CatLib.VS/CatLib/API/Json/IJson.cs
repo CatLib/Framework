@@ -25,6 +25,13 @@ namespace CatLib.API.Json
         T Decode<T>(string json);
 
         /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="json">json数据</param>
+        /// <returns>反序列化的对象</returns>
+        object Decode(string json);
+
+        /// <summary>
         /// 序列化
         /// </summary>
         /// <param name="item">需要序列化的对象</param>

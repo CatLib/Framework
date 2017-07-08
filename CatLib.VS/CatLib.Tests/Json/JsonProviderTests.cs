@@ -47,12 +47,7 @@ namespace CatLib.Tests.Json
         {
             public string Name;
 
-            public Dictionary<string, Dictionary<string, DemoSubClass>> Dict;
-        }
-
-        public class DemoSubClass
-        {
-            public int Age;
+            public Dictionary<string, string> Dict;
         }
 
         [TestMethod]
@@ -63,13 +58,9 @@ namespace CatLib.Tests.Json
             var demoClass = new DemoClass()
             {
                 Name = "helloworld",
-                Dict = new Dictionary<string, Dictionary<string, DemoSubClass>>()
+                Dict = new Dictionary<string, string>()
                 {
-                    {"key" , new Dictionary<string, DemoSubClass>()
-                        {
-                            { "key" , new DemoSubClass(){ Age = 18 } }
-                        }
-                    }
+                    {"key" , "18" }
                 }
             };
 
@@ -77,7 +68,11 @@ namespace CatLib.Tests.Json
             var decodeClass = json.Decode<DemoClass>(jsonStr);
 
             Assert.AreEqual("helloworld", decodeClass.Name);
-            Assert.AreEqual(18, decodeClass.Dict["key"]["key"].Age);
+            Assert.AreEqual("18", decodeClass.Dict["key"]);
+
+            var decodeClassWithObject = json.Decode(jsonStr);
+
+            Assert.AreNotEqual(null, decodeClassWithObject);
         }
     }
 }
