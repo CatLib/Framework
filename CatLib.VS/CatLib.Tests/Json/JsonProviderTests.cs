@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Json;
@@ -49,6 +50,48 @@ namespace CatLib.Tests.Json
             public string Name;
 
             public Dictionary<string, string> Dict;
+        }
+
+        [TestMethod]
+        public void TestInvalidSetJson()
+        {
+            var app = MakeApplication();
+            var jsonAware = app.Make<IJsonAware>();
+            var json = app.Make<IJson>();
+
+            ExceptionAssert.Throws<InvalidOperationException>(() =>
+            {
+                jsonAware.SetJson(json);
+            });
+        }
+
+        [TestMethod]
+        public void TestNotSetJson()
+        {
+            var jsonUnility = new JsonUtility();
+            var demoClass = new DemoClass()
+            {
+                Name = "helloworld",
+                Dict = new Dictionary<string, string>()
+                {
+                    {"key" , "18" }
+                }
+            };
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                jsonUnility.Encode(demoClass);
+            });
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                jsonUnility.Decode(string.Empty);
+            });
+ 
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                jsonUnility.Decode<DemoClass>(string.Empty);
+            });
         }
 
         [TestMethod]
