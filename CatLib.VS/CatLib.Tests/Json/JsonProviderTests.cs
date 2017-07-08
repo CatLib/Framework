@@ -9,6 +9,12 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
+using CatLib.API;
+using CatLib.API.Json;
+using CatLib.Core;
+using CatLib.Json;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -16,11 +22,6 @@ using TestMethod = NUnit.Framework.TestAttribute;
 using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
-using System.Collections.Generic;
-using CatLib.API;
-using CatLib.API.Json;
-using CatLib.Core;
-using CatLib.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
