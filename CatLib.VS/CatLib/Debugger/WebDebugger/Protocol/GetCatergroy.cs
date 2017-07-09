@@ -12,7 +12,7 @@
 using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
 
-namespace CatLib.Debugger.WebHandler.Protocol
+namespace CatLib.Debugger.WebDebugger.Protocol
 {
     /// <summary>
     /// 获取分组接口

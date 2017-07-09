@@ -13,7 +13,7 @@ using CatLib.API.Debugger;
 using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
 
-namespace CatLib.Debugger.WebHandler.Protocol
+namespace CatLib.Debugger.WebDebugger.Protocol
 {
     /// <summary>
     /// Web控制台输出

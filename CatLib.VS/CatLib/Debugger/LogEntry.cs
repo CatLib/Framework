@@ -9,9 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Debugger;
 using System.Diagnostics;
 using System.Threading;
-using CatLib.API.Debugger;
 
 namespace CatLib.Debugger
 {
@@ -72,7 +72,6 @@ namespace CatLib.Debugger
             {
                 Namespace = declaringType.Namespace;
             }
-
             Id = Interlocked.Increment(ref lastId);
         }
     }

@@ -14,7 +14,7 @@ namespace CatLib.Debugger.WebConsole
     /// <summary>
     /// 基础协议
     /// </summary>
-    public sealed class BaseProtocol
+    internal sealed class BaseProtocol
     {
         /// <summary>
         /// 数据

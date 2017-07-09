@@ -11,9 +11,9 @@
 
 using CatLib.API.Debugger;
 using CatLib.API.Routing;
-using CatLib.Debugger.WebHandler.Protocol;
+using CatLib.Debugger.WebDebugger.Protocol;
 
-namespace CatLib.Debugger.WebHandler.Controller
+namespace CatLib.Debugger.WebDebugger.Controller
 {
     /// <summary>
     /// 通用

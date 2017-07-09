@@ -80,7 +80,7 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
-        /// 注册web控制台
+        /// 注册web控制台基础服务
         /// </summary>
         private void RegisterWebConsole()
         {

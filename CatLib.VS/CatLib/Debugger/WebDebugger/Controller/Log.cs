@@ -11,7 +11,7 @@
 
 using CatLib.API.Routing;
 
-namespace CatLib.Debugger.WebHandler.Controller
+namespace CatLib.Debugger.WebDebugger.Controller
 {
     /// <summary>
     /// 日志
