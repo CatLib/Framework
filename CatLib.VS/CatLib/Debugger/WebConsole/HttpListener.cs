@@ -13,7 +13,7 @@ using System;
 using System.Net;
 using Listener = System.Net.HttpListener;
 
-namespace CatLib.Debugger.Http
+namespace CatLib.Debugger.WebConsole
 {
     /// <summary>
     /// Http监听器
@@ -39,15 +39,8 @@ namespace CatLib.Debugger.Http
         {
             listener = new Listener();
             listener.Prefixes.Add("http://"+ host + ":" + port + "/");
-            listener.BeginGetContext(ListenedRequest, null);
-        }
-
-        /// <summary>
-        /// 开始监听
-        /// </summary>
-        public void Start()
-        {
             listener.Start();
+            listener.BeginGetContext(ListenedRequest, null);
         }
 
         /// <summary>

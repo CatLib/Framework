@@ -2712,6 +2712,83 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:CatLib.Debugger.Http.HttpDebuggerConsole">
+            <summary>
+            http调试控制台
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Http.HttpDebuggerConsole.listener">
+            <summary>
+            Http监听器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Http.HttpDebuggerConsole.router">
+            <summary>
+            路由器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Http.HttpDebuggerConsole.#ctor(CatLib.API.Routing.IRouter)">
+            <summary>
+            http调试控制台
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.Http.HttpListener">
+            <summary>
+            Http监听器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Http.HttpListener.listener">
+            <summary>
+            监听器
+            </summary>
+        </member>
+        <member name="E:CatLib.Debugger.Http.HttpListener.OnRequest">
+            <summary>
+            当请求时
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Http.HttpListener.#ctor(System.String,System.UInt16)">
+            <summary>
+            Http监听器
+            </summary>
+            <param name="host">监听host</param>
+            <param name="port">监听端口</param>
+        </member>
+        <member name="M:CatLib.Debugger.Http.HttpListener.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Http.HttpListener.ListenedRequest(System.IAsyncResult)">
+            <summary>
+            监听到请求时
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.Http.IHttpConsoleResponse">
+            <summary>
+            调试控制台响应
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Http.IHttpConsoleResponse.Level">
+            <summary>
+            等级
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Http.IHttpConsoleResponse.Categroy">
+            <summary>
+            分组
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Http.IHttpConsoleResponse.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Http.IHttpConsoleResponse.CallStack">
+            <summary>
+            调用堆栈
+            </summary>
+        </member>
         <member name="T:CatLib.Debugger.IDebugResponse">
             <summary>
             调试响应
