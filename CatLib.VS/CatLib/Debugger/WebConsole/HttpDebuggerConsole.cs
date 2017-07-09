@@ -12,6 +12,7 @@
 using System;
 using System.Net;
 using System.Text;
+using CatLib.API;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.API.Routing;
@@ -21,7 +22,7 @@ namespace CatLib.Debugger.WebConsole
     /// <summary>
     /// http调试控制台
     /// </summary>
-    internal sealed class HttpDebuggerConsole
+    internal sealed class HttpDebuggerConsole : IDestroy
     {
         /// <summary>
         /// http监听器
@@ -85,6 +86,14 @@ namespace CatLib.Debugger.WebConsole
             {
                 listener.Dispose();
             }
+        }
+
+        /// <summary>
+        /// 当释放时
+        /// </summary>
+        public void OnDestroy()
+        {
+            Stop();
         }
 
         /// <summary>

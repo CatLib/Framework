@@ -9,8 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections;
 using CatLib.API;
+using CatLib.API.Config;
 using CatLib.API.Debugger;
+using CatLib.Debugger.WebConsole;
 
 namespace CatLib.Debugger
 {
@@ -20,6 +23,21 @@ namespace CatLib.Debugger
     public sealed class DebuggerProvider : ServiceProvider
     {
         /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <returns>迭代器</returns>
+        [Priority(0)]
+        public override IEnumerator Init()
+        {
+            var config = App.Make<IConfigManager>();
+            if (config != null && config.Default.Get("debugger.webconsole.enable", false))
+            {
+                App.Make<HttpDebuggerConsole>();
+            }
+            return base.Init();
+        }
+
+        /// <summary>
         /// 注册文件系统服务
         /// </summary>
         public override void Register()
@@ -27,6 +45,7 @@ namespace CatLib.Debugger
             RegisterDebugger();
             RegisterLogger();
             RegisterMonitors();
+            RegisterWebConsole();
         }
 
         /// <summary>
@@ -51,6 +70,14 @@ namespace CatLib.Debugger
         private void RegisterMonitors()
         {
             App.Singleton<Monitors>((binder, param) => new Monitors()).Alias<IMonitor>();
+        }
+
+        /// <summary>
+        /// 注册web控制台
+        /// </summary>
+        private void RegisterWebConsole()
+        {
+            App.Singleton<HttpDebuggerConsole>();
         }
     }
 }
