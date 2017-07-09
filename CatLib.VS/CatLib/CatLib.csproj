@@ -54,6 +54,7 @@
     <Compile Include="API\Config\IConfigManager.cs" />
     <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="API\Debugger\Exception\InvalidArgumentException.cs" />
+    <Compile Include="Debugger\WebConsole\BaseProtocol.cs" />
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsole.cs" />
     <Compile Include="Debugger\WebConsole\HttpListener.cs" />
     <Compile Include="Debugger\IDebugResponse.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Debugger\MonitorHandler\OnceRecordMonitorHandler.cs" />
     <Compile Include="Debugger\Monitors.cs" />
     <Compile Include="Debugger\MonitorHandler\SizeSumMonitorHandler.cs" />
+    <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
     <Compile Include="Facade\Env.cs" />
     <Compile Include="Facade\FileSystemManager.cs" />
@@ -226,13 +228,16 @@
     <None Include="Core\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
+    <None Include="Json\catlib.json" />
     <None Include="Routing\catlib.json" />
     <None Include="Stl\catlib.json" />
     <None Include="Timer\catlib.json" />
     <None Include="Time\catlib.json" />
     <None Include="Translation\catlib.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Debugger\WebConsole\Protocol\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
