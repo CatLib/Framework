@@ -11,6 +11,7 @@
 
 using System.Diagnostics;
 using System.Threading;
+using CatLib.API.Debugger;
 
 namespace CatLib.Debugger
 {
@@ -23,45 +24,87 @@ namespace CatLib.Debugger
         /// 日志ID
         /// </summary>
         private static long lastId = 0;
-        
+
         /// <summary>
-        /// 日志记录器
+        /// 日志等级
         /// </summary>
-        private Logger logger;
+        private readonly LogLevels level;
+
+        /// <summary>
+        /// 日志等级
+        /// </summary>
+        public LogLevels Level
+        {
+            get { return level; }
+        }
 
         /// <summary>
         /// 日志内容
         /// </summary>
-        private string message;
+        private readonly string message;
+
+        /// <summary>
+        /// 日志内容
+        /// </summary>
+        public string Message
+        {
+            get { return message; }
+        }
 
         /// <summary>
         /// 调用堆栈
         /// </summary>
-        private StackTrace stackTrace;
+        private readonly StackTrace stackTrace;
+
+        /// <summary>
+        /// 调用堆栈
+        /// </summary>
+        public StackTrace StackTrace
+        {
+            get { return stackTrace; }
+        }
 
         /// <summary>
         /// 当前日志条目的分组
         /// </summary>
-        private string categroy;
+        private readonly string categroy;
+
+        /// <summary>
+        /// 当前日志条目的分组
+        /// </summary>
+        public string Categroy
+        {
+            get { return categroy; }
+        }
 
         /// <summary>
         /// 条目id
         /// </summary>
-        private long id;
+        private readonly long id;
+
+        /// <summary>
+        /// 条目id
+        /// </summary>
+        public long Id
+        {
+            get { return id; }
+        }
 
         /// <summary>
         /// 日志条目记录
         /// </summary>
         /// <param name="logger">日志系统</param>
+        /// <param name="level">日志等级</param>
         /// <param name="message">消息内容</param>
-        public LogEntry(Logger logger , string message)
+        /// <param name="skipFrams">跳过的帧数</param>
+        public LogEntry(Logger logger, LogLevels level, string message, int skipFrams)
         {
-            this.logger = logger;
+            this.level = level;
             this.message = message;
             categroy = string.Empty;
-            stackTrace = new StackTrace(3);
+            stackTrace = new StackTrace(skipFrams, true);
             var declaringType = stackTrace.GetFrame(0).GetMethod().DeclaringType;
-            if (declaringType != null)
+            if (declaringType != null && logger != null)
             {
                 categroy = logger.FindCategroy(declaringType.Namespace);
             }

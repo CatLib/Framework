@@ -11,6 +11,7 @@
 
 using CatLib.API.Debugger;
 using CatLib.API.Routing;
+using CatLib.Debugger.WebConsole.Protocol;
 
 namespace CatLib.Debugger.WebConsole.Routed
 {
@@ -24,16 +25,20 @@ namespace CatLib.Debugger.WebConsole.Routed
         /// 回显
         /// </summary>
         /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
         /// <param name="logger">日志系统</param>
         [Routed]
-        public void Echo(IRequest request , ILogger logger)
+        public void Echo(IRequest request , IResponse response , Logger logger)
         {
             if (logger != null)
             {
                 logger.Debug(request.Uri.OriginalString);
                 return;
             }
-
+            var logEntry = new LogEntry(null, LogLevels.Debug, request.Uri.OriginalString, 1);
+            var outputs = new WebConsoleOutputs();
+            outputs.WriteLine(logEntry);
+            response.SetContext(outputs);
         }
     }
 }

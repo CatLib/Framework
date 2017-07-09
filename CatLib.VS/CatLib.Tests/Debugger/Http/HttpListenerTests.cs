@@ -38,6 +38,7 @@ namespace CatLib.Tests.Debugger.Http
             string ret;
             var statu = HttpHelper.Get("http://localhost:9478", out ret);
             wait.WaitOne();
+            listener.Dispose();
 
             Assert.AreEqual(HttpStatusCode.OK, statu);
         }

@@ -17,7 +17,7 @@ namespace CatLib.Debugger.WebConsole.Protocol
     /// <summary>
     /// Web控制台输出
     /// </summary>
-    public sealed class WebConsoleOutputs : IWebConsoleResponse
+    internal sealed class WebConsoleOutputs : IWebConsoleResponse
     {
         /// <summary>
         /// 响应
@@ -48,7 +48,7 @@ namespace CatLib.Debugger.WebConsole.Protocol
         /// <param name="categroy">消息分组</param>
         /// <param name="message">消息标题</param>
         /// <param name="callStack">调用堆栈</param>
-        public void Write(long id, LogLevels level, string categroy, string message, string[] callStack)
+        public void WriteLine(long id, LogLevels level, string categroy, string message, string[] callStack)
         {
             outputs.Add(new Dictionary<string, object>
             {
@@ -56,6 +56,31 @@ namespace CatLib.Debugger.WebConsole.Protocol
                 { "level" , (int)level},
                 { "categroy" , categroy},
                 { "message" , message },
+                { "callStack" , callStack }
+            });
+        }
+
+        /// <summary>
+        /// 向web控制台屏幕中输出一条消息
+        /// </summary>
+        /// <param name="entry"></param>
+        public void WriteLine(LogEntry entry)
+        {
+            var callStack = new string[entry.StackTrace.FrameCount];
+
+            for (var i = 0; i < entry.StackTrace.FrameCount; i++)
+            {
+                var frame = entry.StackTrace.GetFrame(i);
+                callStack[i] = string.Format("{0}(at {1}:{2})", frame.GetMethod(), frame.GetFileName(),
+                    frame.GetFileLineNumber());
+            }
+
+            outputs.Add(new Dictionary<string, object>
+            {
+                { "id" , entry.Id },
+                { "level" , (int)entry.Level},
+                { "categroy" , entry.Categroy},
+                { "message" , entry.Message },
                 { "callStack" , callStack }
             });
         }

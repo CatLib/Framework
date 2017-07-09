@@ -75,6 +75,7 @@ namespace CatLib.Tests.Debugger.Http
 
             string ret;
             var statu = HttpHelper.Get("http://localhost:9478/catlib/http-debugger-console-tests/simple-call", out ret);
+            console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
             Assert.AreEqual("{\"Response\":{\"hello\":\"world\"}}", ret);
         }

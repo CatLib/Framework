@@ -22,7 +22,7 @@ namespace CatLib.Debugger
     /// 日志系统
     /// </summary>
     [Routed("debug://logger")]
-    public sealed class Logger : ILogger , ILogCategory
+    public sealed class Logger : ILogger, ILogCategory
     {
         /// <summary>
         /// 日志处理器
@@ -88,12 +88,12 @@ namespace CatLib.Debugger
             {
                 handler.Handler(level, result);
             }
-            
+
             if (logEntrys.Count >= maxLogEntrys)
             {
                 logEntrys.Dequeue();
             }
-            logEntrys.Enqueue(MakeLogEntry(result));
+            logEntrys.Enqueue(MakeLogEntry(level, result));
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Debug(object message, params object[] context)
         {
-            Log(LogLevels.Debug, message , context);
+            Log(LogLevels.Debug, message, context);
         }
 
         /// <summary>
@@ -211,11 +211,12 @@ namespace CatLib.Debugger
         /// <summary>
         /// 制作一个日志条目
         /// </summary>
+        /// <param name="level">日志等级</param>
         /// <param name="message">日志</param>
         /// <returns>日志条目</returns>
-        private LogEntry MakeLogEntry(string message)
+        private LogEntry MakeLogEntry(LogLevels level, string message)
         {
-            return new LogEntry(this, message);
+            return new LogEntry(this, level, message, 3);
         }
     }
 }
