@@ -54,7 +54,7 @@ namespace CatLib.Debugger
         /// </summary>
         /// <param name="logger">日志系统</param>
         /// <param name="message">消息内容</param>
-        internal LogEntry(Logger logger , string message)
+        public LogEntry(Logger logger , string message)
         {
             this.logger = logger;
             this.message = message;

@@ -12,6 +12,7 @@
 using System;
 using System.Net;
 using System.Text;
+using System.Threading;
 using CatLib.API;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
@@ -45,14 +46,20 @@ namespace CatLib.Debugger.WebConsole
         private readonly ILogger logger;
 
         /// <summary>
+        /// 应用程序
+        /// </summary>
+        private IApplication app;
+
+        /// <summary>
         /// http调试控制台
         /// </summary>
         /// <param name="logger">日志记录器</param>
         /// <param name="router">路由器</param>
         /// <param name="json">json解析器</param>
-        public HttpDebuggerConsole(ILogger logger, IRouter router, IJson json)
+        /// <param name="app">应用程序</param>
+        public HttpDebuggerConsole(ILogger logger, IRouter router, IJson json , IApplication app)
         {
-            if (router == null || json == null)
+            if (router == null || json == null || app == null)
             {
                 return;
             }
@@ -60,6 +67,8 @@ namespace CatLib.Debugger.WebConsole
             this.logger = logger;
             this.router = router;
             this.json = json;
+            this.app = app;
+            RegisterNotFoundRouted();
         }
 
         /// <summary>
@@ -122,7 +131,7 @@ namespace CatLib.Debugger.WebConsole
         /// <param name="context">请求上下文</param>
         private void DispatchToRouted(HttpListenerContext context)
         {
-            var segments = context.Request.Url.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var segments = context.Request.Url.AbsolutePath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 
             if (segments.Length >= 2)
             {
@@ -147,6 +156,24 @@ namespace CatLib.Debugger.WebConsole
                 var data = json.Encode(new BaseProtocol(consoleResponse.Response));
                 var bytes = Encoding.UTF8.GetBytes(data);
                 context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+            }
+        }
+
+        /// <summary>
+        /// 注册路由不存在
+        /// </summary>
+        private void RegisterNotFoundRouted()
+        {
+            if (logger != null)
+            {
+                router.OnNotFound((request, next) =>
+                {
+                    logger.Debug("can not find routed [{0}]", request.Uri.OriginalString);
+                });
+                router.OnError((request, response, exception, next) =>
+                {
+                    logger.Emergency("routed trigger error ,request [{0}][{1}]", request.Uri.OriginalString, exception.Message);
+                });
             }
         }
     }

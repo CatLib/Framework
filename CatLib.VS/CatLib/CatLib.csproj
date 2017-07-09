@@ -110,7 +110,10 @@
     <Compile Include="Debugger\Monitors.cs" />
     <Compile Include="Debugger\MonitorHandler\SizeSumMonitorHandler.cs" />
     <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
+    <Compile Include="Debugger\WebConsole\Protocol\WebConsoleOutputs.cs" />
+    <Compile Include="Debugger\WebConsole\Routed\Util.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
+    <Compile Include="Facade\Debugger.cs" />
     <Compile Include="Facade\Env.cs" />
     <Compile Include="Facade\FileSystemManager.cs" />
     <Compile Include="Facade\Router.cs" />
@@ -235,9 +238,7 @@
     <None Include="Time\catlib.json" />
     <None Include="Translation\catlib.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Debugger\WebConsole\Protocol\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
