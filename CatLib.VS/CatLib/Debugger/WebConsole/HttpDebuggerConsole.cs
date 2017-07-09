@@ -12,6 +12,7 @@
 using System;
 using System.Net;
 using System.Text;
+using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.API.Routing;
 
@@ -38,17 +39,24 @@ namespace CatLib.Debugger.WebConsole
         private readonly IJson json;
 
         /// <summary>
+        /// 日志记录器
+        /// </summary>
+        private readonly ILogger logger;
+
+        /// <summary>
         /// http调试控制台
         /// </summary>
+        /// <param name="logger">日志记录器</param>
         /// <param name="router">路由器</param>
         /// <param name="json">json解析器</param>
-        internal HttpDebuggerConsole(IRouter router, IJson json)
+        internal HttpDebuggerConsole(ILogger logger, IRouter router, IJson json)
         {
             if (router == null || json == null)
             {
                 return;
             }
 
+            this.logger = logger;
             this.router = router;
             this.json = json;
         }
@@ -80,10 +88,11 @@ namespace CatLib.Debugger.WebConsole
                 context.Response.StatusCode = (int)HttpStatusCode.OK;
                 context.Response.OutputStream.Close();
             }
-            catch
+            catch(Exception ex)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.OutputStream.Close();
+                logger.Debug("request has error [" + ex.Message + "]");
             }
         }
 
