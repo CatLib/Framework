@@ -38,7 +38,7 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
-        /// 注册文件系统服务
+        /// 注册调试服务
         /// </summary>
         public override void Register()
         {
