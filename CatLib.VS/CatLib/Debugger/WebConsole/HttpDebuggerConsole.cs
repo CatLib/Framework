@@ -9,7 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Net;
+using System.Text;
+using CatLib.API.Json;
 using CatLib.API.Routing;
 
 namespace CatLib.Debugger.WebConsole
@@ -27,20 +30,42 @@ namespace CatLib.Debugger.WebConsole
         /// <summary>
         /// 路由器
         /// </summary>
-        private IRouter router;
+        private readonly IRouter router;
+
+        /// <summary>
+        /// json处理器
+        /// </summary>
+        private readonly IJson json;
 
         /// <summary>
         /// http调试控制台
         /// </summary>
-        internal HttpDebuggerConsole(IRouter router)
+        /// <param name="router">路由器</param>
+        /// <param name="json">json解析器</param>
+        internal HttpDebuggerConsole(IRouter router, IJson json)
         {
-            if (router == null)
+            if (router == null || json == null)
             {
                 return;
             }
-            listener = new HttpListener();
-            listener.OnRequest += OnRequest;
+
             this.router = router;
+            this.json = json;
+        }
+
+        /// <summary>
+        /// 开启控制台服务
+        /// </summary>
+        /// <param name="host">监听host</param>
+        /// <param name="port">监听端口</param>
+        public void Start(string host = "*", ushort port = 5200)
+        {
+            if (listener != null)
+            {
+                listener.Dispose();
+            }
+            listener = new HttpListener(host, port);
+            listener.OnRequest += OnRequest;
         }
 
         /// <summary>
@@ -51,8 +76,7 @@ namespace CatLib.Debugger.WebConsole
         {
             try
             {
-                var segments = context.Request.Url.AbsolutePath.Split('/');
-                
+                DispatchToRouted(context);
                 context.Response.StatusCode = (int)HttpStatusCode.OK;
                 context.Response.OutputStream.Close();
             }
@@ -60,6 +84,40 @@ namespace CatLib.Debugger.WebConsole
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.OutputStream.Close();
+            }
+        }
+
+        /// <summary>
+        /// 调度到目标路由
+        /// </summary>
+        /// <param name="context">请求上下文</param>
+        private void DispatchToRouted(HttpListenerContext context)
+        {
+            var segments = context.Request.Url.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (segments.Length >= 2)
+            {
+                var scheme = segments[0];
+                var path = string.Join("/", segments, 1, segments.Length - 1);
+                var uri = string.Format("{0}://{1}", scheme, path);
+                var response = router.Dispatch(uri);
+                RoutedResponseHandler(context, response);
+            }
+        }
+
+        /// <summary>
+        /// 路由响应处理器
+        /// </summary>
+        /// <param name="context">请求上下文</param>
+        /// <param name="response">路由响应</param>
+        private void RoutedResponseHandler(HttpListenerContext context, IResponse response)
+        {
+            var consoleResponse = response.GetContext() as IWebConsoleResponse;
+            if (consoleResponse != null)
+            {
+                var data = json.Encode(new BaseProtocol(consoleResponse.Response));
+                var bytes = Encoding.UTF8.GetBytes(data);
+                context.Response.OutputStream.Write(bytes, 0, bytes.Length);
             }
         }
     }
