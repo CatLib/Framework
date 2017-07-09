@@ -16,12 +16,12 @@ using System.Text;
 namespace CatLib.Tests
 {
     /// <summary>
-    /// Http帮助器
+    /// http帮助器
     /// </summary>
     public static class HttpHelper
     {
         /// <summary>
-        /// 以Get的方式请求服务器
+        /// 以get的方式请求服务器
         /// </summary>
         /// <param name="url">请求地址</param>
         /// <param name="ret">请求结果</param>

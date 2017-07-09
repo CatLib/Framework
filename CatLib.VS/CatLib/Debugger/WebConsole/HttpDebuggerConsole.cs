@@ -20,7 +20,7 @@ namespace CatLib.Debugger.WebConsole
     internal sealed class HttpDebuggerConsole
     {
         /// <summary>
-        /// Http监听器
+        /// http监听器
         /// </summary>
         private HttpListener listener;
 
@@ -43,6 +43,10 @@ namespace CatLib.Debugger.WebConsole
             this.router = router;
         }
 
+        /// <summary>
+        /// 当收到来自控制端的请求时
+        /// </summary>
+        /// <param name="context">请求上下文</param>
         private void OnRequest(HttpListenerContext context)
         {
             try
