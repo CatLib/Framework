@@ -30,22 +30,10 @@ namespace CatLib.Debugger
         private IMonitor monitor;
 
         /// <summary>
-        /// 构造一个调试器
-        /// </summary>
-        /// <param name="logger">日志系统</param>
-        /// <param name="monitor">监控系统</param>
-        public Debugger([Inject(Required = true)]ILogger logger,
-                            [Inject(Required = true)]IMonitor monitor)
-        {
-            this.logger = logger;
-            this.monitor = monitor;
-        }
-
-        /// <summary>
         /// 设定监控器
         /// </summary>
-        /// <param name="monitor"></param>
-        private void SetMonitor(IMonitor monitor)
+        /// <param name="monitor">监控器</param>
+        public void SetMonitor(IMonitor monitor)
         {
             this.monitor = monitor;
         }

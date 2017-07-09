@@ -54,7 +54,15 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterDebugger()
         {
-            App.Singleton<Debugger>().Alias<IDebugger>();
+            App.Singleton<Debugger>().Alias<IDebugger>().Alias<ILogger>().Alias<IMonitor>().OnResolving((binder, obj) =>
+            {
+                var debugger = obj as Debugger;
+
+                debugger.SetLogger(App.Make<Logger>());
+                debugger.SetMonitor(App.Make<Monitors>());
+
+                return obj;
+            });
         }
 
         /// <summary>
@@ -62,7 +70,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
-            App.Singleton<Logger>((binder, param) => new Logger()).Alias<ILogger>().OnResolving((binder, obj) =>
+            App.Singleton<Logger>((binder, param) => new Logger()).OnResolving((binder, obj) =>
             {
                 var logger = obj as Logger;
                 logger.AddLogHandler(new UnityConsoleLogHandler());
@@ -76,7 +84,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterMonitors()
         {
-            App.Singleton<Monitors>((binder, param) => new Monitors()).Alias<IMonitor>();
+            App.Singleton<Monitors>((binder, param) => new Monitors());
         }
 
         /// <summary>

@@ -24,9 +24,8 @@ namespace CatLib.Debugger.WebDebugger.Controller
         /// </summary>
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
-        /// <param name="logger">日志</param>
         [Routed("get-logger/{lastId?}", Defaults = "lastId=>0")]
-        public void GetLogger(IRequest request, IResponse response , Logger logger)
+        public void GetLogger(IRequest request, IResponse response)
         {
             response.SetContext("hello world");
         }
@@ -36,9 +35,8 @@ namespace CatLib.Debugger.WebDebugger.Controller
         /// </summary>
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
-        /// <param name="logger">日志</param>
         [Routed("get-catergroy")]
-        public void GetCategroy(IRequest request, IResponse response, Logger logger)
+        public void GetCategroy(IRequest request, IResponse response)
         {
             response.SetContext("hello world");
         }

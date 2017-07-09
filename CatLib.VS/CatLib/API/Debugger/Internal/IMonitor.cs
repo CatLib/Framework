@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
-
-namespace CatLib.Debugger
+namespace CatLib.API.Debugger
 {
     /// <summary>
     /// 监控器

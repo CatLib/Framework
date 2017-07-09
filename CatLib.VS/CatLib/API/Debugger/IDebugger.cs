@@ -14,7 +14,7 @@ namespace CatLib.API.Debugger
     /// <summary>
     /// 调试器
     /// </summary>
-    public interface IDebugger : ILogger , ILoggerAware
+    public interface IDebugger : ILogger , ILoggerAware , IMonitor
     {
         /// <summary>
         /// 定义命名空间对应的分类
@@ -22,19 +22,5 @@ namespace CatLib.API.Debugger
         /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
         /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
         void DefinedCategory(string namespaces, string categroyName);
-
-        /// <summary>
-        /// 设定监控处理器
-        /// </summary>
-        /// <param name="moitorName">监控名</param>
-        /// <param name="handler">处理器</param>
-        void DefinedMoitor(string moitorName , IMonitorHandler handler);
-
-        /// <summary>
-        /// 监控一个内容
-        /// </summary>
-        /// <param name="monitorName">监控名</param>
-        /// <param name="value">监控值</param>
-        void Monitor(string monitorName, object value);
     }
 }
