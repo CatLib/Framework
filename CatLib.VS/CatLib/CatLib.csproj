@@ -110,7 +110,9 @@
     <Compile Include="Debugger\Monitors.cs" />
     <Compile Include="Debugger\MonitorHandler\SizeSumMonitorHandler.cs" />
     <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
+    <Compile Include="Debugger\WebConsole\Protocol\GetCatergroy.cs" />
     <Compile Include="Debugger\WebConsole\Protocol\WebConsoleOutputs.cs" />
+    <Compile Include="Debugger\WebConsole\Routed\Log.cs" />
     <Compile Include="Debugger\WebConsole\Routed\Util.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
     <Compile Include="Facade\Debugger.cs" />

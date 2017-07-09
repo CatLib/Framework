@@ -11,9 +11,9 @@
 
 using CatLib.API.Debugger;
 using CatLib.API.Routing;
-using CatLib.Debugger.WebConsole.Protocol;
+using CatLib.Debugger.WebHandler.Protocol;
 
-namespace CatLib.Debugger.WebConsole.Routed
+namespace CatLib.Debugger.WebHandler.Controller
 {
     /// <summary>
     /// 通用
@@ -35,7 +35,7 @@ namespace CatLib.Debugger.WebConsole.Routed
                 logger.Debug(request.Uri.OriginalString);
                 return;
             }
-            var logEntry = new LogEntry(null, LogLevels.Debug, request.Uri.OriginalString, 1);
+            var logEntry = new LogEntry(LogLevels.Debug, request.Uri.OriginalString, 1);
             var outputs = new WebConsoleOutputs();
             outputs.WriteLine(logEntry);
             response.SetContext(outputs);

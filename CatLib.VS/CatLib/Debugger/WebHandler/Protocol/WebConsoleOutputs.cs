@@ -9,10 +9,11 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
 using CatLib.API.Debugger;
+using CatLib.Debugger.WebConsole;
+using System.Collections.Generic;
 
-namespace CatLib.Debugger.WebConsole.Protocol
+namespace CatLib.Debugger.WebHandler.Protocol
 {
     /// <summary>
     /// Web控制台输出

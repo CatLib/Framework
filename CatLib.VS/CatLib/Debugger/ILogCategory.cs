@@ -22,5 +22,12 @@ namespace CatLib.Debugger
         /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
         /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
         void DefinedCategory(string namespaces, string categroyName);
+
+        /// <summary>
+        /// 输入命名空间返回对应分组，如果分组不存在则返回空字符串
+        /// </summary>
+        /// <param name="namespaces">命名空间</param>
+        /// <returns>分组</returns>
+        string FindCategroy(string namespaces);
     }
 }

@@ -35,9 +35,25 @@ namespace CatLib.Debugger
         private readonly Dictionary<string, string> categroy;
 
         /// <summary>
+        /// 分组信息
+        /// </summary>
+        internal Dictionary<string, string> Categroy
+        {
+            get { return categroy; }
+        }
+
+        /// <summary>
         /// 日志记录
         /// </summary>
         private readonly Queue<LogEntry> logEntrys;
+
+        /// <summary>
+        /// 日志记录
+        /// </summary>
+        internal Queue<LogEntry> LogEntrys
+        {
+            get { return logEntrys; }
+        }
 
         /// <summary>
         /// 最大储存的日志记录数
@@ -62,6 +78,18 @@ namespace CatLib.Debugger
         public void DefinedCategory(string namespaces, string categroyName)
         {
             categroy[namespaces] = categroyName;
+        }
+
+        /// <summary>
+        /// 传入一个命名空间字符串查找对应的分组
+        /// </summary>
+        /// <param name="namespaces">命名空间</param>
+        /// <returns>对应分组名</returns>
+        public string FindCategroy(string namespaces)
+        {
+            string categroy;
+            this.categroy.TryGetValue(namespaces, out categroy);
+            return categroy;
         }
 
         /// <summary>
@@ -177,38 +205,6 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
-        /// 获取日志
-        /// </summary>
-        /// <param name="request">请求</param>
-        /// <param name="response">响应</param>
-        [Routed("get-logger/{lastId?}", Defaults = "lastId=>0")]
-        public void GetLogger(IRequest request, IResponse response)
-        {
-            response.SetContext("hello world");
-        }
-
-        /// <summary>
-        /// 获取分组信息
-        /// </summary>
-        [Routed("get-catergroy")]
-        public void GetCategroy(IRequest request, IResponse response)
-        {
-            response.SetContext("hello world");
-        }
-
-        /// <summary>
-        /// 传入一个命名空间字符串查找对应的分组
-        /// </summary>
-        /// <param name="namespaces">命名空间</param>
-        /// <returns>对应分组名</returns>
-        internal string FindCategroy(string namespaces)
-        {
-            string categroy;
-            this.categroy.TryGetValue(namespaces, out categroy);
-            return categroy;
-        }
-
-        /// <summary>
         /// 制作一个日志条目
         /// </summary>
         /// <param name="level">日志等级</param>
@@ -216,7 +212,7 @@ namespace CatLib.Debugger
         /// <returns>日志条目</returns>
         private LogEntry MakeLogEntry(LogLevels level, string message)
         {
-            return new LogEntry(this, level, message, 3);
+            return new LogEntry(level, message, 3);
         }
     }
 }

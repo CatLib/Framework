@@ -12,7 +12,6 @@
 using System;
 using System.Net;
 using System.Text;
-using System.Threading;
 using CatLib.API;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
@@ -46,28 +45,18 @@ namespace CatLib.Debugger.WebConsole
         private readonly ILogger logger;
 
         /// <summary>
-        /// 应用程序
-        /// </summary>
-        private IApplication app;
-
-        /// <summary>
         /// http调试控制台
         /// </summary>
         /// <param name="logger">日志记录器</param>
         /// <param name="router">路由器</param>
         /// <param name="json">json解析器</param>
-        /// <param name="app">应用程序</param>
-        public HttpDebuggerConsole(ILogger logger, IRouter router, IJson json , IApplication app)
+        public HttpDebuggerConsole([Inject(Required = true)]ILogger logger,
+                                    [Inject(Required = true)]IRouter router,
+                                     [Inject(Required = true)]IJson json)
         {
-            if (router == null || json == null || app == null)
-            {
-                return;
-            }
-
             this.logger = logger;
             this.router = router;
             this.json = json;
-            this.app = app;
             RegisterNotFoundRouted();
         }
 
@@ -76,7 +65,7 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         /// <param name="host">监听host</param>
         /// <param name="port">监听端口</param>
-        public void Start(string host = "*", ushort port = 9478)
+        public void Start(string host = "*", int port = 9478)
         {
             if (listener != null)
             {
@@ -117,7 +106,7 @@ namespace CatLib.Debugger.WebConsole
                 context.Response.StatusCode = (int)HttpStatusCode.OK;
                 context.Response.OutputStream.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.OutputStream.Close();
@@ -131,16 +120,17 @@ namespace CatLib.Debugger.WebConsole
         /// <param name="context">请求上下文</param>
         private void DispatchToRouted(HttpListenerContext context)
         {
-            var segments = context.Request.Url.AbsolutePath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var segments = context.Request.Url.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (segments.Length >= 2)
+            if (segments.Length < 2)
             {
-                var scheme = segments[0];
-                var path = string.Join("/", segments, 1, segments.Length - 1);
-                var uri = string.Format("{0}://{1}", scheme, path);
-                var response = router.Dispatch(uri);
-                RoutedResponseHandler(context, response);
+                return;
             }
+            var scheme = segments[0];
+            var path = string.Join("/", segments, 1, segments.Length - 1);
+            var uri = string.Format("{0}://{1}", scheme, path);
+            var response = router.Dispatch(uri);
+            RoutedResponseHandler(context, response);
         }
 
         /// <summary>
@@ -151,12 +141,13 @@ namespace CatLib.Debugger.WebConsole
         private void RoutedResponseHandler(HttpListenerContext context, IResponse response)
         {
             var consoleResponse = response.GetContext() as IWebConsoleResponse;
-            if (consoleResponse != null)
+            if (consoleResponse == null)
             {
-                var data = json.Encode(new BaseProtocol(consoleResponse.Response));
-                var bytes = Encoding.UTF8.GetBytes(data);
-                context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+                return;
             }
+            var data = json.Encode(new BaseProtocol(consoleResponse.Response));
+            var bytes = Encoding.UTF8.GetBytes(data);
+            context.Response.OutputStream.Write(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -164,17 +155,18 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         private void RegisterNotFoundRouted()
         {
-            if (logger != null)
+            if (logger == null)
             {
-                router.OnNotFound((request, next) =>
-                {
-                    logger.Debug("can not find routed [{0}]", request.Uri.OriginalString);
-                });
-                router.OnError((request, response, exception, next) =>
-                {
-                    logger.Emergency("routed trigger error ,request [{0}][{1}]", request.Uri.OriginalString, exception.Message);
-                });
+                return;
             }
+            router.OnNotFound((request, next) =>
+            {
+                logger.Debug("can not find routed [{0}]", request.Uri.OriginalString);
+            });
+            router.OnError((request, response, exception, next) =>
+            {
+                logger.Emergency("routed trigger error ,request [{0}][{1}]", request.Uri.OriginalString, exception.Message);
+            });
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Collections;
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
+using CatLib.Debugger.LogHandler;
 using CatLib.Debugger.WebConsole;
 
 namespace CatLib.Debugger
@@ -61,7 +62,13 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
-            App.Singleton<Logger>((binder, param) => new Logger()).Alias<ILogger>();
+            App.Singleton<Logger>((binder, param) => new Logger()).Alias<ILogger>().OnResolving((binder, obj) =>
+            {
+                var logger = obj as Logger;
+                logger.AddLogHandler(new UnityConsoleLogHandler());
+                logger.AddLogHandler(new StdOutLogHandler());
+                return obj;
+            });
         }
 
         /// <summary>
@@ -77,7 +84,22 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebConsole()
         {
-            App.Singleton<HttpDebuggerConsole>();
+            App.Singleton<HttpDebuggerConsole>().OnResolving((binder, obj) =>
+            {
+                var config = App.Make<IConfigManager>();
+                var host = "*";
+                var port = 9478;
+                if (config != null)
+                {
+                    host = config.Default.Get("debugger.webconsole.host", "*");
+                    port = config.Default.Get("debugger.webconsole.port", 9478);
+                }
+
+                var httpDebuggerConsole = obj as HttpDebuggerConsole;
+                httpDebuggerConsole.Start(host, port);
+
+                return obj;
+            });
         }
     }
 }
