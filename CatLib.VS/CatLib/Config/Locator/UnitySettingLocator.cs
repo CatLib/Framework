@@ -44,7 +44,7 @@ namespace CatLib.Config.Locator
             Guard.NotNull(name, "name");
 
             value = string.Empty;
-            if (PlayerPrefs.HasKey(name))
+            if (!PlayerPrefs.HasKey(name))
             {
                 return false;
             }
