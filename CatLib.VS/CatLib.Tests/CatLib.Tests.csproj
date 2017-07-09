@@ -78,6 +78,7 @@
     <Compile Include="Config\ConfigTests.cs" />
     <Compile Include="Config\ConfigProviderTests.cs" />
     <Compile Include="Core\EnvTests.cs" />
+    <Compile Include="Debugger\Http\HttpDebuggerConsoleTests.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="Debugger\Http\HttpListenerTests.cs" />
     <Compile Include="Json\JsonProviderTests.cs" />

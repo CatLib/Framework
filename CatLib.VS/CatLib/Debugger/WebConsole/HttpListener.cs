@@ -35,7 +35,7 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         /// <param name="host">监听host</param>
         /// <param name="port">监听端口</param>
-        public HttpListener(string host = "*", ushort port = 5200)
+        public HttpListener(string host = "*", ushort port = 9478)
         {
             listener = new Listener();
             listener.Prefixes.Add("http://"+ host + ":" + port + "/");

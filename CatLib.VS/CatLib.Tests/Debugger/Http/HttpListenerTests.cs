@@ -32,11 +32,11 @@ namespace CatLib.Tests.Debugger.Http
         [TestMethod]
         public void TestHttpListener()
         {
-            var listener = new HttpListener("localhost",5200);
+            var listener = new HttpListener("localhost", 9478);
             listener.OnRequest += OnRequest;
 
             string ret;
-            var statu = HttpHelper.Get("http://localhost:5200", out ret);
+            var statu = HttpHelper.Get("http://localhost:9478", out ret);
             wait.WaitOne();
 
             Assert.AreEqual(HttpStatusCode.OK, statu);

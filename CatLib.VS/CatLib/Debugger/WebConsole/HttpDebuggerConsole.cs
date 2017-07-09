@@ -49,7 +49,7 @@ namespace CatLib.Debugger.WebConsole
         /// <param name="logger">日志记录器</param>
         /// <param name="router">路由器</param>
         /// <param name="json">json解析器</param>
-        internal HttpDebuggerConsole(ILogger logger, IRouter router, IJson json)
+        public HttpDebuggerConsole(ILogger logger, IRouter router, IJson json)
         {
             if (router == null || json == null)
             {
@@ -66,7 +66,7 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         /// <param name="host">监听host</param>
         /// <param name="port">监听端口</param>
-        public void Start(string host = "*", ushort port = 5200)
+        public void Start(string host = "*", ushort port = 9478)
         {
             if (listener != null)
             {
@@ -74,6 +74,17 @@ namespace CatLib.Debugger.WebConsole
             }
             listener = new HttpListener(host, port);
             listener.OnRequest += OnRequest;
+        }
+
+        /// <summary>
+        /// 停止控制台服务
+        /// </summary>
+        public void Stop()
+        {
+            if (listener != null)
+            {
+                listener.Dispose();
+            }
         }
 
         /// <summary>
