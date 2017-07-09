@@ -84,7 +84,7 @@ namespace CatLib.Timer
         /// 延迟指定时间后执行
         /// </summary>
         /// <param name="time">延迟时间(秒)</param>
-        public void Delay(float time)
+        public ITimer Delay(float time)
         {
             GuardComplete("Delay");
             Guard.Requires<ArgumentOutOfRangeException>(time > 0);
@@ -93,13 +93,14 @@ namespace CatLib.Timer
                 Type = TimerTypes.DelayTime,
                 FloatArgs = new[] { time, 0 }
             };
+            return this;
         }
 
         /// <summary>
         /// 延迟指定帧数帧后执行
         /// </summary>
         /// <param name="frame">帧数</param>
-        public void DelayFrame(int frame)
+        public ITimer DelayFrame(int frame)
         {
             GuardComplete("DelayFrame");
             Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
@@ -108,13 +109,14 @@ namespace CatLib.Timer
                 Type = TimerTypes.DelayFrame,
                 IntArgs = new[] { frame, 0 }
             };
+            return this;
         }
 
         /// <summary>
         /// 循环执行指定时间
         /// </summary>
         /// <param name="time">循环时间(秒)</param>
-        public void Loop(float time)
+        public ITimer Loop(float time)
         {
             GuardComplete("Loop");
             Guard.Requires<ArgumentOutOfRangeException>(time > 0);
@@ -123,13 +125,14 @@ namespace CatLib.Timer
                 Type = TimerTypes.LoopTime,
                 FloatArgs = new[] { time, 0 }
             };
+            return this;
         }
 
         /// <summary>
         /// 循环执行，直到函数返回false
         /// </summary>
         /// <param name="callback">循环状态函数</param>
-        public void Loop(Func<bool> callback)
+        public ITimer Loop(Func<bool> callback)
         {
             GuardComplete("Loop");
             Guard.NotNull(callback, "callback");
@@ -138,13 +141,14 @@ namespace CatLib.Timer
                 Type = TimerTypes.LoopFunc,
                 FuncBoolArg = callback
             };
+            return this;
         }
 
         /// <summary>
         /// 循环执行指定帧数
         /// </summary>
         /// <param name="frame">循环执行的帧数</param>
-        public void LoopFrame(int frame)
+        public ITimer LoopFrame(int frame)
         {
             GuardComplete("LoopFrame");
             Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
@@ -154,13 +158,15 @@ namespace CatLib.Timer
                 Type = TimerTypes.LoopFrame,
                 IntArgs = new[] { frame, 0 }
             };
+            return this;
         }
 
         /// <summary>
         /// 间隔多少时间执行一次
         /// </summary>
         /// <param name="time">间隔的时间</param>
-        public void Interval(float time)
+        /// <param name="life">最多允许触发的次数</param>
+        public ITimer Interval(float time, int life = 0)
         {
             GuardComplete("Interval");
             Guard.Requires<ArgumentOutOfRangeException>(time > 0);
@@ -173,15 +179,18 @@ namespace CatLib.Timer
             args = new TimerArgs
             {
                 Type = TimerTypes.Interval,
-                FloatArgs = new[] { time, 0 }
+                FloatArgs = new[] { time, 0 },
+                IntArgs = new[] { life, 0 }
             };
+            return this;
         }
 
         /// <summary>
         /// 间隔多少帧执行一次
         /// </summary>
         /// <param name="frame">间隔的帧数</param>
-        public void IntervalFrame(int frame)
+        /// <param name="life">最多允许触发的次数</param>
+        public ITimer IntervalFrame(int frame, int life = 0)
         {
             GuardComplete("IntervalFrame");
             Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
@@ -193,8 +202,9 @@ namespace CatLib.Timer
             args = new TimerArgs
             {
                 Type = TimerTypes.IntervalFrame,
-                IntArgs = new[] { frame, 0 }
+                IntArgs = new[] { frame, 0, life, 0 }
             };
+            return this;
         }
 
         /// <summary>
@@ -367,9 +377,10 @@ namespace CatLib.Timer
                 {
                     timer.task.Invoke();
                 }
+                ++timer.args.IntArgs[1];
             }
 
-            return false;
+            return timer.args.IntArgs[0] > 0 && (timer.args.IntArgs[0] <= timer.args.IntArgs[1]);
         }
 
         /// <summary>
@@ -388,9 +399,10 @@ namespace CatLib.Timer
                 {
                     timer.task.Invoke();
                 }
+                ++timer.args.IntArgs[3];
             }
 
-            return false;
+            return timer.args.IntArgs[2] > 0 && (timer.args.IntArgs[2] <= timer.args.IntArgs[3]);
         }
 
         /// <summary>
