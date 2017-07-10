@@ -10,6 +10,7 @@
  */
 
 using CatLib.API.Routing;
+using CatLib.Debugger.WebDebugger.Protocol;
 
 namespace CatLib.Debugger.WebDebugger.Controller
 {
@@ -24,10 +25,16 @@ namespace CatLib.Debugger.WebDebugger.Controller
         /// </summary>
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
-        [Routed("get-logger/{lastId?}", Defaults = "lastId=>0")]
-        public void GetLogger(IRequest request, IResponse response)
+        /// <param name="logStore">日志存储</param>
+        [Routed("get-logger/{lastId?}", Defaults = "lastId=>0" , Where = "lastId=>[0-9]+")]
+        public void GetLogger(IRequest request, IResponse response, LogStore logStore)
         {
-            response.SetContext("hello world");
+            var outputs = new WebConsoleOutputs();
+            foreach (var log in logStore.GetAllEntrysAfterLastId(request.GetLong("lastId")))
+            {
+                outputs.WriteLine(log);
+            }
+            response.SetContext(outputs);
         }
 
         /// <summary>
@@ -35,10 +42,11 @@ namespace CatLib.Debugger.WebDebugger.Controller
         /// </summary>
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
+        /// <param name="logStore">日志存储</param>
         [Routed("get-catergroy")]
-        public void GetCategroy(IRequest request, IResponse response)
+        public void GetCategroy(IRequest request, IResponse response, LogStore logStore)
         {
-            response.SetContext("hello world");
+            response.SetContext(new GetCatergroy(logStore.Categroy));
         }
     }
 }

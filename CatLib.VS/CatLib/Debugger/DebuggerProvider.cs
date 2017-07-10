@@ -15,6 +15,7 @@ using CatLib.API.Config;
 using CatLib.API.Debugger;
 using CatLib.Debugger.LogHandler;
 using CatLib.Debugger.WebConsole;
+using CatLib.Debugger.WebDebugger;
 
 namespace CatLib.Debugger
 {
@@ -34,6 +35,7 @@ namespace CatLib.Debugger
             if (config != null && config.Default.Get("debugger.webconsole.enable", false))
             {
                 App.Make<HttpDebuggerConsole>();
+                App.Make<LogCatergroyStore>();
             }
             return base.Init();
         }
@@ -43,26 +45,10 @@ namespace CatLib.Debugger
         /// </summary>
         public override void Register()
         {
-            RegisterDebugger();
             RegisterLogger();
             RegisterMonitors();
             RegisterWebConsole();
-        }
-
-        /// <summary>
-        /// 注册调试服务
-        /// </summary>
-        private void RegisterDebugger()
-        {
-            App.Singleton<Debugger>().Alias<IDebugger>().Alias<ILogger>().Alias<IMonitor>().OnResolving((binder, obj) =>
-            {
-                var debugger = obj as Debugger;
-
-                debugger.SetLogger(App.Make<Logger>());
-                debugger.SetMonitor(App.Make<Monitors>());
-
-                return obj;
-            });
+            RegisterWebDebugger();
         }
 
         /// <summary>
@@ -70,7 +56,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
-            App.Singleton<Logger>((binder, param) => new Logger()).OnResolving((binder, obj) =>
+            App.Singleton<Logger>((binder, param) => new Logger()).Alias<ILogger>().Alias("debugger.logger").OnResolving((binder, obj) =>
             {
                 var logger = obj as Logger;
                 logger.AddLogHandler(new UnityConsoleLogHandler());
@@ -84,7 +70,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterMonitors()
         {
-            App.Singleton<Monitors>((binder, param) => new Monitors());
+            App.Singleton<Monitors>((binder, param) => new Monitors()).Alias<IMonitor>().Alias("debugger.monitor");
         }
 
         /// <summary>
@@ -108,6 +94,14 @@ namespace CatLib.Debugger
 
                 return obj;
             });
+        }
+
+        /// <summary>
+        /// 注册Web调试服务
+        /// </summary>
+        private void RegisterWebDebugger()
+        {
+            App.Singleton<LogCatergroyStore>().Alias<ILogCategory>();
         }
     }
 }

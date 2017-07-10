@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Debugger;
-using CatLib.API.Routing;
 using CatLib.Debugger.LogHandler;
 using CatLib.Stl;
 using System;
@@ -21,8 +20,7 @@ namespace CatLib.Debugger
     /// <summary>
     /// 日志系统
     /// </summary>
-    [Routed("debug://logger")]
-    public sealed class Logger : ILogger, ILogCategory
+    public sealed class Logger : ILogger
     {
         /// <summary>
         /// 日志处理器
@@ -30,66 +28,11 @@ namespace CatLib.Debugger
         private readonly List<ILogHandler> handlers;
 
         /// <summary>
-        /// 分组信息
-        /// </summary>
-        private readonly Dictionary<string, string> categroy;
-
-        /// <summary>
-        /// 分组信息
-        /// </summary>
-        internal Dictionary<string, string> Categroy
-        {
-            get { return categroy; }
-        }
-
-        /// <summary>
-        /// 日志记录
-        /// </summary>
-        private readonly Queue<LogEntry> logEntrys;
-
-        /// <summary>
-        /// 日志记录
-        /// </summary>
-        internal Queue<LogEntry> LogEntrys
-        {
-            get { return logEntrys; }
-        }
-
-        /// <summary>
-        /// 最大储存的日志记录数
-        /// </summary>
-        private int maxLogEntrys = 1024;
-
-        /// <summary>
         /// 构造一个日志系统
         /// </summary>
         public Logger()
         {
             handlers = new List<ILogHandler>();
-            categroy = new Dictionary<string, string>();
-            logEntrys = new Queue<LogEntry>(maxLogEntrys);
-        }
-
-        /// <summary>
-        /// 定义命名空间对应的分类
-        /// </summary>
-        /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
-        /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
-        public void DefinedCategory(string namespaces, string categroyName)
-        {
-            categroy[namespaces] = categroyName;
-        }
-
-        /// <summary>
-        /// 传入一个命名空间字符串查找对应的分组
-        /// </summary>
-        /// <param name="namespaces">命名空间</param>
-        /// <returns>对应分组名</returns>
-        public string FindCategroy(string namespaces)
-        {
-            string categroy;
-            this.categroy.TryGetValue(namespaces, out categroy);
-            return categroy;
         }
 
         /// <summary>
@@ -112,13 +55,6 @@ namespace CatLib.Debugger
         public void Log(LogLevels level, object message, params object[] context)
         {
             ExecLog(level, message, context);
-
-            /*
-            if (logEntrys.Count >= maxLogEntrys)
-            {
-                logEntrys.Dequeue();
-            }
-            logEntrys.Enqueue(MakeLogEntry(level, result));*/
         }
 
         /// <summary>
@@ -225,7 +161,7 @@ namespace CatLib.Debugger
         /// <returns>日志条目</returns>
         private LogEntry MakeLogEntry(LogLevels level, string message)
         {
-            return new LogEntry(level, message, 4);
+            return new LogEntry(level, message, 3);
         }
     }
 }

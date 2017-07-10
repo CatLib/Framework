@@ -12,14 +12,15 @@
 namespace CatLib.API.Debugger
 {
     /// <summary>
-    /// 记录器实例接口
+    /// 日志分组
     /// </summary>
-    public interface ILoggerAware
+    public interface ILogWebCategory
     {
         /// <summary>
-        /// 设定记录器实例接口
+        /// 定义命名空间对应的分类
         /// </summary>
-        /// <param name="logger">记录器</param>
-        void SetLogger(ILogger logger);
+        /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
+        /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
+        void DefinedCategory(string namespaces, string categroyName);
     }
 }

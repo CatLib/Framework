@@ -65,7 +65,7 @@ namespace CatLib.Debugger.WebDebugger.Protocol
         /// 向web控制台屏幕中输出一条消息
         /// </summary>
         /// <param name="entry"></param>
-        public void WriteLine(LogEntry entry)
+        public void WriteLine(ILogEntry entry)
         {
             var callStack = new string[entry.StackTrace.FrameCount];
 
@@ -80,7 +80,7 @@ namespace CatLib.Debugger.WebDebugger.Protocol
             {
                 { "id" , entry.Id },
                 { "level" , (int)entry.Level},
-                { "categroy" , entry.Categroy},
+                { "namespace" , entry.Namespace},
                 { "message" , entry.Message },
                 { "callStack" , callStack }
             });
