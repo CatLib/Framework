@@ -104,9 +104,10 @@
     <Compile Include="Debugger\LogHandler\UnityConsoleLogHandler.cs" />
     <Compile Include="Debugger\LogEntry.cs" />
     <Compile Include="Debugger\MonitorHandler\OnceRecordMonitorHandler.cs" />
-    <Compile Include="Debugger\Monitors.cs" />
     <Compile Include="Debugger\MonitorHandler\SizeSumMonitorHandler.cs" />
     <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
+    <Compile Include="Debugger\WebDebugger\Controller\Monitor.cs" />
+    <Compile Include="Debugger\WebDebugger\MonitorStore.cs" />
     <Compile Include="Debugger\WebDebugger\Protocol\GetCatergroy.cs" />
     <Compile Include="Debugger\WebDebugger\Protocol\WebConsoleOutputs.cs" />
     <Compile Include="Debugger\WebDebugger\Controller\Log.cs" />

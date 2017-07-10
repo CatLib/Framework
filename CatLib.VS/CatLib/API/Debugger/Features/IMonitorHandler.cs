@@ -19,7 +19,7 @@ namespace CatLib.API.Debugger
         /// <summary>
         /// 监控的名字(用于UI端显示)
         /// </summary>
-        string Name { get; }
+        string Title { get; }
 
         /// <summary>
         /// 监控值的单位描述

@@ -19,9 +19,9 @@ namespace CatLib.Debugger.MonitorHandler
     public sealed class OnceRecordMonitorHandler : IMonitorHandler
     {
         /// <summary>
-        /// 监控的名字
+        /// 监控的标题
         /// </summary>
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         /// <summary>
         /// 监控值的单位描述
@@ -36,11 +36,11 @@ namespace CatLib.Debugger.MonitorHandler
         /// <summary>
         /// 单次记录监控处理器
         /// </summary>
-        /// <param name="name">名字</param>
+        /// <param name="title">标题</param>
         /// <param name="unit">单位值</param>
-        public OnceRecordMonitorHandler(string name, string unit)
+        public OnceRecordMonitorHandler(string title, string unit)
         {
-            Name = name;
+            Title = title;
             Unit = unit;
         }
 
