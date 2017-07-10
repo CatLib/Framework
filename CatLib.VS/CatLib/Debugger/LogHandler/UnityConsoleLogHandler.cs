@@ -24,7 +24,7 @@ namespace CatLib.Debugger.LogHandler
         /// <summary>
         /// 实际处理方法
         /// </summary>
-        private Dictionary<LogLevels, Action<object>> mapping;
+        private readonly Dictionary<LogLevels, Action<object>> mapping;
 
         /// <summary>
         /// Unity控制台日志处理器
@@ -47,14 +47,13 @@ namespace CatLib.Debugger.LogHandler
         /// <summary>
         /// 日志处理器
         /// </summary>
-        /// <param name="level">日志等级</param>
-        /// <param name="message">日志内容</param>
-        public void Handler(LogLevels level, string message)
+        /// <param name="log">日志条目</param>
+        public void Handler(ILogEntry log)
         {
             Action<object> handler;
-            if (mapping.TryGetValue(level, out handler))
+            if (mapping.TryGetValue(log.Level, out handler))
             {
-                handler.Invoke(message);
+                handler.Invoke(log.Message);
             }
         }
     }

@@ -18,7 +18,7 @@ namespace CatLib.Debugger
     /// <summary>
     /// 日志条目记录
     /// </summary>
-    internal sealed class LogEntry
+    internal sealed class LogEntry : ILogEntry
     {
         /// <summary>
         /// 日志ID
@@ -41,11 +41,6 @@ namespace CatLib.Debugger
         public StackTrace StackTrace { get; private set; }
 
         /// <summary>
-        /// 当前日志条目的分组
-        /// </summary>
-        public string Categroy { get; private set; }
-
-        /// <summary>
         /// 日志内容
         /// </summary>
         public string Message { get; private set; }
@@ -65,7 +60,6 @@ namespace CatLib.Debugger
         {
             Level = level;
             Message = message;
-            Categroy = string.Empty;
             StackTrace = new StackTrace(skipFrams, true);
             var declaringType = StackTrace.GetFrame(0).GetMethod().DeclaringType;
             if (declaringType != null)

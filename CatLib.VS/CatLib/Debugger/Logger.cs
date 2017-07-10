@@ -111,17 +111,30 @@ namespace CatLib.Debugger
         /// <exception cref="InvalidArgumentException">当传入的日志等级无效</exception>
         public void Log(LogLevels level, object message, params object[] context)
         {
-            var result = string.Format(message.ToString(), context);
-            foreach (var handler in handlers)
-            {
-                handler.Handler(level, result);
-            }
+            ExecLog(level, message, context);
 
+            /*
             if (logEntrys.Count >= maxLogEntrys)
             {
                 logEntrys.Dequeue();
             }
-            logEntrys.Enqueue(MakeLogEntry(level, result));
+            logEntrys.Enqueue(MakeLogEntry(level, result));*/
+        }
+
+        /// <summary>
+        /// 将日志推入日志处理器
+        /// </summary>
+        /// <param name="level">日志等级</param>
+        /// <param name="message">日志内容</param>
+        /// <param name="context">上下文,用于替换占位符</param>
+        /// <exception cref="InvalidArgumentException">当传入的日志等级无效</exception>
+        private void ExecLog(LogLevels level, object message, params object[] context)
+        {
+            var result = string.Format(message.ToString(), context);
+            foreach (var handler in handlers)
+            {
+                handler.Handler(MakeLogEntry(level, result));
+            }
         }
 
         /// <summary>
@@ -131,7 +144,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Debug(object message, params object[] context)
         {
-            Log(LogLevels.Debug, message, context);
+            ExecLog(LogLevels.Debug, message, context);
         }
 
         /// <summary>
@@ -141,7 +154,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Info(object message, params object[] context)
         {
-            Log(LogLevels.Info, message, context);
+            ExecLog(LogLevels.Info, message, context);
         }
 
         /// <summary>
@@ -151,7 +164,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Notice(object message, params object[] context)
         {
-            Log(LogLevels.Notice, message, context);
+            ExecLog(LogLevels.Notice, message, context);
         }
 
         /// <summary>
@@ -161,7 +174,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Warning(object message, params object[] context)
         {
-            Log(LogLevels.Warning, message, context);
+            ExecLog(LogLevels.Warning, message, context);
         }
 
         /// <summary>
@@ -171,7 +184,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Error(object message, params object[] context)
         {
-            Log(LogLevels.Error, message, context);
+            ExecLog(LogLevels.Error, message, context);
         }
 
         /// <summary>
@@ -181,7 +194,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Critical(object message, params object[] context)
         {
-            Log(LogLevels.Critical, message, context);
+            ExecLog(LogLevels.Critical, message, context);
         }
 
         /// <summary>
@@ -191,7 +204,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Alert(object message, params object[] context)
         {
-            Log(LogLevels.Alert, message, context);
+            ExecLog(LogLevels.Alert, message, context);
         }
 
         /// <summary>
@@ -201,7 +214,7 @@ namespace CatLib.Debugger
         /// <param name="context">上下文,用于替换占位符</param>
         public void Emergency(object message, params object[] context)
         {
-            Log(LogLevels.Emergency, message, context);
+            ExecLog(LogLevels.Emergency, message, context);
         }
 
         /// <summary>
@@ -212,7 +225,7 @@ namespace CatLib.Debugger
         /// <returns>日志条目</returns>
         private LogEntry MakeLogEntry(LogLevels level, string message)
         {
-            return new LogEntry(level, message, 3);
+            return new LogEntry(level, message, 4);
         }
     }
 }

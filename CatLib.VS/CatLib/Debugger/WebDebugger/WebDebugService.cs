@@ -9,17 +9,12 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.Debugger.LogHandler
+namespace CatLib.Debugger.WebDebugger
 {
     /// <summary>
-    /// 日志处理器
+    /// Web调试服务
     /// </summary>
-    public interface ILogHandler
+    public sealed class WebDebugService
     {
-        /// <summary>
-        /// 日志处理器
-        /// </summary>
-        /// <param name="log">日志条目</param>
-        void Handler(ILogEntry log);
     }
 }
