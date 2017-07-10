@@ -41,8 +41,7 @@ namespace CatLib.Config.Locator
         public void Set(string name, string value)
         {
             Guard.NotNull(name, "name");
-            dict.Remove(name);
-            dict.Add(name, value);
+            dict[name] = value;
         }
 
         /// <summary>

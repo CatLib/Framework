@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.API.Timer;
 
 namespace CatLib.Timer
@@ -23,7 +24,7 @@ namespace CatLib.Timer
         /// </summary>
         public override void Register()
         {
-            App.Singleton<TimerManager>().Alias<ITimerManager>().Alias("timer.manager");
+            App.Singleton<TimerManager>().Alias<ITimerManager>().Alias("catlib.timer.manager");
         }
     }
 }

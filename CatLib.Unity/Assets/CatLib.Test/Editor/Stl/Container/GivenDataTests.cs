@@ -35,15 +35,15 @@ namespace CatLib.Tests.Stl
         {
             var container = new CatLib.Stl.Container();
             var bindData = new CatLib.Stl.BindData(container, "CanGiven", (app, param) => "hello world", false);
-            var givenData = new CatLib.Stl.GivenData(bindData);
+            var givenData = new CatLib.Stl.GivenData(container, bindData);
             givenData.Needs("needs1");
             givenData.Given("hello");
             Assert.AreEqual("hello", bindData.GetContextual("needs1"));
 
-            givenData = new CatLib.Stl.GivenData(bindData);
+            givenData = new CatLib.Stl.GivenData(container, bindData);
             givenData.Needs("needs2");
             givenData.Given<GivenDataTest>();
-            Assert.AreEqual(typeof(GivenDataTest).ToString(), bindData.GetContextual("needs2"));
+            Assert.AreEqual(container.Type2Service(typeof(GivenDataTest)), bindData.GetContextual("needs2"));
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace CatLib.Tests.Stl
         {
             var container = new CatLib.Stl.Container();
             var bindData = new CatLib.Stl.BindData(container, "CanGiven", (app, param) => "hello world", false);
-            var givenData = new CatLib.Stl.GivenData(bindData);
+            var givenData = new CatLib.Stl.GivenData(container, bindData);
             givenData.Needs("needs");
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>

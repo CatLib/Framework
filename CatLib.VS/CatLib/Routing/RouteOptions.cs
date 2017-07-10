@@ -95,7 +95,6 @@ namespace CatLib.Routing
                 {
                     return this;
                 }
-                wheres.Remove(name);
             }
             wheres[name] = pattern;
             if (OnCompiledChange != null)
@@ -124,9 +123,8 @@ namespace CatLib.Routing
                 {
                     return this;
                 }
-                defaults.Remove(name);
             }
-            defaults.Add(name, val);
+            defaults[name] = val;
 
             return this;
         }

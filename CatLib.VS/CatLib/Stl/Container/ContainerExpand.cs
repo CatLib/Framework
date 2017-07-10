@@ -40,7 +40,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Singleton<TService, TConcrete>(this IContainer container) where TConcrete : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TConcrete), true);
+            return container.Bind(container.Type2Service(typeof(TService)), typeof(TConcrete), true);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Singleton<TService>(this IContainer container) where TService : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TService) , true);
+            return container.Bind(container.Type2Service(typeof(TService)), typeof(TService) , true);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Singleton<TService>(this IContainer container , Func<IContainer, object[], object> concrete) where TService : class
         {
-            return container.Bind(typeof(TService).ToString(), concrete , true);
+            return container.Bind(container.Type2Service(typeof(TService)), concrete , true);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Bind<TService , TConcrete>(this IContainer container) where TConcrete : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TConcrete), false);
+            return container.Bind(container.Type2Service(typeof(TService)), typeof(TConcrete), false);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Bind<TService>(this IContainer container) where TService : class
         {
-            return container.Bind(typeof(TService).ToString(), typeof(TService), false);
+            return container.Bind(container.Type2Service(typeof(TService)), typeof(TService), false);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace CatLib
         /// <returns>服务绑定数据</returns>
         public static IBindData Bind<TService>(this IContainer container , Func<IContainer, object[], object> concrete) where TService : class
         {
-            return container.Bind(typeof(TService).ToString(), concrete, false);
+            return container.Bind(container.Type2Service(typeof(TService)), concrete, false);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace CatLib
         /// <returns>服务实例</returns>
         public static TService MakeParams<TService>(this IContainer container , params object[] param)
         {
-            return (TService)container.Make(typeof(TService).ToString(), param);
+            return (TService)container.Make(container.Type2Service(typeof(TService)), param);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace CatLib
         /// <returns>服务实例</returns>
         public static TService Make<TService>(this IContainer container)
         {
-            return (TService)container.Make(typeof(TService).ToString());
+            return (TService)container.Make(container.Type2Service(typeof(TService)));
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace CatLib
         /// <param name="container">服务容器</param>
         public static void Release<TService>(this IContainer container) where TService : class
         {
-            container.Release(typeof(TService).ToString());
+            container.Release(container.Type2Service(typeof(TService)));
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace CatLib
         /// <param name="instance">实例值</param>
         public static void Instance<TService>(this IContainer container, object instance) where TService : class
         {
-            container.Instance(typeof(TService).ToString(), instance);
+            container.Instance(container.Type2Service(typeof(TService)), instance);
         }
     }
 }

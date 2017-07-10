@@ -23,7 +23,7 @@ namespace CatLib.Demo.FilterChain
 
         public void Bootstrap()
         {
-            App.Instance.Register(typeof(FilterChainDemo));
+            App.Instance.Register(new FilterChainDemo());
         }
 
     }
@@ -40,7 +40,7 @@ namespace CatLib.Demo.FilterChain
             {
                 return Type.GetType(type);
             });
-            application.Bootstrap(new Type[] { typeof(Bootstraps) }).Init();
+            application.Bootstrap(new Bootstraps()).Init();
         }
     }
 

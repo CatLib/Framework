@@ -167,16 +167,31 @@ namespace CatLib.Stl
         /// <returns>值</returns>
         public TVal Get(TKey key, TVal defaultValue = default(TVal))
         {
+            TVal result;
+            Get(key, out result, defaultValue);
+            return result;
+        }
+
+        /// <summary>
+        /// 根据key获取val，如果被淘汰则返回传入的默认值
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="val">值</param>
+        /// <param name="defaultVal">默认值</param>
+        /// <returns>是否获取</returns>
+        public bool Get(TKey key, out TVal val, TVal defaultVal = default(TVal))
+        {
             Guard.Requires<ArgumentNullException>(key != null);
             CacheNode<TKey, TVal> result;
             if (!lruCache.TryGetValue(key, out result))
             {
-                return defaultValue;
+                val = defaultVal;
+                return false;
             }
 
             MakeUsed(result);
-
-            return result.KeyValue.Value;
+            val = result.KeyValue.Value;
+            return true;
         }
 
         /// <summary>

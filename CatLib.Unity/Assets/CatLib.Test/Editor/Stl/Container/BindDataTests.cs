@@ -80,7 +80,7 @@ namespace CatLib.Tests.Stl
             bindData.Needs("need2").Given<BindDataTest>();
 
             Assert.AreEqual("abc", bindData.GetContextual("need1"));
-            Assert.AreEqual(typeof(BindDataTest).ToString(), bindData.GetContextual("need2"));
+            Assert.AreEqual(container.Type2Service(typeof(BindDataTest)), bindData.GetContextual("need2"));
             Assert.AreEqual("empty", bindData.GetContextual("empty"));
         }
         #endregion
@@ -101,7 +101,7 @@ namespace CatLib.Tests.Stl
             var textAliasGet = container.GetBind("Alias");
             Assert.AreSame(textAliasGet, bindData);
 
-            var classAliasGet = container.GetBind(typeof(BindDataTest).ToString());
+            var classAliasGet = container.GetBind(container.Type2Service(typeof(BindDataTest)));
             Assert.AreSame(bindData, textAliasGet);
             Assert.AreSame(bindData, classAliasGet);
         }

@@ -9,21 +9,17 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
-namespace CatLib.Routing
+namespace CatLib.API.Json
 {
     /// <summary>
-    /// 未定义默认的Scheme
+    /// Json实例接口
     /// </summary>
-    public sealed class UndefinedDefaultSchemeException : RuntimeException
+    public interface IJsonAware
     {
         /// <summary>
-        /// 未定义默认的Scheme
+        /// 设定json处理器实例接口
         /// </summary>
-        /// <param name="message">异常消息</param>
-        public UndefinedDefaultSchemeException(string message) : base(message)
-        {
-        }
+        /// <param name="handler">json处理器</param>
+        void SetJson(IJson handler);
     }
 }

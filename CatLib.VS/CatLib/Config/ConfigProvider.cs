@@ -9,13 +9,14 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config.Locator;
 
 namespace CatLib.Config
 {
     /// <summary>
-    /// 配置服务提供商
+    /// 配置服务提供者
     /// </summary>
     public sealed class ConfigProvider : ServiceProvider
     {
@@ -35,20 +36,16 @@ namespace CatLib.Config
             App.Singleton<ConfigManager>().Alias<IConfigManager>().OnResolving((bind, obj) =>
             {
                 var configManager = obj as ConfigManager;
-                if (configManager == null)
-                {
-                    return null;
-                }
 
                 configManager.Extend(() =>
                 {
                     var config = new Config();
-                    config.AddLocator(new CodeConfigLocator());
+                    config.SetLocator(new CodeConfigLocator());
                     return config;
                 });
 
                 return configManager;
-            }).Alias("config.manager");
+            }).Alias("catlib.config.manager");
         }
     }
 }

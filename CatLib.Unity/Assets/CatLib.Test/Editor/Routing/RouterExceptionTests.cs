@@ -10,7 +10,7 @@
  */
 
 using System;
-using CatLib.API;
+using CatLib.API.Routing;
 using CatLib.Routing;
 
 #if UNITY_EDITOR || NUNIT

@@ -9,21 +9,24 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
+using System.Collections;
 
-namespace CatLib.Routing
+namespace CatLib.API
 {
     /// <summary>
-    /// 参数范围及域异常
+    /// 服务提供者
     /// </summary>
-    public sealed class DomainException : RuntimeException
+    public interface IServiceProvider
     {
         /// <summary>
-        /// 创建一个参数范围及域异常
+        /// 服务提供者初始化
         /// </summary>
-        /// <param name="message">错误描述</param>
-        public DomainException(string message) : base(message)
-        {
-        }
+        /// <returns>迭代器</returns>
+        IEnumerator Init();
+
+        /// <summary>
+        /// 当注册服务提供者
+        /// </summary>
+        void Register();
     }
 }

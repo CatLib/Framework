@@ -22,6 +22,11 @@ namespace CatLib.Stl
         /// 绑定数据
         /// </summary>
         private readonly BindData bindData;
+        
+        /// <summary>
+        /// 服务容器
+        /// </summary>
+        private readonly Container container;
 
         /// <summary>
         /// 需求什么服务
@@ -31,10 +36,12 @@ namespace CatLib.Stl
         /// <summary>
         /// 绑定关系临时数据
         /// </summary>
+        /// <param name="container">服务容器</param>
         /// <param name="bindData">服务绑定数据</param>
-        internal GivenData(BindData bindData)
+        internal GivenData(Container container, BindData bindData)
         {
             this.bindData = bindData;
+            this.container = container;
         }
 
         /// <summary>
@@ -66,7 +73,7 @@ namespace CatLib.Stl
         /// <returns>服务绑定数据</returns>
         public IBindData Given<T>()
         {
-            return Given(typeof(T).ToString());
+            return Given(container.Type2Service(typeof(T)));
         }
     }
 }

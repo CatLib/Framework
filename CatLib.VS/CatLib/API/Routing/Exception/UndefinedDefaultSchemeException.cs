@@ -9,16 +9,19 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API
+namespace CatLib.API.Routing
 {
     /// <summary>
-    /// 当启动时
+    /// 未定义默认的Scheme
     /// </summary>
-    public interface IStart
+    public sealed class UndefinedDefaultSchemeException : RuntimeException
     {
         /// <summary>
-        /// 启动时触发
+        /// 未定义默认的Scheme
         /// </summary>
-        void Start();
+        /// <param name="message">异常消息</param>
+        public UndefinedDefaultSchemeException(string message) : base(message)
+        {
+        }
     }
 }
