@@ -17,6 +17,11 @@ namespace CatLib.API.Debugger
     public interface IMonitorHandler
     {
         /// <summary>
+        /// 监控的名字(用于UI端显示)
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// 监控值的单位描述
         /// </summary>
         string Unit { get; }

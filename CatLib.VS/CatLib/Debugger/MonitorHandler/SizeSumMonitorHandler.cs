@@ -20,6 +20,11 @@ namespace CatLib.Debugger.MonitorHandler
     public sealed class SizeSumMonitorHandler : IMonitorHandler
     {
         /// <summary>
+        /// 监控的名字
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
         /// 单位映射
         /// </summary>
         private readonly Dictionary<long, string> unitMapping;
@@ -61,8 +66,10 @@ namespace CatLib.Debugger.MonitorHandler
         /// <summary>
         /// 累加监控处理器
         /// </summary>
-        public SizeSumMonitorHandler()
+        /// <param name="name">监控名字</param>
+        public SizeSumMonitorHandler(string name)
         {
+            Name = name;
             unitMapping = new Dictionary<long, string>()
             {
                 { 1024 , "B"},
