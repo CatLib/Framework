@@ -11,14 +11,12 @@
 
 using System.Collections.Generic;
 using CatLib.API.Debugger;
-using CatLib.API.Routing;
 
 namespace CatLib.Debugger.WebDebugger
 {
     /// <summary>
     /// Web调试服务
     /// </summary>
-    [Routed]
     public sealed class LogStore : ILogWebCategory
     {
         /// <summary>

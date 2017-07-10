@@ -35,7 +35,7 @@ namespace CatLib.Debugger
             if (config != null && config.Default.Get("debugger.webconsole.enable", false))
             {
                 App.Make<HttpDebuggerConsole>();
-                App.Make<LogCatergroyStore>();
+                App.Make<LogStore>();
             }
             return base.Init();
         }
@@ -101,7 +101,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebDebugger()
         {
-            App.Singleton<LogCatergroyStore>().Alias<ILogCategory>();
+            App.Singleton<LogStore>().Alias<ILogWebCategory>();
         }
     }
 }
