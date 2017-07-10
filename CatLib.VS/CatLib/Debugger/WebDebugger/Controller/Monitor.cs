@@ -10,6 +10,7 @@
  */
 
 using CatLib.API.Routing;
+using CatLib.Debugger.WebDebugger.Protocol;
 
 namespace CatLib.Debugger.WebDebugger.Controller
 {
@@ -29,18 +30,17 @@ namespace CatLib.Debugger.WebDebugger.Controller
         public void GetMonitors(IRequest request, IResponse response , MonitorStore monitorStore)
         {
             var limit = request.GetInt("limit", 6);
-
+            var outputs = new GetMonitors();
             var i = 0;
             foreach (var monitor in monitorStore.Monitors)
             {
                 if (i++ >= limit && limit != 0)
                 {
-                    return;
+                    break;
                 }
-
-
+                outputs.WriteLine(monitor);
             }
-            response.SetContext("hello world");
+            response.SetContext(outputs);
         }
     }
 }

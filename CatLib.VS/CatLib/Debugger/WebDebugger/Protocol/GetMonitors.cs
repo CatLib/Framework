@@ -51,7 +51,7 @@ namespace CatLib.Debugger.WebDebugger.Protocol
         {
             outputs.Add(new Dictionary<string, string>
             {
-                { "name" , handler.Name },
+                { "name" , handler.Title },
                 { "value" , handler.Value },
                 { "unit" , handler.Unit }
             });

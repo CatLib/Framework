@@ -16,6 +16,7 @@ using CatLib.API.Debugger;
 using CatLib.API.Routing;
 using CatLib.Core;
 using CatLib.Debugger;
+using CatLib.Debugger.MonitorHandler;
 using CatLib.Debugger.WebConsole;
 using CatLib.Json;
 using CatLib.Routing;
@@ -94,6 +95,26 @@ namespace CatLib.Tests.Debugger.Http
 
             string ret;
             var statu = HttpHelper.Get("http://localhost:9478/debug/log/get-catergroy", out ret);
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+            Assert.AreEqual("{\"Response\":{\"CatLib.Tests.Debugger\":\"Debugger\",\"CatLib.Tests.Routing\":\"Router\"}}", ret);
+        }
+
+        [TestMethod]
+        public void TestGetMonitor()
+        {
+            var app = GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+            var monitor = app.Make<IMonitor>();
+            var handler = new OnceRecordMonitorHandler("title", "ms");
+            monitor.DefinedMoitor("test" , handler);
+            monitor.Monitor("test", 100);
+
+            console.Start("localhost", 9478);
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitor", out ret);
+
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
             Assert.AreEqual("{\"Response\":{\"CatLib.Tests.Debugger\":\"Debugger\",\"CatLib.Tests.Routing\":\"Router\"}}", ret);
