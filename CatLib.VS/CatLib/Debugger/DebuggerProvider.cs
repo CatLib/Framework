@@ -46,7 +46,6 @@ namespace CatLib.Debugger
         public override void Register()
         {
             RegisterLogger();
-            RegisterMonitors();
             RegisterWebConsole();
             RegisterWebDebugger();
         }
@@ -56,21 +55,13 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
-            App.Singleton<Logger>((binder, param) => new Logger()).Alias<ILogger>().Alias("debugger.logger").OnResolving((binder, obj) =>
+            App.Singleton<Logger>().Alias<ILogger>().Alias("debugger.logger").OnResolving((binder, obj) =>
             {
                 var logger = obj as Logger;
                 logger.AddLogHandler(new UnityConsoleLogHandler());
                 logger.AddLogHandler(new StdOutLogHandler());
                 return obj;
             });
-        }
-
-        /// <summary>
-        /// 注册监控器
-        /// </summary>
-        private void RegisterMonitors()
-        {
-            App.Singleton<Monitors>((binder, param) => new Monitors()).Alias<IMonitor>().Alias("debugger.monitor");
         }
 
         /// <summary>
@@ -101,7 +92,8 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebDebugger()
         {
-            App.Singleton<LogStore>().Alias<ILogWebCategory>();
+            App.Singleton<LogStore>().Alias<ILogWebCategory>().Alias("debugger.logger.category");
+            App.Singleton<MonitorStore>().Alias<IMonitor>().Alias("debugger.monitor");
         }
     }
 }

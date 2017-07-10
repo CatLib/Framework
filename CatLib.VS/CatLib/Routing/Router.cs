@@ -90,6 +90,11 @@ namespace CatLib.Routing
         private string defaultScheme;
 
         /// <summary>
+        /// 同步锁
+        /// </summary>
+        private readonly object syncRoot = new object();
+
+        /// <summary>
         /// 创建一个新的路由器
         /// </summary>
         /// <param name="eventHub">事件</param>
@@ -112,7 +117,10 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouter SetDefaultScheme(string scheme)
         {
-            defaultScheme = scheme;
+            lock (syncRoot)
+            {
+                defaultScheme = scheme;
+            }
             return this;
         }
 
@@ -135,11 +143,14 @@ namespace CatLib.Routing
         {
             Guard.NotEmptyOrNull(uris, "uris");
             Guard.Requires<ArgumentNullException>(action != null);
-            return RegisterRoute(uris, new RouteAction()
+            lock (syncRoot)
             {
-                Type = RouteAction.RouteTypes.CallBack,
-                Action = action,
-            });
+                return RegisterRoute(uris, new RouteAction()
+                {
+                    Type = RouteAction.RouteTypes.CallBack,
+                    Action = action,
+                });
+            }
         }
 
         /// <summary>
@@ -154,12 +165,15 @@ namespace CatLib.Routing
             Guard.NotEmptyOrNull(uris, "uris");
             Guard.Requires<ArgumentNullException>(controller != null);
             Guard.NotEmptyOrNull(func, "func");
-            return RegisterRoute(uris, new RouteAction()
+            lock (syncRoot)
             {
-                Type = RouteAction.RouteTypes.ControllerCall,
-                Controller = controller,
-                Func = func
-            });
+                return RegisterRoute(uris, new RouteAction()
+                {
+                    Type = RouteAction.RouteTypes.ControllerCall,
+                    Controller = controller,
+                    Func = func
+                });
+            }
         }
 
         /// <summary>
@@ -171,12 +185,15 @@ namespace CatLib.Routing
         public IRouter OnNotFound(Action<IRequest, Action<IRequest>> middleware, int priority = int.MaxValue)
         {
             Guard.Requires<ArgumentNullException>(middleware != null);
-            if (onNotFound == null)
+            lock (syncRoot)
             {
-                onNotFound = new FilterChain<IRequest>();
+                if (onNotFound == null)
+                {
+                    onNotFound = new FilterChain<IRequest>();
+                }
+                onNotFound.Add(middleware);
+                return this;
             }
-            onNotFound.Add(middleware);
-            return this;
         }
 
         /// <summary>
@@ -188,12 +205,15 @@ namespace CatLib.Routing
         public IRouter Middleware(Action<IRequest, IResponse, Action<IRequest, IResponse>> middleware, int priority = int.MaxValue)
         {
             Guard.Requires<ArgumentNullException>(middleware != null);
-            if (this.middleware == null)
+            lock (syncRoot)
             {
-                this.middleware = new FilterChain<IRequest, IResponse>();
+                if (this.middleware == null)
+                {
+                    this.middleware = new FilterChain<IRequest, IResponse>();
+                }
+                this.middleware.Add(middleware);
+                return this;
             }
-            this.middleware.Add(middleware);
-            return this;
         }
 
         /// <summary>
@@ -205,12 +225,15 @@ namespace CatLib.Routing
         public IRouter OnError(Action<IRequest, IResponse, Exception, Action<IRequest, IResponse, Exception>> onError, int priority = int.MaxValue)
         {
             Guard.Requires<ArgumentNullException>(onError != null);
-            if (this.onError == null)
+            lock (syncRoot)
             {
-                this.onError = new FilterChain<IRequest, IResponse, Exception>();
+                if (this.onError == null)
+                {
+                    this.onError = new FilterChain<IRequest, IResponse, Exception>();
+                }
+                this.onError.Add(onError);
+                return this;
             }
-            this.onError.Add(onError);
-            return this;
         }
 
         /// <summary>
@@ -227,38 +250,43 @@ namespace CatLib.Routing
             var request = MakeRequest(uri, context);
             Route route;
 
-            try
+            lock (syncRoot)
             {
-                route = FindRoute(request);
-            }
-            catch (NotFoundRouteException)
-            {
-                if (ThrowOnNotFound(request))
+                try
                 {
-                    return null;
+                    route = FindRoute(request);
                 }
-                throw;
-            }
+                catch (NotFoundRouteException)
+                {
+                    if (ThrowOnNotFound(request))
+                    {
+                        return null;
+                    }
+                    throw;
+                }
 
-            try
-            {
-                var response = new Response();
-                routeStack.Push(route);
-                responseStack.Push(response);
-                requestStack.Push(request);
-                request.SetRoute(route);
+                try
+                {
+                    var response = new Response();
+                    routeStack.Push(route);
+                    responseStack.Push(response);
+                    requestStack.Push(request);
+                    request.SetRoute(route);
 
-                container.Instance(container.Type2Service(typeof(IRequest)), request);
-                container.Instance(container.Type2Service(typeof(IResponse)), response);
-                return RunRouteWithMiddleware(route, request, response);
-            }
-            finally
-            {
-                routeStack.Pop();
-                requestStack.Pop();
-                responseStack.Pop();
-                container.Instance(container.Type2Service(typeof(IResponse)), responseStack.Count > 0 ? responseStack.Peek() : null);
-                container.Instance(container.Type2Service(typeof(IRequest)), requestStack.Count > 0 ? requestStack.Peek() : null);
+                    container.Instance(container.Type2Service(typeof(IRequest)), request);
+                    container.Instance(container.Type2Service(typeof(IResponse)), response);
+                    return RunRouteWithMiddleware(route, request, response);
+                }
+                finally
+                {
+                    routeStack.Pop();
+                    requestStack.Pop();
+                    responseStack.Pop();
+                    container.Instance(container.Type2Service(typeof(IResponse)),
+                        responseStack.Count > 0 ? responseStack.Peek() : null);
+                    container.Instance(container.Type2Service(typeof(IRequest)),
+                        requestStack.Count > 0 ? requestStack.Peek() : null);
+                }
             }
         }
 
@@ -269,20 +297,23 @@ namespace CatLib.Routing
         /// <returns>当前实例</returns>
         public IRouteGroup Group(string name)
         {
-            if (routeGroup == null)
+            lock (syncRoot)
             {
-                routeGroup = new Dictionary<string, RouteGroup>();
-            }
-            if (name == null)
-            {
-                return new RouteGroup();
-            }
-            if (!routeGroup.ContainsKey(name))
-            {
-                routeGroup.Add(name, new RouteGroup());
-            }
+                if (routeGroup == null)
+                {
+                    routeGroup = new Dictionary<string, RouteGroup>();
+                }
+                if (name == null)
+                {
+                    return new RouteGroup();
+                }
+                if (!routeGroup.ContainsKey(name))
+                {
+                    routeGroup.Add(name, new RouteGroup());
+                }
 
-            return routeGroup[name];
+                return routeGroup[name];
+            }
         }
 
         /// <summary>
@@ -294,13 +325,16 @@ namespace CatLib.Routing
         public IRouteGroup Group(Action area, string name = null)
         {
             Guard.Requires<ArgumentNullException>(area != null);
-            var group = Group(name);
+            lock (syncRoot)
+            {
+                var group = Group(name);
 
-            routeGroupStack.Push(group);
-            area.Invoke();
-            routeGroupStack.Pop();
+                routeGroupStack.Push(group);
+                area.Invoke();
+                routeGroupStack.Pop();
 
-            return group;
+                return group;
+            }
         }
 
         /// <summary>
@@ -309,13 +343,16 @@ namespace CatLib.Routing
         /// <returns>迭代器</returns>
         public IEnumerator RouterCompiler()
         {
-            eventHub.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
-            var compiler = container.Make<AttrRouteCompiler>();
-            if (compiler != null)
+            lock (syncRoot)
             {
-                compiler.Complie();
+                eventHub.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
+                var compiler = container.Make<AttrRouteCompiler>();
+                if (compiler != null)
+                {
+                    compiler.Complie();
+                }
+                yield break;
             }
-            yield break;
         }
 
         /// <summary>

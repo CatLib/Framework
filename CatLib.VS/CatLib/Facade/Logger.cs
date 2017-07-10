@@ -15,9 +15,9 @@ using CatLib.Core;
 namespace CatLib.Facade
 {
     /// <summary>
-    /// 调试器
+    /// 日志器
     /// </summary>
-    public sealed class Debugger : Facade<IDebugger>
+    public sealed class Logger : Facade<ILogger>
     {
     }
 }

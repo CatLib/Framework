@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using CatLib.API.Debugger;
 using CatLib.API.Routing;
 using CatLib.Core;
 using CatLib.Debugger;
@@ -78,6 +79,24 @@ namespace CatLib.Tests.Debugger.Http
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
             Assert.AreEqual("{\"Response\":{\"hello\":\"world\"}}", ret);
+        }
+
+        [TestMethod]
+        public void TestGetCatergroy()
+        {
+            var app = GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+            var logCatergroy = app.Make<ILogWebCategory>();
+            logCatergroy.DefinedCategory("CatLib.Tests.Debugger" , "Debugger");
+            logCatergroy.DefinedCategory("CatLib.Tests.Routing", "Router");
+
+            console.Start("localhost", 9478);
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/log/get-catergroy", out ret);
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+            Assert.AreEqual("{\"Response\":{\"CatLib.Tests.Debugger\":\"Debugger\",\"CatLib.Tests.Routing\":\"Router\"}}", ret);
         }
     }
 }

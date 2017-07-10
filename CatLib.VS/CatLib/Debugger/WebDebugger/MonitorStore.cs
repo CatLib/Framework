@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Debugger;
-using CatLib.API.Routing;
 using CatLib.Stl;
 using System;
 using System.Collections.Generic;
@@ -20,8 +19,7 @@ namespace CatLib.Debugger
     /// <summary>
     /// 监控器
     /// </summary>
-    [Routed]
-    public sealed class Monitors : IMonitor
+    public sealed class MonitorStore : IMonitor
     {
         /// <summary>
         /// 监控处理器
@@ -29,23 +27,40 @@ namespace CatLib.Debugger
         private readonly Dictionary<string, IMonitorHandler> monitors;
 
         /// <summary>
+        /// 监控处理器
+        /// </summary>
+        private readonly SortSet<IMonitorHandler, int> monitorsSort;
+
+        /// <summary>
+        /// 监控处理器
+        /// </summary>
+        internal SortSet<IMonitorHandler, int> Monitors
+        {
+            get { return monitorsSort; }
+        }
+
+        /// <summary>
         /// 监控器
         /// </summary>
-        public Monitors()
+        public MonitorStore()
         {
             monitors = new Dictionary<string, IMonitorHandler>();
+            monitorsSort = new SortSet<IMonitorHandler, int>();
         }
 
         /// <summary>
         /// 设定监控处理器
         /// </summary>
         /// <param name="monitorName">监控名</param>
-        /// <param name="handler">执行句柄</param>
-        public void DefinedMoitor(string monitorName, IMonitorHandler handler)
+        /// <param name="handler">监控处理器</param>
+        /// <param name="sort">排序</param>
+        public void DefinedMoitor(string monitorName, IMonitorHandler handler , int sort = int.MaxValue)
         {
             Guard.NotEmptyOrNull(monitorName, "moitorName");
             Guard.Requires<ArgumentNullException>(handler != null);
-            monitors[monitorName] = handler;
+            Guard.Requires<ArgumentException>(!monitorsSort.Contains(handler));
+            monitors.Add(monitorName, handler);
+            monitorsSort.Add(handler , sort);
         }
 
         /// <summary>
@@ -61,17 +76,6 @@ namespace CatLib.Debugger
             {
                 handler.Handler(value);
             }
-        }
-
-        /// <summary>
-        /// 获取监控的详细数据
-        /// </summary>
-        /// <param name="request">请求</param>
-        /// <param name="response">响应</param>
-        [Routed("debug://monitors/get-monitors/{limit?}" , Defaults = "limit=>6")]
-        public void GetMonitors(IRequest request, IResponse response)
-        {
-            response.SetContext("hello world");
         }
     }
 }
