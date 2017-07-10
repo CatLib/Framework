@@ -60,7 +60,7 @@
     <Compile Include="Debugger\IDebugResponse.cs" />
     <Compile Include="Debugger\DebuggerProvider.cs" />
     <Compile Include="Debugger\ILogCategory.cs" />
-    <Compile Include="Debugger\IMonitor.cs" />
+    <Compile Include="API\Debugger\Internal\IMonitor.cs" />
     <Compile Include="Debugger\Logger.cs" />
     <Compile Include="Debugger\LogHandler\ILogHandler.cs" />
     <Compile Include="API\Debugger\IDebugger.cs" />
@@ -110,10 +110,10 @@
     <Compile Include="Debugger\Monitors.cs" />
     <Compile Include="Debugger\MonitorHandler\SizeSumMonitorHandler.cs" />
     <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
-    <Compile Include="Debugger\WebConsole\Protocol\GetCatergroy.cs" />
-    <Compile Include="Debugger\WebConsole\Protocol\WebConsoleOutputs.cs" />
-    <Compile Include="Debugger\WebConsole\Routed\Log.cs" />
-    <Compile Include="Debugger\WebConsole\Routed\Util.cs" />
+    <Compile Include="Debugger\WebDebugger\Protocol\GetCatergroy.cs" />
+    <Compile Include="Debugger\WebDebugger\Protocol\WebConsoleOutputs.cs" />
+    <Compile Include="Debugger\WebDebugger\Controller\Log.cs" />
+    <Compile Include="Debugger\WebDebugger\Controller\Util.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
     <Compile Include="Facade\Debugger.cs" />
     <Compile Include="Facade\Env.cs" />
