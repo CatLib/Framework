@@ -33,14 +33,14 @@ namespace CatLib.Debugger.LogHandler
         {
             mapping = new Dictionary<LogLevels, Action<object>>
             {
-                { LogLevels.Emergency , Debug.LogError },
-                { LogLevels.Alert , Debug.LogError },
-                { LogLevels.Critical , Debug.LogError },
-                { LogLevels.Error, Debug.LogError },
-                { LogLevels.Warning, Debug.LogWarning },
-                { LogLevels.Notice, Debug.Log },
-                { LogLevels.Info, Debug.Log },
-                { LogLevels.Debug , Debug.Log }
+                {LogLevels.Emergency, Debug.LogError},
+                {LogLevels.Alert, Debug.LogError},
+                {LogLevels.Critical, Debug.LogError},
+                {LogLevels.Error, Debug.LogError},
+                {LogLevels.Warning, Debug.LogWarning},
+                {LogLevels.Notice, Debug.Log},
+                {LogLevels.Info, Debug.Log},
+                {LogLevels.Debug, Debug.Log}
             };
         }
 
@@ -51,7 +51,7 @@ namespace CatLib.Debugger.LogHandler
         public void Handler(ILogEntry log)
         {
             Action<object> handler;
-            if (mapping.TryGetValue(log.Level, out handler))
+            if (mapping != null && mapping.TryGetValue(log.Level, out handler))
             {
                 handler.Invoke(log.Message);
             }

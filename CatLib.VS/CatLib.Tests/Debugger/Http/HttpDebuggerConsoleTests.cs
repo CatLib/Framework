@@ -73,8 +73,6 @@ namespace CatLib.Tests.Debugger.Http
             var app = GetApplication();
             var console = app.Make<HttpDebuggerConsole>();
 
-            console.Start("localhost", 9478);
-
             string ret;
             var statu = HttpHelper.Get("http://localhost:9478/catlib/http-debugger-console-tests/simple-call", out ret);
             console.Stop();
@@ -91,8 +89,6 @@ namespace CatLib.Tests.Debugger.Http
             logCatergroy.DefinedCategory("CatLib.Tests.Debugger" , "Debugger");
             logCatergroy.DefinedCategory("CatLib.Tests.Routing", "Router");
 
-            console.Start("localhost", 9478);
-
             string ret;
             var statu = HttpHelper.Get("http://localhost:9478/debug/log/get-catergroy", out ret);
             console.Stop();
@@ -107,17 +103,15 @@ namespace CatLib.Tests.Debugger.Http
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
             var handler = new OnceRecordMonitorHandler("title", "ms");
-            monitor.DefinedMoitor("test" , handler);
+            monitor.DefinedMoitor("test" , handler , -1);
             monitor.Monitor("test", 100);
 
-            console.Start("localhost", 9478);
-
             string ret;
-            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitor", out ret);
+            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors/1", out ret);
 
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
-            Assert.AreEqual("{\"Response\":{\"CatLib.Tests.Debugger\":\"Debugger\",\"CatLib.Tests.Routing\":\"Router\"}}", ret);
+            Assert.AreEqual("{\"Response\":[{\"name\":\"title\",\"value\":\"100\",\"unit\":\"ms\"}]}", ret);
         }
     }
 }

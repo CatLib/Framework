@@ -58,7 +58,10 @@ namespace CatLib.Debugger
             App.Singleton<Logger>().Alias<ILogger>().Alias("debugger.logger").OnResolving((binder, obj) =>
             {
                 var logger = obj as Logger;
+
+#if !DEBUG
                 logger.AddLogHandler(new UnityConsoleLogHandler());
+#endif
                 logger.AddLogHandler(new StdOutLogHandler());
                 return obj;
             });
