@@ -7,10 +7,11 @@ CatLib.Unity/Assets/Release
 CatLib.VS/TestResults
 CatLib.VS/CatLib/bin
 CatLib.VS/CatLib/obj
-CatLib.VS/CatLib.API/bin
-CatLib.VS/CatLib.API/obj
 CatLib.VS/CatLib.Tests/bin
 CatLib.VS/CatLib.Tests/obj
+CatLib.VS/CatLib.API/bin
+CatLib.VS/CatLib.API/obj
+
 .vscode
 .vs
 UWP/

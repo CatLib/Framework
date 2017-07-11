@@ -1,6 +1,0 @@
-D:\Private\CatLib\CatLib.Unity\Assets\CatLib\Lib\CatLib.API.xml
-D:\Private\CatLib\CatLib.Unity\Assets\CatLib\Lib\CatLib.API.dll
-D:\Private\CatLib\CatLib.Unity\Assets\CatLib\Lib\CatLib.API.pdb
-D:\Private\CatLib\CatLib.VS\CatLib.API\obj\Release\CatLib.API.csprojResolveAssemblyReference.cache
-D:\Private\CatLib\CatLib.VS\CatLib.API\obj\Release\CatLib.API.dll
-D:\Private\CatLib\CatLib.VS\CatLib.API\obj\Release\CatLib.API.pdb
