@@ -107,11 +107,7 @@ namespace CatLib.Debugger.WebLog.Protocol
         private bool IsCredibleAssembly(string assembly)
         {
             bool statu;
-            if (credibleAssemblys.TryGetValue(assembly, out statu) && statu)
-            {
-                return true;
-            }
-            return false;
+            return credibleAssemblys.TryGetValue(assembly, out statu) && statu;
         }
     }
 }
