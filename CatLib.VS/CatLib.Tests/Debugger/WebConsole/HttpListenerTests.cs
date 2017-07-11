@@ -22,7 +22,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
-namespace CatLib.Tests.Debugger.Http
+namespace CatLib.Tests.Debugger.WebConsole
 {
     [TestClass]
     public class HttpListenerTests
