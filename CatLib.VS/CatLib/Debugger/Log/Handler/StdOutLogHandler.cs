@@ -13,7 +13,7 @@ using CatLib.API.Debugger;
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.Debugger.LogHandler
+namespace CatLib.Debugger.Log.Handler
 {
     /// <summary>
     /// 标准输出日志处理器

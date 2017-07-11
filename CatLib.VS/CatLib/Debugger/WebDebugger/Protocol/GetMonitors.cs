@@ -10,7 +10,7 @@
  */
 
 using System.Collections.Generic;
-using CatLib.API.Debugger;
+using CatLib.Debugger.Monitor;
 using CatLib.Debugger.WebConsole;
 
 namespace CatLib.Debugger.WebDebugger.Protocol

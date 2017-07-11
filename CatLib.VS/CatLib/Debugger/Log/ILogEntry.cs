@@ -12,7 +12,7 @@
 using System.Diagnostics;
 using CatLib.API.Debugger;
 
-namespace CatLib.Debugger
+namespace CatLib.Debugger.Log
 {
     /// <summary>
     /// 日志条目

@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
-
-namespace CatLib.Debugger.MonitorHandler
+namespace CatLib.Debugger.Monitor.Handler
 {
     /// <summary>
     /// 单次监控处理器

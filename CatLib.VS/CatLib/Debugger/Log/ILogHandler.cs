@@ -9,15 +9,17 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
-using CatLib.Core;
-
-namespace CatLib.Facade
+namespace CatLib.Debugger.Log
 {
     /// <summary>
-    /// 监控器
+    /// 日志处理器
     /// </summary>
-    public sealed class Monitor : Facade<IMonitor>
+    public interface ILogHandler
     {
+        /// <summary>
+        /// 日志处理器
+        /// </summary>
+        /// <param name="log">日志条目</param>
+        void Handler(ILogEntry log);
     }
 }

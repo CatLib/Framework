@@ -10,9 +10,8 @@
  */
 
 using System.Collections.Generic;
-using CatLib.API.Debugger;
 
-namespace CatLib.Debugger.MonitorHandler
+namespace CatLib.Debugger.Monitor.Handler
 {
     /// <summary>
     /// 大小累加监控处理器

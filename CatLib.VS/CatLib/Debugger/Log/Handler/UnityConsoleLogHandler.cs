@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CatLib.Debugger.LogHandler
+namespace CatLib.Debugger.Log.Handler
 {
     /// <summary>
     /// Unity控制台日志处理器

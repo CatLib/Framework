@@ -10,7 +10,7 @@
  */
 
 using System;
-using CatLib.Debugger.LogHandler;
+using CatLib.Debugger.Log;
 using CatLib.Stl;
 
 namespace CatLib.Debugger.WebDebugger.LogHandler

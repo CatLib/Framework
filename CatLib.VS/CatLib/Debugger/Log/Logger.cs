@@ -10,12 +10,11 @@
  */
 
 using CatLib.API.Debugger;
-using CatLib.Debugger.LogHandler;
 using CatLib.Stl;
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.Debugger
+namespace CatLib.Debugger.Log
 {
     /// <summary>
     /// 日志系统

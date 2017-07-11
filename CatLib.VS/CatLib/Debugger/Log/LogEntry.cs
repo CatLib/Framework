@@ -13,7 +13,7 @@ using CatLib.API.Debugger;
 using System.Diagnostics;
 using System.Threading;
 
-namespace CatLib.Debugger
+namespace CatLib.Debugger.Log
 {
     /// <summary>
     /// 日志条目记录

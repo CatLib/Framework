@@ -9,12 +9,11 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
 using CatLib.Stl;
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.Debugger
+namespace CatLib.Debugger.Monitor
 {
     /// <summary>
     /// 监控器

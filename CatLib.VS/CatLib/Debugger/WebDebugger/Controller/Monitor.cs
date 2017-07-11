@@ -10,6 +10,7 @@
  */
 
 using CatLib.API.Routing;
+using CatLib.Debugger.Monitor;
 using CatLib.Debugger.WebDebugger.Protocol;
 
 namespace CatLib.Debugger.WebDebugger.Controller

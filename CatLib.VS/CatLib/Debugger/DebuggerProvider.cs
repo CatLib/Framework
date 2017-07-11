@@ -13,7 +13,9 @@ using System.Collections;
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
-using CatLib.Debugger.LogHandler;
+using CatLib.Debugger.Log;
+using CatLib.Debugger.Log.Handler;
+using CatLib.Debugger.Monitor;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebDebugger;
 

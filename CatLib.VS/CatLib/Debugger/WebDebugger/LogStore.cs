@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using CatLib.API.Debugger;
+using CatLib.Debugger.Log;
 using CatLib.Debugger.WebDebugger.LogHandler;
 
 namespace CatLib.Debugger.WebDebugger

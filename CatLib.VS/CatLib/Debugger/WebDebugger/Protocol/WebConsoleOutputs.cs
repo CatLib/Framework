@@ -12,6 +12,7 @@
 using CatLib.API.Debugger;
 using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
+using CatLib.Debugger.Log;
 
 namespace CatLib.Debugger.WebDebugger.Protocol
 {
