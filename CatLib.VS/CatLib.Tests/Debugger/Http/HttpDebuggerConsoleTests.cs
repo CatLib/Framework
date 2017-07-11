@@ -113,5 +113,19 @@ namespace CatLib.Tests.Debugger.Http
             Assert.AreEqual(HttpStatusCode.OK, statu);
             Assert.AreEqual("{\"Response\":[{\"name\":\"title\",\"value\":\"100\",\"unit\":\"ms\"}]}", ret);
         }
+
+        [TestMethod]
+        public void TestEcho()
+        {
+            var app = GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/util/echo/helloworld", out ret);
+
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+            Assert.AreEqual(string.Empty, ret);
+        }
     }
 }

@@ -27,18 +27,13 @@ namespace CatLib.Debugger.WebDebugger.Controller
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <param name="logger">日志系统</param>
-        [Routed]
+        [Routed("echo/{msg?}")]
         public void Echo(IRequest request , IResponse response , ILogger logger)
         {
             if (logger != null)
             {
-                logger.Debug(request.Uri.OriginalString);
-                return;
+                logger.Debug(request.Get("msg"));
             }
-            var logEntry = new LogEntry(LogLevels.Debug, request.Uri.OriginalString, 1);
-            var outputs = new WebConsoleOutputs();
-            outputs.WriteLine(logEntry);
-            response.SetContext(outputs);
         }
     }
 }

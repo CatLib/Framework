@@ -103,8 +103,14 @@ namespace CatLib.Debugger.WebConsole
             try
             {
                 DispatchToRouted(context);
-                context.Response.StatusCode = (int)HttpStatusCode.OK;
+                context.Response.StatusCode = (int) HttpStatusCode.OK;
                 context.Response.OutputStream.Close();
+            }
+            catch (NotFoundRouteException ex)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                context.Response.OutputStream.Close();
+                logger.Debug("request has error [" + ex.Message + "]");
             }
             catch (Exception ex)
             {
@@ -130,7 +136,10 @@ namespace CatLib.Debugger.WebConsole
             var path = string.Join("/", segments, 1, segments.Length - 1);
             var uri = string.Format("{0}://{1}", scheme, path);
             var response = router.Dispatch(uri);
-            RoutedResponseHandler(context, response);
+            if (response != null)
+            {
+                RoutedResponseHandler(context, response);
+            }
         }
 
         /// <summary>
@@ -162,10 +171,12 @@ namespace CatLib.Debugger.WebConsole
             router.OnNotFound((request, next) =>
             {
                 logger.Debug("can not find routed [{0}]", request.Uri.OriginalString);
+                next(request);
             });
             router.OnError((request, response, exception, next) =>
             {
                 logger.Emergency("routed trigger error ,request [{0}][{1}]", request.Uri.OriginalString, exception.Message);
+                next(request, response, exception);
             });
         }
     }
