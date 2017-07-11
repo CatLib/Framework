@@ -170,7 +170,7 @@ namespace CatLib.Debugger.Log
         /// <returns>日志条目</returns>
         private LogEntry MakeLogEntry(LogLevels level, string message)
         {
-            return new LogEntry(level, message, 3);
+            return new LogEntry(level, message, 4);
         }
     }
 }

@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Debugger;
 using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
@@ -21,6 +22,14 @@ namespace CatLib.Debugger.WebLog.Protocol
     /// </summary>
     internal sealed class WebConsoleOutputs : IWebConsoleResponse
     {
+        /// <summary>
+        /// 可信任程序集
+        /// </summary>
+        private readonly IDictionary<string, bool> credibleAssemblys = new Dictionary<string, bool>
+        {
+            {"mscorlib" , true },
+            {"Microsoft.VisualStudio.TestPlatform.Extensions.VSTestIntegration" , true },
+        };
         /// <summary>
         /// 响应
         /// </summary>
@@ -68,13 +77,17 @@ namespace CatLib.Debugger.WebLog.Protocol
         /// <param name="entry"></param>
         public void WriteLine(ILogEntry entry)
         {
-            var callStack = new string[entry.StackTrace.FrameCount];
+            var callStack = new List<string>(entry.StackTrace.FrameCount);
 
             for (var i = 0; i < entry.StackTrace.FrameCount; i++)
             {
                 var frame = entry.StackTrace.GetFrame(i);
-                callStack[i] = string.Format("{0}(at {1}:{2})", frame.GetMethod(), frame.GetFileName(),
-                    frame.GetFileLineNumber());
+                var method = frame.GetMethod();
+                if (method.DeclaringType == null || !IsCredibleAssembly(method.DeclaringType.Assembly.GetName().Name))
+                {
+                    callStack.Add(string.Format("{0}(at {1}:{2})", method, frame.GetFileName(),
+                        frame.GetFileLineNumber()));
+                }
             }
 
             outputs.Add(new Dictionary<string, object>
@@ -85,6 +98,21 @@ namespace CatLib.Debugger.WebLog.Protocol
                 { "message" , entry.Message },
                 { "callStack" , callStack }
             });
+        }
+
+        /// <summary>
+        /// 是否是可信的程序集
+        /// </summary>
+        /// <param name="assembly">程序集</param>
+        /// <returns>是否可信</returns>
+        private bool IsCredibleAssembly(string assembly)
+        {
+            bool statu;
+            if (credibleAssemblys.TryGetValue(assembly, out statu) && statu)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -12,6 +12,7 @@
 using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.WebLog.LogHandler;
+using CatLib.Stl;
 using System.Collections.Generic;
 
 namespace CatLib.Debugger.WebLog
@@ -37,7 +38,7 @@ namespace CatLib.Debugger.WebLog
         /// <summary>
         /// 日志记录
         /// </summary>
-        private readonly Queue<ILogEntry> logEntrys;
+        private readonly SortSet<ILogEntry,long> logEntrys;
 
         /// <summary>
         /// 最大储存的日志记录数
@@ -51,7 +52,8 @@ namespace CatLib.Debugger.WebLog
         {
             logger.AddLogHandler(new WebLogHandler(this));
             categroy = new Dictionary<string, string>();
-            logEntrys = new Queue<ILogEntry>(maxLogEntrys);
+            logEntrys = new SortSet<ILogEntry, long>();
+            logEntrys.ReverseIterator();
         }
 
         /// <summary>
@@ -62,9 +64,9 @@ namespace CatLib.Debugger.WebLog
         {
             while (logEntrys.Count >= maxLogEntrys)
             {
-                logEntrys.Dequeue();
+                logEntrys.Shift();
             }
-            logEntrys.Enqueue(entry);
+            logEntrys.Add(entry, entry.Id);
         }
 
         /// <summary>
@@ -78,7 +80,7 @@ namespace CatLib.Debugger.WebLog
         }
 
         /// <summary>
-        /// 获取在LastId之后(包括lastId)的日志条目实体
+        /// 获取在LastId之后的日志条目实体
         /// </summary>
         /// <param name="lastId">最后的Id</param>
         /// <returns>日志条目</returns>
@@ -87,12 +89,13 @@ namespace CatLib.Debugger.WebLog
             var result = new List<ILogEntry>();
             foreach (var entry in logEntrys)
             {
-                if (entry.Id < lastId)
+                if (entry.Id <= lastId)
                 {
                     break;
                 }
                 result.Add(entry);
             }
+            result.Reverse();
             return result;
         }    
     }

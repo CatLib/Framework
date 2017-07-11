@@ -118,7 +118,13 @@ namespace CatLib.Routing
             {
                 return defaultValue;
             }
-            return parameters.ContainsKey(key) ? parameters[key] : defaultValue;
+
+            string value;
+            if (parameters.TryGetValue(key, out value))
+            {
+                return value;
+            }
+            return defaultValue;
         }
 
         /// <summary>

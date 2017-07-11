@@ -34,10 +34,11 @@ namespace CatLib.Debugger
         public override IEnumerator Init()
         {
             var config = App.Make<IConfigManager>();
-            if (config != null && config.Default.Get("debugger.webconsole.enable", false))
+            if (config == null || config.Default.Get("debugger.webconsole.enable", true))
             {
                 App.Make<HttpDebuggerConsole>();
                 App.Make<LogStore>();
+                App.Make<MonitorStore>();
             }
             return base.Init();
         }
