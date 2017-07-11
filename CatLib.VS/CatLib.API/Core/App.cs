@@ -36,7 +36,7 @@ namespace CatLib.API
                 }
                 throw new NullReferenceException("Application is not instance.");
             }
-            internal set
+            set
             {
                 instance = value;
             }

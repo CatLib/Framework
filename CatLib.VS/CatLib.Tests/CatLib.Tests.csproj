@@ -123,6 +123,10 @@
     <Compile Include="Translation\TranslationTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CatLib.API\CatLib.API.csproj">
+      <Project>{5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e}</Project>
+      <Name>CatLib.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CatLib\CatLib.csproj">
       <Project>{BBB2DAE2-638B-4419-9591-3CECCA312E4E}</Project>
       <Name>CatLib</Name>
