@@ -18,9 +18,9 @@ using CatLib.API.Routing;
 using CatLib.Config;
 using CatLib.Core;
 using CatLib.Debugger;
-using CatLib.Debugger.Monitor;
-using CatLib.Debugger.Monitor.Handler;
 using CatLib.Debugger.WebConsole;
+using CatLib.Debugger.WebMonitor;
+using CatLib.Debugger.WebMonitor.Handler;
 using CatLib.Json;
 using CatLib.Routing;
 

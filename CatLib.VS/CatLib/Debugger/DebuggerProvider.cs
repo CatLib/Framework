@@ -15,9 +15,9 @@ using CatLib.API.Config;
 using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.Log.Handler;
-using CatLib.Debugger.Monitor;
 using CatLib.Debugger.WebConsole;
-using CatLib.Debugger.WebDebugger;
+using CatLib.Debugger.WebLog;
+using CatLib.Debugger.WebMonitor;
 
 namespace CatLib.Debugger
 {
@@ -49,7 +49,8 @@ namespace CatLib.Debugger
         {
             RegisterLogger();
             RegisterWebConsole();
-            RegisterWebDebugger();
+            RegisterWebMonitor();
+            RegisterWebLog();
         }
 
         /// <summary>
@@ -100,12 +101,19 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
+        /// 注册监控
+        /// </summary>
+        private void RegisterWebMonitor()
+        {
+            App.Singleton<MonitorStore>().Alias<IMonitor>().Alias("debugger.monitor");
+        }
+
+        /// <summary>
         /// 注册Web调试服务
         /// </summary>
-        private void RegisterWebDebugger()
+        private void RegisterWebLog()
         {
             App.Singleton<LogStore>().Alias<ILogWebCategory>().Alias("debugger.logger.category");
-            App.Singleton<MonitorStore>().Alias<IMonitor>().Alias("debugger.monitor");
         }
     }
 }

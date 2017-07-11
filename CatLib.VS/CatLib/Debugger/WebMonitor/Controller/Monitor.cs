@@ -10,10 +10,9 @@
  */
 
 using CatLib.API.Routing;
-using CatLib.Debugger.Monitor;
-using CatLib.Debugger.WebDebugger.Protocol;
+using CatLib.Debugger.WebMonitor.Protocol;
 
-namespace CatLib.Debugger.WebDebugger.Controller
+namespace CatLib.Debugger.WebMonitor.Controller
 {
     /// <summary>
     /// 监控

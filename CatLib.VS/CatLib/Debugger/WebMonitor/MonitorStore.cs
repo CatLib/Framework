@@ -13,7 +13,7 @@ using CatLib.Stl;
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.Debugger.Monitor
+namespace CatLib.Debugger.WebMonitor
 {
     /// <summary>
     /// 监控器

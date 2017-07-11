@@ -13,7 +13,7 @@ using System;
 using CatLib.Debugger.Log;
 using CatLib.Stl;
 
-namespace CatLib.Debugger.WebDebugger.LogHandler
+namespace CatLib.Debugger.WebLog.LogHandler
 {
     /// <summary>
     /// Web日志处理器

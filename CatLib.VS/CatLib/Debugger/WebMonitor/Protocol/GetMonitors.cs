@@ -10,10 +10,9 @@
  */
 
 using System.Collections.Generic;
-using CatLib.Debugger.Monitor;
 using CatLib.Debugger.WebConsole;
 
-namespace CatLib.Debugger.WebDebugger.Protocol
+namespace CatLib.Debugger.WebMonitor.Protocol
 {
     /// <summary>
     /// 获取监控信息

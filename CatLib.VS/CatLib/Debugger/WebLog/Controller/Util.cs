@@ -11,7 +11,6 @@
 
 using CatLib.API.Debugger;
 using CatLib.API.Routing;
-using CatLib.Debugger.WebDebugger.Protocol;
 
 namespace CatLib.Debugger.WebDebugger.Controller
 {

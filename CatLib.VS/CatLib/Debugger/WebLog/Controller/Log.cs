@@ -10,9 +10,9 @@
  */
 
 using CatLib.API.Routing;
-using CatLib.Debugger.WebDebugger.Protocol;
+using CatLib.Debugger.WebLog.Protocol;
 
-namespace CatLib.Debugger.WebDebugger.Controller
+namespace CatLib.Debugger.WebLog.Controller
 {
     /// <summary>
     /// 日志

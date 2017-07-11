@@ -12,9 +12,9 @@
 using System.Collections.Generic;
 using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
-using CatLib.Debugger.WebDebugger.LogHandler;
+using CatLib.Debugger.WebLog.LogHandler;
 
-namespace CatLib.Debugger.WebDebugger
+namespace CatLib.Debugger.WebLog
 {
     /// <summary>
     /// Web调试服务

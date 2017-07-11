@@ -14,7 +14,7 @@ using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
 using CatLib.Debugger.Log;
 
-namespace CatLib.Debugger.WebDebugger.Protocol
+namespace CatLib.Debugger.WebLog.Protocol
 {
     /// <summary>
     /// Web控制台输出

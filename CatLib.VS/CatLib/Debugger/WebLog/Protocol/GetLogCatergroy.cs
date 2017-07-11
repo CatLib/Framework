@@ -14,7 +14,7 @@ using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
 using CatLib.Stl;
 
-namespace CatLib.Debugger.WebDebugger.Protocol
+namespace CatLib.Debugger.WebLog.Protocol
 {
     /// <summary>
     /// 获取分组API

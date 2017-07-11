@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 
-namespace CatLib.Debugger.Monitor.Handler
+namespace CatLib.Debugger.WebMonitor.Handler
 {
     /// <summary>
     /// 大小累加监控处理器
