@@ -12,8 +12,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using CatLib.API.Config;
 using CatLib.API.Debugger;
 using CatLib.API.Routing;
+using CatLib.Config;
 using CatLib.Core;
 using CatLib.Debugger;
 using CatLib.Debugger.MonitorHandler;
@@ -44,6 +46,8 @@ namespace CatLib.Tests.Debugger.Http
             app.Register(new RoutingProvider());
             app.Register(new JsonProvider());
             app.Register(new DebuggerProvider());
+            app.Register(new ConfigProvider());
+            app.Make<IConfigManager>().Default.Set("debugger.logger.handler.unity", false);
             app.Init();
             return app;
         }

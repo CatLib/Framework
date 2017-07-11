@@ -59,10 +59,17 @@ namespace CatLib.Debugger
             {
                 var logger = obj as Logger;
 
-#if !DEBUG
-                logger.AddLogHandler(new UnityConsoleLogHandler());
-#endif
-                logger.AddLogHandler(new StdOutLogHandler());
+                var config = App.Make<IConfigManager>();
+                if (config == null || config.Default.Get("debugger.logger.handler.unity", true))
+                {
+                    logger.AddLogHandler(new UnityConsoleLogHandler());
+                }
+
+                if (config == null || config.Default.Get("debugger.logger.handler.console", true))
+                {
+                    logger.AddLogHandler(new StdOutLogHandler());
+                }
+
                 return obj;
             });
         }
