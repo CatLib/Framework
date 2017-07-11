@@ -120,11 +120,7 @@ namespace CatLib.Routing
             }
 
             string value;
-            if (parameters.TryGetValue(key, out value))
-            {
-                return value;
-            }
-            return defaultValue;
+            return parameters.TryGetValue(key, out value) ? value : defaultValue;
         }
 
         /// <summary>

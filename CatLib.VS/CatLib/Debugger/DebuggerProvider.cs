@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
@@ -18,6 +17,7 @@ using CatLib.Debugger.Log.Handler;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebLog;
 using CatLib.Debugger.WebMonitor;
+using System.Collections;
 
 namespace CatLib.Debugger
 {

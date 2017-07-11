@@ -38,7 +38,7 @@ namespace CatLib.Debugger.WebConsole
         public HttpListener(string host = "*", int port = 9478)
         {
             listener = new Listener();
-            listener.Prefixes.Add("http://"+ host + ":" + port + "/");
+            listener.Prefixes.Add("http://" + host + ":" + port + "/");
             listener.Start();
             listener.BeginGetContext(ListenedRequest, null);
         }

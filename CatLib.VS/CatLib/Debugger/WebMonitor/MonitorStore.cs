@@ -53,13 +53,13 @@ namespace CatLib.Debugger.WebMonitor
         /// <param name="monitorName">监控名</param>
         /// <param name="handler">监控处理器</param>
         /// <param name="sort">排序</param>
-        public void DefinedMoitor(string monitorName, IMonitorHandler handler , int sort = int.MaxValue)
+        public void DefinedMoitor(string monitorName, IMonitorHandler handler, int sort = int.MaxValue)
         {
             Guard.NotEmptyOrNull(monitorName, "moitorName");
             Guard.Requires<ArgumentNullException>(handler != null);
             Guard.Requires<ArgumentException>(!monitorsSort.Contains(handler));
             monitors.Add(monitorName, handler);
-            monitorsSort.Add(handler , sort);
+            monitorsSort.Add(handler, sort);
         }
 
         /// <summary>

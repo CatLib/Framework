@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Debugger;
 using System.Diagnostics;
 using System.Threading;

@@ -9,13 +9,13 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using System.Net;
-using System.Text;
 using CatLib.API;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.API.Routing;
+using System;
+using System.Net;
+using System.Text;
 
 namespace CatLib.Debugger.WebConsole
 {
@@ -103,7 +103,7 @@ namespace CatLib.Debugger.WebConsole
             try
             {
                 DispatchToRouted(context);
-                context.Response.StatusCode = (int) HttpStatusCode.OK;
+                context.Response.StatusCode = (int)HttpStatusCode.OK;
                 context.Response.OutputStream.Close();
             }
             catch (NotFoundRouteException ex)

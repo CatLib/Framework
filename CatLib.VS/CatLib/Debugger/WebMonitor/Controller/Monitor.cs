@@ -26,8 +26,8 @@ namespace CatLib.Debugger.WebMonitor.Controller
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <param name="monitorStore">监控存储</param>
-        [Routed("get-monitors/{limit?}", Defaults = "limit=>6" ,Where = "limit=>[0-9]+")]
-        public void GetMonitors(IRequest request, IResponse response , MonitorStore monitorStore)
+        [Routed("get-monitors/{limit?}", Defaults = "limit=>6", Where = "limit=>[0-9]+")]
+        public void GetMonitors(IRequest request, IResponse response, MonitorStore monitorStore)
         {
             var limit = request.GetInt("limit", 6);
             var outputs = new GetMonitors();

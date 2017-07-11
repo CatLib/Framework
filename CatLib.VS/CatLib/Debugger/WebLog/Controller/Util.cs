@@ -27,7 +27,7 @@ namespace CatLib.Debugger.WebDebugger.Controller
         /// <param name="response">响应</param>
         /// <param name="logger">日志系统</param>
         [Routed("echo/{msg?}")]
-        public void Echo(IRequest request , IResponse response , ILogger logger)
+        public void Echo(IRequest request, IResponse response, ILogger logger)
         {
             if (logger != null)
             {

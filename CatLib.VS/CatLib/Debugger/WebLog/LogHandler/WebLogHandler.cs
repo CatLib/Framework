@@ -9,9 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.Debugger.Log;
 using CatLib.Stl;
+using System;
 
 namespace CatLib.Debugger.WebLog.LogHandler
 {

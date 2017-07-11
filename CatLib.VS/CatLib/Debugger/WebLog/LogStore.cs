@@ -38,7 +38,7 @@ namespace CatLib.Debugger.WebLog
         /// <summary>
         /// 日志记录
         /// </summary>
-        private readonly SortSet<ILogEntry,long> logEntrys;
+        private readonly SortSet<ILogEntry, long> logEntrys;
 
         /// <summary>
         /// 最大储存的日志记录数
@@ -86,17 +86,7 @@ namespace CatLib.Debugger.WebLog
         /// <returns>日志条目</returns>
         public IList<ILogEntry> GetAllEntrysAfterLastId(long lastId)
         {
-            var result = new List<ILogEntry>();
-            foreach (var entry in logEntrys)
-            {
-                if (entry.Id <= lastId)
-                {
-                    break;
-                }
-                result.Add(entry);
-            }
-            result.Reverse();
-            return result;
-        }    
+            return logEntrys.GetElementRangeByScore(lastId + 1, long.MaxValue);
+        }
     }
 }

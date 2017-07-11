@@ -9,11 +9,10 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API.Debugger;
+using CatLib.Debugger.Log;
 using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
-using CatLib.Debugger.Log;
 
 namespace CatLib.Debugger.WebLog.Protocol
 {

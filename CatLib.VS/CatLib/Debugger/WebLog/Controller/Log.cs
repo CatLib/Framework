@@ -26,7 +26,7 @@ namespace CatLib.Debugger.WebLog.Controller
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <param name="logStore">日志存储</param>
-        [Routed("get-log/{lastId?}", Defaults = "lastId=>0" , Where = "lastId=>[0-9]+")]
+        [Routed("get-log/{lastId?}", Defaults = "lastId=>0", Where = "lastId=>[0-9]+")]
         public void GetLog(IRequest request, IResponse response, LogStore logStore)
         {
             var outputs = new WebConsoleOutputs();
