@@ -71,10 +71,24 @@ namespace CatLib.Debugger.WebMonitor
         {
             Guard.NotEmptyOrNull(monitorName, "moitorName");
             IMonitorHandler handler;
-            if (monitors.TryGetValue(monitorName, out handler))
+            if ((handler = FindMoitor(monitorName)) != null)
             {
                 handler.Handler(value);
             }
+        }
+
+        /// <summary>
+        /// 搜索监控处理器
+        /// </summary>
+        /// <param name="monitorName">监控名</param>
+        internal IMonitorHandler FindMoitor(string monitorName)
+        {
+            IMonitorHandler handler;
+            if (monitors.TryGetValue(monitorName, out handler))
+            {
+                return handler;
+            }
+            return null;
         }
     }
 }

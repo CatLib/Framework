@@ -78,7 +78,11 @@
     <Compile Include="Config\ConfigTests.cs" />
     <Compile Include="Config\ConfigProviderTests.cs" />
     <Compile Include="Core\EnvTests.cs" />
+    <Compile Include="Debugger\DebuggerHelper.cs" />
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsoleTests.cs" />
+    <Compile Include="Debugger\WebLog\Controller\LogTests.cs" />
+    <Compile Include="Debugger\WebLog\Controller\UtilTests.cs" />
+    <Compile Include="Debugger\WebMonitor\Controller\MonitorTests.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="Debugger\WebConsole\HttpListenerTests.cs" />
     <Compile Include="Json\JsonProviderTests.cs" />

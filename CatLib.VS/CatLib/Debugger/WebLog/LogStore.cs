@@ -94,6 +94,6 @@ namespace CatLib.Debugger.WebLog
                 result.Add(entry);
             }
             return result;
-        }
+        }    
     }
 }
