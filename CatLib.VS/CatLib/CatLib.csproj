@@ -55,6 +55,8 @@
     <Compile Include="Debugger\WebConsole\HttpListener.cs" />
     <Compile Include="Debugger\DebuggerProvider.cs" />
     <Compile Include="Debugger\WebLog\Protocol\GetGuid.cs" />
+    <Compile Include="Debugger\WebMonitorContent\HeapMemory.cs" />
+    <Compile Include="Debugger\WebMonitor\Handler\CallbackMonitorHandler.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
     <Compile Include="Debugger\Log\Logger.cs" />
     <Compile Include="Debugger\Log\ILogHandler.cs" />
@@ -187,6 +189,7 @@
       <Name>CatLib.API</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
