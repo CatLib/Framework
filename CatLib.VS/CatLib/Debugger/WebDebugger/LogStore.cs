@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using CatLib.API.Debugger;
+using CatLib.Debugger.WebDebugger.LogHandler;
 
 namespace CatLib.Debugger.WebDebugger
 {
@@ -43,15 +44,11 @@ namespace CatLib.Debugger.WebDebugger
         private readonly int maxLogEntrys = 1024;
 
         /// <summary>
-        /// 同步锁
-        /// </summary>
-        private readonly object syncRoot = new object();
-
-        /// <summary>
         /// 构造一个Web调试服务
         /// </summary>
-        public LogStore()
+        public LogStore([Inject(Required = true)]Logger logger)
         {
+            logger.AddLogHandler(new WebLogHandler(this));
             categroy = new Dictionary<string, string>();
             logEntrys = new Queue<ILogEntry>(maxLogEntrys);
         }
@@ -60,16 +57,13 @@ namespace CatLib.Debugger.WebDebugger
         /// 记录一个日志
         /// </summary>
         /// <param name="entry">日志条目</param>
-        public void Log(ILogEntry entry)
+        internal void Log(ILogEntry entry)
         {
-            lock (syncRoot)
+            while (logEntrys.Count >= maxLogEntrys)
             {
-                while (logEntrys.Count >= maxLogEntrys)
-                {
-                    logEntrys.Dequeue();
-                }
-                logEntrys.Enqueue(entry);
+                logEntrys.Dequeue();
             }
+            logEntrys.Enqueue(entry);
         }
 
         /// <summary>
@@ -79,32 +73,26 @@ namespace CatLib.Debugger.WebDebugger
         /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
         public void DefinedCategory(string namespaces, string categroyName)
         {
-            lock (syncRoot)
-            {
-                categroy[namespaces] = categroyName;
-            }
+            categroy[namespaces] = categroyName;
         }
 
         /// <summary>
-        /// 获取在LastId之后的日志条目实体
+        /// 获取在LastId之后(包括lastId)的日志条目实体
         /// </summary>
         /// <param name="lastId">最后的Id</param>
         /// <returns>日志条目</returns>
         public IList<ILogEntry> GetAllEntrysAfterLastId(long lastId)
         {
-            lock (syncRoot)
+            var result = new List<ILogEntry>();
+            foreach (var entry in logEntrys)
             {
-                var result = new List<ILogEntry>();
-                foreach (var entry in logEntrys)
+                if (entry.Id < lastId)
                 {
-                    if (entry.Id < lastId)
-                    {
-                        break;
-                    }
-                    result.Add(entry);
+                    break;
                 }
-                return result;
+                result.Add(entry);
             }
+            return result;
         }
     }
 }

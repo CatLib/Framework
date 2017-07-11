@@ -28,6 +28,11 @@ namespace CatLib.Debugger
         private readonly List<ILogHandler> handlers;
 
         /// <summary>
+        /// 同步锁
+        /// </summary>
+        private readonly object syncRoot = new object();
+
+        /// <summary>
         /// 构造一个日志系统
         /// </summary>
         public Logger()
@@ -67,9 +72,14 @@ namespace CatLib.Debugger
         private void ExecLog(LogLevels level, object message, params object[] context)
         {
             var result = string.Format(message.ToString(), context);
-            foreach (var handler in handlers)
+            var entry = MakeLogEntry(level, result);
+
+            lock (syncRoot)
             {
-                handler.Handler(MakeLogEntry(level, result));
+                foreach (var handler in handlers)
+                {
+                    handler.Handler(entry);
+                }
             }
         }
 

@@ -19,7 +19,7 @@ namespace CatLib.Debugger.WebDebugger.Protocol
     /// <summary>
     /// 获取分组API
     /// </summary>
-    internal sealed class GetCatergroy : IWebConsoleResponse
+    internal sealed class GetLogCatergroy : IWebConsoleResponse
     {
         /// <summary>
         /// 响应
@@ -37,7 +37,7 @@ namespace CatLib.Debugger.WebDebugger.Protocol
         /// <summary>
         /// 获取分组API
         /// </summary>
-        public GetCatergroy()
+        public GetLogCatergroy()
         {
             outputs = new Dictionary<string, string>();
         }
@@ -46,7 +46,7 @@ namespace CatLib.Debugger.WebDebugger.Protocol
         /// 获取分组接口
         /// </summary>
         /// <param name="dict"></param>
-        public GetCatergroy(IDictionary<string, string> dict)
+        public GetLogCatergroy(IDictionary<string, string> dict)
         {
             Guard.Requires<ArgumentNullException>(dict != null);
             outputs = dict;

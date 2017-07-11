@@ -108,12 +108,13 @@
     <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
     <Compile Include="Debugger\WebDebugger\Controller\Monitor.cs" />
     <Compile Include="Debugger\WebDebugger\MonitorStore.cs" />
-    <Compile Include="Debugger\WebDebugger\Protocol\GetCatergroy.cs" />
+    <Compile Include="Debugger\WebDebugger\Protocol\GetLogCatergroy.cs" />
     <Compile Include="Debugger\WebDebugger\Protocol\GetMonitors.cs" />
     <Compile Include="Debugger\WebDebugger\Protocol\WebConsoleOutputs.cs" />
     <Compile Include="Debugger\WebDebugger\Controller\Log.cs" />
     <Compile Include="Debugger\WebDebugger\Controller\Util.cs" />
     <Compile Include="Debugger\WebDebugger\LogStore.cs" />
+    <Compile Include="Debugger\WebDebugger\LogHandler\WebLogHandler.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
     <Compile Include="Facade\Logger.cs" />
     <Compile Include="Facade\Env.cs" />

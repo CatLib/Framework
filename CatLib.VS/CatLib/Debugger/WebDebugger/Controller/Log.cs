@@ -46,7 +46,7 @@ namespace CatLib.Debugger.WebDebugger.Controller
         [Routed("get-catergroy")]
         public void GetCategroy(IRequest request, IResponse response, LogStore logStore)
         {
-            response.SetContext(new GetCatergroy(logStore.Categroy));
+            response.SetContext(new GetLogCatergroy(logStore.Categroy));
         }
     }
 }
