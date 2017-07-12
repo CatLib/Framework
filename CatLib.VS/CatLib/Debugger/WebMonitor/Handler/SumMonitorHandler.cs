@@ -15,12 +15,12 @@ using CatLib.Stl;
 namespace CatLib.Debugger.WebMonitor.Handler
 {
     /// <summary>
-    /// 回调获取监控值处理器
+    /// 累加监控处理器
     /// </summary>
-    public sealed class CallbackMonitorHandler : IMonitorHandler
+    public sealed class SumMonitorHandler : IMonitorHandler
     {
         /// <summary>
-        /// 监控的标题
+        /// 监控的名字
         /// </summary>
         public string Title
         {
@@ -48,7 +48,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
         {
             get
             {
-                baseHandler.Handler(callback.Invoke());
                 return baseHandler.Value;
             }
         }
@@ -59,21 +58,18 @@ namespace CatLib.Debugger.WebMonitor.Handler
         private readonly IMonitorHandler baseHandler;
 
         /// <summary>
-        /// 回调
+        /// 监控的值
         /// </summary>
-        private readonly Func<object> callback;
+        private long value;
 
         /// <summary>
-        /// 回调获取处理器
+        /// 累加监控处理器
         /// </summary>
         /// <param name="baseHandler">基础处理器</param>
-        /// <param name="callback">回调获取监控值</param>
-        public CallbackMonitorHandler(IMonitorHandler baseHandler, Func<object> callback)
+        public SumMonitorHandler(IMonitorHandler baseHandler)
         {
             Guard.Requires<ArgumentNullException>(baseHandler != null);
-            Guard.Requires<ArgumentNullException>(callback != null);
             this.baseHandler = baseHandler;
-            this.callback = callback;
         }
 
         /// <summary>
@@ -82,6 +78,8 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <param name="value">值</param>
         public void Handler(object value)
         {
+            this.value += (long)value;
+            baseHandler.Handler(this.value);
         }
     }
 }

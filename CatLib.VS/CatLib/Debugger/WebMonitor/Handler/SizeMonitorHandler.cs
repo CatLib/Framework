@@ -14,9 +14,9 @@ using System.Collections.Generic;
 namespace CatLib.Debugger.WebMonitor.Handler
 {
     /// <summary>
-    /// 大小累加监控处理器
+    /// 基于尺寸大小的监控处理器
     /// </summary>
-    public sealed class SizeSumMonitorHandler : IMonitorHandler
+    public sealed class SizeMonitorHandler : IMonitorHandler
     {
         /// <summary>
         /// 监控的名字
@@ -66,7 +66,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// 累加监控处理器
         /// </summary>
         /// <param name="title">监控名字</param>
-        public SizeSumMonitorHandler(string title)
+        public SizeMonitorHandler(string title)
         {
             Title = title;
             unitMapping = new Dictionary<long, string>()
@@ -86,7 +86,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <param name="value">值</param>
         public void Handler(object value)
         {
-            this.value += (long)value;
+            this.value = (long)value;
         }
     }
 }
