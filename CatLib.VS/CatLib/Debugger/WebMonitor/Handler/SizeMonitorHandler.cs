@@ -14,7 +14,7 @@ using System.Collections.Generic;
 namespace CatLib.Debugger.WebMonitor.Handler
 {
     /// <summary>
-    /// 基于尺寸大小的监控处理器
+    /// 基于尺寸大小的监控处理器(字节)
     /// </summary>
     public sealed class SizeMonitorHandler : IMonitorHandler
     {
@@ -83,7 +83,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <summary>
         /// 处理句柄
         /// </summary>
-        /// <param name="value">值</param>
+        /// <param name="value">值(字节)</param>
         public void Handler(object value)
         {
             this.value = (long)value;

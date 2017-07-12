@@ -11,31 +11,32 @@
 
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
+using UnityEngine.Profiling;
 
 namespace CatLib.Debugger.WebMonitorContent
 {
     /// <summary>
-    /// 堆内存
+    /// 总分配的内存大小
     /// </summary>
-    public sealed class HeapMemory
+    public sealed class TotalAllocatedMemoryMonitor
     {
         /// <summary>
-        /// 构建一个堆内存监控
+        /// 构建一个总内存监控
         /// </summary>
         /// <param name="monitor">监控</param>
-        public HeapMemory([Inject(Required = true)]IMonitor monitor)
+        public TotalAllocatedMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.DefinedMoitor("heap.memory",
-                new CallbackMonitorHandler(new SizeMonitorHandler("HeapMemory"), GetHeapMemory));
+            monitor.DefinedMoitor("memory.total",
+                new CallbackMonitorHandler(new SizeMonitorHandler("TotalMemory"), GetTotalAllocatedMemory));
         }
 
         /// <summary>
-        /// 获取堆内存
+        /// 获取总分配内存
         /// </summary>
         /// <returns>堆内存</returns>
-        private object GetHeapMemory()
+        private object GetTotalAllocatedMemory()
         {
-            return 0;
+            return Profiler.GetTotalAllocatedMemoryLong();
         }
     }
 }
