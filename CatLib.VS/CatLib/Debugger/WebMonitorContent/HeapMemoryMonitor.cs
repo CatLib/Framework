@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;
@@ -18,6 +19,7 @@ namespace CatLib.Debugger.WebMonitorContent
     /// <summary>
     /// 堆内存
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class HeapMemoryMonitor
     {
         /// <summary>
@@ -27,7 +29,7 @@ namespace CatLib.Debugger.WebMonitorContent
         public HeapMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("memory.heap",
-                new CallbackMonitorHandler(new SizeMonitorHandler("HeapMemory"), GetHeapMemory));
+                new CallbackMonitorHandler(new SizeMonitorHandler("HeapMemory"), GetHeapMemory), 20);
         }
 
         /// <summary>

@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;
@@ -18,6 +19,7 @@ namespace CatLib.Debugger.WebMonitorContent
     /// <summary>
     /// 总分配的内存大小
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class TotalAllocatedMemoryMonitor
     {
         /// <summary>
@@ -27,7 +29,7 @@ namespace CatLib.Debugger.WebMonitorContent
         public TotalAllocatedMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("memory.total",
-                new CallbackMonitorHandler(new SizeMonitorHandler("TotalMemory"), GetTotalAllocatedMemory));
+                new CallbackMonitorHandler(new SizeMonitorHandler("TotalMemory"), GetTotalAllocatedMemory), 30);
         }
 
         /// <summary>
