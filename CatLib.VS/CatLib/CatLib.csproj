@@ -55,6 +55,7 @@
     <Compile Include="Debugger\WebConsole\HttpListener.cs" />
     <Compile Include="Debugger\DebuggerProvider.cs" />
     <Compile Include="Debugger\WebLog\Protocol\GetGuid.cs" />
+    <Compile Include="Debugger\WebMonitorContent\FpsMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\HeapMemoryMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\TotalAllocatedMemoryMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\CallbackMonitorHandler.cs" />
