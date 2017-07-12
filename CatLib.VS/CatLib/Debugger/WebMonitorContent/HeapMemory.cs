@@ -25,7 +25,17 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public HeapMemory([Inject(Required = true)]IMonitor monitor)
         {
-            //monitor.DefinedMoitor("heap.memory", );
+            monitor.DefinedMoitor("heap.memory",
+                new CallbackMonitorHandler(new SizeMonitorHandler("HeapMemory"), GetHeapMemory));
+        }
+
+        /// <summary>
+        /// 获取堆内存
+        /// </summary>
+        /// <returns>堆内存</returns>
+        private object GetHeapMemory()
+        {
+            return 0;
         }
     }
 }

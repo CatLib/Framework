@@ -69,7 +69,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         public SizeMonitorHandler(string title)
         {
             Title = title;
-            unitMapping = new Dictionary<long, string>()
+            unitMapping = new Dictionary<long, string>
             {
                 { 1024 , "B"},
                 { 1048576 , "KB" },
