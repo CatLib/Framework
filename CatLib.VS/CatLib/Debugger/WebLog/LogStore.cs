@@ -37,6 +37,11 @@ namespace CatLib.Debugger.WebLog
         }
 
         /// <summary>
+        /// 对应不同web客户端的已经读取到的最后的日志id
+        /// </summary>
+        private readonly Dictionary<string, long> clientIds;
+
+        /// <summary>
         /// 日志记录
         /// </summary>
         private readonly SortSet<ILogEntry, long> logEntrys;
@@ -66,6 +71,7 @@ namespace CatLib.Debugger.WebLog
         {
             logger.AddLogHandler(new WebLogHandler(this));
             categroy = new Dictionary<string, string>();
+            clientIds = new Dictionary<string, long>();
             logEntrys = new SortSet<ILogEntry, long>();
             logEntrys.ReverseIterator();
             guid = System.Guid.NewGuid().ToString();
@@ -95,13 +101,21 @@ namespace CatLib.Debugger.WebLog
         }
 
         /// <summary>
-        /// 获取在LastId之后的日志条目实体
+        /// 根据客户端id获取未被加载过的日志数据
         /// </summary>
-        /// <param name="lastId">最后的Id</param>
-        /// <returns>日志条目</returns>
-        public IList<ILogEntry> GetAllEntrysAfterLastId(long lastId)
+        /// <param name="clientId">客户端id</param>
+        /// <returns>未被加载过的日志数据</returns>
+        public IList<ILogEntry> GetUnloadEntrysByClientId(string clientId)
         {
-            return logEntrys.GetElementRangeByScore(lastId + 1, long.MaxValue);
+            long lastId;
+            clientIds.TryGetValue(clientId, out lastId);
+
+            var results = logEntrys.GetElementRangeByScore(lastId + 1, long.MaxValue);
+            if (results.Length > 0)
+            {
+                clientIds[clientId] = results[results.Length - 1].Id;
+            }
+            return results;
         }
     }
 }
