@@ -11,7 +11,6 @@
 
 using CatLib.API.Debugger;
 using CatLib.API.Routing;
-using CatLib.Debugger.WebLog.Protocol;
 
 namespace CatLib.Debugger.WebLog.Controller
 {
@@ -34,17 +33,6 @@ namespace CatLib.Debugger.WebLog.Controller
             {
                 logger.Debug(request.Get("msg"));
             }
-        }
-
-        /// <summary>
-        /// 获取当前日志容器唯一标识符
-        /// </summary>
-        /// <param name="response">响应</param>
-        /// <param name="store">容器</param>
-        [Routed("get-guid")]
-        public void GetGuid(IResponse response, LogStore store)
-        {
-            response.SetContext(new GetGuid(store.Guid));
         }
     }
 }

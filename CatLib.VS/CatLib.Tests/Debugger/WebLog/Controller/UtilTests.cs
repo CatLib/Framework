@@ -38,20 +38,5 @@ namespace CatLib.Tests.Debugger.WebLog.Controller
             Assert.AreEqual(HttpStatusCode.OK, statu);
             Assert.AreEqual(string.Empty, ret);
         }
-
-        [TestMethod]
-        public void TestGetGuid()
-        {
-            var app = DebuggerHelper.GetApplication();
-            var console = app.Make<HttpDebuggerConsole>();
-            var store = app.Make<LogStore>();
-
-            string ret;
-            var statu = HttpHelper.Get("http://localhost:9478/debug/util/get-guid", out ret);
-
-            console.Stop();
-            Assert.AreEqual(HttpStatusCode.OK, statu);
-            Assert.AreEqual("{\"Response\":{\"guid\":\"" + store.Guid + "\"}}", ret);
-        }
     }
 }

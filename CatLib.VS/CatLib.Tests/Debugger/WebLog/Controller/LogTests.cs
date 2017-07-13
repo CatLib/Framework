@@ -9,8 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
 using System.Net;
 using CatLib.API.Debugger;
+using CatLib.API.Json;
 using CatLib.Debugger.WebConsole;
 
 #if UNITY_EDITOR || NUNIT
@@ -59,10 +61,16 @@ namespace CatLib.Tests.Debugger.WebLog.Controller
             string ret2;
             var statu2 = HttpHelper.Get("http://localhost:9478/debug/log/get-log/1", out ret2);
             console.Stop();
+
+            var json = app.Make<IJson>();
+            var retJson = json.Decode(ret)["Response"] as IList<object>;
+            var ret2Json = json.Decode(ret2)["Response"] as IList<object>;
+
             Assert.AreEqual(HttpStatusCode.OK, statu);
-            Assert.AreEqual("{\"Response\":[{\"id\":1,\"level\":7,\"namespace\":\"CatLib.Tests.Debugger.WebLog.Controller\",\"message\":\"hello world\",\"callStack\":[\"Void TestGetLog()(at D:\\\\Work\\\\catlib\\\\CatLib.VS\\\\CatLib.Tests\\\\Debugger\\\\WebLog\\\\Controller\\\\LogTests.cs:53)\"]},{\"id\":2,\"level\":4,\"namespace\":\"CatLib.Tests.Debugger.WebLog.Controller\",\"message\":\"my name is catlib\",\"callStack\":[\"Void TestGetLog()(at D:\\\\Work\\\\catlib\\\\CatLib.VS\\\\CatLib.Tests\\\\Debugger\\\\WebLog\\\\Controller\\\\LogTests.cs:54)\"]}]}", ret);
+            Assert.AreEqual((long)1, (retJson[0] as IDictionary<string,object>)["id"]);
+            Assert.AreEqual((long)2, (retJson[1] as IDictionary<string, object>)["id"]);
             Assert.AreEqual(HttpStatusCode.OK, statu2);
-            Assert.AreEqual("{\"Response\":[{\"id\":3,\"level\":4,\"namespace\":\"CatLib.Tests.Debugger.WebLog.Controller\",\"message\":\"my name is catlib2\",\"callStack\":[\"Void TestGetLog()(at D:\\\\Work\\\\catlib\\\\CatLib.VS\\\\CatLib.Tests\\\\Debugger\\\\WebLog\\\\Controller\\\\LogTests.cs:58)\"]}]}", ret2);
+            Assert.AreEqual((long)3, (ret2Json[0] as IDictionary<string, object>)["id"]);
         }
     }
 }

@@ -406,6 +406,223 @@
             注册Web调试服务
             </summary>
         </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
+            <summary>
+            Fps监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitorContent.FpsMonitor.time">
+            <summary>
+            时间
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor,CatLib.API.Time.ITime)">
+            <summary>
+            构建一个Fps监控
+            </summary>
+            <param name="monitor">监控</param>
+            <param name="time">使用的时间</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.GetFps">
+            <summary>
+            获取Fps
+            </summary>
+            <returns>Fps</returns>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor">
+            <summary>
+            堆内存
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+            <summary>
+            构建一个堆内存监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.GetHeapMemory">
+            <summary>
+            获取堆内存
+            </summary>
+            <returns>堆内存</returns>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor">
+            <summary>
+            总分配的内存大小
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+            <summary>
+            构建一个总内存监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.GetTotalAllocatedMemory">
+            <summary>
+            获取总分配内存
+            </summary>
+            <returns>堆内存</returns>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler">
+            <summary>
+            回调获取监控值处理器
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Title">
+            <summary>
+            监控的标题
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.baseHandler">
+            <summary>
+            基础处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.callback">
+            <summary>
+            回调
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.#ctor(CatLib.Debugger.WebMonitor.IMonitorHandler,System.Func{System.Object})">
+            <summary>
+            回调获取处理器
+            </summary>
+            <param name="baseHandler">基础处理器</param>
+            <param name="callback">回调获取监控值</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Handler(System.Object)">
+            <summary>
+            处理句柄
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler">
+            <summary>
+            基于尺寸大小的监控处理器(字节)
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Title">
+            <summary>
+            监控的名字
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.unitMapping">
+            <summary>
+            单位映射
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.value">
+            <summary>
+            监控的值
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String)">
+            <summary>
+            累加监控处理器
+            </summary>
+            <param name="title">监控名字</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Handler(System.Object)">
+            <summary>
+            处理句柄
+            </summary>
+            <param name="value">值(字节)</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler">
+            <summary>
+            累加监控处理器
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Title">
+            <summary>
+            监控的名字
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.baseHandler">
+            <summary>
+            基础处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.value">
+            <summary>
+            监控的值
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.#ctor(CatLib.Debugger.WebMonitor.IMonitorHandler)">
+            <summary>
+            累加监控处理器
+            </summary>
+            <param name="baseHandler">基础处理器</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Handler(System.Object)">
+            <summary>
+            处理句柄
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler">
+            <summary>
+            单次监控处理器
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Title">
+            <summary>
+            监控的标题
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String)">
+            <summary>
+            单次记录监控处理器
+            </summary>
+            <param name="title">标题</param>
+            <param name="unit">单位值</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Handler(System.Object)">
+            <summary>
+            处理句柄
+            </summary>
+            <param name="value">值</param>
+        </member>
         <member name="T:CatLib.Debugger.WebMonitor.IMonitor">
             <summary>
             监控器
@@ -447,81 +664,6 @@
             </summary>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.IMonitorHandler.Handler(System.Object)">
-            <summary>
-            处理句柄
-            </summary>
-            <param name="value">值</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler">
-            <summary>
-            单次监控处理器
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Title">
-            <summary>
-            监控的标题
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Unit">
-            <summary>
-            监控值的单位描述
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Value">
-            <summary>
-            实时的监控值
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String)">
-            <summary>
-            单次记录监控处理器
-            </summary>
-            <param name="title">标题</param>
-            <param name="unit">单位值</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Handler(System.Object)">
-            <summary>
-            处理句柄
-            </summary>
-            <param name="value">值</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler">
-            <summary>
-            大小累加监控处理器
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler.Title">
-            <summary>
-            监控的名字
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler.unitMapping">
-            <summary>
-            单位映射
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler.Unit">
-            <summary>
-            监控值的单位描述
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler.value">
-            <summary>
-            监控的值
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler.Value">
-            <summary>
-            实时的监控值
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler.#ctor(System.String)">
-            <summary>
-            累加监控处理器
-            </summary>
-            <param name="title">监控名字</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeSumMonitorHandler.Handler(System.Object)">
             <summary>
             处理句柄
             </summary>
@@ -579,6 +721,12 @@
             </summary>
             <param name="monitorName">监控名</param>
             <param name="value">监控值</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.FindMoitor(System.String)">
+            <summary>
+            搜索监控处理器
+            </summary>
+            <param name="monitorName">监控名</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitor.Protocol.GetMonitors">
             <summary>
@@ -644,6 +792,11 @@
             Web控制台输出
             </summary>
         </member>
+        <member name="F:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.credibleAssemblys">
+            <summary>
+            可信任程序集
+            </summary>
+        </member>
         <member name="P:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.Response">
             <summary>
             响应
@@ -675,12 +828,19 @@
             </summary>
             <param name="entry"></param>
         </member>
+        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.IsCredibleAssembly(System.String)">
+            <summary>
+            是否是可信的程序集
+            </summary>
+            <param name="assembly">程序集</param>
+            <returns>是否可信</returns>
+        </member>
         <member name="T:CatLib.Debugger.WebLog.Controller.Log">
             <summary>
             日志
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebLog.Controller.Log.GetLogger(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebLog.LogStore)">
+        <member name="M:CatLib.Debugger.WebLog.Controller.Log.GetLog(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebLog.LogStore)">
             <summary>
             获取日志
             </summary>
@@ -695,6 +855,19 @@
             <param name="request">请求</param>
             <param name="response">响应</param>
             <param name="logStore">日志存储</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebLog.Controller.Util">
+            <summary>
+            通用
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.Controller.Util.Echo(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.API.Debugger.ILogger)">
+            <summary>
+            回显
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+            <param name="logger">日志系统</param>
         </member>
         <member name="T:CatLib.Debugger.WebLog.LogStore">
             <summary>
@@ -711,6 +884,11 @@
             分组信息
             </summary>
         </member>
+        <member name="F:CatLib.Debugger.WebLog.LogStore.clientIds">
+            <summary>
+            对应不同web客户端的已经读取到的最后的日志id
+            </summary>
+        </member>
         <member name="F:CatLib.Debugger.WebLog.LogStore.logEntrys">
             <summary>
             日志记录
@@ -719,6 +897,16 @@
         <member name="F:CatLib.Debugger.WebLog.LogStore.maxLogEntrys">
             <summary>
             最大储存的日志记录数
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebLog.LogStore.guid">
+            <summary>
+            当前唯一标识符
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebLog.LogStore.Guid">
+            <summary>
+            当前唯一标识符
             </summary>
         </member>
         <member name="M:CatLib.Debugger.WebLog.LogStore.#ctor(CatLib.Debugger.Log.Logger)">
@@ -739,12 +927,12 @@
             <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
             <param name="categroyName">分类名(用于在调试控制器显示)</param>
         </member>
-        <member name="M:CatLib.Debugger.WebLog.LogStore.GetAllEntrysAfterLastId(System.Int64)">
+        <member name="M:CatLib.Debugger.WebLog.LogStore.GetUnloadEntrysByClientId(System.String)">
             <summary>
-            获取在LastId之后(包括lastId)的日志条目实体
+            根据客户端id获取未被加载过的日志数据
             </summary>
-            <param name="lastId">最后的Id</param>
-            <returns>日志条目</returns>
+            <param name="clientId">客户端id</param>
+            <returns>未被加载过的日志数据</returns>
         </member>
         <member name="T:CatLib.Debugger.WebLog.LogHandler.WebLogHandler">
             <summary>
@@ -767,19 +955,6 @@
             日志处理器
             </summary>
             <param name="log">日志条目</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebDebugger.Controller.Util">
-            <summary>
-            通用
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebDebugger.Controller.Util.Echo(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.API.Debugger.ILogger)">
-            <summary>
-            回显
-            </summary>
-            <param name="request">请求</param>
-            <param name="response">响应</param>
-            <param name="logger">日志系统</param>
         </member>
         <member name="T:CatLib.Config.ConfigManager">
             <summary>
