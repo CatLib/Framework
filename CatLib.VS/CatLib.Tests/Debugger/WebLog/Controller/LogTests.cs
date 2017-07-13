@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.Debugger.WebConsole;
@@ -71,6 +72,22 @@ namespace CatLib.Tests.Debugger.WebLog.Controller
             Assert.AreEqual((long)2, (retJson[1] as IDictionary<string, object>)["id"]);
             Assert.AreEqual(HttpStatusCode.OK, statu2);
             Assert.AreEqual((long)3, (ret2Json[0] as IDictionary<string, object>)["id"]);
+        }
+
+        //[TestMethod]
+        public void StartServer()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var logger = app.Make<ILogger>();
+            logger.Debug("hello world");
+
+            var i = 0;
+            while (true)
+            {
+                logger.Debug("hello world" + i);
+                i++;
+                Thread.Sleep(1000);
+            }
         }
     }
 }
