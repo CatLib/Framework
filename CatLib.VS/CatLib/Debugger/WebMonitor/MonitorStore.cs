@@ -31,14 +31,6 @@ namespace CatLib.Debugger.WebMonitor
         private readonly SortSet<IMonitorHandler, int> monitorsSort;
 
         /// <summary>
-        /// 监控处理器
-        /// </summary>
-        internal SortSet<IMonitorHandler, int> Monitors
-        {
-            get { return monitorsSort; }
-        }
-
-        /// <summary>
         /// 监控器
         /// </summary>
         public MonitorStore()

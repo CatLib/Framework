@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
 using CatLib.API.Routing;
 using CatLib.Debugger.WebMonitor.Protocol;
 
@@ -21,25 +22,46 @@ namespace CatLib.Debugger.WebMonitor.Controller
     public class Monitor
     {
         /// <summary>
+        /// 页面对应的监控
+        /// </summary>
+        private readonly IDictionary<string, string[]> pages;
+
+        /// <summary>
+        /// 监控
+        /// </summary>
+        public Monitor()
+        {
+            pages = new Dictionary<string, string[]>
+            {
+                { "index" , new []{"fps.counter","memory.heap","memory.total"}},
+                { "test" , new[]{ "test" } }
+            };
+        }
+
+        /// <summary>
         /// 获取监控的详细数据
         /// </summary>
         /// <param name="request">请求</param>
         /// <param name="response">响应</param>
         /// <param name="monitorStore">监控存储</param>
-        [Routed("get-monitors/{limit?}", Defaults = "limit=>6", Where = "limit=>[0-9]+")]
+        [Routed("get-monitors/{page}")]
         public void GetMonitors(IRequest request, IResponse response, MonitorStore monitorStore)
         {
-            var limit = request.GetInt("limit", 6);
             var outputs = new GetMonitors();
-            var i = 0;
-            foreach (var monitor in monitorStore.Monitors)
+
+            string[] monitors;
+            if (pages.TryGetValue(request.Get("page"), out monitors))
             {
-                if (i++ >= limit && limit != 0)
+                foreach (var monitor in monitors)
                 {
-                    break;
+                    var handler = monitorStore.FindMoitor(monitor);
+                    if (handler != null)
+                    {
+                        outputs.WriteLine(handler);
+                    }
                 }
-                outputs.WriteLine(monitor);
             }
+
             response.SetContext(outputs);
         }
     }
