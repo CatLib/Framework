@@ -244,14 +244,26 @@ namespace CatLib.Routing
         /// <returns>请求响应</returns>
         public IResponse Dispatch(string uri, object context = null)
         {
-            uri = GuardUri(uri);
-            uri = Prefix(uri);
-
-            var request = MakeRequest(uri, context);
-            Route route;
-
+            Request request = null;
+            Response response = new Response();
+            try
+            {
+                uri = GuardUri(uri);
+                uri = Prefix(uri);
+                request = MakeRequest(uri, context);
+            }
+            catch(Exception ex)
+            {
+                if (ThrowOnError(request, response, ex))
+                {
+                    return null;
+                }
+                throw;
+            }
+     
             lock (syncRoot)
             {
+                Route route;
                 try
                 {
                     route = FindRoute(request);
@@ -267,7 +279,6 @@ namespace CatLib.Routing
 
                 try
                 {
-                    var response = new Response();
                     routeStack.Push(route);
                     responseStack.Push(response);
                     requestStack.Push(request);

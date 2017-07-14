@@ -11,3 +11,16 @@ D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.cs
 D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.exe
 D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.pdb
 D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\UnityEngine.dll
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.Tests.Server.exe.config
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.Tests.Server.exe
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.Tests.Server.pdb
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.API.dll
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.dll
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\UnityEngine.dll
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.API.pdb
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.API.xml
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.pdb
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.xml
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.csprojResolveAssemblyReference.cache
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.exe
+D:\Work\catlib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.pdb
