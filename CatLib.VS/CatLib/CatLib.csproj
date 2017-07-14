@@ -73,7 +73,6 @@
     <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
     <Compile Include="Debugger\WebMonitor\Controller\Monitor.cs" />
     <Compile Include="Debugger\WebMonitor\MonitorStore.cs" />
-    <Compile Include="Debugger\WebLog\Protocol\GetLogCatergroy.cs" />
     <Compile Include="Debugger\WebMonitor\Protocol\GetMonitors.cs" />
     <Compile Include="Debugger\WebLog\Protocol\WebConsoleOutputs.cs" />
     <Compile Include="Debugger\WebLog\Controller\Log.cs" />

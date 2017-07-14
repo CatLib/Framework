@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.WebLog.LogHandler;
 using CatLib.Stl;
@@ -21,21 +19,8 @@ namespace CatLib.Debugger.WebLog
     /// <summary>
     /// Web调试服务
     /// </summary>
-    public sealed class LogStore : ILogWebCategory
+    public sealed class LogStore
     {
-        /// <summary>
-        /// 分组信息
-        /// </summary>
-        private readonly IDictionary<string, string> categroy;
-
-        /// <summary>
-        /// 分组信息
-        /// </summary>
-        internal IDictionary<string, string> Categroy
-        {
-            get { return categroy; }
-        }
-
         /// <summary>
         /// 对应不同web客户端的已经读取到的最后的日志id
         /// </summary>
@@ -70,7 +55,6 @@ namespace CatLib.Debugger.WebLog
         public LogStore([Inject(Required = true)]Logger logger)
         {
             logger.AddLogHandler(new WebLogHandler(this));
-            categroy = new Dictionary<string, string>();
             clientIds = new Dictionary<string, long>();
             logEntrys = new SortSet<ILogEntry, long>();
             logEntrys.ReverseIterator();
@@ -88,16 +72,6 @@ namespace CatLib.Debugger.WebLog
                 logEntrys.Shift();
             }
             logEntrys.Add(entry, entry.Id);
-        }
-
-        /// <summary>
-        /// 定义命名空间对应的分类
-        /// </summary>
-        /// <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
-        /// <param name="categroyName">分类名(用于在调试控制器显示)</param>
-        public void DefinedCategory(string namespaces, string categroyName)
-        {
-            categroy[namespaces] = categroyName;
         }
 
         /// <summary>

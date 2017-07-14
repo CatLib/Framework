@@ -36,17 +36,5 @@ namespace CatLib.Debugger.WebLog.Controller
             }
             response.SetContext(outputs);
         }
-
-        /// <summary>
-        /// 获取分组信息
-        /// </summary>
-        /// <param name="request">请求</param>
-        /// <param name="response">响应</param>
-        /// <param name="logStore">日志存储</param>
-        [Routed("get-catergroy")]
-        public void GetCategroy(IRequest request, IResponse response, LogStore logStore)
-        {
-            response.SetContext(new GetLogCatergroy(logStore.Categroy));
-        }
     }
 }

@@ -114,7 +114,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebLog()
         {
-            App.Singleton<LogStore>().Alias<ILogWebCategory>().Alias("debugger.logger.category");
+            App.Singleton<LogStore>();
         }
     }
 }

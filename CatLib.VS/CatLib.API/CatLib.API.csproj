@@ -69,7 +69,6 @@
     <Compile Include="Core\ServiceProvider.cs" />
     <Compile Include="Debugger\Exception\InvalidArgumentException.cs" />
     <Compile Include="Debugger\ILogger.cs" />
-    <Compile Include="Debugger\ILogWebCategory.cs" />
     <Compile Include="Debugger\LogLevels.cs" />
     <Compile Include="FileSystem\IFileSystemManager.cs" />
     <Compile Include="FileSystem\Internal\IDirectory.cs" />

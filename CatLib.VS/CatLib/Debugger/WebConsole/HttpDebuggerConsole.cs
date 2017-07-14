@@ -100,24 +100,21 @@ namespace CatLib.Debugger.WebConsole
         /// <param name="context">请求上下文</param>
         private void OnRequest(HttpListenerContext context)
         {
+            context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             try
             {
                 DispatchToRouted(context);
                 context.Response.StatusCode = (int)HttpStatusCode.OK;
-                context.Response.OutputStream.Close();
             }
-            catch (NotFoundRouteException ex)
+            catch (NotFoundRouteException)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                context.Response.OutputStream.Close();
-                logger.Debug("request has error [" + ex.Message + "]");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.OutputStream.Close();
-                logger.Debug("request has error [" + ex.Message + "]");
             }
+            context.Response.OutputStream.Close();
         }
 
         /// <summary>

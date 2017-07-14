@@ -1,0 +1,13 @@
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.Tests.Server.exe.config
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.Tests.Server.exe
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.Tests.Server.pdb
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.API.dll
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.dll
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.API.pdb
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.API.xml
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.pdb
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\CatLib.xml
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.csprojResolveAssemblyReference.cache
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.exe
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\obj\Debug\CatLib.Tests.Server.pdb
+D:\Private\CatLib\CatLib.VS\CatLib.Tests.Server\bin\Debug\UnityEngine.dll
