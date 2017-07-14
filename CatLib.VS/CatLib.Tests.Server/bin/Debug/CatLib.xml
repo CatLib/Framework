@@ -784,13 +784,13 @@
             Web控制台输出
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(System.Int64,CatLib.API.Debugger.LogLevels,System.String,System.String,System.String[])">
+        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(System.Int64,CatLib.API.Debugger.LogLevels,System.String,System.String,System.Collections.Generic.IList{System.String})">
             <summary>
             向Web控制台屏幕中输出一条消息
             </summary>
             <param name="id">消息id</param>
             <param name="level">消息等级</param>
-            <param name="categroy">消息分组</param>
+            <param name="namespace">命名空间</param>
             <param name="message">消息标题</param>
             <param name="callStack">调用堆栈</param>
         </member>
