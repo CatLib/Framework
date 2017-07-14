@@ -11,6 +11,8 @@ CatLib.VS/CatLib.Tests/bin
 CatLib.VS/CatLib.Tests/obj
 CatLib.VS/CatLib.API/bin
 CatLib.VS/CatLib.API/obj
+CatLib.VS/CatLib.Test.Server/bin
+CatLib.VS/CatLib.Test.Server/obj
 
 .vscode
 .vs
