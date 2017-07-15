@@ -118,6 +118,7 @@
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
     <Compile Include="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="Routing\ExceptionRequest.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="Stl\Container\BindData.cs" />
     <Compile Include="Stl\Container\Container.cs" />

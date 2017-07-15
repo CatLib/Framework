@@ -259,5 +259,14 @@ namespace CatLib.Routing
             this.route = route;
             return this;
         }
+
+        /// <summary>
+        /// 转为字符串
+        /// </summary>
+        /// <returns>转为字符串</returns>
+        public override string ToString()
+        {
+            return uri.Original.OriginalString;
+        }
     }
 }
