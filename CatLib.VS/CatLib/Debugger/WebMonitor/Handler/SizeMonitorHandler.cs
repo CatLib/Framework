@@ -19,6 +19,11 @@ namespace CatLib.Debugger.WebMonitor.Handler
     public sealed class SizeMonitorHandler : IMonitorHandler
     {
         /// <summary>
+        /// 分类
+        /// </summary>
+        public string[] Category { get; private set; }
+
+        /// <summary>
         /// 监控的名字
         /// </summary>
         public string Title { get; private set; }
@@ -66,7 +71,8 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// 累加监控处理器
         /// </summary>
         /// <param name="title">监控名字</param>
-        public SizeMonitorHandler(string title)
+        /// <param name="category">分组</param>
+        public SizeMonitorHandler(string title, string[] category = null)
         {
             Title = title;
             unitMapping = new Dictionary<long, string>
@@ -78,6 +84,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
                 { 1125899906842624 , "TB" },
                 { long.MaxValue , "PB" }
             };
+            Category = category ?? new string[] { };
         }
 
         /// <summary>

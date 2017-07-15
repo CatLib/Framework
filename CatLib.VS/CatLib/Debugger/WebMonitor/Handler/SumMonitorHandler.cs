@@ -20,6 +20,27 @@ namespace CatLib.Debugger.WebMonitor.Handler
     public sealed class SumMonitorHandler : IMonitorHandler
     {
         /// <summary>
+        /// 基础处理器
+        /// </summary>
+        private readonly IMonitorHandler baseHandler;
+
+        /// <summary>
+        /// 监控的值
+        /// </summary>
+        private long value;
+
+        /// <summary>
+        /// 分类
+        /// </summary>
+        public string[] Category
+        {
+            get
+            {
+                return baseHandler.Category;
+            }
+        }
+
+        /// <summary>
         /// 监控的名字
         /// </summary>
         public string Title
@@ -51,16 +72,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
                 return baseHandler.Value;
             }
         }
-
-        /// <summary>
-        /// 基础处理器
-        /// </summary>
-        private readonly IMonitorHandler baseHandler;
-
-        /// <summary>
-        /// 监控的值
-        /// </summary>
-        private long value;
 
         /// <summary>
         /// 累加监控处理器

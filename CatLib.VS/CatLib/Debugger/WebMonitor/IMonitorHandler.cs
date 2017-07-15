@@ -22,6 +22,11 @@ namespace CatLib.Debugger.WebMonitor
         string Title { get; }
 
         /// <summary>
+        /// 分类
+        /// </summary>
+        string[] Category { get; }
+
+        /// <summary>
         /// 监控值的单位描述
         /// </summary>
         string Unit { get; }

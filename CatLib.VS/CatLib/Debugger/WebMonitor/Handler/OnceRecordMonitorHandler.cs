@@ -17,6 +17,11 @@ namespace CatLib.Debugger.WebMonitor.Handler
     public sealed class OnceRecordMonitorHandler : IMonitorHandler
     {
         /// <summary>
+        /// 分类
+        /// </summary>
+        public string[] Category { get; private set; }
+
+        /// <summary>
         /// 监控的标题
         /// </summary>
         public string Title { get; private set; }
@@ -36,10 +41,12 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// </summary>
         /// <param name="title">标题</param>
         /// <param name="unit">单位值</param>
-        public OnceRecordMonitorHandler(string title, string unit)
+        /// <param name="category">分类</param>
+        public OnceRecordMonitorHandler(string title, string unit , string[] category = null)
         {
             Title = title;
             Unit = unit;
+            Category = category ?? new string[]{};
         }
 
         /// <summary>

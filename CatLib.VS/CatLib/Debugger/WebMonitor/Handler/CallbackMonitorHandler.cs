@@ -20,6 +20,27 @@ namespace CatLib.Debugger.WebMonitor.Handler
     public sealed class CallbackMonitorHandler : IMonitorHandler
     {
         /// <summary>
+        /// 基础处理器
+        /// </summary>
+        private readonly IMonitorHandler baseHandler;
+
+        /// <summary>
+        /// 回调
+        /// </summary>
+        private readonly Func<object> callback;
+
+        /// <summary>
+        /// 分类
+        /// </summary>
+        public string[] Category
+        {
+            get
+            {
+                return baseHandler.Category;
+            }
+        }
+
+        /// <summary>
         /// 监控的标题
         /// </summary>
         public string Title
@@ -52,16 +73,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
                 return baseHandler.Value;
             }
         }
-
-        /// <summary>
-        /// 基础处理器
-        /// </summary>
-        private readonly IMonitorHandler baseHandler;
-
-        /// <summary>
-        /// 回调
-        /// </summary>
-        private readonly Func<object> callback;
 
         /// <summary>
         /// 回调获取处理器
