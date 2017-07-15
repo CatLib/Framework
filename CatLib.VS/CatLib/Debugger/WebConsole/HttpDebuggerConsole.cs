@@ -172,9 +172,7 @@ namespace CatLib.Debugger.WebConsole
             });
             router.OnError((request, response, exception, next) =>
             {
-                logger.Emergency("routed trigger error ,request [{0}][{1}]",
-                    request != null ? request.Uri.OriginalString : "failed resolved",
-                    exception.Message);
+                logger.Error("routed trigger error ,request [{0}][{1}]", request.ToString(), exception.Message);
                 next(request, response, exception);
             });
         }
