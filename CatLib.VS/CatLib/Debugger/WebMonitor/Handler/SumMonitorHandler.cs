@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using CatLib.Stl;
 
 namespace CatLib.Debugger.WebMonitor.Handler
@@ -32,7 +33,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <summary>
         /// 分类
         /// </summary>
-        public string[] Category
+        public IList<string> Category
         {
             get
             {

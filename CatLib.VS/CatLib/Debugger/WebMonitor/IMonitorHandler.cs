@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
+
 namespace CatLib.Debugger.WebMonitor
 {
     /// <summary>
@@ -24,7 +26,7 @@ namespace CatLib.Debugger.WebMonitor
         /// <summary>
         /// 分类
         /// </summary>
-        string[] Category { get; }
+        IList<string> Category { get; }
 
         /// <summary>
         /// 监控值的单位描述

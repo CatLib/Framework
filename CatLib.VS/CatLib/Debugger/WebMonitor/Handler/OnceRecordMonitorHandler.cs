@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
+
 namespace CatLib.Debugger.WebMonitor.Handler
 {
     /// <summary>
@@ -19,7 +21,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <summary>
         /// 分类
         /// </summary>
-        public string[] Category { get; private set; }
+        public IList<string> Category { get; private set; }
 
         /// <summary>
         /// 监控的标题
@@ -42,7 +44,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <param name="title">标题</param>
         /// <param name="unit">单位值</param>
         /// <param name="category">分类</param>
-        public OnceRecordMonitorHandler(string title, string unit , string[] category = null)
+        public OnceRecordMonitorHandler(string title, string unit , IList<string> category = null)
         {
             Title = title;
             Unit = unit;

@@ -30,14 +30,14 @@ namespace CatLib.Debugger.WebMonitor.Protocol
         /// <summary>
         /// 输出
         /// </summary>
-        private readonly IList<IDictionary<string, string>> outputs;
+        private readonly IList<IDictionary<string, object>> outputs;
 
         /// <summary>
         /// 获取分组API
         /// </summary>
         public GetMonitors()
         {
-            outputs = new List<IDictionary<string, string>>();
+            outputs = new List<IDictionary<string, object>>();
         }
 
         /// <summary>
@@ -46,11 +46,12 @@ namespace CatLib.Debugger.WebMonitor.Protocol
         /// <param name="handler">处理器</param>
         public void WriteLine(IMonitorHandler handler)
         {
-            outputs.Add(new Dictionary<string, string>
+            outputs.Add(new Dictionary<string, object>
             {
                 { "name" , handler.Title },
                 { "value" , handler.Value },
-                { "unit" , handler.Unit }
+                { "unit" , handler.Unit },
+                { "category" , handler.Category }
             });
         }
     }

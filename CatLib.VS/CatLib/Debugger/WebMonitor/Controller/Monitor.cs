@@ -22,23 +22,6 @@ namespace CatLib.Debugger.WebMonitor.Controller
     public class Monitor
     {
         /// <summary>
-        /// 页面对应的监控
-        /// </summary>
-        private readonly IDictionary<string, string[]> pages;
-
-        /// <summary>
-        /// 监控
-        /// </summary>
-        public Monitor()
-        {
-            pages = new Dictionary<string, string[]>
-            {
-                { "index" , new []{"fps.counter","memory.heap","memory.total"}},
-                { "test" , new[]{ "test" } }
-            };
-        }
-
-        /// <summary>
         /// 获取监控的详细数据
         /// </summary>
         /// <param name="request">请求</param>
@@ -49,17 +32,9 @@ namespace CatLib.Debugger.WebMonitor.Controller
         {
             var outputs = new GetMonitors();
 
-            string[] monitors;
-            if (pages.TryGetValue(request.Get("page"), out monitors))
+            foreach (var monitor in monitorStore)
             {
-                foreach (var monitor in monitors)
-                {
-                    var handler = monitorStore.FindMoitor(monitor);
-                    if (handler != null)
-                    {
-                        outputs.WriteLine(handler);
-                    }
-                }
+                outputs.WriteLine(monitor);
             }
 
             response.SetContext(outputs);

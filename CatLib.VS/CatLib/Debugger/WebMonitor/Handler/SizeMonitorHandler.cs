@@ -21,7 +21,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <summary>
         /// 分类
         /// </summary>
-        public string[] Category { get; private set; }
+        public IList<string> Category { get; private set; }
 
         /// <summary>
         /// 监控的名字

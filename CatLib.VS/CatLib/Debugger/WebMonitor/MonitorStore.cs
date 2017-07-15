@@ -11,6 +11,7 @@
 
 using CatLib.Stl;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace CatLib.Debugger.WebMonitor
@@ -18,7 +19,7 @@ namespace CatLib.Debugger.WebMonitor
     /// <summary>
     /// 监控器
     /// </summary>
-    public sealed class MonitorStore : IMonitor
+    public sealed class MonitorStore : IMonitor , IEnumerable<IMonitorHandler>
     {
         /// <summary>
         /// 监控处理器
@@ -37,6 +38,24 @@ namespace CatLib.Debugger.WebMonitor
         {
             monitors = new Dictionary<string, IMonitorHandler>();
             monitorsSort = new SortSet<IMonitorHandler, int>();
+        }
+
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns>迭代器</returns>
+        IEnumerator<IMonitorHandler> IEnumerable<IMonitorHandler>.GetEnumerator()
+        {
+            return monitorsSort.GetEnumerator();
+        }
+
+        /// <summary>
+        /// 迭代器
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return monitors.GetEnumerator();
         }
 
         /// <summary>
