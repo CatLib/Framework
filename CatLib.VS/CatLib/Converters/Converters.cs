@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using CatLib.API.Config;
 using CatLib.API.Converters;
 using CatLib.Stl;
 
@@ -61,7 +62,17 @@ namespace CatLib.Converters
         /// <returns>目标数据</returns>
         public object Convert(Type from, Type to, object source)
         {
-            return null;
+            Guard.Requires<ArgumentNullException>(from != null);
+            Guard.Requires<ArgumentNullException>(to != null);
+            Guard.Requires<InvalidOperationException>(from != to);
+
+            ITypeConverter converter;
+            if (!TryGetConverter(from, to, out converter))
+            {
+                throw new ArgumentException("Undefined Converter [" + from + "] to [" + to +"]");
+            }
+
+            return converter.ConvertTo(source, to);
         }
 
         /// <summary>
@@ -73,7 +84,7 @@ namespace CatLib.Converters
         /// <returns>目标数据</returns>
         public TTarget Convert<TSource, TTarget>(TSource source)
         {
-            return default(TTarget);
+            return (TTarget)Convert(typeof(TSource), typeof(TTarget), source);
         }
 
         /// <summary>
@@ -86,8 +97,19 @@ namespace CatLib.Converters
         /// <returns>是否成功转换</returns>
         public bool TryConvert(Type from, Type to, object source, out object target)
         {
+            Guard.Requires<ArgumentNullException>(from != null);
+            Guard.Requires<ArgumentNullException>(to != null);
+            Guard.Requires<InvalidOperationException>(from != to);
+
             target = null;
-            return false;
+            ITypeConverter converter;
+            if (!TryGetConverter(from, to, out converter))
+            {
+                return false;
+            }
+
+            target = converter.ConvertTo(source , to);
+            return true;
         }
 
         /// <summary>
@@ -101,7 +123,46 @@ namespace CatLib.Converters
         public bool TryConvert<TSource,TTarget>(TSource source, out TTarget target)
         {
             target = default(TTarget);
-            return false;
+            object obj;
+            if (!TryConvert(typeof(TSource), typeof(TTarget), source, out obj))
+            {
+                return false;
+            }
+            target = (TTarget) obj; 
+            return true;
+        }
+
+        /// <summary>
+        /// 获取类型所需的转换器
+        /// </summary>
+        /// <param name="from">来源类型</param>
+        /// <param name="to">目标类型</param>
+        /// <param name="converter">转换器</param>
+        /// <returns>是否成功获取转换器</returns>
+        private bool TryGetConverter(Type from , Type to, out ITypeConverter converter)
+        {
+            bool status;
+            Dictionary<Type, ITypeConverter> toDictionary;
+            converter = null;
+
+            do
+            {
+                status = coverterDictionary.TryGetValue(from, out toDictionary);
+                from = from.BaseType;
+            } while (!status && from != null);
+
+            if (!status)
+            {
+                return false;
+            }
+
+            do
+            {
+                status = toDictionary.TryGetValue(to, out converter);
+                to = to.BaseType;
+            } while (!status && to != null);
+
+            return status;
         }
     }
 }

@@ -169,7 +169,7 @@ namespace CatLib.Config
         /// </summary>
         /// <param name="type">类型</param>
         /// <param name="converter">转换器</param>
-        /// <returns>是否成功转换</returns>
+        /// <returns>是否成功获取转换器</returns>
         private bool GetCoverter(Type type , out ITypeStringConverter converter)
         {
             bool status;

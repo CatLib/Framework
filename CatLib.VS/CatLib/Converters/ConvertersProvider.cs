@@ -47,7 +47,7 @@ namespace CatLib.Converters
         /// <summary>
         /// 加载默认的转换器
         /// </summary>
-        /// <returns></returns>
+        /// <returns>默认的转换器</returns>
         private IConverters LoadDefaultConverters()
         {
             var loadConverters = new ITypeConverter[]
