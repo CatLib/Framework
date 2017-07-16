@@ -16,6 +16,7 @@ using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.Config;
+using CatLib.Converters;
 using CatLib.Core;
 using CatLib.FileSystem;
 using CatLib.FileSystem.Adapter;
@@ -66,6 +67,7 @@ namespace CatLib.Tests.FileSystem
             app.Register(new CoreProvider());
             app.Register(new PrepareEnv());
             app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
             app.Init();
         }
 

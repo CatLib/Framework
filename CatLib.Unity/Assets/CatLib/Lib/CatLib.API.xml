@@ -29,26 +29,6 @@
             保存配置
             </summary>
         </member>
-        <member name="T:CatLib.API.Config.ITypeStringConverter">
-            <summary>
-            字符串转换接口
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Config.ITypeStringConverter.ConvertToString(System.Object)">
-            <summary>
-            转换目标类型到字符串
-            </summary>
-            <param name="value">要被转换的对象</param>
-            <returns>转换后的字符串</returns>
-        </member>
-        <member name="M:CatLib.API.Config.ITypeStringConverter.ConvertFromString(System.String,System.Type)">
-            <summary>
-            转换自字符串到目标类型
-            </summary>
-            <param name="value">字符串</param>
-            <param name="to">目标类型</param>
-            <returns>转换后的目标对象</returns>
-        </member>
         <member name="T:CatLib.API.Config.IConfigManager">
             <summary>
             配置管理器
@@ -72,12 +52,11 @@
             <param name="name">配置名</param>
             <returns>配置值</returns>
         </member>
-        <member name="M:CatLib.API.Config.IConfig.AddConverter(System.Type,CatLib.API.Config.ITypeStringConverter)">
+        <member name="M:CatLib.API.Config.IConfig.SetConverters(CatLib.API.Converters.IConverters)">
             <summary>
-            增加转换器
+            设定转换器
             </summary>
-            <param name="type">类型</param>
-            <param name="converter">类型对应转换器</param>
+            <param name="converter">类型转换器</param>
         </member>
         <member name="M:CatLib.API.Config.IConfig.SetLocator(CatLib.API.Config.IConfigLocator)">
             <summary>
@@ -85,21 +64,12 @@
             </summary>
             <param name="locator">配置定位器</param>
         </member>
-        <member name="M:CatLib.API.Config.IConfig.Set``1(System.String,``0)">
-            <summary>
-            设定配置的值
-            </summary>
-            <typeparam name="T">值的类型</typeparam>
-            <param name="name">配置名</param>
-            <param name="value">配置的值</param>
-        </member>
-        <member name="M:CatLib.API.Config.IConfig.Set(System.String,System.Object,System.Type)">
+        <member name="M:CatLib.API.Config.IConfig.Set(System.String,System.Object)">
             <summary>
             设定配置的值
             </summary>
             <param name="name">配置名</param>
             <param name="value">配置的值</param>
-            <param name="type">配置值的类型</param>
         </member>
         <member name="M:CatLib.API.Config.IConfig.Save">
             <summary>
@@ -114,6 +84,113 @@
             <param name="name">配置所属类型的名字</param>
             <param name="def">当找不到配置时的默认值</param>
             <returns>配置的值，如果找不到则返回默认值</returns>
+        </member>
+        <member name="T:CatLib.API.Converters.ConverterException">
+            <summary>
+            转换异常
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Converters.ConverterException.#ctor(System.String)">
+            <summary>
+            转换异常
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="M:CatLib.API.Converters.ConverterException.#ctor(System.Type,System.Type)">
+            <summary>
+            转换异常
+            </summary>
+            <param name="from">源类型</param>
+            <param name="to">目标类型</param>
+        </member>
+        <member name="M:CatLib.API.Converters.ConverterException.#ctor(System.Type,System.Type,System.Object)">
+            <summary>
+            转换异常
+            </summary>
+            <param name="from">源类型</param>
+            <param name="to">目标类型</param>
+            <param name="source">源数据</param>
+        </member>
+        <member name="T:CatLib.API.Converters.ITypeConverter">
+            <summary>
+            类型转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Converters.ITypeConverter.From">
+            <summary>
+            来源类型
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Converters.ITypeConverter.To">
+            <summary>
+            目标类型
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Converters.ITypeConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.API.Converters.IConverters">
+            <summary>
+            转换器
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Converters.IConverters.AddConverter(CatLib.API.Converters.ITypeConverter)">
+            <summary>
+            增加一个转换器
+            </summary>
+            <param name="converter">转换器</param>
+        </member>
+        <member name="M:CatLib.API.Converters.IConverters.Convert(System.Object,System.Type)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <param name="source">源数据</param>
+            <param name="to">目标类型</param>
+            <returns>目标数据</returns>
+        </member>
+        <member name="M:CatLib.API.Converters.IConverters.Convert``1(System.Object)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <typeparam name="TTarget">目标类型</typeparam>
+            <param name="source">源数据</param>
+            <returns>目标数据</returns>
+        </member>
+        <member name="M:CatLib.API.Converters.IConverters.TryConvert(System.Object,System.Object@,System.Type)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <param name="source">源数据</param>
+            <param name="target">目标数据</param>
+            <param name="to">目标类型</param>
+            <returns>是否成功转换</returns>
+        </member>
+        <member name="M:CatLib.API.Converters.IConverters.TryConvert``1(System.Object,``0@)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <typeparam name="TTarget">目标类型</typeparam>
+            <param name="source">源数据</param>
+            <param name="target">目标数据</param>
+            <returns>是否成功转换</returns>
+        </member>
+        <member name="T:CatLib.API.Converters.IConvertersManager">
+            <summary>
+            转换管理器
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Converters.IConvertersManager.CloneExtend(System.String,System.String)">
+            <summary>
+            克隆指定转换器(注意克隆只克隆解决器提供的结果)
+            </summary>
+            <param name="newExtendName">新的名字</param>
+            <param name="cloneFromExtendName">克隆自的管理器名字</param>
+            <returns>转换器</returns>
         </member>
         <member name="T:CatLib.API.App">
             <summary>
@@ -582,18 +659,6 @@
             </summary>
             <param name="message">日志内容</param>
             <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="T:CatLib.API.Debugger.ILogWebCategory">
-            <summary>
-            日志分组
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogWebCategory.DefinedCategory(System.String,System.String)">
-            <summary>
-            定义命名空间对应的分类
-            </summary>
-            <param name="namespaces">该命名空间下的输出的调试语句将会被归属当前定义的组</param>
-            <param name="categroyName">分类名(用于在调试控制器显示)</param>
         </member>
         <member name="T:CatLib.API.Debugger.LogLevels">
             <summary>

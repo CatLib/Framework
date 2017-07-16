@@ -11,16 +11,18 @@
 
 using System;
 using CatLib.API;
+using CatLib.API.Config;
 using CatLib.Config;
-using CatLib.Config.Converters;
 using CatLib.Config.Locator;
+using CatLib.Converters;
+using CatLib.Converters.Plan;
+using CatLib.Core;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Config
@@ -31,8 +33,10 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void ConfigTest()
         {
-            var config = new CatLib.Config.Config();
-            config.AddConverter(typeof(string) , new StringStringConverter());
+            var converent = new CatLib.Converters.Converters();
+            converent.AddConverter(new StringStringConverter());
+            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
+            config.SetConverters(converent);
             config.SetLocator(new CodeConfigLocator());
 
             Assert.AreEqual(null, config.Get<string>("test"));
@@ -46,31 +50,43 @@ namespace CatLib.Tests.Config
         }
 
         [TestMethod]
+        public void TestDefaultIConfig()
+        {
+            var app = new Application();
+            app.Bootstrap();
+            app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
+            app.Init();
+
+            Assert.AreSame(app.Make<IConfigManager>().Default, app.Make<IConfig>());
+        }
+
+        [TestMethod]
         public void NoLocatorTest()
         {
-            var config = new CatLib.Config.Config();
-
-            ExceptionAssert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
+                var config = new CatLib.Config.Config(new CatLib.Converters.Converters(), null);
                 config.Set("test", "test");
             });
         }
 
         [TestMethod]
-        public void CanNotFindCoverterTest()
+        public void TestNoConverts()
         {
-            var config = new CatLib.Config.Config();
-            config.SetLocator(new CodeConfigLocator());
-            ExceptionAssert.Throws<ConverterException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                config.Set("123", new ConfigTests());
+                var config = new CatLib.Config.Config(null, new CodeConfigLocator());
+                config.Set("test", "test");
             });
         }
 
         [TestMethod]
         public void GetUndefinedTest()
         {
-            var config = new CatLib.Config.Config();
+            var converent = new CatLib.Converters.Converters();
+            converent.AddConverter(new StringStringConverter());
+            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
             config.SetLocator(new CodeConfigLocator());
             config.Set("123", "123");
 
@@ -80,23 +96,24 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void GetWithUndefinedTypeConverterTest()
         {
-            var config = new CatLib.Config.Config();
+            var converent = new CatLib.Converters.Converters();
+            converent.AddConverter(new StringStringConverter());
+            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
             config.SetLocator(new CodeConfigLocator());
             config.Set("123", "123");
+
             Assert.AreEqual(null, config.Get<ConfigTests>("123"));
         }
 
         [TestMethod]
         public void ExceptionConverterTest()
         {
-            var config = new CatLib.Config.Config();
-            config.SetLocator(new CodeConfigLocator());
+            var converent = new CatLib.Converters.Converters();
+            converent.AddConverter(new StringStringConverter());
+            converent.AddConverter(new StringInt32Converter());
+            var config = new CatLib.Config.Config(converent , new CodeConfigLocator());
             config.Set("123", "abc");
-            
-            ExceptionAssert.Throws<ArgumentException>(() =>
-            {
-                Assert.AreEqual(null, config.Get("123", 0));
-            });
+            Assert.AreEqual(0, config.Get("123", 0));
         }
 
         /// <summary>
@@ -104,8 +121,9 @@ namespace CatLib.Tests.Config
         /// </summary>
         public void SaveTest()
         {
-            var config = new CatLib.Config.Config();
-            config.SetLocator(new CodeConfigLocator());
+            var converent = new CatLib.Converters.Converters();
+            converent.AddConverter(new StringStringConverter());
+            var config = new CatLib.Config.Config(converent , new CodeConfigLocator());
             config.Set("123", "abc");
             config.Save();
         }

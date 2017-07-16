@@ -77,7 +77,7 @@ namespace CatLib.Tests.FileSystem
         }
 
         [TestMethod]
-        public void HandlerDelteTest()
+        public void HandlerDeletTest()
         {
             Env(() =>
             {

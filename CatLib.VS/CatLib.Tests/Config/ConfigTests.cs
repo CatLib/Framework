@@ -12,7 +12,6 @@
 using System;
 using CatLib.API;
 using CatLib.API.Config;
-using CatLib.API.Converters;
 using CatLib.Config;
 using CatLib.Config.Locator;
 using CatLib.Converters;
@@ -24,7 +23,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Config
@@ -37,7 +35,7 @@ namespace CatLib.Tests.Config
         {
             var converent = new CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
-            var config = new CatLib.Config.Config(null, null);
+            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
             config.SetConverters(converent);
             config.SetLocator(new CodeConfigLocator());
 
@@ -66,10 +64,9 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void NoLocatorTest()
         {
-            var config = new CatLib.Config.Config(new CatLib.Converters.Converters(), null);
-
-            ExceptionAssert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
+                var config = new CatLib.Config.Config(new CatLib.Converters.Converters(), null);
                 config.Set("test", "test");
             });
         }
@@ -77,9 +74,9 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void TestNoConverts()
         {
-            var config = new CatLib.Config.Config(null, new CodeConfigLocator());
-            ExceptionAssert.Throws<RuntimeException>(() =>
+            ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
+                var config = new CatLib.Config.Config(null, new CodeConfigLocator());
                 config.Set("test", "test");
             });
         }

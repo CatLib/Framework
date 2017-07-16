@@ -12,8 +12,11 @@
 using CatLib.API;
 using CatLib.Time;
 using CatLib.Config;
+using CatLib.Converters;
 using CatLib.Core;
+using CatLib.Debugger;
 using CatLib.FileSystem;
+using CatLib.Json;
 using CatLib.Routing;
 using CatLib.Timer;
 using CatLib.Translation;
@@ -34,6 +37,7 @@ namespace CatLib.Bootstrap
             {
                 return new IServiceProvider[]
                 {
+                    new ConvertersProvider(), 
                     new TimeProvider(),
                     new CoreProvider(),
                     new TimerProvider(),
@@ -41,6 +45,8 @@ namespace CatLib.Bootstrap
                     new RoutingProvider(),
                     new FileSystemProvider(),
                     new TranslationProvider(), 
+                    new DebuggerProvider(), 
+                    new JsonProvider(), 
                 };
             }
         }

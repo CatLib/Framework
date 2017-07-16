@@ -39,6 +39,9 @@ namespace CatLib.Config
         /// <param name="locator">配置定位器</param>
         public Config(IConverters converters, IConfigLocator locator)
         {
+            Guard.Requires<ArgumentNullException>(converters != null);
+            Guard.Requires<ArgumentNullException>(locator != null);
+
             this.converters = converters;
             this.locator = locator;
         }
@@ -89,9 +92,9 @@ namespace CatLib.Config
         /// <param name="value">配置的值</param>
         public void Set(string name, object value)
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             GuardConverters();
             GuardLocator();
-            Guard.Requires<ArgumentNullException>(name != null);
             locator.Set(name, converters.Convert<string>(value));
         }
 
@@ -104,9 +107,10 @@ namespace CatLib.Config
         /// <returns>配置的值，如果找不到则返回默认值</returns>
         public T Get<T>(string name, T def = default(T))
         {
+            Guard.Requires<ArgumentNullException>(name != null);
             GuardConverters();
             GuardLocator();
-            Guard.Requires<ArgumentNullException>(name != null);
+
             string val;
             if (!locator.TryGetValue(name, out val))
             {

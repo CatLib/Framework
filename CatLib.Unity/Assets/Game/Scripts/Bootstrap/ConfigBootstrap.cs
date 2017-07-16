@@ -37,7 +37,7 @@ namespace CatLib.Bootstrap
 
             foreach (var kvp in Configs.ConfigsMap)
             {
-                config.Default.Set(kvp.Key, kvp.Value, kvp.Value.GetType());
+                config.Default.Set(kvp.Key, kvp.Value);
             }
         }
     }

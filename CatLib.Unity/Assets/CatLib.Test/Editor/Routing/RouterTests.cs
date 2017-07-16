@@ -75,6 +75,11 @@ namespace CatLib.Tests.Routing
             router = App.Instance.Make<IRouter>();
             router.OnError((req, res, ex, next) =>
             {
+                if(ex is UndefinedDefaultSchemeException)
+                {
+                    next(req, res, ex);
+                    return;
+                }
                 Assert.Fail(ex.Message);
             });
 

@@ -833,7 +833,7 @@ namespace CatLib.Stl
 
                 if (injectAttr != null && injectAttr.Required && instance == null)
                 {
-                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Required [" + makeServiceBindData.Service + "] Service.");
+                    throw new RuntimeException("[" + makeServiceBindData.Service + "] Required [" + info.ParameterType + "] Service.");
                 }
 
                 if (instance != null && !info.ParameterType.IsInstanceOfType(instance))
