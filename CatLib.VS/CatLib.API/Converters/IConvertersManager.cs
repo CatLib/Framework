@@ -19,11 +19,11 @@ namespace CatLib.API.Converters
     public interface IConvertersManager : ISingleManager<IConverters>
     {
         /// <summary>
-        /// 克隆指定转换器
+        /// 克隆指定转换器(注意克隆只克隆解决器提供的结果)
         /// </summary>
         /// <param name="newExtendName">新的名字</param>
         /// <param name="cloneFromExtendName">克隆自的管理器名字</param>
         /// <returns>转换器</returns>
-        IConverters Clone(string newExtendName, string cloneFromExtendName = null);
+        IConverters CloneExtend(string newExtendName, string cloneFromExtendName = null);
     }
 }

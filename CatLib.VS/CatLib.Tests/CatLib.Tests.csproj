@@ -78,6 +78,7 @@
     <Compile Include="Config\Converters\UInt64StringConverterTests.cs" />
     <Compile Include="Config\ConfigTests.cs" />
     <Compile Include="Config\ConfigProviderTests.cs" />
+    <Compile Include="Converters\ConvertersProviderTests.cs" />
     <Compile Include="Converters\Plan\BoolStringConverterTests.cs" />
     <Compile Include="Converters\Plan\ByteStringConverterTests.cs" />
     <Compile Include="Converters\Plan\CharStringConverterTests.cs" />
@@ -94,7 +95,18 @@
     <Compile Include="Converters\Plan\StringByteConverterTests.cs" />
     <Compile Include="Converters\Plan\StringCharConverterTests.cs" />
     <Compile Include="Converters\Plan\StringDateTimeConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringDecimalConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringDoubleConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringEnumConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringInt16ConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringInt64ConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringSByteConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringSingleConverterTests.cs" />
     <Compile Include="Converters\Plan\StringStringConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringUInt16ConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringUInt32ConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringUInt64ConverterTests.cs" />
+    <Compile Include="Converters\Plan\TestStringInt32ConvertTo.cs" />
     <Compile Include="Converters\Plan\UInt16StringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt32StringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt64StringConverterTests.cs" />

@@ -54,19 +54,18 @@ namespace CatLib.Converters
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <param name="from">源类型</param>
         /// <param name="to">目标类型</param>
         /// <param name="source">源数据</param>
         /// <returns>目标数据</returns>
-        public object Convert(Type from, Type to, object source)
+        public object Convert(Type to , object source)
         {
-            Guard.Requires<ArgumentNullException>(from != null);
+            Guard.Requires<ArgumentNullException>(source != null);
             Guard.Requires<ArgumentNullException>(to != null);
 
             ITypeConverter converter;
-            if (!TryGetConverter(from, to, out converter))
+            if (!TryGetConverter(source.GetType(), to, out converter))
             {
-                throw new ConverterException("Undefined Converter [" + from + "] to [" + to +"]");
+                throw new ConverterException("Undefined Converter [" + source.GetType() + "] to [" + to +"]");
             }
 
             return converter.ConvertTo(source, to);
@@ -75,31 +74,30 @@ namespace CatLib.Converters
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <typeparam name="TSource">源类型</typeparam>
         /// <typeparam name="TTarget">目标类型</typeparam>
         /// <param name="source">源数据</param>
         /// <returns>目标数据</returns>
-        public TTarget Convert<TSource, TTarget>(TSource source)
+        public TTarget Convert<TTarget>(object source)
         {
-            return (TTarget)Convert(typeof(TSource), typeof(TTarget), source);
+            return (TTarget)Convert(typeof(TTarget), source);
         }
 
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <param name="from">源类型</param>
         /// <param name="to">目标类型</param>
         /// <param name="source">源数据</param>
         /// <param name="target">目标数据</param>
         /// <returns>是否成功转换</returns>
-        public bool TryConvert(Type from, Type to, object source, out object target)
+        public bool TryConvert(Type to, object source, out object target)
         {
-            Guard.Requires<ArgumentNullException>(from != null);
+            Guard.Requires<ArgumentNullException>(source != null);
             Guard.Requires<ArgumentNullException>(to != null);
 
             target = null;
+
             ITypeConverter converter;
-            if (!TryGetConverter(from, to, out converter))
+            if (!TryGetConverter(source.GetType(), to, out converter))
             {
                 return false;
             }
@@ -119,16 +117,15 @@ namespace CatLib.Converters
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <typeparam name="TSource">源类型</typeparam>
         /// <typeparam name="TTarget">目标类型</typeparam>
         /// <param name="source">源数据</param>
         /// <param name="target">目标数据</param>
         /// <returns>是否成功转换</returns>
-        public bool TryConvert<TSource,TTarget>(TSource source, out TTarget target)
+        public bool TryConvert<TTarget>(object source, out TTarget target)
         {
             target = default(TTarget);
             object obj;
-            if (!TryConvert(typeof(TSource), typeof(TTarget), source, out obj))
+            if (!TryConvert(typeof(TTarget), source, out obj))
             {
                 return false;
             }
