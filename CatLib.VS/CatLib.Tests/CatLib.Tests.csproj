@@ -90,6 +90,10 @@
     <Compile Include="Converters\Plan\Int64StringConverterTests.cs" />
     <Compile Include="Converters\Plan\SByteStringConverterTests.cs" />
     <Compile Include="Converters\Plan\SingleStringConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringBoolConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringByteConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringCharConverterTests.cs" />
+    <Compile Include="Converters\Plan\StringDateTimeConverterTests.cs" />
     <Compile Include="Converters\Plan\StringStringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt16StringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt32StringConverterTests.cs" />
