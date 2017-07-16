@@ -53,6 +53,7 @@ namespace CatLib.Converters
             var loadConverters = new ITypeConverter[]
             {
                 new BoolStringConverter(),
+                new StringBoolConverter(),
             };
 
             var converters = new Converters();

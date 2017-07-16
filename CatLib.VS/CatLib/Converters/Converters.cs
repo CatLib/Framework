@@ -11,14 +11,13 @@
 
 using System;
 using System.Collections.Generic;
-using CatLib.API.Config;
 using CatLib.API.Converters;
 using CatLib.Stl;
 
 namespace CatLib.Converters
 {
     /// <summary>
-    /// 转换器管理器
+    /// 转换器
     /// </summary>
     public sealed class Converters : IConverters
     {
@@ -42,7 +41,6 @@ namespace CatLib.Converters
         public void AddConverter(ITypeConverter converter)
         {
             Guard.Requires<ArgumentNullException>(converter != null);
-            Guard.Requires<InvalidOperationException>(converter.From != converter.To);
 
             Dictionary<Type, ITypeConverter> mapping;
             if (!coverterDictionary.TryGetValue(converter.From, out mapping))
@@ -64,12 +62,11 @@ namespace CatLib.Converters
         {
             Guard.Requires<ArgumentNullException>(from != null);
             Guard.Requires<ArgumentNullException>(to != null);
-            Guard.Requires<InvalidOperationException>(from != to);
 
             ITypeConverter converter;
             if (!TryGetConverter(from, to, out converter))
             {
-                throw new ArgumentException("Undefined Converter [" + from + "] to [" + to +"]");
+                throw new ConverterException("Undefined Converter [" + from + "] to [" + to +"]");
             }
 
             return converter.ConvertTo(source, to);
@@ -99,7 +96,6 @@ namespace CatLib.Converters
         {
             Guard.Requires<ArgumentNullException>(from != null);
             Guard.Requires<ArgumentNullException>(to != null);
-            Guard.Requires<InvalidOperationException>(from != to);
 
             target = null;
             ITypeConverter converter;
@@ -108,7 +104,15 @@ namespace CatLib.Converters
                 return false;
             }
 
-            target = converter.ConvertTo(source , to);
+            try
+            {
+                target = converter.ConvertTo(source, to);
+            }
+            catch
+            {
+                return false;
+            }
+
             return true;
         }
 
