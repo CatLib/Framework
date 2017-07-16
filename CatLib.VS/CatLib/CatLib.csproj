@@ -49,6 +49,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Converters.cs" />
+    <Compile Include="Converters\ConvertersManager.cs" />
+    <Compile Include="Converters\ConvertersProvider.cs" />
+    <Compile Include="Converters\Plan\BoolStringConverter.cs" />
     <Compile Include="Debugger\Log\ILogEntry.cs" />
     <Compile Include="Debugger\WebConsole\BaseProtocol.cs" />
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsole.cs" />
@@ -175,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\catlib.json" />
+    <None Include="Converters\catlib.json" />
     <None Include="Core\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
