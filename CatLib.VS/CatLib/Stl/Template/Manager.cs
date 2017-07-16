@@ -37,7 +37,6 @@ namespace CatLib.Stl
         /// <returns>解决方案</returns>
         public TInterface Get(string name = null)
         {
-            name = string.IsNullOrEmpty(name) ? GetDefaultName() : name;
             return Resolve(name);
         }
 
@@ -58,6 +57,7 @@ namespace CatLib.Stl
         /// <param name="name">名字</param>
         public void Extend(Func<TInterface> resolve, string name = null)
         {
+            Guard.Requires<ArgumentNullException>(resolve != null);
             if (string.IsNullOrEmpty(name))
             {
                 name = GetDefaultName();
@@ -79,19 +79,30 @@ namespace CatLib.Stl
         }
 
         /// <summary>
+        /// 获取解决方案
+        /// </summary>
+        /// <param name="name">名字</param>
+        /// <returns></returns>
+        protected Func<TInterface> GetResolve(string name)
+        {
+            name = string.IsNullOrEmpty(name) ? GetDefaultName() : name;
+            Func<TInterface> elementCustomResolve;
+            if (customResolve.TryGetValue(name, out elementCustomResolve))
+            {
+                return elementCustomResolve;
+            }
+            throw new RuntimeException("Can not find [" + name + "](" + GetType() + ") Extend.");
+        }
+
+        /// <summary>
         /// 生成所需求的解决方案
         /// </summary>
         /// <param name="name">解决方案名</param>
         /// <returns>解决方案</returns>
         private TInterface Resolve(string name)
         {
-            Func<TInterface> elementCustomResolve;
-            if (customResolve.TryGetValue(name, out elementCustomResolve))
-            {
-                return elementCustomResolve.Invoke();
-            }
-
-            throw new RuntimeException("Can not find [" + name + "](" + GetType() + ") Extend.");
+            var resolve = GetResolve(name);
+            return resolve.Invoke();
         }
     }
 }
