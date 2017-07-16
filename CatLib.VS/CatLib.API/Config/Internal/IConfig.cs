@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System;
+using CatLib.API.Converters;
 
 namespace CatLib.API.Config
 {
@@ -26,11 +26,10 @@ namespace CatLib.API.Config
         string this[string name] { get; }
 
         /// <summary>
-        /// 增加转换器
+        /// 设定转换器
         /// </summary>
-        /// <param name="type">类型</param>
-        /// <param name="converter">类型对应转换器</param>
-        void AddConverter(Type type, ITypeStringConverter converter);
+        /// <param name="converter">类型转换器</param>
+        void SetConverters(IConverters converter);
 
         /// <summary>
         /// 设定配置定位器
@@ -41,18 +40,9 @@ namespace CatLib.API.Config
         /// <summary>
         /// 设定配置的值
         /// </summary>
-        /// <typeparam name="T">值的类型</typeparam>
         /// <param name="name">配置名</param>
         /// <param name="value">配置的值</param>
-        void Set<T>(string name, T value);
-
-        /// <summary>
-        /// 设定配置的值
-        /// </summary>
-        /// <param name="name">配置名</param>
-        /// <param name="value">配置的值</param>
-        /// <param name="type">配置值的类型</param>
-        void Set(string name, object value, Type type);
+        void Set(string name, object value);
 
         /// <summary>
         /// 保存配置

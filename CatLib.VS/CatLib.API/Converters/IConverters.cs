@@ -27,10 +27,10 @@ namespace CatLib.API.Converters
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <param name="to">目标类型</param>
         /// <param name="source">源数据</param>
+        /// <param name="to">目标类型</param>
         /// <returns>目标数据</returns>
-        object Convert(Type to , object source);
+        object Convert(object source , Type to);
 
         /// <summary>
         /// 从源类型转为目标类型
@@ -43,11 +43,11 @@ namespace CatLib.API.Converters
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <param name="to">目标类型</param>
         /// <param name="source">源数据</param>
         /// <param name="target">目标数据</param>
+        /// <param name="to">目标类型</param>
         /// <returns>是否成功转换</returns>
-        bool TryConvert(Type to, object source, out object target);
+        bool TryConvert(object source, out object target , Type to);
 
         /// <summary>
         /// 从源类型转为目标类型

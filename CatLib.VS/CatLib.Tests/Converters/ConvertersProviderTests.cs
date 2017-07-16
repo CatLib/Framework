@@ -129,7 +129,7 @@ namespace CatLib.Tests.Converters
 
             ExceptionAssert.Throws<ConverterException>(() =>
             {
-                manager.Default.Convert(typeof(Application), "123");
+                manager.Default.Convert("123" , typeof(Application));
             });
         }
 

@@ -10,10 +10,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Config;
-using CatLib.Config.Converters;
+using CatLib.API.Converters;
 using CatLib.Stl;
 
 namespace CatLib.Config
@@ -31,44 +30,27 @@ namespace CatLib.Config
         /// <summary>
         /// 类型转换器
         /// </summary>
-        private readonly Dictionary<Type, ITypeStringConverter> typeStringConverters;
+        private IConverters converters;
 
         /// <summary>
-        /// 构造一个配置容器
+        /// 构造配置容器
         /// </summary>
-        public Config()
+        /// <param name="converters">转换器</param>
+        /// <param name="locator">配置定位器</param>
+        public Config(IConverters converters, IConfigLocator locator)
         {
-            typeStringConverters = new Dictionary<Type, ITypeStringConverter>
-            {
-                { typeof(bool), new BoolStringConverter() },
-                { typeof(byte), new ByteStringConverter() },
-                { typeof(char), new CharStringConverter() },
-                { typeof(DateTime), new DateTimeStringConverter() },
-                { typeof(decimal), new DecimalStringConverter() },
-                { typeof(double), new DoubleStringConverter() },
-                { typeof(Enum), new EnumStringConverter() },
-                { typeof(short), new Int16StringConverter() },
-                { typeof(int), new Int32StringConverter() },
-                { typeof(long), new Int64StringConverter() },
-                { typeof(sbyte), new SByteStringConverter() },
-                { typeof(float), new SingleStringConverter() },
-                { typeof(string), new StringStringConverter() },
-                { typeof(ushort), new UInt16StringConverter() },
-                { typeof(uint), new UInt32StringConverter() },
-                { typeof(ulong), new UInt64StringConverter() }
-            };
+            this.converters = converters;
+            this.locator = locator;
         }
 
         /// <summary>
-        /// 增加转换器
+        /// 设定类型转换器
         /// </summary>
-        /// <param name="type">类型对应的转换器</param>
-        /// <param name="converter">转换器</param>
-        public void AddConverter(Type type, ITypeStringConverter converter)
+        /// <param name="converters">转换器</param>
+        public void SetConverters(IConverters converters)
         {
-            Guard.NotNull(type, "type");
-            Guard.NotNull(converter, "converter");
-            typeStringConverters[type] = converter;
+            Guard.Requires<ArgumentNullException>(converters != null);
+            this.converters = converters;
         }
 
         /// <summary>
@@ -77,7 +59,7 @@ namespace CatLib.Config
         /// <param name="locator">配置定位器</param>
         public void SetLocator(IConfigLocator locator)
         {
-            Guard.NotNull(locator, "locator");
+            Guard.Requires<ArgumentNullException>(locator != null);
             this.locator = locator;
         }
 
@@ -103,32 +85,14 @@ namespace CatLib.Config
         /// <summary>
         /// 设定配置的值
         /// </summary>
-        /// <typeparam name="T">配置值的类型</typeparam>
         /// <param name="name">配置名</param>
         /// <param name="value">配置的值</param>
-        public void Set<T>(string name, T value)
+        public void Set(string name, object value)
         {
-            Set(name, value, typeof(T));
-        }
-
-        /// <summary>
-        /// 设定配置的值
-        /// </summary>
-        /// <param name="name">配置名</param>
-        /// <param name="value">配置的值</param>
-        /// <param name="type">配置值的类型</param>
-        public void Set(string name, object value , Type type)
-        {
+            GuardConverters();
             GuardLocator();
-            Guard.NotNull(name, "name");
-
-            ITypeStringConverter converter;
-            if (!GetCoverter(type, out converter))
-            {
-                throw new ConverterException("Can not find [" + type + "] coverter impl.");
-            }
-
-            locator.Set(name, converter.ConvertToString(value));
+            Guard.Requires<ArgumentNullException>(name != null);
+            locator.Set(name, converters.Convert<string>(value));
         }
 
         /// <summary>
@@ -140,45 +104,17 @@ namespace CatLib.Config
         /// <returns>配置的值，如果找不到则返回默认值</returns>
         public T Get<T>(string name, T def = default(T))
         {
+            GuardConverters();
             GuardLocator();
-            Guard.NotNull(name, "name");
-            try
+            Guard.Requires<ArgumentNullException>(name != null);
+            string val;
+            if (!locator.TryGetValue(name, out val))
             {
-                string val;
-                if (!locator.TryGetValue(name, out val))
-                {
-                    return def;
-                }
-
-                ITypeStringConverter converter;
-                if (GetCoverter(typeof(T), out converter))
-                {
-                    return (T)converter.ConvertFromString(val, typeof(T));
-                }
-
                 return def;
             }
-            catch (Exception ex)
-            {
-                throw new ArgumentException("Field [" + name + "] is can not conversion to " + typeof(T) + ".", ex);
-            }
-        }
 
-        /// <summary>
-        /// 获取类型所需的转换器
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <param name="converter">转换器</param>
-        /// <returns>是否成功获取转换器</returns>
-        private bool GetCoverter(Type type , out ITypeStringConverter converter)
-        {
-            bool status;
-            do
-            {
-                status = typeStringConverters.TryGetValue(type, out converter);
-                type = type.BaseType;
-            } while (!status && type != null);
-            return status;
+            T result;
+            return converters.TryConvert(val, out result) ? result : def;
         }
 
         /// <summary>
@@ -189,6 +125,17 @@ namespace CatLib.Config
             if (locator == null)
             {
                 throw new RuntimeException("Undefiend config locator , please call IConfig.SetLocator");
+            }
+        }
+
+        /// <summary>
+        /// 校验转换器是否有效
+        /// </summary>
+        private void GuardConverters()
+        {
+            if (converters == null)
+            {
+                throw new RuntimeException("Undefiend converters , please call IConfig.SetConverters");
             }
         }
     }

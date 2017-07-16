@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using CatLib.API;
 using CatLib.Config;
+using CatLib.Converters;
 using CatLib.Core;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -263,6 +264,7 @@ namespace CatLib.Tests.Core
             public void Bootstrap()
             {
                 App.Instance.Register(new ConfigProvider());
+                App.Instance.Register(new ConvertersProvider());
             }
         }
     }

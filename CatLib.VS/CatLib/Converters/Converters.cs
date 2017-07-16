@@ -54,10 +54,10 @@ namespace CatLib.Converters
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <param name="to">目标类型</param>
         /// <param name="source">源数据</param>
+        /// <param name="to">目标类型</param>
         /// <returns>目标数据</returns>
-        public object Convert(Type to , object source)
+        public object Convert(object source , Type to)
         {
             Guard.Requires<ArgumentNullException>(source != null);
             Guard.Requires<ArgumentNullException>(to != null);
@@ -79,17 +79,17 @@ namespace CatLib.Converters
         /// <returns>目标数据</returns>
         public TTarget Convert<TTarget>(object source)
         {
-            return (TTarget)Convert(typeof(TTarget), source);
+            return (TTarget)Convert(source , typeof(TTarget));
         }
 
         /// <summary>
         /// 从源类型转为目标类型
         /// </summary>
-        /// <param name="to">目标类型</param>
         /// <param name="source">源数据</param>
         /// <param name="target">目标数据</param>
+        /// <param name="to">目标类型</param>
         /// <returns>是否成功转换</returns>
-        public bool TryConvert(Type to, object source, out object target)
+        public bool TryConvert(object source, out object target , Type to)
         {
             Guard.Requires<ArgumentNullException>(source != null);
             Guard.Requires<ArgumentNullException>(to != null);
@@ -125,7 +125,7 @@ namespace CatLib.Converters
         {
             target = default(TTarget);
             object obj;
-            if (!TryConvert(typeof(TTarget), source, out obj))
+            if (!TryConvert(source, out obj , typeof(TTarget)))
             {
                 return false;
             }

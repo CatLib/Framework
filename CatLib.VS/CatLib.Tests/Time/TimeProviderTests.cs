@@ -13,6 +13,7 @@ using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Time;
 using CatLib.Config;
+using CatLib.Converters;
 using CatLib.Core;
 using CatLib.Time;
 #if UNITY_EDITOR || NUNIT
@@ -125,6 +126,7 @@ namespace CatLib.Tests.Time
             var app = new Application().Bootstrap();
             app.Register(new TimeProvider());
             app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
             app.Init();
 
             var timeManager = app.Make<ITimeManager>();

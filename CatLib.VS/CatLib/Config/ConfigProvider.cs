@@ -11,6 +11,7 @@
 
 using CatLib.API;
 using CatLib.API.Config;
+using CatLib.API.Converters;
 using CatLib.Config.Locator;
 
 namespace CatLib.Config
@@ -40,8 +41,7 @@ namespace CatLib.Config
 
                 configManager.Extend(() =>
                 {
-                    var config = new Config();
-                    config.SetLocator(new CodeConfigLocator());
+                    var config = new Config(App.Make<IConverters>() , new CodeConfigLocator());
                     return config;
                 });
 

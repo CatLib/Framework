@@ -13,6 +13,7 @@ using System;
 using CatLib.API.Config;
 using CatLib.API.Routing;
 using CatLib.Config;
+using CatLib.Converters;
 using CatLib.Core;
 using CatLib.Debugger;
 using CatLib.Json;
@@ -38,6 +39,7 @@ namespace CatLib.Tests.Server
             app.Register(new JsonProvider());
             app.Register(new DebuggerProvider());
             app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
             app.Make<IConfigManager>().Default.Set("debugger.logger.handler.unity", false);
             app.Init();
 

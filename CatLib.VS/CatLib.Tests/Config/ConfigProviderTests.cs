@@ -13,6 +13,8 @@ using System;
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config;
+using CatLib.Config.Locator;
+using CatLib.Converters;
 using CatLib.Core;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -40,6 +42,7 @@ namespace CatLib.Tests.Config
                 return Type.GetType(t);
             });
             app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
             app.Init();
         }
 
@@ -51,7 +54,7 @@ namespace CatLib.Tests.Config
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {
-                return new CatLib.Config.Config();
+                return new CatLib.Config.Config(new CatLib.Converters.Converters(), new CodeConfigLocator());
             });
 
             Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get().GetType());
