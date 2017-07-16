@@ -26,6 +26,7 @@ namespace CatLib.Converters
         public override void Register()
         {
             RegisterManager();
+            RegisterDefaultConverter();
         }
 
         /// <summary>
@@ -42,6 +43,17 @@ namespace CatLib.Converters
                     manager.Extend(LoadDefaultConverters);
                     return obj;
                 });
+        }
+
+        /// <summary>
+        /// 注册默认的转换器
+        /// </summary>
+        private void RegisterDefaultConverter()
+        {
+            App.Bind<IConverters>((continer, @params) =>
+            {
+                return App.Make<IConvertersManager>().Default;
+            });
         }
 
         /// <summary>

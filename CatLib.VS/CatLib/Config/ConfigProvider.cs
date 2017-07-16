@@ -26,6 +26,7 @@ namespace CatLib.Config
         public override void Register()
         {
             RegisterManager();
+            RegisterDefaultConfig();
         }
 
         /// <summary>
@@ -46,6 +47,17 @@ namespace CatLib.Config
 
                 return configManager;
             }).Alias("catlib.config.manager");
+        }
+
+        /// <summary>
+        /// 注册默认的配置
+        /// </summary>
+        private void RegisterDefaultConfig()
+        {
+            App.Bind<IConfig>((container, @params) =>
+            {
+                return App.Make<IConfigManager>().Default;
+            });
         }
     }
 }

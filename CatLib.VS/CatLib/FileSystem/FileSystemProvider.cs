@@ -38,6 +38,7 @@ namespace CatLib.FileSystem
         public override void Register()
         {
             RegisterManager();
+            RegisterDefaultFileSystem();
         }
 
         /// <summary>
@@ -46,6 +47,17 @@ namespace CatLib.FileSystem
         private void RegisterManager()
         {
             App.Singleton<FileSystemManager>().Alias<IFileSystemManager>().Alias("catlib.filesystem.manager");
+        }
+
+        /// <summary>
+        /// 注册默认的文件系统
+        /// </summary>
+        private void RegisterDefaultFileSystem()
+        {
+            App.Bind<IFileSystem>((container, @params) =>
+            {
+                return App.Make<IFileSystemManager>().Default;
+            });
         }
 
         /// <summary>
