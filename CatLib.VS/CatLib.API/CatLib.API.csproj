@@ -51,6 +51,7 @@
     <Compile Include="Config\Features\ITypeStringConverter.cs" />
     <Compile Include="Config\IConfigManager.cs" />
     <Compile Include="Config\Internal\IConfig.cs" />
+    <Compile Include="Converters\ConverterException.cs" />
     <Compile Include="Converters\Features\ITypeConverter.cs" />
     <Compile Include="Converters\IConverters.cs" />
     <Compile Include="Converters\IConvertersManager.cs" />
