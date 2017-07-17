@@ -60,7 +60,11 @@ namespace CatLib.Debugger.WebConsole
             var context = listener.EndGetContext(result);
             if (OnRequest != null)
             {
-                OnRequest.Invoke(context);
+                try
+                {
+                    OnRequest.Invoke(context);
+                }
+                catch { }
             }
             listener.BeginGetContext(ListenedRequest, null);
         }

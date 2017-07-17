@@ -104,7 +104,6 @@ namespace CatLib.Debugger.WebConsole
             try
             {
                 DispatchToRouted(context);
-                context.Response.StatusCode = (int)HttpStatusCode.OK;
             }
             catch (NotFoundRouteException)
             {
