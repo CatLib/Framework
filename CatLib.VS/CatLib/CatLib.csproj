@@ -141,15 +141,15 @@
     <Compile Include="Stl\Container\Container.cs" />
     <Compile Include="Stl\Container\ContainerExpand.cs" />
     <Compile Include="Stl\Container\GivenData.cs" />
-    <Compile Include="Core\Application.cs" />
-    <Compile Include="Core\CoreProvider.cs" />
-    <Compile Include="Core\Driver.cs" />
-    <Compile Include="Core\DriverBehaviour.cs" />
-    <Compile Include="Core\Env.cs" />
-    <Compile Include="Core\Facade.cs" />
-    <Compile Include="Core\Util.cs" />
-    <Compile Include="Core\EventHandler.cs" />
-    <Compile Include="Core\Event.cs" />
+    <Compile Include="CatLib\Application.cs" />
+    <Compile Include="CatLib\CoreProvider.cs" />
+    <Compile Include="CatLib\Driver.cs" />
+    <Compile Include="CatLib\DriverBehaviour.cs" />
+    <Compile Include="CatLib\Env.cs" />
+    <Compile Include="CatLib\Facade.cs" />
+    <Compile Include="CatLib\Util.cs" />
+    <Compile Include="CatLib\EventHandler.cs" />
+    <Compile Include="CatLib\Event.cs" />
     <Compile Include="Stl\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />
@@ -193,7 +193,7 @@
   <ItemGroup>
     <None Include="Config\catlib.json" />
     <None Include="Converters\catlib.json" />
-    <None Include="Core\catlib.json" />
+    <None Include="CatLib\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
     <None Include="Json\catlib.json" />

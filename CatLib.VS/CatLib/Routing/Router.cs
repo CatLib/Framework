@@ -348,7 +348,10 @@ namespace CatLib.Routing
         {
             lock (syncRoot)
             {
-                eventHub.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
+                if (eventHub != null)
+                {
+                    eventHub.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
+                }
                 var compiler = container.Make<AttrRouteCompiler>();
                 if (compiler != null)
                 {
@@ -519,7 +522,10 @@ namespace CatLib.Routing
         /// <returns>响应</returns>
         private IResponse RunRouteWithMiddleware(Route route, Request request, Response response)
         {
-            eventHub.Trigger(RouterEvents.OnDispatcher, this, new DispatchEventArgs(route, request));
+            if (eventHub != null)
+            {
+                eventHub.Trigger(RouterEvents.OnDispatcher, this, new DispatchEventArgs(route, request));
+            }
 
             if (middleware != null)
             {

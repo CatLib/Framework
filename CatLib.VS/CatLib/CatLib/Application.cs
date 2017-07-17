@@ -9,12 +9,12 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using System.Collections;
-using System.Threading;
 using CatLib.API;
 using CatLib.API.Stl;
 using CatLib.Stl;
+using System;
+using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 namespace CatLib.Core

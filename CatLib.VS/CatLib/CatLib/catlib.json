@@ -1,5 +1,5 @@
 {
-  "source": "catlib/core",
+  "source": "catlib/catlib",
   "folder": "Core",
   "require": {
     "catlib/api": "~1.0",
