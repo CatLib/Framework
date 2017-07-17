@@ -32,7 +32,13 @@ namespace CatLib.Bootstrap
                 {
                     { "env.debug" , DebugLevels.Auto },
                     { "env.asset.path" , "" },
-                    { "routing.stripping.reserved" , "" }
+                    { "routing.stripping.reserved" , "" },
+
+                    { "debugger.webconsole.enable" , true },
+                    { "debugger.webconsole.host" , "*" },
+                    { "debugger.webconsole.port" , 9478 },
+                    { "debugger.logger.handler.unity" , true },
+                    { "debugger.logger.handler.console" , true }
                 };
             }
         }
