@@ -96,6 +96,7 @@
     <Compile Include="Converters\Plan\UInt64StringConverterTests.cs" />
     <Compile Include="Core\EnvTests.cs" />
     <Compile Include="Debugger\DebuggerHelper.cs" />
+    <Compile Include="Debugger\Log\LoggerTests.cs" />
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsoleTests.cs" />
     <Compile Include="Debugger\WebLog\Controller\LogTests.cs" />
     <Compile Include="Debugger\WebLog\Controller\UtilTests.cs" />
