@@ -66,7 +66,7 @@
     <Compile Include="Support\Behaviour\IUpdate.cs" />
     <Compile Include="Support\Developer\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="CatLib\Features\IBootstrap.cs" />
-    <Compile Include="CatLib\Features\IServiceProvider.cs" />
+    <Compile Include="CatLib\IServiceProvider.cs" />
     <Compile Include="Support\PriorityAttribute.cs" />
     <Compile Include="CatLib\IApplication.cs" />
     <Compile Include="CatLib\IEnv.cs" />
