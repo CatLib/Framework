@@ -18,7 +18,7 @@ using CatLib.API.Stl;
 using CatLib.Stl;
 using UnityEngine;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// Application行为驱动器

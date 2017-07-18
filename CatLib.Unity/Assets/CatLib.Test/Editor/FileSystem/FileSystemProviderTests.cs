@@ -17,10 +17,10 @@ using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Core;
 using CatLib.FileSystem;
 using CatLib.FileSystem.Adapter;
 using SIO = System.IO;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

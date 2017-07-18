@@ -16,7 +16,6 @@ using CatLib.Config;
 using CatLib.Config.Locator;
 using CatLib.Converters;
 using CatLib.Converters.Plan;
-using CatLib.Core;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

@@ -147,7 +147,6 @@
     <Compile Include="CatLib\DriverBehaviour.cs" />
     <Compile Include="CatLib\Env.cs" />
     <Compile Include="CatLib\Facade.cs" />
-    <Compile Include="CatLib\Util.cs" />
     <Compile Include="CatLib\EventHandler.cs" />
     <Compile Include="CatLib\Event.cs" />
     <Compile Include="Stl\FilterChain\FilterChain.cs" />

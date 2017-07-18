@@ -13,7 +13,6 @@ using System;
 using CatLib.API;
 using CatLib.API.Converters;
 using CatLib.Converters;
-using CatLib.Core;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;

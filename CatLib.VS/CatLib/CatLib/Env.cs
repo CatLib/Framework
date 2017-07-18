@@ -12,7 +12,7 @@
 using System.IO;
 using CatLib.API;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// 环境

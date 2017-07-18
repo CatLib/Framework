@@ -14,8 +14,8 @@ using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Core;
 using CatLib.Translation;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

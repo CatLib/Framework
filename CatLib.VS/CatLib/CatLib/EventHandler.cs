@@ -12,7 +12,7 @@
 using System;
 using CatLib.API;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// 事件句柄

@@ -12,7 +12,7 @@
 using System;
 using System.Collections;
 using CatLib.API;
-using CatLib.Core;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

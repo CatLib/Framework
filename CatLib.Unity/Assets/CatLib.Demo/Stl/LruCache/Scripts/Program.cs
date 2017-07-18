@@ -11,7 +11,6 @@
 
 using System;
 using CatLib.API;
-using CatLib.Core;
 
 namespace CatLib.Demo.LruCache
 {

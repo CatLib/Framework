@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using CatLib.API;
 using CatLib.Stl;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// 事件实现

@@ -5993,83 +5993,83 @@
             <param name="container">服务容器</param>
             <param name="instance">实例值</param>
         </member>
-        <member name="T:CatLib.Core.Application">
+        <member name="T:CatLib.Application">
             <summary>
             CatLib程序
             </summary>
         </member>
-        <member name="P:CatLib.Core.Application.Version">
+        <member name="P:CatLib.Application.Version">
             <summary>
             CatLib版本号
             </summary>
         </member>
-        <member name="T:CatLib.Core.Application.StartProcess">
+        <member name="T:CatLib.Application.StartProcess">
             <summary>
             框架启动流程
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.StartProcess.Bootstrap">
+        <member name="F:CatLib.Application.StartProcess.Bootstrap">
             <summary>
             引导流程
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.StartProcess.Initing">
+        <member name="F:CatLib.Application.StartProcess.Initing">
             <summary>
             初始化中
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.StartProcess.Inited">
+        <member name="F:CatLib.Application.StartProcess.Inited">
             <summary>
             初始化完成
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.serviceProviders">
+        <member name="F:CatLib.Application.serviceProviders">
             <summary>
             服务提供者
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.bootstrapped">
+        <member name="F:CatLib.Application.bootstrapped">
             <summary>
             是否已经完成引导程序
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.inited">
+        <member name="F:CatLib.Application.inited">
             <summary>
             是否已经完成初始化
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.process">
+        <member name="F:CatLib.Application.process">
             <summary>
             启动流程
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.onInited">
+        <member name="F:CatLib.Application.onInited">
             <summary>
             当初始化完成时
             </summary>
         </member>
-        <member name="P:CatLib.Core.Application.Process">
+        <member name="P:CatLib.Application.Process">
             <summary>
             启动流程
             </summary>
         </member>
-        <member name="F:CatLib.Core.Application.guid">
+        <member name="F:CatLib.Application.guid">
             <summary>
             全局唯一自增
             </summary>
         </member>
-        <member name="M:CatLib.Core.Application.#ctor">
+        <member name="M:CatLib.Application.#ctor">
             <summary>
             构建一个CatLib实例
             </summary>
         </member>
-        <member name="M:CatLib.Core.Application.#ctor(UnityEngine.Component)">
+        <member name="M:CatLib.Application.#ctor(UnityEngine.Component)">
             <summary>
             构建一个CatLib实例
             </summary>
             <param name="behaviour">驱动脚本</param>
         </member>
-        <member name="M:CatLib.Core.Application.Bootstrap(CatLib.API.IBootstrap[])">
+        <member name="M:CatLib.Application.Bootstrap(CatLib.API.IBootstrap[])">
             <summary>
             引导程序
             </summary>
@@ -6078,124 +6078,124 @@
             <exception cref="T:System.ArgumentNullException">当引导类型为null时引发</exception>
             <exception cref="T:CatLib.API.RuntimeException">当引导类型没有实现<see cref="T:CatLib.API.IBootstrap"/>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Application.Init(System.Action)">
+        <member name="M:CatLib.Application.Init(System.Action)">
             <summary>
             初始化
             </summary>
             <param name="callback">初始化完成后的回调</param>
             <exception cref="T:CatLib.API.RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
         </member>
-        <member name="M:CatLib.Core.Application.Register(CatLib.API.IServiceProvider)">
+        <member name="M:CatLib.Application.Register(CatLib.API.IServiceProvider)">
             <summary>
             注册服务提供者
             </summary>
             <param name="provider">注册服务提供者</param>
             <exception cref="T:CatLib.API.RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="T:CatLib.API.ServiceProvider"/></exception>
         </member>
-        <member name="M:CatLib.Core.Application.GetGuid">
+        <member name="M:CatLib.Application.GetGuid">
             <summary>
             获取一个唯一id
             </summary>
             <returns>应用程序内唯一id</returns>
         </member>
-        <member name="M:CatLib.Core.Application.InitPorcess">
+        <member name="M:CatLib.Application.InitPorcess">
             <summary>
             启动服务提供者启动流程
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="T:CatLib.Core.CoreProvider">
+        <member name="T:CatLib.CoreProvider">
             <summary>
             核心服务提供者
             </summary>
         </member>
-        <member name="M:CatLib.Core.CoreProvider.Register">
+        <member name="M:CatLib.CoreProvider.Register">
             <summary>
             注册核心服务提供者
             </summary>
         </member>
-        <member name="T:CatLib.Core.Driver">
+        <member name="T:CatLib.Driver">
             <summary>
             Application行为驱动器
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.mainThreadDispatcherQueueLocker">
+        <member name="F:CatLib.Driver.mainThreadDispatcherQueueLocker">
             <summary>
             主线程调度队列锁
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.update">
+        <member name="F:CatLib.Driver.update">
             <summary>
             更新
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.lateUpdate">
+        <member name="F:CatLib.Driver.lateUpdate">
             <summary>
             延后更新
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.destroy">
+        <member name="F:CatLib.Driver.destroy">
             <summary>
             释放时需要调用的
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.loadSet">
+        <member name="F:CatLib.Driver.loadSet">
             <summary>
             载入结果集
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.priority">
+        <member name="F:CatLib.Driver.priority">
             <summary>
             优先标记
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.eventImpl">
+        <member name="F:CatLib.Driver.eventImpl">
             <summary>
             事件实体
             </summary>
         </member>
-        <member name="P:CatLib.Core.Driver.EventSystem">
+        <member name="P:CatLib.Driver.EventSystem">
             <summary>
             事件系统
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.mainThreadId">
+        <member name="F:CatLib.Driver.mainThreadId">
             <summary>
             主线程ID
             </summary>
         </member>
-        <member name="P:CatLib.Core.Driver.IsMainThread">
+        <member name="P:CatLib.Driver.IsMainThread">
             <summary>
             是否是主线程
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.driverBehaviour">
+        <member name="F:CatLib.Driver.driverBehaviour">
             <summary>
             驱动脚本
             </summary>
         </member>
-        <member name="F:CatLib.Core.Driver.mainThreadDispatcherQueue">
+        <member name="F:CatLib.Driver.mainThreadDispatcherQueue">
             <summary>
             主线程调度队列
             </summary>
         </member>
-        <member name="M:CatLib.Core.Driver.#ctor">
+        <member name="M:CatLib.Driver.#ctor">
             <summary>
             Application行为驱动器
             </summary>
         </member>
-        <member name="M:CatLib.Core.Driver.#ctor(UnityEngine.Component)">
+        <member name="M:CatLib.Driver.#ctor(UnityEngine.Component)">
             <summary>
             Application行为驱动器
             </summary>
         </member>
-        <member name="M:CatLib.Core.Driver.Initialization(UnityEngine.Component)">
+        <member name="M:CatLib.Driver.Initialization(UnityEngine.Component)">
             <summary>
             初始化
             </summary>
             <param name="mainBehavior">mono脚本</param>
         </member>
-        <member name="M:CatLib.Core.Driver.Detach(System.Object)">
+        <member name="M:CatLib.Driver.Detach(System.Object)">
             <summary>
             从驱动器中卸载对象
             如果对象使用了增强接口，那么卸载对应增强接口
@@ -6204,7 +6204,7 @@
             <param name="obj">对象</param>
             <exception cref="T:System.ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Driver.Attach(System.Object)">
+        <member name="M:CatLib.Driver.Attach(System.Object)">
             <summary>
             如果对象实现了增强接口那么将对象装载进对应驱动器
             在装载的时候会引发IStart接口
@@ -6212,7 +6212,7 @@
             <param name="obj">对象</param>
             <exception cref="T:System.ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Driver.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.Driver.GetPriorities(System.Type,System.String)">
             <summary>
             获取优先级
             </summary>
@@ -6220,41 +6220,41 @@
             <param name="method">识别的方法</param>
             <returns>优先级</returns>
         </member>
-        <member name="M:CatLib.Core.Driver.Update">
+        <member name="M:CatLib.Driver.Update">
             <summary>
             每帧更新
             </summary>
         </member>
-        <member name="M:CatLib.Core.Driver.LateUpdate">
+        <member name="M:CatLib.Driver.LateUpdate">
             <summary>
             每帧更新后
             </summary>
         </member>
-        <member name="M:CatLib.Core.Driver.OnDestroy">
+        <member name="M:CatLib.Driver.OnDestroy">
             <summary>
             当释放时
             </summary>
         </member>
-        <member name="M:CatLib.Core.Driver.MainThread(System.Collections.IEnumerator)">
+        <member name="M:CatLib.Driver.MainThread(System.Collections.IEnumerator)">
             <summary>
             在主线程中调用
             </summary>
             <param name="action">代码块执行会处于主线程</param>
         </member>
-        <member name="M:CatLib.Core.Driver.MainThread(System.Action)">
+        <member name="M:CatLib.Driver.MainThread(System.Action)">
             <summary>
             在主线程中调用
             </summary>
             <param name="action">代码块执行会处于主线程</param>
         </member>
-        <member name="M:CatLib.Core.Driver.ActionWrapper(System.Action)">
+        <member name="M:CatLib.Driver.ActionWrapper(System.Action)">
             <summary>
             包装器
             </summary>
             <param name="action">回调函数</param>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Core.Driver.StartCoroutine(System.Collections.IEnumerator)">
+        <member name="M:CatLib.Driver.StartCoroutine(System.Collections.IEnumerator)">
             <summary>
             启动协程
             </summary>
@@ -6262,21 +6262,21 @@
             <returns>协程</returns>
             <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Driver.StopCoroutine(System.Collections.IEnumerator)">
+        <member name="M:CatLib.Driver.StopCoroutine(System.Collections.IEnumerator)">
             <summary>
             停止协程
             </summary>
             <param name="routine">协程</param>
             <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Core.Driver.Trigger(System.String,System.EventArgs)">
+        <member name="M:CatLib.Driver.Trigger(System.String,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名</param>
             <param name="e">事件参数</param>
         </member>
-        <member name="M:CatLib.Core.Driver.Trigger(System.String,System.Object,System.EventArgs)">
+        <member name="M:CatLib.Driver.Trigger(System.String,System.Object,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
@@ -6284,7 +6284,7 @@
             <param name="sender">事件发送者</param>
             <param name="e">事件参数</param>
         </member>
-        <member name="M:CatLib.Core.Driver.On(System.String,System.EventHandler,System.Int32)">
+        <member name="M:CatLib.Driver.On(System.String,System.EventHandler,System.Int32)">
             <summary>
             注册一个全局事件
             </summary>
@@ -6293,7 +6293,7 @@
             <param name="life">事件生命，当生命为0则自动释放</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Core.Driver.One(System.String,System.EventHandler)">
+        <member name="M:CatLib.Driver.One(System.String,System.EventHandler)">
             <summary>
             注册一个一次性的全局事件
             </summary>
@@ -6301,7 +6301,7 @@
             <param name="handler">事件回调</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Core.Driver.DefaultOnResolving(CatLib.API.Stl.IBindData,System.Object)">
+        <member name="M:CatLib.Driver.DefaultOnResolving(CatLib.API.Stl.IBindData,System.Object)">
             <summary>
             默认的解决事件
             </summary>
@@ -6309,14 +6309,14 @@
             <param name="obj">对象</param>
             <returns>处理后的对象</returns>
         </member>
-        <member name="M:CatLib.Core.Driver.DefaultOnRelease(CatLib.API.Stl.IBindData,System.Object)">
+        <member name="M:CatLib.Driver.DefaultOnRelease(CatLib.API.Stl.IBindData,System.Object)">
             <summary>
             默认的释放事件
             </summary>
             <param name="binder">绑定数据</param>
             <param name="obj">对象</param>
         </member>
-        <member name="M:CatLib.Core.Driver.ConvertAndRemove``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object)">
+        <member name="M:CatLib.Driver.ConvertAndRemove``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object)">
             <summary>
             转换到指定目标并且删除
             </summary>
@@ -6325,7 +6325,7 @@
             <param name="obj">对象</param>
             <returns>是否成功</returns>
         </member>
-        <member name="M:CatLib.Core.Driver.ConvertAndAdd``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object,System.String)">
+        <member name="M:CatLib.Driver.ConvertAndAdd``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object,System.String)">
             <summary>
             转换到指定目标并且添加
             </summary>
@@ -6335,58 +6335,58 @@
             <param name="function">获取优先级的函数名</param>
             <returns>是否成功</returns>
         </member>
-        <member name="T:CatLib.Core.DriverBehaviour">
+        <member name="T:CatLib.DriverBehaviour">
             <summary>
             驱动脚本
             </summary>
         </member>
-        <member name="F:CatLib.Core.DriverBehaviour.driver">
+        <member name="F:CatLib.DriverBehaviour.driver">
             <summary>
             驱动器
             </summary>
         </member>
-        <member name="M:CatLib.Core.DriverBehaviour.Awake">
+        <member name="M:CatLib.DriverBehaviour.Awake">
             <summary>
             Awake
             </summary>
         </member>
-        <member name="M:CatLib.Core.DriverBehaviour.SetDriver(CatLib.Core.Driver)">
+        <member name="M:CatLib.DriverBehaviour.SetDriver(CatLib.Driver)">
             <summary>
             设定驱动器
             </summary>
             <param name="driver">驱动器</param>
         </member>
-        <member name="M:CatLib.Core.DriverBehaviour.Update">
+        <member name="M:CatLib.DriverBehaviour.Update">
             <summary>
             每帧更新时
             </summary>
         </member>
-        <member name="M:CatLib.Core.DriverBehaviour.LateUpdate">
+        <member name="M:CatLib.DriverBehaviour.LateUpdate">
             <summary>
             在每帧更新时之后
             </summary>
         </member>
-        <member name="M:CatLib.Core.DriverBehaviour.OnDestroy">
+        <member name="M:CatLib.DriverBehaviour.OnDestroy">
             <summary>
             当释放时
             </summary>
         </member>
-        <member name="T:CatLib.Core.Env">
+        <member name="T:CatLib.Env">
             <summary>
             环境
             </summary>
         </member>
-        <member name="P:CatLib.Core.Env.DebugLevel">
+        <member name="P:CatLib.Env.DebugLevel">
             <summary>
             调试等级
             </summary>
         </member>
-        <member name="F:CatLib.Core.Env.assetPath">
+        <member name="F:CatLib.Env.assetPath">
             <summary>
             资源路径
             </summary>
         </member>
-        <member name="P:CatLib.Core.Env.AssetPath">
+        <member name="P:CatLib.Env.AssetPath">
             <summary>
             系统资源路径
             <para>不同的调试等级下对应不同的资源路径</para>
@@ -6397,75 +6397,75 @@
             <para>如果开发者有手动设置资源路径，将使用开发者设置的路径</para>
             </summary>
         </member>
-        <member name="M:CatLib.Core.Env.#ctor">
+        <member name="M:CatLib.Env.#ctor">
             <summary>
             构造一个环境
             </summary>
         </member>
-        <member name="M:CatLib.Core.Env.GetAssetPathWithUnity">
+        <member name="M:CatLib.Env.GetAssetPathWithUnity">
             <summary>
             从Unity获取资源路径
             </summary>
             <returns>资源路径</returns>
         </member>
-        <member name="M:CatLib.Core.Env.SetDebugLevel(CatLib.API.DebugLevels)">
+        <member name="M:CatLib.Env.SetDebugLevel(CatLib.API.DebugLevels)">
             <summary>
             设定调试等级
             </summary>
             <param name="level">调试等级</param>
         </member>
-        <member name="M:CatLib.Core.Env.SetAssetPath(System.String)">
+        <member name="M:CatLib.Env.SetAssetPath(System.String)">
             <summary>
             设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
             </summary>
             <param name="path">路径</param>
         </member>
-        <member name="T:CatLib.Core.Facade`1">
+        <member name="T:CatLib.Facade`1">
             <summary>
             门面
             </summary>
         </member>
-        <member name="P:CatLib.Core.Facade`1.Instance">
+        <member name="P:CatLib.Facade`1.Instance">
             <summary>
             门面实例
             </summary>
         </member>
-        <member name="T:CatLib.Core.EventHandler">
+        <member name="T:CatLib.EventHandler">
             <summary>
             事件句柄
             </summary>
         </member>
-        <member name="P:CatLib.Core.EventHandler.Target">
+        <member name="P:CatLib.EventHandler.Target">
             <summary>
             监听对象
             </summary>
         </member>
-        <member name="P:CatLib.Core.EventHandler.Handler">
+        <member name="P:CatLib.EventHandler.Handler">
             <summary>
             事件句柄
             </summary>
         </member>
-        <member name="P:CatLib.Core.EventHandler.EventName">
+        <member name="P:CatLib.EventHandler.EventName">
             <summary>
             事件名
             </summary>
         </member>
-        <member name="F:CatLib.Core.EventHandler.isCancel">
+        <member name="F:CatLib.EventHandler.isCancel">
             <summary>
             是否取消事件
             </summary>
         </member>
-        <member name="P:CatLib.Core.EventHandler.Life">
+        <member name="P:CatLib.EventHandler.Life">
             <summary>
             剩余的调用次数
             </summary>
         </member>
-        <member name="P:CatLib.Core.EventHandler.IsLife">
+        <member name="P:CatLib.EventHandler.IsLife">
             <summary>
             事件是否是有效的
             </summary>
         </member>
-        <member name="M:CatLib.Core.EventHandler.#ctor(CatLib.Core.Event,System.String,System.EventHandler,System.Int32)">
+        <member name="M:CatLib.EventHandler.#ctor(CatLib.Event,System.String,System.EventHandler,System.Int32)">
             <summary>
             创建一个事件句柄
             </summary>
@@ -6474,48 +6474,48 @@
             <param name="eventHandler">事件句柄</param>
             <param name="life">生命次数</param>
         </member>
-        <member name="M:CatLib.Core.EventHandler.Cancel">
+        <member name="M:CatLib.EventHandler.Cancel">
             <summary>
             撤销事件监听
             </summary>
             <returns>是否撤销成功</returns>
         </member>
-        <member name="M:CatLib.Core.EventHandler.Call(System.Object,System.EventArgs)">
+        <member name="M:CatLib.EventHandler.Call(System.Object,System.EventArgs)">
             <summary>
             激活事件
             </summary>
             <param name="sender">事件发送者</param>
             <param name="e">事件参数</param>
         </member>
-        <member name="T:CatLib.Core.Event">
+        <member name="T:CatLib.Event">
             <summary>
             事件实现
             </summary>
         </member>
-        <member name="P:CatLib.Core.Event.App">
+        <member name="P:CatLib.Event.App">
             <summary>
             应用程序
             </summary>
         </member>
-        <member name="F:CatLib.Core.Event.handlers">
+        <member name="F:CatLib.Event.handlers">
             <summary>
             事件地图
             </summary>
         </member>
-        <member name="M:CatLib.Core.Event.#ctor(CatLib.API.IApplication)">
+        <member name="M:CatLib.Event.#ctor(CatLib.API.IApplication)">
             <summary>
             构造一个事件实现
             </summary>
             <param name="app">应用程序</param>
         </member>
-        <member name="M:CatLib.Core.Event.Trigger(System.String,System.EventArgs)">
+        <member name="M:CatLib.Event.Trigger(System.String,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
             <param name="eventName">事件名称</param>
             <param name="e">事件参数</param>
         </member>
-        <member name="M:CatLib.Core.Event.Trigger(System.String,System.Object,System.EventArgs)">
+        <member name="M:CatLib.Event.Trigger(System.String,System.Object,System.EventArgs)">
             <summary>
             触发一个事件
             </summary>
@@ -6523,7 +6523,7 @@
             <param name="sender">发送者</param>
             <param name="e">事件参数</param>
         </member>
-        <member name="M:CatLib.Core.Event.On(System.String,System.EventHandler,System.Int32)">
+        <member name="M:CatLib.Event.On(System.String,System.EventHandler,System.Int32)">
             <summary>
             注册一个事件
             </summary>
@@ -6532,7 +6532,7 @@
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Core.Event.One(System.String,System.EventHandler)">
+        <member name="M:CatLib.Event.One(System.String,System.EventHandler)">
             <summary>
             注册一个事件，调用一次后就释放
             </summary>
@@ -6540,43 +6540,26 @@
             <param name="handler">事件句柄</param>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Core.Event.Off(CatLib.Core.EventHandler)">
+        <member name="M:CatLib.Event.Off(CatLib.EventHandler)">
             <summary>
             移除一个事件
             </summary>
             <param name="handler">操作句柄</param>
         </member>
-        <member name="M:CatLib.Core.Event.On(System.String,CatLib.Core.EventHandler)">
+        <member name="M:CatLib.Event.On(System.String,CatLib.EventHandler)">
             <summary>
             注册事件
             </summary>
             <param name="eventName">事件名</param>
             <param name="handler">事件句柄</param>
         </member>
-        <member name="M:CatLib.Core.Event.CallEvent(System.Collections.Generic.IList{CatLib.Core.EventHandler},System.Object,System.EventArgs)">
+        <member name="M:CatLib.Event.CallEvent(System.Collections.Generic.IList{CatLib.EventHandler},System.Object,System.EventArgs)">
             <summary>
             调用事件
             </summary>
             <param name="handler">事件</param>
             <param name="sender">发送者</param>
             <param name="e">事件参数</param>
-        </member>
-        <member name="T:CatLib.Util">
-            <summary>
-            公共方法
-            </summary>
-        </member>
-        <member name="M:CatLib.Util.FindTypesWithInterface(System.Type)">
-            <summary>
-            查找实现接口的类型
-            </summary>
-            <param name="interfaceType">接口类型</param>
-            <returns>实现接口的类型列表</returns>
-        </member>
-        <member name="M:CatLib.Util.StandardPath(System.String)">
-            <summary>
-            标准化路径
-            </summary>
         </member>
         <member name="T:CatLib.Timer.Timer">
             <summary>

@@ -13,7 +13,6 @@ using System;
 using CatLib.API;
 using CatLib.Time;
 using CatLib.Timer;
-using CatLib.Core;
 
 namespace CatLib.Demo.Timer
 {

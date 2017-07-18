@@ -17,7 +17,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// CatLib程序

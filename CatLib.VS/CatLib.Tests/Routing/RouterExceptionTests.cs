@@ -34,7 +34,7 @@ namespace CatLib.Tests.Routing
     {
         internal Router MakeRouter()
         {
-            var app = new CatLib.Core.Application();
+            var app = new Application();
             app.Bootstrap().Init();
             var router = new Router(app, app);
 

@@ -14,7 +14,6 @@ using CatLib.API.Config;
 using CatLib.API.Routing;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Core;
 using CatLib.Debugger;
 using CatLib.Json;
 using CatLib.Routing;

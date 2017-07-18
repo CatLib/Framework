@@ -10,7 +10,6 @@
  */
 
 using CatLib.API;
-using CatLib.Core;
 
 namespace CatLib.Facade
 {

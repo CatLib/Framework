@@ -12,7 +12,7 @@
 using CatLib.API;
 using CatLib.API.Config;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// 核心服务提供者

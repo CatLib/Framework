@@ -13,7 +13,6 @@ using CatLib.API;
 using CatLib.Time;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Core;
 using CatLib.Debugger;
 using CatLib.FileSystem;
 using CatLib.Json;

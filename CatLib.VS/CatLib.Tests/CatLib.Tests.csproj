@@ -112,7 +112,6 @@
     <Compile Include="Core\ContainerHelperTests.cs" />
     <Compile Include="Core\DriverTests.cs" />
     <Compile Include="Core\FacaedTests.cs" />
-    <Compile Include="Core\UtilTests.cs" />
     <Compile Include="Core\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FileSystem\Adapter\LocalTests.cs" />

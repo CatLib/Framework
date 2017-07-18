@@ -11,7 +11,7 @@
 
 using CatLib.API;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// 门面

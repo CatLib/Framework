@@ -12,7 +12,7 @@
 using CatLib.API;
 using UnityEngine;
 
-namespace CatLib.Core
+namespace CatLib
 {
     /// <summary>
     /// 驱动脚本

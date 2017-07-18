@@ -10,8 +10,7 @@
  */
 
 using CatLib.API;
-using CatLib.Core;
-using UnityEngine;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

@@ -12,7 +12,6 @@
 using System;
 using CatLib.API;
 using CatLib.Routing;
-using CatLib.Core;
 
 namespace CatLib.Demo.Routing
 {

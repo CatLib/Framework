@@ -25,7 +25,7 @@ namespace CatLib.Bootstrap
         /// </summary>
         public void Awake()
         {
-            var application = new Core.Application(this);
+            var application = new Application(this);
             application.OnFindType((type) => Type.GetType(type));
             application.Bootstrap(Bootstrap.BootStrap).Init();
         }

@@ -11,7 +11,6 @@
 
 using System;
 using CatLib.API;
-using CatLib.Core;
 using CatLib.Translation;
 
 namespace CatLib.Demo.Translation
