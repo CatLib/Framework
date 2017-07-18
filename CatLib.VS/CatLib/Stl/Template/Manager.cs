@@ -9,9 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
 using System;
 using System.Collections.Generic;
-using CatLib.API;
 
 namespace CatLib.Stl
 {

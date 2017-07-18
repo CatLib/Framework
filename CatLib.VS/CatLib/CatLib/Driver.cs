@@ -9,13 +9,13 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
+using CatLib.API.Stl;
+using CatLib.Stl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using CatLib.API;
-using CatLib.API.Stl;
-using CatLib.Stl;
 using UnityEngine;
 
 namespace CatLib

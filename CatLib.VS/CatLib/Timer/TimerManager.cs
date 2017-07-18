@@ -9,12 +9,12 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Time;
 using CatLib.API.Timer;
 using CatLib.Stl;
+using System;
+using System.Collections.Generic;
 
 namespace CatLib.Timer
 {

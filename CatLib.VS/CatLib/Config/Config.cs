@@ -9,11 +9,11 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Converters;
 using CatLib.Stl;
+using System;
 
 namespace CatLib.Config
 {

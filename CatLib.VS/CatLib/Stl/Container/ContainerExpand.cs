@@ -8,9 +8,9 @@
  *
  * Document: http://catlib.io/
  */
- 
-using System;
+
 using CatLib.API.Stl;
+using System;
 
 namespace CatLib
 {

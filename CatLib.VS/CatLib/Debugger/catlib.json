@@ -4,6 +4,6 @@
   "require": {
     "catlib/stl": "~1.0",
     "catlib/api": "~1.0",
-    "catlib/converters": "~1.0"
+    "catlib/config": "~1.0"
   }
 }

@@ -9,11 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
+using CatLib.API.Stl;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CatLib.API;
-using CatLib.API.Stl;
 
 namespace CatLib.Stl
 {

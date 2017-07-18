@@ -9,11 +9,11 @@
  * Document: http://catlib.io/
  */
 
-using System.Text.RegularExpressions;
-using System.Collections;
-using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Routing;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace CatLib.Routing
 {

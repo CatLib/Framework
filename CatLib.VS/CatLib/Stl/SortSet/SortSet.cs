@@ -9,12 +9,12 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API;
+using CatLib.API.Stl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using CatLib.API;
-using CatLib.API.Stl;
 using Random = System.Random;
 
 namespace CatLib.Stl
