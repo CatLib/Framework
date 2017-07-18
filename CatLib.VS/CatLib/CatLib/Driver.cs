@@ -56,9 +56,9 @@ namespace CatLib
         private readonly Type priority = typeof(PriorityAttribute);
 
         /// <summary>
-        /// 事件实体
+        /// 事件系统
         /// </summary>
-        private IEvent eventImpl;
+        private IEvent eventSystem;
 
         /// <summary>
         /// 事件系统
@@ -67,7 +67,7 @@ namespace CatLib
         {
             get
             {
-                return eventImpl ?? (eventImpl = new Event(App.Instance));
+                return eventSystem ?? (eventSystem = new Event());
             }
         }
 

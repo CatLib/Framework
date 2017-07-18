@@ -22,23 +22,9 @@ namespace CatLib
     public sealed class Event : IEvent
     {
         /// <summary>
-        /// 应用程序
-        /// </summary>
-        private IApplication App { get; set; }
-
-        /// <summary>
         /// 事件地图
         /// </summary>
         private Dictionary<string, List<EventHandler>> handlers;
-
-        /// <summary>
-        /// 构造一个事件实现
-        /// </summary>
-        /// <param name="app">应用程序</param>
-        public Event(IApplication app)
-        {
-            App = app;
-        }
 
         /// <summary>
         /// 触发一个事件
@@ -61,15 +47,6 @@ namespace CatLib
             Guard.NotEmptyOrNull(eventName, "eventName");
 
             e = e ?? EventArgs.Empty;
-
-            if (!App.IsMainThread)
-            {
-                App.MainThread(() =>
-                {
-                    Trigger(eventName, sender, e);
-                });
-                return;
-            }
 
             if (handlers == null)
             {
@@ -98,14 +75,6 @@ namespace CatLib
             Guard.Requires<ArgumentOutOfRangeException>(life >= 0);
 
             var callHandler = new EventHandler(this, eventName, handler, life);
-            if (!App.IsMainThread)
-            {
-                App.MainThread(() =>
-                {
-                    On(eventName, callHandler);
-                });
-                return callHandler;
-            }
             On(eventName, callHandler);
             return callHandler;
         }
@@ -128,15 +97,6 @@ namespace CatLib
         internal void Off(EventHandler handler)
         {
             Guard.NotNull(handler, "handler");
-
-            if (!App.IsMainThread)
-            {
-                App.MainThread(() =>
-                {
-                    Off(handler);
-                });
-                return;
-            }
 
             if (!handlers.ContainsKey(handler.EventName))
             {
