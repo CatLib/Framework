@@ -12,7 +12,7 @@
 using System;
 using System.Collections;
 using CatLib.API;
-
+using CatLib.Events;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -264,7 +264,7 @@ namespace CatLib.Tests.Core
         {
             var app = MakeDriver();
             var isCall = false;
-            app.On("GloablEventOn", (sender, e) =>
+            app.On("GloablEventOn", (payload) =>
             {
                 isCall = true;
             });
@@ -281,10 +281,10 @@ namespace CatLib.Tests.Core
         {
             var app = MakeDriver();
             var isCall = false;
-            app.One("GloablEventOne", (sender, e) =>
+            app.On("GloablEventOne", (payload) =>
             {
                 isCall = !isCall;
-            });
+            },1);
             app.Trigger("GloablEventOne");
             app.Trigger("GloablEventOne");
             Assert.AreEqual(true, isCall);
@@ -299,58 +299,15 @@ namespace CatLib.Tests.Core
             var app = MakeDriver();
             var isCall = false;
             var sender = new object();
-            app.One("AppTriggerEventWithSender", (s, e) =>
+            app.On("AppTriggerEventWithSender", (payload) =>
             {
-                if (s == sender)
+                if (payload == sender)
                 {
                     isCall = !isCall;
                 }
-            });
+            },1);
 
             app.Trigger("AppTriggerEventWithSender", sender);
-            Assert.AreEqual(true, isCall);
-        }
-
-        /// <summary>
-        /// 根据名字发送者参数触发事件
-        /// </summary>
-        [TestMethod]
-        public void AppTriggerEventWithSenderArgs()
-        {
-            var app = MakeDriver();
-            var isCall = false;
-            var sender = new object();
-            var args = new EventArgs();
-            app.One("AppTriggerEventWithSenderArgs", (s, e) =>
-            {
-                if (s == sender && e == args)
-                {
-                    isCall = !isCall;
-                }
-            });
-
-            app.Trigger("AppTriggerEventWithSenderArgs", sender, args);
-            Assert.AreEqual(true, isCall);
-        }
-
-        /// <summary>
-        /// 只根据名字和参数触发事件
-        /// </summary>
-        [TestMethod]
-        public void AppTriggerEventWithArgs()
-        {
-            var app = MakeDriver();
-            var isCall = false;
-            var args = new EventArgs();
-            app.One("AppTriggerEventWithArgs", (s, e) =>
-            {
-                if (s == null && e == args)
-                {
-                    isCall = !isCall;
-                }
-            });
-
-            app.Trigger("AppTriggerEventWithArgs", args);
             Assert.AreEqual(true, isCall);
         }
 
@@ -397,7 +354,9 @@ namespace CatLib.Tests.Core
         public Driver MakeDriver()
         {
             var driver = new Application();
-            driver.Bootstrap().Init();
+            driver.Bootstrap();
+            driver.Register(new EventsProvider());
+            driver.Init();
             return driver;
         }
     }

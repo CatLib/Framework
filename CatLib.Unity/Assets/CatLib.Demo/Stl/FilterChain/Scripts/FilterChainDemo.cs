@@ -21,7 +21,7 @@ namespace CatLib.Demo.FilterChain
 
         public override IEnumerator Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 var filters = new FilterChain<string>();
 

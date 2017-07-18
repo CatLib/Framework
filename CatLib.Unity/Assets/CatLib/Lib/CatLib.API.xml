@@ -252,7 +252,71 @@
             自动模式（如果在编辑器模式下则使用开发者模式（非仿真环境）如果发布则使用生产环境）
             </summary>
         </member>
+        <member name="T:CatLib.API.Events.IDispatcher">
+            <summary>
+            调度器
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Events.IDispatcher.Trigger(System.String,System.Object,System.Boolean)">
+            <summary>
+            触发一个事件,并获取事件的返回结果
+            <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
+            反之返回一个事件处理结果数组(<c>object[]</c>)</para>
+            </summary>
+            <param name="eventName">事件名称</param>
+            <param name="payload">载荷</param>
+            <param name="halt">是否只触发一次就终止</param>
+            <returns>事件结果</returns>
+        </member>
+        <member name="M:CatLib.API.Events.IDispatcher.On(System.String,System.Action{System.Object},System.Int32)">
+            <summary>
+            注册一个事件
+            </summary>
+            <param name="eventName">事件名称</param>
+            <param name="handler">事件句柄</param>
+            <param name="life">在几次后事件会被自动释放</param>
+            <returns>事件句柄</returns>
+        </member>
+        <member name="M:CatLib.API.Events.IDispatcher.On(System.String,System.Func{System.Object,System.Object},System.Int32)">
+            <summary>
+            注册一个事件
+            </summary>
+            <param name="eventName">事件名称</param>
+            <param name="handler">事件句柄</param>
+            <param name="life">在几次后事件会被自动释放</param>
+            <returns>事件句柄</returns>
+        </member>
+        <member name="T:CatLib.API.Events.IEventHandler">
+            <summary>
+            事件句柄
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Events.IEventHandler.Cancel">
+            <summary>
+            取消注册的事件
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Events.IEventHandler.Life">
+            <summary>
+            剩余的调用次数，当为0时事件会被释放
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Events.IEventHandler.IsLife">
+            <summary>
+            事件是否是有效的
+            </summary>
+        </member>
+        <member name="T:CatLib.API.AssertException">
+            <summary>
+            断言异常
+            </summary>
+        </member>
         <member name="T:CatLib.API.RuntimeException">
+            <summary>
+            运行时异常
+            </summary>
+        </member>
+        <member name="M:CatLib.API.RuntimeException.#ctor">
             <summary>
             运行时异常
             </summary>
@@ -460,63 +524,6 @@
             设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
             </summary>
             <param name="path">路径</param>
-        </member>
-        <member name="T:CatLib.API.IEvent">
-            <summary>
-            事件实现
-            </summary>
-        </member>
-        <member name="M:CatLib.API.IEvent.Trigger(System.String,System.EventArgs)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="e">事件参数</param>
-        </member>
-        <member name="M:CatLib.API.IEvent.Trigger(System.String,System.Object,System.EventArgs)">
-            <summary>
-            触发一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="sender">发送者</param>
-            <param name="e">事件参数</param>
-        </member>
-        <member name="M:CatLib.API.IEvent.On(System.String,System.EventHandler,System.Int32)">
-            <summary>
-            注册一个事件
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="handler">事件句柄</param>
-            <param name="life">在几次后事件会被自动释放</param>
-            <returns>事件句柄</returns>
-        </member>
-        <member name="M:CatLib.API.IEvent.One(System.String,System.EventHandler)">
-            <summary>
-            注册一个事件，调用一次后就释放
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="handler">事件句柄</param>
-            <returns></returns>
-        </member>
-        <member name="T:CatLib.API.IEventHandler">
-            <summary>
-            事件句柄
-            </summary>
-        </member>
-        <member name="M:CatLib.API.IEventHandler.Cancel">
-            <summary>
-            取消注册的事件
-            </summary>
-        </member>
-        <member name="P:CatLib.API.IEventHandler.Life">
-            <summary>
-            剩余的调用次数，当为0时事件会被释放
-            </summary>
-        </member>
-        <member name="P:CatLib.API.IEventHandler.IsLife">
-            <summary>
-            事件是否是有效的
-            </summary>
         </member>
         <member name="T:CatLib.API.ServiceProvider">
             <summary>
@@ -926,6 +933,11 @@
             调度事件
             </summary>
         </member>
+        <member name="P:CatLib.API.Routing.DispatchEventArgs.Router">
+            <summary>
+            路由器
+            </summary>
+        </member>
         <member name="P:CatLib.API.Routing.DispatchEventArgs.Route">
             <summary>
             异常
@@ -936,10 +948,11 @@
             请求
             </summary>
         </member>
-        <member name="M:CatLib.API.Routing.DispatchEventArgs.#ctor(CatLib.API.Routing.IRoute,CatLib.API.Routing.IRequest)">
+        <member name="M:CatLib.API.Routing.DispatchEventArgs.#ctor(CatLib.API.Routing.IRouter,CatLib.API.Routing.IRoute,CatLib.API.Routing.IRequest)">
             <summary>
             请求
             </summary>
+            <param name="router">路由器</param>
             <param name="route">路由</param>
             <param name="request">请求</param>
         </member>

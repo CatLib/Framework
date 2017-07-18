@@ -12,7 +12,7 @@ namespace CatLib.Demo.Timer
     {
         public override IEnumerator Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 var timerManager = App.Make<ITimerManager>();
 

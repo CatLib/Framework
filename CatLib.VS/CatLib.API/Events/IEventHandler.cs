@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API
+namespace CatLib.API.Events
 {
     /// <summary>
     /// 事件句柄
@@ -19,7 +19,7 @@ namespace CatLib.API
         /// <summary>
         /// 取消注册的事件
         /// </summary>
-        bool Cancel();
+        void Cancel();
 
         /// <summary>
         /// 剩余的调用次数，当为0时事件会被释放

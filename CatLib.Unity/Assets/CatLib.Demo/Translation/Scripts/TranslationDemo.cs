@@ -44,7 +44,7 @@ namespace CatLib.Demo.Translation
 
         public override IEnumerator Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 var translator = App.Make<ITranslator>();
                 translator.AddMappingHandler(new TranslationDict());

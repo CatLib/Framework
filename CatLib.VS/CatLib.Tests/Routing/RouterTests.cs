@@ -12,6 +12,7 @@
 using System;
 using CatLib.API;
 using CatLib.API.Routing;
+using CatLib.Events;
 using CatLib.Routing;
 
 #if UNITY_EDITOR || NUNIT
@@ -39,10 +40,11 @@ namespace CatLib.Tests.Routing
                 return Type.GetType(t);
             });
             app.Register(new RoutingProvider());
+            app.Register(new EventsProvider());
 
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
             var router = App.Instance.Make<IRouter>();
-            app.On(RouterEvents.OnBeforeRouterAttrCompiler, (sender, args) =>
+            app.On(RouterEvents.OnBeforeRouterAttrCompiler, (payload) =>
             {
                 router.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
                     (req, res, next) =>
@@ -62,9 +64,9 @@ namespace CatLib.Tests.Routing
                 router.Group("DefaultGroup2").Defaults("str", "TestUseGroupAndLocalDefaults");
             });
 
-            app.On(RouterEvents.OnDispatcher, (sender, args) =>
+            app.On(RouterEvents.OnDispatcher, (payload) =>
             {
-                var arg = args as DispatchEventArgs;
+                var arg = payload as DispatchEventArgs;
                 Assert.AreNotEqual(null, arg.Request);
                 Assert.AreNotEqual(null, arg.Route);
                 Assert.AreNotEqual(string.Empty, (arg.Route as Route).Compiled.ToString());

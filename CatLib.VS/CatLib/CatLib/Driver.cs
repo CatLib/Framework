@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using CatLib.API.Events;
 using UnityEngine;
 
 namespace CatLib
@@ -23,7 +24,7 @@ namespace CatLib
     /// <summary>
     /// Application行为驱动器
     /// </summary>
-    public class Driver : Container, IEvent
+    public class Driver : Container, IDispatcher
     {
         /// <summary>
         /// 主线程调度队列锁
@@ -58,16 +59,16 @@ namespace CatLib
         /// <summary>
         /// 事件系统
         /// </summary>
-        private IEvent eventSystem;
+        private IDispatcher dispatcher;
 
         /// <summary>
         /// 事件系统
         /// </summary>
-        private IEvent EventSystem
+        private IDispatcher Dispatcher
         {
             get
             {
-                return eventSystem ?? (eventSystem = new Event());
+                return dispatcher ?? (dispatcher = this.Make<IDispatcher>());
             }
         }
 
@@ -362,61 +363,45 @@ namespace CatLib
         #region Dispatcher
 
         /// <summary>
-        /// 触发一个事件
+        /// 触发一个事件,并获取事件的返回结果
+        /// <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
+        /// 反之返回一个事件处理结果数组(<c>object[]</c>)</para>
         /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="e">事件参数</param>
-        public void Trigger(string eventName, EventArgs e)
+        /// <param name="eventName">事件名称</param>
+        /// <param name="payload">载荷</param>
+        /// <param name="halt">是否只触发一次就终止</param>
+        /// <returns>事件结果</returns>
+        public object Trigger(string eventName, object payload = null, bool halt = false)
         {
-            if (EventSystem != null)
+            if (Dispatcher != null)
             {
-                EventSystem.Trigger(eventName, e);
+                return Dispatcher.Trigger(eventName, payload, halt);
             }
+            return halt ? null : new object[] { };
         }
 
         /// <summary>
-        /// 触发一个事件
+        /// 注册一个事件
         /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="sender">事件发送者</param>
-        /// <param name="e">事件参数</param>
-        public void Trigger(string eventName, object sender = null, EventArgs e = null)
-        {
-            if (EventSystem != null)
-            {
-                EventSystem.Trigger(eventName, sender, e);
-            }
-        }
-
-        /// <summary>
-        /// 注册一个全局事件
-        /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="handler">事件回调</param>
-        /// <param name="life">事件生命，当生命为0则自动释放</param>
+        /// <param name="eventName">事件名称</param>
+        /// <param name="handler">事件句柄</param>
+        /// <param name="life">在几次后事件会被自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler On(string eventName, System.EventHandler handler, int life = 0)
+        public IEventHandler On(string eventName, Action<object> handler, int life = 0)
         {
-            if (EventSystem != null)
-            {
-                return EventSystem.On(eventName, handler, life);
-            }
-            return null;
+            return Dispatcher != null ? Dispatcher.On(eventName, handler, life) : null;
         }
 
         /// <summary>
-        /// 注册一个一次性的全局事件
+        /// 注册一个事件
         /// </summary>
-        /// <param name="eventName">事件名</param>
-        /// <param name="handler">事件回调</param>
+        /// <param name="eventName">事件名称</param>
+        /// <param name="handler">事件句柄</param>
+        /// <param name="life">在几次后事件会被自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler One(string eventName, System.EventHandler handler)
+        public IEventHandler On(string eventName, Func<object, object> handler, int life = 0)
         {
-            if (EventSystem != null)
-            {
-                return EventSystem.One(eventName, handler);
-            }
-            return null;
+            return Dispatcher != null ? Dispatcher.On(eventName, handler, life) : null;
         }
         #endregion
 

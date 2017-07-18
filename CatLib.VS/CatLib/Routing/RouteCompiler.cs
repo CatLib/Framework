@@ -14,6 +14,7 @@ using CatLib.API.Routing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -170,8 +171,8 @@ namespace CatLib.Routing
 
                     where = string.Format(
                         "[^{0}{1}]+",
-                        RegexQuote(defaultSeparator),
-                        defaultSeparator != nextSeparator && nextSeparator != string.Empty ? RegexQuote(nextSeparator) : string.Empty
+                        Str.RegexQuote(defaultSeparator),
+                        defaultSeparator != nextSeparator && nextSeparator != string.Empty ? Str.RegexQuote(nextSeparator) : string.Empty
                     );
                 }
 
@@ -238,15 +239,15 @@ namespace CatLib.Routing
             if (token[0] == "text")
             {
                 //传统文本匹配格式
-                return RegexQuote(token[1]);
+                return Str.RegexQuote(token[1]);
             }
 
             if (index == 0 && firstOptional == 0)
             {
-                return string.Format("{0}(?<{1}>{2})?", RegexQuote(token[1]), token[3], token[2]);
+                return string.Format("{0}(?<{1}>{2})?", Str.RegexQuote(token[1]), token[3], token[2]);
             }
 
-            var regexp = string.Format("{0}(?<{1}>{2})", RegexQuote(token[1]), token[3], token[2]);
+            var regexp = string.Format("{0}(?<{1}>{2})", Str.RegexQuote(token[1]), token[3], token[2]);
             if (index < firstOptional)
             {
                 return regexp;
@@ -276,21 +277,6 @@ namespace CatLib.Routing
                 tmp += val;
             }
             return tmp;
-        }
-
-        /// <summary>
-        /// 转义正则表达式字符
-        /// </summary>
-        /// <param name="str">需要转义的字符</param>
-        /// <returns>转义后的字符</returns>
-        private static string RegexQuote(string str)
-        {
-            string[] quote = { @"\", ".", "+", "*", "?", "[", "^", "]", "$", "(", ")", "{", "}", "=", "!", "<", ">", "|", ":", "-" };
-            foreach (var q in quote)
-            {
-                str = str.Replace(q, @"\" + q);
-            }
-            return str;
         }
 
         /// <summary>

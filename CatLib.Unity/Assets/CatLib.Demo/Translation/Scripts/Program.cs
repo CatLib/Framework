@@ -11,6 +11,7 @@
 
 using System;
 using CatLib.API;
+using CatLib.Events;
 using CatLib.Translation;
 
 namespace CatLib.Demo.Translation
@@ -22,6 +23,7 @@ namespace CatLib.Demo.Translation
     {
         public void Bootstrap()
         {
+            App.Instance.Register(new EventsProvider());
             App.Instance.Register(new TranslationProvider());
             App.Instance.Register(new TranslationDemo());
         }

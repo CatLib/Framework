@@ -20,6 +20,14 @@ namespace CatLib.API
     public class RuntimeException : Exception
     {
         /// <summary>
+        /// 运行时异常
+        /// </summary>
+        public RuntimeException() : base()
+        {
+            
+        }
+
+        /// <summary>
         /// CatLib组件异常
         /// </summary>
         /// <param name="message">异常消息</param>

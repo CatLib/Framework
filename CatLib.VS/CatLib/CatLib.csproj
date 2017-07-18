@@ -113,6 +113,9 @@
     <Compile Include="Debugger\WebLog\Controller\Util.cs" />
     <Compile Include="Debugger\WebLog\LogStore.cs" />
     <Compile Include="Debugger\WebLog\LogHandler\WebLogHandler.cs" />
+    <Compile Include="Events\Dispatcher.cs" />
+    <Compile Include="Events\EventHandler.cs" />
+    <Compile Include="Events\EventsProvider.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
     <Compile Include="Facade\Logger.cs" />
     <Compile Include="Facade\Env.cs" />
@@ -147,8 +150,6 @@
     <Compile Include="CatLib\DriverBehaviour.cs" />
     <Compile Include="CatLib\Env.cs" />
     <Compile Include="CatLib\Facade.cs" />
-    <Compile Include="CatLib\EventHandler.cs" />
-    <Compile Include="CatLib\Event.cs" />
     <Compile Include="Stl\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Stl\SortSet\SortSet.cs" />
     <Compile Include="Stl\Template\Manager.cs" />
     <Compile Include="Stl\Template\SingleManager.cs" />
+    <Compile Include="Stl\Util\Str.cs" />
     <Compile Include="Timer\Timer.cs" />
     <Compile Include="Timer\TimerQueue.cs" />
     <Compile Include="Timer\TimerManager.cs" />
@@ -193,6 +195,8 @@
     <None Include="Config\catlib.json" />
     <None Include="Converters\catlib.json" />
     <None Include="CatLib\catlib.json" />
+    <None Include="Debugger\catlib.json" />
+    <None Include="Events\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
     <None Include="Json\catlib.json" />

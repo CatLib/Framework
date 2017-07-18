@@ -16,6 +16,7 @@ using CatLib.Stl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CatLib.API.Events;
 
 namespace CatLib.Routing
 {
@@ -32,7 +33,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 全局调度器
         /// </summary>
-        private readonly IEvent eventHub;
+        private readonly IDispatcher dispatcher;
 
         /// <summary>
         /// 容器
@@ -97,11 +98,11 @@ namespace CatLib.Routing
         /// <summary>
         /// 创建一个新的路由器
         /// </summary>
-        /// <param name="eventHub">事件</param>
+        /// <param name="dispatcher">事件调度器</param>
         /// <param name="container">容器</param>
-        public Router(IEvent eventHub, IContainer container)
+        public Router(IDispatcher dispatcher, IContainer container)
         {
-            this.eventHub = eventHub;
+            this.dispatcher = dispatcher;
             this.container = container;
             schemes = new Dictionary<string, Scheme>();
             routeGroupStack = new Stack<IRouteGroup>();
@@ -348,13 +349,13 @@ namespace CatLib.Routing
         {
             lock (syncRoot)
             {
-                if (eventHub != null)
-                {
-                    eventHub.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
-                }
                 var compiler = container.Make<AttrRouteCompiler>();
                 if (compiler != null)
                 {
+                    if (dispatcher != null)
+                    {
+                        dispatcher.Trigger(RouterEvents.OnBeforeRouterAttrCompiler, this);
+                    }
                     compiler.Complie();
                 }
                 yield break;
@@ -522,9 +523,9 @@ namespace CatLib.Routing
         /// <returns>响应</returns>
         private IResponse RunRouteWithMiddleware(Route route, Request request, Response response)
         {
-            if (eventHub != null)
+            if (dispatcher != null)
             {
-                eventHub.Trigger(RouterEvents.OnDispatcher, this, new DispatchEventArgs(route, request));
+                dispatcher.Trigger(RouterEvents.OnDispatcher, new DispatchEventArgs(this, route, request));
             }
 
             if (middleware != null)

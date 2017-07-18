@@ -19,6 +19,11 @@ namespace CatLib.API.Routing
     public sealed class DispatchEventArgs : EventArgs
     {
         /// <summary>
+        /// 路由器
+        /// </summary>
+        public IRouter Router { get; private set; }
+
+        /// <summary>
         /// 异常
         /// </summary>
         public IRoute Route { get; private set; }
@@ -31,10 +36,12 @@ namespace CatLib.API.Routing
         /// <summary>
         /// 请求
         /// </summary>
+        /// <param name="router">路由器</param>
         /// <param name="route">路由</param>
         /// <param name="request">请求</param>
-        public DispatchEventArgs(IRoute route, IRequest request)
+        public DispatchEventArgs(IRouter router, IRoute route, IRequest request)
         {
+            Router = router;
             Route = route;
             Request = request;
         }

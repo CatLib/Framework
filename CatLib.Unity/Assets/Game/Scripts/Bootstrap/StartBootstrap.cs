@@ -24,7 +24,7 @@ namespace CatLib.Bootstrap
         /// </summary>
         public void Bootstrap()
         {
-            App.Instance.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.Instance.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 if (Router.Instance != null)
                 {

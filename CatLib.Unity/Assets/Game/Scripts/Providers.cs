@@ -14,6 +14,7 @@ using CatLib.Time;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Debugger;
+using CatLib.Events;
 using CatLib.FileSystem;
 using CatLib.Json;
 using CatLib.Routing;
@@ -45,7 +46,8 @@ namespace CatLib.Bootstrap
                     new FileSystemProvider(),
                     new TranslationProvider(), 
                     new DebuggerProvider(), 
-                    new JsonProvider(), 
+                    new JsonProvider(),
+                    new EventsProvider(), 
                 };
             }
         }

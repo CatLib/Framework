@@ -100,6 +100,7 @@
     <Compile Include="Debugger\WebLog\Controller\LogTests.cs" />
     <Compile Include="Debugger\WebLog\Controller\UtilTests.cs" />
     <Compile Include="Debugger\WebMonitor\Controller\MonitorTests.cs" />
+    <Compile Include="Events\EventsProviderTests.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="Debugger\WebConsole\HttpListenerTests.cs" />
     <Compile Include="Json\JsonProviderTests.cs" />
@@ -112,7 +113,6 @@
     <Compile Include="Core\ContainerHelperTests.cs" />
     <Compile Include="Core\DriverTests.cs" />
     <Compile Include="Core\FacaedTests.cs" />
-    <Compile Include="Core\EventImplTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FileSystem\Adapter\LocalTests.cs" />
     <Compile Include="FileSystem\HandlerTests.cs" />
@@ -137,6 +137,7 @@
     <Compile Include="Stl\QuickList\QuickListTests.cs" />
     <Compile Include="Stl\SortSet\SortSetTests.cs" />
     <Compile Include="Stl\Template\SingleManagerTests.cs" />
+    <Compile Include="Stl\Util\StrTests.cs" />
     <Compile Include="Timer\TimerProviderTests.cs" />
     <Compile Include="Time\TimeProviderTests.cs" />
     <Compile Include="Translation\SelectorTests.cs" />

@@ -12,13 +12,14 @@
 using CatLib.API.Stl;
 using System;
 using System.Collections;
+using CatLib.API.Events;
 
 namespace CatLib.API
 {
     /// <summary>
     /// 应用程序接口
     /// </summary>
-    public interface IApplication : IContainer, IEvent
+    public interface IApplication : IContainer, IDispatcher
     {
         /// <summary>
         /// CatLib版本号
