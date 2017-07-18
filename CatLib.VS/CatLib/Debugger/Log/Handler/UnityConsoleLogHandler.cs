@@ -12,6 +12,7 @@
 using CatLib.API.Debugger;
 using System;
 using System.Collections.Generic;
+using CatLib.API;
 using UnityEngine;
 
 namespace CatLib.Debugger.Log.Handler
@@ -19,6 +20,7 @@ namespace CatLib.Debugger.Log.Handler
     /// <summary>
     /// Unity控制台日志处理器
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class UnityConsoleLogHandler : ILogHandler
     {
         /// <summary>

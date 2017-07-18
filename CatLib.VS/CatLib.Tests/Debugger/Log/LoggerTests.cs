@@ -35,7 +35,7 @@ namespace CatLib.Tests.Debugger.Log
             /// <param name="log"></param>
             public void Handler(ILogEntry log)
             {
-                logLevel = log.Message;
+                logLevel = log.Level + log.Message;
             }
         }
 
@@ -139,7 +139,7 @@ namespace CatLib.Tests.Debugger.Log
 
             var result = doLogger(logger);
 
-            Assert.AreEqual(result + "helloworld", logLevel);
+            Assert.AreEqual(result + result + "helloworld", logLevel);
         }
     }
 }
