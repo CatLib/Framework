@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
@@ -19,7 +18,7 @@ using CatLib.Debugger.Log.Handler;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebLog;
 using CatLib.Debugger.WebMonitor;
-using System.Collections;
+using CatLib.Debugger.WebMonitorContent;
 
 namespace CatLib.Debugger
 {
@@ -45,6 +44,21 @@ namespace CatLib.Debugger
                 
                 App.Make<LogStore>();
                 App.Make<MonitorStore>();
+
+                if (config == null || config.Default.Get("debugger.webconsole.monitor.fps", true))
+                {
+                    App.Make<FpsMonitor>();
+                }
+
+                if (config == null || config.Default.Get("debugger.webconsole.monitor.heap", true))
+                {
+                    App.Make<HeapMemoryMonitor>();
+                }
+
+                if (config == null || config.Default.Get("debugger.webconsole.monitor.total_memory", true))
+                {
+                    App.Make<TotalAllocatedMemoryMonitor>();
+                }
             }
         }
 
@@ -57,6 +71,7 @@ namespace CatLib.Debugger
             RegisterWebConsole();
             RegisterWebMonitor();
             RegisterWebLog();
+            RegisterWebMonitorContent();
         }
 
         /// <summary>
@@ -121,7 +136,16 @@ namespace CatLib.Debugger
         {
             App.Singleton<LogStore>();
         }
+
+        /// <summary>
+        /// 注册Web监控
+        /// </summary>
+        private void RegisterWebMonitorContent()
+        {
+            App.Singleton<FpsMonitor>();
+            App.Singleton<HeapMemoryMonitor>();
+            App.Singleton<TotalAllocatedMemoryMonitor>();
+        }
     }
 }
-
 #endif

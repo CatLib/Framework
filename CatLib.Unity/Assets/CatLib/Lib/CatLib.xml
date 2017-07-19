@@ -1222,6 +1222,11 @@
             注册Web调试服务
             </summary>
         </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebMonitorContent">
+            <summary>
+            注册Web监控
+            </summary>
+        </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
             <summary>
             Fps监控

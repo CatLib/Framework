@@ -32,6 +32,9 @@ namespace CatLib.Tests.Debugger
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
             app.Make<IConfigManager>().Default.Set("debugger.logger.handler.unity", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.fps", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.heap", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.total_memory", false);
             app.Init();
             return app;
         }
