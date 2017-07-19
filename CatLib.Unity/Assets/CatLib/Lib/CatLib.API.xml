@@ -227,30 +227,56 @@
             当释放完成后
             </summary>
         </member>
-        <member name="T:CatLib.API.DebugLevels">
+        <member name="T:CatLib.API.Environment.DebugLevels">
             <summary>
             调试等级
             </summary>
         </member>
-        <member name="F:CatLib.API.DebugLevels.Prod">
+        <member name="F:CatLib.API.Environment.DebugLevels.Prod">
             <summary>
             生产环境
             </summary>
         </member>
-        <member name="F:CatLib.API.DebugLevels.Staging">
+        <member name="F:CatLib.API.Environment.DebugLevels.Staging">
             <summary>
             仿真环境
             </summary>
         </member>
-        <member name="F:CatLib.API.DebugLevels.Dev">
+        <member name="F:CatLib.API.Environment.DebugLevels.Dev">
             <summary>
             开发者模式（在移动设备上允许开启调试）
             </summary>
         </member>
-        <member name="F:CatLib.API.DebugLevels.Auto">
+        <member name="F:CatLib.API.Environment.DebugLevels.Auto">
             <summary>
             自动模式（如果在编辑器模式下则使用开发者模式（非仿真环境）如果发布则使用生产环境）
             </summary>
+        </member>
+        <member name="T:CatLib.API.Environment.IEnvironment">
+            <summary>
+            环境
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Environment.IEnvironment.DebugLevel">
+            <summary>
+            调试等级
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Environment.IEnvironment.AssetPath">
+            <summary>
+            系统资源路径
+            <para>不同的调试等级下对应不同的资源路径(如Unity环境:)</para>
+            <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
+            <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
+            <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>
+            <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Environment.IEnvironment.SetAssetPath(System.String)">
+            <summary>
+            设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
+            </summary>
+            <param name="path">路径</param>
         </member>
         <member name="T:CatLib.API.Events.IDispatcher">
             <summary>
@@ -486,7 +512,6 @@
         <member name="M:CatLib.API.IApplication.Attach(System.Object)">
             <summary>
             如果对象实现了增强接口那么将对象装载进对应驱动器
-            在装载的时候会引发IStart接口
             </summary>
             <param name="obj">对象</param>
         </member>
@@ -498,32 +523,6 @@
             <param name="type">获取优先级的类型</param>
             <param name="method">获取优先级的调用方法</param>
             <returns>优先级</returns>
-        </member>
-        <member name="T:CatLib.API.IEnv">
-            <summary>
-            环境
-            </summary>
-        </member>
-        <member name="P:CatLib.API.IEnv.DebugLevel">
-            <summary>
-            调试等级
-            </summary>
-        </member>
-        <member name="P:CatLib.API.IEnv.AssetPath">
-            <summary>
-            系统资源路径
-            <para>不同的调试等级下对应不同的资源路径</para>
-            <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
-            <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
-            <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>
-            <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
-            </summary>
-        </member>
-        <member name="M:CatLib.API.IEnv.SetAssetPath(System.String)">
-            <summary>
-            设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
-            </summary>
-            <param name="path">路径</param>
         </member>
         <member name="T:CatLib.API.ServiceProvider">
             <summary>

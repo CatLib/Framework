@@ -23,7 +23,7 @@ using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribu
 #endif
 
 
-namespace CatLib.Tests.Core
+namespace CatLib.Tests
 {
     [TestClass]
     public class DriverTests

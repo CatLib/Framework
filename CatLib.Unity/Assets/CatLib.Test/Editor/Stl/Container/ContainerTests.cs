@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API;
-
+using CatLib.Stl;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -628,7 +628,7 @@ namespace CatLib.Tests.Stl
         public void MakeBaseAssemblyToGetType()
         {
             var container = MakeContainer();
-            var cont = container.Make<CatLib.Stl.Container>();
+            var cont = container.Make<Container>();
             Assert.AreNotEqual(null, cont);
         }
 
@@ -1282,9 +1282,9 @@ namespace CatLib.Tests.Stl
         /// 生成容器
         /// </summary>
         /// <returns>容器</returns>
-        private CatLib.Stl.Container MakeContainer()
+        private Container MakeContainer()
         {
-            var container = new CatLib.Stl.Container();
+            var container = new Container();
             return container;
         }
     }

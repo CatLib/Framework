@@ -44,7 +44,7 @@ namespace CatLib.Tests.FileSystem
             /// </summary>
             /// <param name="fileSystem">文件系统</param>
             /// <param name="path">文件夹路径</param>
-            public HandlerTest(CatLib.FileSystem.FileSystem fileSystem, string path) :
+            public HandlerTest(global::CatLib.FileSystem.FileSystem fileSystem, string path) :
                 base(fileSystem, path)
             {
             }
@@ -138,7 +138,7 @@ namespace CatLib.Tests.FileSystem
 
         private void Env(Action action)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
             if (SIO.Directory.Exists(path))
             {
                 SIO.Directory.Delete(path, true);
@@ -149,8 +149,8 @@ namespace CatLib.Tests.FileSystem
             local.MakeDir("TestHandler");
             local.Write("TestHandler/InFile", GetByte("hello world"));
             local.Write("TestFileHandler", GetByte("hello world"));
-            handlerDir = new HandlerTest(new CatLib.FileSystem.FileSystem(local), "TestHandler");
-            handlerFile = new HandlerTest(new CatLib.FileSystem.FileSystem(local), "TestFileHandler");
+            handlerDir = new HandlerTest(new global::CatLib.FileSystem.FileSystem(local), "TestHandler");
+            handlerFile = new HandlerTest(new global::CatLib.FileSystem.FileSystem(local), "TestFileHandler");
 
             Assert.AreEqual(true, handlerDir.IsExists);
             Assert.AreEqual(true, handlerFile.IsExists);

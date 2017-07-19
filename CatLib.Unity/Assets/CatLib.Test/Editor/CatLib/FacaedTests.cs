@@ -21,7 +21,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
-namespace CatLib.Tests.Core
+namespace CatLib.Tests
 {
     [TestClass]
     public class FacaedTests

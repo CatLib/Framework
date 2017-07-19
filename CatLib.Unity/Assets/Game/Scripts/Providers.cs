@@ -14,6 +14,7 @@ using CatLib.Time;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Debugger;
+using CatLib.Environment;
 using CatLib.Events;
 using CatLib.FileSystem;
 using CatLib.Json;
@@ -39,7 +40,7 @@ namespace CatLib.Bootstrap
                 {
                     new ConvertersProvider(), 
                     new TimeProvider(),
-                    new CoreProvider(),
+                    new EnvironmentProvider(),
                     new TimerProvider(),
                     new ConfigProvider(),
                     new RoutingProvider(),

@@ -10,7 +10,8 @@
  */
 
 using CatLib.API;
-
+using CatLib.API.Environment;
+using CatLib.Environment;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -20,7 +21,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
-namespace CatLib.Tests.Core
+namespace CatLib.Tests.Environment
 {
     [TestClass]
     public class EnvTests
@@ -28,7 +29,7 @@ namespace CatLib.Tests.Core
         [TestMethod]
         public void TestSetDebugLevel()
         {
-            var env = new Env();
+            var env = new UnityEnvironment();
             env.SetDebugLevel(DebugLevels.Prod);
 
             Assert.AreEqual(DebugLevels.Prod, env.DebugLevel);

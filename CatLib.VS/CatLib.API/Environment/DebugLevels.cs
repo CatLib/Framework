@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API
+namespace CatLib.API.Environment
 {
     /// <summary>
     /// 调试等级

@@ -94,7 +94,7 @@
     <Compile Include="Converters\Plan\UInt16StringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt32StringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt64StringConverterTests.cs" />
-    <Compile Include="Core\EnvTests.cs" />
+    <Compile Include="Environment\EnvTests.cs" />
     <Compile Include="Debugger\DebuggerHelper.cs" />
     <Compile Include="Debugger\Log\LoggerTests.cs" />
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsoleTests.cs" />
@@ -110,10 +110,10 @@
     <Compile Include="Stl\Container\BindDataTests.cs" />
     <Compile Include="Stl\Container\ContainerTests.cs" />
     <Compile Include="Stl\Container\GivenDataTests.cs" />
-    <Compile Include="Core\ApplicationTests.cs" />
-    <Compile Include="Core\ContainerHelperTests.cs" />
-    <Compile Include="Core\DriverTests.cs" />
-    <Compile Include="Core\FacaedTests.cs" />
+    <Compile Include="CatLib\ApplicationTests.cs" />
+    <Compile Include="CatLib\ContainerHelperTests.cs" />
+    <Compile Include="CatLib\DriverTests.cs" />
+    <Compile Include="CatLib\FacaedTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FileSystem\Adapter\LocalTests.cs" />
     <Compile Include="FileSystem\HandlerTests.cs" />

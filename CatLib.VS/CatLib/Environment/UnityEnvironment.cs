@@ -10,14 +10,15 @@
  */
 
 using CatLib.API;
+using CatLib.API.Environment;
 using System.IO;
 
-namespace CatLib
+namespace CatLib.Environment
 {
     /// <summary>
-    /// 环境
+    /// Unity环境
     /// </summary>
-    internal sealed class Env : IEnv
+    internal sealed class UnityEnvironment : IEnvironment
     {
         /// <summary>
         /// 调试等级
@@ -55,7 +56,7 @@ namespace CatLib
         /// <summary>
         /// 构造一个环境
         /// </summary>
-        public Env()
+        public UnityEnvironment()
         {
             SetDebugLevel(DebugLevels.Auto);
         }

@@ -14,9 +14,11 @@ using System.Collections;
 using System.IO;
 using CatLib.API;
 using CatLib.API.Config;
+using CatLib.API.Environment;
 using CatLib.API.FileSystem;
 using CatLib.Config;
 using CatLib.Converters;
+using CatLib.Environment;
 using CatLib.FileSystem;
 using CatLib.FileSystem.Adapter;
 using SIO = System.IO;
@@ -42,8 +44,8 @@ namespace CatLib.Tests.FileSystem
         {
             public override IEnumerator Init()
             {
-                var path = Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
-                App.Make<IEnv>().SetAssetPath(path);
+                var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
+                App.Make<IEnvironment>().SetAssetPath(path);
                 yield return base.Init();
             }
 
@@ -53,7 +55,7 @@ namespace CatLib.Tests.FileSystem
         [TestInitialize]
         public void TestInitialize()
         {
-            var path = SIO.Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            var path = SIO.Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
             if (SIO.Directory.Exists(path))
             {
                 SIO.Directory.Delete(path, true);
@@ -64,7 +66,7 @@ namespace CatLib.Tests.FileSystem
                 return Type.GetType(t);
             });
             app.Register(new FileSystemProvider());
-            app.Register(new CoreProvider());
+            app.Register(new EnvironmentProvider());
             app.Register(new PrepareEnv());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
@@ -89,7 +91,7 @@ namespace CatLib.Tests.FileSystem
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 var storage = App.Instance.Make<IFileSystemManager>();
-                storage.Extend(() => new CatLib.FileSystem.FileSystem(new Local(App.Instance.Make<IEnv>().AssetPath)));
+                storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(App.Instance.Make<IEnvironment>().AssetPath)));
             });
         }
 
@@ -99,7 +101,7 @@ namespace CatLib.Tests.FileSystem
             TestInitialize();
 
             var storage = App.Instance.Make<IFileSystemManager>();
-            storage.Extend(() => new CatLib.FileSystem.FileSystem(new Local( Path.Combine(App.Instance.Make<IEnv>().AssetPath, "DefaultConfigTest"))) , "local-2");
+            storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local( Path.Combine(App.Instance.Make<IEnvironment>().AssetPath, "DefaultConfigTest"))) , "local-2");
 
             var config = App.Instance.Make<IConfigManager>();
             config.Get().Set("filesystems.default" , "local-2");

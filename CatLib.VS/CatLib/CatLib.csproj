@@ -113,6 +113,8 @@
     <Compile Include="Debugger\WebLog\Controller\Util.cs" />
     <Compile Include="Debugger\WebLog\LogStore.cs" />
     <Compile Include="Debugger\WebLog\LogHandler\WebLogHandler.cs" />
+    <Compile Include="Environment\EnvironmentProvider.cs" />
+    <Compile Include="Environment\UnityEnvironment.cs" />
     <Compile Include="Events\Dispatcher.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\EventsProvider.cs" />
@@ -145,10 +147,8 @@
     <Compile Include="Stl\Container\ContainerExpand.cs" />
     <Compile Include="Stl\Container\GivenData.cs" />
     <Compile Include="CatLib\Application.cs" />
-    <Compile Include="CatLib\CoreProvider.cs" />
     <Compile Include="CatLib\Driver.cs" />
     <Compile Include="CatLib\DriverBehaviour.cs" />
-    <Compile Include="CatLib\Env.cs" />
     <Compile Include="CatLib\Facade.cs" />
     <Compile Include="Stl\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -196,6 +196,7 @@
     <None Include="Converters\catlib.json" />
     <None Include="CatLib\catlib.json" />
     <None Include="Debugger\catlib.json" />
+    <None Include="Environment\catlib.json" />
     <None Include="Events\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />

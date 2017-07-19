@@ -1922,6 +1922,65 @@
             注册默认的配置
             </summary>
         </member>
+        <member name="T:CatLib.Environment.EnvironmentProvider">
+            <summary>
+            核心服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.EnvironmentProvider.Register">
+            <summary>
+            注册核心服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.Environment.UnityEnvironment">
+            <summary>
+            Unity环境
+            </summary>
+        </member>
+        <member name="P:CatLib.Environment.UnityEnvironment.DebugLevel">
+            <summary>
+            调试等级
+            </summary>
+        </member>
+        <member name="F:CatLib.Environment.UnityEnvironment.assetPath">
+            <summary>
+            资源路径
+            </summary>
+        </member>
+        <member name="P:CatLib.Environment.UnityEnvironment.AssetPath">
+            <summary>
+            系统资源路径
+            <para>不同的调试等级下对应不同的资源路径</para>
+            <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
+            <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
+            <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>
+            <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
+            <para>如果开发者有手动设置资源路径，将使用开发者设置的路径</para>
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.#ctor">
+            <summary>
+            构造一个环境
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.GetAssetPathWithUnity">
+            <summary>
+            从Unity获取资源路径
+            </summary>
+            <returns>资源路径</returns>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.SetDebugLevel(CatLib.API.Environment.DebugLevels)">
+            <summary>
+            设定调试等级
+            </summary>
+            <param name="level">调试等级</param>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.SetAssetPath(System.String)">
+            <summary>
+            设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
+            </summary>
+            <param name="path">路径</param>
+        </member>
         <member name="T:CatLib.Events.Dispatcher">
             <summary>
             事件调度器
@@ -6054,122 +6113,6 @@
             <param name="str">输入</param>
             <returns>输出</returns>
         </member>
-        <member name="T:CatLib.ContainerExpand">
-            <summary>
-             容器拓展
-             </summary>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``2(CatLib.API.Stl.IContainer)">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind``2(CatLib.API.Stl.IContainer)">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.MakeParams``1(CatLib.API.Stl.IContainer,System.Object[])">
-            <summary>
-            构造一个服务，允许传入构造参数
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="param">构造参数</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            构造一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Stl.IContainer,System.String)">
-            <summary>
-            构造一个服务
-            </summary>
-            <typeparam name="TConvert">服务实例转换到的类型</typeparam>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Release``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            释放服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Instance``1(CatLib.API.Stl.IContainer,System.Object)">
-            <summary>
-            静态化一个服务,实例值会经过解决修饰器
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="instance">实例值</param>
-        </member>
         <member name="T:CatLib.Application">
             <summary>
             CatLib程序
@@ -6280,16 +6223,6 @@
             启动服务提供者启动流程
             </summary>
             <returns>迭代器</returns>
-        </member>
-        <member name="T:CatLib.CoreProvider">
-            <summary>
-            核心服务提供者
-            </summary>
-        </member>
-        <member name="M:CatLib.CoreProvider.Register">
-            <summary>
-            注册核心服务提供者
-            </summary>
         </member>
         <member name="T:CatLib.Driver">
             <summary>
@@ -6544,55 +6477,6 @@
             <summary>
             当释放时
             </summary>
-        </member>
-        <member name="T:CatLib.Env">
-            <summary>
-            环境
-            </summary>
-        </member>
-        <member name="P:CatLib.Env.DebugLevel">
-            <summary>
-            调试等级
-            </summary>
-        </member>
-        <member name="F:CatLib.Env.assetPath">
-            <summary>
-            资源路径
-            </summary>
-        </member>
-        <member name="P:CatLib.Env.AssetPath">
-            <summary>
-            系统资源路径
-            <para>不同的调试等级下对应不同的资源路径</para>
-            <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
-            <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
-            <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>
-            <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
-            <para>如果开发者有手动设置资源路径，将使用开发者设置的路径</para>
-            </summary>
-        </member>
-        <member name="M:CatLib.Env.#ctor">
-            <summary>
-            构造一个环境
-            </summary>
-        </member>
-        <member name="M:CatLib.Env.GetAssetPathWithUnity">
-            <summary>
-            从Unity获取资源路径
-            </summary>
-            <returns>资源路径</returns>
-        </member>
-        <member name="M:CatLib.Env.SetDebugLevel(CatLib.API.DebugLevels)">
-            <summary>
-            设定调试等级
-            </summary>
-            <param name="level">调试等级</param>
-        </member>
-        <member name="M:CatLib.Env.SetAssetPath(System.String)">
-            <summary>
-            设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
-            </summary>
-            <param name="path">路径</param>
         </member>
         <member name="T:CatLib.Facade`1">
             <summary>
@@ -7591,6 +7475,122 @@
             Determines if a given object is numeric in any way
             (can be integer, double, null, etc).
             </summary>
+        </member>
+        <member name="T:ContainerExpand">
+            <summary>
+             容器拓展
+             </summary>
+        </member>
+        <member name="M:ContainerExpand.Singleton(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <param name="container">服务容器</param>
+            <param name="service">服务名</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.Singleton``2(CatLib.API.Stl.IContainer)">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <typeparam name="TConcrete">服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.Bind``2(CatLib.API.Stl.IContainer)">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <typeparam name="TConcrete">服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.Bind``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.Bind``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.Bind(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <param name="container">服务容器</param>
+            <param name="service">服务名</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:ContainerExpand.MakeParams``1(CatLib.API.Stl.IContainer,System.Object[])">
+            <summary>
+            构造一个服务，允许传入构造参数
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="param">构造参数</param>
+            <returns>服务实例</returns>
+        </member>
+        <member name="M:ContainerExpand.Make``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            构造一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务实例</returns>
+        </member>
+        <member name="M:ContainerExpand.Make``1(CatLib.API.Stl.IContainer,System.String)">
+            <summary>
+            构造一个服务
+            </summary>
+            <typeparam name="TConvert">服务实例转换到的类型</typeparam>
+            <param name="container">服务容器</param>
+            <param name="service">服务名</param>
+            <returns>服务实例</returns>
+        </member>
+        <member name="M:ContainerExpand.Release``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            释放服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+        </member>
+        <member name="M:ContainerExpand.Instance``1(CatLib.API.Stl.IContainer,System.Object)">
+            <summary>
+            静态化一个服务,实例值会经过解决修饰器
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="instance">实例值</param>
         </member>
     </members>
 </doc>

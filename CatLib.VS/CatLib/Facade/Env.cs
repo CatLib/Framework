@@ -9,14 +9,14 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
+using CatLib.API.Environment;
 
 namespace CatLib.Facade
 {
     /// <summary>
     /// 环境
     /// </summary>
-    public sealed class Env : Facade<IEnv>
+    public sealed class Env : Facade<IEnvironment>
     {
     }
 }

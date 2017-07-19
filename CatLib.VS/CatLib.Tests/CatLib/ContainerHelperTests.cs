@@ -10,6 +10,7 @@
  */
 
 using System;
+using CatLib.Stl;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -20,7 +21,7 @@ using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribu
 #endif
 
 
-namespace CatLib.Tests.Core
+namespace CatLib.Tests
 {
     [TestClass]
     public class ContainerHelperTests
@@ -107,9 +108,9 @@ namespace CatLib.Tests.Core
         /// 生成容器
         /// </summary>
         /// <returns>容器</returns>
-        private CatLib.Stl.Container MakeContainer()
+        private Container MakeContainer()
         {
-            var container = new CatLib.Stl.Container();
+            var container = new Container();
             container.Instance("ContainerHelperTests", this);
             container.Instance(container.Type2Service(typeof(ContainerHelperTests)), this);
             return container;

@@ -9,12 +9,12 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API
+namespace CatLib.API.Environment
 {
     /// <summary>
     /// 环境
     /// </summary>
-    public interface IEnv
+    public interface IEnvironment
     {
         /// <summary>
         /// 调试等级
@@ -23,7 +23,7 @@ namespace CatLib.API
 
         /// <summary>
         /// 系统资源路径
-        /// <para>不同的调试等级下对应不同的资源路径</para>
+        /// <para>不同的调试等级下对应不同的资源路径(如Unity环境:)</para>
         /// <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
         /// <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
         /// <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>

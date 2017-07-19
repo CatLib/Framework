@@ -25,7 +25,7 @@ using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribu
 #endif
 
 
-namespace CatLib.Tests.Core
+namespace CatLib.Tests
 {
     [TestClass]
     public class ApplicationTests
@@ -130,7 +130,7 @@ namespace CatLib.Tests.Core
 
         private class ProviderTest1 : ServiceProvider
         {
-            [CatLib.API.Priority(10)]
+            [API.Priority(10)]
             public override IEnumerator Init()
             {
                 prioritiesTest = true;
@@ -143,7 +143,7 @@ namespace CatLib.Tests.Core
             }
         }
 
-        [CatLib.API.Priority(5)]
+        [API.Priority(5)]
         private class ProviderTest2 : ServiceProvider
         {
             public override IEnumerator Init()

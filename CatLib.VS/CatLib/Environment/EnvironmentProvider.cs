@@ -12,22 +12,23 @@
 #if CATLIB
 using CatLib.API;
 using CatLib.API.Config;
+using CatLib.API.Environment;
 
-namespace CatLib
+namespace CatLib.Environment
 {
     /// <summary>
     /// 核心服务提供者
     /// </summary>
-    public sealed class CoreProvider : ServiceProvider
+    public sealed class EnvironmentProvider : ServiceProvider
     {
         /// <summary>
         /// 注册核心服务提供者
         /// </summary>
         public override void Register()
         {
-            App.Singleton<Env>().Alias<IEnv>().OnResolving((bind, obj) =>
+            App.Singleton<UnityEnvironment>().Alias<IEnvironment>().OnResolving((bind, obj) =>
             {
-                var env = obj as Env;
+                var env = obj as UnityEnvironment;
 
                 var configManager = App.Make<IConfigManager>();
                 if (configManager == null)
@@ -39,7 +40,7 @@ namespace CatLib
                 env.SetAssetPath(configManager.Get().Get("env.asset.path", string.Empty));
 
                 return obj;
-            }).Alias("catlib.env");
+            }).Alias("catlib.environment.unity");
         }
     }
 }

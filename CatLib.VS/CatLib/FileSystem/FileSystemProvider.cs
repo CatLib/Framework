@@ -12,6 +12,7 @@
 #if CATLIB
 using System.Collections;
 using CatLib.API;
+using CatLib.API.Environment;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;
 
@@ -67,7 +68,7 @@ namespace CatLib.FileSystem
         private void InitRegisterLocalDriver()
         {
             var storage = App.Make<IFileSystemManager>();
-            var env = App.Make<IEnv>();
+            var env = App.Make<IEnvironment>();
 
             if (env != null)
             {

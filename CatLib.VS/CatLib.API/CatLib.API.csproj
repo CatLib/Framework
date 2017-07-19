@@ -56,7 +56,8 @@
     <Compile Include="Converters\IConvertersManager.cs" />
     <Compile Include="CatLib\App.cs" />
     <Compile Include="CatLib\ApplicationEvents.cs" />
-    <Compile Include="CatLib\DebugLevels.cs" />
+    <Compile Include="Environment\DebugLevels.cs" />
+    <Compile Include="Environment\IEnvironment.cs" />
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
     <Compile Include="Support\Exception\AssertException.cs" />
@@ -65,11 +66,10 @@
     <Compile Include="Support\Behaviour\ILateUpdate.cs" />
     <Compile Include="Support\Behaviour\IUpdate.cs" />
     <Compile Include="Support\Developer\ExcludeFromCodeCoverageAttribute.cs" />
-    <Compile Include="CatLib\Features\IBootstrap.cs" />
+    <Compile Include="CatLib\IBootstrap.cs" />
     <Compile Include="CatLib\IServiceProvider.cs" />
     <Compile Include="Support\PriorityAttribute.cs" />
     <Compile Include="CatLib\IApplication.cs" />
-    <Compile Include="CatLib\IEnv.cs" />
     <Compile Include="CatLib\ServiceProvider.cs" />
     <Compile Include="Debugger\Exception\InvalidArgumentException.cs" />
     <Compile Include="Debugger\ILogger.cs" />
