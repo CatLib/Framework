@@ -9,11 +9,9 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 using CatLib.API;
 using CatLib.API.MonoDriver;
-
-#if CATLIB
-
 
 namespace CatLib.Routing
 {

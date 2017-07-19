@@ -23,7 +23,7 @@ namespace CatLib
     /// <summary>
     /// CatLib程序
     /// </summary>
-    public sealed class Application : Container, IApplication
+    public class Application : Container, IApplication
     {
         /// <summary>
         /// CatLib版本号
@@ -137,8 +137,10 @@ namespace CatLib
         [ExcludeFromCodeCoverage]
         public Application(Component behaviour = null)
         {
+            App.Instance = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
             Instance(Type2Service(typeof(Component)), behaviour);
+            RegisterCoreAlias();
         }
 
         /// <summary>
@@ -157,9 +159,6 @@ namespace CatLib
             }
 
             process = StartProcess.Bootstrap;
-            App.Instance = this;
-
-            RegisterCoreAlias();
 
             foreach (var bootstrap in bootstraps)
             {

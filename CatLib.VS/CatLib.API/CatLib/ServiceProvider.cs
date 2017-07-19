@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-
 namespace CatLib.API
 {
     /// <summary>
