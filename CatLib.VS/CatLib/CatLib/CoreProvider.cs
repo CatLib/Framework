@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 using CatLib.API;
 using CatLib.API.Config;
 
@@ -42,3 +43,4 @@ namespace CatLib
         }
     }
 }
+#endif

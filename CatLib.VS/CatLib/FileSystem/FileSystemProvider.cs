@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 using System.Collections;
 using CatLib.API;
 using CatLib.API.FileSystem;
@@ -75,3 +76,4 @@ namespace CatLib.FileSystem
         }
     }
 }
+#endif

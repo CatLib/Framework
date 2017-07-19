@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
+
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
@@ -122,3 +124,5 @@ namespace CatLib.Debugger
         }
     }
 }
+
+#endif
