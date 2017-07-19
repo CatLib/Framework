@@ -12,10 +12,12 @@
 using System;
 using CatLib.API;
 using CatLib.API.Config;
+using CatLib.API.MonoDriver;
 using CatLib.API.Time;
 using CatLib.API.Timer;
 using CatLib.Config;
 using CatLib.Converters;
+using CatLib.Routing;
 using CatLib.Time;
 using CatLib.Timer;
 #if UNITY_EDITOR || NUNIT
@@ -129,6 +131,7 @@ namespace CatLib.Tests.Timer
             app.Register(new TimeProvider());
             app.Register(new ConfigProvider());
             app.Register(new TimerProvider());
+            app.Register(new MonoDriverProvider());
             app.Register(new ConvertersProvider());
             app.Init();
 
@@ -150,30 +153,31 @@ namespace CatLib.Tests.Timer
             }).Delay(1);
 
             var app = App.Instance as Application;
+            var driver = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
 
             //0.25
             Assert.AreEqual(false, statu);
             NextFrame();
-            app.Update();
+            driver.Update();
 
             //0.5
             Assert.AreEqual(false, statu);
             NextFrame();
-            app.Update();
+            driver.Update();
 
             //0.75
             Assert.AreEqual(false, statu);
             NextFrame();
-            app.Update();
+            driver.Update();
 
             //1.0
             Assert.AreEqual(false, statu);
             NextFrame();
-            app.Update();
+            driver.Update();
 
             Assert.AreEqual(true, statu);
             NextFrame();
-            app.Update();
+            driver.Update();
 
             Assert.AreEqual(true, statu);
         }
@@ -750,12 +754,13 @@ namespace CatLib.Tests.Timer
         private void RunTime(IApplication app, float time)
         {
             var application = app as Application;
+            var driver = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
             var num = Math.Ceiling(time / 0.25f);
 
             for (int i = 0; i < num; i++)
             {
                 NextFrame();
-                application.Update();
+                driver.Update();
             }
         }
 
@@ -767,10 +772,11 @@ namespace CatLib.Tests.Timer
         private void RunFrame(IApplication app, int frame)
         {
             var application = app as Application;
+            var driver = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
             for (var i = 0; i < frame; i++)
             {
                 NextFrame();
-                application.Update();
+                driver.Update();
             }
         }
 

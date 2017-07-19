@@ -40,6 +40,7 @@ namespace CatLib.Bootstrap
                 {
                     new ConvertersProvider(), 
                     new TimeProvider(),
+                    new MonoDriverProvider(), 
                     new EnvironmentProvider(),
                     new TimerProvider(),
                     new ConfigProvider(),

@@ -28,9 +28,9 @@ namespace CatLib.Routing
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority]
-        public override IEnumerator Init()
+        public override void Init()
         {
-            return App.Make<Router>().RouterCompiler();
+            App.Make<Router>().RouterCompiler();
         }
 
         /// <summary>

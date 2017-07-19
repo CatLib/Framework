@@ -33,9 +33,8 @@ namespace CatLib.API
         /// 服务提供者初始化
         /// </summary>
         /// <returns>迭代器</returns>
-        public virtual IEnumerator Init()
+        public virtual void Init()
         {
-            yield break;
         }
 
         /// <summary>

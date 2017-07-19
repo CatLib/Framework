@@ -10,7 +10,7 @@ namespace CatLib.Demo.Timer
     /// </summary>
     public class TimerDemo : ServiceProvider
     {
-        public override IEnumerator Init()
+        public override void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -34,8 +34,6 @@ namespace CatLib.Demo.Timer
                     Debug.Log("loop frame tick: " + (++statu) + " / " + UnityEngine.Time.frameCount);
                 }).LoopFrame(3);
             });
-
-            yield return base.Init();
         }
 
         public override void Register()

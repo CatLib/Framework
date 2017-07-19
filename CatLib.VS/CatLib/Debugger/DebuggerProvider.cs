@@ -32,8 +32,8 @@ namespace CatLib.Debugger
         /// 初始化
         /// </summary>
         /// <returns>迭代器</returns>
-        [Priority(0)]
-        public override IEnumerator Init()
+        [Priority(5)]
+        public override void Init()
         {
             var config = App.Make<IConfigManager>();
             if (config == null || config.Default.Get("debugger.webconsole.enable", true))
@@ -46,7 +46,6 @@ namespace CatLib.Debugger
                 App.Make<LogStore>();
                 App.Make<MonitorStore>();
             }
-            return base.Init();
         }
 
         /// <summary>

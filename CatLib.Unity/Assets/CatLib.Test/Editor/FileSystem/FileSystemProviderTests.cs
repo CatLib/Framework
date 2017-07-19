@@ -42,11 +42,10 @@ namespace CatLib.Tests.FileSystem
 
         public class PrepareEnv : ServiceProvider
         {
-            public override IEnumerator Init()
+            public override void Init()
             {
                 var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
                 App.Make<IEnvironment>().SetAssetPath(path);
-                yield return base.Init();
             }
 
             public override void Register(){ }

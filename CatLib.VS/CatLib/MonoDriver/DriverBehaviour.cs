@@ -12,7 +12,7 @@
 using CatLib.API;
 using UnityEngine;
 
-namespace CatLib
+namespace CatLib.MonoDriver
 {
     /// <summary>
     /// 驱动脚本
@@ -23,7 +23,7 @@ namespace CatLib
         /// <summary>
         /// 驱动器
         /// </summary>
-        private Driver driver;
+        private MonoDriver driver;
 
         /// <summary>
         /// Awake
@@ -37,7 +37,7 @@ namespace CatLib
         /// 设定驱动器
         /// </summary>
         /// <param name="driver">驱动器</param>
-        public void SetDriver(Driver driver)
+        public void SetDriver(MonoDriver driver)
         {
             this.driver = driver;
         }

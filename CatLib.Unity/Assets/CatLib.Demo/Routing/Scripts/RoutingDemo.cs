@@ -20,8 +20,7 @@ namespace CatLib.Demo.Routing
 
     public class RoutingDemo : ServiceProvider
     {
-
-        public override IEnumerator Init()
+        public override void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -106,8 +105,6 @@ namespace CatLib.Demo.Routing
                 router.Dispatch("catlib://group-callback-routing/with-name-group-1");
 
             });
-
-            yield return base.Init();
         }
 
         public override void Register()

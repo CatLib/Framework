@@ -42,7 +42,7 @@ namespace CatLib.Demo.Translation
             }
         }
 
-        public override IEnumerator Init()
+        public override void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -57,8 +57,6 @@ namespace CatLib.Demo.Translation
                 UnityEngine.Debug.Log(translator.Get("npc_message_2"));
                 UnityEngine.Debug.Log(translator.Get("npc_message_3", "name", "catlib"));
             });
-
-            yield return base.Init();
         }
 
         public override void Register()

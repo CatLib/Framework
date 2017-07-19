@@ -18,8 +18,7 @@ namespace CatLib.Demo.FilterChain
 
     public class FilterChainDemo : ServiceProvider
     {
-
-        public override IEnumerator Init()
+        public override void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -49,8 +48,6 @@ namespace CatLib.Demo.FilterChain
                 filters.Do("hello world", (data) => UnityEngine.Debug.Log("filter end , " + data));
 
             });
-
-            yield return base.Init();
         }
 
         public override void Register(){ }

@@ -112,7 +112,7 @@
     <Compile Include="Stl\Container\GivenDataTests.cs" />
     <Compile Include="CatLib\ApplicationTests.cs" />
     <Compile Include="CatLib\ContainerHelperTests.cs" />
-    <Compile Include="CatLib\DriverTests.cs" />
+    <Compile Include="MonoDriver\DriverTests.cs" />
     <Compile Include="CatLib\FacaedTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FileSystem\Adapter\LocalTests.cs" />

@@ -22,7 +22,7 @@ namespace CatLib.API
         /// 服务提供者初始化
         /// </summary>
         /// <returns>迭代器</returns>
-        IEnumerator Init();
+        void Init();
 
         /// <summary>
         /// 当注册服务提供者

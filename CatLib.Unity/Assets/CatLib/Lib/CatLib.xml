@@ -2717,6 +2717,213 @@
             <param name="item">需要序列化的对象</param>
             <returns>json数据</returns>
         </member>
+        <member name="T:CatLib.MonoDriver.MonoDriver">
+            <summary>
+            Mono驱动器
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.update">
+            <summary>
+            更新
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.lateUpdate">
+            <summary>
+            延后更新
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.destroy">
+            <summary>
+            释放时需要调用的
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.loadSet">
+            <summary>
+            载入结果集
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.application">
+            <summary>
+            应用程序
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.behaviour">
+            <summary>
+            Mono驱动程序
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.syncRoot">
+            <summary>
+            同步锁
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.mainThreadDispatcherQueue">
+            <summary>
+            主线程调度队列
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.#ctor(CatLib.API.IApplication,UnityEngine.Component)">
+            <summary>
+            构建一个Mono驱动器
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.InitComponent(UnityEngine.Component)">
+            <summary>
+            初始化组件
+            </summary>
+            <param name="component">Unity组件</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnResolving(CatLib.API.Stl.IBindData,System.Object)">
+            <summary>
+            默认的解决事件
+            </summary>
+            <param name="binder">绑定数据</param>
+            <param name="obj">对象</param>
+            <returns>处理后的对象</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnRelease(CatLib.API.Stl.IBindData,System.Object)">
+            <summary>
+            默认的释放事件
+            </summary>
+            <param name="binder">绑定数据</param>
+            <param name="obj">对象</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.Detach(System.Object)">
+            <summary>
+            从驱动器中卸载对象
+            如果对象使用了增强接口，那么卸载对应增强接口
+            从驱动器中卸载对象会引发IDestroy增强接口
+            </summary>
+            <param name="obj">对象</param>
+            <exception cref="T:System.ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.Attach(System.Object)">
+            <summary>
+            如果对象实现了增强接口那么将对象装载进对应驱动器
+            </summary>
+            <param name="obj">对象</param>
+            <exception cref="T:System.ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.MainThread(System.Collections.IEnumerator)">
+            <summary>
+            在主线程中调用
+            </summary>
+            <param name="action">代码块执行会处于主线程</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.MainThread(System.Action)">
+            <summary>
+            在主线程中调用
+            </summary>
+            <param name="action">代码块执行会处于主线程</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.ActionWrapper(System.Action)">
+            <summary>
+            包装器
+            </summary>
+            <param name="action">回调函数</param>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            启动协程
+            </summary>
+            <param name="routine">协程内容</param>
+            <returns>协程</returns>
+            <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            停止协程
+            </summary>
+            <param name="routine">协程</param>
+            <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.Update">
+            <summary>
+            每帧更新
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.LateUpdate">
+            <summary>
+            每帧更新后
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.OnDestroy">
+            <summary>
+            当释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndRemove``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object)">
+            <summary>
+            转换到指定目标并且删除
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="sortset">有序集</param>
+            <param name="obj">对象</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndAdd``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object,System.String)">
+            <summary>
+            转换到指定目标并且添加
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="sortset">有序集</param>
+            <param name="obj">对象</param>
+            <param name="function">获取优先级的函数名</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="T:CatLib.MonoDriver.DriverBehaviour">
+            <summary>
+            驱动脚本
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.DriverBehaviour.driver">
+            <summary>
+            驱动器
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.Awake">
+            <summary>
+            Awake
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.SetDriver(CatLib.MonoDriver.MonoDriver)">
+            <summary>
+            设定驱动器
+            </summary>
+            <param name="driver">驱动器</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.Update">
+            <summary>
+            每帧更新时
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.LateUpdate">
+            <summary>
+            在每帧更新时之后
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.OnDestroy">
+            <summary>
+            当释放时
+            </summary>
+        </member>
+        <member name="T:CatLib.Routing.MonoDriverProvider">
+            <summary>
+            Mono驱动器服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Routing.MonoDriverProvider.Init">
+            <summary>
+            执行路由编译，路由编译总是最后进行的
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.Routing.MonoDriverProvider.Register">
+            <summary>
+            注册路由条目
+            </summary>
+        </member>
         <member name="T:CatLib.Routing.ExceptionRequest">
             <summary>
             请求(由于某些异常导致请求都无法被构建所以我们提供一个必定可以被构建的请求类)
@@ -6113,6 +6320,122 @@
             <param name="str">输入</param>
             <returns>输出</returns>
         </member>
+        <member name="T:CatLib.ContainerExpand">
+            <summary>
+             容器拓展
+             </summary>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Singleton(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <param name="container">服务容器</param>
+            <param name="service">服务名</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Singleton``2(CatLib.API.Stl.IContainer)">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <typeparam name="TConcrete">服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            以单例的形式绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Bind``2(CatLib.API.Stl.IContainer)">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <typeparam name="TConcrete">服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Bind(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+            <summary>
+            常规绑定一个服务
+            </summary>
+            <param name="container">服务容器</param>
+            <param name="service">服务名</param>
+            <param name="concrete">服务实现</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.MakeParams``1(CatLib.API.Stl.IContainer,System.Object[])">
+            <summary>
+            构造一个服务，允许传入构造参数
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="param">构造参数</param>
+            <returns>服务实例</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            构造一个服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <returns>服务实例</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Stl.IContainer,System.String)">
+            <summary>
+            构造一个服务
+            </summary>
+            <typeparam name="TConvert">服务实例转换到的类型</typeparam>
+            <param name="container">服务容器</param>
+            <param name="service">服务名</param>
+            <returns>服务实例</returns>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Release``1(CatLib.API.Stl.IContainer)">
+            <summary>
+            释放服务
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+        </member>
+        <member name="M:CatLib.ContainerExpand.Instance``1(CatLib.API.Stl.IContainer,System.Object)">
+            <summary>
+            静态化一个服务,实例值会经过解决修饰器
+            </summary>
+            <typeparam name="TService">服务名</typeparam>
+            <param name="container">服务容器</param>
+            <param name="instance">实例值</param>
+        </member>
         <member name="T:CatLib.Application">
             <summary>
             CatLib程序
@@ -6148,6 +6471,11 @@
             服务提供者
             </summary>
         </member>
+        <member name="F:CatLib.Application.priority">
+            <summary>
+            优先标记
+            </summary>
+        </member>
         <member name="F:CatLib.Application.bootstrapped">
             <summary>
             是否已经完成引导程序
@@ -6163,11 +6491,6 @@
             启动流程
             </summary>
         </member>
-        <member name="F:CatLib.Application.onInited">
-            <summary>
-            当初始化完成时
-            </summary>
-        </member>
         <member name="P:CatLib.Application.Process">
             <summary>
             启动流程
@@ -6178,9 +6501,24 @@
             全局唯一自增
             </summary>
         </member>
-        <member name="M:CatLib.Application.#ctor">
+        <member name="F:CatLib.Application.mainThreadId">
             <summary>
-            构建一个CatLib实例
+            主线程ID
+            </summary>
+        </member>
+        <member name="P:CatLib.Application.IsMainThread">
+            <summary>
+            是否是主线程
+            </summary>
+        </member>
+        <member name="F:CatLib.Application.dispatcher">
+            <summary>
+            事件系统
+            </summary>
+        </member>
+        <member name="P:CatLib.Application.Dispatcher">
+            <summary>
+            事件系统
             </summary>
         </member>
         <member name="M:CatLib.Application.#ctor(UnityEngine.Component)">
@@ -6197,11 +6535,10 @@
             <returns>CatLib实例</returns>
             <exception cref="T:System.ArgumentNullException">当引导类型为null时引发</exception>
         </member>
-        <member name="M:CatLib.Application.Init(System.Action)">
+        <member name="M:CatLib.Application.Init">
             <summary>
             初始化
             </summary>
-            <param name="callback">初始化完成后的回调</param>
             <exception cref="T:CatLib.API.RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
         </member>
         <member name="M:CatLib.Application.Register(CatLib.API.IServiceProvider)">
@@ -6217,116 +6554,7 @@
             </summary>
             <returns>应用程序内唯一id</returns>
         </member>
-        <member name="M:CatLib.Application.RegisterCoreAlias">
-            <summary>
-            注册核心别名
-            </summary>
-        </member>
-        <member name="M:CatLib.Application.InitPorcess">
-            <summary>
-            启动服务提供者启动流程
-            </summary>
-            <returns>迭代器</returns>
-        </member>
-        <member name="T:CatLib.Driver">
-            <summary>
-            Application行为驱动器
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.mainThreadDispatcherQueueLocker">
-            <summary>
-            主线程调度队列锁
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.update">
-            <summary>
-            更新
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.lateUpdate">
-            <summary>
-            延后更新
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.destroy">
-            <summary>
-            释放时需要调用的
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.loadSet">
-            <summary>
-            载入结果集
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.priority">
-            <summary>
-            优先标记
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.dispatcher">
-            <summary>
-            事件系统
-            </summary>
-        </member>
-        <member name="P:CatLib.Driver.Dispatcher">
-            <summary>
-            事件系统
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.mainThreadId">
-            <summary>
-            主线程ID
-            </summary>
-        </member>
-        <member name="P:CatLib.Driver.IsMainThread">
-            <summary>
-            是否是主线程
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.driverBehaviour">
-            <summary>
-            驱动脚本
-            </summary>
-        </member>
-        <member name="F:CatLib.Driver.mainThreadDispatcherQueue">
-            <summary>
-            主线程调度队列
-            </summary>
-        </member>
-        <member name="M:CatLib.Driver.#ctor">
-            <summary>
-            Application行为驱动器
-            </summary>
-        </member>
-        <member name="M:CatLib.Driver.#ctor(UnityEngine.Component)">
-            <summary>
-            Application行为驱动器
-            </summary>
-        </member>
-        <member name="M:CatLib.Driver.Initialization(UnityEngine.Component)">
-            <summary>
-            初始化
-            </summary>
-            <param name="mainBehavior">mono脚本</param>
-        </member>
-        <member name="M:CatLib.Driver.Detach(System.Object)">
-            <summary>
-            从驱动器中卸载对象
-            如果对象使用了增强接口，那么卸载对应增强接口
-            从驱动器中卸载对象会引发IDestroy增强接口
-            </summary>
-            <param name="obj">对象</param>
-            <exception cref="T:System.ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
-        </member>
-        <member name="M:CatLib.Driver.Attach(System.Object)">
-            <summary>
-            如果对象实现了增强接口那么将对象装载进对应驱动器
-            在装载的时候会引发IStart接口
-            </summary>
-            <param name="obj">对象</param>
-            <exception cref="T:System.ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
-        </member>
-        <member name="M:CatLib.Driver.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.Application.GetPriorities(System.Type,System.String)">
             <summary>
             获取优先级
             </summary>
@@ -6334,56 +6562,7 @@
             <param name="method">识别的方法</param>
             <returns>优先级</returns>
         </member>
-        <member name="M:CatLib.Driver.Update">
-            <summary>
-            每帧更新
-            </summary>
-        </member>
-        <member name="M:CatLib.Driver.LateUpdate">
-            <summary>
-            每帧更新后
-            </summary>
-        </member>
-        <member name="M:CatLib.Driver.OnDestroy">
-            <summary>
-            当释放时
-            </summary>
-        </member>
-        <member name="M:CatLib.Driver.MainThread(System.Collections.IEnumerator)">
-            <summary>
-            在主线程中调用
-            </summary>
-            <param name="action">代码块执行会处于主线程</param>
-        </member>
-        <member name="M:CatLib.Driver.MainThread(System.Action)">
-            <summary>
-            在主线程中调用
-            </summary>
-            <param name="action">代码块执行会处于主线程</param>
-        </member>
-        <member name="M:CatLib.Driver.ActionWrapper(System.Action)">
-            <summary>
-            包装器
-            </summary>
-            <param name="action">回调函数</param>
-            <returns>迭代器</returns>
-        </member>
-        <member name="M:CatLib.Driver.StartCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            启动协程
-            </summary>
-            <param name="routine">协程内容</param>
-            <returns>协程</returns>
-            <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
-        </member>
-        <member name="M:CatLib.Driver.StopCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            停止协程
-            </summary>
-            <param name="routine">协程</param>
-            <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
-        </member>
-        <member name="M:CatLib.Driver.Trigger(System.String,System.Object,System.Boolean)">
+        <member name="M:CatLib.Application.Trigger(System.String,System.Object,System.Boolean)">
             <summary>
             触发一个事件,并获取事件的返回结果
             <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
@@ -6394,7 +6573,7 @@
             <param name="halt">是否只触发一次就终止</param>
             <returns>事件结果</returns>
         </member>
-        <member name="M:CatLib.Driver.On(System.String,System.Action{System.Object},System.Int32)">
+        <member name="M:CatLib.Application.On(System.String,System.Action{System.Object},System.Int32)">
             <summary>
             注册一个事件
             </summary>
@@ -6403,7 +6582,7 @@
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Driver.On(System.String,System.Func{System.Object,System.Object},System.Int32)">
+        <member name="M:CatLib.Application.On(System.String,System.Func{System.Object,System.Object},System.Int32)">
             <summary>
             注册一个事件
             </summary>
@@ -6412,74 +6591,9 @@
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Driver.DefaultOnResolving(CatLib.API.Stl.IBindData,System.Object)">
+        <member name="M:CatLib.Application.RegisterCoreAlias">
             <summary>
-            默认的解决事件
-            </summary>
-            <param name="binder">绑定数据</param>
-            <param name="obj">对象</param>
-            <returns>处理后的对象</returns>
-        </member>
-        <member name="M:CatLib.Driver.DefaultOnRelease(CatLib.API.Stl.IBindData,System.Object)">
-            <summary>
-            默认的释放事件
-            </summary>
-            <param name="binder">绑定数据</param>
-            <param name="obj">对象</param>
-        </member>
-        <member name="M:CatLib.Driver.ConvertAndRemove``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object)">
-            <summary>
-            转换到指定目标并且删除
-            </summary>
-            <typeparam name="T">类型</typeparam>
-            <param name="sortset">有序集</param>
-            <param name="obj">对象</param>
-            <returns>是否成功</returns>
-        </member>
-        <member name="M:CatLib.Driver.ConvertAndAdd``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object,System.String)">
-            <summary>
-            转换到指定目标并且添加
-            </summary>
-            <typeparam name="T">类型</typeparam>
-            <param name="sortset">有序集</param>
-            <param name="obj">对象</param>
-            <param name="function">获取优先级的函数名</param>
-            <returns>是否成功</returns>
-        </member>
-        <member name="T:CatLib.DriverBehaviour">
-            <summary>
-            驱动脚本
-            </summary>
-        </member>
-        <member name="F:CatLib.DriverBehaviour.driver">
-            <summary>
-            驱动器
-            </summary>
-        </member>
-        <member name="M:CatLib.DriverBehaviour.Awake">
-            <summary>
-            Awake
-            </summary>
-        </member>
-        <member name="M:CatLib.DriverBehaviour.SetDriver(CatLib.Driver)">
-            <summary>
-            设定驱动器
-            </summary>
-            <param name="driver">驱动器</param>
-        </member>
-        <member name="M:CatLib.DriverBehaviour.Update">
-            <summary>
-            每帧更新时
-            </summary>
-        </member>
-        <member name="M:CatLib.DriverBehaviour.LateUpdate">
-            <summary>
-            在每帧更新时之后
-            </summary>
-        </member>
-        <member name="M:CatLib.DriverBehaviour.OnDestroy">
-            <summary>
-            当释放时
+            注册核心别名
             </summary>
         </member>
         <member name="T:CatLib.Facade`1">
@@ -7479,122 +7593,6 @@
             Determines if a given object is numeric in any way
             (can be integer, double, null, etc).
             </summary>
-        </member>
-        <member name="T:ContainerExpand">
-            <summary>
-             容器拓展
-             </summary>
-        </member>
-        <member name="M:ContainerExpand.Singleton(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.Singleton``2(CatLib.API.Stl.IContainer)">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.Bind``2(CatLib.API.Stl.IContainer)">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.Bind``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.Bind``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.Bind(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:ContainerExpand.MakeParams``1(CatLib.API.Stl.IContainer,System.Object[])">
-            <summary>
-            构造一个服务，允许传入构造参数
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="param">构造参数</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:ContainerExpand.Make``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            构造一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:ContainerExpand.Make``1(CatLib.API.Stl.IContainer,System.String)">
-            <summary>
-            构造一个服务
-            </summary>
-            <typeparam name="TConvert">服务实例转换到的类型</typeparam>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:ContainerExpand.Release``1(CatLib.API.Stl.IContainer)">
-            <summary>
-            释放服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-        </member>
-        <member name="M:ContainerExpand.Instance``1(CatLib.API.Stl.IContainer,System.Object)">
-            <summary>
-            静态化一个服务,实例值会经过解决修饰器
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="instance">实例值</param>
         </member>
     </members>
 </doc>

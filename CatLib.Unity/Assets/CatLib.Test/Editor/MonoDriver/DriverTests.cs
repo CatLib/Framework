@@ -9,21 +9,22 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using System.Collections;
 using CatLib.API;
+using CatLib.API.MonoDriver;
 using CatLib.Events;
+using CatLib.Routing;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 
-namespace CatLib.Tests
+namespace CatLib.Tests.MonoDriver
 {
     [TestClass]
     public class DriverTests
@@ -78,7 +79,8 @@ namespace CatLib.Tests
             c.Singleton<TestStaticClass>();
             c.Make<TestStaticClass>();
 
-            c.Update();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.Update();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
         }
 
@@ -95,7 +97,8 @@ namespace CatLib.Tests
 
             c.Release<TestStaticClass>();
 
-            c.Update();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.Update();
             Assert.AreEqual(string.Empty, updateResult);
         }
 
@@ -112,7 +115,8 @@ namespace CatLib.Tests
       
             c.Instance<TestStaticClass>(null);
 
-            c.Update();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.Update();
             Assert.AreEqual(string.Empty, updateResult);
 
             ExceptionAssert.DoesNotThrow(() =>
@@ -132,10 +136,11 @@ namespace CatLib.Tests
             c.Singleton<TestStaticClass>();
             var cls = c.Make<TestStaticClass>();
 
-            c.Update();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.Update();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
-            c.Detach(cls);
-            c.Update();
+            d.Detach(cls);
+            d.Update();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
         }
 
@@ -150,12 +155,13 @@ namespace CatLib.Tests
             c.Singleton<TestStaticClass>();
             var cls = c.Make<TestStaticClass>();
 
-            c.Update();
-            c.LateUpdate();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.Update();
+            d.LateUpdate();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
-            c.Detach(cls);
-            c.Update();
-            c.LateUpdate();
+            d.Detach(cls);
+            d.Update();
+            d.LateUpdate();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
             Assert.AreEqual(true, lateUpdateIsAfter);
             Assert.AreEqual("TestStaticClassDestroy", onDestroyResult);
@@ -169,9 +175,9 @@ namespace CatLib.Tests
         public void MainThreadCall()
         {
             var c = MakeDriver();
-
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
             var isCall = false;
-            c.MainThread(() =>
+            d.MainThread(() =>
             {
                 isCall = true;
             });
@@ -190,7 +196,8 @@ namespace CatLib.Tests
             var c = MakeDriver();
 
             isRunCoroutine = false;
-            c.MainThread(Coroutine());
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.MainThread(Coroutine());
 
             Assert.AreEqual(true, isRunCoroutine);
         }
@@ -203,9 +210,10 @@ namespace CatLib.Tests
         {
             var c = MakeDriver();
             isRunCoroutine = false;
-            c.StartCoroutine(Coroutine());
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.StartCoroutine(Coroutine());
             Assert.AreEqual(true, isRunCoroutine);
-            c.StopCoroutine(Coroutine());
+            d.StopCoroutine(Coroutine());
         }
 
         /// <summary>
@@ -215,13 +223,14 @@ namespace CatLib.Tests
         public void RepeatLoadTest()
         {
             var c = MakeDriver();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
             var obj = new TestStaticClass();
 
-            c.Attach(obj);
+            d.Attach(obj);
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                c.Attach(obj);
+                d.Attach(obj);
             });
         }
 
@@ -232,13 +241,14 @@ namespace CatLib.Tests
         public void OnDestroyTest()
         {
             var c = MakeDriver();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
             var obj = new TestStaticClass();
 
-            c.Attach(obj);
+            d.Attach(obj);
 
             updateResult = string.Empty;
-            c.OnDestroy();
-            c.Update();
+            d.OnDestroy();
+            d.Update();
 
             Assert.AreEqual(string.Empty, updateResult);
         }
@@ -251,8 +261,9 @@ namespace CatLib.Tests
         {
             onDestroyResult = string.Empty;
             var c = MakeDriver();
+            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
             var obj = new TestStaticClass();
-            c.Detach(obj);
+            d.Detach(obj);
             Assert.AreEqual(string.Empty, onDestroyResult);
         }
 
@@ -339,7 +350,8 @@ namespace CatLib.Tests
             });
 
             app.Make<DoubleDestroyClass>();
-            app.OnDestroy();
+            var d = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.OnDestroy();
 
             Assert.AreEqual(true, onRelease);
             Assert.AreEqual(1, destroyNum_DoubleDestroyClass);
@@ -351,11 +363,12 @@ namespace CatLib.Tests
             isRunCoroutine = true;
         }
 
-        public Driver MakeDriver()
+        public IApplication MakeDriver()
         {
             var driver = new Application();
             driver.Bootstrap();
             driver.Register(new EventsProvider());
+            driver.Register(new MonoDriverProvider());
             driver.Init();
             return driver;
         }

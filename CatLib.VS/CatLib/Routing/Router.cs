@@ -345,7 +345,7 @@ namespace CatLib.Routing
         /// 路由器编译
         /// </summary>
         /// <returns>迭代器</returns>
-        public IEnumerator RouterCompiler()
+        public void RouterCompiler()
         {
             lock (syncRoot)
             {
@@ -358,7 +358,6 @@ namespace CatLib.Routing
                     }
                     compiler.Complie();
                 }
-                yield break;
             }
         }
 

@@ -28,10 +28,9 @@ namespace CatLib.FileSystem
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority]
-        public override IEnumerator Init()
+        public override void Init()
         {
             InitRegisterLocalDriver();
-            return base.Init();
         }
 
         /// <summary>

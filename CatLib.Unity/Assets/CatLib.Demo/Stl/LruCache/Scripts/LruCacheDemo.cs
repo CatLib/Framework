@@ -20,8 +20,7 @@ namespace CatLib.Demo.LruCache
 
     public class LruCacheDemo : ServiceProvider
     {
-
-        public override IEnumerator Init()
+        public override void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -58,8 +57,6 @@ namespace CatLib.Demo.LruCache
                 }
 
             });
-
-            yield return base.Init();
         }
 
         public override void Register(){ }

@@ -10,10 +10,11 @@
  */
 
 using CatLib.API;
+using CatLib.API.Events;
 using CatLib.API.Stl;
 using CatLib.Stl;
 using System;
-using System.Collections;
+using System.Reflection;
 using System.Threading;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace CatLib
     /// <summary>
     /// CatLib程序
     /// </summary>
-    public sealed class Application : Driver, IApplication
+    public sealed class Application : Container, IApplication
     {
         /// <summary>
         /// CatLib版本号
@@ -62,6 +63,11 @@ namespace CatLib
         private readonly SortSet<API.IServiceProvider, int> serviceProviders = new SortSet<API.IServiceProvider , int>();
 
         /// <summary>
+        /// 优先标记
+        /// </summary>
+        private readonly Type priority = typeof(PriorityAttribute);
+
+        /// <summary>
         /// 是否已经完成引导程序
         /// </summary>
         private bool bootstrapped;
@@ -75,11 +81,6 @@ namespace CatLib
         /// 启动流程
         /// </summary>
         private StartProcess process = StartProcess.Bootstrap;
-
-        /// <summary>
-        /// 当初始化完成时
-        /// </summary>
-        private Action onInited;
 
         /// <summary>
         /// 启动流程
@@ -98,10 +99,35 @@ namespace CatLib
         private long guid;
 
         /// <summary>
-        /// 构建一个CatLib实例
+        /// 主线程ID
         /// </summary>
-        public Application()
+        private readonly int mainThreadId;
+
+        /// <summary>
+        /// 是否是主线程
+        /// </summary>
+        public bool IsMainThread
         {
+            get
+            {
+                return mainThreadId == Thread.CurrentThread.ManagedThreadId;
+            }
+        }
+
+        /// <summary>
+        /// 事件系统
+        /// </summary>
+        private IDispatcher dispatcher;
+
+        /// <summary>
+        /// 事件系统
+        /// </summary>
+        private IDispatcher Dispatcher
+        {
+            get
+            {
+                return dispatcher ?? (dispatcher = this.Make<IDispatcher>());
+            }
         }
 
         /// <summary>
@@ -109,9 +135,10 @@ namespace CatLib
         /// </summary>
         /// <param name="behaviour">驱动脚本</param>
         [ExcludeFromCodeCoverage]
-        public Application(Component behaviour)
-            : base(behaviour)
+        public Application(Component behaviour = null)
         {
+            mainThreadId = Thread.CurrentThread.ManagedThreadId;
+            Instance(Type2Service(typeof(Component)), behaviour);
         }
 
         /// <summary>
@@ -150,9 +177,8 @@ namespace CatLib
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <param name="callback">初始化完成后的回调</param>
         /// <exception cref="RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
-        public void Init(Action callback = null)
+        public void Init()
         {
             if (!bootstrapped)
             {
@@ -162,11 +188,18 @@ namespace CatLib
             {
                 throw new RuntimeException("StartProcess is not Bootstrap.");
             }
-
-            onInited = callback;
-            inited = true;
+            
             process = StartProcess.Initing;
-            StartCoroutine(InitPorcess());
+
+            foreach (var provider in serviceProviders)
+            {
+                provider.Init();
+            }
+
+            inited = true;
+            process = StartProcess.Inited;
+
+            Trigger(ApplicationEvents.OnStartComplete, this);
         }
 
         /// <summary>
@@ -202,6 +235,74 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 获取优先级
+        /// </summary>
+        /// <param name="type">识别的类型</param>
+        /// <param name="method">识别的方法</param>
+        /// <returns>优先级</returns>
+        public int GetPriorities(Type type, string method = null)
+        {
+            Guard.Requires<ArgumentNullException>(type != null);
+            var currentPriority = int.MaxValue;
+
+            MethodInfo methodInfo;
+            if (method != null &&
+                (methodInfo = type.GetMethod(method)) != null &&
+                methodInfo.IsDefined(priority, false))
+            {
+                currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
+            }
+            else if (type.IsDefined(priority, false))
+            {
+                currentPriority = (type.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
+            }
+
+            return currentPriority;
+        }
+
+        /// <summary>
+        /// 触发一个事件,并获取事件的返回结果
+        /// <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
+        /// 反之返回一个事件处理结果数组(<c>object[]</c>)</para>
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        /// <param name="payload">载荷</param>
+        /// <param name="halt">是否只触发一次就终止</param>
+        /// <returns>事件结果</returns>
+        public object Trigger(string eventName, object payload = null, bool halt = false)
+        {
+            if (Dispatcher != null)
+            {
+                return Dispatcher.Trigger(eventName, payload, halt);
+            }
+            return halt ? null : new object[] { };
+        }
+
+        /// <summary>
+        /// 注册一个事件
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        /// <param name="handler">事件句柄</param>
+        /// <param name="life">在几次后事件会被自动释放</param>
+        /// <returns>事件句柄</returns>
+        public IEventHandler On(string eventName, Action<object> handler, int life = 0)
+        {
+            return Dispatcher != null ? Dispatcher.On(eventName, handler, life) : null;
+        }
+
+        /// <summary>
+        /// 注册一个事件
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        /// <param name="handler">事件句柄</param>
+        /// <param name="life">在几次后事件会被自动释放</param>
+        /// <returns>事件句柄</returns>
+        public IEventHandler On(string eventName, Func<object, object> handler, int life = 0)
+        {
+            return Dispatcher != null ? Dispatcher.On(eventName, handler, life) : null;
+        }
+
+        /// <summary>
         /// 注册核心别名
         /// </summary>
         private void RegisterCoreAlias()
@@ -216,27 +317,6 @@ namespace CatLib
             })
             {
                 Alias(Type2Service(type), application);
-            }
-        }
-
-        /// <summary>
-        /// 启动服务提供者启动流程
-        /// </summary>
-        /// <returns>迭代器</returns>
-        private IEnumerator InitPorcess()
-        {
-            foreach (var provider in serviceProviders)
-            {
-                yield return provider.Init();
-            }
-
-            process = StartProcess.Inited;
-
-            Trigger(ApplicationEvents.OnStartComplete, this);
-
-            if (onInited != null)
-            {
-                onInited.Invoke();
             }
         }
     }

@@ -131,10 +131,9 @@ namespace CatLib.Tests
         private class ProviderTest1 : ServiceProvider
         {
             [API.Priority(10)]
-            public override IEnumerator Init()
+            public override void Init()
             {
                 prioritiesTest = true;
-                yield break;
             }
 
             public override void Register()
@@ -146,10 +145,9 @@ namespace CatLib.Tests
         [API.Priority(5)]
         private class ProviderTest2 : ServiceProvider
         {
-            public override IEnumerator Init()
+            public override void Init()
             {
                 prioritiesTest = false;
-                yield break;
             }
 
             public override void Register()
@@ -209,25 +207,6 @@ namespace CatLib.Tests
             {
                 App.Instance.Register(new ProviderTest2());
             });
-        }
-
-        [TestMethod]
-        public void TestInitedCallBack()
-        {
-            var app = new Application();
-            app.OnFindType((t) =>
-            {
-                return Type.GetType(t);
-            });
-            app.Bootstrap(new BootstrapClass());
-
-            var isCallback = false;
-            app.Init(() =>
-            {
-                isCallback = true;
-            });
-
-            Assert.AreEqual(true, isCallback);
         }
 
         [TestMethod]

@@ -1,0 +1,9 @@
+{
+  "source": "catlib/monodriver",
+  "folder": "MonoDriver",
+  "require": {
+    "catlib/api": "~1.0",
+    "catlib/stl": "~1.0",
+	"catlib/catlib": "~1.0"
+  }
+}
