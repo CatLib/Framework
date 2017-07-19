@@ -1522,6 +1522,16 @@
             监控
             </summary>
         </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Driver">
+            <summary>
+            Mono驱动器
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Middleware">
+            <summary>
+            路由请求过滤链
+            </summary>
+        </member>
         <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitors(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebMonitor.MonitorStore)">
             <summary>
             获取监控的详细数据
@@ -2771,6 +2781,8 @@
             <summary>
             构建一个Mono驱动器
             </summary>
+            <param name="app">CatLib实例</param>、
+            <param name="component">组件</param>
         </member>
         <member name="M:CatLib.MonoDriver.MonoDriver.InitComponent(UnityEngine.Component)">
             <summary>

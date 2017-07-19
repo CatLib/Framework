@@ -68,6 +68,8 @@ namespace CatLib.MonoDriver
         /// <summary>
         /// 构建一个Mono驱动器
         /// </summary>
+        /// <param name="app">CatLib实例</param>、
+        /// <param name="component">组件</param>
         public MonoDriver(IApplication app , Component component)
         {
             application = app;

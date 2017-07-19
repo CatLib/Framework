@@ -40,14 +40,19 @@ namespace CatLib.Debugger.WebMonitor.Handler
         {
             get
             {
+                var unitStr = string.Empty;
                 foreach (var unit in unitMapping)
                 {
                     if (value < unit.Key)
                     {
-                        return unit.Value;
+                        unitStr = unit.Value;
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
-                return string.Empty;
+                return unitStr;
             }
         }
 
@@ -63,7 +68,19 @@ namespace CatLib.Debugger.WebMonitor.Handler
         {
             get
             {
-                return value.ToString("#0.00");
+                long data = 1024;
+                foreach (var unit in unitMapping)
+                {
+                    if ((long)value < unit.Key)
+                    {
+                        data = unit.Key;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                return (value / data).ToString("#0.00");
             }
         }
 
