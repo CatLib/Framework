@@ -6196,7 +6196,6 @@
             <param name="bootstraps">引导程序</param>
             <returns>CatLib实例</returns>
             <exception cref="T:System.ArgumentNullException">当引导类型为null时引发</exception>
-            <exception cref="T:CatLib.API.RuntimeException">当引导类型没有实现<see cref="T:CatLib.API.IBootstrap"/>时引发</exception>
         </member>
         <member name="M:CatLib.Application.Init(System.Action)">
             <summary>
@@ -6217,6 +6216,11 @@
             获取一个唯一id
             </summary>
             <returns>应用程序内唯一id</returns>
+        </member>
+        <member name="M:CatLib.Application.RegisterCoreAlias">
+            <summary>
+            注册核心别名
+            </summary>
         </member>
         <member name="M:CatLib.Application.InitPorcess">
             <summary>

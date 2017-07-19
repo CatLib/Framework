@@ -2743,29 +2743,29 @@
             祖鲁
             </summary>
         </member>
-        <member name="T:CatLib.InjectAttribute">
+        <member name="T:InjectAttribute">
             <summary>
             注入标记
             </summary>
         </member>
-        <member name="P:CatLib.InjectAttribute.Alias">
+        <member name="P:InjectAttribute.Alias">
             <summary>
             注入服务的别名或者服务名
             </summary>
         </member>
-        <member name="P:CatLib.InjectAttribute.Required">
+        <member name="P:InjectAttribute.Required">
             <summary>
             是否是必须的
             如果约束为必须当依赖注入失败时则会引发一个异常
             </summary>
         </member>
-        <member name="M:CatLib.InjectAttribute.#ctor(System.String)">
+        <member name="M:InjectAttribute.#ctor(System.String)">
             <summary>
             声明注入
             </summary>
             <param name="alias">依赖服务的别名或者服务名</param>
         </member>
-        <member name="M:CatLib.InjectAttribute.#ctor">
+        <member name="M:InjectAttribute.#ctor">
             <summary>
             声明注入
             </summary>

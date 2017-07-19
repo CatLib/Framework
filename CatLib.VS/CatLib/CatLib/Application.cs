@@ -120,7 +120,6 @@ namespace CatLib
         /// <param name="bootstraps">引导程序</param>
         /// <returns>CatLib实例</returns>
         /// <exception cref="ArgumentNullException">当引导类型为null时引发</exception>
-        /// <exception cref="RuntimeException">当引导类型没有实现<see cref="IBootstrap"/>时引发</exception>
         public IApplication Bootstrap(params IBootstrap[] bootstraps)
         {
             Guard.Requires<ArgumentNullException>(bootstraps != null);
@@ -131,13 +130,9 @@ namespace CatLib
             }
 
             process = StartProcess.Bootstrap;
-
             App.Instance = this;
 
-            Instance(Type2Service(typeof(Application)), this);
-            Alias(Type2Service(typeof(IApplication)), Type2Service(typeof(Application)));
-            Alias(Type2Service(typeof(App)), Type2Service(typeof(Application)));
-            Alias(Type2Service(typeof(IContainer)), Type2Service(typeof(Application)));
+            RegisterCoreAlias();
 
             foreach (var bootstrap in bootstraps)
             {
@@ -204,6 +199,24 @@ namespace CatLib
         public long GetGuid()
         {
             return Interlocked.Increment(ref guid);
+        }
+
+        /// <summary>
+        /// 注册核心别名
+        /// </summary>
+        private void RegisterCoreAlias()
+        {
+            var application = Type2Service(typeof(Application));
+            Instance(application, this);
+            foreach (var type in new[]
+            {
+                typeof(IApplication) ,
+                typeof(App) ,
+                typeof(IContainer)
+            })
+            {
+                Alias(Type2Service(type), application);
+            }
         }
 
         /// <summary>
