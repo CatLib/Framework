@@ -90,7 +90,6 @@ namespace CatLib.API
 
         /// <summary>
         /// 如果对象实现了增强接口那么将对象装载进对应驱动器
-        /// 在装载的时候会引发IStart接口
         /// </summary>
         /// <param name="obj">对象</param>
         void Attach(object obj);
