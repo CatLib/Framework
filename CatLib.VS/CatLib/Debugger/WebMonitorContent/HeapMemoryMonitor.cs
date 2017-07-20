@@ -38,7 +38,7 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <returns>堆内存</returns>
         private object GetHeapMemory()
         {
-            return Profiler.usedHeapSizeLong;
+            return Profiler.GetMonoUsedSizeLong();
         }
     }
 }
