@@ -10,18 +10,15 @@
  */
 
 using System;
-using System.Collections;
-using CatLib.API;
 using CatLib.Config;
 using CatLib.Converters;
-
+using CatLib.Events;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 
@@ -227,6 +224,52 @@ namespace CatLib.Tests
             });
         }
 
+        [TestMethod]
+        public void TestOnDispatcher()
+        {
+            var app = MakeApplication();
+
+            app.On("testevent", (payload) =>
+            {
+                Assert.AreEqual("abc", payload);
+                return 123;
+            });
+
+            var result = app.Trigger("testevent", "abc", true);
+            Assert.AreEqual(123, result);
+        }
+
+        [TestMethod]
+        public void TestNoDispatcher()
+        {
+            var app = new Application();
+            app.OnFindType((t) =>
+            {
+                return Type.GetType(t);
+            });
+            app.Bootstrap().Init();
+
+            var onHandler = app.On("testevent", (payload) =>
+            {
+                Assert.AreEqual("abc", payload);
+                return 123;
+            });
+
+            Assert.AreEqual(null, onHandler);
+
+            var result = app.Trigger("testevent", "abc", true);
+            Assert.AreEqual(null, result);
+            var result2 = app.Trigger("testevent", "abc") as object[];
+            Assert.AreEqual(0 , result2.Length);
+        }
+
+        [TestMethod]
+        public void TestIsMainThread()
+        {
+            var app = MakeApplication();
+            Assert.AreEqual(true, app.IsMainThread);
+        }
+
         private Application MakeApplication()
         {
             var app = new Application();
@@ -244,6 +287,7 @@ namespace CatLib.Tests
             {
                 App.Instance.Register(new ConfigProvider());
                 App.Instance.Register(new ConvertersProvider());
+                App.Instance.Register(new EventsProvider());
             }
         }
     }

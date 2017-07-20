@@ -13,7 +13,7 @@
             </ModulePaths>
             <Attributes>
               <Exclude>
-                <Attribute>^CatLib\.API\.ExcludeFromCodeCoverageAttribute$</Attribute>
+                <Attribute>.*\.ExcludeFromCodeCoverageAttribute$</Attribute>
               </Exclude>
             </Attributes>
             <Sources>

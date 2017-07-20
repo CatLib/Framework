@@ -86,6 +86,19 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
+        /// 获取日志句柄
+        /// </summary>
+        /// <returns>句柄</returns>
+        private IDictionary<string, Type> GetLogHandlers()
+        {
+            return new Dictionary<string, Type>
+            {
+                { "debugger.logger.handler.unity" , typeof(UnityConsoleLogHandler) },
+                { "debugger.logger.handler.console" , typeof(StdOutLogHandler) }
+            };
+        }
+
+        /// <summary>
         /// 注册日志系统
         /// </summary>
         private void RegisterLogger()
@@ -95,14 +108,13 @@ namespace CatLib.Debugger
                 var logger = obj as Logger;
 
                 var config = App.Make<IConfigManager>();
-                if (config == null || config.Default.Get("debugger.logger.handler.unity", true))
-                {
-                    logger.AddLogHandler(new UnityConsoleLogHandler());
-                }
 
-                if (config == null || config.Default.Get("debugger.logger.handler.console", true))
+                foreach (var handler in GetLogHandlers())
                 {
-                    logger.AddLogHandler(new StdOutLogHandler());
+                    if (config == null || config.Default.Get(handler.Key, true))
+                    {
+                        logger.AddLogHandler(App.Make<ILogHandler>(App.Type2Service(handler.Value)));
+                    }
                 }
 
                 return obj;

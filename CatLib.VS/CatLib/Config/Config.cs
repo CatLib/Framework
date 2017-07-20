@@ -91,7 +91,7 @@ namespace CatLib.Config
         /// </summary>
         public void Save()
         {
-            GuardLocator();
+            Guard.Requires<AssertException>(locator != null);
             locator.Save();
         }
 
@@ -112,9 +112,9 @@ namespace CatLib.Config
         /// <param name="value">配置的值</param>
         public void Set(string name, object value)
         {
+            Guard.Requires<AssertException>(locator != null);
+            Guard.Requires<AssertException>(converters != null);
             Guard.Requires<ArgumentNullException>(name != null);
-            GuardConverters();
-            GuardLocator();
             locator.Set(name, converters.Convert<string>(value));
 
             List<Action<object>> watch;
@@ -136,9 +136,9 @@ namespace CatLib.Config
         /// <returns>配置的值，如果找不到则返回默认值</returns>
         public T Get<T>(string name, T def = default(T))
         {
+            Guard.Requires<AssertException>(locator != null);
+            Guard.Requires<AssertException>(converters != null);
             Guard.Requires<ArgumentNullException>(name != null);
-            GuardConverters();
-            GuardLocator();
 
             string val;
             if (!locator.TryGetValue(name, out val))
@@ -148,28 +148,6 @@ namespace CatLib.Config
 
             T result;
             return converters.TryConvert(val, out result) ? result : def;
-        }
-
-        /// <summary>
-        /// 检验定位器是否有效
-        /// </summary>
-        private void GuardLocator()
-        {
-            if (locator == null)
-            {
-                throw new RuntimeException("Undefiend config locator , please call IConfig.SetLocator");
-            }
-        }
-
-        /// <summary>
-        /// 校验转换器是否有效
-        /// </summary>
-        private void GuardConverters()
-        {
-            if (converters == null)
-            {
-                throw new RuntimeException("Undefiend converters , please call IConfig.SetConverters");
-            }
         }
     }
 }
