@@ -15,6 +15,7 @@ using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Config.Locator;
 using CatLib.Converters;
+using CatLib.Converters.Plan;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -62,6 +63,30 @@ namespace CatLib.Tests.Config
 
             configManager.SetDefault(string.Empty);
             Assert.AreSame(configManager.Get(), configManager["default"]);
+        }
+
+        [TestMethod]
+        public void WatchTest()
+        {
+            var configManager = App.Instance.Make<IConfigManager>();
+            configManager.SetDefault("catlib");
+            configManager.Extend(() =>
+            {
+                var convert = new CatLib.Converters.Converters();
+                convert.AddConverter(new StringStringConverter());
+                return new CatLib.Config.Config(convert, new CodeConfigLocator());
+            });
+
+            var watchValue = string.Empty;
+            configManager.Default.Watch("watch" , (value) =>
+            {
+                watchValue = value.ToString();
+            });
+
+            configManager.Default.Set("watch" , "123");
+            configManager.Default.Set("nowatch", "333");
+
+            Assert.AreEqual("123" , watchValue);
         }
     }
 }
