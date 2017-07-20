@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.Facade;
 
 namespace CatLib.Bootstrap

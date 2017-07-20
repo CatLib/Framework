@@ -31,11 +31,25 @@ namespace CatLib.Debugger.Log
         private readonly object syncRoot = new object();
 
         /// <summary>
+        /// 调用堆栈忽略的步数
+        /// </summary>
+        private int skipFrames = 4;
+
+        /// <summary>
         /// 构造一个日志系统
         /// </summary>
         public Logger()
         {
             handlers = new List<ILogHandler>();
+        }
+
+        /// <summary>
+        /// 设定调用堆栈忽略的步数
+        /// </summary>
+        /// <param name="skipFrames">跳过的步数</param>
+        public void SetSkip(int skipFrames)
+        {
+            this.skipFrames = skipFrames;
         }
 
         /// <summary>
@@ -169,7 +183,7 @@ namespace CatLib.Debugger.Log
         /// <returns>日志条目</returns>
         private LogEntry MakeLogEntry(LogLevels level, string message)
         {
-            return new LogEntry(level, message, 4);
+            return new LogEntry(level, message, skipFrames);
         }
     }
 }
