@@ -9,14 +9,10 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-using CatLib.API.Routing;
-using CatLib.API.Support;
-using CatLib.Support;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using CatLib.API.Events;
+using CatLib.API.Routing;
+using System;
+using System.Collections.Generic;
 
 namespace CatLib.Routing
 {

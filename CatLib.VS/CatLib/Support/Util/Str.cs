@@ -11,7 +11,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 字符串

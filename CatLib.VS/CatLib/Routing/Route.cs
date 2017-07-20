@@ -9,10 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Routing;
-using CatLib.API.Support;
-using CatLib.Support;
 using System;
 
 namespace CatLib.Routing

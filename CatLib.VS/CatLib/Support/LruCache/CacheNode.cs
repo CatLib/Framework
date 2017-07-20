@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 缓存节点

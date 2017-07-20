@@ -9,9 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
 using CatLib.API.Config;
-using CatLib.Support;
+using System.Collections.Generic;
 
 namespace CatLib.Config.Locator
 {

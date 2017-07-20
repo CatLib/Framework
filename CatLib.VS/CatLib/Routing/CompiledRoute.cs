@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using System.Text;
 using System.Text.RegularExpressions;
 

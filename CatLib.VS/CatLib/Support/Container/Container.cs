@@ -9,12 +9,11 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Support;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CatLib.Support
+namespace CatLib
 {
     ///<summary>
     /// 依赖注入容器

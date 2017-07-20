@@ -9,11 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Events;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using CatLib.API.Events;
-using CatLib.Support;
 
 namespace CatLib.Events
 {

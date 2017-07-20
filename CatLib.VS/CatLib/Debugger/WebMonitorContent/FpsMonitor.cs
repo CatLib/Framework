@@ -9,11 +9,10 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API;
 using CatLib.API.Time;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
+using System;
 
 namespace CatLib.Debugger.WebMonitorContent
 {

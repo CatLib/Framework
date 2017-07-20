@@ -9,10 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Events;
-using CatLib.API.Support;
-using CatLib.Support;
 using System;
 using System.Threading;
 using UnityEngine;
@@ -59,7 +56,7 @@ namespace CatLib
         /// <summary>
         /// 服务提供者
         /// </summary>
-        private readonly SortSet<API.IServiceProvider, int> serviceProviders = new SortSet<API.IServiceProvider , int>();
+        private readonly SortSet<IServiceProvider, int> serviceProviders = new SortSet<IServiceProvider , int>();
 
         /// <summary>
         /// 是否已经完成引导程序
@@ -200,7 +197,7 @@ namespace CatLib
         /// </summary>
         /// <param name="provider">注册服务提供者</param>
         /// <exception cref="RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="ServiceProvider"/></exception>
-        public void Register(API.IServiceProvider provider)
+        public void Register(IServiceProvider provider)
         {
             Guard.Requires<ArgumentNullException>(provider != null);
 

@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using CatLib.API;
 using CatLib.API.Json;
 
 namespace CatLib.Json

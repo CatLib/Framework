@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Converters;
 using CatLib.Config.Locator;

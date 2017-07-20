@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Support;
 using System;
 
 namespace CatLib

@@ -9,10 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
 using CatLib.API;
-using CatLib.API.Support;
-using CatLib.Support;
 using UnityEngine;
 
 namespace CatLib.Demo.LruCache

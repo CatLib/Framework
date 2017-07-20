@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;

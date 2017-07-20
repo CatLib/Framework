@@ -10,8 +10,6 @@
  */
 
 #if CATLIB
-using System.Collections;
-using CatLib.API;
 using CatLib.API.Environment;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;

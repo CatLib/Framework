@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using CatLib.Support;
 
 namespace CatLib.Debugger.WebMonitor.Handler
 {

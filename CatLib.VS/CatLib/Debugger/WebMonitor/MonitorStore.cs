@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.Support;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -9,12 +9,10 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Routing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using CatLib.Support;
 
 namespace CatLib.Routing
 {

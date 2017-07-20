@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Support
+namespace CatLib
 {
     /// <summary>
     /// 绑定关系临时数据,用于支持链式调用

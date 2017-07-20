@@ -10,7 +10,7 @@
  */
 
 #if CATLIB
-namespace CatLib.API
+namespace CatLib
 {
     /// <summary>
     /// 服务提供者
@@ -24,7 +24,7 @@ namespace CatLib.API
         {
             get
             {
-                return API.App.Instance;
+                return CatLib.App.Instance;
             }
         }
 

@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Converters;
-using CatLib.Support;
 using System;
 using System.Collections.Generic;
 

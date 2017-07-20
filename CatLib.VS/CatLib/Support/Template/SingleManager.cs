@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Support;
 using System.Collections.Generic;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 管理器模版（拓展解决方案为单例）

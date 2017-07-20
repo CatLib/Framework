@@ -9,8 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System.Diagnostics;
 using CatLib.API.Debugger;
+using System.Diagnostics;
 
 namespace CatLib.Debugger.Log
 {

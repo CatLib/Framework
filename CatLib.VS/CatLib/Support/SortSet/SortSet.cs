@@ -9,14 +9,13 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Support;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Random = System.Random;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 有序集

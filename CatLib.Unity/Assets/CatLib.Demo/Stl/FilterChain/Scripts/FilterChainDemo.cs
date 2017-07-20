@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
 using CatLib.API;
-using CatLib.Support;
 
 namespace CatLib.Demo.FilterChain
 {

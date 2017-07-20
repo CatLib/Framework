@@ -11,7 +11,7 @@
 
 using System.Collections.Generic;
 
-namespace CatLib.API.Support
+namespace CatLib
 {
     /// <summary>
     /// 快速列表

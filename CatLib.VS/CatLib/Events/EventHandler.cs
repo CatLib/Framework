@@ -10,8 +10,6 @@
  */
 
 using System;
-using CatLib.API;
-using CatLib.Support;
 using IEventHandler = CatLib.API.Events.IEventHandler;
 
 namespace CatLib.Events

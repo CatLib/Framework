@@ -11,9 +11,8 @@
 
 using System;
 using System.Reflection;
-using CatLib.Support;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 通用支持

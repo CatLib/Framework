@@ -9,13 +9,12 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Support;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 近期最少使用缓存

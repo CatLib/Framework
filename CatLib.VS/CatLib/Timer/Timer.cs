@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Timer;
-using CatLib.Support;
 using System;
 
 namespace CatLib.Timer

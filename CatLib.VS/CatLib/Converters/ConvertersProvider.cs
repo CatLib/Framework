@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using CatLib.API;
 using CatLib.API.Converters;
 using CatLib.Converters.Plan;
 

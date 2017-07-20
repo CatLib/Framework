@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.API.Support
+namespace CatLib
 {
     /// <summary>
     /// 过滤器链

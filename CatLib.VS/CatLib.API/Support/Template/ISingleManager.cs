@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Support
+namespace CatLib
 {
     /// <summary>
     /// 管理器

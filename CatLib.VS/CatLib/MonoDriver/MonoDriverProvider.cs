@@ -10,10 +10,9 @@
  */
 
 #if CATLIB
-using CatLib.API;
 using CatLib.API.MonoDriver;
 
-namespace CatLib.Routing
+namespace CatLib.MonoDriver
 {
     /// <summary>
     /// Mono驱动器服务
@@ -35,7 +34,7 @@ namespace CatLib.Routing
         /// </summary>
         public override void Register()
         {
-            App.Singleton<MonoDriver.MonoDriver>().Alias<IMonoDriver>();
+            App.Singleton<MonoDriver>().Alias<IMonoDriver>();
         }
     }
 }

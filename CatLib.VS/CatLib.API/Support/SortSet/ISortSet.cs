@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.API.Support
+namespace CatLib
 {
     /// <summary>
     /// 有序集

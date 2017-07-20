@@ -12,8 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CatLib.API;
-using CatLib.Support;
 using SIO = System.IO;
 
 namespace CatLib.FileSystem.Adapter

@@ -10,14 +10,13 @@
  */
 
 using System;
-using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.MonoDriver;
 using CatLib.API.Time;
 using CatLib.API.Timer;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Routing;
+using CatLib.MonoDriver;
 using CatLib.Time;
 using CatLib.Timer;
 #if UNITY_EDITOR || NUNIT
@@ -28,7 +27,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Timer

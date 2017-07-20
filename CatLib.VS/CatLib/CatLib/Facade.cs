@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
 namespace CatLib
 {
     /// <summary>

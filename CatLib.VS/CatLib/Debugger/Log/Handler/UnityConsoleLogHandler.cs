@@ -12,7 +12,6 @@
 using CatLib.API.Debugger;
 using System;
 using System.Collections.Generic;
-using CatLib.API;
 using UnityEngine;
 
 namespace CatLib.Debugger.Log.Handler

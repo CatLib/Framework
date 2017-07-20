@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Debugger;
-using CatLib.Support;
 using System;
 using System.Collections.Generic;
 

@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 内部列表

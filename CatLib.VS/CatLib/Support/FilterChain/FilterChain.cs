@@ -9,11 +9,10 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Support;
 using System;
 using System.Collections.Generic;
 
-namespace CatLib.Support
+namespace CatLib
 {
     /// <summary>
     /// 过滤器链

@@ -10,10 +10,8 @@
  */
 
 #if CATLIB
-using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Routing;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace CatLib.Routing

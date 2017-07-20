@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Support;
 using CatLib.API.Routing;
-using CatLib.Support;
 
 namespace CatLib.Tests.Routing
 {

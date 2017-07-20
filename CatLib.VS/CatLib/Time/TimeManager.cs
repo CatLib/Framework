@@ -11,7 +11,6 @@
 
 using CatLib.API.Config;
 using CatLib.API.Time;
-using CatLib.Support;
 
 namespace CatLib.Time
 {
