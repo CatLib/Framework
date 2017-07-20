@@ -334,7 +334,6 @@ namespace CatLib.MonoDriver
             lateUpdate.Clear();
             destroy.Clear();
             loadSet.Clear();
-            App.Instance = null;
             dispatcher.Trigger(MonoDriverEvents.OnDestroyed);
         }
 
