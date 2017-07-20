@@ -2792,7 +2792,7 @@
             调度器
             </summary>
         </member>
-        <member name="M:CatLib.MonoDriver.MonoDriver.#ctor(CatLib.API.Stl.IContainer,CatLib.API.Events.IDispatcher,UnityEngine.Component)">
+        <member name="M:CatLib.MonoDriver.MonoDriver.#ctor(CatLib.API.Support.IContainer,CatLib.API.Events.IDispatcher,UnityEngine.Component)">
             <summary>
             构建一个Mono驱动器
             </summary>
@@ -2806,7 +2806,7 @@
             </summary>
             <param name="component">Unity组件</param>
         </member>
-        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnResolving(CatLib.API.Stl.IBindData,System.Object)">
+        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnResolving(CatLib.API.Support.IBindData,System.Object)">
             <summary>
             默认的解决事件
             </summary>
@@ -2814,7 +2814,7 @@
             <param name="obj">对象</param>
             <returns>处理后的对象</returns>
         </member>
-        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnRelease(CatLib.API.Stl.IBindData,System.Object)">
+        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnRelease(CatLib.API.Support.IBindData,System.Object)">
             <summary>
             默认的释放事件
             </summary>
@@ -2886,7 +2886,7 @@
             当释放时
             </summary>
         </member>
-        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndRemove``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object)">
+        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndRemove``1(CatLib.API.Support.ISortSet{``0,System.Int32},System.Object)">
             <summary>
             转换到指定目标并且删除
             </summary>
@@ -2895,7 +2895,7 @@
             <param name="obj">对象</param>
             <returns>是否成功</returns>
         </member>
-        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndAdd``1(CatLib.API.Stl.ISortSet{``0,System.Int32},System.Object,System.String)">
+        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndAdd``1(CatLib.API.Support.ISortSet{``0,System.Int32},System.Object,System.String)">
             <summary>
             转换到指定目标并且添加
             </summary>
@@ -3539,7 +3539,7 @@
             <param name="uri">uri信息</param>
             <param name="action">路由行为</param>
         </member>
-        <member name="M:CatLib.Routing.Route.SetContainer(CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.Routing.Route.SetContainer(CatLib.API.Support.IContainer)">
             <summary>
             设定容器
             </summary>
@@ -4114,7 +4114,7 @@
             同步锁
             </summary>
         </member>
-        <member name="M:CatLib.Routing.Router.#ctor(CatLib.API.Events.IDispatcher,CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.Routing.Router.#ctor(CatLib.API.Events.IDispatcher,CatLib.API.Support.IContainer)">
             <summary>
             创建一个新的路由器
             </summary>
@@ -4476,63 +4476,63 @@
             <param name="request">请求</param>
             <returns>是否匹配</returns>
         </member>
-        <member name="T:CatLib.Stl.BindData">
+        <member name="T:CatLib.Support.BindData">
             <summary>
             服务绑定数据
             </summary>    
         </member>
-        <member name="P:CatLib.Stl.BindData.Service">
+        <member name="P:CatLib.Support.BindData.Service">
             <summary>
             当前绑定服务的服务名
             </summary>
         </member>
-        <member name="P:CatLib.Stl.BindData.Concrete">
+        <member name="P:CatLib.Support.BindData.Concrete">
             <summary>
             服务实现，执行这个委托将会获得服务实例
             </summary>
         </member>
-        <member name="P:CatLib.Stl.BindData.IsStatic">
+        <member name="P:CatLib.Support.BindData.IsStatic">
             <summary>
             当前绑定的服务是否是静态服务
             </summary>
         </member>
-        <member name="F:CatLib.Stl.BindData.contextual">
+        <member name="F:CatLib.Support.BindData.contextual">
             <summary>
             服务关系上下文
             当前服务需求某个服务时可以指定给与什么服务
             </summary>
         </member>
-        <member name="F:CatLib.Stl.BindData.container">
+        <member name="F:CatLib.Support.BindData.container">
             <summary>
             父级容器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.BindData.resolving">
+        <member name="F:CatLib.Support.BindData.resolving">
             <summary>
             服务构造修饰器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.BindData.release">
+        <member name="F:CatLib.Support.BindData.release">
             <summary>
             服务构造修饰器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.BindData.isDestroy">
+        <member name="F:CatLib.Support.BindData.isDestroy">
             <summary>
             是否被释放
             </summary>
         </member>
-        <member name="F:CatLib.Stl.BindData.syncRoot">
+        <member name="F:CatLib.Support.BindData.syncRoot">
             <summary>
             同步锁
             </summary>
         </member>
-        <member name="F:CatLib.Stl.BindData.given">
+        <member name="F:CatLib.Support.BindData.given">
             <summary>
             给与数据
             </summary>
         </member>
-        <member name="M:CatLib.Stl.BindData.#ctor(CatLib.Stl.Container,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object},System.Boolean)">
+        <member name="M:CatLib.Support.BindData.#ctor(CatLib.Support.Container,System.String,System.Func{CatLib.API.Support.IContainer,System.Object[],System.Object},System.Boolean)">
             <summary>
             构建一个绑定数据
             </summary>
@@ -4541,74 +4541,74 @@
             <param name="concrete">服务实现</param>
             <param name="isStatic">服务是否是静态的</param>
         </member>
-        <member name="M:CatLib.Stl.BindData.Needs(System.String)">
+        <member name="M:CatLib.Support.BindData.Needs(System.String)">
             <summary>
             当需求某个服务                                                                                                                                                                                                                                                                                                                                                                                  
             </summary>
             <param name="service">服务名</param>
             <returns>绑定关系临时数据</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.Needs``1">
+        <member name="M:CatLib.Support.BindData.Needs``1">
             <summary>
             当需求某个服务
             </summary>
             <typeparam name="T">服务类型</typeparam>
             <returns>绑定关系临时数据</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.Alias``1">
+        <member name="M:CatLib.Support.BindData.Alias``1">
             <summary>
             为服务设定一个别名
             </summary>
             <typeparam name="T">别名</typeparam>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.Alias(System.String)">
+        <member name="M:CatLib.Support.BindData.Alias(System.String)">
             <summary>
             为服务设定一个别名
             </summary>
             <param name="alias">别名</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.OnResolving(System.Func{CatLib.API.Stl.IBindData,System.Object,System.Object})">
+        <member name="M:CatLib.Support.BindData.OnResolving(System.Func{CatLib.API.Support.IBindData,System.Object,System.Object})">
             <summary>
             解决服务时触发的回调
             </summary>
             <param name="func">解决事件</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.OnRelease(System.Action{CatLib.API.Stl.IBindData,System.Object})">
+        <member name="M:CatLib.Support.BindData.OnRelease(System.Action{CatLib.API.Support.IBindData,System.Object})">
             <summary>
             当静态服务被释放时
             </summary>
             <param name="action">处理事件</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.UnBind">
+        <member name="M:CatLib.Support.BindData.UnBind">
             <summary>
             移除绑定服务 , 在解除绑定时如果是静态化物体将会触发释放
             </summary>
         </member>
-        <member name="M:CatLib.Stl.BindData.GetContextual(System.String)">
+        <member name="M:CatLib.Support.BindData.GetContextual(System.String)">
             <summary>
             获取上下文的需求关系
             </summary>
             <param name="needs">需求的服务</param>
             <returns>给与的服务</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.ExecResolvingDecorator(System.Object)">
+        <member name="M:CatLib.Support.BindData.ExecResolvingDecorator(System.Object)">
             <summary>
             执行服务修饰器
             </summary>
             <param name="obj">服务实例</param>
             <returns>修饰后的服务实例</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.ExecReleaseDecorator(System.Object)">
+        <member name="M:CatLib.Support.BindData.ExecReleaseDecorator(System.Object)">
             <summary>
             执行服务释放处理器
             </summary>
             <param name="obj">服务实例</param>
         </member>
-        <member name="M:CatLib.Stl.BindData.AddContextual(System.String,System.String)">
+        <member name="M:CatLib.Support.BindData.AddContextual(System.String,System.String)">
             <summary>
             为服务增加上下文
             </summary>
@@ -4616,78 +4616,78 @@
             <param name="given">给与什么服务</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.BindData.GuardIsDestroy">
+        <member name="M:CatLib.Support.BindData.GuardIsDestroy">
             <summary>
             守卫是否被释放
             </summary>
         </member>
-        <member name="T:CatLib.Stl.Container">
+        <member name="T:CatLib.Support.Container">
             <summary>
              依赖注入容器
              </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.binds">
+        <member name="F:CatLib.Support.Container.binds">
             <summary>
             服务所绑定的相关数据，记录了服务的关系
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.instances">
+        <member name="F:CatLib.Support.Container.instances">
             <summary>
              如果所属服务是静态的那么构建后将会储存在这里
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.aliases">
+        <member name="F:CatLib.Support.Container.aliases">
             <summary>
              服务的别名(key: 别名 , value: 映射的服务名)
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.aliasesReverse">
+        <member name="F:CatLib.Support.Container.aliasesReverse">
             <summary>
             可以通过服务的真实名字来查找别名
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.tags">
+        <member name="F:CatLib.Support.Container.tags">
             <summary>
             服务标记，一个标记允许标记多个服务
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.resolving">
+        <member name="F:CatLib.Support.Container.resolving">
             <summary>
             服务构建时的修饰器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.release">
+        <member name="F:CatLib.Support.Container.release">
             <summary>
             静态服务释放时的修饰器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.findType">
+        <member name="F:CatLib.Support.Container.findType">
             <summary>
             类型查询回调
             当类型无法被解决时会尝试去开发者提供的查询器中查询类型
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.syncRoot">
+        <member name="F:CatLib.Support.Container.syncRoot">
             <summary>
             同步锁
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.injectTarget">
+        <member name="F:CatLib.Support.Container.injectTarget">
             <summary>
             注入目标
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Container.buildStack">
+        <member name="F:CatLib.Support.Container.buildStack">
             <summary>
             编译堆栈
             </summary>
         </member>
-        <member name="M:CatLib.Stl.Container.#ctor">
+        <member name="M:CatLib.Support.Container.#ctor">
             <summary>
             构造一个容器
             </summary>
         </member>
-        <member name="M:CatLib.Stl.Container.Tag(System.String,System.String[])">
+        <member name="M:CatLib.Support.Container.Tag(System.String,System.String[])">
             <summary>
             为一个及以上的服务定义一个标记
             如果标记已经存在那么服务会被追加进列表
@@ -4696,7 +4696,7 @@
             <param name="service">服务名或者别名</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者<paramref name="service"/>中的元素为<c>null</c>或者空字符串</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.Tagged(System.String)">
+        <member name="M:CatLib.Support.Container.Tagged(System.String)">
             <summary>
             根据标记名生成标记所对应的所有服务实例
             </summary>
@@ -4705,7 +4705,7 @@
             <exception cref="T:CatLib.RuntimeException"><paramref name="tag"/>不存在</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="tag"/>为<c>null</c>或者空字符串</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.GetBind(System.String)">
+        <member name="M:CatLib.Support.Container.GetBind(System.String)">
             <summary>
             获取服务的绑定数据,如果绑定不存在则返回null（只有进行过bind才视作绑定）
             </summary>
@@ -4713,21 +4713,21 @@
             <returns>服务绑定数据或者null</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.HasBind(System.String)">
+        <member name="M:CatLib.Support.Container.HasBind(System.String)">
             <summary>
             是否已经绑定了服务（只有进行过bind才视作绑定）
             </summary>
             <param name="service">服务名或别名</param>
             <returns>服务是否被绑定</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.IsStatic(System.String)">
+        <member name="M:CatLib.Support.Container.IsStatic(System.String)">
             <summary>
             服务是否是静态化的,如果服务不存在也将返回false
             </summary>
             <param name="service">服务名或者别名</param>
             <returns>是否是静态化的</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.Alias(System.String,System.String)">
+        <member name="M:CatLib.Support.Container.Alias(System.String,System.String)">
             <summary>
             为服务设定一个别名
             </summary>
@@ -4737,7 +4737,7 @@
             <exception cref="T:CatLib.RuntimeException"><paramref name="alias"/>别名冲突或者<paramref name="service"/>的绑定与实例都不存在</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="alias"/>,<paramref name="service"/>为<c>null</c>或者空字符串</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.BindIf(System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object},System.Boolean)">
+        <member name="M:CatLib.Support.Container.BindIf(System.String,System.Func{CatLib.API.Support.IContainer,System.Object[],System.Object},System.Boolean)">
             <summary>
             如果服务不存在那么则绑定服务
             </summary>
@@ -4746,7 +4746,7 @@
             <param name="isStatic">服务是否是静态的</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.BindIf(System.String,System.Type,System.Boolean)">
+        <member name="M:CatLib.Support.Container.BindIf(System.String,System.Type,System.Boolean)">
             <summary>
             如果服务不存在那么则绑定服务
             </summary>
@@ -4755,7 +4755,7 @@
             <param name="isStatic">服务是否是静态的</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.Bind(System.String,System.Type,System.Boolean)">
+        <member name="M:CatLib.Support.Container.Bind(System.String,System.Type,System.Boolean)">
             <summary>
             绑定一个服务
             </summary>
@@ -4765,7 +4765,7 @@
             <returns>服务绑定数据</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="concrete"/>为<c>null</c>或者空字符串</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.Bind(System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object},System.Boolean)">
+        <member name="M:CatLib.Support.Container.Bind(System.String,System.Func{CatLib.API.Support.IContainer,System.Object[],System.Object},System.Boolean)">
             <summary>
             绑定一个服务
             </summary>
@@ -4776,7 +4776,7 @@
             <exception cref="T:CatLib.RuntimeException"><paramref name="service"/>绑定冲突</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="concrete"/>为<c>null</c></exception>
         </member>
-        <member name="M:CatLib.Stl.Container.Call(System.Object,System.String,System.Object[])">
+        <member name="M:CatLib.Support.Container.Call(System.Object,System.String,System.Object[])">
             <summary>
             以依赖注入形式调用一个方法
             </summary>
@@ -4786,7 +4786,7 @@
             <returns>方法返回值</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="instance"/>,<paramref name="method"/>为<c>null</c>或者空字符串</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.Call(System.Object,System.Reflection.MethodInfo,System.Object[])">
+        <member name="M:CatLib.Support.Container.Call(System.Object,System.Reflection.MethodInfo,System.Object[])">
             <summary>
             以依赖注入形式调用一个方法
             </summary>
@@ -4796,7 +4796,7 @@
             <returns>方法返回值</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="instance"/>,<paramref name="methodInfo"/>为<c>null</c></exception>
         </member>
-        <member name="M:CatLib.Stl.Container.Make(System.String,System.Object[])">
+        <member name="M:CatLib.Support.Container.Make(System.String,System.Object[])">
             <summary>
             构造服务
             </summary>
@@ -4806,14 +4806,14 @@
             <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
             <exception cref="T:CatLib.RuntimeException">出现循环依赖</exception>
         </member>
-        <member name="P:CatLib.Stl.Container.Item(System.String)">
+        <member name="P:CatLib.Support.Container.Item(System.String)">
             <summary>
             构造服务
             </summary>
             <param name="service">服务名或者别名</param>
             <returns>服务实例，如果构造失败那么返回null</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.Instance(System.String,System.Object)">
+        <member name="M:CatLib.Support.Container.Instance(System.String,System.Object)">
             <summary>
             静态化一个服务,实例值会经过解决修饰器
             </summary>
@@ -4822,18 +4822,18 @@
             <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
             <exception cref="T:CatLib.RuntimeException"><paramref name="service"/>的服务在绑定设置中不是静态的</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.Release(System.String)">
+        <member name="M:CatLib.Support.Container.Release(System.String)">
             <summary>
             释放静态化实例
             </summary>
             <param name="service">服务名或别名</param>
         </member>
-        <member name="M:CatLib.Stl.Container.ReleaseAll">
+        <member name="M:CatLib.Support.Container.ReleaseAll">
             <summary>
             是否全部静态实例
             </summary>
         </member>
-        <member name="M:CatLib.Stl.Container.OnFindType(System.Func{System.String,System.Type},System.Int32)">
+        <member name="M:CatLib.Support.Container.OnFindType(System.Func{System.String,System.Type},System.Int32)">
             <summary>
             当查找类型无法找到时会尝试去调用开发者提供的查找类型函数
             </summary>
@@ -4841,34 +4841,34 @@
             <param name="priority">查询优先级(值越小越优先)</param>
             <returns>当前容器实例</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.OnRelease(System.Action{CatLib.API.Stl.IBindData,System.Object})">
+        <member name="M:CatLib.Support.Container.OnRelease(System.Action{CatLib.API.Support.IBindData,System.Object})">
             <summary>
             当静态服务被释放时
             </summary>
             <param name="action">处理释放时的回调</param>
             <returns>当前容器实例</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.OnResolving(System.Func{CatLib.API.Stl.IBindData,System.Object,System.Object})">
+        <member name="M:CatLib.Support.Container.OnResolving(System.Func{CatLib.API.Support.IBindData,System.Object,System.Object})">
             <summary>
             当服务被解决时，生成的服务会经过注册的回调函数
             </summary>
             <param name="func">回调函数</param>
             <returns>当前容器对象</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.UnBind(System.String)">
+        <member name="M:CatLib.Support.Container.UnBind(System.String)">
             <summary>
             解除绑定服务
             </summary>
             <param name="service">服务名或者别名</param>
         </member>
-        <member name="M:CatLib.Stl.Container.Type2Service(System.Type)">
+        <member name="M:CatLib.Support.Container.Type2Service(System.Type)">
             <summary>
             将类型转为服务名
             </summary>
             <param name="type">类型</param>
             <returns>服务名</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.ExecOnResolvingDecorator(CatLib.API.Stl.IBindData,System.Object)">
+        <member name="M:CatLib.Support.Container.ExecOnResolvingDecorator(CatLib.API.Support.IBindData,System.Object)">
             <summary>
             执行全局解决修饰器
             </summary>
@@ -4876,7 +4876,7 @@
             <param name="obj">服务实例</param>
             <returns>被修饰器修饰后的服务实例</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.ExecOnReleaseDecorator(CatLib.API.Stl.IBindData,System.Object)">
+        <member name="M:CatLib.Support.Container.ExecOnReleaseDecorator(CatLib.API.Support.IBindData,System.Object)">
             <summary>
             执行全局释放修饰器
             </summary>
@@ -4884,7 +4884,7 @@
             <param name="obj">服务实例</param>
             <returns>被修饰器修饰后的服务实例</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.BuildMake(System.String,System.Type,System.Boolean,System.Object[])">
+        <member name="M:CatLib.Support.Container.BuildMake(System.String,System.Type,System.Boolean,System.Object[])">
             <summary>
             构造服务
             </summary>
@@ -4894,7 +4894,7 @@
             <param name="param">构造参数</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.BuildUseConcrete(CatLib.Stl.BindData,System.Type,System.Object[])">
+        <member name="M:CatLib.Support.Container.BuildUseConcrete(CatLib.Support.BindData,System.Type,System.Object[])">
             <summary>
             常规编译一个服务
             </summary>
@@ -4903,7 +4903,7 @@
             <param name="param">构造参数</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.Build(CatLib.Stl.BindData,System.Type,System.Object[])">
+        <member name="M:CatLib.Support.Container.Build(CatLib.Support.BindData,System.Type,System.Object[])">
             <summary>
             构造服务 - 实现
             </summary>
@@ -4912,14 +4912,14 @@
             <param name="param">构造参数</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.Normalize(System.String)">
+        <member name="M:CatLib.Support.Container.Normalize(System.String)">
             <summary>
             标准化服务名
             </summary>
             <param name="service">服务名</param>
             <returns>标准化后的服务名</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.AttrInject(CatLib.Stl.BindData,System.Object)">
+        <member name="M:CatLib.Support.Container.AttrInject(CatLib.Support.BindData,System.Object)">
             <summary>
             属性注入
             </summary>
@@ -4928,7 +4928,7 @@
             <returns>服务实例</returns>
             <exception cref="T:CatLib.RuntimeException">属性是必须的或者注入类型和需求类型不一致</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.ResolveNonClassAttr(CatLib.Stl.BindData,System.String)">
+        <member name="M:CatLib.Support.Container.ResolveNonClassAttr(CatLib.Support.BindData,System.String)">
             <summary>
             解决非类类型
             </summary>
@@ -4936,7 +4936,7 @@
             <param name="service">希望构造的服务名或者别名</param>
             <returns>解决结果</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.ResloveClassAttr(CatLib.Stl.BindData,System.String)">
+        <member name="M:CatLib.Support.Container.ResloveClassAttr(CatLib.Support.BindData,System.String)">
             <summary>
             解决类类型
             </summary>
@@ -4944,7 +4944,7 @@
             <param name="service">希望构造的服务名或者别名</param>
             <returns>解决结果</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.GetDependencies(CatLib.Stl.BindData,System.Collections.Generic.IList{System.Reflection.ParameterInfo},System.Collections.Generic.IList{System.Object})">
+        <member name="M:CatLib.Support.Container.GetDependencies(CatLib.Support.BindData,System.Collections.Generic.IList{System.Reflection.ParameterInfo},System.Collections.Generic.IList{System.Object})">
             <summary>
             获取依赖解决结果
             </summary>
@@ -4954,7 +4954,7 @@
             <returns>服务所需参数的解决结果</returns>
             <exception cref="T:CatLib.RuntimeException">生成的实例类型和需求类型不一致</exception>
         </member>
-        <member name="M:CatLib.Stl.Container.ResolveNonClass(CatLib.Stl.BindData,System.String)">
+        <member name="M:CatLib.Support.Container.ResolveNonClass(CatLib.Support.BindData,System.String)">
             <summary>
             解决非类类型
             </summary>
@@ -4962,7 +4962,7 @@
             <param name="service">希望解决的服务名或者别名</param>
             <returns>解决结果</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.ResloveClass(CatLib.Stl.BindData,System.String)">
+        <member name="M:CatLib.Support.Container.ResloveClass(CatLib.Support.BindData,System.String)">
             <summary>
             解决类类型
             </summary>
@@ -4970,109 +4970,109 @@
             <param name="service">希望解决的服务名或者别名</param>
             <returns>解决结果</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.AliasToService(System.String)">
+        <member name="M:CatLib.Support.Container.AliasToService(System.String)">
             <summary>
             获取别名最终对应的服务名
             </summary>
             <param name="service">服务名或别名</param>
             <returns>最终映射的服务名</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.GetBindData(System.String)">
+        <member name="M:CatLib.Support.Container.GetBindData(System.String)">
             <summary>
             获取服务绑定数据(与GetBind的区别是永远不会为null)
             </summary>
             <param name="service">服务名</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.MakeEmptyBindData(System.String)">
+        <member name="M:CatLib.Support.Container.MakeEmptyBindData(System.String)">
             <summary>
             制作一个空的绑定数据
             </summary>
             <param name="service">服务名</param>
             <returns>空绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.Container.GetType(System.String)">
+        <member name="M:CatLib.Support.Container.GetType(System.String)">
             <summary>
             获取类型映射
             </summary>
             <param name="service">服务名</param>
             <returns>服务类型</returns>
         </member>
-        <member name="T:CatLib.Stl.GivenData">
+        <member name="T:CatLib.Support.GivenData">
             <summary>
             绑定关系临时数据,用于支持链式调用
             </summary>
         </member>
-        <member name="F:CatLib.Stl.GivenData.bindData">
+        <member name="F:CatLib.Support.GivenData.bindData">
             <summary>
             绑定数据
             </summary>
         </member>
-        <member name="F:CatLib.Stl.GivenData.container">
+        <member name="F:CatLib.Support.GivenData.container">
             <summary>
             服务容器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.GivenData.needs">
+        <member name="F:CatLib.Support.GivenData.needs">
             <summary>
             需求什么服务
             </summary>
         </member>
-        <member name="M:CatLib.Stl.GivenData.#ctor(CatLib.Stl.Container,CatLib.Stl.BindData)">
+        <member name="M:CatLib.Support.GivenData.#ctor(CatLib.Support.Container,CatLib.Support.BindData)">
             <summary>
             绑定关系临时数据
             </summary>
             <param name="container">服务容器</param>
             <param name="bindData">服务绑定数据</param>
         </member>
-        <member name="M:CatLib.Stl.GivenData.Needs(System.String)">
+        <member name="M:CatLib.Support.GivenData.Needs(System.String)">
             <summary>
             需求什么服务
             </summary>
             <param name="needs">需求什么服务</param>
             <returns>绑定关系实例</returns>
         </member>
-        <member name="M:CatLib.Stl.GivenData.Given(System.String)">
+        <member name="M:CatLib.Support.GivenData.Given(System.String)">
             <summary>
             给与什么服务
             </summary>
             <param name="service">给与的服务名或别名</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.Stl.GivenData.Given``1">
+        <member name="M:CatLib.Support.GivenData.Given``1">
             <summary>
             给与什么服务
             </summary>
             <typeparam name="T">给与的服务名或别名</typeparam>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="T:CatLib.Stl.FilterChain`1">
+        <member name="T:CatLib.Support.FilterChain`1">
             <summary>
             过滤器链
             </summary>
             <typeparam name="TIn">输入参数</typeparam>
         </member>
-        <member name="F:CatLib.Stl.FilterChain`1.filterList">
+        <member name="F:CatLib.Support.FilterChain`1.filterList">
             <summary>
             过滤器链
             </summary>
         </member>
-        <member name="P:CatLib.Stl.FilterChain`1.FilterList">
+        <member name="P:CatLib.Support.FilterChain`1.FilterList">
             <summary>
             过滤器列表
             </summary>
         </member>
-        <member name="F:CatLib.Stl.FilterChain`1.stack">
+        <member name="F:CatLib.Support.FilterChain`1.stack">
             <summary>
             堆栈 用于解决内部递归调用过滤器链所出现的问题
             </summary>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`1.#ctor">
+        <member name="M:CatLib.Support.FilterChain`1.#ctor">
             <summary>
             构建一个过滤器链
             </summary>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`1.Add(System.Action{`0,System.Action{`0}},System.Int32)">
+        <member name="M:CatLib.Support.FilterChain`1.Add(System.Action{`0,System.Action{`0}},System.Int32)">
             <summary>
             增加一个过滤器
             </summary>
@@ -5080,48 +5080,48 @@
             <param name="priority">优先级(值越小越优先)</param>
             <returns>过滤器链</returns>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`1.Do(`0,System.Action{`0})">
+        <member name="M:CatLib.Support.FilterChain`1.Do(`0,System.Action{`0})">
             <summary>
             执行过滤器链
             </summary>
             <param name="inData">输入数据</param>
             <param name="then">当过滤器执行完成后执行的操作</param>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`1.Next(System.Action{`0})">
+        <member name="M:CatLib.Support.FilterChain`1.Next(System.Action{`0})">
             <summary>
             下一层过滤器链
             </summary>
             <param name="then">当过滤器执行完成后执行的操作</param>
             <returns>执行过滤器</returns>
         </member>
-        <member name="T:CatLib.Stl.FilterChain`2">
+        <member name="T:CatLib.Support.FilterChain`2">
             <summary>
             过滤器链
             </summary>
             <typeparam name="TIn">输入参数</typeparam>
             <typeparam name="TOut">输出参数</typeparam>
         </member>
-        <member name="F:CatLib.Stl.FilterChain`2.filterList">
+        <member name="F:CatLib.Support.FilterChain`2.filterList">
             <summary>
             过滤器链
             </summary>
         </member>
-        <member name="P:CatLib.Stl.FilterChain`2.FilterList">
+        <member name="P:CatLib.Support.FilterChain`2.FilterList">
             <summary>
             过滤器列表
             </summary>
         </member>
-        <member name="F:CatLib.Stl.FilterChain`2.stack">
+        <member name="F:CatLib.Support.FilterChain`2.stack">
             <summary>
             堆栈 用于解决内部递归调用过滤器链所出现的问题
             </summary>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`2.#ctor">
+        <member name="M:CatLib.Support.FilterChain`2.#ctor">
             <summary>
             构建一个过滤器链
             </summary>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`2.Add(System.Action{`0,`1,System.Action{`0,`1}},System.Int32)">
+        <member name="M:CatLib.Support.FilterChain`2.Add(System.Action{`0,`1,System.Action{`0,`1}},System.Int32)">
             <summary>
             增加一个过滤器
             </summary>
@@ -5129,7 +5129,7 @@
             <param name="priority">优先级</param>
             <returns>过滤器链</returns>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`2.Do(`0,`1,System.Action{`0,`1})">
+        <member name="M:CatLib.Support.FilterChain`2.Do(`0,`1,System.Action{`0,`1})">
             <summary>
             执行过滤器链
             </summary>
@@ -5137,14 +5137,14 @@
             <param name="outData">输出参数</param>
             <param name="then">当过滤器执行完成后执行的操作</param>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`2.Next(System.Action{`0,`1})">
+        <member name="M:CatLib.Support.FilterChain`2.Next(System.Action{`0,`1})">
             <summary>
             下一层过滤器链
             </summary>
             <param name="then">当过滤器执行完成后执行的操作</param>
             <returns>执行过滤器</returns>
         </member>
-        <member name="T:CatLib.Stl.FilterChain`3">
+        <member name="T:CatLib.Support.FilterChain`3">
             <summary>
             过滤器链
             </summary>
@@ -5152,27 +5152,27 @@
             <typeparam name="TOut">输出参数</typeparam>
             <typeparam name="TException">输入异常</typeparam>
         </member>
-        <member name="F:CatLib.Stl.FilterChain`3.filterList">
+        <member name="F:CatLib.Support.FilterChain`3.filterList">
             <summary>
             过滤器链
             </summary>
         </member>
-        <member name="P:CatLib.Stl.FilterChain`3.FilterList">
+        <member name="P:CatLib.Support.FilterChain`3.FilterList">
             <summary>
             过滤器列表
             </summary>
         </member>
-        <member name="F:CatLib.Stl.FilterChain`3.stack">
+        <member name="F:CatLib.Support.FilterChain`3.stack">
             <summary>
             堆栈 用于解决内部递归调用过滤器链所出现的问题
             </summary>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`3.#ctor">
+        <member name="M:CatLib.Support.FilterChain`3.#ctor">
             <summary>
             构建一个过滤器链
             </summary>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`3.Add(System.Action{`0,`1,`2,System.Action{`0,`1,`2}},System.Int32)">
+        <member name="M:CatLib.Support.FilterChain`3.Add(System.Action{`0,`1,`2,System.Action{`0,`1,`2}},System.Int32)">
             <summary>
             增加一个过滤器
             </summary>
@@ -5180,7 +5180,7 @@
             <param name="priority">优先级</param>
             <returns>过滤器链</returns>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`3.Do(`0,`1,`2,System.Action{`0,`1,`2})">
+        <member name="M:CatLib.Support.FilterChain`3.Do(`0,`1,`2,System.Action{`0,`1,`2})">
             <summary>
             执行过滤器链
             </summary>
@@ -5189,33 +5189,33 @@
             <param name="exception">输入异常</param>
             <param name="then">当过滤器执行完成后执行的操作</param>
         </member>
-        <member name="M:CatLib.Stl.FilterChain`3.Next(System.Action{`0,`1,`2})">
+        <member name="M:CatLib.Support.FilterChain`3.Next(System.Action{`0,`1,`2})">
             <summary>
             下一层过滤器链
             </summary>
             <param name="then">当过滤器执行完成后执行的操作</param>
             <returns>执行过滤器</returns>
         </member>
-        <member name="T:CatLib.Stl.Guard">
+        <member name="T:CatLib.Support.Guard">
             <summary>
             守卫
             </summary>
         </member>
-        <member name="M:CatLib.Stl.Guard.Requires``1(System.Boolean)">
+        <member name="M:CatLib.Support.Guard.Requires``1(System.Boolean)">
             <summary>
             验证一个条件,并在该协定的条件失败时引发异常。
             </summary>
             <typeparam name="TException">异常</typeparam>
             <param name="condition">条件</param>
         </member>
-        <member name="M:CatLib.Stl.Guard.NotEmptyOrNull(System.String,System.String)">
+        <member name="M:CatLib.Support.Guard.NotEmptyOrNull(System.String,System.String)">
             <summary>
             不为空或者null
             </summary>
             <param name="argumentValue">参数值</param>
             <param name="argumentName">参数名</param>
         </member>
-        <member name="M:CatLib.Stl.Guard.CountGreaterZero``1(System.Collections.Generic.IList{``0},System.String)">
+        <member name="M:CatLib.Support.Guard.CountGreaterZero``1(System.Collections.Generic.IList{``0},System.String)">
             <summary>
             长度大于0
             </summary>
@@ -5223,125 +5223,125 @@
             <param name="argumentValue">参数值</param>
             <param name="argumentName">参数名</param>
         </member>
-        <member name="M:CatLib.Stl.Guard.ElementNotEmptyOrNull(System.Collections.Generic.IList{System.String},System.String)">
+        <member name="M:CatLib.Support.Guard.ElementNotEmptyOrNull(System.Collections.Generic.IList{System.String},System.String)">
             <summary>
             元素部位空或者null
             </summary>
             <param name="argumentValue">参数值</param>
             <param name="argumentName">参数名</param>
         </member>
-        <member name="M:CatLib.Stl.Guard.NotNull(System.Object,System.String)">
+        <member name="M:CatLib.Support.Guard.NotNull(System.Object,System.String)">
             <summary>
             内容不为空
             </summary>
             <param name="argumentValue">参数值</param>
             <param name="argumentName">参数名</param>
         </member>
-        <member name="T:CatLib.Stl.CacheNode`2">
+        <member name="T:CatLib.Support.CacheNode`2">
             <summary>
             缓存节点
             </summary>
         </member>
-        <member name="P:CatLib.Stl.CacheNode`2.KeyValue">
+        <member name="P:CatLib.Support.CacheNode`2.KeyValue">
             <summary>
             键值
             </summary>
         </member>
-        <member name="P:CatLib.Stl.CacheNode`2.Backward">
+        <member name="P:CatLib.Support.CacheNode`2.Backward">
             <summary>
             上一个节点
             </summary>
         </member>
-        <member name="P:CatLib.Stl.CacheNode`2.Forward">
+        <member name="P:CatLib.Support.CacheNode`2.Forward">
             <summary>
             下一个节点
             </summary>
         </member>
-        <member name="M:CatLib.Stl.CacheNode`2.#ctor(`0,`1)">
+        <member name="M:CatLib.Support.CacheNode`2.#ctor(`0,`1)">
             <summary>
             创建一个缓存节点
             </summary>
             <param name="key">键</param>
             <param name="val">值</param>
         </member>
-        <member name="M:CatLib.Stl.CacheNode`2.Replace(`1)">
+        <member name="M:CatLib.Support.CacheNode`2.Replace(`1)">
             <summary>
             替换元素
             </summary>
             <param name="val">值</param>
         </member>
-        <member name="T:CatLib.Stl.LruCache`2">
+        <member name="T:CatLib.Support.LruCache`2">
             <summary>
             近期最少使用缓存
             </summary>
         </member>
-        <member name="F:CatLib.Stl.LruCache`2.maxCapacity">
+        <member name="F:CatLib.Support.LruCache`2.maxCapacity">
             <summary>
             最大容量
             </summary>
         </member>
-        <member name="F:CatLib.Stl.LruCache`2.lruCache">
+        <member name="F:CatLib.Support.LruCache`2.lruCache">
             <summary>
             Lru Cache
             </summary>
         </member>
-        <member name="F:CatLib.Stl.LruCache`2.header">
+        <member name="F:CatLib.Support.LruCache`2.header">
             <summary>
             头节点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.LruCache`2.tail">
+        <member name="F:CatLib.Support.LruCache`2.tail">
             <summary>
             尾节点
             </summary>
         </member>
-        <member name="T:CatLib.Stl.LruCache`2.Enumerator">
+        <member name="T:CatLib.Support.LruCache`2.Enumerator">
             <summary>
             近期最少使用缓存迭代器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.LruCache`2.Enumerator.lruCache">
+        <member name="F:CatLib.Support.LruCache`2.Enumerator.lruCache">
             <summary>
             近期最少使用缓存
             </summary>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.Enumerator.#ctor(CatLib.Stl.LruCache{`0,`1})">
+        <member name="M:CatLib.Support.LruCache`2.Enumerator.#ctor(CatLib.Support.LruCache{`0,`1})">
             <summary>
             构造一个迭代器
             </summary>
             <param name="lruCache">近期最少使用缓存</param>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.Enumerator.GetEnumerator">
+        <member name="M:CatLib.Support.LruCache`2.Enumerator.GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>元素迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.Enumerator.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:CatLib.Support.LruCache`2.Enumerator.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             获取迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.#ctor(System.Int32)">
+        <member name="M:CatLib.Support.LruCache`2.#ctor(System.Int32)">
             <summary>
             创建一个Lru缓存
             </summary>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.Add(`0,`1)">
+        <member name="M:CatLib.Support.LruCache`2.Add(`0,`1)">
             <summary>
             在lru缓存中增加一个元素,如果元素已经存在则会替换元素
             </summary>
             <param name="key">键</param>
             <param name="value">值</param>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.Remove(`0)">
+        <member name="M:CatLib.Support.LruCache`2.Remove(`0)">
             <summary>
             移除元素
             </summary>
             <param name="key">键</param>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.Get(`0,`1)">
+        <member name="M:CatLib.Support.LruCache`2.Get(`0,`1)">
             <summary>
             根据key获取val，如果被淘汰则返回传入的默认值
             </summary>
@@ -5349,7 +5349,7 @@
             <param name="defaultValue">默认返回值</param>
             <returns>值</returns>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.Get(`0,`1@,`1)">
+        <member name="M:CatLib.Support.LruCache`2.Get(`0,`1@,`1)">
             <summary>
             根据key获取val，如果被淘汰则返回传入的默认值
             </summary>
@@ -5358,343 +5358,343 @@
             <param name="defaultVal">默认值</param>
             <returns>是否获取</returns>
         </member>
-        <member name="P:CatLib.Stl.LruCache`2.Count">
+        <member name="P:CatLib.Support.LruCache`2.Count">
             <summary>
             获取Lru缓存中的元素数量
             </summary>
         </member>
-        <member name="P:CatLib.Stl.LruCache`2.Item(`0)">
+        <member name="P:CatLib.Support.LruCache`2.Item(`0)">
             <summary>
             根据key获取val，如果被淘汰则返回默认值
             </summary>
             <param name="key">键</param>
             <returns>值</returns>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.GetEnumerator">
+        <member name="M:CatLib.Support.LruCache`2.GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:CatLib.Support.LruCache`2.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.RemoveLeastUsed">
+        <member name="M:CatLib.Support.LruCache`2.RemoveLeastUsed">
             <summary>
             移除最后一个元素
             </summary>
         </member>
-        <member name="M:CatLib.Stl.LruCache`2.MakeUsed(CatLib.Stl.CacheNode{`0,`1})">
+        <member name="M:CatLib.Support.LruCache`2.MakeUsed(CatLib.Support.CacheNode{`0,`1})">
             <summary>
             激活指定节点为最近使用
             </summary>
             <param name="node">节点</param>
         </member>
-        <member name="T:CatLib.Stl.InternalList`1">
+        <member name="T:CatLib.Support.InternalList`1">
             <summary>
             内部列表
             </summary>
         </member>
-        <member name="F:CatLib.Stl.InternalList`1.items">
+        <member name="F:CatLib.Support.InternalList`1.items">
             <summary>
             列表元素
             </summary>
         </member>
-        <member name="P:CatLib.Stl.InternalList`1.Count">
+        <member name="P:CatLib.Support.InternalList`1.Count">
             <summary>
             实际元素个数
             </summary>
         </member>
-        <member name="P:CatLib.Stl.InternalList`1.IsDelete">
+        <member name="P:CatLib.Support.InternalList`1.IsDelete">
             <summary>
             是否被删除
             </summary>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.#ctor(System.Int32)">
+        <member name="M:CatLib.Support.InternalList`1.#ctor(System.Int32)">
             <summary>
             新建一个内部列表
             </summary>
             <param name="capacity">容量</param>
         </member>
-        <member name="P:CatLib.Stl.InternalList`1.Item(System.Int32)">
+        <member name="P:CatLib.Support.InternalList`1.Item(System.Int32)">
             <summary>
             获取或者设定一个元素
             </summary>
             <param name="offset">偏移量</param>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.InsertAt(`0,System.Int32)">
+        <member name="M:CatLib.Support.InternalList`1.InsertAt(`0,System.Int32)">
             <summary>
             在指定位置插入元素
             </summary>
             <param name="element">元素</param>
             <param name="offset">偏移量</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.RemoveAt(System.Int32)">
+        <member name="M:CatLib.Support.InternalList`1.RemoveAt(System.Int32)">
             <summary>
             移除元素
             </summary>
             <param name="offset">偏移量</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.RemoveRange(System.Int32,System.Int32)">
+        <member name="M:CatLib.Support.InternalList`1.RemoveRange(System.Int32,System.Int32)">
             <summary>
             移除范围内的元素
             </summary>
             <param name="start">起始范围(包含)</param>
             <param name="end">结束范围(包含)</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.ReplaceAt(`0,System.Int32)">
+        <member name="M:CatLib.Support.InternalList`1.ReplaceAt(`0,System.Int32)">
             <summary>
             替换指定位置的元素
             </summary>
             <param name="element">元素</param>
             <param name="offset">偏移量</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.Init(`0[])">
+        <member name="M:CatLib.Support.InternalList`1.Init(`0[])">
             <summary>
             合入元素
             </summary>
             <param name="elements">元素</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.Merge(CatLib.Stl.InternalList{`0},System.Boolean)">
+        <member name="M:CatLib.Support.InternalList`1.Merge(CatLib.Support.InternalList{`0},System.Boolean)">
             <summary>
             合并内部列表
             </summary>
             <param name="join">需要被合并进来的内部列表</param>
             <param name="after">是否在当前列表元素的尾部合入</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.Split(System.Int32,System.Boolean)">
+        <member name="M:CatLib.Support.InternalList`1.Split(System.Int32,System.Boolean)">
             <summary>
             拆分列表
             </summary>
             <param name="offset">偏移量</param>
             <param name="after">是否是后拆</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.Push(`0)">
+        <member name="M:CatLib.Support.InternalList`1.Push(`0)">
             <summary>
             在尾部推入元素
             </summary>
             <param name="element">元素</param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.Pop">
+        <member name="M:CatLib.Support.InternalList`1.Pop">
             <summary>
             弹出尾部数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.UnShift(`0)">
+        <member name="M:CatLib.Support.InternalList`1.UnShift(`0)">
             <summary>
             在列表头部加入元素
             </summary>
             <param name="element"></param>
         </member>
-        <member name="M:CatLib.Stl.InternalList`1.Shift">
+        <member name="M:CatLib.Support.InternalList`1.Shift">
             <summary>
             推出列表头部的元素
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="T:CatLib.Stl.QuickList`1">
+        <member name="T:CatLib.Support.QuickList`1">
             <summary>
             快速列表
             </summary>
             <typeparam name="TElement">元素</typeparam>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.MergeCoefficient">
+        <member name="F:CatLib.Support.QuickList`1.MergeCoefficient">
             <summary>
             合并系数
             </summary>
         </member>
-        <member name="T:CatLib.Stl.QuickList`1.QuickListNode">
+        <member name="T:CatLib.Support.QuickList`1.QuickListNode">
             <summary>
             快速列表结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.QuickListNode.Backward">
+        <member name="F:CatLib.Support.QuickList`1.QuickListNode.Backward">
             <summary>
             后置结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.QuickListNode.Forward">
+        <member name="F:CatLib.Support.QuickList`1.QuickListNode.Forward">
             <summary>
             前置结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.QuickListNode.List">
+        <member name="F:CatLib.Support.QuickList`1.QuickListNode.List">
             <summary>
             列表
             </summary>
         </member>
-        <member name="T:CatLib.Stl.QuickList`1.Enumerator">
+        <member name="T:CatLib.Support.QuickList`1.Enumerator">
             <summary>
             快速列表迭代器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.Enumerator.quickList">
+        <member name="F:CatLib.Support.QuickList`1.Enumerator.quickList">
             <summary>
             快速列表
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.Enumerator.forward">
+        <member name="F:CatLib.Support.QuickList`1.Enumerator.forward">
             <summary>
             是否是向前遍历
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.Enumerator.version">
+        <member name="F:CatLib.Support.QuickList`1.Enumerator.version">
             <summary>
             版本
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.Enumerator.current">
+        <member name="F:CatLib.Support.QuickList`1.Enumerator.current">
             <summary>
             当前元素
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.Enumerator.node">
+        <member name="F:CatLib.Support.QuickList`1.Enumerator.node">
             <summary>
             当前节点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.Enumerator.index">
+        <member name="F:CatLib.Support.QuickList`1.Enumerator.index">
             <summary>
             访问下标
             </summary>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Enumerator.#ctor(CatLib.Stl.QuickList{`0},System.Boolean)">
+        <member name="M:CatLib.Support.QuickList`1.Enumerator.#ctor(CatLib.Support.QuickList{`0},System.Boolean)">
             <summary>
             构造一个迭代器
             </summary>
             <param name="quickList"></param>
             <param name="forward"></param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Enumerator.MoveNext">
+        <member name="M:CatLib.Support.QuickList`1.Enumerator.MoveNext">
             <summary>
             移动到下一个节点
             </summary>
             <returns>下一个节点是否存在</returns>
         </member>
-        <member name="P:CatLib.Stl.QuickList`1.Enumerator.Current">
+        <member name="P:CatLib.Support.QuickList`1.Enumerator.Current">
             <summary>
             获取当前元素
             </summary>
         </member>
-        <member name="P:CatLib.Stl.QuickList`1.Enumerator.System#Collections#IEnumerator#Current">
+        <member name="P:CatLib.Support.QuickList`1.Enumerator.System#Collections#IEnumerator#Current">
             <summary>
             获取当前元素
             </summary>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Enumerator.System#Collections#IEnumerator#Reset">
+        <member name="M:CatLib.Support.QuickList`1.Enumerator.System#Collections#IEnumerator#Reset">
             <summary>
             重置迭代器
             </summary>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Enumerator.Dispose">
+        <member name="M:CatLib.Support.QuickList`1.Enumerator.Dispose">
             <summary>
             释放时
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.fill">
+        <member name="F:CatLib.Support.QuickList`1.fill">
             <summary>
             每个快速列表结点最多的元素数量
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.header">
+        <member name="F:CatLib.Support.QuickList`1.header">
             <summary>
             列表头
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.tail">
+        <member name="F:CatLib.Support.QuickList`1.tail">
             <summary>
             列表尾
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.forward">
+        <member name="F:CatLib.Support.QuickList`1.forward">
             <summary>
             是否是向前的迭代方向
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.version">
+        <member name="F:CatLib.Support.QuickList`1.version">
             <summary>
             版本号
             </summary>
         </member>
-        <member name="F:CatLib.Stl.QuickList`1.syncRoot">
+        <member name="F:CatLib.Support.QuickList`1.syncRoot">
             <summary>
             同步锁
             </summary>
         </member>
-        <member name="P:CatLib.Stl.QuickList`1.SyncRoot">
+        <member name="P:CatLib.Support.QuickList`1.SyncRoot">
             <summary>
             同步锁
             </summary>
         </member>
-        <member name="P:CatLib.Stl.QuickList`1.Count">
+        <member name="P:CatLib.Support.QuickList`1.Count">
             <summary>
             列表元素基数
             </summary>
         </member>
-        <member name="P:CatLib.Stl.QuickList`1.Length">
+        <member name="P:CatLib.Support.QuickList`1.Length">
             <summary>
             快速列表中的结点数量
             </summary>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.#ctor(System.Int32)">
+        <member name="M:CatLib.Support.QuickList`1.#ctor(System.Int32)">
             <summary>
             快速列表
             </summary>
             <param name="fill">每个结点中元素的最大数量</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Clear">
+        <member name="M:CatLib.Support.QuickList`1.Clear">
             <summary>
             清空
             </summary>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.First">
+        <member name="M:CatLib.Support.QuickList`1.First">
             <summary>
             获取第一个元素
             </summary>
             <returns>第一个元素</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Last">
+        <member name="M:CatLib.Support.QuickList`1.Last">
             <summary>
             获取最后一个元素
             </summary>
             <returns>最后一个元素</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Add(`0)">
+        <member name="M:CatLib.Support.QuickList`1.Add(`0)">
             <summary>
             将元素插入到列表尾部
             </summary>
             <param name="element">元素</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Push(`0)">
+        <member name="M:CatLib.Support.QuickList`1.Push(`0)">
             <summary>
             将元素插入到列表尾部
             </summary>
             <param name="element">元素</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.UnShift(`0)">
+        <member name="M:CatLib.Support.QuickList`1.UnShift(`0)">
             <summary>
             将元素插入到列表头部
             </summary>
             <param name="element">元素</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Pop">
+        <member name="M:CatLib.Support.QuickList`1.Pop">
             <summary>
             移除并返回列表的尾部元素
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Shift">
+        <member name="M:CatLib.Support.QuickList`1.Shift">
             <summary>
             移除并返回列表头部的元素
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Trim(System.Int32,System.Int32)">
+        <member name="M:CatLib.Support.QuickList`1.Trim(System.Int32,System.Int32)">
             <summary>
             对列表进行修剪，只保留下标范围内的元素
             </summary>
@@ -5703,7 +5703,7 @@
             <returns>移除的元素数量</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>或者<paramref name="start"/>小于0时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Remove(`0,System.Int32)">
+        <member name="M:CatLib.Support.QuickList`1.Remove(`0,System.Int32)">
             <summary>
             根据参数 <paramref name="count"/> 的值，移除列表中与参数 <paramref name="element"/> 相等的元素。
             <para><c>count &gt; 0</c> : 从表头开始向表尾搜索，移除与 <paramref name="element"/> 相等的元素，数量为 <paramref name="count"/>。</para>
@@ -5714,7 +5714,7 @@
             <param name="count">移除的元素数量，使用正负来决定扫描起始位置，如果<paramref name="count"/>为0则全部匹配的元素，反之移除指定数量。</param>
             <returns>被移除元素的数量</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.GetRange(System.Int32,System.Int32)">
+        <member name="M:CatLib.Support.QuickList`1.GetRange(System.Int32,System.Int32)">
             <summary>
             获取区间内的所有元素,1个元素占1个位置
             </summary>
@@ -5723,7 +5723,7 @@
             <returns>区间内的元素列表</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="start"/>大于<paramref name="end"/>时引发</exception>
         </member>
-        <member name="P:CatLib.Stl.QuickList`1.Item(System.Int32)">
+        <member name="P:CatLib.Support.QuickList`1.Item(System.Int32)">
             <summary>
             通过下标访问元素,如果传入的是一个负数下标那么从末尾开始查找
             </summary>
@@ -5731,44 +5731,44 @@
             <returns>元素</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">下标越界时会引发</exception>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.InsertAfter(`0,`0)">
+        <member name="M:CatLib.Support.QuickList`1.InsertAfter(`0,`0)">
             <summary>
             在指定元素之后插入
             </summary>
             <param name="finder">查找的元素</param>
             <param name="insert">要插入的元素</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.InsertBefore(`0,`0)">
+        <member name="M:CatLib.Support.QuickList`1.InsertBefore(`0,`0)">
             <summary>
             在指定元素之前插入
             </summary>
             <param name="finder">查找的元素</param>
             <param name="insert">要插入的元素</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.ReverseIterator">
+        <member name="M:CatLib.Support.QuickList`1.ReverseIterator">
             <summary>
             反转遍历顺序(并不是反转整个列表)
             </summary>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.GetEnumerator">
+        <member name="M:CatLib.Support.QuickList`1.GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.System#Collections#Generic#IEnumerable{TElement}#GetEnumerator">
+        <member name="M:CatLib.Support.QuickList`1.System#Collections#Generic#IEnumerable{TElement}#GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:CatLib.Support.QuickList`1.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.FindByIndex(System.Int32,System.Int32@)">
+        <member name="M:CatLib.Support.QuickList`1.FindByIndex(System.Int32,System.Int32@)">
             <summary>
             根据下标查找元素,如果传入的是一个负数下标那么从末尾开始查找
             </summary>
@@ -5776,7 +5776,7 @@
             <param name="offset">偏移量</param>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.Insert(`0,CatLib.Stl.QuickList{`0}.QuickListNode,System.Int32,System.Boolean)">
+        <member name="M:CatLib.Support.QuickList`1.Insert(`0,CatLib.Support.QuickList{`0}.QuickListNode,System.Int32,System.Boolean)">
             <summary>
             插入元素
             </summary>
@@ -5785,13 +5785,13 @@
             <param name="node">需要插入的结点</param>
             <param name="offset">结点相对偏移量</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.AttemptMergeNode(CatLib.Stl.QuickList{`0}.QuickListNode)">
+        <member name="M:CatLib.Support.QuickList`1.AttemptMergeNode(CatLib.Support.QuickList{`0}.QuickListNode)">
             <summary>
             尝试合并结点
             </summary>
             <param name="node">发起合并的结点</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.MergeNode(CatLib.Stl.QuickList{`0}.QuickListNode,CatLib.Stl.QuickList{`0}.QuickListNode,System.Boolean)">
+        <member name="M:CatLib.Support.QuickList`1.MergeNode(CatLib.Support.QuickList{`0}.QuickListNode,CatLib.Support.QuickList{`0}.QuickListNode,System.Boolean)">
             <summary>
             将从结点合并进主节点
             </summary>
@@ -5799,7 +5799,7 @@
             <param name="slave">从结点</param>
             <param name="after">从结点将怎么合并</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.AllowMerge(CatLib.Stl.QuickList{`0}.QuickListNode,CatLib.Stl.QuickList{`0}.QuickListNode)">
+        <member name="M:CatLib.Support.QuickList`1.AllowMerge(CatLib.Support.QuickList{`0}.QuickListNode,CatLib.Support.QuickList{`0}.QuickListNode)">
             <summary>
             是否允许进行合并
             </summary>
@@ -5807,7 +5807,7 @@
             <param name="b">结点</param>
             <returns>是否可以合并</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.SplitNode(CatLib.Stl.QuickList{`0}.QuickListNode,System.Int32,System.Boolean)">
+        <member name="M:CatLib.Support.QuickList`1.SplitNode(CatLib.Support.QuickList{`0}.QuickListNode,System.Int32,System.Boolean)">
             <summary>
             拆分结点
             </summary>
@@ -5816,7 +5816,7 @@
             <param name="after">前拆将会将offset之前的元素作为返回结点，后拆分则会将offset之后的元素作为返回结点</param>
             <returns>拆分出的结点</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.FindNode(`0,System.Int32@)">
+        <member name="M:CatLib.Support.QuickList`1.FindNode(`0,System.Int32@)">
             <summary>
             查找元素所在结点
             </summary>
@@ -5824,20 +5824,20 @@
             <param name="offset">偏移量</param>
             <returns>所在结点，如果找不到结点则返回null</returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.ListPop(CatLib.Stl.QuickList{`0}.QuickListNode,System.Boolean)">
+        <member name="M:CatLib.Support.QuickList`1.ListPop(CatLib.Support.QuickList{`0}.QuickListNode,System.Boolean)">
             <summary>
             列表弹出数据
             </summary>
             <param name="node">结点</param>
             <param name="head">是否是头部</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.DeleteNode(CatLib.Stl.QuickList{`0}.QuickListNode)">
+        <member name="M:CatLib.Support.QuickList`1.DeleteNode(CatLib.Support.QuickList{`0}.QuickListNode)">
             <summary>
             删除结点
             </summary>
             <param name="node">结点</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.InsertNode(CatLib.Stl.QuickList{`0}.QuickListNode,CatLib.Stl.QuickList{`0}.QuickListNode,System.Boolean)">
+        <member name="M:CatLib.Support.QuickList`1.InsertNode(CatLib.Support.QuickList{`0}.QuickListNode,CatLib.Support.QuickList{`0}.QuickListNode,System.Boolean)">
             <summary>
             插入结点
             </summary>
@@ -5845,174 +5845,174 @@
             <param name="newNode">新的结点</param>
             <param name="after">在旧的结点之前还是之后</param>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.MakeNode">
+        <member name="M:CatLib.Support.QuickList`1.MakeNode">
             <summary>
             创建结点
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Stl.QuickList`1.AllowInsert(CatLib.Stl.QuickList{`0}.QuickListNode)">
+        <member name="M:CatLib.Support.QuickList`1.AllowInsert(CatLib.Support.QuickList{`0}.QuickListNode)">
             <summary>
             快速列表结点是否允许插入
             </summary>
             <param name="node">结点</param>
             <returns>是否可以插入</returns>
         </member>
-        <member name="T:CatLib.Stl.SortSet`2">
+        <member name="T:CatLib.Support.SortSet`2">
             <summary>
             有序集
             有序集使用分数进行排序(以小到大)
             </summary>
         </member>
-        <member name="T:CatLib.Stl.SortSet`2.SkipNode">
+        <member name="T:CatLib.Support.SortSet`2.SkipNode">
             <summary>
             跳跃结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.SkipNode.SkipNodeLevel.Forward">
+        <member name="F:CatLib.Support.SortSet`2.SkipNode.SkipNodeLevel.Forward">
             <summary>
             前一个结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.SkipNode.SkipNodeLevel.Span">
+        <member name="F:CatLib.Support.SortSet`2.SkipNode.SkipNodeLevel.Span">
             <summary>
             层跨越的结点数量
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.SkipNode.Element">
+        <member name="F:CatLib.Support.SortSet`2.SkipNode.Element">
             <summary>
             元素
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.SkipNode.Score">
+        <member name="F:CatLib.Support.SortSet`2.SkipNode.Score">
             <summary>
             分数
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.SkipNode.IsDeleted">
+        <member name="F:CatLib.Support.SortSet`2.SkipNode.IsDeleted">
             <summary>
             是否被删除
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.SkipNode.Backward">
+        <member name="F:CatLib.Support.SortSet`2.SkipNode.Backward">
             <summary>
             向后的结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.SkipNode.Level">
+        <member name="F:CatLib.Support.SortSet`2.SkipNode.Level">
             <summary>
             层级
             </summary>
         </member>
-        <member name="T:CatLib.Stl.SortSet`2.Enumerator">
+        <member name="T:CatLib.Support.SortSet`2.Enumerator">
             <summary>
             有序集迭代器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.Enumerator.sortSet">
+        <member name="F:CatLib.Support.SortSet`2.Enumerator.sortSet">
             <summary>
             快速列表
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.Enumerator.forward">
+        <member name="F:CatLib.Support.SortSet`2.Enumerator.forward">
             <summary>
             是否是向前遍历
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.Enumerator.current">
+        <member name="F:CatLib.Support.SortSet`2.Enumerator.current">
             <summary>
             当前节点
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Enumerator.#ctor(CatLib.Stl.SortSet{`0,`1},System.Boolean)">
+        <member name="M:CatLib.Support.SortSet`2.Enumerator.#ctor(CatLib.Support.SortSet{`0,`1},System.Boolean)">
             <summary>
             构造一个迭代器
             </summary>
             <param name="sortSet">有序集</param>
             <param name="forward">是否向前遍历</param>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Enumerator.MoveNext">
+        <member name="M:CatLib.Support.SortSet`2.Enumerator.MoveNext">
             <summary>
             移动到下一个节点
             </summary>
             <returns>下一个节点是否存在</returns>
         </member>
-        <member name="P:CatLib.Stl.SortSet`2.Enumerator.Current">
+        <member name="P:CatLib.Support.SortSet`2.Enumerator.Current">
             <summary>
             获取当前元素
             </summary>
         </member>
-        <member name="P:CatLib.Stl.SortSet`2.Enumerator.System#Collections#IEnumerator#Current">
+        <member name="P:CatLib.Support.SortSet`2.Enumerator.System#Collections#IEnumerator#Current">
             <summary>
             获取当前元素
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Enumerator.System#Collections#IEnumerator#Reset">
+        <member name="M:CatLib.Support.SortSet`2.Enumerator.System#Collections#IEnumerator#Reset">
             <summary>
             重置迭代器
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Enumerator.Dispose">
+        <member name="M:CatLib.Support.SortSet`2.Enumerator.Dispose">
             <summary>
             释放时
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.syncRoot">
+        <member name="F:CatLib.Support.SortSet`2.syncRoot">
             <summary>
             同步锁
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.forward">
+        <member name="F:CatLib.Support.SortSet`2.forward">
             <summary>
             是否是向前的迭代方向
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.maxLevel">
+        <member name="F:CatLib.Support.SortSet`2.maxLevel">
             <summary>
             最大层数
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.dict">
+        <member name="F:CatLib.Support.SortSet`2.dict">
             <summary>
             字典
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.level">
+        <member name="F:CatLib.Support.SortSet`2.level">
             <summary>
             当前拥有的层
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.header">
+        <member name="F:CatLib.Support.SortSet`2.header">
             <summary>
             跳跃表头结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.tail">
+        <member name="F:CatLib.Support.SortSet`2.tail">
             <summary>
             尾部结点
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.probability">
+        <member name="F:CatLib.Support.SortSet`2.probability">
             <summary>
             可能出现层数的概率
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SortSet`2.random">
+        <member name="F:CatLib.Support.SortSet`2.random">
             <summary>
             随机数发生器
             </summary>
         </member>
-        <member name="P:CatLib.Stl.SortSet`2.Count">
+        <member name="P:CatLib.Support.SortSet`2.Count">
             <summary>
             有序集的基数
             </summary>
         </member>
-        <member name="P:CatLib.Stl.SortSet`2.SyncRoot">
+        <member name="P:CatLib.Support.SortSet`2.SyncRoot">
             <summary>
             同步锁
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.#ctor(System.Double,System.Int32)">
+        <member name="M:CatLib.Support.SortSet`2.#ctor(System.Double,System.Int32)">
             <summary>
             创建一个有序集
             </summary>
@@ -6020,72 +6020,72 @@
             <param name="maxLevel">最大层数</param>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="probable"/>或<paramref name="maxLevel"/>不是有效值时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Clear">
+        <member name="M:CatLib.Support.SortSet`2.Clear">
             <summary>
             清空SortSet
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.ReverseIterator">
+        <member name="M:CatLib.Support.SortSet`2.ReverseIterator">
             <summary>
             反转遍历顺序(并不是反转整个有序集)
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetEnumerator">
+        <member name="M:CatLib.Support.SortSet`2.GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.System#Collections#Generic#IEnumerable{TElement}#GetEnumerator">
+        <member name="M:CatLib.Support.SortSet`2.System#Collections#Generic#IEnumerable{TElement}#GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:CatLib.Support.SortSet`2.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             迭代器
             </summary>
             <returns>迭代器</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.ToArray">
+        <member name="M:CatLib.Support.SortSet`2.ToArray">
             <summary>
             转为数组
             </summary>
             <returns>数组</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.First">
+        <member name="M:CatLib.Support.SortSet`2.First">
             <summary>
             获取第一个元素
             </summary>
             <returns>最后一个元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Last">
+        <member name="M:CatLib.Support.SortSet`2.Last">
             <summary>
             获取最后一个元素
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Shift">
+        <member name="M:CatLib.Support.SortSet`2.Shift">
             <summary>
             移除并返回有序集头部的元素
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Pop">
+        <member name="M:CatLib.Support.SortSet`2.Pop">
             <summary>
             移除并返回有序集尾部的元素
             </summary>
             <returns>元素</returns>
         </member>
-        <member name="P:CatLib.Stl.SortSet`2.Item(System.Int32)">
+        <member name="P:CatLib.Support.SortSet`2.Item(System.Int32)">
             <summary>
             获取指定排名的元素(有序集成员按照Score从小到大排序)
             </summary>
             <param name="rank">排名,排名以0为底</param>
             <returns>指定的元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Add(`0,`1)">
+        <member name="M:CatLib.Support.SortSet`2.Add(`0,`1)">
             <summary>
             插入记录
             </summary>
@@ -6093,14 +6093,14 @@
             <param name="score">分数</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>或<paramref name="score"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Contains(`0)">
+        <member name="M:CatLib.Support.SortSet`2.Contains(`0)">
             <summary>
             是否包含某个元素
             </summary>
             <param name="element">元素</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetScore(`0)">
+        <member name="M:CatLib.Support.SortSet`2.GetScore(`0)">
             <summary>
             返回有序集的分数
             </summary>
@@ -6109,7 +6109,7 @@
             <exception cref="T:System.Collections.Generic.KeyNotFoundException"><paramref name="element"/>不存在时引发</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetRangeCount(`1,`1)">
+        <member name="M:CatLib.Support.SortSet`2.GetRangeCount(`1,`1)">
             <summary>
             获取分数范围内的元素个数
             </summary>
@@ -6118,7 +6118,7 @@
             <returns>分数值在<paramref name="start"/>(包含)和<paramref name="end"/>(包含)之间的元素数量</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="start"/>和<paramref name="end"/>区间无效时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Remove(`0)">
+        <member name="M:CatLib.Support.SortSet`2.Remove(`0)">
             <summary>
             从有序集中删除元素，如果元素不存在返回false
             </summary>
@@ -6126,7 +6126,7 @@
             <returns>是否成功</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.RemoveRangeByRank(System.Int32,System.Int32)">
+        <member name="M:CatLib.Support.SortSet`2.RemoveRangeByRank(System.Int32,System.Int32)">
             <summary>
             根据排名区间移除区间内的元素
             </summary>
@@ -6135,7 +6135,7 @@
             <returns>被删除的元素个数</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="startRank"/>和<paramref name="stopRank"/>区间无效时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.RemoveRangeByScore(`1,`1)">
+        <member name="M:CatLib.Support.SortSet`2.RemoveRangeByScore(`1,`1)">
             <summary>
             根据分数区间移除区间内的元素
             </summary>
@@ -6144,7 +6144,7 @@
             <returns>被删除的元素个数</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetRank(`0)">
+        <member name="M:CatLib.Support.SortSet`2.GetRank(`0)">
             <summary>
             获取排名 , 有序集成员按照Score从小到大排序
             </summary>
@@ -6152,7 +6152,7 @@
             <returns>排名排名以0为底，为-1则表示没有找到元素</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetRevRank(`0)">
+        <member name="M:CatLib.Support.SortSet`2.GetRevRank(`0)">
             <summary>
             获取排名，有序集成员按照Score从大到小排序
             </summary>
@@ -6160,7 +6160,7 @@
             <returns>排名排名以0为底 , 为-1则表示没有找到元素</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="element"/>为<c>null</c>时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetElementRangeByRank(System.Int32,System.Int32)">
+        <member name="M:CatLib.Support.SortSet`2.GetElementRangeByRank(System.Int32,System.Int32)">
             <summary>
             根据排名区间获取区间内的所有元素
             </summary>
@@ -6169,7 +6169,7 @@
             <returns>元素列表</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="startRank"/>和<paramref name="stopRank"/>区间无效时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetElementRangeByScore(`1,`1)">
+        <member name="M:CatLib.Support.SortSet`2.GetElementRangeByScore(`1,`1)">
             <summary>
             根据分数区间获取区间内的所有元素
             </summary>
@@ -6178,28 +6178,28 @@
             <returns>元素列表</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="startScore"/>和<paramref name="stopScore"/>区间无效时引发</exception>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetElementByRank(System.Int32)">
+        <member name="M:CatLib.Support.SortSet`2.GetElementByRank(System.Int32)">
             <summary>
             根据排名获取元素 (有序集成员按照Score从小到大排序)
             </summary>
             <param name="rank">排名,排名以0为底</param>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetElementByRevRank(System.Int32)">
+        <member name="M:CatLib.Support.SortSet`2.GetElementByRevRank(System.Int32)">
             <summary>
             根据排名获取元素 (有序集成员按照Score从大到小排序)
             </summary>
             <param name="rank">排名,排名以0为底</param>
             <returns>元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.AddElement(`0,`1)">
+        <member name="M:CatLib.Support.SortSet`2.AddElement(`0,`1)">
             <summary>
             插入记录
             </summary>
             <param name="element">元素</param>
             <param name="score">分数</param>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Remove(CatLib.Stl.SortSet{`0,`1}.SkipNode,`0@)">
+        <member name="M:CatLib.Support.SortSet`2.Remove(CatLib.Support.SortSet{`0,`1}.SkipNode,`0@)">
             <summary>
             移除元素
             </summary>
@@ -6207,7 +6207,7 @@
             <param name="element">元素</param>
             <returns>移除的元素</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.Remove(`0,`1)">
+        <member name="M:CatLib.Support.SortSet`2.Remove(`0,`1)">
             <summary>
             如果元素存在那么从有序集中删除元素
             </summary>
@@ -6215,7 +6215,7 @@
             <param name="score">分数</param>
             <returns>是否成功</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetRank(`0,`1)">
+        <member name="M:CatLib.Support.SortSet`2.GetRank(`0,`1)">
             <summary>
             获取元素排名
             </summary>
@@ -6223,123 +6223,123 @@
             <param name="score">分数</param>
             <returns>排名，排名以0为底</returns>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.DeleteNode(CatLib.Stl.SortSet{`0,`1}.SkipNode,CatLib.Stl.SortSet{`0,`1}.SkipNode[])">
+        <member name="M:CatLib.Support.SortSet`2.DeleteNode(CatLib.Support.SortSet{`0,`1}.SkipNode,CatLib.Support.SortSet{`0,`1}.SkipNode[])">
             <summary>
             删除结点关系
             </summary>
             <param name="cursor">结点</param>
             <param name="update">更新结点列表</param>
         </member>
-        <member name="M:CatLib.Stl.SortSet`2.GetRandomLevel">
+        <member name="M:CatLib.Support.SortSet`2.GetRandomLevel">
             <summary>
             获取随机层
             </summary>
             <returns>随机的层数</returns>
         </member>
-        <member name="T:CatLib.Stl.Manager`1">
+        <member name="T:CatLib.Support.Manager`1">
             <summary>
             管理器模版
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Manager`1.customResolve">
+        <member name="F:CatLib.Support.Manager`1.customResolve">
             <summary>
             自定义解决器
             </summary>
         </member>
-        <member name="F:CatLib.Stl.Manager`1.defaultName">
+        <member name="F:CatLib.Support.Manager`1.defaultName">
             <summary>
             默认名字
             </summary>
         </member>
-        <member name="M:CatLib.Stl.Manager`1.Get(System.String)">
+        <member name="M:CatLib.Support.Manager`1.Get(System.String)">
             <summary>
             获取解决方案
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
         </member>
-        <member name="P:CatLib.Stl.Manager`1.Item(System.String)">
+        <member name="P:CatLib.Support.Manager`1.Item(System.String)">
             <summary>
             获取解决方案
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
         </member>
-        <member name="M:CatLib.Stl.Manager`1.Extend(System.Func{`0},System.String)">
+        <member name="M:CatLib.Support.Manager`1.Extend(System.Func{`0},System.String)">
             <summary>
             自定义解决方案
             </summary>
             <param name="resolve">解决方案</param>
             <param name="name">名字</param>
         </member>
-        <member name="M:CatLib.Stl.Manager`1.GetDefaultName">
+        <member name="M:CatLib.Support.Manager`1.GetDefaultName">
             <summary>
             获取默认名字
             </summary>
             <returns>默认名字</returns>
         </member>
-        <member name="M:CatLib.Stl.Manager`1.GetResolve(System.String)">
+        <member name="M:CatLib.Support.Manager`1.GetResolve(System.String)">
             <summary>
             获取解决方案
             </summary>
             <param name="name">名字</param>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Stl.Manager`1.Resolve(System.String)">
+        <member name="M:CatLib.Support.Manager`1.Resolve(System.String)">
             <summary>
             生成所需求的解决方案
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
         </member>
-        <member name="T:CatLib.Stl.SingleManager`1">
+        <member name="T:CatLib.Support.SingleManager`1">
             <summary>
             管理器模版（拓展解决方案为单例）
             </summary>
         </member>
-        <member name="F:CatLib.Stl.SingleManager`1.elements">
+        <member name="F:CatLib.Support.SingleManager`1.elements">
             <summary>
             解决方案字典
             </summary>
         </member>
-        <member name="M:CatLib.Stl.SingleManager`1.Get(System.String)">
+        <member name="M:CatLib.Support.SingleManager`1.Get(System.String)">
             <summary>
             获取解决方案
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
         </member>
-        <member name="P:CatLib.Stl.SingleManager`1.Default">
+        <member name="P:CatLib.Support.SingleManager`1.Default">
             <summary>
             默认值
             </summary>
         </member>
-        <member name="P:CatLib.Stl.SingleManager`1.Item(System.String)">
+        <member name="P:CatLib.Support.SingleManager`1.Item(System.String)">
             <summary>
             获取解决方案
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
         </member>
-        <member name="M:CatLib.Stl.SingleManager`1.Release(System.String)">
+        <member name="M:CatLib.Support.SingleManager`1.Release(System.String)">
             <summary>
             释放解决方案
             </summary>
             <param name="name">解决方案名</param>
         </member>
-        <member name="M:CatLib.Stl.SingleManager`1.Make(System.String)">
+        <member name="M:CatLib.Support.SingleManager`1.Make(System.String)">
             <summary>
             生成解决方案
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案实现</returns>
         </member>
-        <member name="T:CatLib.Stl.Str">
+        <member name="T:CatLib.Support.Str">
             <summary>
             字符串
             </summary>
         </member>
-        <member name="M:CatLib.Stl.Str.Is(System.String,System.String)">
+        <member name="M:CatLib.Support.Str.Is(System.String,System.String)">
             <summary>
             判断是否属于(允许使用信号通配表达式)
             </summary>
@@ -6347,26 +6347,39 @@
             <param name="value">输入字符串</param>
             <returns>是否匹配</returns>
         </member>
-        <member name="M:CatLib.Stl.Str.AsteriskWildcard(System.String)">
+        <member name="M:CatLib.Support.Str.AsteriskWildcard(System.String)">
             <summary>
             将语句翻译为星号通配表达式(即删减正则表达式中除了星号外的所有功能)
             </summary>
             <param name="pattern">输入</param>
             <returns>输出</returns>
         </member>
-        <member name="M:CatLib.Stl.Str.RegexQuote(System.String)">
+        <member name="M:CatLib.Support.Str.RegexQuote(System.String)">
             <summary>
             转义正则表达式
             </summary>
             <param name="str">输入</param>
             <returns>输出</returns>
         </member>
+        <member name="T:CatLib.Support.Util">
+            <summary>
+            通用支持
+            </summary>
+        </member>
+        <member name="M:CatLib.Support.Util.GetPriorities(System.Type,System.String)">
+            <summary>
+            获取优先级
+            </summary>
+            <param name="type">识别的类型</param>
+            <param name="method">识别的方法</param>
+            <returns>优先级</returns>
+        </member>
         <member name="T:CatLib.ContainerExpand">
             <summary>
              容器拓展
              </summary>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExpand.Singleton(CatLib.API.Support.IContainer,System.String,System.Func{CatLib.API.Support.IContainer,System.Object[],System.Object})">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -6375,7 +6388,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``2(CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.ContainerExpand.Singleton``2(CatLib.API.Support.IContainer)">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -6384,7 +6397,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Support.IContainer)">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -6392,7 +6405,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.API.Support.IContainer,System.Func{CatLib.API.Support.IContainer,System.Object[],System.Object})">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -6401,7 +6414,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``2(CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.ContainerExpand.Bind``2(CatLib.API.Support.IContainer)">
             <summary>
             常规绑定一个服务
             </summary>
@@ -6410,7 +6423,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Support.IContainer)">
             <summary>
             常规绑定一个服务
             </summary>
@@ -6418,7 +6431,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Stl.IContainer,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.API.Support.IContainer,System.Func{CatLib.API.Support.IContainer,System.Object[],System.Object})">
             <summary>
             常规绑定一个服务
             </summary>
@@ -6427,7 +6440,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind(CatLib.API.Stl.IContainer,System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExpand.Bind(CatLib.API.Support.IContainer,System.String,System.Func{CatLib.API.Support.IContainer,System.Object[],System.Object})">
             <summary>
             常规绑定一个服务
             </summary>
@@ -6436,7 +6449,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.MakeParams``1(CatLib.API.Stl.IContainer,System.Object[])">
+        <member name="M:CatLib.ContainerExpand.MakeParams``1(CatLib.API.Support.IContainer,System.Object[])">
             <summary>
             构造一个服务，允许传入构造参数
             </summary>
@@ -6445,7 +6458,7 @@
             <param name="param">构造参数</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Support.IContainer)">
             <summary>
             构造一个服务
             </summary>
@@ -6453,7 +6466,7 @@
             <param name="container">服务容器</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Stl.IContainer,System.String)">
+        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.API.Support.IContainer,System.String)">
             <summary>
             构造一个服务
             </summary>
@@ -6462,14 +6475,14 @@
             <param name="service">服务名</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Release``1(CatLib.API.Stl.IContainer)">
+        <member name="M:CatLib.ContainerExpand.Release``1(CatLib.API.Support.IContainer)">
             <summary>
             释放服务
             </summary>
             <typeparam name="TService">服务名</typeparam>
             <param name="container">服务容器</param>
         </member>
-        <member name="M:CatLib.ContainerExpand.Instance``1(CatLib.API.Stl.IContainer,System.Object)">
+        <member name="M:CatLib.ContainerExpand.Instance``1(CatLib.API.Support.IContainer,System.Object)">
             <summary>
             静态化一个服务,实例值会经过解决修饰器
             </summary>
@@ -6641,19 +6654,6 @@
             <summary>
             门面实例
             </summary>
-        </member>
-        <member name="T:CatLib.Support.Util">
-            <summary>
-            通用支持
-            </summary>
-        </member>
-        <member name="M:CatLib.Support.Util.GetPriorities(System.Type,System.String)">
-            <summary>
-            获取优先级
-            </summary>
-            <param name="type">识别的类型</param>
-            <param name="method">识别的方法</param>
-            <returns>优先级</returns>
         </member>
         <member name="T:CatLib.Timer.Timer">
             <summary>

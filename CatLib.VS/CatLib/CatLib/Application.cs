@@ -11,12 +11,10 @@
 
 using CatLib.API;
 using CatLib.API.Events;
-using CatLib.API.Stl;
-using CatLib.Stl;
-using System;
-using System.Reflection;
-using System.Threading;
+using CatLib.API.Support;
 using CatLib.Support;
+using System;
+using System.Threading;
 using UnityEngine;
 
 namespace CatLib

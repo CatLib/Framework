@@ -11,7 +11,7 @@
 
 using CatLib.API;
 using CatLib.API.Config;
-using CatLib.Stl;
+using CatLib.Support;
 using UnityEngine;
 
 namespace CatLib.Config.Locator

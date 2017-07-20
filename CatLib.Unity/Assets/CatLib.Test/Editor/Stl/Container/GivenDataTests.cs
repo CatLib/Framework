@@ -33,14 +33,14 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void CanGiven()
         {
-            var container = new CatLib.Stl.Container();
-            var bindData = new CatLib.Stl.BindData(container, "CanGiven", (app, param) => "hello world", false);
-            var givenData = new CatLib.Stl.GivenData(container, bindData);
+            var container = new CatLib.Support.Container();
+            var bindData = new CatLib.Support.BindData(container, "CanGiven", (app, param) => "hello world", false);
+            var givenData = new CatLib.Support.GivenData(container, bindData);
             givenData.Needs("needs1");
             givenData.Given("hello");
             Assert.AreEqual("hello", bindData.GetContextual("needs1"));
 
-            givenData = new CatLib.Stl.GivenData(container, bindData);
+            givenData = new CatLib.Support.GivenData(container, bindData);
             givenData.Needs("needs2");
             givenData.Given<GivenDataTest>();
             Assert.AreEqual(container.Type2Service(typeof(GivenDataTest)), bindData.GetContextual("needs2"));
@@ -52,9 +52,9 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void CheckGivenIllegalValue()
         {
-            var container = new CatLib.Stl.Container();
-            var bindData = new CatLib.Stl.BindData(container, "CanGiven", (app, param) => "hello world", false);
-            var givenData = new CatLib.Stl.GivenData(container, bindData);
+            var container = new CatLib.Support.Container();
+            var bindData = new CatLib.Support.BindData(container, "CanGiven", (app, param) => "hello world", false);
+            var givenData = new CatLib.Support.GivenData(container, bindData);
             givenData.Needs("needs");
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>

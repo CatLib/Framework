@@ -130,7 +130,7 @@ namespace CatLib.Tests
 
         private class ProviderTest1 : ServiceProvider
         {
-            [API.Priority(10)]
+            [Priority(10)]
             public override void Init()
             {
                 prioritiesTest = true;
@@ -142,7 +142,7 @@ namespace CatLib.Tests
             }
         }
 
-        [API.Priority(5)]
+        [Priority(5)]
         private class ProviderTest2 : ServiceProvider
         {
             public override void Init()

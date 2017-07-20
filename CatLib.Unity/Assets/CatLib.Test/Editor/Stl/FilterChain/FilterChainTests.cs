@@ -26,7 +26,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void TestFilterChainT1()
         {
-            var chain = new CatLib.Stl.FilterChain<string>();
+            var chain = new CatLib.Support.FilterChain<string>();
 
             var data = "123";
             var isCall = false;
@@ -56,7 +56,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void NoFilterChainCallT1()
         {
-            var chain = new CatLib.Stl.FilterChain<string>();
+            var chain = new CatLib.Support.FilterChain<string>();
 
             var isCall = false;
             chain.Do("", (i) =>
@@ -71,7 +71,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void RecursiveCallChain()
         {
-            var chain = new CatLib.Stl.FilterChain<string>();
+            var chain = new CatLib.Support.FilterChain<string>();
 
             var data = "123";
             var isCall = false;
@@ -108,7 +108,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void TestFilterChainT1T2()
         {
-            var chain = new CatLib.Stl.FilterChain<string,string>();
+            var chain = new CatLib.Support.FilterChain<string,string>();
 
             var data1 = "123";
             var data2 = "222";
@@ -141,7 +141,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void NoFilterChainCallT1T2()
         {
-            var chain = new CatLib.Stl.FilterChain<string,string>();
+            var chain = new CatLib.Support.FilterChain<string,string>();
 
             var isCall = false;
             chain.Do("","", (i,n) =>
@@ -156,7 +156,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void TestFilterChainT1T2T3()
         {
-            var chain = new CatLib.Stl.FilterChain<string, string , string>();
+            var chain = new CatLib.Support.FilterChain<string, string , string>();
 
             var data1 = "123";
             var data2 = "222";
@@ -191,7 +191,7 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void NoFilterChainCallT1T2T3()
         {
-            var chain = new CatLib.Stl.FilterChain<string, string, string>();
+            var chain = new CatLib.Support.FilterChain<string, string, string>();
 
             var isCall = false;
             chain.Do("", "", "", (i, n , f) =>

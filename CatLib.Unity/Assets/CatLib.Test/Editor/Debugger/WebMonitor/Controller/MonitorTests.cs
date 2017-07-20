@@ -38,7 +38,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             monitor.Monitor("test", 100);
 
             string ret;
-            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors/test", out ret);
+            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors", out ret);
 
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
