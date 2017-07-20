@@ -36,30 +36,12 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <summary>
         /// 监控值的单位描述
         /// </summary>
-        public string Unit
-        {
-            get
-            {
-                var unitStr = string.Empty;
-                foreach (var unit in unitMapping)
-                {
-                    if (value < unit.Key)
-                    {
-                        unitStr = unit.Value;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                return unitStr;
-            }
-        }
+        public string Unit { get; private set; }
 
         /// <summary>
         /// 监控的值
         /// </summary>
-        private long value;
+        private double value;
 
         /// <summary>
         /// 实时的监控值
@@ -68,19 +50,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         {
             get
             {
-                long data = 1024;
-                foreach (var unit in unitMapping)
-                {
-                    if ((long)value < unit.Key)
-                    {
-                        data = unit.Key;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                return (value / data).ToString("#0.00");
+                return value.ToString("#0.00");
             }
         }
 
@@ -110,7 +80,16 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <param name="value">值(字节)</param>
         public void Handler(object value)
         {
-            this.value = (long)value;
+            var longValue = (long) value;
+            foreach (var unit in unitMapping)
+            {
+                if ((long)value < unit.Key)
+                {
+                    continue;
+                }
+                this.value = (longValue / (double)unit.Key);
+                Unit = unit.Value;
+            }
         }
     }
 }
