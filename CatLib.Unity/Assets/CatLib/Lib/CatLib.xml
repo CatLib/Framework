@@ -865,10 +865,21 @@
             同步锁
             </summary>
         </member>
+        <member name="F:CatLib.Debugger.Log.Logger.skipFrames">
+            <summary>
+            调用堆栈忽略的步数
+            </summary>
+        </member>
         <member name="M:CatLib.Debugger.Log.Logger.#ctor">
             <summary>
             构造一个日志系统
             </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32)">
+            <summary>
+            设定调用堆栈忽略的步数
+            </summary>
+            <param name="skipFrames">跳过的步数</param>
         </member>
         <member name="M:CatLib.Debugger.Log.Logger.AddLogHandler(CatLib.Debugger.Log.ILogHandler)">
             <summary>

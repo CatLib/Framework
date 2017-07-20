@@ -44,8 +44,14 @@ namespace CatLib.Debugger.WebMonitor.Controller
                         var wait = new AutoResetEvent(false);
                         Driver.MainThread(() =>
                         {
-                            next(request, response);
-                            wait.Set();
+                            try
+                            {
+                                next(request, response);
+                            }
+                            finally
+                            {
+                                wait.Set();
+                            }
                         });
                         wait.WaitOne();
                     });

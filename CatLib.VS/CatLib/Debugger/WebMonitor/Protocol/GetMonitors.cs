@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
 
@@ -46,13 +47,19 @@ namespace CatLib.Debugger.WebMonitor.Protocol
         /// <param name="handler">处理器</param>
         public void WriteLine(IMonitorHandler handler)
         {
-            outputs.Add(new Dictionary<string, object>
+            try
             {
-                { "name" , handler.Title },
-                { "value" , handler.Value },
-                { "unit" , handler.Unit },
-                { "category" , handler.Category }
-            });
+                outputs.Add(new Dictionary<string, object>
+                {
+                    { "name" , handler.Title },
+                    { "value" , handler.Value },
+                    { "unit" , handler.Unit },
+                    { "category" , handler.Category }
+                });
+            }
+            catch (TypeLoadException)
+            {
+            }
         }
     }
 }
