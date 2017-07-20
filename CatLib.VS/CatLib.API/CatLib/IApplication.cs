@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Events;
 using CatLib.API.Stl;
 using System;
-using System.Collections;
-using CatLib.API.Events;
 
 namespace CatLib.API
 {

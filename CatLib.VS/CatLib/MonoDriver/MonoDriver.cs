@@ -10,12 +10,15 @@
  */
 
 using CatLib.API;
+using CatLib.API.Events;
 using CatLib.API.MonoDriver;
 using CatLib.API.Stl;
 using CatLib.Stl;
+using CatLib.Support;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace CatLib.MonoDriver
@@ -48,7 +51,7 @@ namespace CatLib.MonoDriver
         /// <summary>
         /// 应用程序
         /// </summary>
-        private readonly IApplication application;
+        private readonly IContainer container;
 
         /// <summary>
         /// Mono驱动程序
@@ -66,15 +69,39 @@ namespace CatLib.MonoDriver
         private readonly Queue<Action> mainThreadDispatcherQueue = new Queue<Action>();
 
         /// <summary>
+        /// 主线程ID
+        /// </summary>
+        private readonly int mainThreadId;
+
+        /// <summary>
+        /// 是否是主线程
+        /// </summary>
+        public bool IsMainThread
+        {
+            get
+            {
+                return mainThreadId == Thread.CurrentThread.ManagedThreadId;
+            }
+        }
+
+        /// <summary>
+        /// 调度器
+        /// </summary>
+        private readonly IDispatcher dispatcher;
+
+        /// <summary>
         /// 构建一个Mono驱动器
         /// </summary>
-        /// <param name="app">CatLib实例</param>、
+        /// <param name="container">容器</param>、
+        /// <param name="dispatcher">全局调度器</param>
         /// <param name="component">组件</param>
-        public MonoDriver(IApplication app , Component component)
+        public MonoDriver(IContainer container, IDispatcher dispatcher, Component component)
         {
-            application = app;
-            app.OnResolving(DefaultOnResolving);
-            app.OnRelease(DefaultOnRelease);
+            mainThreadId = Thread.CurrentThread.ManagedThreadId;
+            this.container = container;
+            this.dispatcher = dispatcher;
+            container.OnResolving(DefaultOnResolving);
+            container.OnRelease(DefaultOnRelease);
             if (component != null)
             {
                 InitComponent(component);
@@ -188,7 +215,7 @@ namespace CatLib.MonoDriver
         public void MainThread(IEnumerator action)
         {
             Guard.Requires<ArgumentNullException>(action != null);
-            if (application.IsMainThread)
+            if (IsMainThread)
             {
                 StartCoroutine(action);
                 return;
@@ -209,7 +236,7 @@ namespace CatLib.MonoDriver
         public void MainThread(Action action)
         {
             Guard.Requires<ArgumentNullException>(action != null);
-            if (application.IsMainThread)
+            if (IsMainThread)
             {
                 action.Invoke();
                 return;
@@ -301,8 +328,8 @@ namespace CatLib.MonoDriver
         /// </summary>
         public void OnDestroy()
         {
-            application.Trigger(ApplicationEvents.OnBeforeDestroy, application);
-            application.ReleaseAll();
+            dispatcher.Trigger(MonoDriverEvents.OnBeforeDestroy);
+            container.ReleaseAll();
             foreach (var current in destroy)
             {
                 current.OnDestroy();
@@ -312,7 +339,7 @@ namespace CatLib.MonoDriver
             destroy.Clear();
             loadSet.Clear();
             App.Instance = null;
-            application.Trigger(ApplicationEvents.OnDestroyed, application);
+            dispatcher.Trigger(MonoDriverEvents.OnDestroyed);
         }
 
         /// <summary>
@@ -343,8 +370,19 @@ namespace CatLib.MonoDriver
             {
                 return false;
             }
-            sortset.Add(ele, application.GetPriorities(obj.GetType(), function));
+            sortset.Add(ele, GetPriorities(obj.GetType(), function));
             return true;
+        }
+
+        /// <summary>
+        /// 获取优先级
+        /// </summary>
+        /// <param name="type">识别的类型</param>
+        /// <param name="method">识别的方法</param>
+        /// <returns>优先级</returns>
+        private int GetPriorities(Type type, string method = null)
+        {
+            return Util.GetPriorities(type, method);
         }
     }
 }

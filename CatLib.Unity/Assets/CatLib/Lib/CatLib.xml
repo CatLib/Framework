@@ -2757,7 +2757,7 @@
             载入结果集
             </summary>
         </member>
-        <member name="F:CatLib.MonoDriver.MonoDriver.application">
+        <member name="F:CatLib.MonoDriver.MonoDriver.container">
             <summary>
             应用程序
             </summary>
@@ -2777,11 +2777,27 @@
             主线程调度队列
             </summary>
         </member>
-        <member name="M:CatLib.MonoDriver.MonoDriver.#ctor(CatLib.API.IApplication,UnityEngine.Component)">
+        <member name="F:CatLib.MonoDriver.MonoDriver.mainThreadId">
+            <summary>
+            主线程ID
+            </summary>
+        </member>
+        <member name="P:CatLib.MonoDriver.MonoDriver.IsMainThread">
+            <summary>
+            是否是主线程
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.dispatcher">
+            <summary>
+            调度器
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.#ctor(CatLib.API.Stl.IContainer,CatLib.API.Events.IDispatcher,UnityEngine.Component)">
             <summary>
             构建一个Mono驱动器
             </summary>
-            <param name="app">CatLib实例</param>、
+            <param name="container">容器</param>、
+            <param name="dispatcher">全局调度器</param>
             <param name="component">组件</param>
         </member>
         <member name="M:CatLib.MonoDriver.MonoDriver.InitComponent(UnityEngine.Component)">
@@ -2888,6 +2904,14 @@
             <param name="obj">对象</param>
             <param name="function">获取优先级的函数名</param>
             <returns>是否成功</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.GetPriorities(System.Type,System.String)">
+            <summary>
+            获取优先级
+            </summary>
+            <param name="type">识别的类型</param>
+            <param name="method">识别的方法</param>
+            <returns>优先级</returns>
         </member>
         <member name="T:CatLib.MonoDriver.DriverBehaviour">
             <summary>
@@ -6488,11 +6512,6 @@
             服务提供者
             </summary>
         </member>
-        <member name="F:CatLib.Application.priority">
-            <summary>
-            优先标记
-            </summary>
-        </member>
         <member name="F:CatLib.Application.bootstrapped">
             <summary>
             是否已经完成引导程序
@@ -6542,7 +6561,7 @@
             <summary>
             构建一个CatLib实例
             </summary>
-            <param name="behaviour">驱动脚本</param>
+            <param name="baseComponent">基础组件</param>
         </member>
         <member name="M:CatLib.Application.Bootstrap(CatLib.API.IBootstrap[])">
             <summary>
@@ -6622,6 +6641,19 @@
             <summary>
             门面实例
             </summary>
+        </member>
+        <member name="T:CatLib.Support.Util">
+            <summary>
+            通用支持
+            </summary>
+        </member>
+        <member name="M:CatLib.Support.Util.GetPriorities(System.Type,System.String)">
+            <summary>
+            获取优先级
+            </summary>
+            <param name="type">识别的类型</param>
+            <param name="method">识别的方法</param>
+            <returns>优先级</returns>
         </member>
         <member name="T:CatLib.Timer.Timer">
             <summary>

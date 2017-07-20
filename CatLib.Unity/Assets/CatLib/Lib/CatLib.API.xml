@@ -217,16 +217,6 @@
             当程序启动完成
             </summary>
         </member>
-        <member name="F:CatLib.API.ApplicationEvents.OnBeforeDestroy">
-            <summary>
-            当释放之前
-            </summary>
-        </member>
-        <member name="F:CatLib.API.ApplicationEvents.OnDestroyed">
-            <summary>
-            当释放完成后
-            </summary>
-        </member>
         <member name="T:CatLib.API.Environment.DebugLevels">
             <summary>
             调试等级
@@ -376,6 +366,21 @@
             </summary>
             <param name="obj">对象</param>
             <exception cref="T:System.ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
+        </member>
+        <member name="T:CatLib.API.MonoDriver.MonoDriverEvents">
+            <summary>
+            Mono驱动器事件
+            </summary>
+        </member>
+        <member name="F:CatLib.API.MonoDriver.MonoDriverEvents.OnBeforeDestroy">
+            <summary>
+            当释放之前
+            </summary>
+        </member>
+        <member name="F:CatLib.API.MonoDriver.MonoDriverEvents.OnDestroyed">
+            <summary>
+            当释放完成后
+            </summary>
         </member>
         <member name="T:CatLib.API.MonoDriver.IDestroy">
             <summary>

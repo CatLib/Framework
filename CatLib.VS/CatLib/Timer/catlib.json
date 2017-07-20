@@ -3,7 +3,7 @@
     "folder" : "Timer",
     "require": {
         "catlib/api":"~1.0",
-        "catlib/stl":"~1.0",
+        "catlib/support":"~1.0",
         "catlib/time":"~1.0",
 		"catlib/monodriver":"~1.0"
     }

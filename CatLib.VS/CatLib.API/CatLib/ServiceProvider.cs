@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 namespace CatLib.API
 {
     /// <summary>
@@ -64,3 +65,4 @@ namespace CatLib.API
         }
     }
 }
+#endif

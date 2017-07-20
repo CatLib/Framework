@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CATLIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\CatLib.API.xml</DocumentationFile>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\CatLib.Unity\Assets\CatLib\Lib\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CATLIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\CatLib.Unity\Assets\CatLib\Lib\CatLib.API.xml</DocumentationFile>
@@ -61,12 +61,13 @@
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
     <Compile Include="MonoDriver\IMonoDriver.cs" />
-    <Compile Include="Support\Exception\AssertException.cs" />
-    <Compile Include="Support\Exception\RuntimeException.cs" />
+    <Compile Include="MonoDriver\MonoDriverEvents.cs" />
+    <Compile Include="Support\AssertException.cs" />
+    <Compile Include="Support\RuntimeException.cs" />
     <Compile Include="MonoDriver\Feature\IDestroy.cs" />
     <Compile Include="MonoDriver\Feature\ILateUpdate.cs" />
     <Compile Include="MonoDriver\Feature\IUpdate.cs" />
-    <Compile Include="Support\Developer\ExcludeFromCodeCoverageAttribute.cs" />
+    <Compile Include="Support\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="CatLib\IBootstrap.cs" />
     <Compile Include="CatLib\IServiceProvider.cs" />
     <Compile Include="Support\PriorityAttribute.cs" />
@@ -94,16 +95,16 @@
     <Compile Include="Routing\Internal\IRoute.cs" />
     <Compile Include="Routing\Internal\IRouteGroup.cs" />
     <Compile Include="Routing\IRouter.cs" />
-    <Compile Include="Stl\Container\Features\InjectAttribute.cs" />
-    <Compile Include="Stl\Container\IContainer.cs" />
-    <Compile Include="Stl\Container\Internal\IBindData.cs" />
-    <Compile Include="Stl\Container\Internal\IGivenData.cs" />
-    <Compile Include="Stl\FilterChain\IFilterChain.cs" />
-    <Compile Include="Stl\LruCache\ILruCache.cs" />
-    <Compile Include="Stl\QuickList\IQuickList.cs" />
-    <Compile Include="Stl\SortSet\ISortSet.cs" />
-    <Compile Include="Stl\Template\IManager.cs" />
-    <Compile Include="Stl\Template\ISingleManager.cs" />
+    <Compile Include="Support\Stl\Container\InjectAttribute.cs" />
+    <Compile Include="Support\Stl\Container\IContainer.cs" />
+    <Compile Include="Support\Stl\Container\Internal\IBindData.cs" />
+    <Compile Include="Support\Stl\Container\Internal\IGivenData.cs" />
+    <Compile Include="Support\Stl\FilterChain\IFilterChain.cs" />
+    <Compile Include="Support\Stl\LruCache\ILruCache.cs" />
+    <Compile Include="Support\Stl\QuickList\IQuickList.cs" />
+    <Compile Include="Support\Stl\SortSet\ISortSet.cs" />
+    <Compile Include="Support\Stl\Template\IManager.cs" />
+    <Compile Include="Support\Stl\Template\ISingleManager.cs" />
     <Compile Include="Timer\Internal\ITimer.cs" />
     <Compile Include="Timer\Internal\ITimerQueue.cs" />
     <Compile Include="Timer\ITimerManager.cs" />

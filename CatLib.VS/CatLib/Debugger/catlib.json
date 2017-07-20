@@ -2,7 +2,7 @@
   "source": "catlib/config",
   "folder": "Config",
   "require": {
-    "catlib/stl": "~1.0",
+    "catlib/support": "~1.0",
     "catlib/api": "~1.0",
     "catlib/config": "~1.0",
 	"catlib/monodriver" :  "~1.0"

@@ -9,22 +9,21 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API
+namespace CatLib.API.MonoDriver
 {
     /// <summary>
-    /// 服务提供者
+    /// Mono驱动器事件
     /// </summary>
-    public interface IServiceProvider
+    public sealed class MonoDriverEvents
     {
         /// <summary>
-        /// 服务提供者初始化
+        /// 当释放之前
         /// </summary>
-        /// <returns>迭代器</returns>
-        void Init();
+        public static readonly string OnBeforeDestroy = "catlib.monodriver.before_destroy";
 
         /// <summary>
-        /// 当注册服务提供者
+        /// 当释放完成后
         /// </summary>
-        void Register();
+        public static readonly string OnDestroyed = "catlib.monodriver.destroyed";
     }
 }

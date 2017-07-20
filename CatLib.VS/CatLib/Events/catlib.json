@@ -2,7 +2,7 @@
   "source": "catlib/events",
   "folder": "Events",
   "require": {
-    "catlib/stl": "~1.0",
+    "catlib/support": "~1.0",
     "catlib/api": "~1.0"
   }
 }

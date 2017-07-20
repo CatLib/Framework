@@ -16,6 +16,7 @@ using CatLib.Stl;
 using System;
 using System.Reflection;
 using System.Threading;
+using CatLib.Support;
 using UnityEngine;
 
 namespace CatLib
@@ -61,11 +62,6 @@ namespace CatLib
         /// 服务提供者
         /// </summary>
         private readonly SortSet<API.IServiceProvider, int> serviceProviders = new SortSet<API.IServiceProvider , int>();
-
-        /// <summary>
-        /// 优先标记
-        /// </summary>
-        private readonly Type priority = typeof(PriorityAttribute);
 
         /// <summary>
         /// 是否已经完成引导程序
@@ -133,13 +129,13 @@ namespace CatLib
         /// <summary>
         /// 构建一个CatLib实例
         /// </summary>
-        /// <param name="behaviour">驱动脚本</param>
+        /// <param name="baseComponent">基础组件</param>
         [ExcludeFromCodeCoverage]
-        public Application(Component behaviour = null)
+        public Application(Component baseComponent = null)
         {
             App.Instance = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
-            Instance(Type2Service(typeof(Component)), behaviour);
+            Instance(Type2Service(typeof(Component)), baseComponent);
             RegisterCoreAlias();
         }
 
@@ -241,22 +237,7 @@ namespace CatLib
         /// <returns>优先级</returns>
         public int GetPriorities(Type type, string method = null)
         {
-            Guard.Requires<ArgumentNullException>(type != null);
-            var currentPriority = int.MaxValue;
-
-            MethodInfo methodInfo;
-            if (method != null &&
-                (methodInfo = type.GetMethod(method)) != null &&
-                methodInfo.IsDefined(priority, false))
-            {
-                currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
-            }
-            else if (type.IsDefined(priority, false))
-            {
-                currentPriority = (type.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
-            }
-
-            return currentPriority;
+            return Util.GetPriorities(type, method);
         }
 
         /// <summary>
