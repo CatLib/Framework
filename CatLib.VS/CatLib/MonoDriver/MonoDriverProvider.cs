@@ -20,7 +20,7 @@ namespace CatLib.MonoDriver
     public sealed class MonoDriverProvider : ServiceProvider
     {
         /// <summary>
-        /// 执行路由编译，路由编译总是最后进行的
+        /// Mono驱动器初始化
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority(1)]
