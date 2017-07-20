@@ -64,11 +64,11 @@ namespace CatLib.Debugger.WebMonitor.Handler
             Title = title;
             unitMapping = new Dictionary<long, string>
             {
-                { 1024 , "B"},
-                { 1048576 , "KB" },
-                { 1073741824 ,"MB" },
-                { 1099511627776 , "GB" },
-                { 1125899906842624 , "TB" },
+                { 1 , "B"},
+                { 1024 , "KB" },
+                { 1048576 ,"MB" },
+                { 1073741824 , "GB" },
+                { 1099511627776 , "TB" },
                 { long.MaxValue , "PB" }
             };
             Category = category ?? new string[] { };
