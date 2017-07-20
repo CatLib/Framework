@@ -88,9 +88,13 @@
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsole.cs" />
     <Compile Include="Debugger\WebConsole\HttpListener.cs" />
     <Compile Include="Debugger\DebuggerProvider.cs" />
-    <Compile Include="Debugger\WebMonitorContent\FpsMonitor.cs" />
-    <Compile Include="Debugger\WebMonitorContent\HeapMemoryMonitor.cs" />
-    <Compile Include="Debugger\WebMonitorContent\TotalAllocatedMemoryMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Memory\HeapMemoryMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Memory\TotalAllocatedMemoryMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\MonitorHelper.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Performance\FpsMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Screen\ScreenDpiMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Screen\ScreenHeightMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Screen\ScreenWidthMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\CallbackMonitorHandler.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\SizeMonitorHandler.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\SumMonitorHandler.cs" />

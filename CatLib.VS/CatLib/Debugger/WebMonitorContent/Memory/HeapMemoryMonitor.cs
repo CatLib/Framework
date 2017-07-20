@@ -10,7 +10,6 @@
  */
 
 using CatLib.Debugger.WebMonitor;
-using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -28,16 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         public HeapMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("memory.heap",
-                new CallbackMonitorHandler(new SizeMonitorHandler("HeapMemory"), GetHeapMemory), 20);
-        }
-
-        /// <summary>
-        /// 获取堆内存
-        /// </summary>
-        /// <returns>堆内存</returns>
-        private object GetHeapMemory()
-        {
-            return Profiler.GetMonoUsedSizeLong();
+                MonitorHelper.CallbackSize("Heap Memory", () => Profiler.GetMonoUsedSizeLong())
+                , 40);
         }
     }
 }

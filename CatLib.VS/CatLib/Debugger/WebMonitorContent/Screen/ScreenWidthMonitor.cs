@@ -28,16 +28,8 @@ namespace CatLib.Debugger.WebMonitorContent
         public ScreenWidthMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("screen.width",
-                new CallbackMonitorHandler(new OnceRecordMonitorHandler("Screen Width", "px"), GetScreenWidth), 1000);
-        }
-
-        /// <summary>
-        /// 获取屏幕宽度
-        /// </summary>
-        /// <returns>Fps</returns>
-        private object GetScreenWidth()
-        {
-            return Screen.width;
+                MonitorHelper.CallbackOnce("Screen Width", "px", () => Screen.width)
+                , 1000);
         }
     }
 }

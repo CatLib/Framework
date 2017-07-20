@@ -1208,6 +1208,12 @@
             </summary>
             <returns>迭代器</returns>
         </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.GetMonitors">
+            <summary>
+            获取监控
+            </summary>
+            <returns>监控</returns>
+        </member>
         <member name="M:CatLib.Debugger.DebuggerProvider.Register">
             <summary>
             注册调试服务
@@ -1238,29 +1244,6 @@
             注册Web监控
             </summary>
         </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
-            <summary>
-            Fps监控
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitorContent.FpsMonitor.time">
-            <summary>
-            时间
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor,CatLib.API.Time.ITime)">
-            <summary>
-            构建一个Fps监控
-            </summary>
-            <param name="monitor">监控</param>
-            <param name="time">使用的时间</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.GetFps">
-            <summary>
-            获取Fps
-            </summary>
-            <returns>Fps</returns>
-        </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor">
             <summary>
             堆内存
@@ -1271,12 +1254,6 @@
             构建一个堆内存监控
             </summary>
             <param name="monitor">监控</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.GetHeapMemory">
-            <summary>
-            获取堆内存
-            </summary>
-            <returns>堆内存</returns>
         </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor">
             <summary>
@@ -1289,11 +1266,72 @@
             </summary>
             <param name="monitor">监控</param>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.GetTotalAllocatedMemory">
+        <member name="T:CatLib.Debugger.WebMonitorContent.MonitorHelper">
             <summary>
-            获取总分配内存
+            监控辅助工具
             </summary>
-            <returns>堆内存</returns>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.MonitorHelper.CallbackOnce(System.String,System.String,System.Func{System.Object})">
+            <summary>
+            单次记录监控
+            </summary>
+            <param name="title">标题</param>
+            <param name="unit">单位</param>
+            <param name="callback">回调获取值</param>
+            <returns>监控句柄</returns>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.MonitorHelper.CallbackSize(System.String,System.Func{System.Object})">
+            <summary>
+            单次尺寸记录监控
+            </summary>
+            <param name="title">标题</param>
+            <param name="callback">回调获取值</param>
+            <returns>监控句柄</returns>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
+            <summary>
+            Fps监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor,CatLib.API.Time.ITime)">
+            <summary>
+            构建一个Fps监控
+            </summary>
+            <param name="monitor">监控</param>
+            <param name="time">使用的时间</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor">
+            <summary>
+            屏幕宽度监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+            <summary>
+            构建一个屏幕Dpi监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor">
+            <summary>
+            屏幕高度监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+            <summary>
+            构建一个屏幕宽度
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor">
+            <summary>
+            屏幕宽度监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+            <summary>
+            构建一个屏幕宽度
+            </summary>
+            <param name="monitor">监控</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler">
             <summary>
@@ -1871,6 +1909,11 @@
             类型转换器
             </summary>
         </member>
+        <member name="F:CatLib.Config.Config.watches">
+            <summary>
+            观察者
+            </summary>
+        </member>
         <member name="M:CatLib.Config.Config.#ctor(CatLib.API.Converters.IConverters,CatLib.API.Config.IConfigLocator)">
             <summary>
             构造配置容器
@@ -1889,6 +1932,13 @@
             注册一个配置定位器
             </summary>
             <param name="locator">配置定位器</param>
+        </member>
+        <member name="M:CatLib.Config.Config.Watch(System.String,System.Action{System.Object})">
+            <summary>
+            监控一个配置的变化
+            </summary>
+            <param name="name">监控的名字</param>
+            <param name="callback">发生变化时会触发</param>
         </member>
         <member name="M:CatLib.Config.Config.Save">
             <summary>
@@ -2931,7 +2981,7 @@
         </member>
         <member name="M:CatLib.MonoDriver.MonoDriverProvider.Init">
             <summary>
-            执行路由编译，路由编译总是最后进行的
+            Mono驱动器初始化
             </summary>
             <returns>迭代器</returns>
         </member>
@@ -7048,16 +7098,16 @@
             时间服务允许获取一个或者多个不同类型的时间
             </summary>
         </member>
-        <member name="F:CatLib.Time.TimeManager.configManager">
+        <member name="F:CatLib.Time.TimeManager.defaultName">
             <summary>
-            配置
+            默认名字
             </summary>
         </member>
-        <member name="M:CatLib.Time.TimeManager.#ctor(CatLib.API.Config.IConfigManager)">
+        <member name="M:CatLib.Time.TimeManager.SetDefault(System.String)">
             <summary>
-            文件系统管理器
+            设定默认名字
             </summary>
-            <param name="configManager">配置管理器</param>
+            <param name="name">默认名字</param>
         </member>
         <member name="P:CatLib.Time.TimeManager.Time">
             <summary>

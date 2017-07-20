@@ -10,7 +10,6 @@
  */
 
 using CatLib.Debugger.WebMonitor;
-using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -28,16 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         public ScreenDpiMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("screen.dpi",
-                new CallbackMonitorHandler(new OnceRecordMonitorHandler("Screen Dpi", "dpi"), GetScreenDpi), 1020);
-        }
-
-        /// <summary>
-        /// 获取屏幕Dpi
-        /// </summary>
-        /// <returns>Fps</returns>
-        private object GetScreenDpi()
-        {
-            return Screen.dpi;
+                MonitorHelper.CallbackOnce("Dpi", "dpi", () => Screen.dpi)
+                , 1020);
         }
     }
 }

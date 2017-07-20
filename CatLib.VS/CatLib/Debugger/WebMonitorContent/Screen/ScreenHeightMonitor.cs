@@ -10,13 +10,12 @@
  */
 
 using CatLib.Debugger.WebMonitor;
-using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine;
 
 namespace CatLib.Debugger.WebMonitorContent
 {
     /// <summary>
-    /// 屏幕宽度监控
+    /// 屏幕高度监控
     /// </summary>
     [ExcludeFromCodeCoverage]
     public sealed class ScreenHeightMonitor
@@ -27,17 +26,9 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public ScreenHeightMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.DefinedMoitor("screen.width",
-                new CallbackMonitorHandler(new OnceRecordMonitorHandler("Screen Height", "px"), GetScreenHeight), 1010);
-        }
-
-        /// <summary>
-        /// 获取屏幕宽度
-        /// </summary>
-        /// <returns>Fps</returns>
-        private object GetScreenHeight()
-        {
-            return Screen.width;
+            monitor.DefinedMoitor("screen.height",
+                MonitorHelper.CallbackOnce("Screen Height", "px", () => Screen.height)
+                , 1010);
         }
     }
 }

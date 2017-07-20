@@ -10,7 +10,6 @@
  */
 
 using CatLib.Debugger.WebMonitor;
-using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -28,16 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         public TotalAllocatedMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("memory.total",
-                new CallbackMonitorHandler(new SizeMonitorHandler("TotalMemory"), GetTotalAllocatedMemory), 30);
-        }
-
-        /// <summary>
-        /// 获取总分配内存
-        /// </summary>
-        /// <returns>堆内存</returns>
-        private object GetTotalAllocatedMemory()
-        {
-            return Profiler.GetTotalAllocatedMemoryLong();
+                MonitorHelper.CallbackSize("Total Memory", () => Profiler.GetTotalAllocatedMemoryLong())
+                , 30);
         }
     }
 }

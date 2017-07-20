@@ -10,6 +10,8 @@
  */
 
 #if CATLIB
+using System;
+using System.Collections.Generic;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
@@ -44,21 +46,31 @@ namespace CatLib.Debugger
                 App.Make<LogStore>();
                 App.Make<MonitorStore>();
 
-                if (config == null || config.Default.Get("debugger.webconsole.monitor.fps", true))
+                foreach (var monitor in GetMonitors())
                 {
-                    App.Make<FpsMonitor>();
-                }
-
-                if (config == null || config.Default.Get("debugger.webconsole.monitor.heap", true))
-                {
-                    App.Make<HeapMemoryMonitor>();
-                }
-
-                if (config == null || config.Default.Get("debugger.webconsole.monitor.total_memory", true))
-                {
-                    App.Make<TotalAllocatedMemoryMonitor>();
+                    if (config == null || config.Default.Get(monitor.Key, true))
+                    {
+                        App.Make(App.Type2Service(monitor.Value));
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取监控
+        /// </summary>
+        /// <returns>监控</returns>
+        private IDictionary<string, Type> GetMonitors()
+        {
+            return new Dictionary<string, Type>
+            {
+                { "debugger.webconsole.monitor.performance.fps" , typeof(FpsMonitor) },
+                { "debugger.webconsole.monitor.memory.heap" , typeof(HeapMemoryMonitor) },
+                { "debugger.webconsole.monitor.memory.total" , typeof(TotalAllocatedMemoryMonitor) },
+                { "debugger.webconsole.monitor.screen.width" , typeof(ScreenWidthMonitor) },
+                { "debugger.webconsole.monitor.screen.height" , typeof(ScreenHeightMonitor) },
+                { "debugger.webconsole.monitor.screen.dpi" , typeof(ScreenDpiMonitor) }
+            };
         }
 
         /// <summary>
@@ -144,6 +156,9 @@ namespace CatLib.Debugger
             App.Singleton<FpsMonitor>();
             App.Singleton<HeapMemoryMonitor>();
             App.Singleton<TotalAllocatedMemoryMonitor>();
+            App.Singleton<ScreenDpiMonitor>();
+            App.Singleton<ScreenHeightMonitor>();
+            App.Singleton<ScreenWidthMonitor>();
         }
     }
 }

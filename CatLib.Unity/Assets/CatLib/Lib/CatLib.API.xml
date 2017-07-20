@@ -71,6 +71,13 @@
             <param name="name">配置名</param>
             <param name="value">配置的值</param>
         </member>
+        <member name="M:CatLib.API.Config.IConfig.Watch(System.String,System.Action{System.Object})">
+            <summary>
+            监控一个配置的变化
+            </summary>
+            <param name="name">监控的名字</param>
+            <param name="callback">发生变化时会触发</param>
+        </member>
         <member name="M:CatLib.API.Config.IConfig.Save">
             <summary>
             保存配置
