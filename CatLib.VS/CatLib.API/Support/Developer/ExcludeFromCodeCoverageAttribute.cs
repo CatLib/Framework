@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.API
+namespace CatLib
 {
     /// <summary>
     /// 标记的类，函数，属性不再进行覆盖率分析

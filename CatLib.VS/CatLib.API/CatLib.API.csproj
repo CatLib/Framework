@@ -63,9 +63,9 @@
     <Compile Include="MonoDriver\IMonoDriver.cs" />
     <Compile Include="Support\Exception\AssertException.cs" />
     <Compile Include="Support\Exception\RuntimeException.cs" />
-    <Compile Include="Support\Behaviour\IDestroy.cs" />
-    <Compile Include="Support\Behaviour\ILateUpdate.cs" />
-    <Compile Include="Support\Behaviour\IUpdate.cs" />
+    <Compile Include="MonoDriver\Feature\IDestroy.cs" />
+    <Compile Include="MonoDriver\Feature\ILateUpdate.cs" />
+    <Compile Include="MonoDriver\Feature\IUpdate.cs" />
     <Compile Include="Support\Developer\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="CatLib\IBootstrap.cs" />
     <Compile Include="CatLib\IServiceProvider.cs" />

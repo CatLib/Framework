@@ -11,7 +11,7 @@
 
 using System;
 
-namespace CatLib.API
+namespace CatLib
 {
     /// <summary>
     /// 运行时异常

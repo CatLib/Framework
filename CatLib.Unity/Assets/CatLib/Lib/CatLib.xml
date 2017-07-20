@@ -4678,7 +4678,7 @@
             </summary>
             <param name="tag">标记名</param>
             <returns>将会返回标记所对应的所有服务实例</returns>
-            <exception cref="T:CatLib.API.RuntimeException"><paramref name="tag"/>不存在</exception>
+            <exception cref="T:CatLib.RuntimeException"><paramref name="tag"/>不存在</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="tag"/>为<c>null</c>或者空字符串</exception>
         </member>
         <member name="M:CatLib.Stl.Container.GetBind(System.String)">
@@ -4710,7 +4710,7 @@
             <param name="alias">别名</param>
             <param name="service">映射到的服务名</param>
             <returns>当前容器对象</returns>
-            <exception cref="T:CatLib.API.RuntimeException"><paramref name="alias"/>别名冲突或者<paramref name="service"/>的绑定与实例都不存在</exception>
+            <exception cref="T:CatLib.RuntimeException"><paramref name="alias"/>别名冲突或者<paramref name="service"/>的绑定与实例都不存在</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="alias"/>,<paramref name="service"/>为<c>null</c>或者空字符串</exception>
         </member>
         <member name="M:CatLib.Stl.Container.BindIf(System.String,System.Func{CatLib.API.Stl.IContainer,System.Object[],System.Object},System.Boolean)">
@@ -4749,7 +4749,7 @@
             <param name="concrete">服务实现</param>
             <param name="isStatic">服务是否静态化</param>
             <returns>服务绑定数据</returns>
-            <exception cref="T:CatLib.API.RuntimeException"><paramref name="service"/>绑定冲突</exception>
+            <exception cref="T:CatLib.RuntimeException"><paramref name="service"/>绑定冲突</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="concrete"/>为<c>null</c></exception>
         </member>
         <member name="M:CatLib.Stl.Container.Call(System.Object,System.String,System.Object[])">
@@ -4780,7 +4780,7 @@
             <param name="param">构造参数</param>
             <returns>服务实例，如果构造失败那么返回null</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
-            <exception cref="T:CatLib.API.RuntimeException">出现循环依赖</exception>
+            <exception cref="T:CatLib.RuntimeException">出现循环依赖</exception>
         </member>
         <member name="P:CatLib.Stl.Container.Item(System.String)">
             <summary>
@@ -4796,7 +4796,7 @@
             <param name="service">服务名或别名</param>
             <param name="instance">服务实例，<c>null</c>也是合法的实例值</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
-            <exception cref="T:CatLib.API.RuntimeException"><paramref name="service"/>的服务在绑定设置中不是静态的</exception>
+            <exception cref="T:CatLib.RuntimeException"><paramref name="service"/>的服务在绑定设置中不是静态的</exception>
         </member>
         <member name="M:CatLib.Stl.Container.Release(System.String)">
             <summary>
@@ -4902,7 +4902,7 @@
             <param name="makeServiceBindData">服务绑定数据</param>
             <param name="makeServiceInstance">服务实例</param>
             <returns>服务实例</returns>
-            <exception cref="T:CatLib.API.RuntimeException">属性是必须的或者注入类型和需求类型不一致</exception>
+            <exception cref="T:CatLib.RuntimeException">属性是必须的或者注入类型和需求类型不一致</exception>
         </member>
         <member name="M:CatLib.Stl.Container.ResolveNonClassAttr(CatLib.Stl.BindData,System.String)">
             <summary>
@@ -4928,7 +4928,7 @@
             <param name="paramInfo">服务实例的参数信息</param>
             <param name="param">输入的构造参数列表</param>
             <returns>服务所需参数的解决结果</returns>
-            <exception cref="T:CatLib.API.RuntimeException">生成的实例类型和需求类型不一致</exception>
+            <exception cref="T:CatLib.RuntimeException">生成的实例类型和需求类型不一致</exception>
         </member>
         <member name="M:CatLib.Stl.Container.ResolveNonClass(CatLib.Stl.BindData,System.String)">
             <summary>
@@ -6556,14 +6556,14 @@
             <summary>
             初始化
             </summary>
-            <exception cref="T:CatLib.API.RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
+            <exception cref="T:CatLib.RuntimeException">没有调用<c>Bootstrap(...)</c>就尝试初始化时触发</exception>
         </member>
         <member name="M:CatLib.Application.Register(CatLib.API.IServiceProvider)">
             <summary>
             注册服务提供者
             </summary>
             <param name="provider">注册服务提供者</param>
-            <exception cref="T:CatLib.API.RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="T:CatLib.API.ServiceProvider"/></exception>
+            <exception cref="T:CatLib.RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="T:CatLib.API.ServiceProvider"/></exception>
         </member>
         <member name="M:CatLib.Application.GetGuid">
             <summary>

@@ -377,67 +377,34 @@
             <param name="obj">对象</param>
             <exception cref="T:System.ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
         </member>
-        <member name="T:CatLib.API.AssertException">
-            <summary>
-            断言异常
-            </summary>
-        </member>
-        <member name="T:CatLib.API.RuntimeException">
-            <summary>
-            运行时异常
-            </summary>
-        </member>
-        <member name="M:CatLib.API.RuntimeException.#ctor">
-            <summary>
-            运行时异常
-            </summary>
-        </member>
-        <member name="M:CatLib.API.RuntimeException.#ctor(System.String)">
-            <summary>
-            CatLib组件异常
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
-        <member name="M:CatLib.API.RuntimeException.#ctor(System.String,System.Exception)">
-            <summary>
-            运行时异常
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="innerException">内部异常</param>
-        </member>
-        <member name="T:CatLib.API.IDestroy">
+        <member name="T:CatLib.API.MonoDriver.IDestroy">
             <summary>
             当被释放时
             </summary>
         </member>
-        <member name="M:CatLib.API.IDestroy.OnDestroy">
+        <member name="M:CatLib.API.MonoDriver.IDestroy.OnDestroy">
             <summary>
             当被释放时调用
             </summary>
         </member>
-        <member name="T:CatLib.API.ILateUpdate">
+        <member name="T:CatLib.API.MonoDriver.ILateUpdate">
             <summary>
             在Update之后调用
             </summary>
         </member>
-        <member name="M:CatLib.API.ILateUpdate.LateUpdate">
+        <member name="M:CatLib.API.MonoDriver.ILateUpdate.LateUpdate">
             <summary>
             LateUpdate时调用
             </summary>
         </member>
-        <member name="T:CatLib.API.IUpdate">
+        <member name="T:CatLib.API.MonoDriver.IUpdate">
             <summary>
             Update 接口
             </summary>
         </member>
-        <member name="M:CatLib.API.IUpdate.Update">
+        <member name="M:CatLib.API.MonoDriver.IUpdate.Update">
             <summary>
             当Update时调用
-            </summary>
-        </member>
-        <member name="T:CatLib.API.ExcludeFromCodeCoverageAttribute">
-            <summary>
-            标记的类，函数，属性不再进行覆盖率分析
             </summary>
         </member>
         <member name="T:CatLib.API.IBootstrap">
@@ -465,22 +432,6 @@
             <summary>
             当注册服务提供者
             </summary>
-        </member>
-        <member name="T:CatLib.API.PriorityAttribute">
-            <summary>
-            执行优先级
-            </summary>
-        </member>
-        <member name="P:CatLib.API.PriorityAttribute.Priorities">
-            <summary>
-            优先级
-            </summary>
-        </member>
-        <member name="M:CatLib.API.PriorityAttribute.#ctor(System.Int32)">
-            <summary>
-            优先级(0最高)
-            </summary>
-            <param name="priority">优先级(0为最优先)</param>
         </member>
         <member name="T:CatLib.API.IApplication">
             <summary>
@@ -2748,6 +2699,55 @@
             <summary>
             祖鲁
             </summary>
+        </member>
+        <member name="T:CatLib.AssertException">
+            <summary>
+            断言异常
+            </summary>
+        </member>
+        <member name="T:CatLib.RuntimeException">
+            <summary>
+            运行时异常
+            </summary>
+        </member>
+        <member name="M:CatLib.RuntimeException.#ctor">
+            <summary>
+            运行时异常
+            </summary>
+        </member>
+        <member name="M:CatLib.RuntimeException.#ctor(System.String)">
+            <summary>
+            CatLib组件异常
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="M:CatLib.RuntimeException.#ctor(System.String,System.Exception)">
+            <summary>
+            运行时异常
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="innerException">内部异常</param>
+        </member>
+        <member name="T:CatLib.ExcludeFromCodeCoverageAttribute">
+            <summary>
+            标记的类，函数，属性不再进行覆盖率分析
+            </summary>
+        </member>
+        <member name="T:CatLib.PriorityAttribute">
+            <summary>
+            执行优先级
+            </summary>
+        </member>
+        <member name="P:CatLib.PriorityAttribute.Priorities">
+            <summary>
+            优先级
+            </summary>
+        </member>
+        <member name="M:CatLib.PriorityAttribute.#ctor(System.Int32)">
+            <summary>
+            优先级(0最高)
+            </summary>
+            <param name="priority">优先级(0为最优先)</param>
         </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>

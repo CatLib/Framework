@@ -9,16 +9,16 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API
+namespace CatLib.API.MonoDriver
 {
     /// <summary>
-    /// 在Update之后调用
+    /// Update 接口
     /// </summary>
-    public interface ILateUpdate
+    public interface IUpdate
     {
         /// <summary>
-        /// LateUpdate时调用
+        /// 当Update时调用
         /// </summary>
-        void LateUpdate();
+        void Update();
     }
 }
