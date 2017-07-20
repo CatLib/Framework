@@ -10,6 +10,7 @@
  */
 
 #if CATLIB
+using CatLib.API.Config;
 using CatLib.API.Time;
 
 namespace CatLib.Time
@@ -37,6 +38,17 @@ namespace CatLib.Time
                 var timeManager = obj as TimeManager;
 
                 timeManager.Extend(() => new UnityTime());
+
+                var config = App.Make<IConfigManager>();
+
+                if (config != null)
+                {
+                    config.Default.Watch("time.default", (value) =>
+                    {
+                        timeManager.SetDefault(value.ToString());
+                    });
+                    timeManager.SetDefault(config.Default.Get("time.default", "default"));
+                }
 
                 return timeManager;
             });

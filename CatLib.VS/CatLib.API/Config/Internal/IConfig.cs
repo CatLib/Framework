@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Converters;
 
 namespace CatLib.API.Config
@@ -43,6 +44,13 @@ namespace CatLib.API.Config
         /// <param name="name">配置名</param>
         /// <param name="value">配置的值</param>
         void Set(string name, object value);
+
+        /// <summary>
+        /// 监控一个配置的变化
+        /// </summary>
+        /// <param name="name">监控的名字</param>
+        /// <param name="callback">发生变化时会触发</param>
+        void Watch(string name, Action<object> callback);
 
         /// <summary>
         /// 保存配置

@@ -12,6 +12,7 @@
 using CatLib.API.Config;
 using CatLib.API.Converters;
 using System;
+using System.Collections.Generic;
 
 namespace CatLib.Config
 {
@@ -31,6 +32,11 @@ namespace CatLib.Config
         private IConverters converters;
 
         /// <summary>
+        /// 观察者
+        /// </summary>
+        private readonly Dictionary<string, List<Action<object>>> watches;
+
+        /// <summary>
         /// 构造配置容器
         /// </summary>
         /// <param name="converters">转换器</param>
@@ -42,6 +48,7 @@ namespace CatLib.Config
 
             this.converters = converters;
             this.locator = locator;
+            watches = new Dictionary<string, List<Action<object>>>();
         }
 
         /// <summary>
@@ -62,6 +69,21 @@ namespace CatLib.Config
         {
             Guard.Requires<ArgumentNullException>(locator != null);
             this.locator = locator;
+        }
+
+        /// <summary>
+        /// 监控一个配置的变化
+        /// </summary>
+        /// <param name="name">监控的名字</param>
+        /// <param name="callback">发生变化时会触发</param>
+        public void Watch(string name, Action<object> callback)
+        {
+            List<Action<object>> watch;
+            if (!watches.TryGetValue(name, out watch))
+            {
+                watches[name] = watch = new List<Action<object>>();
+            }
+            watch.Add(callback);
         }
 
         /// <summary>
@@ -94,6 +116,15 @@ namespace CatLib.Config
             GuardConverters();
             GuardLocator();
             locator.Set(name, converters.Convert<string>(value));
+
+            List<Action<object>> watch;
+            if (watches.TryGetValue(name, out watch))
+            {
+                foreach (var callback in watch)
+                {
+                    callback.Invoke(value);
+                }
+            }
         }
 
         /// <summary>

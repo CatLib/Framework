@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Time;
 using UTime = UnityEngine.Time;
 
