@@ -23,7 +23,6 @@ namespace CatLib
         /// </summary>
         public AssertException() : base()
         {
-
         }
 
         /// <summary>
