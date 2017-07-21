@@ -43,5 +43,10 @@ namespace CatLib.Debugger.Log
         /// 命名空间
         /// </summary>
         string Namespace { get; }
+
+        /// <summary>
+        /// 记录时间
+        /// </summary>
+        long Time { get; }
     }
 }

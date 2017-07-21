@@ -51,6 +51,11 @@ namespace CatLib.Debugger.Log
         public string Namespace { get; private set; }
 
         /// <summary>
+        /// 记录时间
+        /// </summary>
+        public long Time { get; private set;}
+
+        /// <summary>
         /// 日志条目记录
         /// </summary>
         /// <param name="level">日志等级</param>
@@ -67,6 +72,7 @@ namespace CatLib.Debugger.Log
                 Namespace = declaringType.Namespace;
             }
             Id = Interlocked.Increment(ref lastId);
+            Time = System.DateTime.Now.Timestamp();
         }
     }
 }

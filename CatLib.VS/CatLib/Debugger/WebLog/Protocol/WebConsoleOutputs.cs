@@ -58,7 +58,8 @@ namespace CatLib.Debugger.WebLog.Protocol
         /// <param name="namespace">命名空间</param>
         /// <param name="message">消息标题</param>
         /// <param name="callStack">调用堆栈</param>
-        public void WriteLine(long id, LogLevels level, string @namespace, string message, IList<string> callStack)
+        /// <param name="time">记录时间</param>
+        public void WriteLine(long id, LogLevels level, string @namespace, string message, IList<string> callStack, long time)
         {
             outputs.Add(new Dictionary<string, object>
             {
@@ -67,7 +68,8 @@ namespace CatLib.Debugger.WebLog.Protocol
                 { "namespace" , @namespace},
                 { "message" , message },
                 { "callStack" , callStack },
-                { "showStack" , false }
+                { "showStack" , false },
+                { "time" , time }
             });
         }
 
@@ -90,7 +92,7 @@ namespace CatLib.Debugger.WebLog.Protocol
                 }
             }
 
-            WriteLine(entry.Id, entry.Level, entry.Namespace, entry.Message, callStack);
+            WriteLine(entry.Id, entry.Level, entry.Namespace, entry.Message, callStack, entry.Time);
         }
 
         /// <summary>
