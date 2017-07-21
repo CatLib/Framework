@@ -19,7 +19,7 @@ namespace CatLib
     [AttributeUsage(AttributeTargets.Interface |
                     AttributeTargets.Parameter |
                     AttributeTargets.Property)]
-    public sealed class InjectAttribute : Attribute
+    public class InjectAttribute : Attribute
     {
         /// <summary>
         /// 注入服务的别名或者服务名
