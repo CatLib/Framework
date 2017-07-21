@@ -49,6 +49,7 @@ namespace CatLib.Debugger.Log
         /// <param name="skipFrames">跳过的步数</param>
         public void SetSkip(int skipFrames)
         {
+            Guard.Requires<ArgumentException>(skipFrames >= 0);
             this.skipFrames = skipFrames;
         }
 

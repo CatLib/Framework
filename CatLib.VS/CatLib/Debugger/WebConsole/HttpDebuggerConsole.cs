@@ -54,6 +54,10 @@ namespace CatLib.Debugger.WebConsole
                                     [Inject(Required = true)]IRouter router,
                                      [Inject(Required = true)]IJson json)
         {
+            Guard.Requires<AssertException>(logger != null);
+            Guard.Requires<AssertException>(router != null);
+            Guard.Requires<AssertException>(json != null);
+
             this.logger = logger;
             this.router = router;
             this.json = json;
@@ -160,10 +164,6 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         private void RegisterNotFoundRouted()
         {
-            if (logger == null)
-            {
-                return;
-            }
             router.OnNotFound((request, next) =>
             {
                 logger.Debug("can not find routed [{0}]", request.Uri.OriginalString);

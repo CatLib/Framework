@@ -9,12 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections.Generic;
 using System.Net;
 using CatLib.API.Routing;
 using CatLib.Debugger.WebConsole;
-using CatLib.Debugger.WebMonitor;
-using CatLib.Debugger.WebMonitor.Handler;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -49,6 +48,12 @@ namespace CatLib.Tests.Debugger.WebConsole
             response.SetContext(new SimpleResponse(new Dictionary<string, string> { { "hello", "world" } }));
         }
 
+        [Routed]
+        public void ThrowError()
+        {
+            throw new Exception();
+        }
+
         [TestMethod]
         public void TestDebuggerConsole()
         {
@@ -60,6 +65,68 @@ namespace CatLib.Tests.Debugger.WebConsole
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
             Assert.AreEqual("{\"Response\":{\"hello\":\"world\"}}", ret);
+        }
+
+        [TestMethod]
+        public void TestNotFound()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+
+            bool isThrow = false;
+            try
+            {
+                string ret;
+                var statu = HttpHelper.Get("http://localhost:9478/notfound/notfound/notfound", out ret);
+            }
+            catch (WebException ex)
+            {
+                Assert.AreEqual(WebExceptionStatus.ProtocolError, ex.Status);
+                isThrow = true;
+            }
+            finally
+            {
+                console.Stop();
+            }
+            Assert.AreEqual(true, isThrow);
+        }
+
+        [TestMethod]
+        public void TestThrowError()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+
+            bool isThrow = false;
+            try
+            {
+                string ret;
+                var statu = HttpHelper.Get("http://localhost:9478/catlib/http-debugger-console-tests/throw-error",
+                    out ret);
+            }
+            catch (WebException ex)
+            {
+                Assert.AreEqual(WebExceptionStatus.ProtocolError, ex.Status);
+                isThrow = true;
+            }
+            finally
+            {
+                console.Stop();
+            }
+
+            Assert.AreEqual(true, isThrow);
+        }
+
+        [TestMethod]
+        public void TestNoDispatcher()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/", out ret);
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
         }
     }
 }
