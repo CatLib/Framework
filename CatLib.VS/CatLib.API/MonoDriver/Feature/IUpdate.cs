@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.MonoDriver
+namespace CatLib
 {
     /// <summary>
     /// Update 接口

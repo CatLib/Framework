@@ -44,7 +44,6 @@ namespace CatLib.API.Routing
         /// </summary>
         public RoutedAttribute()
         {
-
         }
 
         /// <summary>

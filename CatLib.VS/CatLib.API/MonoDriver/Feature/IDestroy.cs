@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.MonoDriver
+namespace CatLib
 {
     /// <summary>
     /// 当被释放时
