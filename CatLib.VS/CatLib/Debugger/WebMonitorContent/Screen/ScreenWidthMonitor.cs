@@ -28,7 +28,7 @@ namespace CatLib.Debugger.WebMonitorContent
         public ScreenWidthMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("screen.width",
-                MonitorHelper.CallbackOnce("Screen Width", "px", () => Screen.width)
+                MonitorHelper.CallbackOnce("monitor.screen.width", "unit.px", () => Screen.width)
                 , 1000);
         }
     }

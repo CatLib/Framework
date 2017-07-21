@@ -27,7 +27,7 @@ namespace CatLib.Debugger.WebMonitorContent
         public TotalAllocatedMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("memory.total",
-                MonitorHelper.CallbackSize("Total Memory", () => Profiler.GetTotalAllocatedMemoryLong())
+                MonitorHelper.CallbackSize("monitor.memory.total", () => Profiler.GetTotalAllocatedMemoryLong())
                 , 30);
         }
     }

@@ -27,7 +27,7 @@ namespace CatLib.Debugger.WebMonitorContent
         public ScreenDpiMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("screen.dpi",
-                MonitorHelper.CallbackOnce("Dpi", "dpi", () => Screen.dpi)
+                MonitorHelper.CallbackOnce("monitor.screen.dpi", "unit.dpi", () => Screen.dpi)
                 , 1020);
         }
     }

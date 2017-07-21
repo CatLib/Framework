@@ -27,7 +27,7 @@ namespace CatLib.Debugger.WebMonitorContent
         public ScreenHeightMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("screen.height",
-                MonitorHelper.CallbackOnce("Screen Height", "px", () => Screen.height)
+                MonitorHelper.CallbackOnce("monitor.screen.height", "unit.px", () => Screen.height)
                 , 1010);
         }
     }

@@ -4,6 +4,25 @@
         <name>CatLib</name>
     </assembly>
     <members>
+        <member name="T:CatLib.SystemTime">
+            <summary>
+            时间
+            </summary>
+        </member>
+        <member name="M:CatLib.SystemTime.ToDateTime(System.Int32)">
+            <summary>
+            将linux时间戳转为DateTime
+            </summary>
+            <param name="time">时间戳</param>
+            <returns>DateTime</returns>
+        </member>
+        <member name="M:CatLib.SystemTime.Timestamp(System.DateTime)">
+            <summary>
+            转为Linux时间戳
+            </summary>
+            <param name="time">DateTime</param>
+            <returns>linux时间戳</returns>
+        </member>
         <member name="T:CatLib.Version">
             <summary>
             版本
@@ -77,9 +96,9 @@
         <member name="M:CatLib.Version.Compare(System.String)">
             <summary>
             将当前版本和输入版本进行比较
-            <para>输入版本大于当前版本则返回<code>1</code></para>
+            <para>输入版本大于当前版本则返回<code>-1</code></para>
             <para>输入版本等于当前版本则返回<code>0</code></para>
-            <para>输入版本小于当前版本则返回<code>-1</code></para>
+            <para>输入版本小于当前版本则返回<code>1</code></para>
             </summary>
             <param name="version">输入版本</param>
             <returns>比较结果</returns>
@@ -952,6 +971,11 @@
             命名空间
             </summary>
         </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Time">
+            <summary>
+            记录时间
+            </summary>
+        </member>
         <member name="T:CatLib.Debugger.Log.Logger">
             <summary>
             日志系统
@@ -1157,6 +1181,11 @@
         <member name="P:CatLib.Debugger.Log.LogEntry.Namespace">
             <summary>
             命名空间
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Time">
+            <summary>
+            记录时间
             </summary>
         </member>
         <member name="M:CatLib.Debugger.Log.LogEntry.#ctor(CatLib.API.Debugger.LogLevels,System.String,System.Int32)">
@@ -1456,11 +1485,6 @@
             回调
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Category">
-            <summary>
-            分类
-            </summary>
-        </member>
         <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Title">
             <summary>
             监控的标题
@@ -1524,12 +1548,11 @@
             实时的监控值
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String,System.String[])">
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String)">
             <summary>
             累加监控处理器
             </summary>
             <param name="title">监控名字</param>
-            <param name="category">分组</param>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Handler(System.Object)">
             <summary>
@@ -1550,11 +1573,6 @@
         <member name="F:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.value">
             <summary>
             监控的值
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Category">
-            <summary>
-            分类
             </summary>
         </member>
         <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Title">
@@ -1609,13 +1627,12 @@
             实时的监控值
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String,System.Collections.Generic.IList{System.String})">
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String)">
             <summary>
             单次记录监控处理器
             </summary>
             <param name="title">标题</param>
             <param name="unit">单位值</param>
-            <param name="category">分类</param>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Handler(System.Object)">
             <summary>
@@ -1651,11 +1668,6 @@
         <member name="P:CatLib.Debugger.WebMonitor.IMonitorHandler.Title">
             <summary>
             监控的名字(用于UI端显示)
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.IMonitorHandler.Category">
-            <summary>
-            分类
             </summary>
         </member>
         <member name="P:CatLib.Debugger.WebMonitor.IMonitorHandler.Unit">
@@ -1801,7 +1813,7 @@
             Web控制台输出
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(System.Int64,CatLib.API.Debugger.LogLevels,System.String,System.String,System.Collections.Generic.IList{System.String})">
+        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(System.Int64,CatLib.API.Debugger.LogLevels,System.String,System.String,System.Collections.Generic.IList{System.String},System.Int64)">
             <summary>
             向Web控制台屏幕中输出一条消息
             </summary>
@@ -1810,6 +1822,7 @@
             <param name="namespace">命名空间</param>
             <param name="message">消息标题</param>
             <param name="callStack">调用堆栈</param>
+            <param name="time">记录时间</param>
         </member>
         <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(CatLib.Debugger.Log.ILogEntry)">
             <summary>
@@ -5326,9 +5339,9 @@
             CatLib程序
             </summary>
         </member>
-        <member name="P:CatLib.Application.Version">
+        <member name="F:CatLib.Application.version">
             <summary>
-            CatLib版本号
+            版本号
             </summary>
         </member>
         <member name="T:CatLib.Application.StartProcess">
@@ -5470,6 +5483,33 @@
             <param name="handler">事件句柄</param>
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
+        </member>
+        <member name="P:CatLib.Application.Version">
+            <summary>
+            CatLib版本(遵循semver)
+            </summary>
+        </member>
+        <member name="M:CatLib.Application.Compare(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            比较版本(遵循semver)
+            <para>输入版本大于当前版本则返回<code>-1</code></para>
+            <para>输入版本等于当前版本则返回<code>0</code></para>
+            <para>输入版本小于当前版本则返回<code>1</code></para>
+            </summary>
+            <param name="major">主版本号</param>
+            <param name="minor">次版本号</param>
+            <param name="revised">修订版本号</param>
+            <returns>比较结果</returns>
+        </member>
+        <member name="M:CatLib.Application.Compare(System.String)">
+            <summary>
+            比较版本(遵循semver)
+            <para>输入版本大于当前版本则返回<code>-1</code></para>
+            <para>输入版本等于当前版本则返回<code>0</code></para>
+            <para>输入版本小于当前版本则返回<code>1</code></para>
+            </summary>
+            <param name="version">版本号</param>
+            <returns>比较结果</returns>
         </member>
         <member name="M:CatLib.Application.RegisterCoreAlias">
             <summary>

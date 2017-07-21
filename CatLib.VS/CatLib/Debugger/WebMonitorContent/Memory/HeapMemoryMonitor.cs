@@ -27,7 +27,7 @@ namespace CatLib.Debugger.WebMonitorContent
         public HeapMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
             monitor.DefinedMoitor("memory.heap",
-                MonitorHelper.CallbackSize("Heap Memory", () => Profiler.GetMonoUsedSizeLong())
+                MonitorHelper.CallbackSize("monitor.memory.heap", () => Profiler.GetMonoUsedSizeLong())
                 , 40);
         }
     }

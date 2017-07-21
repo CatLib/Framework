@@ -364,36 +364,6 @@
             当释放完成后
             </summary>
         </member>
-        <member name="T:CatLib.API.MonoDriver.IDestroy">
-            <summary>
-            当被释放时
-            </summary>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IDestroy.OnDestroy">
-            <summary>
-            当被释放时调用
-            </summary>
-        </member>
-        <member name="T:CatLib.API.MonoDriver.ILateUpdate">
-            <summary>
-            在Update之后调用
-            </summary>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.ILateUpdate.LateUpdate">
-            <summary>
-            LateUpdate时调用
-            </summary>
-        </member>
-        <member name="T:CatLib.API.MonoDriver.IUpdate">
-            <summary>
-            Update 接口
-            </summary>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IUpdate.Update">
-            <summary>
-            当Update时调用
-            </summary>
-        </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
             <summary>
             无效的参数异常
@@ -1950,6 +1920,36 @@
             <param name="message">异常消息</param>
             <param name="innerException">内部异常</param>
         </member>
+        <member name="T:CatLib.IDestroy">
+            <summary>
+            当被释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.IDestroy.OnDestroy">
+            <summary>
+            当被释放时调用
+            </summary>
+        </member>
+        <member name="T:CatLib.ILateUpdate">
+            <summary>
+            在Update之后调用
+            </summary>
+        </member>
+        <member name="M:CatLib.ILateUpdate.LateUpdate">
+            <summary>
+            LateUpdate时调用
+            </summary>
+        </member>
+        <member name="T:CatLib.IUpdate">
+            <summary>
+            Update 接口
+            </summary>
+        </member>
+        <member name="M:CatLib.IUpdate.Update">
+            <summary>
+            当Update时调用
+            </summary>
+        </member>
         <member name="T:CatLib.ExcludeFromCodeCoverageAttribute">
             <summary>
             标记的类，函数，属性不再进行覆盖率分析
@@ -2002,11 +2002,6 @@
             应用程序接口
             </summary>
         </member>
-        <member name="P:CatLib.IApplication.Version">
-            <summary>
-            CatLib版本号
-            </summary>
-        </member>
         <member name="M:CatLib.IApplication.Bootstrap(CatLib.IBootstrap[])">
             <summary>
             引导程序类型
@@ -2035,6 +2030,33 @@
             <summary>
             是否是主线程
             </summary>
+        </member>
+        <member name="P:CatLib.IApplication.Version">
+            <summary>
+            CatLib版本(遵循semver)
+            </summary>
+        </member>
+        <member name="M:CatLib.IApplication.Compare(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            比较版本(遵循semver)
+            <para>输入版本大于当前版本则返回<code>-1</code></para>
+            <para>输入版本等于当前版本则返回<code>0</code></para>
+            <para>输入版本小于当前版本则返回<code>1</code></para>
+            </summary>
+            <param name="major">主版本号</param>
+            <param name="minor">次版本号</param>
+            <param name="revised">修订版本号</param>
+            <returns>比较结果</returns>
+        </member>
+        <member name="M:CatLib.IApplication.Compare(System.String)">
+            <summary>
+            比较版本(遵循semver)
+            <para>输入版本大于当前版本则返回<code>-1</code></para>
+            <para>输入版本等于当前版本则返回<code>0</code></para>
+            <para>输入版本小于当前版本则返回<code>1</code></para>
+            </summary>
+            <param name="version">版本号</param>
+            <returns>比较结果</returns>
         </member>
         <member name="M:CatLib.IApplication.GetPriorities(System.Type,System.String)">
             <summary>

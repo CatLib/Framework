@@ -30,7 +30,7 @@ namespace CatLib.Debugger.WebMonitorContent
                             [Inject(Required = true)]ITime time)
         {
             monitor.DefinedMoitor("fps.counter",
-                MonitorHelper.CallbackOnce("Fps" , "/S" , ()=> Math.Floor(1.0f / time.SmoothDeltaTime))
+                MonitorHelper.CallbackOnce("monitor.performance.fps", "unit.second.pre", ()=> Math.Floor(1.0f / time.SmoothDeltaTime))
                 , 40);
         }
     }
