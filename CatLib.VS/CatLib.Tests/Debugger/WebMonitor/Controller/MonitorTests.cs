@@ -33,7 +33,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             var app = DebuggerHelper.GetApplication();
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
-            var handler = new OnceRecordMonitorHandler("title", "ms", new[] {"test"});
+            var handler = new OnceRecordMonitorHandler("title", "ms");
             monitor.DefinedMoitor("test", handler, -1);
             monitor.Monitor("test", 100);
 
@@ -42,7 +42,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
 
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
-            Assert.AreEqual("{\"Response\":[{\"name\":\"title\",\"value\":\"100\",\"unit\":\"ms\",\"category\":[\"test\"]}]}", ret);
+            Assert.AreEqual("{\"Response\":[{\"name\":\"title\",\"value\":\"100\",\"unit\":\"ms\"}]}", ret);
         }
     }
 }

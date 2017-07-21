@@ -58,8 +58,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// 累加监控处理器
         /// </summary>
         /// <param name="title">监控名字</param>
-        /// <param name="category">分组</param>
-        public SizeMonitorHandler(string title, string[] category = null)
+        public SizeMonitorHandler(string title)
         {
             Title = title;
             unitMapping = new Dictionary<long, string>
@@ -71,7 +70,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
                 { 1125899906842624 , "TB" },
                 { long.MaxValue , "PB" }
             };
-            Category = category ?? new string[] { };
         }
 
         /// <summary>

@@ -43,12 +43,10 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// </summary>
         /// <param name="title">标题</param>
         /// <param name="unit">单位值</param>
-        /// <param name="category">分类</param>
-        public OnceRecordMonitorHandler(string title, string unit , IList<string> category = null)
+        public OnceRecordMonitorHandler(string title, string unit)
         {
             Title = title;
             Unit = unit;
-            Category = category ?? new string[]{};
         }
 
         /// <summary>

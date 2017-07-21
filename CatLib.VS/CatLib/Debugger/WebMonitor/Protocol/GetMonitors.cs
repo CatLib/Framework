@@ -54,7 +54,6 @@ namespace CatLib.Debugger.WebMonitor.Protocol
                     { "name" , handler.Title },
                     { "value" , handler.Value },
                     { "unit" , handler.Unit },
-                    { "category" , handler.Category }
                 });
             }
             catch (TypeLoadException)

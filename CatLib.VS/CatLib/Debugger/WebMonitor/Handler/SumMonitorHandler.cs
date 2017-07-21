@@ -30,17 +30,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
         private long value;
 
         /// <summary>
-        /// 分类
-        /// </summary>
-        public IList<string> Category
-        {
-            get
-            {
-                return baseHandler.Category;
-            }
-        }
-
-        /// <summary>
         /// 监控的名字
         /// </summary>
         public string Title

@@ -30,17 +30,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
         private readonly Func<object> callback;
 
         /// <summary>
-        /// 分类
-        /// </summary>
-        public IList<string> Category
-        {
-            get
-            {
-                return baseHandler.Category;
-            }
-        }
-
-        /// <summary>
         /// 监控的标题
         /// </summary>
         public string Title
