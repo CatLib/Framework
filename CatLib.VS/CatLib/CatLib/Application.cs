@@ -22,15 +22,9 @@ namespace CatLib
     public class Application : Container, IApplication
     {
         /// <summary>
-        /// CatLib版本号
+        /// 版本号
         /// </summary>
-        public string Version
-        {
-            get
-            {
-                return "1.0.0";
-            }
-        }
+        private readonly Version version = new Version("1.0.0");
 
         /// <summary>
         /// 框架启动流程
@@ -275,6 +269,48 @@ namespace CatLib
         public IEventHandler On(string eventName, Func<object, object> handler, int life = 0)
         {
             return Dispatcher != null ? Dispatcher.On(eventName, handler, life) : null;
+        }
+
+        /// <summary>
+        /// CatLib版本(遵循semver)
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public string Version
+        {
+            get
+            {
+                return version.ToString();
+            }
+        }
+
+        /// <summary>
+        /// 比较版本(遵循semver)
+        /// <para>输入版本大于当前版本则返回<code>-1</code></para>
+        /// <para>输入版本等于当前版本则返回<code>0</code></para>
+        /// <para>输入版本小于当前版本则返回<code>1</code></para>
+        /// </summary>
+        /// <param name="major">主版本号</param>
+        /// <param name="minor">次版本号</param>
+        /// <param name="revised">修订版本号</param>
+        /// <returns>比较结果</returns>
+        [ExcludeFromCodeCoverage]
+        public int Compare(int major, int minor, int revised)
+        {
+            return Compare(string.Format("{0}.{1}.{2}", major, minor, revised));
+        }
+
+        /// <summary>
+        /// 比较版本(遵循semver)
+        /// <para>输入版本大于当前版本则返回<code>-1</code></para>
+        /// <para>输入版本等于当前版本则返回<code>0</code></para>
+        /// <para>输入版本小于当前版本则返回<code>1</code></para>
+        /// </summary>
+        /// <param name="version">版本号</param>
+        /// <returns>比较结果</returns>
+        [ExcludeFromCodeCoverage]
+        public int Compare(string version)
+        {
+            return this.version.Compare(version);
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace CatLib
         }
 
         /// <summary>
-        /// CatLib组件异常
+        /// 运行时异常
         /// </summary>
         /// <param name="message">异常消息</param>
         public RuntimeException(string message) : base(message)

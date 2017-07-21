@@ -20,11 +20,6 @@ namespace CatLib
     public interface IApplication : IContainer, IDispatcher
     {
         /// <summary>
-        /// CatLib版本号
-        /// </summary>
-        string Version { get; }
-
-        /// <summary>
         /// 引导程序类型
         /// </summary>
         /// <param name="bootstraps">引导程序</param>
@@ -52,6 +47,33 @@ namespace CatLib
         /// 是否是主线程
         /// </summary>
         bool IsMainThread { get; }
+
+        /// <summary>
+        /// CatLib版本(遵循semver)
+        /// </summary>
+        string Version { get; }
+
+        /// <summary>
+        /// 比较版本(遵循semver)
+        /// <para>输入版本大于当前版本则返回<code>-1</code></para>
+        /// <para>输入版本等于当前版本则返回<code>0</code></para>
+        /// <para>输入版本小于当前版本则返回<code>1</code></para>
+        /// </summary>
+        /// <param name="major">主版本号</param>
+        /// <param name="minor">次版本号</param>
+        /// <param name="revised">修订版本号</param>
+        /// <returns>比较结果</returns>
+        int Compare(int major, int minor, int revised);
+
+        /// <summary>
+        /// 比较版本(遵循semver)
+        /// <para>输入版本大于当前版本则返回<code>-1</code></para>
+        /// <para>输入版本等于当前版本则返回<code>0</code></para>
+        /// <para>输入版本小于当前版本则返回<code>1</code></para>
+        /// </summary>
+        /// <param name="version">版本号</param>
+        /// <returns>比较结果</returns>
+        int Compare(string version);
 
         /// <summary>
         /// 获取优先级，如果存在方法优先级定义那么优先返回方法的优先级

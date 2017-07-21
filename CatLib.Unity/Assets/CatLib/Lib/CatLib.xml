@@ -4,6 +4,108 @@
         <name>CatLib</name>
     </assembly>
     <members>
+        <member name="T:CatLib.Version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.versionMatcher">
+            <summary>
+            版本匹配正则式
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.version">
+            <summary>
+            原始版本信息
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.current">
+            <summary>
+            版本信息
+            </summary>
+        </member>
+        <member name="T:CatLib.Version.VersionData">
+            <summary>
+            版本信息
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.VersionData.Major">
+            <summary>
+            主版本号
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.VersionData.Minor">
+            <summary>
+            次版本号
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.VersionData.Revised">
+            <summary>
+            修订版本号
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.VersionData.PreRelease">
+            <summary>
+            先行版本号
+            </summary>
+        </member>
+        <member name="F:CatLib.Version.VersionData.BuildMetadata">
+            <summary>
+            版本编译信息
+            </summary>
+        </member>
+        <member name="M:CatLib.Version.VersionData.#ctor(System.String)">
+            <summary>
+            版本信息
+            </summary>
+            <param name="version"></param>
+        </member>
+        <member name="M:CatLib.Version.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            构造一个版本
+            </summary>
+            <param name="major">主版本号</param>
+            <param name="minor">次版本号</param>
+            <param name="revised">修订版本号</param>
+        </member>
+        <member name="M:CatLib.Version.#ctor(System.String)">
+            <summary>
+            构造一个版本
+            </summary>
+            <param name="version">版本号</param>
+        </member>
+        <member name="M:CatLib.Version.Compare(System.String)">
+            <summary>
+            将当前版本和输入版本进行比较
+            <para>输入版本大于当前版本则返回<code>1</code></para>
+            <para>输入版本等于当前版本则返回<code>0</code></para>
+            <para>输入版本小于当前版本则返回<code>-1</code></para>
+            </summary>
+            <param name="version">输入版本</param>
+            <returns>比较结果</returns>
+        </member>
+        <member name="M:CatLib.Version.CompareBlock(System.String,System.String)">
+            <summary>
+            比较左值和右值
+            <para>如果左值大于右值那么返回1</para>
+            <para>如果左值等于右值那么返回0</para>
+            <para>如果左值小于右值那么返回-1</para>
+            </summary>
+            <param name="left">左值</param>
+            <param name="right">右值</param>
+        </member>
+        <member name="M:CatLib.Version.GuardVersion(System.String)">
+            <summary>
+            验证输入版本
+            </summary>
+            <param name="version">输入版本</param>
+        </member>
+        <member name="M:CatLib.Version.ToString">
+            <summary>
+            转为字符串
+            </summary>
+            <returns>版本信息</returns>
+        </member>
         <member name="T:CatLib.Converters.Converters">
             <summary>
             转换器

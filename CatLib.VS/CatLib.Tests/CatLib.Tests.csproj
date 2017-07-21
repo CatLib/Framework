@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Support\VersionTests.cs" />
     <Compile Include="Config\CodeConfigLocatorTests.cs" />
     <Compile Include="Config\ConfigTests.cs" />
     <Compile Include="Config\ConfigProviderTests.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="Support\Container\ContainerTests.cs" />
     <Compile Include="Support\Container\GivenDataTests.cs" />
     <Compile Include="CatLib\ApplicationTests.cs" />
-    <Compile Include="CatLib\ContainerHelperTests.cs" />
+    <Compile Include="Support\Container\ContainerHelperTests.cs" />
     <Compile Include="MonoDriver\DriverTests.cs" />
     <Compile Include="CatLib\FacaedTests.cs" />
     <Compile Include="ExceptionAssert.cs" />

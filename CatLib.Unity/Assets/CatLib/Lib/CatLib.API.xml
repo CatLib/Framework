@@ -1909,6 +1909,24 @@
             断言异常
             </summary>
         </member>
+        <member name="M:CatLib.AssertException.#ctor">
+            <summary>
+            断言异常
+            </summary>
+        </member>
+        <member name="M:CatLib.AssertException.#ctor(System.String)">
+            <summary>
+            断言异常
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="M:CatLib.AssertException.#ctor(System.String,System.Exception)">
+            <summary>
+            断言异常
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="innerException">内部异常</param>
+        </member>
         <member name="T:CatLib.RuntimeException">
             <summary>
             运行时异常
@@ -1921,7 +1939,7 @@
         </member>
         <member name="M:CatLib.RuntimeException.#ctor(System.String)">
             <summary>
-            CatLib组件异常
+            运行时异常
             </summary>
             <param name="message">异常消息</param>
         </member>
