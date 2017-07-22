@@ -9,7 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.Debugger.WebMonitor;
+using CatLib.API.Debugger;
+using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -26,9 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public HeapMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.DefinedMoitor("memory.heap",
-                MonitorHelper.CallbackSize("monitor.memory.heap", () => Profiler.GetMonoUsedSizeLong())
-                , 40);
+            monitor.Monitor(new SizeMonitorHandler("monitor.memory.heap", new[] {"tags.common"},
+                () => Profiler.GetMonoUsedSizeLong()));
         }
     }
 }

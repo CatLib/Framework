@@ -10,6 +10,7 @@
  */
 
 using System.Net;
+using CatLib.API.Debugger;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
@@ -33,16 +34,15 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             var app = DebuggerHelper.GetApplication();
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
-            var handler = new OnceRecordMonitorHandler("title", "ms");
-            monitor.DefinedMoitor("test", handler, -1);
-            monitor.Monitor("test", 100);
+            var handler = new OnceRecordMonitorHandler("title", "ms",new []{"tags"} , ()=> "helloworld");
+            monitor.Monitor(handler);
 
             string ret;
             var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors", out ret);
 
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
-            Assert.AreEqual("{\"Response\":[{\"name\":\"title\",\"value\":\"100\",\"unit\":\"ms\"}]}", ret);
+            Assert.AreEqual("{\"Response\":[{\"name\":\"title\",\"value\":\"helloworld\",\"unit\":\"ms\",\"tags\":[\"tags\"]}]}", ret);
         }
     }
 }

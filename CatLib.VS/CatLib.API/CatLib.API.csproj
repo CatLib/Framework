@@ -56,6 +56,8 @@
     <Compile Include="Converters\IConvertersManager.cs" />
     <Compile Include="CatLib\App.cs" />
     <Compile Include="CatLib\ApplicationEvents.cs" />
+    <Compile Include="Debugger\IMonitor.cs" />
+    <Compile Include="Debugger\Feature\IMonitorHandler.cs" />
     <Compile Include="Environment\DebugLevels.cs" />
     <Compile Include="Environment\IEnvironment.cs" />
     <Compile Include="Events\IDispatcher.cs" />

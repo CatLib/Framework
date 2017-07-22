@@ -9,34 +9,31 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
-
-namespace CatLib.Debugger.WebMonitor
+namespace CatLib.API.Debugger
 {
     /// <summary>
-    /// 监控处理器
+    /// 监控句柄
     /// </summary>
     public interface IMonitorHandler
     {
         /// <summary>
-        /// 监控的名字(用于UI端显示)
+        /// 监控的名字
         /// </summary>
-        string Title { get; }
+        string Name { get; }
 
         /// <summary>
-        /// 监控值的单位描述
+        /// 标签(第0位：分类)
+        /// </summary>
+        string[] Tags { get; }
+
+        /// <summary>
+        /// 监控值的单位
         /// </summary>
         string Unit { get; }
 
         /// <summary>
-        /// 实时的监控值
+        /// 监控值
         /// </summary>
         string Value { get; }
-
-        /// <summary>
-        /// 处理句柄
-        /// </summary>
-        /// <param name="value">值</param>
-        void Handler(object value);
     }
 }

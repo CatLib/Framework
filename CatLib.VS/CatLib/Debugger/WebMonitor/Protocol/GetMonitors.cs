@@ -12,6 +12,7 @@
 using System;
 using CatLib.Debugger.WebConsole;
 using System.Collections.Generic;
+using CatLib.API.Debugger;
 
 namespace CatLib.Debugger.WebMonitor.Protocol
 {
@@ -51,9 +52,10 @@ namespace CatLib.Debugger.WebMonitor.Protocol
             {
                 outputs.Add(new Dictionary<string, object>
                 {
-                    { "name" , handler.Title },
+                    { "name" , handler.Name },
                     { "value" , handler.Value },
                     { "unit" , handler.Unit },
+                    { "tags" , handler.Tags },
                 });
             }
             catch (TypeLoadException)

@@ -133,7 +133,7 @@ namespace CatLib.Tests.Time
             timeManager.Extend(() => new TestTime(), "test");
 
             var config = app.Make<IConfigManager>();
-            config.Default.Set("times.default", "test");
+            config.Default.Set("time.default", "test");
         }
 
         [TestMethod]

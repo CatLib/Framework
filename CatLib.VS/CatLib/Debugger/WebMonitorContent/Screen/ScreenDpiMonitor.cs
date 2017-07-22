@@ -9,7 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.Debugger.WebMonitor;
+using CatLib.API.Debugger;
+using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -26,9 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public ScreenDpiMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.DefinedMoitor("screen.dpi",
-                MonitorHelper.CallbackOnce("monitor.screen.dpi", "unit.dpi", () => Screen.dpi)
-                , 1020);
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.dpi", "unit.dpi", new[] {"tags.screen"},
+                () => Screen.dpi));
         }
     }
 }

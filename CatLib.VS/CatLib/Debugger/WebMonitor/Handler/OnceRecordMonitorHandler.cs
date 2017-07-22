@@ -9,24 +9,25 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
+using CatLib.API.Debugger;
+using System;
 
 namespace CatLib.Debugger.WebMonitor.Handler
 {
     /// <summary>
-    /// 单次监控处理器
+    /// 监控处理器
     /// </summary>
     public sealed class OnceRecordMonitorHandler : IMonitorHandler
     {
         /// <summary>
-        /// 分类
+        /// 标签
         /// </summary>
-        public IList<string> Category { get; private set; }
+        public string[] Tags { get; private set; }
 
         /// <summary>
-        /// 监控的标题
+        /// 监控的名字
         /// </summary>
-        public string Title { get; private set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// 监控值的单位描述
@@ -36,26 +37,36 @@ namespace CatLib.Debugger.WebMonitor.Handler
         /// <summary>
         /// 实时的监控值
         /// </summary>
-        public string Value { get; private set; }
+        public string Value
+        {
+            get
+            {
+                return callback.Invoke().ToString();
+            }
+        }
+
+        /// <summary>
+        /// 回调获取结果
+        /// </summary>
+        private readonly Func<object> callback;
 
         /// <summary>
         /// 单次记录监控处理器
         /// </summary>
-        /// <param name="title">标题</param>
+        /// <param name="name">标题</param>
         /// <param name="unit">单位值</param>
-        public OnceRecordMonitorHandler(string title, string unit)
+        /// <param name="tags">tags</param>
+        /// <param name="callback">回调</param>
+        public OnceRecordMonitorHandler(string name, string unit , string[] tags , Func<object> callback)
         {
-            Title = title;
+            Guard.NotEmptyOrNull(name, "name");
+            Guard.NotEmptyOrNull(unit, "unit");
+            Guard.Requires<ArgumentNullException>(tags != null);
+            Guard.Requires<ArgumentNullException>(callback != null);
+            Name = name;
             Unit = unit;
-        }
-
-        /// <summary>
-        /// 处理句柄
-        /// </summary>
-        /// <param name="value">值</param>
-        public void Handler(object value)
-        {
-            Value = value.ToString();
+            Tags = tags;
+            this.callback = callback;
         }
     }
 }

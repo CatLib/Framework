@@ -1386,7 +1386,7 @@
             堆内存
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
             <summary>
             构建一个堆内存监控
             </summary>
@@ -1397,40 +1397,18 @@
             总分配的内存大小
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
             <summary>
             构建一个总内存监控
             </summary>
             <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.MonitorHelper">
-            <summary>
-            监控辅助工具
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.MonitorHelper.CallbackOnce(System.String,System.String,System.Func{System.Object})">
-            <summary>
-            单次记录监控
-            </summary>
-            <param name="title">标题</param>
-            <param name="unit">单位</param>
-            <param name="callback">回调获取值</param>
-            <returns>监控句柄</returns>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.MonitorHelper.CallbackSize(System.String,System.Func{System.Object})">
-            <summary>
-            单次尺寸记录监控
-            </summary>
-            <param name="title">标题</param>
-            <param name="callback">回调获取值</param>
-            <returns>监控句柄</returns>
         </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
             <summary>
             Fps监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor,CatLib.API.Time.ITime)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.API.Debugger.IMonitor,CatLib.API.Time.ITime)">
             <summary>
             构建一个Fps监控
             </summary>
@@ -1442,7 +1420,7 @@
             屏幕宽度监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
             <summary>
             构建一个屏幕Dpi监控
             </summary>
@@ -1453,7 +1431,7 @@
             屏幕高度监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
             <summary>
             构建一个屏幕宽度
             </summary>
@@ -1464,66 +1442,23 @@
             屏幕宽度监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.Debugger.WebMonitor.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
             <summary>
             构建一个屏幕宽度
             </summary>
             <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler">
-            <summary>
-            回调获取监控值处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.baseHandler">
-            <summary>
-            基础处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.callback">
-            <summary>
-            回调
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Title">
-            <summary>
-            监控的标题
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Unit">
-            <summary>
-            监控值的单位描述
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Value">
-            <summary>
-            实时的监控值
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.#ctor(CatLib.Debugger.WebMonitor.IMonitorHandler,System.Func{System.Object})">
-            <summary>
-            回调获取处理器
-            </summary>
-            <param name="baseHandler">基础处理器</param>
-            <param name="callback">回调获取监控值</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.CallbackMonitorHandler.Handler(System.Object)">
-            <summary>
-            处理句柄
-            </summary>
-            <param name="value">值</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler">
             <summary>
             基于尺寸大小的监控处理器(字节)
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Category">
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Tags">
             <summary>
-            分类
+            标签
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Title">
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Name">
             <summary>
             监控的名字
             </summary>
@@ -1538,83 +1473,37 @@
             监控值的单位描述
             </summary>
         </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.value">
-            <summary>
-            监控的值
-            </summary>
-        </member>
         <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Value">
             <summary>
             实时的监控值
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String)">
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.callback">
             <summary>
-            累加监控处理器
-            </summary>
-            <param name="title">监控名字</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Handler(System.Object)">
-            <summary>
-            处理句柄
-            </summary>
-            <param name="value">值(字节)</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler">
-            <summary>
-            累加监控处理器
+            回调获取结果
             </summary>
         </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.baseHandler">
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String,System.String[],System.Func{System.Object})">
             <summary>
-            基础处理器
+            尺寸监控处理器
             </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.value">
-            <summary>
-            监控的值
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Title">
-            <summary>
-            监控的名字
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Unit">
-            <summary>
-            监控值的单位描述
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Value">
-            <summary>
-            实时的监控值
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.#ctor(CatLib.Debugger.WebMonitor.IMonitorHandler)">
-            <summary>
-            累加监控处理器
-            </summary>
-            <param name="baseHandler">基础处理器</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SumMonitorHandler.Handler(System.Object)">
-            <summary>
-            处理句柄
-            </summary>
-            <param name="value">值</param>
+            <param name="name">监控名字</param>
+            <param name="tags">标签</param>
+            <param name="callback">回调获取结果</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler">
             <summary>
-            单次监控处理器
+            监控处理器
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Category">
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Tags">
             <summary>
-            分类
+            标签
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Title">
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Name">
             <summary>
-            监控的标题
+            监控的名字
             </summary>
         </member>
         <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Unit">
@@ -1627,64 +1516,19 @@
             实时的监控值
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String)">
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.callback">
+            <summary>
+            回调获取结果
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String,System.String[],System.Func{System.Object})">
             <summary>
             单次记录监控处理器
             </summary>
-            <param name="title">标题</param>
+            <param name="name">标题</param>
             <param name="unit">单位值</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Handler(System.Object)">
-            <summary>
-            处理句柄
-            </summary>
-            <param name="value">值</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.IMonitor">
-            <summary>
-            监控器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.IMonitor.DefinedMoitor(System.String,CatLib.Debugger.WebMonitor.IMonitorHandler,System.Int32)">
-            <summary>
-            设定监控处理器
-            </summary>
-            <param name="moitorName">监控名</param>
-            <param name="handler">监控处理器</param>
-            <param name="sort">排序</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.IMonitor.Monitor(System.String,System.Object)">
-            <summary>
-            监控一个内容
-            </summary>
-            <param name="monitorName">监控名</param>
-            <param name="value">监控值</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.IMonitorHandler">
-            <summary>
-            监控处理器
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.IMonitorHandler.Title">
-            <summary>
-            监控的名字(用于UI端显示)
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.IMonitorHandler.Unit">
-            <summary>
-            监控值的单位描述
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.IMonitorHandler.Value">
-            <summary>
-            实时的监控值
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.IMonitorHandler.Handler(System.Object)">
-            <summary>
-            处理句柄
-            </summary>
-            <param name="value">值</param>
+            <param name="tags">tags</param>
+            <param name="callback">回调</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitor.Controller.Monitor">
             <summary>
@@ -1700,6 +1544,14 @@
             <summary>
             路由请求过滤链
             </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitorsIndex(CatLib.API.Routing.IResponse,System.Collections.Generic.IEnumerable{System.String},CatLib.Debugger.WebMonitor.MonitorStore)">
+            <summary>
+            获取首页的监控
+            </summary>
+            <param name="response">响应</param>
+            <param name="indexShow">首先显示的列表</param>
+            <param name="monitorStore">容器存储</param>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitors(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebMonitor.MonitorStore)">
             <summary>
@@ -1719,9 +1571,9 @@
             监控处理器
             </summary>
         </member>
-        <member name="F:CatLib.Debugger.WebMonitor.MonitorStore.monitorsSort">
+        <member name="F:CatLib.Debugger.WebMonitor.MonitorStore.monitorsDict">
             <summary>
-            监控处理器
+            监控处理器字典
             </summary>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.#ctor">
@@ -1729,7 +1581,7 @@
             监控器
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#Generic#IEnumerable{CatLib#Debugger#WebMonitor#IMonitorHandler}#GetEnumerator">
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#Generic#IEnumerable{CatLib#API#Debugger#IMonitorHandler}#GetEnumerator">
             <summary>
             迭代器
             </summary>
@@ -1741,20 +1593,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.DefinedMoitor(System.String,CatLib.Debugger.WebMonitor.IMonitorHandler,System.Int32)">
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.Monitor(CatLib.API.Debugger.IMonitorHandler)">
             <summary>
-            设定监控处理器
+            增加监控
             </summary>
-            <param name="monitorName">监控名</param>
-            <param name="handler">监控处理器</param>
-            <param name="sort">排序</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.Monitor(System.String,System.Object)">
-            <summary>
-            监控一个内容
-            </summary>
-            <param name="monitorName">监控名</param>
-            <param name="value">监控值</param>
+            <param name="handler">监控句柄</param>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.FindMoitor(System.String)">
             <summary>
@@ -1782,7 +1625,7 @@
             获取分组API
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteLine(CatLib.Debugger.WebMonitor.IMonitorHandler)">
+        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteLine(CatLib.API.Debugger.IMonitorHandler)">
             <summary>
             写入一条监控信息
             </summary>

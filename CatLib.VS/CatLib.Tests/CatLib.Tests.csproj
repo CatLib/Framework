@@ -59,7 +59,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Debugger\WebMonitor\Handler\CallbackMonitorHandlerTests.cs" />
     <Compile Include="Support\VersionTests.cs" />
     <Compile Include="Config\CodeConfigLocatorTests.cs" />
     <Compile Include="Config\ConfigTests.cs" />
@@ -156,7 +155,9 @@
       <Name>CatLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Debugger\WebMonitor\Handler\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

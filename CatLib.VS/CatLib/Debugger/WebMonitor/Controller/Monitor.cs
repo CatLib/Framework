@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
 using CatLib.API.MonoDriver;
 using CatLib.API.Routing;
 using CatLib.Debugger.WebMonitor.Protocol;
@@ -59,6 +60,32 @@ namespace CatLib.Debugger.WebMonitor.Controller
 
                 return filterChain;
             }
+        }
+
+        /// <summary>
+        /// 获取首页的监控
+        /// </summary>
+        /// <param name="response">响应</param>
+        /// <param name="indexShow">首先显示的列表</param>
+        /// <param name="monitorStore">容器存储</param>
+        [Routed("get-monitors-index")]
+        public void GetMonitorsIndex(IResponse response , [Inject("Debugger.WebMonitor.Monitor.IndexMonitor")]IEnumerable<string> indexShow, MonitorStore monitorStore)
+        {
+            var outputs = new GetMonitors();
+
+            if (indexShow != null)
+            {
+                foreach (var monitor in indexShow)
+                {
+                    var result = monitorStore.FindMoitor(monitor);
+                    if (result != null)
+                    {
+                        outputs.WriteLine(result);
+                    }
+                }
+            }
+
+            response.SetContext(outputs);
         }
 
         /// <summary>

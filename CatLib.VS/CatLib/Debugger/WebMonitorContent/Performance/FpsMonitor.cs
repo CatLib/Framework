@@ -9,8 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Debugger;
 using CatLib.API.Time;
-using CatLib.Debugger.WebMonitor;
+using CatLib.Debugger.WebMonitor.Handler;
 using System;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -29,9 +30,8 @@ namespace CatLib.Debugger.WebMonitorContent
         public FpsMonitor([Inject(Required = true)]IMonitor monitor,
                             [Inject(Required = true)]ITime time)
         {
-            monitor.DefinedMoitor("fps.counter",
-                MonitorHelper.CallbackOnce("monitor.performance.fps", "unit.second.pre", ()=> Math.Floor(1.0f / time.SmoothDeltaTime))
-                , 40);
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.performance.fps", "unit.second.pre", new[] {"tags.common"},
+                () => Math.Floor(1.0f / time.SmoothDeltaTime)));
         }
     }
 }

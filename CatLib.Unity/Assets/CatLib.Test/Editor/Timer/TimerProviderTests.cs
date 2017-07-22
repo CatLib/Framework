@@ -137,7 +137,7 @@ namespace CatLib.Tests.Timer
             manager.Extend(() => new TimerTestTime(), "test");
 
             var config = app.Make<IConfigManager>();
-            config.Default.Set("times.default", "test");
+            config.Default.Set("time.default", "test");
         }
 
         [TestMethod]

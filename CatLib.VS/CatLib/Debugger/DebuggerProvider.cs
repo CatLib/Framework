@@ -42,7 +42,7 @@ namespace CatLib.Debugger
                 {
                     App.Make<HttpDebuggerConsole>();
                 });
-                
+
                 App.Make<LogStore>();
                 App.Make<MonitorStore>();
 
@@ -60,16 +60,16 @@ namespace CatLib.Debugger
         /// 获取监控
         /// </summary>
         /// <returns>监控</returns>
-        private IDictionary<string, Type> GetMonitors()
+        private IList<KeyValuePair<string, Type>> GetMonitors()
         {
-            return new Dictionary<string, Type>
+            return new List<KeyValuePair<string, Type>>
             {
-                { "debugger.webconsole.monitor.performance.fps" , typeof(FpsMonitor) },
-                { "debugger.webconsole.monitor.memory.heap" , typeof(HeapMemoryMonitor) },
-                { "debugger.webconsole.monitor.memory.total" , typeof(TotalAllocatedMemoryMonitor) },
-                { "debugger.webconsole.monitor.screen.width" , typeof(ScreenWidthMonitor) },
-                { "debugger.webconsole.monitor.screen.height" , typeof(ScreenHeightMonitor) },
-                { "debugger.webconsole.monitor.screen.dpi" , typeof(ScreenDpiMonitor) }
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.performance.fps" , typeof(FpsMonitor)),
+                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.memory.heap" , typeof(HeapMemoryMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.memory.total" , typeof(TotalAllocatedMemoryMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.screen.width" , typeof(ScreenWidthMonitor)),
+                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.screen.height" , typeof(ScreenHeightMonitor)),
+                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.screen.dpi" , typeof(ScreenDpiMonitor))
             };
         }
 
@@ -158,6 +158,13 @@ namespace CatLib.Debugger
         private void RegisterWebLog()
         {
             App.Singleton<LogStore>();
+
+            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            {
+                "monitor.memory.heap",
+                "monitor.memory.total",
+                "monitor.performance.fps"
+            });
         }
 
         /// <summary>

@@ -9,7 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections.Generic;
+using CatLib.API.Debugger;
 
 namespace CatLib.Debugger.WebMonitor.Handler
 {
@@ -19,14 +21,14 @@ namespace CatLib.Debugger.WebMonitor.Handler
     public sealed class SizeMonitorHandler : IMonitorHandler
     {
         /// <summary>
-        /// 分类
+        /// 标签
         /// </summary>
-        public IList<string> Category { get; private set; }
+        public string[] Tags { get; private set; }
 
         /// <summary>
         /// 监控的名字
         /// </summary>
-        public string Title { get; private set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// 单位映射
@@ -39,28 +41,47 @@ namespace CatLib.Debugger.WebMonitor.Handler
         public string Unit { get; private set; }
 
         /// <summary>
-        /// 监控的值
-        /// </summary>
-        private double value;
-
-        /// <summary>
         /// 实时的监控值
         /// </summary>
         public string Value
         {
             get
             {
+                double value = 0;
+                var longValue = (long)callback.Invoke();
+                foreach (var unit in unitMapping)
+                {
+                    if (longValue >= unit.Key)
+                    {
+                        continue;
+                    }
+                    value = longValue / (unit.Key / (double)1024);
+                    Unit = unit.Value;
+                    break;
+                }
                 return value.ToString("#0.00");
             }
         }
 
         /// <summary>
-        /// 累加监控处理器
+        /// 回调获取结果
         /// </summary>
-        /// <param name="title">监控名字</param>
-        public SizeMonitorHandler(string title)
+        private readonly Func<object> callback;
+
+        /// <summary>
+        /// 尺寸监控处理器
+        /// </summary>
+        /// <param name="name">监控名字</param>
+        /// <param name="tags">标签</param>
+        /// <param name="callback">回调获取结果</param>
+        public SizeMonitorHandler(string name , string[] tags , Func<object> callback)
         {
-            Title = title;
+            Guard.NotEmptyOrNull(name, "name");
+            Guard.Requires<ArgumentNullException>(tags != null);
+            Guard.Requires<ArgumentNullException>(callback != null);
+            Name = name;
+            Tags = tags;
+            this.callback = callback;
             unitMapping = new Dictionary<long, string>
             {
                 { 1024 , "unit.size.b"},
@@ -70,25 +91,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
                 { 1125899906842624 , "unit.size.tb" },
                 { long.MaxValue , "unit.size.pb" }
             };
-        }
-
-        /// <summary>
-        /// 处理句柄
-        /// </summary>
-        /// <param name="value">值(字节)</param>
-        public void Handler(object value)
-        {
-            var longValue = (long) value;
-            foreach (var unit in unitMapping)
-            {
-                if ((long)value >= unit.Key)
-                {
-                    continue;
-                }
-                this.value = longValue / (unit.Key / (double)1024);
-                Unit = unit.Value;
-                break;
-            }
         }
     }
 }

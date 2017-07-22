@@ -129,6 +129,18 @@ namespace CatLib.Tests.Debugger.Log
             });
         }
 
+        [TestMethod]
+        public void TestSetSkip()
+        {
+            logLevel = string.Empty;
+            var app = DebuggerHelper.GetApplication();
+            var logger = app.Make<ILogger>();
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                (logger as Logger).SetSkip(0);
+            });
+        }
+
         public void AssertLog(Func<ILogger , string> doLogger)
         {
             logLevel = string.Empty;

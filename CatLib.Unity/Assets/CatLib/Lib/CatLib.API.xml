@@ -199,6 +199,196 @@
             <param name="cloneFromExtendName">克隆自的管理器名字</param>
             <returns>转换器</returns>
         </member>
+        <member name="T:CatLib.API.Debugger.IMonitor">
+            <summary>
+            监控
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.IMonitor.Monitor(CatLib.API.Debugger.IMonitorHandler)">
+            <summary>
+            增加监控
+            </summary>
+            <param name="handler">监控句柄</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.IMonitorHandler">
+            <summary>
+            监控句柄
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Debugger.IMonitorHandler.Name">
+            <summary>
+            监控的名字
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Debugger.IMonitorHandler.Tags">
+            <summary>
+            标签(第0位：分类)
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Debugger.IMonitorHandler.Unit">
+            <summary>
+            监控值的单位
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Debugger.IMonitorHandler.Value">
+            <summary>
+            监控值
+            </summary>
+        </member>
+        <member name="T:CatLib.API.Debugger.InvalidArgumentException">
+            <summary>
+            无效的参数异常
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor">
+            <summary>
+            无效的参数
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.Exception)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="innerException">异常结构</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="paramName">诱发异常的参数</param>
+            <param name="innerException">异常结构</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="paramName">诱发异常的参数</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.ILogger">
+            <summary>
+            日志接口
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            输出一条日志，日志级别为传入的等级
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Debug(System.Object,System.Object[])">
+            <summary>
+            输出一条调试级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Info(System.Object,System.Object[])">
+            <summary>
+            输出一条信息级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Notice(System.Object,System.Object[])">
+            <summary>
+            输出一条通知级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Warning(System.Object,System.Object[])">
+            <summary>
+            输出一条警告级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Error(System.Object,System.Object[])">
+            <summary>
+            输出一条错误级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Critical(System.Object,System.Object[])">
+            <summary>
+            输出一条关键级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Alert(System.Object,System.Object[])">
+            <summary>
+            输出一条警报级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.ILogger.Emergency(System.Object,System.Object[])">
+            <summary>
+            输出一条紧急级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.LogLevels">
+            <summary>
+            日志等级
+            细节见：https://tools.ietf.org/html/rfc5424
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Emergency">
+            <summary>
+            紧急(系统不可用)
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Alert">
+            <summary>
+            警报(必须立即采取行动)
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Critical">
+            <summary>
+            关键（关键日志）
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Error">
+            <summary>
+            错误
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Warning">
+            <summary>
+            警告
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Notice">
+            <summary>
+            通知
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Info">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Debugger.LogLevels.Debug">
+            <summary>
+            调试级消息
+            </summary>
+        </member>
         <member name="T:CatLib.API.Environment.DebugLevels">
             <summary>
             调试等级
@@ -362,160 +552,6 @@
         <member name="F:CatLib.API.MonoDriver.MonoDriverEvents.OnDestroyed">
             <summary>
             当释放完成后
-            </summary>
-        </member>
-        <member name="T:CatLib.API.Debugger.InvalidArgumentException">
-            <summary>
-            无效的参数异常
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor">
-            <summary>
-            无效的参数
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.Exception)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="innerException">异常结构</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String,System.Exception)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="paramName">诱发异常的参数</param>
-            <param name="innerException">异常结构</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="paramName">诱发异常的参数</param>
-        </member>
-        <member name="T:CatLib.API.Debugger.ILogger">
-            <summary>
-            日志接口
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
-            <summary>
-            输出一条日志，日志级别为传入的等级
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Debug(System.Object,System.Object[])">
-            <summary>
-            输出一条调试级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Info(System.Object,System.Object[])">
-            <summary>
-            输出一条信息级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Notice(System.Object,System.Object[])">
-            <summary>
-            输出一条通知级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Warning(System.Object,System.Object[])">
-            <summary>
-            输出一条警告级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Error(System.Object,System.Object[])">
-            <summary>
-            输出一条错误级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Critical(System.Object,System.Object[])">
-            <summary>
-            输出一条关键级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Alert(System.Object,System.Object[])">
-            <summary>
-            输出一条警报级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.ILogger.Emergency(System.Object,System.Object[])">
-            <summary>
-            输出一条紧急级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="T:CatLib.API.Debugger.LogLevels">
-            <summary>
-            日志等级
-            细节见：https://tools.ietf.org/html/rfc5424
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Emergency">
-            <summary>
-            紧急(系统不可用)
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Alert">
-            <summary>
-            警报(必须立即采取行动)
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Critical">
-            <summary>
-            关键（关键日志）
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Error">
-            <summary>
-            错误
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Warning">
-            <summary>
-            警告
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Notice">
-            <summary>
-            通知
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Info">
-            <summary>
-            信息
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Debugger.LogLevels.Debug">
-            <summary>
-            调试级消息
             </summary>
         </member>
         <member name="T:CatLib.API.FileSystem.IFileSystemManager">

@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.Debugger.WebMonitor;
+using CatLib.API.Debugger;
 using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine;
 
@@ -27,9 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public ScreenWidthMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.DefinedMoitor("screen.width",
-                MonitorHelper.CallbackOnce("monitor.screen.width", "unit.px", () => Screen.width)
-                , 1000);
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.width", "unit.px", new[] { "tags.screen" },
+                () => Screen.width));
         }
     }
 }

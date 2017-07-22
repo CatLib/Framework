@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CatLib.API.Debugger;
 
 namespace CatLib.Debugger.WebMonitor
 {
@@ -23,20 +24,20 @@ namespace CatLib.Debugger.WebMonitor
         /// <summary>
         /// 监控处理器
         /// </summary>
-        private readonly Dictionary<string, IMonitorHandler> monitors;
+        private readonly List<IMonitorHandler> monitors;
 
         /// <summary>
-        /// 监控处理器
+        /// 监控处理器字典
         /// </summary>
-        private readonly SortSet<IMonitorHandler, int> monitorsSort;
+        private readonly Dictionary<string, IMonitorHandler> monitorsDict;
 
         /// <summary>
         /// 监控器
         /// </summary>
         public MonitorStore()
         {
-            monitors = new Dictionary<string, IMonitorHandler>();
-            monitorsSort = new SortSet<IMonitorHandler, int>();
+            monitorsDict = new Dictionary<string, IMonitorHandler>();
+            monitors = new List<IMonitorHandler>();
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace CatLib.Debugger.WebMonitor
         /// <returns>迭代器</returns>
         IEnumerator<IMonitorHandler> IEnumerable<IMonitorHandler>.GetEnumerator()
         {
-            return monitorsSort.GetEnumerator();
+            return monitors.GetEnumerator();
         }
 
         /// <summary>
@@ -58,33 +59,18 @@ namespace CatLib.Debugger.WebMonitor
         }
 
         /// <summary>
-        /// 设定监控处理器
+        /// 增加监控
         /// </summary>
-        /// <param name="monitorName">监控名</param>
-        /// <param name="handler">监控处理器</param>
-        /// <param name="sort">排序</param>
-        public void DefinedMoitor(string monitorName, IMonitorHandler handler, int sort = int.MaxValue)
+        /// <param name="handler">监控句柄</param>
+        public void Monitor(IMonitorHandler handler)
         {
-            Guard.NotEmptyOrNull(monitorName, "moitorName");
             Guard.Requires<ArgumentNullException>(handler != null);
-            Guard.Requires<ArgumentException>(!monitorsSort.Contains(handler));
-            monitors.Add(monitorName, handler);
-            monitorsSort.Add(handler, sort);
-        }
-
-        /// <summary>
-        /// 监控一个内容
-        /// </summary>
-        /// <param name="monitorName">监控名</param>
-        /// <param name="value">监控值</param>
-        public void Monitor(string monitorName, object value)
-        {
-            Guard.NotEmptyOrNull(monitorName, "moitorName");
-            IMonitorHandler handler;
-            if ((handler = FindMoitor(monitorName)) != null)
+            if (monitorsDict.ContainsKey(handler.Name))
             {
-                handler.Handler(value);
+                throw new RuntimeException("Monitor [" + handler.Name + "] is already exists");
             }
+            monitors.Add(handler);
+            monitorsDict.Add(handler.Name, handler);
         }
 
         /// <summary>
@@ -94,7 +80,7 @@ namespace CatLib.Debugger.WebMonitor
         internal IMonitorHandler FindMoitor(string monitorName)
         {
             IMonitorHandler handler;
-            if (monitors.TryGetValue(monitorName, out handler))
+            if (monitorsDict.TryGetValue(monitorName, out handler))
             {
                 return handler;
             }

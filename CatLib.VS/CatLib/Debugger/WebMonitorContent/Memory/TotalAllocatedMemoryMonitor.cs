@@ -9,7 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.Debugger.WebMonitor;
+using CatLib.API.Debugger;
+using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -26,9 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public TotalAllocatedMemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.DefinedMoitor("memory.total",
-                MonitorHelper.CallbackSize("monitor.memory.total", () => Profiler.GetTotalAllocatedMemoryLong())
-                , 30);
+            monitor.Monitor(new SizeMonitorHandler("monitor.memory.total", new[] { "tags.common" },
+                () => Profiler.GetTotalAllocatedMemoryLong()));
         }
     }
 }

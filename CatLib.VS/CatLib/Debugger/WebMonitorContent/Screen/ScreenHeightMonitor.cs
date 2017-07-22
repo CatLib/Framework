@@ -9,7 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.Debugger.WebMonitor;
+using CatLib.API.Debugger;
+using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine;
 
 namespace CatLib.Debugger.WebMonitorContent
@@ -26,9 +27,8 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public ScreenHeightMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.DefinedMoitor("screen.height",
-                MonitorHelper.CallbackOnce("monitor.screen.height", "unit.px", () => Screen.height)
-                , 1010);
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.height", "unit.px", new[] { "tags.screen" },
+                () => Screen.height));
         }
     }
 }
