@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
 using System;
 
 namespace CatLib.Debugger.WebMonitor.Handler
@@ -60,7 +59,7 @@ namespace CatLib.Debugger.WebMonitor.Handler
         public OnceRecordMonitorHandler(string name, string unit , string[] tags , Func<object> callback)
         {
             Guard.NotEmptyOrNull(name, "name");
-            Guard.NotEmptyOrNull(unit, "unit");
+            Guard.Requires<ArgumentNullException>(unit != null);
             Guard.Requires<ArgumentNullException>(tags != null);
             Guard.Requires<ArgumentNullException>(callback != null);
             Name = name;

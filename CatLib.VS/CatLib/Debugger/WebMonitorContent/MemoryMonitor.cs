@@ -9,24 +9,25 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
 using CatLib.Debugger.WebMonitor.Handler;
 using UnityEngine.Profiling;
 
 namespace CatLib.Debugger.WebMonitorContent
 {
     /// <summary>
-    /// 总分配的内存大小
+    /// 内存监控
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class TotalAllocatedMemoryMonitor
+    public sealed class MemoryMonitor
     {
         /// <summary>
-        /// 构建一个总内存监控
+        /// 内存监控
         /// </summary>
         /// <param name="monitor">监控</param>
-        public TotalAllocatedMemoryMonitor([Inject(Required = true)]IMonitor monitor)
+        public MemoryMonitor([Inject(Required = true)]IMonitor monitor)
         {
+            monitor.Monitor(new SizeMonitorHandler("monitor.memory.heap", new[] { "tags.common" },
+                () => Profiler.GetMonoUsedSizeLong()));
             monitor.Monitor(new SizeMonitorHandler("monitor.memory.total", new[] { "tags.common" },
                 () => Profiler.GetTotalAllocatedMemoryLong()));
         }

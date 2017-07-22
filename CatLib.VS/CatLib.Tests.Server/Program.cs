@@ -42,12 +42,9 @@ namespace CatLib.Tests.Server
             app.Register(new ConvertersProvider());
             app.Register(new EventsProvider());
             app.Make<IConfigManager>().Default.Set("debugger.logger.handler.unity", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.performance.fps", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.memory.heap", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.memory.total", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen.width", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen.height", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen.dpi", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.performance", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.memory", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen", false);
             app.Init();
 
             app.Make<IRouter>().Middleware((request, response, next) =>

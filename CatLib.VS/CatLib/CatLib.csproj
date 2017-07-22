@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
+    <Compile Include="Debugger\WebMonitorContent\MemoryMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\ScreenMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
     <Compile Include="Support\Util\SystemTime.cs" />
@@ -93,12 +95,7 @@
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsole.cs" />
     <Compile Include="Debugger\WebConsole\HttpListener.cs" />
     <Compile Include="Debugger\DebuggerProvider.cs" />
-    <Compile Include="Debugger\WebMonitorContent\Memory\HeapMemoryMonitor.cs" />
-    <Compile Include="Debugger\WebMonitorContent\Memory\TotalAllocatedMemoryMonitor.cs" />
-    <Compile Include="Debugger\WebMonitorContent\Performance\FpsMonitor.cs" />
-    <Compile Include="Debugger\WebMonitorContent\Screen\ScreenDpiMonitor.cs" />
-    <Compile Include="Debugger\WebMonitorContent\Screen\ScreenHeightMonitor.cs" />
-    <Compile Include="Debugger\WebMonitorContent\Screen\ScreenWidthMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\PerformanceMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\SizeMonitorHandler.cs" />
     <Compile Include="Debugger\Log\Logger.cs" />
     <Compile Include="Debugger\Log\ILogHandler.cs" />

@@ -9,26 +9,28 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
+using CatLib.API.Time;
 using CatLib.Debugger.WebMonitor.Handler;
-using UnityEngine.Profiling;
+using System;
 
 namespace CatLib.Debugger.WebMonitorContent
 {
     /// <summary>
-    /// 堆内存
+    /// 性能相关监控
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class HeapMemoryMonitor
+    public sealed class PerformanceMonitor
     {
         /// <summary>
-        /// 构建一个堆内存监控
+        /// 构建一个Fps监控
         /// </summary>
         /// <param name="monitor">监控</param>
-        public HeapMemoryMonitor([Inject(Required = true)]IMonitor monitor)
+        /// <param name="time">使用的时间</param>
+        public PerformanceMonitor([Inject(Required = true)]IMonitor monitor,
+                            [Inject(Required = true)]ITime time)
         {
-            monitor.Monitor(new SizeMonitorHandler("monitor.memory.heap", new[] {"tags.common"},
-                () => Profiler.GetMonoUsedSizeLong()));
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.performance.fps", "unit.second.pre", new[] {"tags.common"},
+                () => Math.Floor(1.0f / time.SmoothDeltaTime)));
         }
     }
 }

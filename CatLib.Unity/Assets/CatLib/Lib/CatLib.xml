@@ -163,6 +163,40 @@
             响应
             </summary>
         </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.MemoryMonitor">
+            <summary>
+            内存监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.MemoryMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            内存监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenMonitor">
+            <summary>
+            屏幕监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            屏幕监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.PerformanceMonitor">
+            <summary>
+            性能相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.PerformanceMonitor.#ctor(CatLib.Debugger.IMonitor,CatLib.API.Time.ITime)">
+            <summary>
+            构建一个Fps监控
+            </summary>
+            <param name="monitor">监控</param>
+            <param name="time">使用的时间</param>
+        </member>
         <member name="T:CatLib.Debugger.IMonitor">
             <summary>
             监控
@@ -506,73 +540,6 @@
             <summary>
             注册Web监控
             </summary>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor">
-            <summary>
-            堆内存
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.Debugger.IMonitor)">
-            <summary>
-            构建一个堆内存监控
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor">
-            <summary>
-            总分配的内存大小
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.Debugger.IMonitor)">
-            <summary>
-            构建一个总内存监控
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
-            <summary>
-            Fps监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.Debugger.IMonitor,CatLib.API.Time.ITime)">
-            <summary>
-            构建一个Fps监控
-            </summary>
-            <param name="monitor">监控</param>
-            <param name="time">使用的时间</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor">
-            <summary>
-            屏幕宽度监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.Debugger.IMonitor)">
-            <summary>
-            构建一个屏幕Dpi监控
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor">
-            <summary>
-            屏幕高度监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.Debugger.IMonitor)">
-            <summary>
-            构建一个屏幕宽度
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor">
-            <summary>
-            屏幕宽度监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.Debugger.IMonitor)">
-            <summary>
-            构建一个屏幕宽度
-            </summary>
-            <param name="monitor">监控</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler">
             <summary>

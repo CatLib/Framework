@@ -11,6 +11,7 @@
 
 using System.Net;
 using CatLib.API.Debugger;
+using CatLib.Debugger;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;

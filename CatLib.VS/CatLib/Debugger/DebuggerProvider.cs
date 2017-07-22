@@ -64,12 +64,9 @@ namespace CatLib.Debugger
         {
             return new List<KeyValuePair<string, Type>>
             {
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.performance.fps" , typeof(FpsMonitor)),
-                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.memory.heap" , typeof(HeapMemoryMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.memory.total" , typeof(TotalAllocatedMemoryMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.screen.width" , typeof(ScreenWidthMonitor)),
-                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.screen.height" , typeof(ScreenHeightMonitor)),
-                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.screen.dpi" , typeof(ScreenDpiMonitor))
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.performance" , typeof(PerformanceMonitor)),
+                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.memory" , typeof(MemoryMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.screen" , typeof(ScreenMonitor)),
             };
         }
 
@@ -172,12 +169,9 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebMonitorContent()
         {
-            App.Singleton<FpsMonitor>();
-            App.Singleton<HeapMemoryMonitor>();
-            App.Singleton<TotalAllocatedMemoryMonitor>();
-            App.Singleton<ScreenDpiMonitor>();
-            App.Singleton<ScreenHeightMonitor>();
-            App.Singleton<ScreenWidthMonitor>();
+            App.Singleton<MemoryMonitor>();
+            App.Singleton<PerformanceMonitor>();
+            App.Singleton<ScreenMonitor>();
         }
     }
 }
