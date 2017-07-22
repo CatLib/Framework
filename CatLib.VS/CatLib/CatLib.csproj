@@ -51,7 +51,9 @@
   <ItemGroup>
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
     <Compile Include="Debugger\WebMonitorContent\MemoryMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\SceneMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\ScreenMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\SystemInfoMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
     <Compile Include="Support\Util\SystemTime.cs" />

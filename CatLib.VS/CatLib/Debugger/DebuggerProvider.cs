@@ -67,6 +67,8 @@ namespace CatLib.Debugger
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.performance" , typeof(PerformanceMonitor)),
                 new KeyValuePair<string, Type>( "debugger.webconsole.monitor.memory" , typeof(MemoryMonitor)),
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.screen" , typeof(ScreenMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.scene" , typeof(SceneMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.systeminfo" , typeof(SystemInfoMonitor))
             };
         }
 
@@ -172,6 +174,8 @@ namespace CatLib.Debugger
             App.Singleton<MemoryMonitor>();
             App.Singleton<PerformanceMonitor>();
             App.Singleton<ScreenMonitor>();
+            App.Singleton<SceneMonitor>();
+            App.Singleton<SystemInfoMonitor>();
         }
     }
 }

@@ -174,6 +174,17 @@
             </summary>
             <param name="monitor">监控</param>
         </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.SceneMonitor">
+            <summary>
+            场景监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.SceneMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            构建一个场景监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.ScreenMonitor">
             <summary>
             屏幕监控
@@ -182,6 +193,17 @@
         <member name="M:CatLib.Debugger.WebMonitorContent.ScreenMonitor.#ctor(CatLib.Debugger.IMonitor)">
             <summary>
             屏幕监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.SystemInfoMonitor">
+            <summary>
+            系统信息监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.SystemInfoMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            系统信息监控
             </summary>
             <param name="monitor">监控</param>
         </member>

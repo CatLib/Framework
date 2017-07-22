@@ -35,6 +35,8 @@ namespace CatLib.Tests.Debugger
             app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.performance", false);
             app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.memory", false);
             app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.scene", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.systeminfo", false);
             app.Init();
             return app;
         }
