@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Debugger
+namespace CatLib.Debugger
 {
     /// <summary>
     /// 监控句柄

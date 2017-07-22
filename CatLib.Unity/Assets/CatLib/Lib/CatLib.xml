@@ -163,6 +163,42 @@
             响应
             </summary>
         </member>
+        <member name="T:CatLib.Debugger.IMonitor">
+            <summary>
+            监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.IMonitor.Monitor(CatLib.Debugger.IMonitorHandler)">
+            <summary>
+            增加监控
+            </summary>
+            <param name="handler">监控句柄</param>
+        </member>
+        <member name="T:CatLib.Debugger.IMonitorHandler">
+            <summary>
+            监控句柄
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.IMonitorHandler.Name">
+            <summary>
+            监控的名字
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.IMonitorHandler.Tags">
+            <summary>
+            标签(第0位：分类)
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.IMonitorHandler.Unit">
+            <summary>
+            监控值的单位
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.IMonitorHandler.Value">
+            <summary>
+            监控值
+            </summary>
+        </member>
         <member name="T:CatLib.Debugger.Log.ILogEntry">
             <summary>
             日志条目
@@ -476,7 +512,7 @@
             堆内存
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.Debugger.IMonitor)">
             <summary>
             构建一个堆内存监控
             </summary>
@@ -487,7 +523,7 @@
             总分配的内存大小
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.Debugger.IMonitor)">
             <summary>
             构建一个总内存监控
             </summary>
@@ -498,7 +534,7 @@
             Fps监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.API.Debugger.IMonitor,CatLib.API.Time.ITime)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.Debugger.IMonitor,CatLib.API.Time.ITime)">
             <summary>
             构建一个Fps监控
             </summary>
@@ -510,7 +546,7 @@
             屏幕宽度监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.Debugger.IMonitor)">
             <summary>
             构建一个屏幕Dpi监控
             </summary>
@@ -521,7 +557,7 @@
             屏幕高度监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.Debugger.IMonitor)">
             <summary>
             构建一个屏幕宽度
             </summary>
@@ -532,7 +568,7 @@
             屏幕宽度监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.Debugger.IMonitor)">
             <summary>
             构建一个屏幕宽度
             </summary>
@@ -671,7 +707,7 @@
             监控器
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#Generic#IEnumerable{CatLib#API#Debugger#IMonitorHandler}#GetEnumerator">
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#Generic#IEnumerable{CatLib#Debugger#IMonitorHandler}#GetEnumerator">
             <summary>
             迭代器
             </summary>
@@ -683,7 +719,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.Monitor(CatLib.API.Debugger.IMonitorHandler)">
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.Monitor(CatLib.Debugger.IMonitorHandler)">
             <summary>
             增加监控
             </summary>
@@ -715,7 +751,7 @@
             获取分组API
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteLine(CatLib.API.Debugger.IMonitorHandler)">
+        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteLine(CatLib.Debugger.IMonitorHandler)">
             <summary>
             写入一条监控信息
             </summary>
