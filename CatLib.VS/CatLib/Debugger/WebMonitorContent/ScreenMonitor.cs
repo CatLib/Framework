@@ -32,6 +32,8 @@ namespace CatLib.Debugger.WebMonitorContent
                 () => Screen.height));
             monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.width", "unit.px", new[] { "tags.screen" },
                 () => Screen.width));
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.orientation", "", new[] { "tags.screen" },
+                () => Screen.orientation.ToString()));
             monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.landscape.left", "", new[] { "tags.screen" },
                 () => Screen.autorotateToLandscapeLeft.ToString()));
             monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.landscape.right", "", new[] { "tags.screen" },
