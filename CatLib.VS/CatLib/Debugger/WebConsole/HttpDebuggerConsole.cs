@@ -11,18 +11,20 @@
 
 using CatLib.API.Debugger;
 using CatLib.API.Json;
-using CatLib.API.MonoDriver;
 using CatLib.API.Routing;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using CatLib.Debugger.WebConsole.Protocol;
 
 namespace CatLib.Debugger.WebConsole
 {
     /// <summary>
     /// http调试控制台
     /// </summary>
-    internal sealed class HttpDebuggerConsole : IDestroy
+    [Routed("debug://http-debugger-console")]
+    public sealed class HttpDebuggerConsole : IDestroy
     {
         /// <summary>
         /// http监听器
@@ -45,6 +47,11 @@ namespace CatLib.Debugger.WebConsole
         private readonly ILogger logger;
 
         /// <summary>
+        /// 当前唯一标识符
+        /// </summary>
+        private readonly string guid;
+
+        /// <summary>
         /// http调试控制台
         /// </summary>
         /// <param name="logger">日志记录器</param>
@@ -61,7 +68,21 @@ namespace CatLib.Debugger.WebConsole
             this.logger = logger;
             this.router = router;
             this.json = json;
+            guid = Guid.NewGuid().ToString();
             RegisterNotFoundRouted();
+        }
+
+        /// <summary>
+        /// 获取控制台Guid
+        /// </summary>
+        /// <param name="response">响应</param>
+        [Routed("get-guid")]
+        public void GetGuid(IResponse response)
+        {
+            response.SetContext(new GetGuid(new Dictionary <string,string>
+            {
+                { "guid" , guid }
+            }));
         }
 
         /// <summary>

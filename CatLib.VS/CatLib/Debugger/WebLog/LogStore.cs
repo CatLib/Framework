@@ -36,19 +36,6 @@ namespace CatLib.Debugger.WebLog
         private readonly int maxLogEntrys = 1024;
 
         /// <summary>
-        /// 当前唯一标识符
-        /// </summary>
-        private readonly string guid;
-
-        /// <summary>
-        /// 当前唯一标识符
-        /// </summary>
-        public string Guid
-        {
-            get { return guid; }
-        }
-
-        /// <summary>
         /// 构造一个Web调试服务
         /// </summary>
         public LogStore([Inject(Required = true)]Logger logger)
@@ -57,7 +44,6 @@ namespace CatLib.Debugger.WebLog
             clientIds = new Dictionary<string, long>();
             logEntrys = new SortSet<ILogEntry, long>();
             logEntrys.ReverseIterator();
-            guid = System.Guid.NewGuid().ToString();
         }
 
         /// <summary>

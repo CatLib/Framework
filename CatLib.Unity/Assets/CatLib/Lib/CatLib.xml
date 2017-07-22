@@ -4,6 +4,858 @@
         <name>CatLib</name>
     </assembly>
     <members>
+        <member name="T:CatLib.Debugger.WebConsole.Protocol.GetGuid">
+            <summary>
+            GetGuid API
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebConsole.Protocol.GetGuid.Response">
+            <summary>
+            响应
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.Protocol.GetGuid.#ctor(System.Object)">
+            <summary>
+            GetGuid API
+            </summary>
+            <param name="response">响应</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebConsole.BaseProtocol">
+            <summary>
+            基础协议
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebConsole.BaseProtocol.Response">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.BaseProtocol.#ctor(System.Object)">
+            <summary>
+            基础协议
+            </summary>
+            <param name="response">响应</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebConsole.HttpDebuggerConsole">
+            <summary>
+            http调试控制台
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.listener">
+            <summary>
+            http监听器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.router">
+            <summary>
+            路由器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.json">
+            <summary>
+            json处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.logger">
+            <summary>
+            日志记录器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.guid">
+            <summary>
+            当前唯一标识符
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.#ctor(CatLib.API.Debugger.ILogger,CatLib.API.Routing.IRouter,CatLib.API.Json.IJson)">
+            <summary>
+            http调试控制台
+            </summary>
+            <param name="logger">日志记录器</param>
+            <param name="router">路由器</param>
+            <param name="json">json解析器</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.GetGuid(CatLib.API.Routing.IResponse)">
+            <summary>
+            获取控制台Guid
+            </summary>
+            <param name="response">响应</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.Start(System.String,System.Int32)">
+            <summary>
+            开启控制台服务
+            </summary>
+            <param name="host">监听host</param>
+            <param name="port">监听端口</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.Stop">
+            <summary>
+            停止控制台服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.OnDestroy">
+            <summary>
+            当释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.OnRequest(System.Net.HttpListenerContext)">
+            <summary>
+            当收到来自控制端的请求时
+            </summary>
+            <param name="context">请求上下文</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.DispatchToRouted(System.Net.HttpListenerContext)">
+            <summary>
+            调度到目标路由
+            </summary>
+            <param name="context">请求上下文</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.RoutedResponseHandler(System.Net.HttpListenerContext,CatLib.API.Routing.IResponse)">
+            <summary>
+            路由响应处理器
+            </summary>
+            <param name="context">请求上下文</param>
+            <param name="response">路由响应</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.RegisterNotFoundRouted">
+            <summary>
+            注册路由不存在
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.WebConsole.HttpListener">
+            <summary>
+            Http监听器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebConsole.HttpListener.listener">
+            <summary>
+            监听器
+            </summary>
+        </member>
+        <member name="E:CatLib.Debugger.WebConsole.HttpListener.OnRequest">
+            <summary>
+            当请求时
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpListener.#ctor(System.String,System.Int32)">
+            <summary>
+            Http监听器
+            </summary>
+            <param name="host">监听host</param>
+            <param name="port">监听端口</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpListener.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebConsole.HttpListener.ListenedRequest(System.IAsyncResult)">
+            <summary>
+            监听到请求时
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.WebConsole.IWebConsoleResponse">
+            <summary>
+            Web控制台响应
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebConsole.IWebConsoleResponse.Response">
+            <summary>
+            响应
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.Log.ILogEntry">
+            <summary>
+            日志条目
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Id">
+            <summary>
+            条目id
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Level">
+            <summary>
+            日志等级
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.StackTrace">
+            <summary>
+            调用堆栈
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Message">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Namespace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Time">
+            <summary>
+            记录时间
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.Log.Logger">
+            <summary>
+            日志系统
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Logger.handlers">
+            <summary>
+            日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Logger.syncRoot">
+            <summary>
+            同步锁
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Logger.skipFrames">
+            <summary>
+            调用堆栈忽略的步数
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.#ctor">
+            <summary>
+            构造一个日志系统
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32)">
+            <summary>
+            设定调用堆栈忽略的步数
+            </summary>
+            <param name="skipFrames">跳过的步数</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.AddLogHandler(CatLib.Debugger.Log.ILogHandler)">
+            <summary>
+            增加日志处理器
+            </summary>
+            <param name="handler">处理器</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            输出一条日志，日志级别为传入的等级
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.ExecLog(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            将日志推入日志处理器
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Debug(System.Object,System.Object[])">
+            <summary>
+            输出一条调试级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Info(System.Object,System.Object[])">
+            <summary>
+            输出一条信息级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Notice(System.Object,System.Object[])">
+            <summary>
+            输出一条通知级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Warning(System.Object,System.Object[])">
+            <summary>
+            输出一条警告级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Error(System.Object,System.Object[])">
+            <summary>
+            输出一条错误级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Critical(System.Object,System.Object[])">
+            <summary>
+            输出一条关键级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Alert(System.Object,System.Object[])">
+            <summary>
+            输出一条警报级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Emergency(System.Object,System.Object[])">
+            <summary>
+            输出一条紧急级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.MakeLogEntry(CatLib.API.Debugger.LogLevels,System.String)">
+            <summary>
+            制作一个日志条目
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志</param>
+            <returns>日志条目</returns>
+        </member>
+        <member name="T:CatLib.Debugger.Log.ILogHandler">
+            <summary>
+            日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.ILogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Debugger.Log.Handler.StdOutLogHandler">
+            <summary>
+            标准输出日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Handler.StdOutLogHandler.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.#ctor">
+            <summary>
+            标准输出日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.#ctor">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Debugger.Log.LogEntry">
+            <summary>
+            日志条目记录
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.LogEntry.lastId">
+            <summary>
+            日志ID
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Id">
+            <summary>
+            条目id
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Level">
+            <summary>
+            日志等级
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.StackTrace">
+            <summary>
+            调用堆栈
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Message">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Namespace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Time">
+            <summary>
+            记录时间
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.LogEntry.#ctor(CatLib.API.Debugger.LogLevels,System.String,System.Int32)">
+            <summary>
+            日志条目记录
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">消息内容</param>
+            <param name="skipFrams">跳过的帧数</param>
+        </member>
+        <member name="T:CatLib.Debugger.DebuggerProvider">
+            <summary>
+            调试服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.Init">
+            <summary>
+            初始化
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.GetMonitors">
+            <summary>
+            获取监控
+            </summary>
+            <returns>监控</returns>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.Register">
+            <summary>
+            注册调试服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.GetLogHandlers">
+            <summary>
+            获取日志句柄
+            </summary>
+            <returns>句柄</returns>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterLogger">
+            <summary>
+            注册日志系统
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebConsole">
+            <summary>
+            注册web控制台基础服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebMonitor">
+            <summary>
+            注册监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebLog">
+            <summary>
+            注册Web调试服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebMonitorContent">
+            <summary>
+            注册Web监控
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor">
+            <summary>
+            堆内存
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+            <summary>
+            构建一个堆内存监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor">
+            <summary>
+            总分配的内存大小
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+            <summary>
+            构建一个总内存监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
+            <summary>
+            Fps监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.API.Debugger.IMonitor,CatLib.API.Time.ITime)">
+            <summary>
+            构建一个Fps监控
+            </summary>
+            <param name="monitor">监控</param>
+            <param name="time">使用的时间</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor">
+            <summary>
+            屏幕宽度监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+            <summary>
+            构建一个屏幕Dpi监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor">
+            <summary>
+            屏幕高度监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+            <summary>
+            构建一个屏幕宽度
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor">
+            <summary>
+            屏幕宽度监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
+            <summary>
+            构建一个屏幕宽度
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler">
+            <summary>
+            基于尺寸大小的监控处理器(字节)
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Name">
+            <summary>
+            监控的名字
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.unitMapping">
+            <summary>
+            单位映射
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.callback">
+            <summary>
+            回调获取结果
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String,System.String[],System.Func{System.Object})">
+            <summary>
+            尺寸监控处理器
+            </summary>
+            <param name="name">监控名字</param>
+            <param name="tags">标签</param>
+            <param name="callback">回调获取结果</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler">
+            <summary>
+            监控处理器
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Name">
+            <summary>
+            监控的名字
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Unit">
+            <summary>
+            监控值的单位描述
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Value">
+            <summary>
+            实时的监控值
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.callback">
+            <summary>
+            回调获取结果
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String,System.String[],System.Func{System.Object})">
+            <summary>
+            单次记录监控处理器
+            </summary>
+            <param name="name">标题</param>
+            <param name="unit">单位值</param>
+            <param name="tags">tags</param>
+            <param name="callback">回调</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Controller.Monitor">
+            <summary>
+            监控
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Driver">
+            <summary>
+            Mono驱动器
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Middleware">
+            <summary>
+            路由请求过滤链
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitorsIndex(CatLib.API.Routing.IResponse,System.Collections.Generic.IEnumerable{System.String},CatLib.Debugger.WebMonitor.MonitorStore)">
+            <summary>
+            获取首页的监控
+            </summary>
+            <param name="response">响应</param>
+            <param name="indexShow">首先显示的列表</param>
+            <param name="monitorStore">容器存储</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitors(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebMonitor.MonitorStore)">
+            <summary>
+            获取监控的详细数据
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+            <param name="monitorStore">监控存储</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.MonitorStore">
+            <summary>
+            监控器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.MonitorStore.monitors">
+            <summary>
+            监控处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.MonitorStore.monitorsDict">
+            <summary>
+            监控处理器字典
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.#ctor">
+            <summary>
+            监控器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#Generic#IEnumerable{CatLib#API#Debugger#IMonitorHandler}#GetEnumerator">
+            <summary>
+            迭代器
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            迭代器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.Monitor(CatLib.API.Debugger.IMonitorHandler)">
+            <summary>
+            增加监控
+            </summary>
+            <param name="handler">监控句柄</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.FindMoitor(System.String)">
+            <summary>
+            搜索监控处理器
+            </summary>
+            <param name="monitorName">监控名</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitor.Protocol.GetMonitors">
+            <summary>
+            获取监控信息
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.Response">
+            <summary>
+            响应
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.outputs">
+            <summary>
+            输出
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.#ctor">
+            <summary>
+            获取分组API
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteLine(CatLib.API.Debugger.IMonitorHandler)">
+            <summary>
+            写入一条监控信息
+            </summary>
+            <param name="handler">处理器</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs">
+            <summary>
+            Web控制台输出
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.credibleAssemblys">
+            <summary>
+            可信任程序集
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.Response">
+            <summary>
+            响应
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.outputs">
+            <summary>
+            输出
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.#ctor">
+            <summary>
+            Web控制台输出
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(System.Int64,CatLib.API.Debugger.LogLevels,System.String,System.String,System.Collections.Generic.IList{System.String},System.Int64)">
+            <summary>
+            向Web控制台屏幕中输出一条消息
+            </summary>
+            <param name="id">消息id</param>
+            <param name="level">消息等级</param>
+            <param name="namespace">命名空间</param>
+            <param name="message">消息标题</param>
+            <param name="callStack">调用堆栈</param>
+            <param name="time">记录时间</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            向web控制台屏幕中输出一条消息
+            </summary>
+            <param name="entry"></param>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.IsCredibleAssembly(System.String)">
+            <summary>
+            是否是可信的程序集
+            </summary>
+            <param name="assembly">程序集</param>
+            <returns>是否可信</returns>
+        </member>
+        <member name="T:CatLib.Debugger.WebLog.Controller.Log">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.Controller.Log.GetLog(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebLog.LogStore)">
+            <summary>
+            获取日志
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+            <param name="logStore">日志存储</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebLog.Controller.Util">
+            <summary>
+            通用
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.Controller.Util.Echo(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.API.Debugger.ILogger)">
+            <summary>
+            回显
+            </summary>
+            <param name="request">请求</param>
+            <param name="response">响应</param>
+            <param name="logger">日志系统</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebLog.LogStore">
+            <summary>
+            Web调试服务
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebLog.LogStore.clientIds">
+            <summary>
+            对应不同web客户端的已经读取到的最后的日志id
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebLog.LogStore.logEntrys">
+            <summary>
+            日志记录
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebLog.LogStore.maxLogEntrys">
+            <summary>
+            最大储存的日志记录数
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.LogStore.#ctor(CatLib.Debugger.Log.Logger)">
+            <summary>
+            构造一个Web调试服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.LogStore.Log(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            记录一个日志
+            </summary>
+            <param name="entry">日志条目</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.LogStore.GetUnloadEntrysByClientId(System.String)">
+            <summary>
+            根据客户端id获取未被加载过的日志数据
+            </summary>
+            <param name="clientId">客户端id</param>
+            <returns>未被加载过的日志数据</returns>
+        </member>
+        <member name="T:CatLib.Debugger.WebLog.LogHandler.WebLogHandler">
+            <summary>
+            Web日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.WebLog.LogHandler.WebLogHandler.store">
+            <summary>
+            日志存储
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.LogHandler.WebLogHandler.#ctor(CatLib.Debugger.WebLog.LogStore)">
+            <summary>
+            网络日志处理器
+            </summary>
+            <param name="store"></param>
+        </member>
+        <member name="M:CatLib.Debugger.WebLog.LogHandler.WebLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
         <member name="T:CatLib.SystemTime">
             <summary>
             时间
@@ -940,841 +1792,6 @@
             <param name="source">源类型</param>
             <param name="to">目标类型</param>
             <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Debugger.Log.ILogEntry">
-            <summary>
-            日志条目
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Id">
-            <summary>
-            条目id
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Level">
-            <summary>
-            日志等级
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.StackTrace">
-            <summary>
-            调用堆栈
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Message">
-            <summary>
-            日志内容
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Namespace">
-            <summary>
-            命名空间
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Time">
-            <summary>
-            记录时间
-            </summary>
-        </member>
-        <member name="T:CatLib.Debugger.Log.Logger">
-            <summary>
-            日志系统
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Logger.handlers">
-            <summary>
-            日志处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Logger.syncRoot">
-            <summary>
-            同步锁
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Logger.skipFrames">
-            <summary>
-            调用堆栈忽略的步数
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.#ctor">
-            <summary>
-            构造一个日志系统
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32)">
-            <summary>
-            设定调用堆栈忽略的步数
-            </summary>
-            <param name="skipFrames">跳过的步数</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.AddLogHandler(CatLib.Debugger.Log.ILogHandler)">
-            <summary>
-            增加日志处理器
-            </summary>
-            <param name="handler">处理器</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
-            <summary>
-            输出一条日志，日志级别为传入的等级
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.ExecLog(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
-            <summary>
-            将日志推入日志处理器
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Debug(System.Object,System.Object[])">
-            <summary>
-            输出一条调试级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Info(System.Object,System.Object[])">
-            <summary>
-            输出一条信息级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Notice(System.Object,System.Object[])">
-            <summary>
-            输出一条通知级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Warning(System.Object,System.Object[])">
-            <summary>
-            输出一条警告级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Error(System.Object,System.Object[])">
-            <summary>
-            输出一条错误级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Critical(System.Object,System.Object[])">
-            <summary>
-            输出一条关键级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Alert(System.Object,System.Object[])">
-            <summary>
-            输出一条警报级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Emergency(System.Object,System.Object[])">
-            <summary>
-            输出一条紧急级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.MakeLogEntry(CatLib.API.Debugger.LogLevels,System.String)">
-            <summary>
-            制作一个日志条目
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志</param>
-            <returns>日志条目</returns>
-        </member>
-        <member name="T:CatLib.Debugger.Log.ILogHandler">
-            <summary>
-            日志处理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.ILogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            日志处理器
-            </summary>
-            <param name="log">日志条目</param>
-        </member>
-        <member name="T:CatLib.Debugger.Log.Handler.StdOutLogHandler">
-            <summary>
-            标准输出日志处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Handler.StdOutLogHandler.mapping">
-            <summary>
-            实际处理方法
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.#ctor">
-            <summary>
-            标准输出日志处理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            日志处理器
-            </summary>
-            <param name="log">日志条目</param>
-        </member>
-        <member name="T:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler">
-            <summary>
-            Unity控制台日志处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.mapping">
-            <summary>
-            实际处理方法
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.#ctor">
-            <summary>
-            Unity控制台日志处理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            日志处理器
-            </summary>
-            <param name="log">日志条目</param>
-        </member>
-        <member name="T:CatLib.Debugger.Log.LogEntry">
-            <summary>
-            日志条目记录
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.LogEntry.lastId">
-            <summary>
-            日志ID
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Id">
-            <summary>
-            条目id
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Level">
-            <summary>
-            日志等级
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.StackTrace">
-            <summary>
-            调用堆栈
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Message">
-            <summary>
-            日志内容
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Namespace">
-            <summary>
-            命名空间
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Time">
-            <summary>
-            记录时间
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.LogEntry.#ctor(CatLib.API.Debugger.LogLevels,System.String,System.Int32)">
-            <summary>
-            日志条目记录
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">消息内容</param>
-            <param name="skipFrams">跳过的帧数</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebConsole.BaseProtocol">
-            <summary>
-            基础协议
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebConsole.BaseProtocol.Response">
-            <summary>
-            数据
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.BaseProtocol.#ctor(System.Object)">
-            <summary>
-            基础协议
-            </summary>
-            <param name="response">响应</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebConsole.HttpDebuggerConsole">
-            <summary>
-            http调试控制台
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.listener">
-            <summary>
-            http监听器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.router">
-            <summary>
-            路由器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.json">
-            <summary>
-            json处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebConsole.HttpDebuggerConsole.logger">
-            <summary>
-            日志记录器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.#ctor(CatLib.API.Debugger.ILogger,CatLib.API.Routing.IRouter,CatLib.API.Json.IJson)">
-            <summary>
-            http调试控制台
-            </summary>
-            <param name="logger">日志记录器</param>
-            <param name="router">路由器</param>
-            <param name="json">json解析器</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.Start(System.String,System.Int32)">
-            <summary>
-            开启控制台服务
-            </summary>
-            <param name="host">监听host</param>
-            <param name="port">监听端口</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.Stop">
-            <summary>
-            停止控制台服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.OnDestroy">
-            <summary>
-            当释放时
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.OnRequest(System.Net.HttpListenerContext)">
-            <summary>
-            当收到来自控制端的请求时
-            </summary>
-            <param name="context">请求上下文</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.DispatchToRouted(System.Net.HttpListenerContext)">
-            <summary>
-            调度到目标路由
-            </summary>
-            <param name="context">请求上下文</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.RoutedResponseHandler(System.Net.HttpListenerContext,CatLib.API.Routing.IResponse)">
-            <summary>
-            路由响应处理器
-            </summary>
-            <param name="context">请求上下文</param>
-            <param name="response">路由响应</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpDebuggerConsole.RegisterNotFoundRouted">
-            <summary>
-            注册路由不存在
-            </summary>
-        </member>
-        <member name="T:CatLib.Debugger.WebConsole.HttpListener">
-            <summary>
-            Http监听器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebConsole.HttpListener.listener">
-            <summary>
-            监听器
-            </summary>
-        </member>
-        <member name="E:CatLib.Debugger.WebConsole.HttpListener.OnRequest">
-            <summary>
-            当请求时
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpListener.#ctor(System.String,System.Int32)">
-            <summary>
-            Http监听器
-            </summary>
-            <param name="host">监听host</param>
-            <param name="port">监听端口</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpListener.Dispose">
-            <summary>
-            释放
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebConsole.HttpListener.ListenedRequest(System.IAsyncResult)">
-            <summary>
-            监听到请求时
-            </summary>
-        </member>
-        <member name="T:CatLib.Debugger.WebConsole.IWebConsoleResponse">
-            <summary>
-            Web控制台响应
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebConsole.IWebConsoleResponse.Response">
-            <summary>
-            响应
-            </summary>
-        </member>
-        <member name="T:CatLib.Debugger.DebuggerProvider">
-            <summary>
-            调试服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.Init">
-            <summary>
-            初始化
-            </summary>
-            <returns>迭代器</returns>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.GetMonitors">
-            <summary>
-            获取监控
-            </summary>
-            <returns>监控</returns>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.Register">
-            <summary>
-            注册调试服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.GetLogHandlers">
-            <summary>
-            获取日志句柄
-            </summary>
-            <returns>句柄</returns>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterLogger">
-            <summary>
-            注册日志系统
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebConsole">
-            <summary>
-            注册web控制台基础服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebMonitor">
-            <summary>
-            注册监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebLog">
-            <summary>
-            注册Web调试服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.DebuggerProvider.RegisterWebMonitorContent">
-            <summary>
-            注册Web监控
-            </summary>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor">
-            <summary>
-            堆内存
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.HeapMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
-            <summary>
-            构建一个堆内存监控
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor">
-            <summary>
-            总分配的内存大小
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.TotalAllocatedMemoryMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
-            <summary>
-            构建一个总内存监控
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.FpsMonitor">
-            <summary>
-            Fps监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.FpsMonitor.#ctor(CatLib.API.Debugger.IMonitor,CatLib.API.Time.ITime)">
-            <summary>
-            构建一个Fps监控
-            </summary>
-            <param name="monitor">监控</param>
-            <param name="time">使用的时间</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor">
-            <summary>
-            屏幕宽度监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenDpiMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
-            <summary>
-            构建一个屏幕Dpi监控
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor">
-            <summary>
-            屏幕高度监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenHeightMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
-            <summary>
-            构建一个屏幕宽度
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor">
-            <summary>
-            屏幕宽度监控
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenWidthMonitor.#ctor(CatLib.API.Debugger.IMonitor)">
-            <summary>
-            构建一个屏幕宽度
-            </summary>
-            <param name="monitor">监控</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler">
-            <summary>
-            基于尺寸大小的监控处理器(字节)
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Tags">
-            <summary>
-            标签
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Name">
-            <summary>
-            监控的名字
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.unitMapping">
-            <summary>
-            单位映射
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Unit">
-            <summary>
-            监控值的单位描述
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Value">
-            <summary>
-            实时的监控值
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.callback">
-            <summary>
-            回调获取结果
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String,System.String[],System.Func{System.Object})">
-            <summary>
-            尺寸监控处理器
-            </summary>
-            <param name="name">监控名字</param>
-            <param name="tags">标签</param>
-            <param name="callback">回调获取结果</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler">
-            <summary>
-            监控处理器
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Tags">
-            <summary>
-            标签
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Name">
-            <summary>
-            监控的名字
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Unit">
-            <summary>
-            监控值的单位描述
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.Value">
-            <summary>
-            实时的监控值
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.callback">
-            <summary>
-            回调获取结果
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Handler.OnceRecordMonitorHandler.#ctor(System.String,System.String,System.String[],System.Func{System.Object})">
-            <summary>
-            单次记录监控处理器
-            </summary>
-            <param name="name">标题</param>
-            <param name="unit">单位值</param>
-            <param name="tags">tags</param>
-            <param name="callback">回调</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Controller.Monitor">
-            <summary>
-            监控
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Driver">
-            <summary>
-            Mono驱动器
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Middleware">
-            <summary>
-            路由请求过滤链
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitorsIndex(CatLib.API.Routing.IResponse,System.Collections.Generic.IEnumerable{System.String},CatLib.Debugger.WebMonitor.MonitorStore)">
-            <summary>
-            获取首页的监控
-            </summary>
-            <param name="response">响应</param>
-            <param name="indexShow">首先显示的列表</param>
-            <param name="monitorStore">容器存储</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitors(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebMonitor.MonitorStore)">
-            <summary>
-            获取监控的详细数据
-            </summary>
-            <param name="request">请求</param>
-            <param name="response">响应</param>
-            <param name="monitorStore">监控存储</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.MonitorStore">
-            <summary>
-            监控器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.MonitorStore.monitors">
-            <summary>
-            监控处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.MonitorStore.monitorsDict">
-            <summary>
-            监控处理器字典
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.#ctor">
-            <summary>
-            监控器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#Generic#IEnumerable{CatLib#API#Debugger#IMonitorHandler}#GetEnumerator">
-            <summary>
-            迭代器
-            </summary>
-            <returns>迭代器</returns>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            迭代器
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.Monitor(CatLib.API.Debugger.IMonitorHandler)">
-            <summary>
-            增加监控
-            </summary>
-            <param name="handler">监控句柄</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.MonitorStore.FindMoitor(System.String)">
-            <summary>
-            搜索监控处理器
-            </summary>
-            <param name="monitorName">监控名</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebMonitor.Protocol.GetMonitors">
-            <summary>
-            获取监控信息
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.Response">
-            <summary>
-            响应
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.outputs">
-            <summary>
-            输出
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.#ctor">
-            <summary>
-            获取分组API
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteLine(CatLib.API.Debugger.IMonitorHandler)">
-            <summary>
-            写入一条监控信息
-            </summary>
-            <param name="handler">处理器</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs">
-            <summary>
-            Web控制台输出
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.credibleAssemblys">
-            <summary>
-            可信任程序集
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.Response">
-            <summary>
-            响应
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.outputs">
-            <summary>
-            输出
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.#ctor">
-            <summary>
-            Web控制台输出
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(System.Int64,CatLib.API.Debugger.LogLevels,System.String,System.String,System.Collections.Generic.IList{System.String},System.Int64)">
-            <summary>
-            向Web控制台屏幕中输出一条消息
-            </summary>
-            <param name="id">消息id</param>
-            <param name="level">消息等级</param>
-            <param name="namespace">命名空间</param>
-            <param name="message">消息标题</param>
-            <param name="callStack">调用堆栈</param>
-            <param name="time">记录时间</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.WriteLine(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            向web控制台屏幕中输出一条消息
-            </summary>
-            <param name="entry"></param>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.Protocol.WebConsoleOutputs.IsCredibleAssembly(System.String)">
-            <summary>
-            是否是可信的程序集
-            </summary>
-            <param name="assembly">程序集</param>
-            <returns>是否可信</returns>
-        </member>
-        <member name="T:CatLib.Debugger.WebLog.Controller.Log">
-            <summary>
-            日志
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.Controller.Log.GetLog(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.Debugger.WebLog.LogStore)">
-            <summary>
-            获取日志
-            </summary>
-            <param name="request">请求</param>
-            <param name="response">响应</param>
-            <param name="logStore">日志存储</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebLog.Controller.Util">
-            <summary>
-            通用
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.Controller.Util.Echo(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.API.Debugger.ILogger)">
-            <summary>
-            回显
-            </summary>
-            <param name="request">请求</param>
-            <param name="response">响应</param>
-            <param name="logger">日志系统</param>
-        </member>
-        <member name="T:CatLib.Debugger.WebLog.LogStore">
-            <summary>
-            Web调试服务
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebLog.LogStore.clientIds">
-            <summary>
-            对应不同web客户端的已经读取到的最后的日志id
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebLog.LogStore.logEntrys">
-            <summary>
-            日志记录
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebLog.LogStore.maxLogEntrys">
-            <summary>
-            最大储存的日志记录数
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebLog.LogStore.guid">
-            <summary>
-            当前唯一标识符
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebLog.LogStore.Guid">
-            <summary>
-            当前唯一标识符
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.LogStore.#ctor(CatLib.Debugger.Log.Logger)">
-            <summary>
-            构造一个Web调试服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.LogStore.Log(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            记录一个日志
-            </summary>
-            <param name="entry">日志条目</param>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.LogStore.GetUnloadEntrysByClientId(System.String)">
-            <summary>
-            根据客户端id获取未被加载过的日志数据
-            </summary>
-            <param name="clientId">客户端id</param>
-            <returns>未被加载过的日志数据</returns>
-        </member>
-        <member name="T:CatLib.Debugger.WebLog.LogHandler.WebLogHandler">
-            <summary>
-            Web日志处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.WebLog.LogHandler.WebLogHandler.store">
-            <summary>
-            日志存储
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.LogHandler.WebLogHandler.#ctor(CatLib.Debugger.WebLog.LogStore)">
-            <summary>
-            网络日志处理器
-            </summary>
-            <param name="store"></param>
-        </member>
-        <member name="M:CatLib.Debugger.WebLog.LogHandler.WebLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            日志处理器
-            </summary>
-            <param name="log">日志条目</param>
         </member>
         <member name="T:CatLib.Config.ConfigManager">
             <summary>
