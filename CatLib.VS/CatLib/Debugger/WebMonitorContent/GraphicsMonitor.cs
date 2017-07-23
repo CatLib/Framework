@@ -44,9 +44,9 @@ namespace CatLib.Debugger.WebMonitorContent
                 () => SystemInfo.graphicsMultiThreaded));
             monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.npotSupport", string.Empty, new[] { "tags.graphics" },
                 () => SystemInfo.npotSupport));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.maxTextureSize", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.maxTextureSize", "unit.px", new[] { "tags.graphics" },
                 () => SystemInfo.maxTextureSize));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.maxCubemapSize", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.maxCubemapSize", "unit.px", new[] { "tags.graphics" },
                 () => SystemInfo.maxCubemapSize));
             monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.copyTextureSupport", string.Empty, new[] { "tags.graphics" },
                 () => SystemInfo.copyTextureSupport));
@@ -74,8 +74,6 @@ namespace CatLib.Debugger.WebMonitorContent
                 () => SystemInfo.supportsImageEffects));
             monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsCubemapArrayTextures", string.Empty, new[] { "tags.graphics" },
                 () => SystemInfo.supportsCubemapArrayTextures));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsMotionVectors", string.Empty, new[] { "tags.graphics" },
-                () => SystemInfo.supportsMotionVectors));
             monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsUVStartsAtTop", string.Empty, new[] { "tags.graphics" },
                 () => SystemInfo.graphicsUVStartsAtTop));
             monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.usesReversedZBuffer", string.Empty, new[] { "tags.graphics" },
