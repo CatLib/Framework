@@ -34,23 +34,23 @@ namespace CatLib.Debugger.WebMonitorContent
                 () => Screen.width));
             monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.orientation", "", new[] { "tags.screen" },
                 () => Screen.orientation.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.landscape.left", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToLandscapeLeft", "", new[] { "tags.screen" },
                 () => Screen.autorotateToLandscapeLeft.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.landscape.right", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToLandscapeRight", "", new[] { "tags.screen" },
                 () => Screen.autorotateToLandscapeRight.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.landscape.portrait", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToPortrait", "", new[] { "tags.screen" },
                 () => Screen.autorotateToPortrait.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.landscape.portrait.upside.down", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToPortraitUpsideDown", "", new[] { "tags.screen" },
                 () => Screen.autorotateToPortraitUpsideDown.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.sleep.time", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.sleepTimeout", "", new[] { "tags.screen" },
                 () =>
                 {
                     switch (Screen.sleepTimeout)
                     {
                         case SleepTimeout.NeverSleep:
-                            return "code.screen.sleep.time.never.sleep";
+                            return "code.screen.SleepTimeout.NeverSleep";
                         case SleepTimeout.SystemSetting:
-                            return "code.screen.sleep.time.system.setting";
+                            return "code.screen.SleepTimeout.SystemSetting";
                     }
                     return Screen.sleepTimeout.ToString();
                 }));

@@ -50,7 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
-    <Compile Include="Debugger\WebMonitorContent\MemoryMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Controller\InputLocation.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputLocationMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\PathMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\SceneMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\ScreenMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\SystemInfoMonitor.cs" />

@@ -163,14 +163,48 @@
             响应
             </summary>
         </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.MemoryMonitor">
+        <member name="T:CatLib.Debugger.WebMonitorContent.Controller.InputLocation">
             <summary>
-            内存监控
+            定位器控制器
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.MemoryMonitor.#ctor(CatLib.Debugger.IMonitor)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.InputLocation.Enable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
             <summary>
-            内存监控
+            定位器命令
+            </summary>
+            <param name="request">请求</param>
+            <param name="logger">日志</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputLocationMonitor">
+            <summary>
+            定位相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputLocationMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            定位相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputMonitor">
+            <summary>
+            输入触摸相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            输入触摸相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.PathMonitor">
+            <summary>
+            路径相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.PathMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            构建路径相关监控
             </summary>
             <param name="monitor">监控</param>
         </member>
@@ -214,7 +248,7 @@
         </member>
         <member name="M:CatLib.Debugger.WebMonitorContent.PerformanceMonitor.#ctor(CatLib.Debugger.IMonitor,CatLib.API.Time.ITime)">
             <summary>
-            构建一个Fps监控
+            构建一个性能监控
             </summary>
             <param name="monitor">监控</param>
             <param name="time">使用的时间</param>
@@ -648,16 +682,6 @@
         <member name="T:CatLib.Debugger.WebMonitor.Controller.Monitor">
             <summary>
             监控
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Driver">
-            <summary>
-            Mono驱动器
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Controller.Monitor.Middleware">
-            <summary>
-            路由请求过滤链
             </summary>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitorsIndex(CatLib.API.Routing.IResponse,System.Collections.Generic.IEnumerable{System.String},CatLib.Debugger.WebMonitor.MonitorStore)">
@@ -4384,6 +4408,11 @@
         <member name="M:CatLib.Routing.RoutingProvider.Register">
             <summary>
             注册路由条目
+            </summary>
+        </member>
+        <member name="M:CatLib.Routing.RoutingProvider.InitMainThreadGroup">
+            <summary>
+            初始化主线程组
             </summary>
         </member>
         <member name="M:CatLib.Routing.RoutingProvider.RegisterAttrRouteCompiler">

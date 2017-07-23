@@ -43,10 +43,12 @@ namespace CatLib.Tests.Server
             app.Register(new EventsProvider());
             app.Make<IConfigManager>().Default.Set("debugger.logger.handler.unity", false);
             app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.performance", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.memory", false);
             app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen", false);
             app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.scene", false);
             app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.systeminfo", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.path", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.input", false);
+            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.input.location", false);
             app.Init();
 
             app.Make<IRouter>().Middleware((request, response, next) =>

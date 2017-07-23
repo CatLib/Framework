@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
+using CatLib.API.Routing;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.Log.Handler;
 using CatLib.Debugger.WebConsole;
@@ -65,10 +66,12 @@ namespace CatLib.Debugger
             return new List<KeyValuePair<string, Type>>
             {
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.performance" , typeof(PerformanceMonitor)),
-                new KeyValuePair<string, Type>( "debugger.webconsole.monitor.memory" , typeof(MemoryMonitor)),
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.screen" , typeof(ScreenMonitor)),
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.scene" , typeof(SceneMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.systeminfo" , typeof(SystemInfoMonitor))
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.systeminfo" , typeof(SystemInfoMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.path" , typeof(PathMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input",typeof(InputMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input.location" , typeof(InputLocationMonitor)),
             };
         }
 
@@ -160,8 +163,8 @@ namespace CatLib.Debugger
 
             App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
             {
-                "monitor.memory.heap",
-                "monitor.memory.total",
+                "monitor.performance.memory.monoUsedSize",
+                "monitor.performance.memory.totalAllocatedMemory",
                 "monitor.performance.fps"
             });
         }
@@ -171,11 +174,13 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebMonitorContent()
         {
-            App.Singleton<MemoryMonitor>();
             App.Singleton<PerformanceMonitor>();
             App.Singleton<ScreenMonitor>();
             App.Singleton<SceneMonitor>();
             App.Singleton<SystemInfoMonitor>();
+            App.Singleton<PathMonitor>();
+            App.Singleton<InputMonitor>();
+            App.Singleton<InputLocationMonitor>();
         }
     }
 }

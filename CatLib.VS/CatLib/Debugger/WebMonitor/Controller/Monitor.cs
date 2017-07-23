@@ -9,59 +9,18 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
-using CatLib.API.MonoDriver;
 using CatLib.API.Routing;
 using CatLib.Debugger.WebMonitor.Protocol;
-using System.Threading;
+using System.Collections.Generic;
 
 namespace CatLib.Debugger.WebMonitor.Controller
 {
     /// <summary>
     /// 监控
     /// </summary>
-    [Routed("debug://monitor")]
-    public class Monitor : IMiddleware
+    [Routed("debug://monitor" , Group = "MainThreadCall")]
+    public class Monitor
     {
-        /// <summary>
-        /// Mono驱动器
-        /// </summary>
-        [Inject]
-        public IMonoDriver Driver { get; set; }
-
-        /// <summary>
-        /// 路由请求过滤链
-        /// </summary>
-        public IFilterChain<IRequest, IResponse> Middleware
-        {
-            get
-            {
-                var filterChain = new FilterChain<IRequest, IResponse>();
-
-                if (Driver != null)
-                {
-                    filterChain.Add((request, response, next) =>
-                    {
-                        var wait = new AutoResetEvent(false);
-                        Driver.MainThread(() =>
-                        {
-                            try
-                            {
-                                next(request, response);
-                            }
-                            finally
-                            {
-                                wait.Set();
-                            }
-                        });
-                        wait.WaitOne();
-                    });
-                }
-
-                return filterChain;
-            }
-        }
-
         /// <summary>
         /// 获取首页的监控
         /// </summary>

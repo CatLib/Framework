@@ -13,6 +13,8 @@
 using CatLib.API.Config;
 using CatLib.API.Routing;
 using System.Collections.Generic;
+using System.Threading;
+using CatLib.API.MonoDriver;
 
 namespace CatLib.Routing
 {
@@ -28,7 +30,9 @@ namespace CatLib.Routing
         [Priority]
         public override void Init()
         {
-            App.Make<Router>().RouterCompiler();
+            InitMainThreadGroup();
+            var router = App.Make<Router>();
+            router.RouterCompiler();
         }
 
         /// <summary>
@@ -44,6 +48,35 @@ namespace CatLib.Routing
             }).Alias<IRouter>().Alias("catlib.routing.router");
 
             RegisterAttrRouteCompiler();
+        }
+
+        /// <summary>
+        /// 初始化主线程组
+        /// </summary>
+        private void InitMainThreadGroup()
+        {
+            var router = App.Make<IRouter>();
+            var driver = App.Make<IMonoDriver>();
+
+            if (driver != null)
+            {
+                router.Group("MainThreadCall").Middleware((request, response, next) =>
+                {
+                    var wait = new AutoResetEvent(false);
+                    driver.MainThread(() =>
+                    {
+                        try
+                        {
+                            next(request, response);
+                        }
+                        finally
+                        {
+                            wait.Set();
+                        }
+                    });
+                    wait.WaitOne();
+                });
+            }
         }
 
         /// <summary>
