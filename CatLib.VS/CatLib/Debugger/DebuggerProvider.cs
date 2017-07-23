@@ -10,17 +10,16 @@
  */
 
 #if CATLIB
-using System;
-using System.Collections.Generic;
 using CatLib.API.Config;
 using CatLib.API.Debugger;
-using CatLib.API.Routing;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.Log.Handler;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebLog;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitorContent;
+using System;
+using System.Collections.Generic;
 
 namespace CatLib.Debugger
 {
@@ -166,9 +165,9 @@ namespace CatLib.Debugger
 
             App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
             {
-                "monitor.performance.memory.monoUsedSize",
-                "monitor.performance.memory.totalAllocatedMemory",
-                "monitor.performance.fps"
+                "performance.memory.monoUsedSize",
+                "performance.memory.totalAllocatedMemory",
+                "performance.fps"
             });
         }
 
