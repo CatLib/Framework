@@ -31,14 +31,18 @@ namespace CatLib.Tests.Debugger
             app.Register(new DebuggerProvider());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
-            app.Make<IConfigManager>().Default.Set("debugger.logger.handler.unity", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.performance", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.scene", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.systeminfo", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.path", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.input", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.input.location", false);
+            var config = app.Make<IConfigManager>().Default;
+            config.Set("debugger.logger.handler.unity", false);
+            config.Set("debugger.webconsole.monitor.performance", false);
+            config.Set("debugger.webconsole.monitor.screen", false);
+            config.Set("debugger.webconsole.monitor.scene", false);
+            config.Set("debugger.webconsole.monitor.systeminfo", false);
+            config.Set("debugger.webconsole.monitor.path", false);
+            config.Set("debugger.webconsole.monitor.input", false);
+            config.Set("debugger.webconsole.monitor.input.location", false);
+            config.Set("debugger.webconsole.monitor.input.gyro", false);
+            config.Set("debugger.webconsole.monitor.input.compass", false);
+            config.Set("debugger.webconsole.monitor.graphics", false);
             app.Init();
             return app;
         }

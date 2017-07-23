@@ -72,6 +72,9 @@ namespace CatLib.Debugger
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.path" , typeof(PathMonitor)),
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.input",typeof(InputMonitor)),
                 new KeyValuePair<string, Type>("debugger.webconsole.monitor.input.location" , typeof(InputLocationMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input.gyro" , typeof(InputGyroscopeMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input.compass" , typeof(InputCompassMonitor)),
+                new KeyValuePair<string, Type>("debugger.webconsole.monitor.graphics" , typeof(GraphicsMonitor)),
             };
         }
 
@@ -181,6 +184,9 @@ namespace CatLib.Debugger
             App.Singleton<PathMonitor>();
             App.Singleton<InputMonitor>();
             App.Singleton<InputLocationMonitor>();
+            App.Singleton<InputGyroscopeMonitor>();
+            App.Singleton<InputCompassMonitor>();
+            App.Singleton<GraphicsMonitor>();
         }
     }
 }

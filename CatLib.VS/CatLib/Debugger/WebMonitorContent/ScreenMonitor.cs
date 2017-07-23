@@ -26,23 +26,23 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public ScreenMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.dpi", "unit.dpi", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.dpi", "unit.dpi", new[] { "tags.screen" },
                 () => Screen.dpi));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.height", "unit.px", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.height", "unit.px", new[] { "tags.screen" },
                 () => Screen.height));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.width", "unit.px", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.width", "unit.px", new[] { "tags.screen" },
                 () => Screen.width));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.orientation", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.orientation", "", new[] { "tags.screen" },
                 () => Screen.orientation.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToLandscapeLeft", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.autorotateToLandscapeLeft", "", new[] { "tags.screen" },
                 () => Screen.autorotateToLandscapeLeft.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToLandscapeRight", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.autorotateToLandscapeRight", "", new[] { "tags.screen" },
                 () => Screen.autorotateToLandscapeRight.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToPortrait", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.autorotateToPortrait", "", new[] { "tags.screen" },
                 () => Screen.autorotateToPortrait.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.autorotateToPortraitUpsideDown", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.autorotateToPortraitUpsideDown", "", new[] { "tags.screen" },
                 () => Screen.autorotateToPortraitUpsideDown.ToString()));
-            monitor.Monitor(new OnceRecordMonitorHandler("monitor.screen.sleepTimeout", "", new[] { "tags.screen" },
+            monitor.Monitor(new OnceRecordMonitorHandler("screen.sleepTimeout", "", new[] { "tags.screen" },
                 () =>
                 {
                     switch (Screen.sleepTimeout)

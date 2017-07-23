@@ -163,17 +163,64 @@
             响应
             </summary>
         </member>
-        <member name="T:CatLib.Debugger.WebMonitorContent.Controller.InputLocation">
+        <member name="T:CatLib.Debugger.WebMonitorContent.Controller.Command">
             <summary>
-            定位器控制器
+            指令
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.InputLocation.Enable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.GyroEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+            <summary>
+            陀螺仪命令
+            </summary>
+            <param name="request">请求</param>
+            <param name="logger">日志</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.CompassEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+            <summary>
+            罗盘命令
+            </summary>
+            <param name="request">请求</param>
+            <param name="logger">日志</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.LocationEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
             <summary>
             定位器命令
             </summary>
             <param name="request">请求</param>
             <param name="logger">日志</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.GraphicsMonitor">
+            <summary>
+            显卡相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.GraphicsMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            显卡相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputCompassMonitor">
+            <summary>
+            罗盘相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputCompassMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            罗盘相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputGyroscopeMonitor">
+            <summary>
+            陀螺仪相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputGyroscopeMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            陀螺仪相关监控
+            </summary>
+            <param name="monitor">监控</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.InputLocationMonitor">
             <summary>
