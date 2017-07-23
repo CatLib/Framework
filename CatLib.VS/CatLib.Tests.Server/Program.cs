@@ -43,16 +43,16 @@ namespace CatLib.Tests.Server
             app.Register(new EventsProvider());
             var config = app.Make<IConfigManager>().Default;
             config.Set("debugger.logger.handler.unity", false);
-            config.Set("debugger.webconsole.monitor.performance", false);
-            config.Set("debugger.webconsole.monitor.screen", false);
-            config.Set("debugger.webconsole.monitor.scene", false);
-            config.Set("debugger.webconsole.monitor.systeminfo", false);
-            config.Set("debugger.webconsole.monitor.path", false);
-            config.Set("debugger.webconsole.monitor.input", false);
-            config.Set("debugger.webconsole.monitor.input.location", false);
-            config.Set("debugger.webconsole.monitor.input.gyro", false);
-            config.Set("debugger.webconsole.monitor.input.compass", false);
-            config.Set("debugger.webconsole.monitor.graphics", false);
+            config.Set("debugger.monitor.performance", false);
+            config.Set("debugger.monitor.screen", false);
+            config.Set("debugger.monitor.scene", false);
+            config.Set("debugger.monitor.systeminfo", false);
+            config.Set("debugger.monitor.path", false);
+            config.Set("debugger.monitor.input", false);
+            config.Set("debugger.monitor.input.location", false);
+            config.Set("debugger.monitor.input.gyro", false);
+            config.Set("debugger.monitor.input.compass", false);
+            config.Set("debugger.monitor.graphics", false);
             app.Init();
 
             app.Make<IRouter>().Middleware((request, response, next) =>

@@ -64,16 +64,16 @@ namespace CatLib.Debugger
         {
             return new List<KeyValuePair<string, Type>>
             {
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.performance" , typeof(PerformanceMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.screen" , typeof(ScreenMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.scene" , typeof(SceneMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.systeminfo" , typeof(SystemInfoMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.path" , typeof(PathMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input",typeof(InputMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input.location" , typeof(InputLocationMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input.gyro" , typeof(InputGyroscopeMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.input.compass" , typeof(InputCompassMonitor)),
-                new KeyValuePair<string, Type>("debugger.webconsole.monitor.graphics" , typeof(GraphicsMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.performance" , typeof(PerformanceMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.screen" , typeof(ScreenMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.scene" , typeof(SceneMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.systeminfo" , typeof(SystemInfoMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.path" , typeof(PathMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.input",typeof(InputMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.input.location" , typeof(InputLocationMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.input.gyro" , typeof(InputGyroscopeMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.input.compass" , typeof(InputCompassMonitor)),
+                new KeyValuePair<string, Type>("debugger.monitor.graphics" , typeof(GraphicsMonitor)),
             };
         }
 
