@@ -31,10 +31,18 @@ namespace CatLib.Tests.Debugger
             app.Register(new DebuggerProvider());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
-            app.Make<IConfigManager>().Default.Set("debugger.logger.handler.unity", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.performance", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.memory", false);
-            app.Make<IConfigManager>().Default.Set("debugger.webconsole.monitor.screen", false);
+            var config = app.Make<IConfigManager>().Default;
+            config.Set("debugger.logger.handler.unity", false);
+            config.Set("debugger.monitor.performance", false);
+            config.Set("debugger.monitor.screen", false);
+            config.Set("debugger.monitor.scene", false);
+            config.Set("debugger.monitor.systeminfo", false);
+            config.Set("debugger.monitor.path", false);
+            config.Set("debugger.monitor.input", false);
+            config.Set("debugger.monitor.input.location", false);
+            config.Set("debugger.monitor.input.gyro", false);
+            config.Set("debugger.monitor.input.compass", false);
+            config.Set("debugger.monitor.graphics", false);
             app.Init();
             return app;
         }
