@@ -12,11 +12,11 @@
 using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.API.Routing;
+using CatLib.Debugger.WebConsole.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using CatLib.Debugger.WebConsole.Protocol;
 
 namespace CatLib.Debugger.WebConsole
 {

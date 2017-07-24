@@ -12,6 +12,8 @@
 #if CATLIB
 using CatLib.API.Config;
 using CatLib.API.Debugger;
+using CatLib.API.MonoDriver;
+using CatLib.API.Routing;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.Log.Handler;
 using CatLib.Debugger.WebConsole;
@@ -21,8 +23,6 @@ using CatLib.Debugger.WebMonitorContent;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using CatLib.API.MonoDriver;
-using CatLib.API.Routing;
 
 namespace CatLib.Debugger
 {
