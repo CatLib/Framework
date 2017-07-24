@@ -9,11 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using System;
+using System.Collections.Generic;
 using System.Net;
-using CatLib.API.Debugger;
 using CatLib.Debugger;
 using CatLib.Debugger.WebConsole;
-using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
 
 #if UNITY_EDITOR || NUNIT
@@ -44,6 +44,31 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
             Assert.AreEqual("{\"Response\":[{\"name\":\"title\",\"value\":\"helloworld\",\"unit\":\"ms\",\"tags\":[\"tags\"]}]}", ret);
+        }
+
+        [TestMethod]
+        public void TestGetMonitorIndex()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+            var monitor = app.Make<IMonitor>();
+
+            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            {
+                "title",
+            });
+
+            var handler = new OnceRecordMonitorHandler("title", "ms", new[] { "tags" }, () => "helloworld");
+            monitor.Monitor(handler);
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors-index", out ret);
+
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+            Assert.AreEqual(
+                "{\"Response\":[{\"name\":\"title\",\"value\":\"helloworld\",\"unit\":\"ms\",\"tags\":[\"tags\"]}]}",
+                ret);
         }
     }
 }
