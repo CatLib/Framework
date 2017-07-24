@@ -928,6 +928,12 @@
             构造一个Web调试服务
             </summary>
         </member>
+        <member name="M:CatLib.Debugger.WebLog.LogStore.SetMaxStore(System.Int32)">
+            <summary>
+            设定最大存储
+            </summary>
+            <param name="num"></param>
+        </member>
         <member name="M:CatLib.Debugger.WebLog.LogStore.Log(CatLib.Debugger.Log.ILogEntry)">
             <summary>
             记录一个日志

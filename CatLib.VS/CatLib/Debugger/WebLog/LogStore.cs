@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.WebLog.LogHandler;
 using System.Collections.Generic;
@@ -33,17 +34,28 @@ namespace CatLib.Debugger.WebLog
         /// <summary>
         /// 最大储存的日志记录数
         /// </summary>
-        private readonly int maxLogEntrys = 1024;
+        private int maxLogEntrys = 1024;
 
         /// <summary>
         /// 构造一个Web调试服务
         /// </summary>
         public LogStore([Inject(Required = true)]Logger logger)
         {
+            Guard.Requires<ArgumentNullException>(logger != null);
             logger.AddLogHandler(new WebLogHandler(this));
             clientIds = new Dictionary<string, long>();
             logEntrys = new SortSet<ILogEntry, long>();
             logEntrys.ReverseIterator();
+        }
+
+        /// <summary>
+        /// 设定最大存储
+        /// </summary>
+        /// <param name="num"></param>
+        public void SetMaxStore(int num)
+        {
+            Guard.Requires<ArgumentOutOfRangeException>(num >= 1);
+            maxLogEntrys = num;
         }
 
         /// <summary>

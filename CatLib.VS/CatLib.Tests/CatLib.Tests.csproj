@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Debugger\WebLog\LogStoreTests.cs" />
     <Compile Include="Support\VersionTests.cs" />
     <Compile Include="Config\CodeConfigLocatorTests.cs" />
     <Compile Include="Config\ConfigTests.cs" />
