@@ -602,6 +602,11 @@
             </summary>
             <returns>迭代器</returns>
         </member>
+        <member name="M:CatLib.Debugger.DebuggerProvider.InitMainThreadGroup">
+            <summary>
+            初始化主线程组
+            </summary>
+        </member>
         <member name="M:CatLib.Debugger.DebuggerProvider.GetMonitors">
             <summary>
             获取监控
@@ -814,6 +819,12 @@
         <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteLine(CatLib.Debugger.IMonitorHandler)">
             <summary>
             写入一条监控信息
+            </summary>
+            <param name="handler">处理器</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Protocol.GetMonitors.WriteNotSupportLine(CatLib.Debugger.IMonitorHandler)">
+            <summary>
+            写入未支持行
             </summary>
             <param name="handler">处理器</param>
         </member>
@@ -4455,11 +4466,6 @@
         <member name="M:CatLib.Routing.RoutingProvider.Register">
             <summary>
             注册路由条目
-            </summary>
-        </member>
-        <member name="M:CatLib.Routing.RoutingProvider.InitMainThreadGroup">
-            <summary>
-            初始化主线程组
             </summary>
         </member>
         <member name="M:CatLib.Routing.RoutingProvider.RegisterAttrRouteCompiler">
