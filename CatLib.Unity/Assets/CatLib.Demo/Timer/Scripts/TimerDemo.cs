@@ -1,5 +1,14 @@
-﻿using System.Collections;
-using CatLib.API;
+﻿/*
+ * This file is part of the CatLib package.
+ *
+ * (c) Yu Bin <support@catlib.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Document: http://catlib.io/
+ */
+
 using CatLib.API.Timer;
 using UnityEngine;
 
@@ -8,9 +17,9 @@ namespace CatLib.Demo.Timer
     /// <summary>
     /// 计时器Demo
     /// </summary>
-    public class TimerDemo : ServiceProvider
+    public class TimerDemo : IServiceProvider
     {
-        public override void Init()
+        public void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -36,7 +45,7 @@ namespace CatLib.Demo.Timer
             });
         }
 
-        public override void Register()
+        public void Register()
         {
 
         }

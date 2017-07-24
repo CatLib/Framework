@@ -9,18 +9,14 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using System.Runtime.InteropServices;
-using CatLib.API;
 using CatLib.API.Routing;
 using UnityEngine;
 
 namespace CatLib.Demo.Routing
 {
-
-    public class RoutingDemo : ServiceProvider
+    public class RoutingDemo : IServiceProvider
     {
-        public override void Init()
+        public void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -107,9 +103,8 @@ namespace CatLib.Demo.Routing
             });
         }
 
-        public override void Register()
+        public void Register()
         {
-
         }
     }
 

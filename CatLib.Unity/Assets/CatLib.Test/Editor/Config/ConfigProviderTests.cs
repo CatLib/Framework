@@ -49,7 +49,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void SetDefault()
         {
-            var configManager = App.Instance.Make<IConfigManager>();
+            var configManager = App.Make<IConfigManager>();
 
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
@@ -68,7 +68,7 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void WatchTest()
         {
-            var configManager = App.Instance.Make<IConfigManager>();
+            var configManager = App.Make<IConfigManager>();
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {

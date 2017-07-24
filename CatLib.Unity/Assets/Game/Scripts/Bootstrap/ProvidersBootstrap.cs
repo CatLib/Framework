@@ -34,7 +34,7 @@ namespace CatLib.Bootstrap
         {
             foreach (var type in Providers.ServiceProviders)
             {
-                App.Instance.Register(type);
+                App.Register(type);
             }
         }
 
@@ -43,7 +43,7 @@ namespace CatLib.Bootstrap
         /// </summary>
         private void LoadUnityComponentProvider()
         {
-            var root = App.Instance.Make<Component>();
+            var root = App.Make<Component>();
             if (root != null)
             {
                 var unityObject = typeof(Object);
@@ -55,7 +55,7 @@ namespace CatLib.Bootstrap
                         continue;
                     }
 
-                    App.Instance.Register(serviceProvider);
+                    App.Register(serviceProvider);
 
                     if (unityObject.IsInstanceOfType(serviceProvider))
                     {

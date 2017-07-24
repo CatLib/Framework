@@ -23,8 +23,8 @@ namespace CatLib.Demo.LruCache
 
         public void Bootstrap()
         {
-            App.Instance.Register(new EventsProvider());
-            App.Instance.Register(new LruCacheDemo());
+            App.Register(new EventsProvider());
+            App.Register(new LruCacheDemo());
         }
 
     }

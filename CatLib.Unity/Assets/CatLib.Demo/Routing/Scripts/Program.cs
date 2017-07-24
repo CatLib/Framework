@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API;
 using CatLib.Events;
 using CatLib.Routing;
+using System;
 
 namespace CatLib.Demo.Routing
 {
@@ -24,9 +23,9 @@ namespace CatLib.Demo.Routing
 
         public void Bootstrap()
         {
-            App.Instance.Register(new EventsProvider());
-            App.Instance.Register(new RoutingProvider());
-            App.Instance.Register(new RoutingDemo());
+            App.Register(new EventsProvider());
+            App.Register(new RoutingProvider());
+            App.Register(new RoutingDemo());
         }
 
     }

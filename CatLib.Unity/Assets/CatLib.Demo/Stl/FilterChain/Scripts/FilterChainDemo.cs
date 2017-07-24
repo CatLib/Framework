@@ -9,14 +9,11 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
 namespace CatLib.Demo.FilterChain
 {
-
-    public class FilterChainDemo : ServiceProvider
+    public class FilterChainDemo : IServiceProvider
     {
-        public override void Init()
+        public void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -48,6 +45,6 @@ namespace CatLib.Demo.FilterChain
             });
         }
 
-        public override void Register(){ }
+        public void Register(){ }
     }
 }

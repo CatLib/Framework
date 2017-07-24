@@ -23,7 +23,7 @@ namespace CatLib.Bootstrap
         /// </summary>
         public void Bootstrap()
         {
-            App.Instance.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 if (Router.Instance != null)
                 {

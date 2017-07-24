@@ -28,7 +28,7 @@ namespace CatLib.Bootstrap
                 return;
             }
 
-            var config = App.Instance.Make<IConfigManager>();
+            var config = App.Make<IConfigManager>();
             if (config == null)
             {
                 return;

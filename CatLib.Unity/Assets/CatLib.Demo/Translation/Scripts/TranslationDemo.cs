@@ -9,17 +9,15 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using System.Collections.Generic;
-using CatLib.API;
 using CatLib.API.Translation;
+using System.Collections.Generic;
 
 namespace CatLib.Demo.Translation
 {
     /// <summary>
     /// 国际化demo
     /// </summary>
-    public class TranslationDemo : ServiceProvider
+    public class TranslationDemo : IServiceProvider
     {
         private class TranslationDict : IMappingHandler
         {
@@ -42,7 +40,7 @@ namespace CatLib.Demo.Translation
             }
         }
 
-        public override void Init()
+        public void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -59,7 +57,7 @@ namespace CatLib.Demo.Translation
             });
         }
 
-        public override void Register()
+        public void Register()
         {
         }
     }

@@ -28,7 +28,7 @@ namespace CatLib.Bootstrap
                 int sort;
                 if (Assemblys.Assembly.TryGetValue(assembly.GetName().Name, out sort))
                 {
-                    App.Instance.OnFindType((finder) =>
+                    App.OnFindType((finder) =>
                     {
                         return assembly.GetType(finder);
                     }, sort);

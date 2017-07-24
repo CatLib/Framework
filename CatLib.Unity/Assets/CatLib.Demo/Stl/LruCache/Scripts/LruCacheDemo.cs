@@ -9,15 +9,14 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using UnityEngine;
 
 namespace CatLib.Demo.LruCache
 {
 
-    public class LruCacheDemo : ServiceProvider
+    public class LruCacheDemo : IServiceProvider
     {
-        public override void Init()
+        public void Init()
         {
             App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
@@ -56,7 +55,7 @@ namespace CatLib.Demo.LruCache
             });
         }
 
-        public override void Register(){ }
+        public void Register(){ }
 
     }
 
