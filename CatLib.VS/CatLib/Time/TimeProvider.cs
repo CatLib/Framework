@@ -18,12 +18,19 @@ namespace CatLib.Time
     /// <summary>
     /// 时间服务
     /// </summary>
-    public sealed class TimeProvider : ServiceProvider
+    public sealed class TimeProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 注册时间服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             RegisterTimeManager();
         }

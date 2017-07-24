@@ -17,14 +17,14 @@ namespace CatLib.MonoDriver
     /// <summary>
     /// Mono驱动器服务
     /// </summary>
-    public sealed class MonoDriverProvider : ServiceProvider
+    public sealed class MonoDriverProvider : IServiceProvider
     {
         /// <summary>
         /// Mono驱动器初始化
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority(1)]
-        public override void Init()
+        public void Init()
         {
             App.Make<IMonoDriver>();
         }
@@ -32,7 +32,7 @@ namespace CatLib.MonoDriver
         /// <summary>
         /// 注册路由条目
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             App.Singleton<MonoDriver>().Alias<IMonoDriver>();
         }

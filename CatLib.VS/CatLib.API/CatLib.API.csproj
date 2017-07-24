@@ -63,6 +63,7 @@
     <Compile Include="MonoDriver\IMonoDriver.cs" />
     <Compile Include="MonoDriver\MonoDriverEvents.cs" />
     <Compile Include="Support\AssertException.cs" />
+    <Compile Include="Support\Container\ContainerExpand.cs" />
     <Compile Include="Support\RuntimeException.cs" />
     <Compile Include="MonoDriver\Feature\IDestroy.cs" />
     <Compile Include="MonoDriver\Feature\ILateUpdate.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="CatLib\IServiceProvider.cs" />
     <Compile Include="Support\PriorityAttribute.cs" />
     <Compile Include="CatLib\IApplication.cs" />
-    <Compile Include="CatLib\ServiceProvider.cs" />
     <Compile Include="Debugger\Exception\InvalidArgumentException.cs" />
     <Compile Include="Debugger\ILogger.cs" />
     <Compile Include="Debugger\LogLevels.cs" />

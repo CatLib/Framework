@@ -139,14 +139,14 @@ namespace CatLib.Tests.Time
         [TestMethod]
         public void TestTimeGetDefault()
         {
-            var timeManager = App.Instance.Make<ITimeManager>();
+            var timeManager = App.Make<ITimeManager>();
             Assert.AreEqual(typeof(TestTime), timeManager.Default.GetType());
         }
 
         [TestMethod]
         public void TimeGetTest()
         {
-            var timeManager = App.Instance.Make<ITimeManager>();
+            var timeManager = App.Make<ITimeManager>();
 
             Assert.AreEqual(0, timeManager.CaptureFramerate);
             Assert.AreEqual(0, timeManager.DeltaTime);
@@ -166,7 +166,7 @@ namespace CatLib.Tests.Time
         [TestMethod]
         public void TimeSetTest()
         {
-            var timeManager = App.Instance.Make<ITimeManager>();
+            var timeManager = App.Make<ITimeManager>();
 
             timeManager.FixedDeltaTime = 1;
             timeManager.TimeScale = 1;

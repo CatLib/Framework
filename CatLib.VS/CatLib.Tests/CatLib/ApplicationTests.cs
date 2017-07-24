@@ -125,29 +125,29 @@ namespace CatLib.Tests
 
         private static bool prioritiesTest;
 
-        private class ProviderTest1 : ServiceProvider
+        private class ProviderTest1 : IServiceProvider
         {
             [Priority(10)]
-            public override void Init()
+            public void Init()
             {
                 prioritiesTest = true;
             }
 
-            public override void Register()
+            public void Register()
             {
 
             }
         }
 
         [Priority(5)]
-        private class ProviderTest2 : ServiceProvider
+        private class ProviderTest2 : IServiceProvider
         {
-            public override void Init()
+            public void Init()
             {
                 prioritiesTest = false;
             }
 
-            public override void Register()
+            public void Register()
             {
 
             }
@@ -165,8 +165,8 @@ namespace CatLib.Tests
                 return Type.GetType(t);
             });
             app.Bootstrap();
-            App.Instance.Register(new ProviderTest1());
-            App.Instance.Register(new ProviderTest2());
+            App.Register(new ProviderTest1());
+            App.Register(new ProviderTest2());
             app.Init();
             Assert.AreEqual(true, prioritiesTest);
         }
@@ -197,12 +197,12 @@ namespace CatLib.Tests
                 return Type.GetType(t);
             });
             app.Bootstrap();
-            App.Instance.Register(new ProviderTest1());
+            App.Register(new ProviderTest1());
             app.Init();
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                App.Instance.Register(new ProviderTest2());
+                App.Register(new ProviderTest2());
             });
         }
 
@@ -285,9 +285,9 @@ namespace CatLib.Tests
         {
             public void Bootstrap()
             {
-                App.Instance.Register(new ConfigProvider());
-                App.Instance.Register(new ConvertersProvider());
-                App.Instance.Register(new EventsProvider());
+                App.Register(new ConfigProvider());
+                App.Register(new ConvertersProvider());
+                App.Register(new EventsProvider());
             }
         }
     }

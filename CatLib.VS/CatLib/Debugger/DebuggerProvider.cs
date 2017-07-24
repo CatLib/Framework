@@ -29,14 +29,14 @@ namespace CatLib.Debugger
     /// <summary>
     /// 调试服务
     /// </summary>
-    public sealed class DebuggerProvider : ServiceProvider
+    public sealed class DebuggerProvider : IServiceProvider
     {
         /// <summary>
         /// 初始化
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority(5)]
-        public override void Init()
+        public void Init()
         {
             var config = App.Make<IConfigManager>();
             if (config == null || config.Default.Get("debugger.webconsole.enable", true))
@@ -113,7 +113,7 @@ namespace CatLib.Debugger
         /// <summary>
         /// 注册调试服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             RegisterLogger();
             RegisterWebConsole();

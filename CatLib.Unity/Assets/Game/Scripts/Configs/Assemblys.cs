@@ -9,27 +9,25 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
+
 namespace CatLib.Bootstrap
 {
     /// <summary>
-    /// 引导程序
+    /// 列表中的程序集会自动添加加载方案
     /// </summary>
-    public class Bootstrap
+    internal class Assemblys
     {
         /// <summary>
-        /// 引导程序
-        /// 请不要随意调整引导顺序，除非您非常了解启动流程
+        /// 列表中的程序集会自动添加加载方案
         /// </summary>
-        public static IBootstrap[] BootStrap
+        public static IDictionary<string, int> Assembly
         {
             get
             {
-                return new IBootstrap[]
+                return new Dictionary<string, int>
                 {
-                    new TypeFinderBootstrap(), 
-                    new ProvidersBootstrap(),
-                    new ConfigBootstrap(),
-                    new StartBootstrap()
+                    { "Assembly-CSharp" , 0 }
                 };
             }
         }

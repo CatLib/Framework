@@ -19,12 +19,19 @@ namespace CatLib.Config
     /// <summary>
     /// 配置服务提供者
     /// </summary>
-    public sealed class ConfigProvider : ServiceProvider
+    public sealed class ConfigProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 注册配置服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             RegisterManager();
             RegisterDefaultConfig();

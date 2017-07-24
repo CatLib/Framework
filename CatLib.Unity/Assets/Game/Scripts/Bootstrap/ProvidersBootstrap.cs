@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
+using UnityEngine;
 
 namespace CatLib.Bootstrap
 {
@@ -23,9 +23,45 @@ namespace CatLib.Bootstrap
         /// </summary>
         public void Bootstrap()
         {
+            LoadCodeProvider();
+            LoadUnityComponentProvider();
+        }
+
+        /// <summary>
+        /// 加载以代码形式提供的服务提供者
+        /// </summary>
+        private void LoadCodeProvider()
+        {
             foreach (var type in Providers.ServiceProviders)
             {
                 App.Instance.Register(type);
+            }
+        }
+
+        /// <summary>
+        /// 加载以Unity组件构建的服务提供者
+        /// </summary>
+        private void LoadUnityComponentProvider()
+        {
+            var root = App.Instance.Make<Component>();
+            if (root != null)
+            {
+                var unityObject = typeof(Object);
+                var serviceProviders = root.GetComponents<IServiceProvider>();
+                foreach (var serviceProvider in serviceProviders)
+                {
+                    if (serviceProvider == null)
+                    {
+                        continue;
+                    }
+
+                    App.Instance.Register(serviceProvider);
+
+                    if (unityObject.IsInstanceOfType(serviceProvider))
+                    {
+                        Object.Destroy((Object)serviceProvider);
+                    }
+                }
             }
         }
     }

@@ -17,12 +17,19 @@ namespace CatLib.Json
     /// <summary>
     /// Json 服务
     /// </summary>
-    public sealed class JsonProvider : ServiceProvider
+    public sealed class JsonProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 当注册服务提供者
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             App.Singleton<JsonUtility>().OnResolving((binder, obj) =>
             {

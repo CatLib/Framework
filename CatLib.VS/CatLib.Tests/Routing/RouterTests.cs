@@ -43,7 +43,7 @@ namespace CatLib.Tests.Routing
             app.Register(new EventsProvider());
 
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             app.On(RouterEvents.OnBeforeRouterAttrCompiler, (payload) =>
             {
                 router.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
@@ -74,7 +74,7 @@ namespace CatLib.Tests.Routing
 
             app.Init();
 
-            router = App.Instance.Make<IRouter>();
+            router = App.Make<IRouter>();
             router.OnError((req, res, ex, next) =>
             {
                 if(ex is UndefinedDefaultSchemeException)
@@ -100,13 +100,13 @@ namespace CatLib.Tests.Routing
         [TestCleanup]
         public void TestCleanup()
         {
-            App.Instance = null;
+            App.Handler = null;
         }
 
         [TestMethod]
         public void SimpleCall()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             var response = router.Dispatch("catlib://utattr-routing-simple/call");
 
             Assert.AreEqual("UTAttrRoutingSimple.Call[global middleware]", response.GetContext().ToString());
@@ -115,7 +115,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void SimpleCallMTest()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             var response = router.Dispatch("catlib://utattr-routing-simple/call-mtest");
 
             Assert.AreEqual("UTAttrRoutingSimple.CallMTest[global middleware]", response.GetContext().ToString());
@@ -127,7 +127,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void MultAttrRoutingTest()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             var response = router.Dispatch("utmult-attr-routing-simple/call");
             Assert.AreEqual("UTMultAttrRoutingSimple.Call[global middleware]", response.GetContext().ToString());
@@ -160,7 +160,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void RoutingMiddlewareTest()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             var response = router.Dispatch("rm://call");
             Assert.AreEqual("RoutingMiddleware.Call[with middleware][global middleware]", response.GetContext().ToString());
@@ -172,7 +172,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void ParamsAttrTest()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             var response = router.Dispatch("catlib://params-attr-routing/params-call/18");
             Assert.AreEqual("ParamsAttrRouting.ParamsCall.18.hello.catlib[global middleware]", response.GetContext().ToString());
@@ -184,7 +184,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void ParamsAttrWithGroup()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             var response = router.Dispatch("catlib://params-attr-routing/params-call-with-group/18");
             Assert.AreEqual("ParamsAttrRouting.ParamsCall.18.hello.group-str[with group middleware][global middleware]", response.GetContext().ToString());
@@ -196,7 +196,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void LambdaCall()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             router.Reg("lambda://call/lambda-call", (req, res) =>
             {
@@ -213,7 +213,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void ThrowErrorLambdaCall()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             router.Reg("lambda://call/throw-error-lambda-call", (req, res) =>
             {
@@ -231,7 +231,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void ThrowNotFoundExceptionCall()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             ExceptionAssert.Throws<NotFoundRouteException>(() =>
             {
@@ -245,7 +245,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void ThrowNotFoundExceptionCallInScheme()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.Reg("lambda://call/throw-not-found-exception", (req, res) =>
             {
                 res.SetContext("RouterTests.ThrowNotFoundExceptionCallInScheme");
@@ -264,7 +264,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void RouteMiddleware()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.Reg("lambda://call/route-middleware", (req, res) =>
             {
                 res.SetContext("RouterTests.RouteMiddleware");
@@ -284,7 +284,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void RouteException()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             bool isException = false;
             router.Reg("lambda://call/route-exception", (req, res) =>
             {
@@ -310,7 +310,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void MoreRouteWithGroupTest()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             bool isError = false;
             router.Group(() =>
@@ -356,7 +356,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void QueryParamsBind()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.Reg("lambda://call/query-params-bind/{age}/{default?}", (req, res) =>
             {
                 res.SetContext("RouterTests.QueryParamsBind." + req["age"] + "." + req["default"] + req["default2"]);
@@ -372,7 +372,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void OptionsParams()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.Reg("lambda://call/OptionsParams/{age}/{default?}", (req, res) =>
             {
                 res.SetContext("RouterTests.OptionsParams." + req["age"] + "." + req["default"]);
@@ -394,7 +394,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void RoutingRecursiveCall()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.Reg("lambda://call/RoutingRecursiveCall-1", (req, res) =>
             {
                 res.SetContext("RouterTests.RoutingRecursiveCall1");
@@ -441,7 +441,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void OptionsParamsAttrRoutingCall()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             ExceptionAssert.DoesNotThrow(() =>
             {
@@ -456,7 +456,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void OptionsParamsAttrRoutingCallNull()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             ExceptionAssert.DoesNotThrow(() =>
             {
@@ -471,8 +471,8 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void OptionsParamsAttrRoutingCallResponseAndApp()
         {
-            var router = App.Instance.Make<IRouter>();
-            var app = App.Instance.Make<IApplication>();
+            var router = App.Make<IRouter>();
+            var app = App.Make<IApplication>();
             ExceptionAssert.DoesNotThrow(() =>
             {
                 var response = router.Dispatch("options-params-attr-routing/call-response-and-app");
@@ -486,7 +486,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void OptionsParamsAttrRoutingCallResponse()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             ExceptionAssert.DoesNotThrow(() =>
             {
                 var response = router.Dispatch("options-params-attr-routing/call-response");
@@ -500,7 +500,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void RoutingPriortityMiddlewareTest()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             ExceptionAssert.DoesNotThrow(() =>
             {
                 var response = router.Dispatch("routing-priortity-middleware/call");
@@ -511,7 +511,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void WrongRouteTest()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             //变量含有特殊字符将会被降级为字符串
             bool tf = false;
@@ -527,7 +527,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void TestUndefindScheme()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.SetDefaultScheme(null);
 
             ExceptionAssert.Throws<UndefinedDefaultSchemeException>(() =>
@@ -541,7 +541,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void TestFirstCompilerThenAddGroup()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.Group("DefaultGroup").Defaults("str", "TestFirstCompilerThenAddGroup");
             var response = router.Dispatch("routed://first-compiler-then-group");
             Assert.AreEqual("TestFirstCompilerThenAddGroup[global middleware]", response.GetContext());
@@ -550,7 +550,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void TestUseGroupAndLocalDefaults()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             var response = router.Dispatch("routed://use-group-and-local-defaults");
             Assert.AreEqual("hello world[global middleware]", response.GetContext());
         }
@@ -558,7 +558,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void TestClassMiddlewareThenRouteMiddleware()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
 
             router.Group("RoutingMiddleware.ClassMiddlewareThenRouteMiddleTest")
                 .Middleware((req, res, next) =>
@@ -575,7 +575,7 @@ namespace CatLib.Tests.Routing
         [TestMethod]
         public void TestParamsNameHasString()
         {
-            var router = App.Instance.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.Reg("catlib://test-params-name-has-string/hello{param}/{param2?}", (req, res) =>
             {
                 res.SetContext(req.Get("param") + "_" + req.Get("param2"));

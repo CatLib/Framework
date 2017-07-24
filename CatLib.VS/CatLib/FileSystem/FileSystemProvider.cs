@@ -19,14 +19,14 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件系统服务提供者
     /// </summary>
-    public sealed class FileSystemProvider : ServiceProvider
+    public sealed class FileSystemProvider : IServiceProvider
     {
         /// <summary>
         /// 服务提供者进程
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority]
-        public override void Init()
+        public void Init()
         {
             InitRegisterLocalDriver();
         }
@@ -34,7 +34,7 @@ namespace CatLib.FileSystem
         /// <summary>
         /// 注册文件系统服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             RegisterManager();
             RegisterDefaultFileSystem();

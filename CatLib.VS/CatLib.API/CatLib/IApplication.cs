@@ -54,7 +54,7 @@ namespace CatLib
         string Version { get; }
 
         /// <summary>
-        /// 比较版本(遵循semver)
+        /// 比较CatLib版本(遵循semver)
         /// <para>输入版本大于当前版本则返回<code>-1</code></para>
         /// <para>输入版本等于当前版本则返回<code>0</code></para>
         /// <para>输入版本小于当前版本则返回<code>1</code></para>
@@ -66,7 +66,7 @@ namespace CatLib
         int Compare(int major, int minor, int revised);
 
         /// <summary>
-        /// 比较版本(遵循semver)
+        /// 比较CatLib版本(遵循semver)
         /// <para>输入版本大于当前版本则返回<code>-1</code></para>
         /// <para>输入版本等于当前版本则返回<code>0</code></para>
         /// <para>输入版本小于当前版本则返回<code>1</code></para>

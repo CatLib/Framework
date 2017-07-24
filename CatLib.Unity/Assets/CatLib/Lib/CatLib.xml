@@ -1166,6 +1166,11 @@
             转换器服务
             </summary>
         </member>
+        <member name="M:CatLib.Converters.ConvertersProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
         <member name="M:CatLib.Converters.ConvertersProvider.Register">
             <summary>
             注册文件系统服务
@@ -2061,6 +2066,11 @@
             配置服务提供者
             </summary>
         </member>
+        <member name="M:CatLib.Config.ConfigProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
         <member name="M:CatLib.Config.ConfigProvider.Register">
             <summary>
             注册配置服务
@@ -2079,6 +2089,11 @@
         <member name="T:CatLib.Environment.EnvironmentProvider">
             <summary>
             核心服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.EnvironmentProvider.Init">
+            <summary>
+            初始化
             </summary>
         </member>
         <member name="M:CatLib.Environment.EnvironmentProvider.Register">
@@ -2285,6 +2300,11 @@
         <member name="T:CatLib.Events.EventsProvider">
             <summary>
             事件服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Events.EventsProvider.Init">
+            <summary>
+            初始化
             </summary>
         </member>
         <member name="M:CatLib.Events.EventsProvider.Register">
@@ -2794,6 +2814,11 @@
         <member name="T:CatLib.Json.JsonProvider">
             <summary>
             Json 服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Json.JsonProvider.Init">
+            <summary>
+            初始化
             </summary>
         </member>
         <member name="M:CatLib.Json.JsonProvider.Register">
@@ -5137,122 +5162,6 @@
             <param name="service">服务名</param>
             <returns>服务类型</returns>
         </member>
-        <member name="T:CatLib.ContainerExpand">
-            <summary>
-             容器拓展
-             </summary>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``2(CatLib.IContainer)">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.IContainer)">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
-            <summary>
-            以单例的形式绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind``2(CatLib.IContainer)">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.IContainer)">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名，同时也是服务实现</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Bind(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
-            <summary>
-            常规绑定一个服务
-            </summary>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <param name="concrete">服务实现</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.MakeParams``1(CatLib.IContainer,System.Object[])">
-            <summary>
-            构造一个服务，允许传入构造参数
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="param">构造参数</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.IContainer)">
-            <summary>
-            构造一个服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.IContainer,System.String)">
-            <summary>
-            构造一个服务
-            </summary>
-            <typeparam name="TConvert">服务实例转换到的类型</typeparam>
-            <param name="container">服务容器</param>
-            <param name="service">服务名</param>
-            <returns>服务实例</returns>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Release``1(CatLib.IContainer)">
-            <summary>
-            释放服务
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-        </member>
-        <member name="M:CatLib.ContainerExpand.Instance``1(CatLib.IContainer,System.Object)">
-            <summary>
-            静态化一个服务,实例值会经过解决修饰器
-            </summary>
-            <typeparam name="TService">服务名</typeparam>
-            <param name="container">服务容器</param>
-            <param name="instance">实例值</param>
-        </member>
         <member name="T:CatLib.GivenData">
             <summary>
             绑定关系临时数据,用于支持链式调用
@@ -5336,6 +5245,11 @@
             服务提供者
             </summary>
         </member>
+        <member name="F:CatLib.Application.serviceProviderTypes">
+            <summary>
+            注册服务提供者
+            </summary>
+        </member>
         <member name="F:CatLib.Application.bootstrapped">
             <summary>
             是否已经完成引导程序
@@ -5406,7 +5320,7 @@
             注册服务提供者
             </summary>
             <param name="provider">注册服务提供者</param>
-            <exception cref="T:CatLib.RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="T:CatLib.ServiceProvider"/></exception>
+            <exception cref="T:CatLib.RuntimeException">服务提供者被重复注册时触发</exception>
         </member>
         <member name="M:CatLib.Application.GetGuid">
             <summary>
@@ -5458,7 +5372,7 @@
         </member>
         <member name="M:CatLib.Application.Compare(System.Int32,System.Int32,System.Int32)">
             <summary>
-            比较版本(遵循semver)
+            比较CatLib版本(遵循semver)
             <para>输入版本大于当前版本则返回<code>-1</code></para>
             <para>输入版本等于当前版本则返回<code>0</code></para>
             <para>输入版本小于当前版本则返回<code>1</code></para>
@@ -5470,7 +5384,7 @@
         </member>
         <member name="M:CatLib.Application.Compare(System.String)">
             <summary>
-            比较版本(遵循semver)
+            比较CatLib版本(遵循semver)
             <para>输入版本大于当前版本则返回<code>-1</code></para>
             <para>输入版本等于当前版本则返回<code>0</code></para>
             <para>输入版本小于当前版本则返回<code>1</code></para>
@@ -7152,6 +7066,11 @@
             计时器服务
             </summary>
         </member>
+        <member name="M:CatLib.Timer.TimerProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
         <member name="M:CatLib.Timer.TimerProvider.Register">
             <summary>
             注册计时器服务
@@ -7288,6 +7207,11 @@
         <member name="T:CatLib.Time.TimeProvider">
             <summary>
             时间服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.TimeProvider.Init">
+            <summary>
+            初始化
             </summary>
         </member>
         <member name="M:CatLib.Time.TimeProvider.Register">
@@ -7447,6 +7371,11 @@
         <member name="T:CatLib.Translation.TranslationProvider">
             <summary>
             国际化服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Translation.TranslationProvider.Init">
+            <summary>
+            初始化
             </summary>
         </member>
         <member name="M:CatLib.Translation.TranslationProvider.Register">

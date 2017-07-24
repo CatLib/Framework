@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CatLib.Bootstrap
@@ -25,9 +25,21 @@ namespace CatLib.Bootstrap
         /// </summary>
         public void Awake()
         {
-            var application = new Application(this);
-            application.OnFindType((type) => Type.GetType(type));
-            application.Bootstrap(Bootstrap.BootStrap).Init();
+            var app = new Application(this);
+            app.Bootstrap(GetBootstraps());
+            app.Init();
+        }
+
+        /// <summary>
+        /// 获取引导程序
+        /// </summary>
+        /// <returns>引导脚本</returns>
+        private IBootstrap[] GetBootstraps()
+        {
+            var bootstraps = new List<IBootstrap>();
+            bootstraps.AddRange(GetComponents<IBootstrap>());
+            bootstraps.AddRange(Bootstrap.BootStrap);
+            return bootstraps.ToArray();
         }
     }
 }

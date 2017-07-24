@@ -143,14 +143,14 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestTimerSimpleDelay()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = false;
             timer.Make(() =>
             {
                 statu = !statu;
             }).Delay(1);
 
-            var app = App.Instance as Application;
+            var app = App.Handler as Application;
             var driver = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
 
             //0.25
@@ -183,7 +183,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestInvalidTimerDelay()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = false;
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
@@ -198,21 +198,21 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestTimerSimpleLoop()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             timer.Make(() =>
             {
                 ++statu;
             }).Loop(1);
 
-            RunTime(App.Instance, 2);
+            RunTime(App.Handler, 2);
             Assert.AreEqual(4, statu);
         }
 
         [TestMethod]
         public void TestInvalidTimerSimpleLoop()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
@@ -226,21 +226,21 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestTimerLoopFrame()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             timer.Make(() =>
             {
                 ++statu;
             }).LoopFrame(3);
 
-            RunFrame(App.Instance, 3);
+            RunFrame(App.Handler, 3);
             Assert.AreEqual(3, statu);
         }
 
         [TestMethod]
         public void TestInvalidTimerLoopFrame()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
@@ -255,7 +255,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestTimerLoopWithFunc()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             timer.Make(() =>
@@ -266,60 +266,60 @@ namespace CatLib.Tests.Timer
                 return statu < 3;
             });
 
-            RunTime(App.Instance, 5);
+            RunTime(App.Handler, 5);
             Assert.AreEqual(3, statu);
         }
 
         [TestMethod]
         public void TestTimerSimpleDelayFrame()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = false;
             timer.Make(() =>
             {
                 statu = !statu;
             }).DelayFrame(3);
 
-            RunFrame(App.Instance, 2);
+            RunFrame(App.Handler, 2);
 
             Assert.AreEqual(false , statu);
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
             Assert.AreEqual(true, statu);
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
             Assert.AreEqual(true, statu);
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
             Assert.AreEqual(true, statu);
         }
 
         [TestMethod]
         public void TestTimerSimpleDelayFrameOne()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = false;
             timer.Make(() =>
             {
                 statu = !statu;
             }).DelayFrame(1);
 
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
             Assert.AreEqual(true, statu);
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
             Assert.AreEqual(true, statu);
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
             Assert.AreEqual(true, statu);
         }
 
         [TestMethod]
         public void TimerCompleteToCall()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = false;
             var t = timer.Make(() =>
             {
                 statu = !statu;
             });
             t.DelayFrame(1);
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
             Assert.AreEqual(true, statu);
 
             ExceptionAssert.Throws<RuntimeException>(() =>
@@ -354,7 +354,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TimerGroupMultitaskingTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             var isComplete = false;
 
@@ -374,7 +374,7 @@ namespace CatLib.Tests.Timer
                 isComplete = true;
             });
 
-            RunTime(App.Instance, 10);
+            RunTime(App.Handler, 10);
             Assert.AreEqual(5 , statu);
             Assert.AreEqual(true, isComplete);
         }
@@ -382,7 +382,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TimerGroupMergeMultitaskingTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             var isComplete = false;
 
@@ -403,7 +403,7 @@ namespace CatLib.Tests.Timer
             });
 
             //在测试下一帧为0.25秒，这里2个延迟总共为0.2秒所以可以在1帧内完成
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
 
             Assert.AreEqual(2, statu);
             Assert.AreEqual(true, isComplete);
@@ -412,7 +412,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TimerGroupMergeComplexMultitaskingTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             var isComplete = false;
 
@@ -439,7 +439,7 @@ namespace CatLib.Tests.Timer
 
             //固定的等待帧占据整个帧的时间
             //在测试下一帧为0.25秒，这里2个延迟总共为0.25秒所以可以在1帧内完成
-            RunFrame(App.Instance, 2);
+            RunFrame(App.Handler, 2);
 
             Assert.AreEqual(3, statu);
             Assert.AreEqual(true, isComplete);
@@ -448,12 +448,12 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void GroupCompleteCallTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var group = timer.MakeQueue(() =>
             {
             });
 
-            RunFrame(App.Instance, 1);
+            RunFrame(App.Handler, 1);
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
@@ -467,7 +467,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void CancelTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             var isComplete = false;
 
@@ -494,7 +494,7 @@ namespace CatLib.Tests.Timer
                 isComplete = true;
             });
 
-            RunFrame(App.Instance, 5);
+            RunFrame(App.Handler, 5);
 
             Assert.AreEqual(2, statu);
             Assert.AreEqual(false, isComplete);
@@ -503,7 +503,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void PauseTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             var isComplete = false;
 
@@ -530,7 +530,7 @@ namespace CatLib.Tests.Timer
                 isComplete = true;
             });
 
-            RunFrame(App.Instance, 5);
+            RunFrame(App.Handler, 5);
 
             Assert.AreEqual(2, statu);
             Assert.AreEqual(false, isComplete);
@@ -538,7 +538,7 @@ namespace CatLib.Tests.Timer
 
             timer.Play(queue);
 
-            RunFrame(App.Instance, 5);
+            RunFrame(App.Handler, 5);
 
             Assert.AreEqual(3, statu);
             Assert.AreEqual(true, isComplete);
@@ -548,7 +548,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TimerGetGroupTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             ITimer result = null;
             var group = timer.MakeQueue(() =>
             {
@@ -561,7 +561,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void NoParamsTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
 
             timer.MakeQueue(() =>
             {
@@ -570,14 +570,14 @@ namespace CatLib.Tests.Timer
 
             ExceptionAssert.DoesNotThrow(() =>
             {
-                RunTime(App.Instance, 1);
+                RunTime(App.Handler, 1);
             });
         }
 
         [TestMethod]
         public void NoParamsHasTaskTest()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
             timer.MakeQueue(() =>
             {
@@ -589,7 +589,7 @@ namespace CatLib.Tests.Timer
 
             ExceptionAssert.DoesNotThrow(() =>
             {
-                RunTime(App.Instance, 1);
+                RunTime(App.Handler, 1);
             });
 
             Assert.AreEqual(0, statu);
@@ -601,7 +601,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestInterval()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             timer.Make(() =>
@@ -609,7 +609,7 @@ namespace CatLib.Tests.Timer
                 statu++;
             }).Interval(3);
 
-            RunTime(App.Instance, 9);
+            RunTime(App.Handler, 9);
 
             Assert.AreEqual(3, statu);
         }
@@ -620,7 +620,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestIntervalBound()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             timer.Make(() =>
@@ -628,7 +628,7 @@ namespace CatLib.Tests.Timer
                 statu++;
             }).Interval(3);
 
-            RunTime(App.Instance, 8.74999f);
+            RunTime(App.Handler, 8.74999f);
 
             Assert.AreEqual(2, statu);
         }
@@ -636,7 +636,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestIntervalLifeBound()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             timer.Make(() =>
@@ -645,7 +645,7 @@ namespace CatLib.Tests.Timer
                 })
                 .Interval(3, 1);
 
-            RunTime(App.Instance, 30);
+            RunTime(App.Handler, 30);
 
             Assert.AreEqual(1, statu);
         }
@@ -653,7 +653,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestIntervalInvalid()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
@@ -667,7 +667,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestIntervalFrame()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             timer.Make(() =>
@@ -675,7 +675,7 @@ namespace CatLib.Tests.Timer
                 statu++;
             }).IntervalFrame(3);
 
-            RunFrame(App.Instance, 9);
+            RunFrame(App.Handler, 9);
 
             Assert.AreEqual(3, statu);
         }
@@ -686,7 +686,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestIntervalFrameBound()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             timer.Make(() =>
@@ -694,7 +694,7 @@ namespace CatLib.Tests.Timer
                 statu++;
             }).IntervalFrame(3);
 
-            RunFrame(App.Instance, 8);
+            RunFrame(App.Handler, 8);
 
             Assert.AreEqual(2, statu);
         }
@@ -702,7 +702,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestIntervalFrameLife()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
             var statu = 0;
 
             timer.Make(() =>
@@ -711,7 +711,7 @@ namespace CatLib.Tests.Timer
                 })
                 .IntervalFrame(3, 2);
 
-            RunFrame(App.Instance, 30);
+            RunFrame(App.Handler, 30);
 
             Assert.AreEqual(2, statu);
         }
@@ -719,7 +719,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestIntervalFrameInvalid()
         {
-            var timer = App.Instance.Make<ITimerManager>();
+            var timer = App.Make<ITimerManager>();
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
@@ -730,7 +730,7 @@ namespace CatLib.Tests.Timer
         [TestMethod]
         public void TestSetTime()
         {
-            var timerManager = App.Instance.Make<ITimerManager>();
+            var timerManager = App.Make<ITimerManager>();
             var statu = 0;
 
             var timer = timerManager.Make(() =>
@@ -740,7 +740,7 @@ namespace CatLib.Tests.Timer
 
             ExceptionAssert.DoesNotThrow(() =>
             {
-                timer.Queue.SetTime(App.Instance.Make<ITimeManager>().Default);
+                timer.Queue.SetTime(App.Make<ITimeManager>().Default);
             });
         }
 
@@ -783,7 +783,7 @@ namespace CatLib.Tests.Timer
         /// </summary>
         private void NextFrame()
         {
-            var time = App.Instance.Make<ITimeManager>();
+            var time = App.Make<ITimeManager>();
             (time.Default as TimerTestTime).FrameCount += 1;
         }
     }

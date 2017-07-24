@@ -18,12 +18,19 @@ namespace CatLib.Converters
     /// <summary>
     /// 转换器服务
     /// </summary>
-    public sealed class ConvertersProvider : ServiceProvider
+    public sealed class ConvertersProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 注册文件系统服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             RegisterManager();
             RegisterDefaultConverter();

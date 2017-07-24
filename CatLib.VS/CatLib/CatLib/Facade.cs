@@ -23,7 +23,7 @@ namespace CatLib
         {
             get
             {
-                return App.Instance.Make<T>();
+                return App.Make<T>();
             }
         }
     }

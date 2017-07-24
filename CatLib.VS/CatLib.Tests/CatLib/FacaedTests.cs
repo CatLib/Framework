@@ -62,7 +62,7 @@ namespace CatLib.Tests
         [TestMethod]
         public void NullApplicationFacadeTest()
         {
-            App.Instance = null;
+            App.Handler = null;
 
 #if !UNITY_EDITOR
             ExceptionAssert.Throws<NullReferenceException>(() =>

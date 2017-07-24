@@ -155,7 +155,6 @@
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="Support\Container\BindData.cs" />
     <Compile Include="Support\Container\Container.cs" />
-    <Compile Include="Support\Container\ContainerExpand.cs" />
     <Compile Include="Support\Container\GivenData.cs" />
     <Compile Include="CatLib\Application.cs" />
     <Compile Include="MonoDriver\DriverBehaviour.cs" />

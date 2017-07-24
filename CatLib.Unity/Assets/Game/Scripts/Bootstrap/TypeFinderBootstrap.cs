@@ -9,34 +9,30 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Config;
+using System;
 
 namespace CatLib.Bootstrap
 {
     /// <summary>
-    /// 初始配置引导
+    /// 类型扫描器引导
     /// </summary>
-    public class ConfigBootstrap : IBootstrap
+    public class TypeFinderBootstrap : IBootstrap
     {
         /// <summary>
         /// 引导程序
         /// </summary>
         public void Bootstrap()
         {
-            if (Configs.ConfigsMap == null)
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                return;
-            }
-
-            var config = App.Instance.Make<IConfigManager>();
-            if (config == null)
-            {
-                return;
-            }
-
-            foreach (var kvp in Configs.ConfigsMap)
-            {
-                config.Default.Set(kvp.Key, kvp.Value);
+                int sort;
+                if (Assemblys.Assembly.TryGetValue(assembly.GetName().Name, out sort))
+                {
+                    App.Instance.OnFindType((finder) =>
+                    {
+                        return assembly.GetType(finder);
+                    }, sort);
+                }
             }
         }
     }

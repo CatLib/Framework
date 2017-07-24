@@ -18,12 +18,19 @@ namespace CatLib.Events
     /// <summary>
     /// 事件服务提供者
     /// </summary>
-    public sealed class EventsProvider : ServiceProvider
+    public sealed class EventsProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 注册事件服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             App.Singleton<Dispatcher>().Alias<IDispatcher>();
         }

@@ -40,15 +40,15 @@ namespace CatLib.Tests.FileSystem
     public class FileSystemProviderTests
     {
 
-        public class PrepareEnv : ServiceProvider
+        public class PrepareEnv : IServiceProvider
         {
-            public override void Init()
+            public void Init()
             {
                 var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
                 App.Make<IEnvironment>().SetAssetPath(path);
             }
 
-            public override void Register(){ }
+            public void Register(){ }
         }
 
         [TestInitialize]
@@ -76,7 +76,7 @@ namespace CatLib.Tests.FileSystem
         public void GetDiskTest()
         {
             TestInitialize();
-            var storage = App.Instance.Make<IFileSystemManager>();
+            var storage = App.Make<IFileSystemManager>();
             storage.Disk().Write("GetDisk", GetByte("hello world"));
             Assert.AreEqual(true, storage.Disk().Exists("GetDisk"));
             Assert.AreEqual("hello world", GetString(storage.Disk().Read("GetDisk")));
@@ -89,8 +89,8 @@ namespace CatLib.Tests.FileSystem
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var storage = App.Instance.Make<IFileSystemManager>();
-                storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(App.Instance.Make<IEnvironment>().AssetPath)));
+                var storage = App.Make<IFileSystemManager>();
+                storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(App.Make<IEnvironment>().AssetPath)));
             });
         }
 
@@ -99,10 +99,10 @@ namespace CatLib.Tests.FileSystem
         {
             TestInitialize();
 
-            var storage = App.Instance.Make<IFileSystemManager>();
-            storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local( Path.Combine(App.Instance.Make<IEnvironment>().AssetPath, "DefaultConfigTest"))) , "local-2");
+            var storage = App.Make<IFileSystemManager>();
+            storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local( Path.Combine(App.Make<IEnvironment>().AssetPath, "DefaultConfigTest"))) , "local-2");
 
-            var config = App.Instance.Make<IConfigManager>();
+            var config = App.Make<IConfigManager>();
             config.Get().Set("filesystems.default" , "local-2");
 
             storage.Disk().Write("DefaultConfigTest", GetByte("hello world"));
@@ -116,7 +116,7 @@ namespace CatLib.Tests.FileSystem
             TestInitialize();
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var storage = App.Instance.Make<IFileSystemManager>();
+                var storage = App.Make<IFileSystemManager>();
                 storage.Disk("undefined-disk");
             });
         }

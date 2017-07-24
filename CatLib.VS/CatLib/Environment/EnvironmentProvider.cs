@@ -18,12 +18,19 @@ namespace CatLib.Environment
     /// <summary>
     /// 核心服务提供者
     /// </summary>
-    public sealed class EnvironmentProvider : ServiceProvider
+    public sealed class EnvironmentProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 注册核心服务提供者
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             App.Singleton<UnityEnvironment>().Alias<IEnvironment>().OnResolving((bind, obj) =>
             {

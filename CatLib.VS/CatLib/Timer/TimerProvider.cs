@@ -17,12 +17,19 @@ namespace CatLib.Timer
     /// <summary>
     /// 计时器服务
     /// </summary>
-    public sealed class TimerProvider : ServiceProvider
+    public sealed class TimerProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 注册计时器服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             App.Singleton<TimerManager>().Alias<ITimerManager>().Alias("catlib.timer.manager");
         }

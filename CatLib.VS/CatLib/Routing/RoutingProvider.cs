@@ -13,22 +13,20 @@
 using CatLib.API.Config;
 using CatLib.API.Routing;
 using System.Collections.Generic;
-using System.Threading;
-using CatLib.API.MonoDriver;
 
 namespace CatLib.Routing
 {
     /// <summary>
     /// 路由服务
     /// </summary>
-    public sealed class RoutingProvider : ServiceProvider
+    public sealed class RoutingProvider : IServiceProvider
     {
         /// <summary>
         /// 执行路由编译，路由编译总是最后进行的
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority]
-        public override void Init()
+        public void Init()
         {
             var router = App.Make<Router>();
             router.RouterCompiler();
@@ -37,11 +35,11 @@ namespace CatLib.Routing
         /// <summary>
         /// 注册路由条目
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             App.Singleton<Router>((app, param) =>
             {
-                var router = new Router(App, App);
+                var router = new Router(App.Handler, App.Handler);
                 router.SetDefaultScheme("catlib");
                 return router;
             }).Alias<IRouter>().Alias("catlib.routing.router");

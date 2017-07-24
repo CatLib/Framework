@@ -11,6 +11,7 @@
 
 using CatLib.API.Events;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -51,6 +52,11 @@ namespace CatLib
         /// 服务提供者
         /// </summary>
         private readonly SortSet<IServiceProvider, int> serviceProviders = new SortSet<IServiceProvider , int>();
+
+        /// <summary>
+        /// 注册服务提供者
+        /// </summary>
+        private readonly HashSet<Type> serviceProviderTypes = new HashSet<Type>();
 
         /// <summary>
         /// 是否已经完成引导程序
@@ -122,7 +128,7 @@ namespace CatLib
         [ExcludeFromCodeCoverage]
         public Application(Component baseComponent = null)
         {
-            App.Instance = this;
+            App.Handler = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
             Instance(Type2Service(typeof(Component)), baseComponent);
             RegisterCoreAlias();
@@ -190,7 +196,7 @@ namespace CatLib
         /// 注册服务提供者
         /// </summary>
         /// <param name="provider">注册服务提供者</param>
-        /// <exception cref="RuntimeException">服务提供者被重复注册或者服务提供者没有继承自<see cref="ServiceProvider"/></exception>
+        /// <exception cref="RuntimeException">服务提供者被重复注册时触发</exception>
         public void Register(IServiceProvider provider)
         {
             Guard.Requires<ArgumentNullException>(provider != null);
@@ -200,13 +206,14 @@ namespace CatLib
                 throw new RuntimeException("Register() Only be called before Init()");
             }
 
-            if (serviceProviders.Contains(provider))
+            if (serviceProviderTypes.Contains(provider.GetType()))
             {
-                throw new RuntimeException("Provider [" + provider + "] is already register.");
+                throw new RuntimeException("Provider [" + provider.GetType() + "] is already register.");
             }
 
             provider.Register();
             serviceProviders.Add(provider, GetPriorities(provider.GetType(), "Init"));
+            serviceProviderTypes.Add(provider.GetType());
         }
 
         /// <summary>
@@ -284,7 +291,7 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 比较版本(遵循semver)
+        /// 比较CatLib版本(遵循semver)
         /// <para>输入版本大于当前版本则返回<code>-1</code></para>
         /// <para>输入版本等于当前版本则返回<code>0</code></para>
         /// <para>输入版本小于当前版本则返回<code>1</code></para>
@@ -300,7 +307,7 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 比较版本(遵循semver)
+        /// 比较CatLib版本(遵循semver)
         /// <para>输入版本大于当前版本则返回<code>-1</code></para>
         /// <para>输入版本等于当前版本则返回<code>0</code></para>
         /// <para>输入版本小于当前版本则返回<code>1</code></para>
