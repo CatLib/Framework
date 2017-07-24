@@ -16,7 +16,7 @@ using CatLib.API.Environment;
 namespace CatLib.Environment
 {
     /// <summary>
-    /// 核心服务提供者
+    /// 环境服务提供者
     /// </summary>
     public sealed class EnvironmentProvider : IServiceProvider
     {

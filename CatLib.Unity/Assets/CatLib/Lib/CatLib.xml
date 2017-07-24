@@ -2094,7 +2094,7 @@
         </member>
         <member name="T:CatLib.Environment.EnvironmentProvider">
             <summary>
-            核心服务提供者
+            环境服务提供者
             </summary>
         </member>
         <member name="M:CatLib.Environment.EnvironmentProvider.Init">
