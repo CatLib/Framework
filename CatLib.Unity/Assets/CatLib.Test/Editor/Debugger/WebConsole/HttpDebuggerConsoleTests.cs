@@ -128,5 +128,46 @@ namespace CatLib.Tests.Debugger.WebConsole
             console.Stop();
             Assert.AreEqual(HttpStatusCode.OK, statu);
         }
+
+        [TestMethod]
+        public void TestGetGuid()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/http-debugger-console/get-guid", out ret);
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+        }
+
+        [TestMethod]
+        public void OnDestroyTest()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+
+            console.OnDestroy();
+
+            string ret;
+            ExceptionAssert.Throws<WebException>(() =>
+            {
+                var statu = HttpHelper.Get("http://localhost:9478/", out ret);
+            });
+        }
+
+        [TestMethod]
+        public void RepeatStartTest()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+
+            console.Start();
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/", out ret);
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+        }
     }
 }

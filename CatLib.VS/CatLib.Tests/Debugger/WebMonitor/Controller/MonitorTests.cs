@@ -70,5 +70,141 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
                 "{\"Response\":[{\"name\":\"title\",\"value\":\"helloworld\",\"unit\":\"ms\",\"tags\":[\"tags\"]}]}",
                 ret);
         }
+
+        public class ThrowTypeLoadExceptionHandler : IMonitorHandler
+        {
+            /// <summary>
+            /// 监控的名字
+            /// </summary>
+            public string Name
+            {
+                get
+                {
+                    return "test";
+                }
+            }
+
+            /// <summary>
+            /// 标签(第0位：分类)
+            /// </summary>
+            public string[] Tags
+            {
+                get
+                {
+                    return new []
+                    {
+                        "tag"
+                    };
+                }
+            }
+
+            /// <summary>
+            /// 监控值的单位
+            /// </summary>
+            public string Unit
+            {
+                get { throw new TypeLoadException(); }
+            }
+
+            /// <summary>
+            /// 监控值
+            /// </summary>
+            public string Value
+            {
+                get { throw new TypeLoadException(); }
+            }
+        }
+
+        public class ThrowMissingMethodExceptionHandler : IMonitorHandler
+        {
+            /// <summary>
+            /// 监控的名字
+            /// </summary>
+            public string Name
+            {
+                get
+                {
+                    return "test";
+                }
+            }
+
+            /// <summary>
+            /// 标签(第0位：分类)
+            /// </summary>
+            public string[] Tags
+            {
+                get
+                {
+                    return new[]
+                    {
+                        "tag"
+                    };
+                }
+            }
+
+            /// <summary>
+            /// 监控值的单位
+            /// </summary>
+            public string Unit
+            {
+                get { throw new MissingMethodException(); }
+            }
+
+            /// <summary>
+            /// 监控值
+            /// </summary>
+            public string Value
+            {
+                get { throw new MissingMethodException(); }
+            }
+        }
+
+        [TestMethod]
+        public void TestThrowTypeLoadExceptionMonitor()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+            var monitor = app.Make<IMonitor>();
+
+            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            {
+                "test",
+            });
+
+            monitor.Monitor(new ThrowTypeLoadExceptionHandler());
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors-index", out ret);
+
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+            Assert.AreEqual(
+                "{\"Response\":[{\"name\":\"test\",\"value\":\"code.notSupport\",\"unit\":\"\",\"tags\":[\"tag\"]}]}",
+                ret);
+        }
+
+        [TestMethod]
+        public void TestMissingMethodExceptionMonitor()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+            var monitor = app.Make<IMonitor>();
+
+            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            {
+                "test",
+            });
+
+            monitor.Monitor(new ThrowMissingMethodExceptionHandler());
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors-index", out ret);
+
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+            Assert.AreEqual(
+                "{\"Response\":[{\"name\":\"test\",\"value\":\"code.notSupport\",\"unit\":\"\",\"tags\":[\"tag\"]}]}",
+                ret);
+        }
     }
 }
