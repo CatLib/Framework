@@ -17,7 +17,7 @@ namespace CatLib
     /// 执行优先级
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field)]
-    public sealed class PriorityAttribute : Attribute
+    public class PriorityAttribute : Attribute
     {
         /// <summary>
         /// 优先级
