@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.Debugger.WebConsole;
+using System;
 using System.Collections.Generic;
-using CatLib.API.Debugger;
 
 namespace CatLib.Debugger.WebMonitor.Protocol
 {

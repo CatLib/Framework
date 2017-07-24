@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System.Collections.Generic;
+using System.Net;
 using CatLib.Debugger;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebMonitor;
@@ -58,6 +60,32 @@ namespace CatLib.Tests.Debugger.WebMonitor
                 Assert.AreEqual(handler, result);
                 break;
             }
+        }
+
+        [TestMethod]
+        public void TestNotFoundMonitor()
+        {
+            var app = DebuggerHelper.GetApplication();
+            var console = app.Make<HttpDebuggerConsole>();
+            var monitor = app.Make<IMonitor>();
+
+            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            {
+                "titlenotfound",
+                "title"
+            });
+
+            var handler = new OnceRecordMonitorHandler("title", "ms", new[] { "tags" }, () => "helloworld");
+            monitor.Monitor(handler);
+
+            string ret;
+            var statu = HttpHelper.Get("http://localhost:9478/debug/monitor/get-monitors-index", out ret);
+
+            console.Stop();
+            Assert.AreEqual(HttpStatusCode.OK, statu);
+            Assert.AreEqual(
+                "{\"Response\":[{\"name\":\"title\",\"value\":\"helloworld\",\"unit\":\"ms\",\"tags\":[\"tags\"]}]}",
+                ret);
         }
     }
 }

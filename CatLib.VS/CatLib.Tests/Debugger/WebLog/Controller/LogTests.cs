@@ -53,10 +53,10 @@ namespace CatLib.Tests.Debugger.WebLog.Controller
             var ret2Json = json.Decode(ret2)["Response"] as IList<object>;
 
             Assert.AreEqual(HttpStatusCode.OK, statu);
-            Assert.AreEqual((long)1, (retJson[0] as IDictionary<string,object>)["id"]);
-            Assert.AreEqual((long)2, (retJson[1] as IDictionary<string, object>)["id"]);
+            var id = (retJson[0] as IDictionary<string, object>)["id"];
+            Assert.AreEqual((long)id + 1, (retJson[1] as IDictionary<string, object>)["id"]);
             Assert.AreEqual(HttpStatusCode.OK, statu2);
-            Assert.AreEqual((long)3, (ret2Json[0] as IDictionary<string, object>)["id"]);
+            Assert.AreEqual((long)id + 2, (ret2Json[0] as IDictionary<string, object>)["id"]);
         }
     }
 }

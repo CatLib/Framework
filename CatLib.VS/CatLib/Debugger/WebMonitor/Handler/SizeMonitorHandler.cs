@@ -30,14 +30,19 @@ namespace CatLib.Debugger.WebMonitor.Handler
         public string Name { get; private set; }
 
         /// <summary>
-        /// 单位映射
-        /// </summary>
-        private readonly Dictionary<long, string> unitMapping;
-
-        /// <summary>
         /// 监控值的单位描述
         /// </summary>
         public string Unit { get; private set; }
+
+        /// <summary>
+        /// 单位映射
+        /// </summary>
+        private readonly List<KeyValuePair<long, string>> unitMapping;
+
+        /// <summary>
+        /// 回调获取结果
+        /// </summary>
+        private readonly Func<object> callback;
 
         /// <summary>
         /// 实时的监控值
@@ -47,10 +52,11 @@ namespace CatLib.Debugger.WebMonitor.Handler
             get
             {
                 double value = 0;
-                var longValue = (long)callback.Invoke();
+                var longValue = long.Parse(callback.Invoke().ToString());
+
                 foreach (var unit in unitMapping)
                 {
-                    if (longValue >= unit.Key)
+                    if (longValue >= unit.Key && unit.Key != long.MaxValue)
                     {
                         continue;
                     }
@@ -61,11 +67,6 @@ namespace CatLib.Debugger.WebMonitor.Handler
                 return value.ToString("#0.00");
             }
         }
-
-        /// <summary>
-        /// 回调获取结果
-        /// </summary>
-        private readonly Func<object> callback;
 
         /// <summary>
         /// 尺寸监控处理器
@@ -81,14 +82,14 @@ namespace CatLib.Debugger.WebMonitor.Handler
             Name = name;
             Tags = tags;
             this.callback = callback;
-            unitMapping = new Dictionary<long, string>
+            unitMapping = new List<KeyValuePair<long, string>>
             {
-                { 1024 , "unit.size.b"},
-                { 1048576 , "unit.size.kb" },
-                { 1073741824 ,"unit.size.mb" },
-                { 1099511627776 , "unit.size.gb" },
-                { 1125899906842624 , "unit.size.tb" },
-                { long.MaxValue , "unit.size.pb" }
+                new KeyValuePair<long, string>( 1024 , "unit.size.b"),
+                new KeyValuePair<long, string>( 1048576 , "unit.size.kb"),
+                new KeyValuePair<long, string>( 1073741824 , "unit.size.mb"),
+                new KeyValuePair<long, string>( 1099511627776 , "unit.size.gb"),
+                new KeyValuePair<long, string>( 1125899906842624 , "unit.size.tb"),
+                new KeyValuePair<long, string>( long.MaxValue , "unit.size.pb")
             };
         }
     }

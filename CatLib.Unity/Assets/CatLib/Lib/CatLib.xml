@@ -664,24 +664,24 @@
             监控的名字
             </summary>
         </member>
-        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.unitMapping">
-            <summary>
-            单位映射
-            </summary>
-        </member>
         <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Unit">
             <summary>
             监控值的单位描述
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Value">
+        <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.unitMapping">
             <summary>
-            实时的监控值
+            单位映射
             </summary>
         </member>
         <member name="F:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.callback">
             <summary>
             回调获取结果
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.Value">
+            <summary>
+            实时的监控值
             </summary>
         </member>
         <member name="M:CatLib.Debugger.WebMonitor.Handler.SizeMonitorHandler.#ctor(System.String,System.String[],System.Func{System.Object})">
