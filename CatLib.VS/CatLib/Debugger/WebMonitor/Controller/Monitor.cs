@@ -18,7 +18,7 @@ namespace CatLib.Debugger.WebMonitor.Controller
     /// <summary>
     /// 监控
     /// </summary>
-    [Routed("debug://monitor" , Group = "MainThreadCall")]
+    [Routed("debug://monitor" , Group = "DebuggerMainThreadCall")]
     public class Monitor
     {
         /// <summary>

@@ -52,15 +52,35 @@ namespace CatLib.Debugger.WebMonitor.Protocol
             {
                 outputs.Add(new Dictionary<string, object>
                 {
-                    { "name" , handler.Name },
-                    { "value" , handler.Value },
-                    { "unit" , handler.Unit },
-                    { "tags" , handler.Tags },
+                    {"name", handler.Name},
+                    {"value", handler.Value},
+                    {"unit", handler.Unit},
+                    {"tags", handler.Tags},
                 });
             }
             catch (TypeLoadException)
             {
+                WriteNotSupportLine(handler);
             }
+            catch (MissingMethodException)
+            {
+                WriteNotSupportLine(handler);
+            }
+        }
+
+        /// <summary>
+        /// 写入未支持行
+        /// </summary>
+        /// <param name="handler">处理器</param>
+        private void WriteNotSupportLine(IMonitorHandler handler)
+        {
+            outputs.Add(new Dictionary<string, object>
+            {
+                {"name", handler.Name},
+                {"value", "code.notSupport"},
+                {"unit", string.Empty},
+                {"tags", handler.Tags},
+            });
         }
     }
 }

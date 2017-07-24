@@ -30,7 +30,6 @@ namespace CatLib.Routing
         [Priority]
         public override void Init()
         {
-            InitMainThreadGroup();
             var router = App.Make<Router>();
             router.RouterCompiler();
         }
@@ -48,35 +47,6 @@ namespace CatLib.Routing
             }).Alias<IRouter>().Alias("catlib.routing.router");
 
             RegisterAttrRouteCompiler();
-        }
-
-        /// <summary>
-        /// 初始化主线程组
-        /// </summary>
-        private void InitMainThreadGroup()
-        {
-            var router = App.Make<IRouter>();
-            var driver = App.Make<IMonoDriver>();
-
-            if (driver != null)
-            {
-                router.Group("MainThreadCall").Middleware((request, response, next) =>
-                {
-                    var wait = new AutoResetEvent(false);
-                    driver.MainThread(() =>
-                    {
-                        try
-                        {
-                            next(request, response);
-                        }
-                        finally
-                        {
-                            wait.Set();
-                        }
-                    });
-                    wait.WaitOne();
-                });
-            }
         }
 
         /// <summary>

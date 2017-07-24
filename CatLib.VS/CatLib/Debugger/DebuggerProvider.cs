@@ -20,6 +20,9 @@ using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitorContent;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using CatLib.API.MonoDriver;
+using CatLib.API.Routing;
 
 namespace CatLib.Debugger
 {
@@ -53,6 +56,36 @@ namespace CatLib.Debugger
                         App.Make(App.Type2Service(monitor.Value));
                     }
                 }
+                InitMainThreadGroup();
+            }
+        }
+
+        /// <summary>
+        /// 初始化主线程组
+        /// </summary>
+        private void InitMainThreadGroup()
+        {
+            var router = App.Make<IRouter>();
+            var driver = App.Make<IMonoDriver>();
+
+            if (driver != null)
+            {
+                router.Group("DebuggerMainThreadCall").Middleware((request, response, next) =>
+                {
+                    var wait = new AutoResetEvent(false);
+                    driver.MainThread(() =>
+                    {
+                        try
+                        {
+                            next(request, response);
+                        }
+                        finally
+                        {
+                            wait.Set();
+                        }
+                    });
+                    wait.WaitOne();
+                });
             }
         }
 

@@ -48,9 +48,9 @@ namespace CatLib.Debugger.WebMonitorContent
                     switch (Screen.sleepTimeout)
                     {
                         case SleepTimeout.NeverSleep:
-                            return "code.screen.SleepTimeout.NeverSleep";
+                            return "code.screen.sleepTimeout.NeverSleep";
                         case SleepTimeout.SystemSetting:
-                            return "code.screen.SleepTimeout.SystemSetting";
+                            return "code.screen.sleepTimeout.SystemSetting";
                     }
                     return Screen.sleepTimeout.ToString();
                 }));
