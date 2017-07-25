@@ -158,7 +158,6 @@
     <Compile Include="Support\Container\GivenData.cs" />
     <Compile Include="CatLib\Application.cs" />
     <Compile Include="MonoDriver\DriverBehaviour.cs" />
-    <Compile Include="CatLib\Facade.cs" />
     <Compile Include="Support\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />

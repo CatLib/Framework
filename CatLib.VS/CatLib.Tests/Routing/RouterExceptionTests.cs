@@ -11,6 +11,7 @@
 
 using System;
 using CatLib.API.Routing;
+using CatLib.Events;
 using CatLib.Routing;
 
 #if UNITY_EDITOR || NUNIT
@@ -35,7 +36,9 @@ namespace CatLib.Tests.Routing
         internal Router MakeRouter()
         {
             var app = new Application();
-            app.Bootstrap().Init();
+            app.Bootstrap();
+            app.Register(new EventsProvider());
+            app.Init();
             var router = new Router(app, app);
 
             router.SetDefaultScheme("catlib");

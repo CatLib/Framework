@@ -14,6 +14,7 @@ using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Config;
 using CatLib.Converters;
+using CatLib.Events;
 using CatLib.Translation;
 
 #if UNITY_EDITOR || NUNIT
@@ -39,6 +40,7 @@ namespace CatLib.Tests.Translation
             app.Register(new TranslationProvider());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
+            app.Register(new EventsProvider());
             app.Init();
             return app;
         }

@@ -80,6 +80,7 @@ namespace CatLib.Tests
         {
             var app = new Application();
             app.Bootstrap();
+            App.Register(new EventsProvider());
             app.Init();
             app.Bootstrap();
             Assert.AreEqual(Application.StartProcess.Inited, app.Process);
@@ -167,6 +168,7 @@ namespace CatLib.Tests
             app.Bootstrap();
             App.Register(new ProviderTest1());
             App.Register(new ProviderTest2());
+            App.Register(new EventsProvider());
             app.Init();
             Assert.AreEqual(true, prioritiesTest);
         }
@@ -198,6 +200,7 @@ namespace CatLib.Tests
             });
             app.Bootstrap();
             App.Register(new ProviderTest1());
+            App.Register(new EventsProvider());
             app.Init();
 
             ExceptionAssert.Throws<RuntimeException>(() =>
@@ -237,30 +240,6 @@ namespace CatLib.Tests
 
             var result = app.Trigger("testevent", "abc", true);
             Assert.AreEqual(123, result);
-        }
-
-        [TestMethod]
-        public void TestNoDispatcher()
-        {
-            var app = new Application();
-            app.OnFindType((t) =>
-            {
-                return Type.GetType(t);
-            });
-            app.Bootstrap().Init();
-
-            var onHandler = app.On("testevent", (payload) =>
-            {
-                Assert.AreEqual("abc", payload);
-                return 123;
-            });
-
-            Assert.AreEqual(null, onHandler);
-
-            var result = app.Trigger("testevent", "abc", true);
-            Assert.AreEqual(null, result);
-            var result2 = app.Trigger("testevent", "abc") as object[];
-            Assert.AreEqual(0 , result2.Length);
         }
 
         [TestMethod]
