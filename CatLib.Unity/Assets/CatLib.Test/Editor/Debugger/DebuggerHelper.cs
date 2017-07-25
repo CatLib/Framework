@@ -14,6 +14,7 @@ using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Debugger;
+using CatLib.Events;
 using CatLib.Json;
 using CatLib.Routing;
 
@@ -21,7 +22,7 @@ namespace CatLib.Tests.Debugger
 {
     public static class DebuggerHelper
     {
-        public static Application GetApplication()
+        public static Application GetApplication(bool enableWebConsole = true)
         {
             var app = new Application();
             app.OnFindType((str) => Type.GetType(str));
@@ -30,8 +31,10 @@ namespace CatLib.Tests.Debugger
             app.Register(new JsonProvider());
             app.Register(new DebuggerProvider());
             app.Register(new ConfigProvider());
+            app.Register(new EventsProvider());
             app.Register(new ConvertersProvider());
             var config = app.Make<IConfigManager>().Default;
+            config.Set("debugger.webconsole.enable", enableWebConsole);
             config.Set("debugger.logger.handler.unity", false);
             config.Set("debugger.monitor.performance", false);
             config.Set("debugger.monitor.screen", false);

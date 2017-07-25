@@ -133,7 +133,7 @@ namespace CatLib.Tests.Debugger.Log
         public void TestSetSkip()
         {
             logLevel = string.Empty;
-            var app = DebuggerHelper.GetApplication();
+            var app = DebuggerHelper.GetApplication(false);
             var logger = app.Make<ILogger>();
             ExceptionAssert.DoesNotThrow(() =>
             {
@@ -144,7 +144,7 @@ namespace CatLib.Tests.Debugger.Log
         public void AssertLog(Func<ILogger , string> doLogger)
         {
             logLevel = string.Empty;
-            var app = DebuggerHelper.GetApplication();
+            var app = DebuggerHelper.GetApplication(false);
             var logger = app.Make<ILogger>();
 
             (logger as Logger).AddLogHandler(new TestHandler());

@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Collections;
 using CatLib.API.MonoDriver;
 using CatLib.Events;
@@ -354,6 +355,58 @@ namespace CatLib.Tests.MonoDriver
 
             Assert.AreEqual(true, onRelease);
             Assert.AreEqual(1, destroyNum_DoubleDestroyClass);
+        }
+
+        private static string fixedUpdateValue = string.Empty;
+        public class TestFixedUpdateClass : IFixedUpdate
+        {
+            /// <summary>
+            /// FixedUpdate时调用
+            /// </summary>
+            public void FixedUpdate()
+            {
+                fixedUpdateValue = "helloworld";
+            }
+        }
+
+        [TestMethod]
+        public void TestFixedUpdate()
+        {
+            fixedUpdateValue = string.Empty;
+            var app = MakeDriver();
+            app.Singleton<TestFixedUpdateClass>();
+
+            app.Make<TestFixedUpdateClass>();
+            var d = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.FixedUpdate();
+
+            Assert.AreEqual("helloworld", fixedUpdateValue);
+        }
+
+        private static string onGUIValue = string.Empty;
+        public class TestOnGUIValue : IOnGUI
+        {
+            /// <summary>
+            /// OnGUI时调用
+            /// </summary>
+            public void OnGUI()
+            {
+                onGUIValue = "hellogui";
+            }
+        }
+
+        [TestMethod]
+        public void TestOnGUI()
+        {
+            fixedUpdateValue = string.Empty;
+            var app = MakeDriver();
+            app.Singleton<TestOnGUIValue>();
+
+            app.Make<TestOnGUIValue>();
+            var d = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            d.OnGUI();
+
+            Assert.AreEqual("hellogui", onGUIValue);
         }
 
         private IEnumerator Coroutine()

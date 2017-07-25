@@ -634,7 +634,7 @@ namespace CatLib.Tests.Stl
         {
             var container = MakeContainer();
             container.Bind<MakeTestClassDependency>();
-            var result = container.Make(container.Type2Service(typeof(MakeTestClassDependency)), null);
+            var result = container.Make(container.Type2Service(typeof(MakeTestClassDependency)));
             Assert.AreNotEqual(null, result);
         }
 
@@ -663,7 +663,7 @@ namespace CatLib.Tests.Stl
             Assert.AreEqual(0, result.I);
             Assert.AreNotEqual(null, result.Dependency);
             
-            var result2 = container.MakeParams<MakeTestNoParamClass>(100);
+            var result2 = container.MakeWith<MakeTestNoParamClass>(100);
             Assert.AreEqual(100, result2.I);
             Assert.AreNotEqual(null, result2.Dependency);
         }
@@ -682,7 +682,7 @@ namespace CatLib.Tests.Stl
             Assert.AreEqual(typeof(MakeTestClass), result.GetType());
 
             var dep = new MakeTestClassDependency();
-            var result2 = container.MakeParams<MakeTestClass>(dep);
+            var result2 = container.MakeWith<MakeTestClass>(dep);
             Assert.AreEqual(typeof(MakeTestClass), result2.GetType());
 
             var result3 = container[container.Type2Service(typeof(MakeTestClass))] as MakeTestClass;
@@ -1269,10 +1269,26 @@ namespace CatLib.Tests.Stl
 
             Assert.AreEqual("Test1", container.Make("Test")); 
 
-            container.ReleaseAll();
+            container.Flush();
 
             Assert.AreEqual(true, isCallTest);
             Assert.AreEqual(null, container.Make("TestInstance2"));
+            Assert.AreEqual(null, container.Make("Test"));
+        }
+
+        public class TestParamsMakeClass
+        {
+            public TestParamsMakeClass()
+            {
+            }
+        }
+
+        [TestMethod]
+        public void TestMakeWithParams()
+        {
+            var container = MakeContainer();
+            container.Bind<TestParamsMakeClass>();
+            Assert.AreEqual(typeof(TestParamsMakeClass) , container.MakeWith<TestParamsMakeClass>(null).GetType());
         }
 
         /// <summary>

@@ -55,7 +55,6 @@ namespace CatLib.Tests.Debugger.WebMonitor
             var handler = new OnceRecordMonitorHandler("title", "ms", new[] { "tags" }, () => "helloworld");
             monitor.Monitor(handler);
 
-
             foreach (var result in monitor)
             {
                 Assert.AreEqual(handler, result);
