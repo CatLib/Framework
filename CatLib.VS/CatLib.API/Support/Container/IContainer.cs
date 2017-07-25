@@ -104,9 +104,9 @@ namespace CatLib
         void Release(string service);
 
         /// <summary>
-        /// 释放全部静态化实例
+        /// 清空容器的所有实例，绑定，别名，标签，解决器
         /// </summary>
-        void ReleaseAll();
+        void Flush();
 
         /// <summary>
         /// 当静态服务被释放时

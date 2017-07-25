@@ -280,14 +280,6 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 释放全部静态化实例
-        /// </summary>
-        public static void ReleaseAll()
-        {
-            Handler.ReleaseAll();
-        }
-
-        /// <summary>
         /// 当静态服务被释放时
         /// </summary>
         /// <param name="action">处理释放时的回调</param>

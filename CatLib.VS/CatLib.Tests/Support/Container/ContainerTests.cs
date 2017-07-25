@@ -1269,10 +1269,11 @@ namespace CatLib.Tests.Stl
 
             Assert.AreEqual("Test1", container.Make("Test")); 
 
-            container.ReleaseAll();
+            container.Flush();
 
             Assert.AreEqual(true, isCallTest);
             Assert.AreEqual(null, container.Make("TestInstance2"));
+            Assert.AreEqual(null, container.Make("Test"));
         }
 
         public class TestParamsMakeClass

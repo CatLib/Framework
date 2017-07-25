@@ -480,9 +480,9 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 是否全部静态实例
+        /// 清空容器的所有实例，绑定，别名，标签，解决器
         /// </summary>
-        public void ReleaseAll()
+        public void Flush()
         {
             lock (syncRoot)
             {
@@ -496,6 +496,15 @@ namespace CatLib
                 {
                     Release(service);
                 }
+
+                binds.Clear();
+                instances.Clear();
+                aliases.Clear();
+                aliasesReverse.Clear();
+                tags.Clear();
+                resolving.Clear();
+                release.Clear();
+                findType.Clear();
             }
         }
 

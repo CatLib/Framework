@@ -364,7 +364,7 @@ namespace CatLib.MonoDriver
         {
             dispatcher.Trigger(MonoDriverEvents.OnBeforeDestroy);
 
-            container.ReleaseAll();
+            container.Flush();
             foreach (var current in destroy)
             {
                 current.OnDestroy();
