@@ -1275,6 +1275,21 @@ namespace CatLib.Tests.Stl
             Assert.AreEqual(null, container.Make("TestInstance2"));
         }
 
+        public class TestParamsMakeClass
+        {
+            public TestParamsMakeClass()
+            {
+            }
+        }
+
+        [TestMethod]
+        public void TestMakeWithParams()
+        {
+            var container = MakeContainer();
+            container.Bind<TestParamsMakeClass>();
+            Assert.AreEqual(typeof(TestParamsMakeClass) , container.MakeWith<TestParamsMakeClass>(null).GetType());
+        }
+
         /// <summary>
         /// 生成容器
         /// </summary>
