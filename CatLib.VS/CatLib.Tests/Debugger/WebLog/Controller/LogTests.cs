@@ -23,7 +23,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Debugger.WebLog.Controller
 {
@@ -60,3 +59,4 @@ namespace CatLib.Tests.Debugger.WebLog.Controller
         }
     }
 }
+#endif

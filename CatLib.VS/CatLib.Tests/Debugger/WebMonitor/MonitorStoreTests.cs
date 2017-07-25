@@ -22,7 +22,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Debugger.WebMonitor
 {
@@ -89,3 +88,4 @@ namespace CatLib.Tests.Debugger.WebMonitor
         }
     }
 }
+#endif

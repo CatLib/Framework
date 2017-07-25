@@ -21,7 +21,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Debugger.WebConsole
 {
@@ -165,9 +164,18 @@ namespace CatLib.Tests.Debugger.WebConsole
             console.Start();
 
             string ret;
-            var statu = HttpHelper.Get("http://localhost:9478/", out ret);
-            console.Stop();
+            HttpStatusCode statu;
+            try
+            {
+                statu = HttpHelper.Get("http://localhost:9478/", out ret);
+            }
+            finally
+            {
+                console.Stop();
+            }
+            
             Assert.AreEqual(HttpStatusCode.OK, statu);
         }
     }
 }
+#endif
