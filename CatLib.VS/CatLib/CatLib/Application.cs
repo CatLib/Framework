@@ -172,8 +172,9 @@ namespace CatLib
         {
             if (!bootstrapped)
             {
-                throw new RuntimeException("Must call Bootstrap() first.");
+                throw new RuntimeException("You must call Bootstrap() first.");
             }
+
             if (process != StartProcess.Bootstrap)
             {
                 throw new RuntimeException("StartProcess is not Bootstrap.");
@@ -201,11 +202,6 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(provider != null);
 
-            if (inited)
-            {
-                throw new RuntimeException("Register() Only be called before Init()");
-            }
-
             if (serviceProviderTypes.Contains(provider.GetType()))
             {
                 throw new RuntimeException("Provider [" + provider.GetType() + "] is already register.");
@@ -214,6 +210,11 @@ namespace CatLib
             provider.Register();
             serviceProviders.Add(provider, GetPriorities(provider.GetType(), "Init"));
             serviceProviderTypes.Add(provider.GetType());
+
+            if (inited)
+            {
+                provider.Init();
+            }
         }
 
         /// <summary>
