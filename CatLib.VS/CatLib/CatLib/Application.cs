@@ -33,14 +33,24 @@ namespace CatLib
         public enum StartProcess
         {
             /// <summary>
+            /// 构建阶段
+            /// </summary>
+            Construct = 0,
+
+            /// <summary>
             /// 引导流程
             /// </summary>
             Bootstrap = 1,
 
             /// <summary>
+            /// 引导流程结束
+            /// </summary>
+            Bootstraped = 2,
+
+            /// <summary>
             /// 初始化中
             /// </summary>
-            Initing = 2,
+            Initing = 3,
 
             /// <summary>
             /// 初始化完成
@@ -51,7 +61,7 @@ namespace CatLib
         /// <summary>
         /// 服务提供者
         /// </summary>
-        private readonly SortSet<IServiceProvider, int> serviceProviders = new SortSet<IServiceProvider , int>();
+        private readonly SortSet<IServiceProvider, int> serviceProviders = new SortSet<IServiceProvider, int>();
 
         /// <summary>
         /// 注册服务提供者
@@ -71,7 +81,7 @@ namespace CatLib
         /// <summary>
         /// 启动流程
         /// </summary>
-        private StartProcess process = StartProcess.Bootstrap;
+        private StartProcess process = StartProcess.Construct;
 
         /// <summary>
         /// 启动流程
@@ -159,6 +169,7 @@ namespace CatLib
                 }
             }
 
+            process = StartProcess.Bootstraped;
             bootstrapped = true;
 
             return this;
@@ -175,11 +186,11 @@ namespace CatLib
                 throw new RuntimeException("You must call Bootstrap() first.");
             }
 
-            if (process != StartProcess.Bootstrap)
+            if (inited)
             {
-                throw new RuntimeException("StartProcess is not Bootstrap.");
+                return;
             }
-            
+
             process = StartProcess.Initing;
 
             foreach (var provider in serviceProviders)

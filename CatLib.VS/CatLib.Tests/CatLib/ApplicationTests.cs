@@ -32,10 +32,7 @@ namespace CatLib.Tests
         {
             var app = MakeApplication();
 
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                app.Init();
-            });
+            app.Init();
         }
 
         /// <summary>
@@ -203,10 +200,8 @@ namespace CatLib.Tests
             App.Register(new EventsProvider());
             app.Init();
 
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                App.Register(new ProviderTest2());
-            });
+            App.Register(new ProviderTest2());
+            Assert.AreEqual(false, prioritiesTest);
         }
 
         [TestMethod]
