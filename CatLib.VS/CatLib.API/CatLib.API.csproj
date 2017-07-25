@@ -60,6 +60,8 @@
     <Compile Include="Environment\IEnvironment.cs" />
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="MonoDriver\Feature\IFixedUpdate.cs" />
+    <Compile Include="MonoDriver\Feature\IOnGUI.cs" />
     <Compile Include="MonoDriver\IMonoDriver.cs" />
     <Compile Include="MonoDriver\MonoDriverEvents.cs" />
     <Compile Include="Support\AssertException.cs" />

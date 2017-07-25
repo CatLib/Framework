@@ -35,6 +35,16 @@ namespace CatLib.MonoDriver
         private readonly SortSet<ILateUpdate, int> lateUpdate = new SortSet<ILateUpdate, int>();
 
         /// <summary>
+        /// 固定更新
+        /// </summary>
+        private readonly SortSet<IFixedUpdate, int> fixedUpdate = new SortSet<IFixedUpdate, int>();
+
+        /// <summary>
+        /// GUI绘制
+        /// </summary>
+        private readonly SortSet<IOnGUI, int> onGui = new SortSet<IOnGUI, int>();
+
+        /// <summary>
         /// 释放时需要调用的
         /// </summary>
         private readonly SortSet<IDestroy, int> destroy = new SortSet<IDestroy, int>();
@@ -91,8 +101,12 @@ namespace CatLib.MonoDriver
         /// <param name="container">容器</param>、
         /// <param name="dispatcher">全局调度器</param>
         /// <param name="component">组件</param>
-        public MonoDriver(IContainer container, IDispatcher dispatcher, Component component)
+        public MonoDriver([Inject(Required = true)]IContainer container,
+                            [Inject(Required = true)]IDispatcher dispatcher,
+                                Component component)
         {
+            Guard.Requires<ArgumentNullException>(container != null);
+            Guard.Requires<ArgumentNullException>(dispatcher != null);
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
             this.container = container;
             this.dispatcher = dispatcher;
@@ -196,6 +210,8 @@ namespace CatLib.MonoDriver
 
             var isLoad = ConvertAndAdd(update, obj, "Update");
             isLoad = ConvertAndAdd(lateUpdate, obj, "LateUpdate") || isLoad;
+            isLoad = ConvertAndAdd(fixedUpdate, obj, "FixedUpdate") || isLoad;
+            isLoad = ConvertAndAdd(onGui, obj, "OnGUI") || isLoad;
             isLoad = ConvertAndAdd(destroy, obj, "OnDestroy") || isLoad;
 
             if (isLoad)
@@ -320,20 +336,47 @@ namespace CatLib.MonoDriver
         }
 
         /// <summary>
+        /// 固定刷新
+        /// </summary>
+        public void FixedUpdate()
+        {
+            foreach (var current in fixedUpdate)
+            {
+                current.FixedUpdate();
+            }
+        }
+
+        /// <summary>
+        /// GUI绘制时
+        /// </summary>
+        public void OnGUI()
+        {
+            foreach (var current in onGui)
+            {
+                current.OnGUI();
+            }
+        }
+
+        /// <summary>
         /// 当释放时
         /// </summary>
         public void OnDestroy()
         {
             dispatcher.Trigger(MonoDriverEvents.OnBeforeDestroy);
+
             container.ReleaseAll();
             foreach (var current in destroy)
             {
                 current.OnDestroy();
             }
+
             update.Clear();
             lateUpdate.Clear();
+            fixedUpdate.Clear();
+            onGui.Clear();
             destroy.Clear();
             loadSet.Clear();
+
             dispatcher.Trigger(MonoDriverEvents.OnDestroyed);
         }
 

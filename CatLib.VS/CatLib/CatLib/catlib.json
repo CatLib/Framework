@@ -4,7 +4,6 @@
   "require": {
     "catlib/api": "~1.0",
     "catlib/event": "~1.0",
-    "catlib/support": "~1.0",
-    "catlib/monodriver": "~1.0"
+    "catlib/support": "~1.0"
   }
 }

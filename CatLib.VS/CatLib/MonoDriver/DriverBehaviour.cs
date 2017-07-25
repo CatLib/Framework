@@ -73,5 +73,27 @@ namespace CatLib.MonoDriver
                 driver.OnDestroy();
             }
         }
+
+        /// <summary>
+        /// 固定刷新
+        /// </summary>
+        public void FixedUpdate()
+        {
+            if (driver != null)
+            {
+                driver.FixedUpdate();
+            }
+        }
+
+        /// <summary>
+        /// 当绘制GUI时
+        /// </summary>
+        public void OnGUI()
+        {
+            if (driver != null)
+            {
+                driver.OnGUI();
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ using CatLib.API.Time;
 using CatLib.API.Timer;
 using CatLib.Config;
 using CatLib.Converters;
+using CatLib.Events;
 using CatLib.MonoDriver;
 using CatLib.Time;
 using CatLib.Timer;
@@ -131,6 +132,7 @@ namespace CatLib.Tests.Timer
             app.Register(new TimerProvider());
             app.Register(new MonoDriverProvider());
             app.Register(new ConvertersProvider());
+            app.Register(new EventsProvider());
             app.Init();
 
             var manager = app.Make<ITimeManager>();
