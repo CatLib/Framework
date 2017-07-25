@@ -28,9 +28,10 @@ namespace CatLib.Bootstrap
                 int sort;
                 if (Assemblys.Assembly.TryGetValue(assembly.GetName().Name, out sort))
                 {
+                    var assemblyData = assembly;
                     App.OnFindType((finder) =>
                     {
-                        return assembly.GetType(finder);
+                        return assemblyData.GetType(finder);
                     }, sort);
                 }
             }

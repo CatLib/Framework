@@ -8,6 +8,9 @@ PluginImporter:
   executionOrder: {}
   isPreloaded: 0
   platformData:
+    '':
+      enabled: 1
+      settings: {}
     Any:
       enabled: 1
       settings: {}

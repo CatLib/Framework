@@ -13,6 +13,7 @@ using CatLib.Events;
 using CatLib.Time;
 using CatLib.Timer;
 using System;
+using CatLib.MonoDriver;
 
 namespace CatLib.Demo.Timer
 {
@@ -28,6 +29,7 @@ namespace CatLib.Demo.Timer
             App.Register(new TimerProvider());
             App.Register(new TimeProvider());
             App.Register(new TimerDemo());
+            App.Register(new MonoDriverProvider());
         }
 
     }

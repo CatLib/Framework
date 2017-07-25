@@ -27,7 +27,8 @@ namespace CatLib.Bootstrap
             {
                 return new Dictionary<string, int>
                 {
-                    { "Assembly-CSharp" , 0 }
+                    { "Assembly-CSharp" , 0 },
+                    { "mscorlib" , -1 }
                 };
             }
         }

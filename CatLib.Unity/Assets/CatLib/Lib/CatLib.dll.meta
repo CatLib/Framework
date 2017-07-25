@@ -8,6 +8,9 @@ PluginImporter:
   executionOrder: {}
   isPreloaded: 0
   platformData:
+    '':
+      enabled: 0
+      settings: {}
     Any:
       enabled: 1
       settings: {}
@@ -53,9 +56,6 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: AnyCPU
-    data:
-      enabled: 0
-      settings: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
