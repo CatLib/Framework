@@ -127,13 +127,13 @@
     <Compile Include="Events\Dispatcher.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\EventsProvider.cs" />
-    <Compile Include="Facade\ConfigManager.cs" />
+    <Compile Include="Facade\Config.cs" />
     <Compile Include="Facade\Logger.cs" />
     <Compile Include="Facade\Env.cs" />
-    <Compile Include="Facade\FileSystemManager.cs" />
+    <Compile Include="Facade\FileSystem.cs" />
     <Compile Include="Facade\Router.cs" />
-    <Compile Include="Facade\TimeManager.cs" />
-    <Compile Include="Facade\TimerManager.cs" />
+    <Compile Include="Facade\Time.cs" />
+    <Compile Include="Facade\Timer.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="FileSystem\File.cs" />
