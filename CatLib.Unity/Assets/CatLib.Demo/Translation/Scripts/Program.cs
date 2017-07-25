@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API;
-using CatLib.Core;
+using CatLib.Events;
 using CatLib.Translation;
+using System;
 
 namespace CatLib.Demo.Translation
 {
@@ -23,8 +22,9 @@ namespace CatLib.Demo.Translation
     {
         public void Bootstrap()
         {
-            App.Instance.Register(new TranslationProvider());
-            App.Instance.Register(new TranslationDemo());
+            App.Register(new EventsProvider());
+            App.Register(new TranslationProvider());
+            App.Register(new TranslationDemo());
         }
     }
 

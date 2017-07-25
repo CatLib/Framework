@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Routing;
-using CatLib.Core;
 
 namespace CatLib.Facade
 {

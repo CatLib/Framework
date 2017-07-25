@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
-
 namespace CatLib.Bootstrap
 {
     /// <summary>
@@ -28,6 +26,7 @@ namespace CatLib.Bootstrap
             {
                 return new IBootstrap[]
                 {
+                    new TypeFinderBootstrap(), 
                     new ProvidersBootstrap(),
                     new ConfigBootstrap(),
                     new StartBootstrap()

@@ -1,0 +1,8 @@
+{
+  "source": "catlib/converters",
+  "folder": "Converters",
+  "require": {
+    "catlib/api": "~1.0",
+    "catlib/support": "~1.0"
+  }
+}

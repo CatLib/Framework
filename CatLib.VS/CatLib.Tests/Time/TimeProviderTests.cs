@@ -13,8 +13,9 @@ using CatLib.API;
 using CatLib.API.Config;
 using CatLib.API.Time;
 using CatLib.Config;
-using CatLib.Core;
+using CatLib.Converters;
 using CatLib.Time;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -125,26 +126,27 @@ namespace CatLib.Tests.Time
             var app = new Application().Bootstrap();
             app.Register(new TimeProvider());
             app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
             app.Init();
 
             var timeManager = app.Make<ITimeManager>();
             timeManager.Extend(() => new TestTime(), "test");
 
             var config = app.Make<IConfigManager>();
-            config.Default.Set("times.default", "test");
+            config.Default.Set("time.default", "test");
         }
 
         [TestMethod]
         public void TestTimeGetDefault()
         {
-            var timeManager = App.Instance.Make<ITimeManager>();
+            var timeManager = App.Make<ITimeManager>();
             Assert.AreEqual(typeof(TestTime), timeManager.Default.GetType());
         }
 
         [TestMethod]
         public void TimeGetTest()
         {
-            var timeManager = App.Instance.Make<ITimeManager>();
+            var timeManager = App.Make<ITimeManager>();
 
             Assert.AreEqual(0, timeManager.CaptureFramerate);
             Assert.AreEqual(0, timeManager.DeltaTime);
@@ -164,7 +166,7 @@ namespace CatLib.Tests.Time
         [TestMethod]
         public void TimeSetTest()
         {
-            var timeManager = App.Instance.Make<ITimeManager>();
+            var timeManager = App.Make<ITimeManager>();
 
             timeManager.FixedDeltaTime = 1;
             timeManager.TimeScale = 1;

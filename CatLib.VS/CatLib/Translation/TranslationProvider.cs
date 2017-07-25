@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
+#if CATLIB
 using CatLib.API.Config;
 using CatLib.API.Translation;
 
@@ -18,12 +18,19 @@ namespace CatLib.Translation
     /// <summary>
     /// 国际化服务提供者
     /// </summary>
-    public sealed class TranslationProvider : ServiceProvider
+    public sealed class TranslationProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 当注册国际化服务时
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             App.Singleton<Translator>().Alias<ITranslator>().Alias("catlib.translation.translator").OnResolving((bind, obj) =>
             {
@@ -45,3 +52,4 @@ namespace CatLib.Translation
         }
     }
 }
+#endif

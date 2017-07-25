@@ -13,8 +13,9 @@ using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Config;
-using CatLib.Core;
+using CatLib.Converters;
 using CatLib.Translation;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -37,6 +38,7 @@ namespace CatLib.Tests.Translation
             app.Bootstrap();
             app.Register(new TranslationProvider());
             app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
             app.Init();
             return app;
         }

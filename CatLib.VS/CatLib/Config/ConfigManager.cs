@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Config;
-using CatLib.Stl;
 
 namespace CatLib.Config
 {

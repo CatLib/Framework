@@ -9,17 +9,15 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using System.Collections.Generic;
-using CatLib.API;
 using CatLib.API.Translation;
+using System.Collections.Generic;
 
 namespace CatLib.Demo.Translation
 {
     /// <summary>
     /// 国际化demo
     /// </summary>
-    public class TranslationDemo : ServiceProvider
+    public class TranslationDemo : IServiceProvider
     {
         private class TranslationDict : IMappingHandler
         {
@@ -42,9 +40,9 @@ namespace CatLib.Demo.Translation
             }
         }
 
-        public override IEnumerator Init()
+        public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 var translator = App.Make<ITranslator>();
                 translator.AddMappingHandler(new TranslationDict());
@@ -57,11 +55,9 @@ namespace CatLib.Demo.Translation
                 UnityEngine.Debug.Log(translator.Get("npc_message_2"));
                 UnityEngine.Debug.Log(translator.Get("npc_message_3", "name", "catlib"));
             });
-
-            yield return base.Init();
         }
 
-        public override void Register()
+        public void Register()
         {
         }
     }

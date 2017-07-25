@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: cedf68eeffedfbf44a657003e87a69dd
-timeCreated: 1497507461
+guid: fd0787c7e081c8840ad3d0f4e2e50a84
+timeCreated: 1500266074
 licenseType: Pro
 PluginImporter:
   serializedVersion: 1
@@ -9,12 +9,8 @@ PluginImporter:
   isPreloaded: 0
   platformData:
     '':
-      enabled: 1
-      settings: {}
-    Android:
       enabled: 0
-      settings:
-        CPU: AnyCPU
+      settings: {}
     Any:
       enabled: 1
       settings: {}

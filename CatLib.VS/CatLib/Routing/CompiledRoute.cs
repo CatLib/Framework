@@ -11,7 +11,6 @@
 
 using System.Text;
 using System.Text.RegularExpressions;
-using CatLib.API;
 
 namespace CatLib.Routing
 {

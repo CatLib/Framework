@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Timer;
-using CatLib.Core;
 
 namespace CatLib.Facade
 {

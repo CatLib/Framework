@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API.Routing;
+using System;
 using System.Collections.Generic;
-using CatLib.Stl;
 
 namespace CatLib.Routing
 {
@@ -118,7 +117,9 @@ namespace CatLib.Routing
             {
                 return defaultValue;
             }
-            return parameters.ContainsKey(key) ? parameters[key] : defaultValue;
+
+            string value;
+            return parameters.TryGetValue(key, out value) ? value : defaultValue;
         }
 
         /// <summary>
@@ -256,6 +257,15 @@ namespace CatLib.Routing
         {
             this.route = route;
             return this;
+        }
+
+        /// <summary>
+        /// 转为字符串
+        /// </summary>
+        /// <returns>转为字符串</returns>
+        public override string ToString()
+        {
+            return uri.Original.OriginalString;
         }
     }
 }

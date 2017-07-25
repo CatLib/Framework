@@ -9,9 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.Events;
 using System;
-using CatLib.API;
-using CatLib.Core;
 
 namespace CatLib.Demo.FilterChain
 {
@@ -23,7 +22,8 @@ namespace CatLib.Demo.FilterChain
 
         public void Bootstrap()
         {
-            App.Instance.Register(new FilterChainDemo());
+            App.Register(new EventsProvider());
+            App.Register(new FilterChainDemo());
         }
 
     }

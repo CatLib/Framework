@@ -13,7 +13,9 @@ using System;
 using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config;
-using CatLib.Core;
+using CatLib.Config.Locator;
+using CatLib.Converters;
+using CatLib.Converters.Plan;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -40,18 +42,19 @@ namespace CatLib.Tests.Config
                 return Type.GetType(t);
             });
             app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
             app.Init();
         }
 
         [TestMethod]
         public void SetDefault()
         {
-            var configManager = App.Instance.Make<IConfigManager>();
+            var configManager = App.Make<IConfigManager>();
 
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {
-                return new CatLib.Config.Config();
+                return new CatLib.Config.Config(new CatLib.Converters.Converters(), new CodeConfigLocator());
             });
 
             Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get().GetType());
@@ -60,6 +63,30 @@ namespace CatLib.Tests.Config
 
             configManager.SetDefault(string.Empty);
             Assert.AreSame(configManager.Get(), configManager["default"]);
+        }
+
+        [TestMethod]
+        public void WatchTest()
+        {
+            var configManager = App.Make<IConfigManager>();
+            configManager.SetDefault("catlib");
+            configManager.Extend(() =>
+            {
+                var convert = new CatLib.Converters.Converters();
+                convert.AddConverter(new StringStringConverter());
+                return new CatLib.Config.Config(convert, new CodeConfigLocator());
+            });
+
+            var watchValue = string.Empty;
+            configManager.Default.Watch("watch" , (value) =>
+            {
+                watchValue = value.ToString();
+            });
+
+            configManager.Default.Set("watch" , "123");
+            configManager.Default.Set("nowatch", "333");
+
+            Assert.AreEqual("123" , watchValue);
         }
     }
 }

@@ -11,7 +11,7 @@
 
 using System;
 using CatLib.API;
-using CatLib.Core;
+using CatLib.Events;
 
 namespace CatLib.Demo.LruCache
 {
@@ -23,7 +23,8 @@ namespace CatLib.Demo.LruCache
 
         public void Bootstrap()
         {
-            App.Instance.Register(new LruCacheDemo());
+            App.Register(new EventsProvider());
+            App.Register(new LruCacheDemo());
         }
 
     }

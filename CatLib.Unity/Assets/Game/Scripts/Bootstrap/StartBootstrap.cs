@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.Facade;
 
 namespace CatLib.Bootstrap
@@ -24,7 +23,7 @@ namespace CatLib.Bootstrap
         /// </summary>
         public void Bootstrap()
         {
-            App.Instance.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 if (Router.Instance != null)
                 {

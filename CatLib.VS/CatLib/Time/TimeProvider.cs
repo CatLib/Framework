@@ -9,7 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
+#if CATLIB
+using CatLib.API.Config;
 using CatLib.API.Time;
 
 namespace CatLib.Time
@@ -17,12 +18,19 @@ namespace CatLib.Time
     /// <summary>
     /// 时间服务
     /// </summary>
-    public sealed class TimeProvider : ServiceProvider
+    public sealed class TimeProvider : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+        }
+
         /// <summary>
         /// 注册时间服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             RegisterTimeManager();
         }
@@ -32,14 +40,26 @@ namespace CatLib.Time
         /// </summary>
         private void RegisterTimeManager()
         {
-            App.Singleton<TimeManager>().Alias<ITimeManager>().Alias("catlib.time.manager").OnResolving((bind, obj) =>
+            App.Singleton<TimeManager>().Alias<ITimeManager>().Alias<ITime>().Alias("catlib.time.manager").OnResolving((bind, obj) =>
             {
                 var timeManager = obj as TimeManager;
 
                 timeManager.Extend(() => new UnityTime());
+
+                var config = App.Make<IConfigManager>();
+
+                if (config != null)
+                {
+                    config.Default.Watch("time.default", (value) =>
+                    {
+                        timeManager.SetDefault(value.ToString());
+                    });
+                    timeManager.SetDefault(config.Default.Get("time.default", "default"));
+                }
 
                 return timeManager;
             });
         }
     }
 }
+#endif

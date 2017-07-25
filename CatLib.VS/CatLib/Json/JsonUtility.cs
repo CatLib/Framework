@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Json;
 using System;
 using System.Collections.Generic;
-using CatLib.API;
-using CatLib.API.Json;
 
 namespace CatLib.Json
 {

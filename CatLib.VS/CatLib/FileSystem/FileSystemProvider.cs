@@ -9,8 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using CatLib.API;
+#if CATLIB
+using CatLib.API.Environment;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;
 
@@ -19,25 +19,25 @@ namespace CatLib.FileSystem
     /// <summary>
     /// 文件系统服务提供者
     /// </summary>
-    public sealed class FileSystemProvider : ServiceProvider
+    public sealed class FileSystemProvider : IServiceProvider
     {
         /// <summary>
         /// 服务提供者进程
         /// </summary>
         /// <returns>迭代器</returns>
         [Priority]
-        public override IEnumerator Init()
+        public void Init()
         {
             InitRegisterLocalDriver();
-            return base.Init();
         }
 
         /// <summary>
         /// 注册文件系统服务
         /// </summary>
-        public override void Register()
+        public void Register()
         {
             RegisterManager();
+            RegisterDefaultFileSystem();
         }
 
         /// <summary>
@@ -49,12 +49,23 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
+        /// 注册默认的文件系统
+        /// </summary>
+        private void RegisterDefaultFileSystem()
+        {
+            App.Bind<IFileSystem>((container, @params) =>
+            {
+                return App.Make<IFileSystemManager>().Default;
+            });
+        }
+
+        /// <summary>
         /// 初始化本地磁盘驱动
         /// </summary>
         private void InitRegisterLocalDriver()
         {
             var storage = App.Make<IFileSystemManager>();
-            var env = App.Make<IEnv>();
+            var env = App.Make<IEnvironment>();
 
             if (env != null)
             {
@@ -63,3 +74,4 @@ namespace CatLib.FileSystem
         }
     }
 }
+#endif

@@ -9,11 +9,11 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API;
+using CatLib.Events;
 using CatLib.Time;
 using CatLib.Timer;
-using CatLib.Core;
+using System;
+using CatLib.MonoDriver;
 
 namespace CatLib.Demo.Timer
 {
@@ -25,9 +25,11 @@ namespace CatLib.Demo.Timer
 
         public void Bootstrap()
         {
-            App.Instance.Register(new TimerProvider());
-            App.Instance.Register(new TimeProvider());
-            App.Instance.Register(new TimerDemo());
+            App.Register(new EventsProvider());
+            App.Register(new TimerProvider());
+            App.Register(new TimeProvider());
+            App.Register(new TimerDemo());
+            App.Register(new MonoDriverProvider());
         }
 
     }

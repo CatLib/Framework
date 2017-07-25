@@ -11,8 +11,6 @@
 
 using CatLib.API;
 using CatLib.API.Routing;
-using CatLib.API.Stl;
-using CatLib.Stl;
 using UnityEngine;
 
 namespace CatLib.Demo.Routing

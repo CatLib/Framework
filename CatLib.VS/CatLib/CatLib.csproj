@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CATLIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\CatLib.Unity\Assets\CatLib\Lib\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CATLIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -40,54 +40,95 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="UnityEditor">
-      <HintPath>.\UnityEditor.dll</HintPath>
+      <HintPath>..\3rd\UnityEditor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>.\UnityEngine.dll</HintPath>
+      <HintPath>..\3rd\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Config\Features\IConfigLocator.cs" />
-    <Compile Include="API\Config\Internal\IConfig.cs" />
-    <Compile Include="API\Config\IConfigManager.cs" />
-    <Compile Include="API\Core\Features\ExcludeFromCodeCoverageAttribute.cs" />
-    <Compile Include="API\Core\Features\IServiceProvider.cs" />
-    <Compile Include="API\Json\IJson.cs" />
-    <Compile Include="API\Json\IJsonAware.cs" />
-    <Compile Include="API\Stl\Container\Features\InjectAttribute.cs" />
-    <Compile Include="API\Stl\Container\IContainer.cs" />
-    <Compile Include="API\Stl\Container\Internal\IBindData.cs" />
-    <Compile Include="API\Stl\Container\Internal\IGivenData.cs" />
-    <Compile Include="API\Core\ApplicationEvents.cs" />
-    <Compile Include="API\Core\DebugLevels.cs" />
-    <Compile Include="API\Core\Features\IBootstrap.cs" />
-    <Compile Include="API\Core\Features\Behaviour\IDestroy.cs" />
-    <Compile Include="API\Core\Features\Behaviour\ILateUpdate.cs" />
-    <Compile Include="API\Core\Features\Behaviour\IUpdate.cs" />
-    <Compile Include="API\Core\Features\PriorityAttribute.cs" />
-    <Compile Include="API\Core\IApplication.cs" />
-    <Compile Include="API\Core\IEnv.cs" />
-    <Compile Include="API\Core\Exception\RuntimeException.cs" />
-    <Compile Include="API\Core\Internal\IEvent.cs" />
-    <Compile Include="API\Core\Internal\IEventHandler.cs" />
-    <Compile Include="API\FileSystem\Internal\IDirectory.cs" />
-    <Compile Include="API\FileSystem\Internal\IFile.cs" />
-    <Compile Include="API\FileSystem\Internal\IFileSystem.cs" />
-    <Compile Include="API\FileSystem\Internal\IHandler.cs" />
-    <Compile Include="API\FileSystem\IFileSystemManager.cs" />
-    <Compile Include="API\Stl\Template\IManager.cs" />
-    <Compile Include="API\Stl\Template\ISingleManager.cs" />
-    <Compile Include="API\Timer\Internal\ITimer.cs" />
-    <Compile Include="API\Timer\Internal\ITimerQueue.cs" />
-    <Compile Include="API\Timer\ITimerManager.cs" />
-    <Compile Include="API\Time\ITimeManager.cs" />
-    <Compile Include="API\Translation\ITranslator.cs" />
-    <Compile Include="API\Translation\Languages.cs" />
+    <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Controller\Command.cs" />
+    <Compile Include="Debugger\WebMonitorContent\GraphicsMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputCompassMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputGyroscopeMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputLocationMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\PathMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\SceneMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\ScreenMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\SystemInfoMonitor.cs" />
+    <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
+    <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
+    <Compile Include="Support\Util\SystemTime.cs" />
+    <Compile Include="Support\Version.cs" />
+    <Compile Include="Converters\Converters.cs" />
+    <Compile Include="Converters\ConvertersManager.cs" />
+    <Compile Include="Converters\ConvertersProvider.cs" />
+    <Compile Include="Converters\Plan\BoolStringConverter.cs" />
+    <Compile Include="Converters\Plan\ByteStringConverter.cs" />
+    <Compile Include="Converters\Plan\CharStringConverter.cs" />
+    <Compile Include="Converters\Plan\DateTimeStringConverter.cs" />
+    <Compile Include="Converters\Plan\DecimalStringConverter.cs" />
+    <Compile Include="Converters\Plan\DoubleStringConverter.cs" />
+    <Compile Include="Converters\Plan\EnumStringConverter.cs" />
+    <Compile Include="Converters\Plan\Int16StringConverter.cs" />
+    <Compile Include="Converters\Plan\Int32StringConverter.cs" />
+    <Compile Include="Converters\Plan\Int64StringConverter.cs" />
+    <Compile Include="Converters\Plan\SByteStringConverter.cs" />
+    <Compile Include="Converters\Plan\SingleStringConverter.cs" />
+    <Compile Include="Converters\Plan\StringBoolConverter.cs" />
+    <Compile Include="Converters\Plan\StringByteConverter.cs" />
+    <Compile Include="Converters\Plan\StringCharConverter.cs" />
+    <Compile Include="Converters\Plan\StringDateTimeConverter.cs" />
+    <Compile Include="Converters\Plan\StringDecimalConverter.cs" />
+    <Compile Include="Converters\Plan\StringDoubleConverter.cs" />
+    <Compile Include="Converters\Plan\StringEnumConverter.cs" />
+    <Compile Include="Converters\Plan\StringInt16Converter.cs" />
+    <Compile Include="Converters\Plan\StringInt32Converter.cs" />
+    <Compile Include="Converters\Plan\StringInt64Converter.cs" />
+    <Compile Include="Converters\Plan\StringSByteConverter.cs" />
+    <Compile Include="Converters\Plan\StringSingleConverter.cs" />
+    <Compile Include="Converters\Plan\StringStringConverter.cs" />
+    <Compile Include="Converters\Plan\StringUInt16Converter.cs" />
+    <Compile Include="Converters\Plan\StringUInt32Converter.cs" />
+    <Compile Include="Converters\Plan\StringUInt64Converter.cs" />
+    <Compile Include="Converters\Plan\UInt16StringConverter.cs" />
+    <Compile Include="Converters\Plan\UInt32StringConverter.cs" />
+    <Compile Include="Converters\Plan\UInt64StringConverter.cs" />
+    <Compile Include="Debugger\Log\ILogEntry.cs" />
+    <Compile Include="Debugger\WebConsole\BaseProtocol.cs" />
+    <Compile Include="Debugger\WebConsole\HttpDebuggerConsole.cs" />
+    <Compile Include="Debugger\WebConsole\HttpListener.cs" />
+    <Compile Include="Debugger\DebuggerProvider.cs" />
+    <Compile Include="Debugger\WebMonitorContent\PerformanceMonitor.cs" />
+    <Compile Include="Debugger\WebMonitor\Handler\SizeMonitorHandler.cs" />
+    <Compile Include="Debugger\Log\Logger.cs" />
+    <Compile Include="Debugger\Log\ILogHandler.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
+    <Compile Include="Debugger\Log\Handler\StdOutLogHandler.cs" />
+    <Compile Include="Debugger\Log\Handler\UnityConsoleLogHandler.cs" />
+    <Compile Include="Debugger\Log\LogEntry.cs" />
+    <Compile Include="Debugger\WebMonitor\Handler\OnceRecordMonitorHandler.cs" />
+    <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
+    <Compile Include="Debugger\WebMonitor\Controller\Monitor.cs" />
+    <Compile Include="Debugger\WebMonitor\MonitorStore.cs" />
+    <Compile Include="Debugger\WebMonitor\Protocol\GetMonitors.cs" />
+    <Compile Include="Debugger\WebLog\Protocol\WebConsoleOutputs.cs" />
+    <Compile Include="Debugger\WebLog\Controller\Log.cs" />
+    <Compile Include="Debugger\WebLog\Controller\Util.cs" />
+    <Compile Include="Debugger\WebLog\LogStore.cs" />
+    <Compile Include="Debugger\WebLog\LogHandler\WebLogHandler.cs" />
+    <Compile Include="Environment\EnvironmentProvider.cs" />
+    <Compile Include="Environment\UnityEnvironment.cs" />
+    <Compile Include="Events\Dispatcher.cs" />
+    <Compile Include="Events\EventHandler.cs" />
+    <Compile Include="Events\EventsProvider.cs" />
     <Compile Include="Facade\ConfigManager.cs" />
+    <Compile Include="Facade\Logger.cs" />
     <Compile Include="Facade\Env.cs" />
     <Compile Include="Facade\FileSystemManager.cs" />
     <Compile Include="Facade\Router.cs" />
@@ -100,65 +141,25 @@
     <Compile Include="FileSystem\FileSystemProvider.cs" />
     <Compile Include="FileSystem\Handler.cs" />
     <Compile Include="FileSystem\Adapter\IFileSystemAdapter.cs" />
-    <Compile Include="API\Stl\FilterChain\IFilterChain.cs" />
     <Compile Include="Config\Locator\CodeConfigLocator.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
-    <Compile Include="Config\Converters\BoolStringConverter.cs" />
-    <Compile Include="Config\Converters\ByteStringConverter.cs" />
-    <Compile Include="Config\Converters\CharStringConverter.cs" />
-    <Compile Include="Config\Converters\DateTimeStringConverter.cs" />
-    <Compile Include="Config\Converters\DecimalStringConverter.cs" />
-    <Compile Include="Config\Converters\DoubleStringConverter.cs" />
-    <Compile Include="Config\Converters\EnumStringConverter.cs" />
-    <Compile Include="Config\Converters\Int16StringConverter.cs" />
-    <Compile Include="Config\Converters\Int32StringConverter.cs" />
-    <Compile Include="Config\Converters\Int64StringConverter.cs" />
-    <Compile Include="Config\Converters\SByteStringConverter.cs" />
-    <Compile Include="Config\Converters\SingleStringConverter.cs" />
-    <Compile Include="Config\Converters\StringStringConverter.cs" />
-    <Compile Include="Config\Converters\UInt16StringConverter.cs" />
-    <Compile Include="Config\Converters\UInt32StringConverter.cs" />
-    <Compile Include="Config\Converters\UInt64StringConverter.cs" />
-    <Compile Include="Config\ConverterException.cs" />
-    <Compile Include="API\Config\Features\ITypeStringConverter.cs" />
     <Compile Include="FileSystem\FileSystemManager.cs" />
-    <Compile Include="API\Routing\EventArgs\DispatchEventArgs.cs" />
     <Compile Include="Json\3rd\SimpleJson.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
     <Compile Include="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="MonoDriver\MonoDriver.cs" />
+    <Compile Include="MonoDriver\MonoDriverProvider.cs" />
+    <Compile Include="Routing\ExceptionRequest.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
-    <Compile Include="API\Stl\LruCache\ILruCache.cs" />
-    <Compile Include="API\Routing\Features\IMiddleware.cs" />
-    <Compile Include="API\Routing\Features\RoutedAttribute.cs" />
-    <Compile Include="API\Routing\Exception\DomainException.cs" />
-    <Compile Include="API\Routing\Exception\NotFoundRouteException.cs" />
-    <Compile Include="API\Routing\Exception\UndefinedDefaultSchemeException.cs" />
-    <Compile Include="API\Routing\Internal\IRequest.cs" />
-    <Compile Include="API\Routing\Internal\IResponse.cs" />
-    <Compile Include="API\Routing\Internal\IRoute.cs" />
-    <Compile Include="API\Routing\Internal\IRouteGroup.cs" />
-    <Compile Include="API\Routing\IRouter.cs" />
-    <Compile Include="API\Stl\QuickList\IQuickList.cs" />
-    <Compile Include="API\Stl\SortSet\ISortSet.cs" />
-    <Compile Include="API\Time\Internal\ITime.cs" />
-    <Compile Include="Stl\Container\BindData.cs" />
-    <Compile Include="Stl\Container\Container.cs" />
-    <Compile Include="Stl\Container\ContainerExpand.cs" />
-    <Compile Include="Stl\Container\GivenData.cs" />
-    <Compile Include="API\Core\App.cs" />
-    <Compile Include="Core\Application.cs" />
-    <Compile Include="Core\CoreProvider.cs" />
-    <Compile Include="Core\Driver.cs" />
-    <Compile Include="Core\DriverBehaviour.cs" />
-    <Compile Include="Core\Env.cs" />
-    <Compile Include="Core\Facade.cs" />
-    <Compile Include="API\Core\ServiceProvider.cs" />
-    <Compile Include="Core\Util.cs" />
-    <Compile Include="Core\EventHandler.cs" />
-    <Compile Include="Core\Event.cs" />
-    <Compile Include="Stl\FilterChain\FilterChain.cs" />
+    <Compile Include="Support\Container\BindData.cs" />
+    <Compile Include="Support\Container\Container.cs" />
+    <Compile Include="Support\Container\GivenData.cs" />
+    <Compile Include="CatLib\Application.cs" />
+    <Compile Include="MonoDriver\DriverBehaviour.cs" />
+    <Compile Include="CatLib\Facade.cs" />
+    <Compile Include="Support\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />
     <Compile Include="Routing\CompiledRoute.cs" />
@@ -177,14 +178,16 @@
     <Compile Include="Routing\Validators\HostValidator.cs" />
     <Compile Include="Routing\Validators\IValidators.cs" />
     <Compile Include="Routing\Validators\UriValidator.cs" />
-    <Compile Include="Stl\Guard\Guard.cs" />
-    <Compile Include="Stl\LruCache\CacheNode.cs" />
-    <Compile Include="Stl\LruCache\LruCache.cs" />
-    <Compile Include="Stl\QuickList\Internal\InternalList.cs" />
-    <Compile Include="Stl\QuickList\QuickList.cs" />
-    <Compile Include="Stl\SortSet\SortSet.cs" />
-    <Compile Include="Stl\Template\Manager.cs" />
-    <Compile Include="Stl\Template\SingleManager.cs" />
+    <Compile Include="Support\Guard\Guard.cs" />
+    <Compile Include="Support\LruCache\CacheNode.cs" />
+    <Compile Include="Support\LruCache\LruCache.cs" />
+    <Compile Include="Support\QuickList\Internal\InternalList.cs" />
+    <Compile Include="Support\QuickList\QuickList.cs" />
+    <Compile Include="Support\SortSet\SortSet.cs" />
+    <Compile Include="Support\Template\Manager.cs" />
+    <Compile Include="Support\Template\SingleManager.cs" />
+    <Compile Include="Support\Util\Str.cs" />
+    <Compile Include="Support\Priority.cs" />
     <Compile Include="Timer\Timer.cs" />
     <Compile Include="Timer\TimerQueue.cs" />
     <Compile Include="Timer\TimerManager.cs" />
@@ -193,23 +196,33 @@
     <Compile Include="Time\TimeManager.cs" />
     <Compile Include="Time\TimeProvider.cs" />
     <Compile Include="Time\UnityTime.cs" />
-    <Compile Include="API\Translation\Features\IMappingHandler.cs" />
     <Compile Include="Translation\ISelector.cs" />
     <Compile Include="Translation\Selector.cs" />
     <Compile Include="Translation\TranslationProvider.cs" />
     <Compile Include="Translation\Translator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="API\catlib.json" />
     <None Include="Config\catlib.json" />
-    <None Include="Core\catlib.json" />
+    <None Include="Converters\catlib.json" />
+    <None Include="CatLib\catlib.json" />
+    <None Include="Debugger\catlib.json" />
+    <None Include="Environment\catlib.json" />
+    <None Include="Events\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
+    <None Include="Json\catlib.json" />
+    <None Include="MonoDriver\catlib.json" />
     <None Include="Routing\catlib.json" />
-    <None Include="Stl\catlib.json" />
+    <None Include="Support\catlib.json" />
     <None Include="Timer\catlib.json" />
     <None Include="Time\catlib.json" />
     <None Include="Translation\catlib.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CatLib.API\CatLib.API.csproj">
+      <Project>{5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e}</Project>
+      <Name>CatLib.API</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

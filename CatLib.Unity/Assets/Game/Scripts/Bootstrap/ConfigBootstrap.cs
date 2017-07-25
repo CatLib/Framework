@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Config;
 
 namespace CatLib.Bootstrap
@@ -29,7 +28,7 @@ namespace CatLib.Bootstrap
                 return;
             }
 
-            var config = App.Instance.Make<IConfigManager>();
+            var config = App.Make<IConfigManager>();
             if (config == null)
             {
                 return;
@@ -37,7 +36,7 @@ namespace CatLib.Bootstrap
 
             foreach (var kvp in Configs.ConfigsMap)
             {
-                config.Default.Set(kvp.Key, kvp.Value, kvp.Value.GetType());
+                config.Default.Set(kvp.Key, kvp.Value);
             }
         }
     }

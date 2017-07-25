@@ -11,7 +11,6 @@
 
 using CatLib.API.Config;
 using CatLib.API.FileSystem;
-using CatLib.Stl;
 
 namespace CatLib.FileSystem
 {

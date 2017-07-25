@@ -9,10 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using CatLib.API;
 using CatLib.API.Translation;
-using CatLib.Stl;
+using System;
 
 namespace CatLib.Translation
 {

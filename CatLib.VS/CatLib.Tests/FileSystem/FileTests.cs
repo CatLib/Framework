@@ -57,7 +57,7 @@ namespace CatLib.Tests.FileSystem
 
         private void Env(Action action)
         {
-            var path = SIO.Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            var path = SIO.Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
             if (SIO.Directory.Exists(path))
             {
                 SIO.Directory.Delete(path, true);
@@ -66,7 +66,7 @@ namespace CatLib.Tests.FileSystem
 
             local = new Local(path);
             local.Write("FileTests.TestFileHandler", GetByte("hello world"));
-            handlerFile = new File(new CatLib.FileSystem.FileSystem(local), "FileTests.TestFileHandler");
+            handlerFile = new File(new global::CatLib.FileSystem.FileSystem(local), "FileTests.TestFileHandler");
 
             Assert.AreEqual(true, handlerFile.IsExists);
 

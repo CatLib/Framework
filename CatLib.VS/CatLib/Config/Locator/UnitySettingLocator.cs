@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Config;
-using CatLib.Stl;
 using UnityEngine;
 
 namespace CatLib.Config.Locator

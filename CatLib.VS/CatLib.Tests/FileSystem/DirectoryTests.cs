@@ -54,7 +54,7 @@ namespace CatLib.Tests.FileSystem
 
                 foreach (var handler in handlers)
                 {
-                    dict[handler.Path.Substring(SIO.Path.Combine(Environment.CurrentDirectory, "FileSystemTest").Length + 1)] = true;
+                    dict[handler.Path.Substring(SIO.Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest").Length + 1)] = true;
                 }
 
                 foreach (var kv in dict)
@@ -69,7 +69,7 @@ namespace CatLib.Tests.FileSystem
 
         private void Env(Action action)
         {
-            var path = SIO.Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            var path = SIO.Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
             if (SIO.Directory.Exists(path))
             {
                 SIO.Directory.Delete(path, true);
@@ -78,7 +78,7 @@ namespace CatLib.Tests.FileSystem
 
             local = new Local(path);
             local.MakeDir("DirectoryTests.Directory");
-            handlerDir = new Directory(new CatLib.FileSystem.FileSystem(local), "DirectoryTests.Directory");
+            handlerDir = new Directory(new global::CatLib.FileSystem.FileSystem(local), "DirectoryTests.Directory");
 
             Assert.AreEqual(true, handlerDir.IsExists);
 

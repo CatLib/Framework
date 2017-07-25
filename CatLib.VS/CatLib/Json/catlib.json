@@ -1,0 +1,7 @@
+{
+  "source": "catlib/routing",
+  "folder": "Routing",
+  "require": {
+    "catlib/api": "~1.0"
+  }
+}

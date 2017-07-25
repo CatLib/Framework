@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using CatLib.API;
 using CatLib.API.Json;
-using CatLib.Core;
 using CatLib.Json;
 
 #if UNITY_EDITOR || NUNIT

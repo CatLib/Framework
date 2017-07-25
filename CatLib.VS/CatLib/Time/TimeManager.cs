@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Config;
 using CatLib.API.Time;
-using CatLib.Stl;
 
 namespace CatLib.Time
 {
@@ -22,17 +20,17 @@ namespace CatLib.Time
     internal sealed class TimeManager : SingleManager<ITime> , ITimeManager
     {
         /// <summary>
-        /// 配置
+        /// 默认名字
         /// </summary>
-        private readonly IConfigManager configManager;
+        private string defaultName;
 
         /// <summary>
-        /// 文件系统管理器
+        /// 设定默认名字
         /// </summary>
-        /// <param name="configManager">配置管理器</param>
-        public TimeManager(IConfigManager configManager)
+        /// <param name="name">默认名字</param>
+        public void SetDefault(string name)
         {
-            this.configManager = configManager;
+            defaultName = name;
         }
 
         /// <summary>
@@ -196,7 +194,7 @@ namespace CatLib.Time
         /// <returns>默认的文件系统名字</returns>
         protected override string GetDefaultName()
         {
-            return configManager == null ? "default" : configManager.Default.Get("times.default", "default");
+            return string.IsNullOrEmpty(defaultName) ? "default" : defaultName;
         }
     }
 }

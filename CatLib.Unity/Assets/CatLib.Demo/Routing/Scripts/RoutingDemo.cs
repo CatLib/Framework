@@ -9,21 +9,16 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using System.Runtime.InteropServices;
-using CatLib.API;
 using CatLib.API.Routing;
 using UnityEngine;
 
 namespace CatLib.Demo.Routing
 {
-
-    public class RoutingDemo : ServiceProvider
+    public class RoutingDemo : IServiceProvider
     {
-
-        public override IEnumerator Init()
+        public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 IRouter router = App.Make<IRouter>();
 
@@ -106,13 +101,10 @@ namespace CatLib.Demo.Routing
                 router.Dispatch("catlib://group-callback-routing/with-name-group-1");
 
             });
-
-            yield return base.Init();
         }
 
-        public override void Register()
+        public void Register()
         {
-
         }
     }
 

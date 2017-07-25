@@ -9,8 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
 using CatLib.API.Routing;
+using System.Collections.Generic;
 
 namespace CatLib.Routing
 {

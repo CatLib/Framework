@@ -9,19 +9,13 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections;
-using CatLib.API;
-using CatLib.Stl;
-
 namespace CatLib.Demo.FilterChain
 {
-
-    public class FilterChainDemo : ServiceProvider
+    public class FilterChainDemo : IServiceProvider
     {
-
-        public override IEnumerator Init()
+        public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (sender, e) =>
+            App.On(ApplicationEvents.OnStartComplete, (payload) =>
             {
                 var filters = new FilterChain<string>();
 
@@ -49,10 +43,8 @@ namespace CatLib.Demo.FilterChain
                 filters.Do("hello world", (data) => UnityEngine.Debug.Log("filter end , " + data));
 
             });
-
-            yield return base.Init();
         }
 
-        public override void Register(){ }
+        public void Register(){ }
     }
 }

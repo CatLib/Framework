@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using System.IO;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;
-using CatLib.Stl;
+using System.IO;
 
 namespace CatLib.FileSystem
 {
