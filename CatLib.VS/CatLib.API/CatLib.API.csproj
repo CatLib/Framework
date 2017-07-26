@@ -67,6 +67,7 @@
     <Compile Include="MonoDriver\MonoDriverEvents.cs" />
     <Compile Include="Support\AssertException.cs" />
     <Compile Include="Support\Container\ContainerExpand.cs" />
+    <Compile Include="Support\IAwait.cs" />
     <Compile Include="Support\RuntimeException.cs" />
     <Compile Include="MonoDriver\Feature\IDestroy.cs" />
     <Compile Include="MonoDriver\Feature\ILateUpdate.cs" />
