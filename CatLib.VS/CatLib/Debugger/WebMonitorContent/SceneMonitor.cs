@@ -26,21 +26,21 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public SceneMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.sceneCount", "unit.number", new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.sceneCount", "unit.number", new[] { "tags.scene" },
                 () => SceneManager.sceneCount));
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.sceneCountInBuildSettings", "unit.number", new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.sceneCountInBuildSettings", "unit.number", new[] { "tags.scene" },
                 () => SceneManager.sceneCountInBuildSettings));
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.getActiveScene.name", string.Empty, new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.GetActiveScene.name", string.Empty, new[] { "tags.scene" },
                 () => SceneManager.GetActiveScene().name));
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.getActiveScene.path", string.Empty, new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.GetActiveScene.path", string.Empty, new[] { "tags.scene" },
                 () => SceneManager.GetActiveScene().path));
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.getActiveScene.buildIndex", string.Empty, new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.GetActiveScene.buildIndex", string.Empty, new[] { "tags.scene" },
                 () => SceneManager.GetActiveScene().buildIndex));
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.getActiveScene.isDirty", string.Empty, new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.GetActiveScene.isDirty", string.Empty, new[] { "tags.scene" },
                 () => SceneManager.GetActiveScene().isDirty));
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.getActiveScene.isLoaded", string.Empty, new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.GetActiveScene.isLoaded", string.Empty, new[] { "tags.scene" },
                 () => SceneManager.GetActiveScene().isLoaded));
-            monitor.Monitor(new OnceRecordMonitorHandler("sceneManager.getActiveScene.rootCount", string.Empty, new[] { "tags.scene" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SceneManager.GetActiveScene.rootCount", string.Empty, new[] { "tags.scene" },
                 () => SceneManager.GetActiveScene().rootCount));
         }
     }

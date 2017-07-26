@@ -26,7 +26,7 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public InputGyroscopeMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.enabled.cmd", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.enabled@cmd", string.Empty, new[] { "tags.input.gyro" },
                 () =>
                 {
                     if (!Input.gyro.enabled)
@@ -35,19 +35,19 @@ namespace CatLib.Debugger.WebMonitorContent
                     }
                     return "[command.help.clickStop](debug://command/input-gyro-enable/false)";
                 }));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.enabled", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.enabled", string.Empty, new[] { "tags.input.gyro" },
                 () => Input.gyro.enabled));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.updateInterval", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.updateInterval", string.Empty, new[] { "tags.input.gyro" },
                 () => Input.gyro.updateInterval));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.attitude.eulerAngles", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.attitude.eulerAngles", string.Empty, new[] { "tags.input.gyro" },
                 () => Input.gyro.attitude.eulerAngles));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.gravity", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.gravity", string.Empty, new[] { "tags.input.gyro" },
                 () => Input.gyro.gravity));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.rotationRate", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.rotationRate", string.Empty, new[] { "tags.input.gyro" },
                 () => Input.gyro.rotationRate));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.rotationRateUnbiased", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.rotationRateUnbiased", string.Empty, new[] { "tags.input.gyro" },
                 () => Input.gyro.rotationRateUnbiased));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.gyro.userAcceleration", string.Empty, new[] { "tags.input.gyro" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.gyro.userAcceleration", string.Empty, new[] { "tags.input.gyro" },
                 () => Input.gyro.userAcceleration));
         }
     }
