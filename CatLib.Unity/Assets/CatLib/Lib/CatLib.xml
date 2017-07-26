@@ -6778,7 +6778,7 @@
             通用支持
             </summary>
         </member>
-        <member name="M:CatLib.Util.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.Util.GetPriority(System.Type,System.String)">
             <summary>
             获取优先级
             </summary>

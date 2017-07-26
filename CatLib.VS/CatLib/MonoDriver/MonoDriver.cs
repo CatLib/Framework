@@ -420,7 +420,7 @@ namespace CatLib.MonoDriver
         /// <returns>优先级</returns>
         private int GetPriorities(Type type, string method = null)
         {
-            return Util.GetPriorities(type, method);
+            return Util.GetPriority(type, method);
         }
     }
 }

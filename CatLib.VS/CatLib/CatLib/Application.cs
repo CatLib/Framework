@@ -245,7 +245,7 @@ namespace CatLib
         /// <returns>优先级</returns>
         public int GetPriority(Type type, string method = null)
         {
-            return Util.GetPriorities(type, method);
+            return Util.GetPriority(type, method);
         }
 
         /// <summary>
