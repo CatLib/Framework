@@ -26,7 +26,7 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public InputLocationMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.enabled@cmd", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.enabled@cmd", string.Empty, new[] { "tag@Input.location" },
                 () =>
                 {
                     if (Input.location.status == LocationServiceStatus.Stopped)
@@ -35,21 +35,21 @@ namespace CatLib.Debugger.WebMonitorContent
                     }
                     return "[command.help.clickStop](debug://command/input-location-enable/false)";
                 }));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.isEnabledByUser", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.isEnabledByUser", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.isEnabledByUser));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.status", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.status", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.status));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.horizontalAccuracy", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.horizontalAccuracy", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.lastData.horizontalAccuracy));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.verticalAccuracy", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.verticalAccuracy", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.lastData.verticalAccuracy));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.longitude", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.longitude", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.lastData.longitude));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.latitude", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.latitude", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.lastData.latitude));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.altitude", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.altitude", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.lastData.altitude));
-            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.timestamp", string.Empty, new[] { "tags.input.location" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.location.lastData.timestamp", string.Empty, new[] { "tag@Input.location" },
                 () => Input.location.lastData.timestamp));
         }
     }
