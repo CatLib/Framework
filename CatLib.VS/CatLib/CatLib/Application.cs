@@ -95,9 +95,9 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 全局唯一自增
+        /// 增量Id
         /// </summary>
-        private long guid;
+        private long incrementId;
 
         /// <summary>
         /// 主线程ID
@@ -229,12 +229,12 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 获取一个唯一id
+        /// 获取运行时唯一Id
         /// </summary>
         /// <returns>应用程序内唯一id</returns>
         public long GetRuntimeId()
         {
-            return Interlocked.Increment(ref guid);
+            return Interlocked.Increment(ref incrementId);
         }
 
         /// <summary>

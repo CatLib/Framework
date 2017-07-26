@@ -5326,9 +5326,9 @@
             启动流程
             </summary>
         </member>
-        <member name="F:CatLib.Application.guid">
+        <member name="F:CatLib.Application.incrementId">
             <summary>
-            全局唯一自增
+            增量Id
             </summary>
         </member>
         <member name="F:CatLib.Application.mainThreadId">
@@ -5380,7 +5380,7 @@
         </member>
         <member name="M:CatLib.Application.GetRuntimeId">
             <summary>
-            获取一个唯一id
+            获取运行时唯一Id
             </summary>
             <returns>应用程序内唯一id</returns>
         </member>
