@@ -21,7 +21,6 @@ using TestMethod = NUnit.Framework.TestAttribute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-
 namespace CatLib.Tests
 {
     [TestClass]
@@ -112,13 +111,13 @@ namespace CatLib.Tests
         }
 
         /// <summary>
-        /// 获取唯一标识符
+        /// 获取运行时唯一Id
         /// </summary>
         [TestMethod]
-        public void GetGuid()
+        public void GetRuntimeId()
         {
             var app = MakeApplication();
-            Assert.AreNotEqual(app.GetGuid(), app.GetGuid());
+            Assert.AreNotEqual(app.GetRuntimeId(), app.GetRuntimeId());
         }
 
         private static bool prioritiesTest;
