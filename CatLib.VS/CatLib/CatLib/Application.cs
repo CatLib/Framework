@@ -219,7 +219,7 @@ namespace CatLib
             }
 
             provider.Register();
-            serviceProviders.Add(provider, GetPriorities(provider.GetType(), "Init"));
+            serviceProviders.Add(provider, GetPriority(provider.GetType(), "Init"));
             serviceProviderTypes.Add(provider.GetType());
 
             if (inited)
@@ -243,7 +243,7 @@ namespace CatLib
         /// <param name="type">识别的类型</param>
         /// <param name="method">识别的方法</param>
         /// <returns>优先级</returns>
-        public int GetPriorities(Type type, string method = null)
+        public int GetPriority(Type type, string method = null)
         {
             return Util.GetPriorities(type, method);
         }

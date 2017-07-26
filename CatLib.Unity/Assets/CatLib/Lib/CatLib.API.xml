@@ -1918,7 +1918,7 @@
             <param name="version">版本号</param>
             <returns>比较结果</returns>
         </member>
-        <member name="M:CatLib.App.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.App.GetPriority(System.Type,System.String)">
             <summary>
             获取优先级，如果存在方法优先级定义那么优先返回方法的优先级
             如果不存在优先级定义那么返回<c>int.MaxValue</c>
@@ -2537,7 +2537,7 @@
             <param name="version">版本号</param>
             <returns>比较结果</returns>
         </member>
-        <member name="M:CatLib.IApplication.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.IApplication.GetPriority(System.Type,System.String)">
             <summary>
             获取优先级，如果存在方法优先级定义那么优先返回方法的优先级
             如果不存在优先级定义那么返回<c>int.MaxValue</c>

@@ -82,6 +82,6 @@ namespace CatLib
         /// <param name="type">获取优先级的类型</param>
         /// <param name="method">获取优先级的调用方法</param>
         /// <returns>优先级</returns>
-        int GetPriorities(Type type, string method = null);
+        int GetPriority(Type type, string method = null);
     }
 }

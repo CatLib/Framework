@@ -119,9 +119,9 @@ namespace CatLib
         /// <param name="type">获取优先级的类型</param>
         /// <param name="method">获取优先级的调用方法</param>
         /// <returns>优先级</returns>
-        public static int GetPriorities(Type type, string method = null)
+        public static int GetPriority(Type type, string method = null)
         {
-            return Handler.GetPriorities(type, method);
+            return Handler.GetPriority(type, method);
         }
 
         /// <summary>

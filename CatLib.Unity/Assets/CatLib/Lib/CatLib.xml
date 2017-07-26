@@ -5384,7 +5384,7 @@
             </summary>
             <returns>应用程序内唯一id</returns>
         </member>
-        <member name="M:CatLib.Application.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.Application.GetPriority(System.Type,System.String)">
             <summary>
             获取优先级
             </summary>
