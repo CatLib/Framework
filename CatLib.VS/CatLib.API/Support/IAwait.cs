@@ -9,20 +9,33 @@
  * Document: http://catlib.io/
  */
 
-using System;
-
 namespace CatLib
 {
     /// <summary>
     /// 等待接口
     /// </summary>
-    /// <typeparam name="TInterface">目标接口</typeparam>
-    public interface IAwait<TInterface>
+    /// <typeparam name="TInterface">等待目标接口</typeparam>
+    public interface IAwait<TInterface> : IAwait
     {
         /// <summary>
-        /// 等待接口完成，当接口完成后触发callback
+        /// 结果
         /// </summary>
-        /// <param name="callback">回调</param>
-        void Await(Action<TInterface> callback);
+        new TInterface Result { get; }
+    }
+
+    /// <summary>
+    /// 等待接口
+    /// </summary>
+    public interface IAwait
+    {
+        /// <summary>
+        /// 是否准备完成
+        /// </summary>
+        bool IsDone { get; }
+
+        /// <summary>
+        /// 实现
+        /// </summary>
+        object Result { get; }
     }
 }
