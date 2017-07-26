@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 namespace CatLib
 {
     /// <summary>
-    /// 版本
+    /// 版本（遵循semver）
     /// </summary>
     internal class Version
     {

@@ -186,7 +186,7 @@
     <Compile Include="Support\Template\Manager.cs" />
     <Compile Include="Support\Template\SingleManager.cs" />
     <Compile Include="Support\Util\Str.cs" />
-    <Compile Include="Support\Priority.cs" />
+    <Compile Include="Support\Util\Util.cs" />
     <Compile Include="Timer\Timer.cs" />
     <Compile Include="Timer\TimerQueue.cs" />
     <Compile Include="Timer\TimerManager.cs" />
