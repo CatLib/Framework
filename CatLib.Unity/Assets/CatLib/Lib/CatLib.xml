@@ -990,7 +990,7 @@
         </member>
         <member name="T:CatLib.Version">
             <summary>
-            版本
+            版本（遵循semver）
             </summary>
         </member>
         <member name="F:CatLib.Version.versionMatcher">
