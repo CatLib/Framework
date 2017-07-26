@@ -5378,7 +5378,7 @@
             <param name="provider">注册服务提供者</param>
             <exception cref="T:CatLib.RuntimeException">服务提供者被重复注册时触发</exception>
         </member>
-        <member name="M:CatLib.Application.GetGuid">
+        <member name="M:CatLib.Application.GetRuntimeId">
             <summary>
             获取一个唯一id
             </summary>

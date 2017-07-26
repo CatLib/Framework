@@ -232,7 +232,7 @@ namespace CatLib
         /// 获取一个唯一id
         /// </summary>
         /// <returns>应用程序内唯一id</returns>
-        public long GetGuid()
+        public long GetRuntimeId()
         {
             return Interlocked.Increment(ref guid);
         }

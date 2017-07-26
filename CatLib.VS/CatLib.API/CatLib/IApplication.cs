@@ -38,10 +38,10 @@ namespace CatLib
         void Register(IServiceProvider provider);
 
         /// <summary>
-        /// 获取应用程序内的唯一Id
+        /// 获取程序运行时唯一Id
         /// </summary>
         /// <returns>运行时的唯一Id</returns>
-        long GetGuid();
+        long GetRuntimeId();
 
         /// <summary>
         /// 是否是主线程

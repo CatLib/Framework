@@ -1880,9 +1880,9 @@
             </summary>
             <param name="provider">服务提供者</param>
         </member>
-        <member name="M:CatLib.App.GetGuid">
+        <member name="M:CatLib.App.GetRuntimeId">
             <summary>
-            获取应用程序内的唯一Id
+            获取运行时唯一Id
             </summary>
             <returns>运行时的唯一Id</returns>
         </member>
@@ -2499,9 +2499,9 @@
             </summary>
             <param name="provider">服务提供者</param>
         </member>
-        <member name="M:CatLib.IApplication.GetGuid">
+        <member name="M:CatLib.IApplication.GetRuntimeId">
             <summary>
-            获取应用程序内的唯一Id
+            获取程序运行时唯一Id
             </summary>
             <returns>运行时的唯一Id</returns>
         </member>

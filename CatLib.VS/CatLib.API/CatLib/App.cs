@@ -54,12 +54,12 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 获取应用程序内的唯一Id
+        /// 获取运行时唯一Id
         /// </summary>
         /// <returns>运行时的唯一Id</returns>
-        public static long GetGuid()
+        public static long GetRuntimeId()
         {
-            return Handler.GetGuid();
+            return Handler.GetRuntimeId();
         }
 
         /// <summary>
