@@ -280,14 +280,6 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 释放全部静态化实例
-        /// </summary>
-        public static void ReleaseAll()
-        {
-            Handler.ReleaseAll();
-        }
-
-        /// <summary>
         /// 当静态服务被释放时
         /// </summary>
         /// <param name="action">处理释放时的回调</param>
@@ -326,9 +318,19 @@ namespace CatLib
         /// <param name="service">服务名或别名</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例，如果构造失败那么返回null</returns>
-        public static object Make(string service, params object[] param)
+        public static object MakeWith(string service, params object[] param)
         {
-            return Handler.Make(service, param);
+            return Handler.MakeWith(service, param);
+        }
+
+        /// <summary>
+        /// 构造服务
+        /// </summary>
+        /// <param name="service">服务名或别名</param>
+        /// <returns>服务实例，如果构造失败那么返回null</returns>
+        public static object Make(string service)
+        {
+            return Handler.Make(service);
         }
 
         /// <summary>
@@ -467,9 +469,9 @@ namespace CatLib
         /// <typeparam name="TService">服务名</typeparam>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例</returns>
-        public static TService MakeParams<TService>(params object[] param)
+        public static TService MakeWith<TService>(params object[] param)
         {
-            return Handler.MakeParams<TService>(param);
+            return Handler.MakeWith<TService>(param);
         }
 
         /// <summary>

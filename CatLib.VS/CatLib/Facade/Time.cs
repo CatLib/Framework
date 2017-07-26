@@ -9,14 +9,14 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Timer;
+using CatLib.API.Time;
 
 namespace CatLib.Facade
 {
     /// <summary>
-    /// 计时器管理器
+    /// 时间管理器
     /// </summary>
-    public sealed class TimerManager : Facade<ITimerManager>
+    public sealed class Time : Facade<ITimeManager>
     {
     }
 }

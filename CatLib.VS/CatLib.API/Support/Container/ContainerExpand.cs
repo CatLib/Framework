@@ -123,9 +123,9 @@ namespace CatLib
         /// <param name="container">服务容器</param>
         /// <param name="param">构造参数</param>
         /// <returns>服务实例</returns>
-        public static TService MakeParams<TService>(this IContainer container, params object[] param)
+        public static TService MakeWith<TService>(this IContainer container, params object[] param)
         {
-            return (TService) container.Make(container.Type2Service(typeof(TService)), param);
+            return (TService) container.MakeWith(container.Type2Service(typeof(TService)), param);
         }
 
         /// <summary>

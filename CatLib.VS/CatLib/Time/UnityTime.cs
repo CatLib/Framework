@@ -18,7 +18,7 @@ namespace CatLib.Time
     /// Unity时间系统
     /// </summary>
     [ExcludeFromCodeCoverage]
-    internal sealed class UnityTime : ITime
+    public class UnityTime : ITime
     {
         /// <summary>
         /// 从游戏开始到现在所用的时间(秒)

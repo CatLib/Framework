@@ -3,6 +3,5 @@
   "folder": "Facade",
   "require": {
     "catlib/api": "~1.0",
-    "catlib/catlib": "~1.0"
   }
 }

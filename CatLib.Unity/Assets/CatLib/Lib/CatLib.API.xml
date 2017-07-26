@@ -4,6 +4,16 @@
         <name>CatLib.API</name>
     </assembly>
     <members>
+        <member name="T:CatLib.Facade`1">
+            <summary>
+            门面
+            </summary>
+        </member>
+        <member name="P:CatLib.Facade`1.Instance">
+            <summary>
+            门面实例
+            </summary>
+        </member>
         <member name="T:CatLib.API.Config.IConfigLocator">
             <summary>
             配置定位器
@@ -2030,11 +2040,6 @@
             </summary>
             <param name="service">服务名或别名</param>
         </member>
-        <member name="M:CatLib.App.ReleaseAll">
-            <summary>
-            释放全部静态化实例
-            </summary>
-        </member>
         <member name="M:CatLib.App.OnRelease(System.Action{CatLib.IBindData,System.Object})">
             <summary>
             当静态服务被释放时
@@ -2059,12 +2064,19 @@
             <param name="param">方法参数</param>
             <returns>方法返回值</returns>
         </member>
-        <member name="M:CatLib.App.Make(System.String,System.Object[])">
+        <member name="M:CatLib.App.MakeWith(System.String,System.Object[])">
             <summary>
             构造服务
             </summary>
             <param name="service">服务名或别名</param>
             <param name="param">构造参数</param>
+            <returns>服务实例，如果构造失败那么返回null</returns>
+        </member>
+        <member name="M:CatLib.App.Make(System.String)">
+            <summary>
+            构造服务
+            </summary>
+            <param name="service">服务名或别名</param>
             <returns>服务实例，如果构造失败那么返回null</returns>
         </member>
         <member name="M:CatLib.App.Alias(System.String,System.String)">
@@ -2159,7 +2171,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.App.MakeParams``1(System.Object[])">
+        <member name="M:CatLib.App.MakeWith``1(System.Object[])">
             <summary>
             构造一个服务，允许传入构造参数
             </summary>
@@ -2203,6 +2215,26 @@
         <member name="F:CatLib.ApplicationEvents.OnStartComplete">
             <summary>
             当程序启动完成
+            </summary>
+        </member>
+        <member name="T:CatLib.IFixedUpdate">
+            <summary>
+            FixedUpdate时调用
+            </summary>
+        </member>
+        <member name="M:CatLib.IFixedUpdate.FixedUpdate">
+            <summary>
+            FixedUpdate时调用
+            </summary>
+        </member>
+        <member name="T:CatLib.IOnGUI">
+            <summary>
+            GUI绘制时
+            </summary>
+        </member>
+        <member name="M:CatLib.IOnGUI.OnGUI">
+            <summary>
+            GUI绘制时
             </summary>
         </member>
         <member name="T:CatLib.AssertException">
@@ -2303,7 +2335,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.MakeParams``1(CatLib.IContainer,System.Object[])">
+        <member name="M:CatLib.ContainerExpand.MakeWith``1(CatLib.IContainer,System.Object[])">
             <summary>
             构造一个服务，允许传入构造参数
             </summary>
@@ -2630,9 +2662,9 @@
             </summary>
             <param name="service">服务名或别名</param>
         </member>
-        <member name="M:CatLib.IContainer.ReleaseAll">
+        <member name="M:CatLib.IContainer.Flush">
             <summary>
-            释放全部静态化实例
+            清空容器的所有实例，绑定，别名，标签，解决器
             </summary>
         </member>
         <member name="M:CatLib.IContainer.OnRelease(System.Action{CatLib.IBindData,System.Object})">
@@ -2659,12 +2691,19 @@
             <param name="param">方法参数</param>
             <returns>方法返回值</returns>
         </member>
-        <member name="M:CatLib.IContainer.Make(System.String,System.Object[])">
+        <member name="M:CatLib.IContainer.MakeWith(System.String,System.Object[])">
+            <summary>
+            构造服务,允许传入参数来决定构造函数的值
+            </summary>
+            <param name="service">服务名或别名</param>
+            <param name="param">构造参数</param>
+            <returns>服务实例，如果构造失败那么返回null</returns>
+        </member>
+        <member name="M:CatLib.IContainer.Make(System.String)">
             <summary>
             构造服务
             </summary>
             <param name="service">服务名或别名</param>
-            <param name="param">构造参数</param>
             <returns>服务实例，如果构造失败那么返回null</returns>
         </member>
         <member name="P:CatLib.IContainer.Item(System.String)">

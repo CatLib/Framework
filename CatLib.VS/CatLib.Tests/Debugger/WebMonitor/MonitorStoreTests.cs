@@ -22,7 +22,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Debugger.WebMonitor
 {
@@ -54,7 +53,6 @@ namespace CatLib.Tests.Debugger.WebMonitor
             console.Stop();
             var handler = new OnceRecordMonitorHandler("title", "ms", new[] { "tags" }, () => "helloworld");
             monitor.Monitor(handler);
-
 
             foreach (var result in monitor)
             {
@@ -90,3 +88,4 @@ namespace CatLib.Tests.Debugger.WebMonitor
         }
     }
 }
+#endif

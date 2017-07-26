@@ -13,7 +13,7 @@ using System;
 using CatLib.API;
 using CatLib.API.Converters;
 using CatLib.Converters;
-
+using CatLib.Events;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -38,6 +38,7 @@ namespace CatLib.Tests.Converters
             var app = new Application();
             app.Bootstrap();
             app.Register(new ConvertersProvider());
+            app.Register(new EventsProvider());
             app.Init();
             return app;
         }

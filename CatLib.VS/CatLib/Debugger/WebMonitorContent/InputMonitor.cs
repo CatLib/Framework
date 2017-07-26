@@ -26,19 +26,19 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public InputMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("input.touchSupported", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.touchSupported", string.Empty, new[] { "tag@Input" },
                 () => Input.touchSupported));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.touchPressureSupported", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.touchPressureSupported", string.Empty, new[] { "tag@Input" },
                 () => Input.touchPressureSupported));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.stylusTouchSupported", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.stylusTouchSupported", string.Empty, new[] { "tag@Input" },
                 () => Input.stylusTouchSupported));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.simulateMouseWithTouches", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.simulateMouseWithTouches", string.Empty, new[] { "tag@Input" },
                 () => Input.simulateMouseWithTouches));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.multiTouchEnabled", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.multiTouchEnabled", string.Empty, new[] { "tag@Input" },
                 () => Input.multiTouchEnabled));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.touchCount", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.touchCount", string.Empty, new[] { "tag@Input" },
                 () => Input.touchCount));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.touches", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.touches", string.Empty, new[] { "tag@Input" },
                 () =>
                 {
                     var touches = Input.touches;
@@ -55,27 +55,27 @@ namespace CatLib.Debugger.WebMonitorContent
                     return string.Join("; ", touchStrings);
                 }));
 
-            monitor.Monitor(new OnceRecordMonitorHandler("input.backButtonLeavesApp", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.backButtonLeavesApp", string.Empty, new[] { "tag@Input" },
                 () => Input.backButtonLeavesApp));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.deviceOrientation", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.deviceOrientation", string.Empty, new[] { "tag@Input" },
                 () => Input.deviceOrientation));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.mousePresent", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.mousePresent", string.Empty, new[] { "tag@Input" },
                 () => Input.mousePresent));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.mousePosition", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.mousePosition", string.Empty, new[] { "tag@Input" },
                 () => Input.mousePosition));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.mouseScrollDelta", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.mouseScrollDelta", string.Empty, new[] { "tag@Input" },
                 () => Input.mouseScrollDelta));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.anyKey", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.anyKey", string.Empty, new[] { "tag@Input" },
                 () => Input.anyKey));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.imeIsSelected", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.imeIsSelected", string.Empty, new[] { "tag@Input" },
                 () => Input.imeIsSelected));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.imeCompositionMode", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.imeCompositionMode", string.Empty, new[] { "tag@Input" },
                 () => Input.imeCompositionMode));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compensateSensors", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compensateSensors", string.Empty, new[] { "tag@Input" },
                 () => Input.compensateSensors));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compositionCursorPos", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compositionCursorPos", string.Empty, new[] { "tag@Input" },
                 () => Input.compositionCursorPos));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compositionString", string.Empty, new[] { "tags.input" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compositionString", string.Empty, new[] { "tag@Input" },
                 () => Input.compositionString));
         }
     }

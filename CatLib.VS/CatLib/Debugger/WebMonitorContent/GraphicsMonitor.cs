@@ -26,57 +26,57 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public GraphicsMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsDeviceID", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsDeviceID", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsDeviceID));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsDeviceName", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsDeviceName", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsDeviceName));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsDeviceVendorID", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsDeviceVendorID", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsDeviceVendorID));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsDeviceVendor", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsDeviceVendor", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsDeviceVendor));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsDeviceType", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsDeviceType", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsDeviceType));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsDeviceVersion", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsDeviceVersion", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsDeviceVersion));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsMemorySize","unit.size.mb", new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsMemorySize","unit.size.mb", new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsMemorySize));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsMultiThreaded", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsMultiThreaded", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsMultiThreaded));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.npotSupport", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.npotSupport", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.npotSupport));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.maxTextureSize", "unit.px", new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.maxTextureSize", "unit.px", new[] { "tag@Graphics" },
                 () => SystemInfo.maxTextureSize));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.maxCubemapSize", "unit.px", new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.maxCubemapSize", "unit.px", new[] { "tag@Graphics" },
                 () => SystemInfo.maxCubemapSize));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.copyTextureSupport", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.copyTextureSupport", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.copyTextureSupport));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportedRenderTargetCount", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportedRenderTargetCount", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportedRenderTargetCount));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsSparseTextures", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsSparseTextures", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsSparseTextures));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supports3DTextures", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supports3DTextures", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supports3DTextures));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supports3DRenderTextures", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supports3DRenderTextures", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supports3DRenderTextures));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supports2DArrayTextures", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supports2DArrayTextures", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supports2DArrayTextures));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsShadows", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsShadows", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsShadows));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsRawShadowDepthSampling", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsRawShadowDepthSampling", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsRawShadowDepthSampling));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsRenderToCubemap", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsRenderToCubemap", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsRenderToCubemap));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsComputeShaders", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsComputeShaders", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsComputeShaders));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsInstancing", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsInstancing", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsInstancing));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsImageEffects", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsImageEffects", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsImageEffects));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsCubemapArrayTextures", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsCubemapArrayTextures", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.supportsCubemapArrayTextures));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.graphicsUVStartsAtTop", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.graphicsUVStartsAtTop", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.graphicsUVStartsAtTop));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.usesReversedZBuffer", string.Empty, new[] { "tags.graphics" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.usesReversedZBuffer", string.Empty, new[] { "tag@Graphics" },
                 () => SystemInfo.usesReversedZBuffer));
         }
     }

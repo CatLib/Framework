@@ -19,6 +19,7 @@ using CatLib.API.FileSystem;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Environment;
+using CatLib.Events;
 using CatLib.FileSystem;
 using CatLib.FileSystem.Adapter;
 using SIO = System.IO;
@@ -69,6 +70,7 @@ namespace CatLib.Tests.FileSystem
             app.Register(new PrepareEnv());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
+            app.Register(new EventsProvider());
             app.Init();
         }
 

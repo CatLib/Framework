@@ -30,25 +30,25 @@ namespace CatLib.Debugger.WebMonitorContent
         public PerformanceMonitor([Inject(Required = true)]IMonitor monitor,
                             [Inject(Required = true)]ITime time)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("performance.profiler.supported" , string.Empty, new[] { "tags.performance" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Profiler.supported" , string.Empty, new[] { "tag@Profiler" },
                 () => Profiler.supported));
-            monitor.Monitor(new OnceRecordMonitorHandler("performance.profiler.enabled", string.Empty, new[] { "tags.performance" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Profiler.enabled", string.Empty, new[] { "tag@Profiler" },
                 () => Profiler.enabled));
-            monitor.Monitor(new OnceRecordMonitorHandler("performance.profiler.binaryLog.enabled", string.Empty, new[] { "tags.performance" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Profiler.enabledBinaryLog@file", string.Empty, new[] { "tag@Profiler" },
                 () => Profiler.enableBinaryLog? Profiler.logFile : "code.unenable"));
-            monitor.Monitor(new SizeMonitorHandler("performance.memory.monoUsedSize", new[] { "tags.performance" },
+            monitor.Monitor(new SizeMonitorHandler("Profiler.GetMonoUsedSize@memory", new[] { "tag@Profiler" },
                 () => Profiler.GetMonoUsedSizeLong()));
-            monitor.Monitor(new SizeMonitorHandler("performance.memory.monoHeapSize", new[] { "tags.performance" },
+            monitor.Monitor(new SizeMonitorHandler("Profiler.GetMonoHeapSize@memory", new[] { "tag@Profiler" },
                 () => Profiler.GetMonoHeapSizeLong()));
-            monitor.Monitor(new SizeMonitorHandler("performance.memory.totalAllocatedMemory", new[] { "tags.performance" },
+            monitor.Monitor(new SizeMonitorHandler("Profiler.GetTotalAllocatedMemory", new[] { "tag@Profiler" },
                 () => Profiler.GetTotalAllocatedMemoryLong()));
-            monitor.Monitor(new SizeMonitorHandler("performance.memory.totalReservedMemory", new[] { "tags.performance" },
+            monitor.Monitor(new SizeMonitorHandler("Profiler.GetTotalReservedMemory", new[] { "tag@Profiler" },
                 () => Profiler.GetTotalReservedMemoryLong()));
-            monitor.Monitor(new SizeMonitorHandler("performance.memory.totalUnusedReservedMemory", new[] { "tags.performance" },
+            monitor.Monitor(new SizeMonitorHandler("Profiler.GetTotalUnusedReservedMemory", new[] { "tag@Profiler" },
                 () => Profiler.GetTotalUnusedReservedMemoryLong()));
-            monitor.Monitor(new SizeMonitorHandler("performance.memory.tempAllocatorSize", new[] { "tags.performance" },
+            monitor.Monitor(new SizeMonitorHandler("Profiler.GetTempAllocatorSize@memory", new[] { "tag@Profiler" },
                 () => (long)Profiler.GetTempAllocatorSize()));
-            monitor.Monitor(new OnceRecordMonitorHandler("performance.fps", "unit.second.pre", new[] { "tags.performance" },
+            monitor.Monitor(new OnceRecordMonitorHandler("fps", "unit.second.pre", new[] { "tag@Profiler" },
                 () => Math.Floor(1.0f / time.SmoothDeltaTime)));
         }
     }

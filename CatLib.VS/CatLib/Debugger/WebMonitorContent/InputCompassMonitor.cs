@@ -26,7 +26,7 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public InputCompassMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compass.enabled.cmd", string.Empty, new[] { "tags.input.compass" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compass.enabled@cmd", string.Empty, new[] { "tag@Input.compass" },
                 () =>
                 {
                     if (!Input.gyro.enabled)
@@ -35,17 +35,17 @@ namespace CatLib.Debugger.WebMonitorContent
                     }
                     return "[command.help.clickStop](debug://command/input-compass-enable/false)";
                 }));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compass.enabled", string.Empty, new[] { "tags.input.compass" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compass.enabled", string.Empty, new[] { "tag@Input.compass" },
                 () => Input.compass.enabled));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compass.headingAccuracy", "unit.degree", new[] { "tags.input.compass" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compass.headingAccuracy", "unit.degree", new[] { "tag@Input.compass" },
                 () => Input.compass.headingAccuracy));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compass.magneticHeading", "unit.degree", new[] { "tags.input.compass" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compass.magneticHeading", "unit.degree", new[] { "tag@Input.compass" },
                 () => Input.compass.magneticHeading));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compass.rawVector", "unit.microteslas", new[] { "tags.input.compass" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compass.rawVector", "unit.microteslas", new[] { "tag@Input.compass" },
                 () => Input.compass.rawVector));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compass.timestamp", string.Empty, new[] { "tags.input.compass" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compass.timestamp", string.Empty, new[] { "tag@Input.compass" },
                 () => Input.compass.timestamp));
-            monitor.Monitor(new OnceRecordMonitorHandler("input.compass.trueHeading", "unit.degree", new[] { "tags.input.compass" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Input.compass.trueHeading", "unit.degree", new[] { "tag@Input.compass" },
                 () => Input.compass.trueHeading));
         }
     }

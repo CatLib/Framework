@@ -22,7 +22,7 @@ namespace CatLib.MonoDriver
     /// <summary>
     /// Mono驱动器
     /// </summary>
-    public sealed class MonoDriver : IMonoDriver
+    internal sealed class MonoDriver : IMonoDriver
     {
         /// <summary>
         /// 更新
@@ -364,7 +364,7 @@ namespace CatLib.MonoDriver
         {
             dispatcher.Trigger(MonoDriverEvents.OnBeforeDestroy);
 
-            container.ReleaseAll();
+            container.Flush();
             foreach (var current in destroy)
             {
                 current.OnDestroy();

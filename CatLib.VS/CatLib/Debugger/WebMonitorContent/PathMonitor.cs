@@ -25,13 +25,13 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public PathMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("application.dataPath", string.Empty, new[] { "tags.path" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Application.dataPath", string.Empty, new[] { "tag@Path" },
                 () => UnityEngine.Application.dataPath));
-            monitor.Monitor(new OnceRecordMonitorHandler("application.persistentDataPath", string.Empty, new[] { "tags.path" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Application.persistentDataPath", string.Empty, new[] { "tag@Path" },
                 () => UnityEngine.Application.persistentDataPath));
-            monitor.Monitor(new OnceRecordMonitorHandler("application.streamingAssetsPath", string.Empty, new[] { "tags.path" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Application.streamingAssetsPath", string.Empty, new[] { "tag@Path" },
                 () => UnityEngine.Application.streamingAssetsPath));
-            monitor.Monitor(new OnceRecordMonitorHandler("application.temporaryCachePath", string.Empty, new[] { "tags.path" },
+            monitor.Monitor(new OnceRecordMonitorHandler("Application.temporaryCachePath", string.Empty, new[] { "tag@Path" },
                 () => UnityEngine.Application.temporaryCachePath));
         }
     }

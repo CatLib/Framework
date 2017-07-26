@@ -33,14 +33,24 @@ namespace CatLib
         public enum StartProcess
         {
             /// <summary>
+            /// 构建阶段
+            /// </summary>
+            Construct = 0,
+
+            /// <summary>
             /// 引导流程
             /// </summary>
             Bootstrap = 1,
 
             /// <summary>
+            /// 引导流程结束
+            /// </summary>
+            Bootstraped = 2,
+
+            /// <summary>
             /// 初始化中
             /// </summary>
-            Initing = 2,
+            Initing = 3,
 
             /// <summary>
             /// 初始化完成
@@ -51,7 +61,7 @@ namespace CatLib
         /// <summary>
         /// 服务提供者
         /// </summary>
-        private readonly SortSet<IServiceProvider, int> serviceProviders = new SortSet<IServiceProvider , int>();
+        private readonly SortSet<IServiceProvider, int> serviceProviders = new SortSet<IServiceProvider, int>();
 
         /// <summary>
         /// 注册服务提供者
@@ -71,7 +81,7 @@ namespace CatLib
         /// <summary>
         /// 启动流程
         /// </summary>
-        private StartProcess process = StartProcess.Bootstrap;
+        private StartProcess process = StartProcess.Construct;
 
         /// <summary>
         /// 启动流程
@@ -159,6 +169,7 @@ namespace CatLib
                 }
             }
 
+            process = StartProcess.Bootstraped;
             bootstrapped = true;
 
             return this;
@@ -172,13 +183,14 @@ namespace CatLib
         {
             if (!bootstrapped)
             {
-                throw new RuntimeException("Must call Bootstrap() first.");
+                throw new RuntimeException("You must call Bootstrap() first.");
             }
-            if (process != StartProcess.Bootstrap)
+
+            if (inited)
             {
-                throw new RuntimeException("StartProcess is not Bootstrap.");
+                return;
             }
-            
+
             process = StartProcess.Initing;
 
             foreach (var provider in serviceProviders)
@@ -201,11 +213,6 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(provider != null);
 
-            if (inited)
-            {
-                throw new RuntimeException("Register() Only be called before Init()");
-            }
-
             if (serviceProviderTypes.Contains(provider.GetType()))
             {
                 throw new RuntimeException("Provider [" + provider.GetType() + "] is already register.");
@@ -214,6 +221,11 @@ namespace CatLib
             provider.Register();
             serviceProviders.Add(provider, GetPriorities(provider.GetType(), "Init"));
             serviceProviderTypes.Add(provider.GetType());
+
+            if (inited)
+            {
+                provider.Init();
+            }
         }
 
         /// <summary>
@@ -247,11 +259,8 @@ namespace CatLib
         /// <returns>事件结果</returns>
         public object Trigger(string eventName, object payload = null, bool halt = false)
         {
-            if (Dispatcher != null)
-            {
-                return Dispatcher.Trigger(eventName, payload, halt);
-            }
-            return halt ? null : new object[] { };
+            GuardDispatcher();
+            return Dispatcher.Trigger(eventName, payload, halt);
         }
 
         /// <summary>
@@ -263,7 +272,8 @@ namespace CatLib
         /// <returns>事件句柄</returns>
         public IEventHandler On(string eventName, Action<object> handler, int life = 0)
         {
-            return Dispatcher != null ? Dispatcher.On(eventName, handler, life) : null;
+            GuardDispatcher();
+            return Dispatcher.On(eventName, handler, life);
         }
 
         /// <summary>
@@ -275,7 +285,8 @@ namespace CatLib
         /// <returns>事件句柄</returns>
         public IEventHandler On(string eventName, Func<object, object> handler, int life = 0)
         {
-            return Dispatcher != null ? Dispatcher.On(eventName, handler, life) : null;
+            GuardDispatcher();
+            return Dispatcher.On(eventName, handler, life);
         }
 
         /// <summary>
@@ -335,6 +346,17 @@ namespace CatLib
             })
             {
                 Alias(Type2Service(type), application);
+            }
+        }
+
+        /// <summary>
+        /// 验证调度器是否有效
+        /// </summary>
+        private void GuardDispatcher()
+        {
+            if (Dispatcher == null)
+            {
+                throw new RuntimeException("You need register EventsProvider to supported dispatcher");
             }
         }
     }

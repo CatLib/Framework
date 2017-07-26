@@ -198,9 +198,9 @@ namespace CatLib.Debugger
 
             App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
             {
-                "performance.memory.monoUsedSize",
-                "performance.memory.totalAllocatedMemory",
-                "performance.fps"
+                "Profiler.GetMonoUsedSize@memory",
+                "Profiler.GetTotalAllocatedMemory",
+                "fps"
             });
         }
 

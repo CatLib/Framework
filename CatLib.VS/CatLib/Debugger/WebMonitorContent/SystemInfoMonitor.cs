@@ -26,53 +26,53 @@ namespace CatLib.Debugger.WebMonitorContent
         /// <param name="monitor">监控</param>
         public SystemInfoMonitor([Inject(Required = true)]IMonitor monitor)
         {
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.deviceUniqueIdentifier", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.deviceUniqueIdentifier", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.deviceUniqueIdentifier));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.deviceName", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.deviceName", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.deviceName));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.deviceType", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.deviceType", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.deviceType));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.deviceModel", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.deviceModel", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.deviceModel));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.processorType", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.processorType", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.processorType));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.processorCount", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.processorCount", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.processorCount));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.processorFrequency", "MHz",
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.processorFrequency", "MHz",
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.processorFrequency));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.systemMemorySize", "MB",
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.systemMemorySize", "MB",
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.systemMemorySize));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.operatingSystemFamily", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.operatingSystemFamily", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.operatingSystemFamily));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.batteryStatus", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.batteryStatus", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.batteryStatus));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.batteryLevel", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.batteryLevel", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.batteryLevel < 0f ? "code.unavailable" : SystemInfo.batteryLevel.ToString("P0")));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsAudio", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsAudio", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.supportsAudio));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsLocationService", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsLocationService", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.supportsLocationService));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsAccelerometer", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsAccelerometer", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.supportsAccelerometer));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsGyroscope", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsGyroscope", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.supportsGyroscope));
-            monitor.Monitor(new OnceRecordMonitorHandler("systemInfo.supportsVibration", string.Empty,
-                new[] { "tags.systemInfo" },
+            monitor.Monitor(new OnceRecordMonitorHandler("SystemInfo.supportsVibration", string.Empty,
+                new[] { "tag@SystemInfo" },
                 () => SystemInfo.supportsVibration));
         }
     }

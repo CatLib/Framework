@@ -14,6 +14,7 @@ using CatLib.API.Config;
 using CatLib.API.Time;
 using CatLib.Config;
 using CatLib.Converters;
+using CatLib.Events;
 using CatLib.Time;
 
 #if UNITY_EDITOR || NUNIT
@@ -127,6 +128,7 @@ namespace CatLib.Tests.Time
             app.Register(new TimeProvider());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
+            app.Register(new EventsProvider());
             app.Init();
 
             var timeManager = app.Make<ITimeManager>();

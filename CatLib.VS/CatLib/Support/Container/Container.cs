@@ -364,7 +364,8 @@ namespace CatLib
         /// <returns>服务实例，如果构造失败那么返回null</returns>
         /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
         /// <exception cref="RuntimeException">出现循环依赖</exception>
-        public object Make(string service, params object[] param)
+        /// <returns>服务实例，如果构造失败那么返回null</returns>
+        public object MakeWith(string service, params object[] param)
         {
             Guard.NotEmptyOrNull(service, "service");
             lock (syncRoot)
@@ -393,6 +394,18 @@ namespace CatLib
                     buildStack.Pop();
                 }
             }
+        }
+
+        /// <summary>
+        /// 构造服务
+        /// </summary>
+        /// <param name="service">服务名或别名</param>
+        /// <exception cref="ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
+        /// <exception cref="RuntimeException">出现循环依赖</exception>
+        /// <returns>服务实例，如果构造失败那么返回null</returns>
+        public object Make(string service)
+        {
+            return MakeWith(service);
         }
 
         /// <summary>
@@ -467,9 +480,9 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 是否全部静态实例
+        /// 清空容器的所有实例，绑定，别名，标签，解决器
         /// </summary>
-        public void ReleaseAll()
+        public void Flush()
         {
             lock (syncRoot)
             {
@@ -483,6 +496,15 @@ namespace CatLib
                 {
                     Release(service);
                 }
+
+                binds.Clear();
+                instances.Clear();
+                aliases.Clear();
+                aliasesReverse.Clear();
+                tags.Clear();
+                resolving.Clear();
+                release.Clear();
+                findType.Clear();
             }
         }
 

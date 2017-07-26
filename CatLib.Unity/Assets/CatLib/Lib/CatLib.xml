@@ -990,7 +990,7 @@
         </member>
         <member name="T:CatLib.Version">
             <summary>
-            版本
+            版本（遵循semver）
             </summary>
         </member>
         <member name="F:CatLib.Version.versionMatcher">
@@ -2318,7 +2318,7 @@
             注册事件服务
             </summary>
         </member>
-        <member name="T:CatLib.Facade.ConfigManager">
+        <member name="T:CatLib.Facade.Config">
             <summary>
             配置管理器
             </summary>
@@ -2333,7 +2333,7 @@
             环境
             </summary>
         </member>
-        <member name="T:CatLib.Facade.FileSystemManager">
+        <member name="T:CatLib.Facade.FileSystem">
             <summary>
             文件系统管理器
             </summary>
@@ -2343,12 +2343,12 @@
             路由
             </summary>
         </member>
-        <member name="T:CatLib.Facade.TimeManager">
+        <member name="T:CatLib.Facade.Time">
             <summary>
             时间管理器
             </summary>
         </member>
-        <member name="T:CatLib.Facade.TimerManager">
+        <member name="T:CatLib.Facade.Timer">
             <summary>
             计时器管理器
             </summary>
@@ -2917,6 +2917,16 @@
             延后更新
             </summary>
         </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.fixedUpdate">
+            <summary>
+            固定更新
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.onGui">
+            <summary>
+            GUI绘制
+            </summary>
+        </member>
         <member name="F:CatLib.MonoDriver.MonoDriver.destroy">
             <summary>
             释放时需要调用的
@@ -3051,6 +3061,16 @@
             每帧更新后
             </summary>
         </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.FixedUpdate">
+            <summary>
+            固定刷新
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.OnGUI">
+            <summary>
+            GUI绘制时
+            </summary>
+        </member>
         <member name="M:CatLib.MonoDriver.MonoDriver.OnDestroy">
             <summary>
             当释放时
@@ -3133,6 +3153,16 @@
         <member name="M:CatLib.MonoDriver.DriverBehaviour.OnDestroy">
             <summary>
             当释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.FixedUpdate">
+            <summary>
+            固定刷新
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.OnGUI">
+            <summary>
+            当绘制GUI时
             </summary>
         </member>
         <member name="T:CatLib.Routing.ExceptionRequest">
@@ -4966,7 +4996,7 @@
             <returns>方法返回值</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="instance"/>,<paramref name="methodInfo"/>为<c>null</c></exception>
         </member>
-        <member name="M:CatLib.Container.Make(System.String,System.Object[])">
+        <member name="M:CatLib.Container.MakeWith(System.String,System.Object[])">
             <summary>
             构造服务
             </summary>
@@ -4975,6 +5005,16 @@
             <returns>服务实例，如果构造失败那么返回null</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
             <exception cref="T:CatLib.RuntimeException">出现循环依赖</exception>
+            <returns>服务实例，如果构造失败那么返回null</returns>
+        </member>
+        <member name="M:CatLib.Container.Make(System.String)">
+            <summary>
+            构造服务
+            </summary>
+            <param name="service">服务名或别名</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="service"/>为<c>null</c>或者空字符串</exception>
+            <exception cref="T:CatLib.RuntimeException">出现循环依赖</exception>
+            <returns>服务实例，如果构造失败那么返回null</returns>
         </member>
         <member name="P:CatLib.Container.Item(System.String)">
             <summary>
@@ -4998,9 +5038,9 @@
             </summary>
             <param name="service">服务名或别名</param>
         </member>
-        <member name="M:CatLib.Container.ReleaseAll">
+        <member name="M:CatLib.Container.Flush">
             <summary>
-            是否全部静态实例
+            清空容器的所有实例，绑定，别名，标签，解决器
             </summary>
         </member>
         <member name="M:CatLib.Container.OnFindType(System.Func{System.String,System.Type},System.Int32)">
@@ -5231,9 +5271,19 @@
             框架启动流程
             </summary>
         </member>
+        <member name="F:CatLib.Application.StartProcess.Construct">
+            <summary>
+            构建阶段
+            </summary>
+        </member>
         <member name="F:CatLib.Application.StartProcess.Bootstrap">
             <summary>
             引导流程
+            </summary>
+        </member>
+        <member name="F:CatLib.Application.StartProcess.Bootstraped">
+            <summary>
+            引导流程结束
             </summary>
         </member>
         <member name="F:CatLib.Application.StartProcess.Initing">
@@ -5403,14 +5453,9 @@
             注册核心别名
             </summary>
         </member>
-        <member name="T:CatLib.Facade`1">
+        <member name="M:CatLib.Application.GuardDispatcher">
             <summary>
-            门面
-            </summary>
-        </member>
-        <member name="P:CatLib.Facade`1.Instance">
-            <summary>
-            门面实例
+            验证调度器是否有效
             </summary>
         </member>
         <member name="T:CatLib.FilterChain`1">
