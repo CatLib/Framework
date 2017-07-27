@@ -15,7 +15,7 @@ namespace CatLib.Demo.FilterChain
     {
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 var filters = new FilterChain<string>();
 

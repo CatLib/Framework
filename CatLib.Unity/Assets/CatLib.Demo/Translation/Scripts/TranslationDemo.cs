@@ -42,7 +42,7 @@ namespace CatLib.Demo.Translation
 
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 var translator = App.Make<ITranslator>();
                 translator.AddMappingHandler(new TranslationDict());

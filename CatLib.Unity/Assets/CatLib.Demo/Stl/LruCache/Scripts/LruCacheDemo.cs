@@ -18,7 +18,7 @@ namespace CatLib.Demo.LruCache
     {
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
 
                 ILruCache<string,string> cache = new LruCache<string, string>(3);

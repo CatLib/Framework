@@ -21,7 +21,7 @@ namespace CatLib.Demo.Timer
     {
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 var timerManager = App.Make<ITimerManager>();
 

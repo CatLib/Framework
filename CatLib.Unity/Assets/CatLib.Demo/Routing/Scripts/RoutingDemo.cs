@@ -18,7 +18,7 @@ namespace CatLib.Demo.Routing
     {
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 IRouter router = App.Make<IRouter>();
 
