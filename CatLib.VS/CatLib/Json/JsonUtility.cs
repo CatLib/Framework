@@ -18,7 +18,7 @@ namespace CatLib.Json
     /// <summary>
     /// Json处理器
     /// </summary>
-    internal sealed class JsonUtility : IJson, IJsonAware
+    public class JsonUtility : IJson, IJsonAware
     {
         /// <summary>
         /// 处理器
