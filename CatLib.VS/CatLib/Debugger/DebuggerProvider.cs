@@ -140,7 +140,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
-            App.Singleton<Logger>().Alias<ILogger>().Alias("debugger.logger").OnResolving((binder, obj) =>
+            App.Singleton<Logger>().Alias<ILogger>().OnResolving((binder, obj) =>
             {
                 var logger = obj as Logger;
 
@@ -186,7 +186,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebMonitor()
         {
-            App.Singleton<MonitorStore>().Alias<IMonitor>().Alias("debugger.monitor");
+            App.Singleton<MonitorStore>().Alias<IMonitor>();
         }
 
         /// <summary>

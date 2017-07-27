@@ -1202,11 +1202,11 @@
             是否是暂停的
             </summary>
         </member>
-        <member name="M:CatLib.API.Timer.ITimerQueue.OnComplete(System.Action)">
+        <member name="M:CatLib.API.Timer.ITimerQueue.OnCompleted(System.Action)">
             <summary>
             当队列的所有计时器完成时
             </summary>
-            <param name="onComplete">完成时</param>
+            <param name="onCompleted">完成时</param>
             <returns>当前组实例</returns>
         </member>
         <member name="M:CatLib.API.Timer.ITimerQueue.SetTime(CatLib.API.Time.ITime)">
@@ -2212,7 +2212,7 @@
             应用程序事件
             </summary>
         </member>
-        <member name="F:CatLib.ApplicationEvents.OnStartComplete">
+        <member name="F:CatLib.ApplicationEvents.OnStartCompleted">
             <summary>
             当程序启动完成
             </summary>
@@ -2380,13 +2380,27 @@
             <summary>
             等待接口
             </summary>
-            <typeparam name="TInterface">目标接口</typeparam>
+            <typeparam name="TInterface">等待目标接口</typeparam>
         </member>
-        <member name="M:CatLib.IAwait`1.Await(System.Action{`0})">
+        <member name="P:CatLib.IAwait`1.Result">
             <summary>
-            等待接口完成，当接口完成后触发callback
+            结果
             </summary>
-            <param name="callback">回调</param>
+        </member>
+        <member name="T:CatLib.IAwait">
+            <summary>
+            等待接口
+            </summary>
+        </member>
+        <member name="P:CatLib.IAwait.IsDone">
+            <summary>
+            是否准备完成
+            </summary>
+        </member>
+        <member name="P:CatLib.IAwait.Result">
+            <summary>
+            实现
+            </summary>
         </member>
         <member name="T:CatLib.RuntimeException">
             <summary>

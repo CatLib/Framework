@@ -31,7 +31,7 @@ namespace CatLib.Timer
         /// </summary>
         public void Register()
         {
-            App.Singleton<TimerManager>().Alias<ITimerManager>().Alias("catlib.timer.manager");
+            App.Singleton<TimerManager>().Alias<ITimerManager>();
         }
     }
 }

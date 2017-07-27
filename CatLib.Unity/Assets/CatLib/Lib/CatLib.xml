@@ -6826,7 +6826,7 @@
             计时器参数
             </summary>
         </member>
-        <member name="F:CatLib.Timer.Timer.isComplete">
+        <member name="F:CatLib.Timer.Timer.isCompleted">
             <summary>
             当前计时器是否已经被完成
             </summary>
@@ -6958,7 +6958,7 @@
             <param name="deltaTime">一帧的时间</param>
             <returns>是否完成</returns>
         </member>
-        <member name="M:CatLib.Timer.Timer.GuardComplete(System.String)">
+        <member name="M:CatLib.Timer.Timer.GuardCompleted(System.String)">
             <summary>
             检测完成状态
             </summary>
@@ -6984,7 +6984,7 @@
             计时器列表
             </summary>
         </member>
-        <member name="F:CatLib.Timer.TimerQueue.onComplete">
+        <member name="F:CatLib.Timer.TimerQueue.onCompleted">
             <summary>
             当队列中的所有任务完成时
             </summary>
@@ -6999,7 +6999,7 @@
             构建时间组时的逻辑帧
             </summary>
         </member>
-        <member name="P:CatLib.Timer.TimerQueue.IsComplete">
+        <member name="P:CatLib.Timer.TimerQueue.IsCompleted">
             <summary>
             当前计时器队列是否完成的
             </summary>
@@ -7010,11 +7010,11 @@
             </summary>
             <param name="time">时间实现</param>
         </member>
-        <member name="M:CatLib.Timer.TimerQueue.OnComplete(System.Action)">
+        <member name="M:CatLib.Timer.TimerQueue.OnCompleted(System.Action)">
             <summary>
             当组的所有计时器完成时
             </summary>
-            <param name="onComplete">完成时</param>
+            <param name="onCompleted">完成时</param>
             <returns>当前组实例</returns>
         </member>
         <member name="M:CatLib.Timer.TimerQueue.SetTime(CatLib.API.Time.ITime)">
@@ -7042,7 +7042,7 @@
             </summary>
             <returns>计时器</returns>
         </member>
-        <member name="M:CatLib.Timer.TimerQueue.GuardComplete(System.String)">
+        <member name="M:CatLib.Timer.TimerQueue.GuardCompleted(System.String)">
             <summary>
             检测完成状态
             </summary>

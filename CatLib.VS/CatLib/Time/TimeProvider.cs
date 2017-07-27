@@ -40,7 +40,7 @@ namespace CatLib.Time
         /// </summary>
         private void RegisterTimeManager()
         {
-            App.Singleton<TimeManager>().Alias<ITimeManager>().Alias<ITime>().Alias("catlib.time.manager").OnResolving((bind, obj) =>
+            App.Singleton<TimeManager>().Alias<ITimeManager>().Alias<ITime>().OnResolving((bind, obj) =>
             {
                 var timeManager = obj as TimeManager;
 

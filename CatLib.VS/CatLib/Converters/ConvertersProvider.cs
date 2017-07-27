@@ -43,7 +43,6 @@ namespace CatLib.Converters
         {
             App.Singleton<ConvertersManager>()
                 .Alias<IConvertersManager>()
-                .Alias("catlib.converters.manager")
                 .OnResolving((binder, obj) =>
                 {
                     var manager = obj as ConvertersManager;
