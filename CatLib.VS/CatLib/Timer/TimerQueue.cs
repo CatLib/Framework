@@ -39,7 +39,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 当队列中的所有任务完成时
         /// </summary>
-        private Action onComplete;
+        private Action onCompleted;
 
         /// <summary>
         /// 游标,确定了当前执行的timer位置
@@ -54,7 +54,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 当前计时器队列是否完成的
         /// </summary>
-        private bool IsComplete
+        private bool IsCompleted
         {
             get
             {
@@ -78,12 +78,12 @@ namespace CatLib.Timer
         /// <summary>
         /// 当组的所有计时器完成时
         /// </summary>
-        /// <param name="onComplete">完成时</param>
+        /// <param name="onCompleted">完成时</param>
         /// <returns>当前组实例</returns>
-        public ITimerQueue OnComplete(Action onComplete)
+        public ITimerQueue OnCompleted(Action onCompleted)
         {
-            GuardComplete("OnComplete");
-            this.onComplete = onComplete;
+            GuardCompleted("OnCompleted");
+            this.onCompleted = onCompleted;
             return this;
         }
 
@@ -106,7 +106,7 @@ namespace CatLib.Timer
         {
             if (IsPause || frame >= time.FrameCount)
             {
-                return IsComplete;
+                return IsCompleted;
             }
 
             var deltaTime = time.DeltaTime;
@@ -120,14 +120,14 @@ namespace CatLib.Timer
                 ++cursor;
             }
 
-            if (!IsComplete)
+            if (!IsCompleted)
             {
                 return false;
             }
 
-            if (onComplete != null)
+            if (onCompleted != null)
             {
-                onComplete.Invoke();
+                onCompleted.Invoke();
             }
 
             return true;
@@ -148,18 +148,18 @@ namespace CatLib.Timer
         /// <returns>计时器</returns>
         private Timer GetTimer()
         {
-            return !IsComplete ? timers[cursor] : null;
+            return !IsCompleted ? timers[cursor] : null;
         }
 
         /// <summary>
         /// 检测完成状态
         /// </summary>
         /// <param name="func">函数名</param>
-        private void GuardComplete(string func)
+        private void GuardCompleted(string func)
         {
-            if (IsComplete)
+            if (IsCompleted)
             {
-                throw new RuntimeException("Timer Queue is complete , Can not call " + func + "();");
+                throw new RuntimeException("Timer Queue is completed , Can not call " + func + "();");
             }
         }
     }

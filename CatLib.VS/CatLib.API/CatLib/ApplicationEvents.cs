@@ -19,6 +19,6 @@ namespace CatLib
         /// <summary>
         /// 当程序启动完成
         /// </summary>
-        public static readonly string OnStartComplete = "catlib.application.start.complete";
+        public static readonly string OnStartCompleted = "Application.OnStartCompleted";
     }
 }

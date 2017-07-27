@@ -201,7 +201,7 @@ namespace CatLib
             inited = true;
             process = StartProcess.Inited;
 
-            Trigger(ApplicationEvents.OnStartComplete, this);
+            Trigger(ApplicationEvents.OnStartCompleted, this);
         }
 
         /// <summary>

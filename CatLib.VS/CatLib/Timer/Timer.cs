@@ -58,7 +58,7 @@ namespace CatLib.Timer
         /// <summary>
         /// 当前计时器是否已经被完成
         /// </summary>
-        private bool isComplete;
+        private bool isCompleted;
 
         /// <summary>
         /// 计时器队列
@@ -75,7 +75,7 @@ namespace CatLib.Timer
         {
             this.task = task;
             Queue = queue;
-            isComplete = false;
+            isCompleted = false;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace CatLib.Timer
         /// <param name="time">延迟时间(秒)</param>
         public ITimer Delay(float time)
         {
-            GuardComplete("Delay");
+            GuardCompleted("Delay");
             Guard.Requires<ArgumentOutOfRangeException>(time > 0);
             args = new TimerArgs
             {
@@ -100,7 +100,7 @@ namespace CatLib.Timer
         /// <param name="frame">帧数</param>
         public ITimer DelayFrame(int frame)
         {
-            GuardComplete("DelayFrame");
+            GuardCompleted("DelayFrame");
             Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
             args = new TimerArgs
             {
@@ -116,7 +116,7 @@ namespace CatLib.Timer
         /// <param name="time">循环时间(秒)</param>
         public ITimer Loop(float time)
         {
-            GuardComplete("Loop");
+            GuardCompleted("Loop");
             Guard.Requires<ArgumentOutOfRangeException>(time > 0);
             args = new TimerArgs
             {
@@ -132,7 +132,7 @@ namespace CatLib.Timer
         /// <param name="callback">循环状态函数</param>
         public ITimer Loop(Func<bool> callback)
         {
-            GuardComplete("Loop");
+            GuardCompleted("Loop");
             Guard.NotNull(callback, "callback");
             args = new TimerArgs
             {
@@ -148,7 +148,7 @@ namespace CatLib.Timer
         /// <param name="frame">循环执行的帧数</param>
         public ITimer LoopFrame(int frame)
         {
-            GuardComplete("LoopFrame");
+            GuardCompleted("LoopFrame");
             Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
             frame = Math.Max(0, frame);
             args = new TimerArgs
@@ -166,7 +166,7 @@ namespace CatLib.Timer
         /// <param name="life">最多允许触发的次数</param>
         public ITimer Interval(float time, int life = 0)
         {
-            GuardComplete("Interval");
+            GuardCompleted("Interval");
             Guard.Requires<ArgumentOutOfRangeException>(time > 0);
             if (task == null)
             {
@@ -190,7 +190,7 @@ namespace CatLib.Timer
         /// <param name="life">最多允许触发的次数</param>
         public ITimer IntervalFrame(int frame, int life = 0)
         {
-            GuardComplete("IntervalFrame");
+            GuardCompleted("IntervalFrame");
             Guard.Requires<ArgumentOutOfRangeException>(frame > 0);
             if (task == null)
             {
@@ -216,11 +216,11 @@ namespace CatLib.Timer
 
             if (args == null)
             {
-                isComplete = true;
+                isCompleted = true;
                 return true;
             }
 
-            return isComplete = ExecTask(ref deltaTime);
+            return isCompleted = ExecTask(ref deltaTime);
         }
 
         /// <summary>
@@ -407,11 +407,11 @@ namespace CatLib.Timer
         /// 检测完成状态
         /// </summary>
         /// <param name="func">函数名</param>
-        private void GuardComplete(string func)
+        private void GuardCompleted(string func)
         {
-            if (isComplete)
+            if (isCompleted)
             {
-                throw new RuntimeException("Timer is complete , Can not call " + func + "();");
+                throw new RuntimeException("Timer is completed , Can not call " + func + "();");
             }
         }
     }
