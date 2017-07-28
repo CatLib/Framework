@@ -15,7 +15,7 @@ using CatLib.API;
 using CatLib.API.Json;
 using CatLib.Events;
 using CatLib.Json;
-
+using SimpleJson;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -86,7 +86,7 @@ namespace CatLib.Tests.Json
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                jsonUnility.Decode(string.Empty);
+                jsonUnility.Decode<JsonObject>(string.Empty);
             });
  
             ExceptionAssert.Throws<RuntimeException>(() =>
@@ -115,7 +115,7 @@ namespace CatLib.Tests.Json
             Assert.AreEqual("helloworld", decodeClass.Name);
             Assert.AreEqual("18", decodeClass.Dict["key"]);
 
-            var decodeClassWithObject = json.Decode(jsonStr);
+            var decodeClassWithObject = json.Decode<JsonObject>(jsonStr);
 
             Assert.AreNotEqual(null, decodeClassWithObject);
         }

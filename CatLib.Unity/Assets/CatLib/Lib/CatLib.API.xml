@@ -718,13 +718,6 @@
             <param name="json">json数据</param>
             <returns>反序列化的类型</returns>
         </member>
-        <member name="M:CatLib.API.Json.IJson.Decode(System.String)">
-            <summary>
-            反序列化
-            </summary>
-            <param name="json">json数据</param>
-            <returns>反序列化的对象</returns>
-        </member>
         <member name="M:CatLib.API.Json.IJson.Encode(System.Object)">
             <summary>
             序列化

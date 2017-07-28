@@ -396,11 +396,12 @@
             构造一个日志系统
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32)">
+        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32,System.Action)">
             <summary>
             设定调用堆栈忽略的步数
             </summary>
             <param name="skipFrames">跳过的步数</param>
+            <param name="area">作用区域</param>
         </member>
         <member name="M:CatLib.Debugger.Log.Logger.AddLogHandler(CatLib.Debugger.Log.ILogHandler)">
             <summary>
@@ -2276,7 +2277,7 @@
             是否取消事件
             </summary>
         </member>
-        <member name="F:CatLib.Events.EventHandler.ref">
+        <member name="F:CatLib.Events.EventHandler.count">
             <summary>
             调用计数
             </summary>
@@ -2856,13 +2857,6 @@
             <param name="json">json数据</param>
             <returns>反序列化的类型</returns>
         </member>
-        <member name="M:CatLib.Json.JsonUtility.Decode(System.String)">
-            <summary>
-            反序列化
-            </summary>
-            <param name="json">json数据</param>
-            <returns>反序列化的对象</returns>
-        </member>
         <member name="M:CatLib.Json.JsonUtility.Encode(System.Object)">
             <summary>
             序列化
@@ -2887,13 +2881,6 @@
             <typeparam name="T">类型</typeparam>
             <param name="json">json数据</param>
             <returns>反序列化的类型</returns>
-        </member>
-        <member name="M:CatLib.Json.SimpleJsonAdapter.Decode(System.String)">
-            <summary>
-            反序列化
-            </summary>
-            <param name="json">json数据</param>
-            <returns>反序列化的对象</returns>
         </member>
         <member name="M:CatLib.Json.SimpleJsonAdapter.Encode(System.Object)">
             <summary>

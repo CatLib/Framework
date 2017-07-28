@@ -139,6 +139,13 @@ namespace CatLib.Tests.Debugger.Log
             {
                 (logger as Logger).SetSkip(0);
             });
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                (logger as Logger).SetSkip(10, () =>
+                {
+                });
+            });
         }
 
         public void AssertLog(Func<ILogger , string> doLogger)

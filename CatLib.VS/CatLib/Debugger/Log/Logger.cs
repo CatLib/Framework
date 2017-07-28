@@ -51,7 +51,7 @@ namespace CatLib.Debugger.Log
         public void SetSkip(int skipFrames, Action area = null)
         {
             Guard.Requires<ArgumentException>(skipFrames >= 0);
-            if (area == null)
+            if (area != null)
             {
                 lock (syncRoot)
                 {
