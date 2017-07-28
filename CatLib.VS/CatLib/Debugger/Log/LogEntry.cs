@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+using System.Collections.Generic;
 using CatLib.API.Debugger;
 using System.Diagnostics;
 using System.Threading;
@@ -72,7 +74,29 @@ namespace CatLib.Debugger.Log
                 Namespace = declaringType.Namespace;
             }
             Id = Interlocked.Increment(ref lastId);
-            Time = System.DateTime.Now.Timestamp();
+            Time = DateTime.Now.Timestamp();
+        }
+
+        /// <summary>
+        /// 获取调用堆栈
+        /// </summary>
+        /// <param name="match">是否符合输出条件</param>
+        /// <returns>调用堆栈</returns>
+        public string[] GetStackTrace(Predicate<string> match = null)
+        {
+            var callStack = new List<string>(StackTrace.FrameCount);
+
+            for (var i = 0; i < StackTrace.FrameCount; i++)
+            {
+                var frame = StackTrace.GetFrame(i);
+                var method = frame.GetMethod();
+                if (method.DeclaringType == null || !match(method.DeclaringType.Assembly.GetName().Name))
+                {
+                    callStack.Add(string.Format("{0}(at {1}:{2})", method, frame.GetFileName(),
+                        frame.GetFileLineNumber()));
+                }
+            }
+            return callStack.ToArray();
         }
     }
 }

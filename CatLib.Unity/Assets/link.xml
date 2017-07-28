@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <linker>
   <assembly fullname="CatLib">
-    <namespace fullname="CatLib" preserve="all" />
-    <namespace fullname="CatLib.API" preserve="all" />
-    <namespace fullname="CatLib.Config" preserve="all" />
-    <namespace fullname="CatLib.Core" preserve="all" />
-    <namespace fullname="CatLib.FileSystem" preserve="all" />
-    <namespace fullname="CatLib.Routing" preserve="all" />
-    <namespace fullname="CatLib.Stl" preserve="all" />
-    <namespace fullname="CatLib.Time" preserve="all" />
-    <namespace fullname="CatLib.Timer" preserve="all" />
+    <namespace fullname="CatLib.*" preserve="all" />
   </assembly>
 </linker>

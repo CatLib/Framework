@@ -10,7 +10,7 @@
  */
 
 using CatLib.API.Debugger;
-using System.Diagnostics;
+using System;
 
 namespace CatLib.Debugger.Log
 {
@@ -30,11 +30,6 @@ namespace CatLib.Debugger.Log
         LogLevels Level { get; }
 
         /// <summary>
-        /// 调用堆栈
-        /// </summary>
-        StackTrace StackTrace { get; }
-
-        /// <summary>
         /// 日志内容
         /// </summary>
         string Message { get; }
@@ -48,5 +43,12 @@ namespace CatLib.Debugger.Log
         /// 记录时间
         /// </summary>
         long Time { get; }
+
+        /// <summary>
+        /// 获取调用堆栈
+        /// </summary>
+        /// <param name="match">是否符合输出条件</param>
+        /// <returns>调用堆栈</returns>
+        string[] GetStackTrace(Predicate<string> match = null);
     }
 }
