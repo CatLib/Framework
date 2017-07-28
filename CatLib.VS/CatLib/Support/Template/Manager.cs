@@ -46,7 +46,10 @@ namespace CatLib
         /// <returns>解决方案</returns>
         public TInterface this[string name]
         {
-            get { return Get(name); }
+            get
+            {
+                return Get(name);
+            }
         }
 
         /// <summary>
