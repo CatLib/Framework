@@ -47,10 +47,30 @@ namespace CatLib.Debugger.Log
         /// 设定调用堆栈忽略的步数
         /// </summary>
         /// <param name="skipFrames">跳过的步数</param>
-        public void SetSkip(int skipFrames)
+        /// <param name="area">作用区域</param>
+        public void SetSkip(int skipFrames, Action area = null)
         {
             Guard.Requires<ArgumentException>(skipFrames >= 0);
-            this.skipFrames = skipFrames;
+            if (area == null)
+            {
+                lock (syncRoot)
+                {
+                    var old = this.skipFrames;
+                    try
+                    {
+                        this.skipFrames = skipFrames;
+                        area.Invoke();
+                    }
+                    finally
+                    {
+                        this.skipFrames = old;
+                    }
+                }
+            }
+            else
+            {
+                this.skipFrames = skipFrames;
+            }
         }
 
         /// <summary>
@@ -85,10 +105,9 @@ namespace CatLib.Debugger.Log
         private void ExecLog(LogLevels level, object message, params object[] context)
         {
             var result = string.Format(message.ToString(), context);
-            var entry = MakeLogEntry(level, result);
-
             lock (syncRoot)
             {
+                var entry = MakeLogEntry(level, result);
                 foreach (var handler in handlers)
                 {
                     handler.Handler(entry);
