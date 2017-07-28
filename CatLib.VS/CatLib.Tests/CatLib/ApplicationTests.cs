@@ -232,7 +232,7 @@ namespace CatLib.Tests
                 return 123;
             });
 
-            var result = app.Trigger("testevent", "abc", true);
+            var result = app.TriggerHalt("testevent", "abc");
             Assert.AreEqual(123, result);
         }
 
