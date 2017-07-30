@@ -146,8 +146,9 @@ namespace CatLib.Config
                 return def;
             }
 
-            T result;
-            return converters.TryConvert(val, out result) ? result : def;
+            //todo 需要处理泛型转换，现在只是临时通过方案
+            object result;
+            return converters.TryConvert(val, out result, def.GetType()) ? (T)result : def;
         }
     }
 }
