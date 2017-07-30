@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <linker>
-  <assembly fullname="CatLib">
-    <namespace fullname="CatLib.*" preserve="all" />
-  </assembly>
+  <assembly fullname="CatLib" preserve="all"></assembly>
+  <assembly fullname="CatLib.API" preserve="all"></assembly>
 </linker>
