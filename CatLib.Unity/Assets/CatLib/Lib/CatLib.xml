@@ -610,7 +610,6 @@
             <summary>
             初始化
             </summary>
-            <returns>迭代器</returns>
         </member>
         <member name="M:CatLib.Debugger.DebuggerProvider.InitMainThreadGroup">
             <summary>
@@ -978,6 +977,46 @@
             日志处理器
             </summary>
             <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Facade.Json">
+            <summary>
+            Json
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Config">
+            <summary>
+            配置管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Logger">
+            <summary>
+            日志器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Env">
+            <summary>
+            环境
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.FileSystem">
+            <summary>
+            文件系统管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Router">
+            <summary>
+            路由
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Time">
+            <summary>
+            时间管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Timer">
+            <summary>
+            计时器管理器
+            </summary>
         </member>
         <member name="T:CatLib.SystemTime">
             <summary>
@@ -2345,41 +2384,6 @@
         <member name="M:CatLib.Events.EventsProvider.Register">
             <summary>
             注册事件服务
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Config">
-            <summary>
-            配置管理器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Logger">
-            <summary>
-            日志器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Env">
-            <summary>
-            环境
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.FileSystem">
-            <summary>
-            文件系统管理器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Router">
-            <summary>
-            路由
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Time">
-            <summary>
-            时间管理器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Timer">
-            <summary>
-            计时器管理器
             </summary>
         </member>
         <member name="T:CatLib.FileSystem.Adapter.Local">
@@ -7475,22 +7479,16 @@
             备选语言
             </summary>
         </member>
-        <member name="F:CatLib.Translation.Translator.maps">
+        <member name="F:CatLib.Translation.Translator.resources">
             <summary>
-            翻译映射
+            翻译翻译资源
             </summary>
         </member>
-        <member name="M:CatLib.Translation.Translator.#ctor">
+        <member name="M:CatLib.Translation.Translator.SetResources(CatLib.API.Translation.ITranslateResources)">
             <summary>
-            构建一个国际化组件
-            </summary>
-        </member>
-        <member name="M:CatLib.Translation.Translator.AddMappingHandler(CatLib.API.Translation.IMappingHandler,System.Int32)">
-            <summary>
-            增加翻译资源映射
+            设定翻译资源
             </summary>
             <param name="map">映射</param>
-            <param name="priority">优先级</param>
         </member>
         <member name="M:CatLib.Translation.Translator.SetFallback(System.String)">
             <summary>

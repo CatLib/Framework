@@ -11,7 +11,6 @@
 
 using CatLib.API.Json;
 using System;
-using System.Collections.Generic;
 
 namespace CatLib.Json
 {

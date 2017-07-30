@@ -14,7 +14,7 @@ namespace CatLib
     /// <summary>
     /// 当被释放时
     /// </summary>
-    public interface IDestroy
+    public interface IOnDestroy
     {
         /// <summary>
         /// 当被释放时调用

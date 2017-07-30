@@ -45,7 +45,7 @@ namespace CatLib.Tests.Translation
             return app;
         }
 
-        private class BasicMappingHandler : IMappingHandler
+        private class BasicTranslateResources : ITranslateResources
         {
             private Dictionary<string, string> dictZh = new Dictionary<string,string>
             {
@@ -98,7 +98,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.English);
 
@@ -112,7 +112,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.English);
 
@@ -124,7 +124,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.Chinese);
 
@@ -137,7 +137,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.English);
 
@@ -149,7 +149,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
             Assert.AreEqual("zh_world_1", translator.Get("world"));
@@ -160,7 +160,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(null);
             translator.SetLocale(Languages.English);
             Assert.AreEqual(string.Empty, translator.Get("helloworld"));
@@ -171,7 +171,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(null);
             translator.SetLocale(null);
 
@@ -183,7 +183,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(null);
             translator.SetLocale(null);
 
@@ -195,7 +195,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
 
@@ -207,7 +207,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
             Assert.AreEqual("jp hello , my name is catlib", translator.GetBy("replace",new []{ Languages.Japanese, Languages.English }, "start:hello", "name", "catlib"));
@@ -218,7 +218,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
 
@@ -230,7 +230,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
 
@@ -243,7 +243,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
 
@@ -256,7 +256,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(Languages.English);
 
@@ -268,7 +268,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(null);
             translator.SetLocale(null);
 
@@ -280,7 +280,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(null);
             translator.SetLocale(null);
 
@@ -293,7 +293,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(null);
             translator.SetLocale(null);
 
@@ -305,7 +305,7 @@ namespace CatLib.Tests.Translation
         {
             var app = GetApplication();
             var translator = app.Make<ITranslator>();
-            translator.AddMappingHandler(new BasicMappingHandler());
+            translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(null);
             translator.SetLocale(null);
 

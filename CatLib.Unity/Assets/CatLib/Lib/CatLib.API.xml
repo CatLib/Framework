@@ -1327,12 +1327,12 @@
             时间服务管理器
             </summary>
         </member>
-        <member name="T:CatLib.API.Translation.IMappingHandler">
+        <member name="T:CatLib.API.Translation.ITranslateResources">
             <summary>
             翻译映射
             </summary>
         </member>
-        <member name="M:CatLib.API.Translation.IMappingHandler.TryGetValue(System.String,System.String,System.String@)">
+        <member name="M:CatLib.API.Translation.ITranslateResources.TryGetValue(System.String,System.String,System.String@)">
             <summary>
             获取映射
             </summary>
@@ -1347,12 +1347,11 @@
             语言代码使用 ISO 639, ISO 639-1, ISO 639-2, ISO 639-3 标准
             </summary>
         </member>
-        <member name="M:CatLib.API.Translation.ITranslator.AddMappingHandler(CatLib.API.Translation.IMappingHandler,System.Int32)">
+        <member name="M:CatLib.API.Translation.ITranslator.SetResources(CatLib.API.Translation.ITranslateResources)">
             <summary>
             增加映射
             </summary>
             <param name="map">映射方案</param>
-            <param name="priority">优先级</param>
         </member>
         <member name="M:CatLib.API.Translation.ITranslator.Get(System.String,System.String[])">
             <summary>
@@ -2428,12 +2427,12 @@
             <param name="message">异常消息</param>
             <param name="innerException">内部异常</param>
         </member>
-        <member name="T:CatLib.IDestroy">
+        <member name="T:CatLib.IOnDestroy">
             <summary>
             当被释放时
             </summary>
         </member>
-        <member name="M:CatLib.IDestroy.OnDestroy">
+        <member name="M:CatLib.IOnDestroy.OnDestroy">
             <summary>
             当被释放时调用
             </summary>

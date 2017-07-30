@@ -36,26 +36,17 @@ namespace CatLib.Translation
         private string fallback;
 
         /// <summary>
-        /// 翻译映射
+        /// 翻译翻译资源
         /// </summary>
-        private readonly SortSet<IMappingHandler, int> maps;
+        private ITranslateResources resources;
 
         /// <summary>
-        /// 构建一个国际化组件
-        /// </summary>
-        public Translator()
-        {
-            maps = new SortSet<IMappingHandler, int>();
-        }
-
-        /// <summary>
-        /// 增加翻译资源映射
+        /// 设定翻译资源
         /// </summary>
         /// <param name="map">映射</param>
-        /// <param name="priority">优先级</param>
-        public void AddMappingHandler(IMappingHandler map, int priority = int.MaxValue)
+        public void SetResources(ITranslateResources map)
         {
-            maps.Add(map, priority);
+            resources = map;
         }
 
         /// <summary>
@@ -229,9 +220,9 @@ namespace CatLib.Translation
         /// <returns>翻译的值</returns>
         private string GetLine(string key, string locale, string[] replace)
         {
-            if (maps.Count <= 0)
+            if (resources == null)
             {
-                throw new RuntimeException("Undefiend lanuages mapping , Please call AddMappingHandler()");
+                throw new RuntimeException("Undefiend lanuages resources , Please call SetResources()");
             }
 
             if (string.IsNullOrEmpty(locale))
@@ -239,15 +230,8 @@ namespace CatLib.Translation
                 return null;
             }
 
-            string line = null;
-            foreach (var map in maps)
-            {
-                if (map.TryGetValue(locale, key, out line))
-                {
-                    break;
-                }
-            }
-
+            string line;
+            resources.TryGetValue(locale, key, out line);
             return line != null ? MakeReplacements(line, replace) : null;
         }
 

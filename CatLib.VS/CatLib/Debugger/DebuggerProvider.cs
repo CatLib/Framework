@@ -34,7 +34,6 @@ namespace CatLib.Debugger
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <returns>迭代器</returns>
         [Priority(5)]
         public void Init()
         {

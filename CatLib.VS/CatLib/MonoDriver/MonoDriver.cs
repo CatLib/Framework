@@ -47,7 +47,7 @@ namespace CatLib.MonoDriver
         /// <summary>
         /// 释放时需要调用的
         /// </summary>
-        private readonly SortSet<IDestroy, int> destroy = new SortSet<IDestroy, int>();
+        private readonly SortSet<IOnDestroy, int> destroy = new SortSet<IOnDestroy, int>();
 
         /// <summary>
         /// 载入结果集
@@ -188,7 +188,7 @@ namespace CatLib.MonoDriver
 
             if (ConvertAndRemove(destroy, obj))
             {
-                ((IDestroy)obj).OnDestroy();
+                ((IOnDestroy)obj).OnDestroy();
             }
 
             loadSet.Remove(obj);
