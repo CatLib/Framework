@@ -978,6 +978,11 @@
             </summary>
             <param name="log">日志条目</param>
         </member>
+        <member name="T:CatLib.Facade.I18N">
+            <summary>
+            国际化I18N
+            </summary>
+        </member>
         <member name="T:CatLib.Facade.Json">
             <summary>
             Json
