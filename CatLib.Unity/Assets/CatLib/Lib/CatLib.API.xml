@@ -1349,9 +1349,9 @@
         </member>
         <member name="M:CatLib.API.Translation.ITranslator.SetResources(CatLib.API.Translation.ITranslateResources)">
             <summary>
-            增加映射
+            设定翻译资源
             </summary>
-            <param name="map">映射方案</param>
+            <param name="map">翻译资源</param>
         </member>
         <member name="M:CatLib.API.Translation.ITranslator.Get(System.String,System.String[])">
             <summary>

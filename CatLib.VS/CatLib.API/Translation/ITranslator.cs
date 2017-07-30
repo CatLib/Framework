@@ -18,9 +18,9 @@ namespace CatLib.API.Translation
     public interface ITranslator
     {
         /// <summary>
-        /// 增加映射
+        /// 设定翻译资源
         /// </summary>
-        /// <param name="map">映射方案</param>
+        /// <param name="map">翻译资源</param>
         void SetResources(ITranslateResources map);
 
         /// <summary>
