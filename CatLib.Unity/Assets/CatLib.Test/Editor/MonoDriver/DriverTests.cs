@@ -34,7 +34,7 @@ namespace CatLib.Tests.MonoDriver
         private static bool lateUpdateIsAfter;
         private static string onDestroyResult;
 
-        public class TestStaticClass : IUpdate, ILateUpdate , IDestroy
+        public class TestStaticClass : IUpdate, ILateUpdate , IOnDestroy
         {
             public void Update()
             {
@@ -324,7 +324,7 @@ namespace CatLib.Tests.MonoDriver
 
         private static int destroyNum_DoubleDestroyClass;
 
-        public class DoubleDestroyClass : IDestroy
+        public class DoubleOnDestroyClass : IOnDestroy
         {
             /// <summary>
             /// 当释放时
@@ -344,12 +344,12 @@ namespace CatLib.Tests.MonoDriver
             destroyNum_DoubleDestroyClass = 0;
             var app = MakeDriver();
             var onRelease = false;
-            app.Singleton<DoubleDestroyClass>().OnRelease((bind, obj) =>
+            app.Singleton<DoubleOnDestroyClass>().OnRelease((bind, obj) =>
             {
                 onRelease = true;
             });
 
-            app.Make<DoubleDestroyClass>();
+            app.Make<DoubleOnDestroyClass>();
             var d = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
             d.OnDestroy();
 

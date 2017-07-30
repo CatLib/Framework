@@ -22,7 +22,7 @@ namespace CatLib.Demo.Translation
         /// <summary>
         /// 翻译字典
         /// </summary>
-        private class TranslationDict : IMappingHandler
+        private class TranslationDict : ITranslateResources
         {
             /// <summary>
             /// 测试用的字典
@@ -54,7 +54,7 @@ namespace CatLib.Demo.Translation
             App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 var translator = App.Make<ITranslator>();
-                translator.AddMappingHandler(new TranslationDict());
+                translator.SetResources(new TranslationDict());
 
                 translator.SetFallback(Languages.Chinese);
                 translator.SetLocale(Languages.English);
