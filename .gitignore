@@ -38,3 +38,5 @@ Thumbs.db
 CatLib.VS/coverage.xml
 CatLib.Unity/CatLib.apk
 CatLib.Unity/CatLib-1.0-v1.symbols.zip
+CatLib.VS/CatLib.Unity/obj/
+CatLib.VS/CatLib.Unity.API/obj/
