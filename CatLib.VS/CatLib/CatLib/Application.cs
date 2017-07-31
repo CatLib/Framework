@@ -195,7 +195,7 @@ namespace CatLib
 
             foreach (var provider in serviceProviders)
             {
-                provider.Init();
+                Call(provider, "Init");
             }
 
             inited = true;
@@ -224,7 +224,7 @@ namespace CatLib
 
             if (inited)
             {
-                provider.Init();
+                Call(provider, "Init");
             }
         }
 
