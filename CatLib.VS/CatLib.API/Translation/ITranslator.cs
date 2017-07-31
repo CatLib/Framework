@@ -18,11 +18,10 @@ namespace CatLib.API.Translation
     public interface ITranslator
     {
         /// <summary>
-        /// 增加映射
+        /// 设定翻译资源
         /// </summary>
-        /// <param name="map">映射方案</param>
-        /// <param name="priority">优先级</param>
-        void AddMappingHandler(IMappingHandler map, int priority = int.MaxValue);
+        /// <param name="map">翻译资源</param>
+        void SetResources(ITranslateResources map);
 
         /// <summary>
         /// 在当前语言环境下翻译内容，如果没有命中则使用替补语言

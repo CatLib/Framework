@@ -12,13 +12,13 @@
 namespace CatLib
 {
     /// <summary>
-    /// 应用程序事件
+    /// 当被释放时
     /// </summary>
-    public sealed class ApplicationEvents
+    public interface IOnDestroy
     {
         /// <summary>
-        /// 当程序启动完成
+        /// 当被释放时调用
         /// </summary>
-        public static readonly string OnStartCompleted = "Application.OnStartCompleted";
+        void OnDestroy();
     }
 }

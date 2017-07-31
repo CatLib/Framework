@@ -19,9 +19,12 @@ namespace CatLib.Demo.Timer
     /// </summary>
     public class TimerDemo : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 var timerManager = App.Make<ITimerManager>();
 
@@ -45,9 +48,11 @@ namespace CatLib.Demo.Timer
             });
         }
 
+        /// <summary>
+        /// 注册服务提供者
+        /// </summary>
         public void Register()
         {
-
         }
     }
 }

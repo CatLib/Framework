@@ -14,13 +14,19 @@ using UnityEngine;
 
 namespace CatLib.Demo.Routing
 {
+    /// <summary>
+    /// 路由Demo
+    /// </summary>
     public class RoutingDemo : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
-                IRouter router = App.Make<IRouter>();
+                var router = App.Make<IRouter>();
 
                 router.Dispatch("attr-routing-simple/call");
                 router.Dispatch("attr-routing-simple/call-mtest");
@@ -64,15 +70,15 @@ namespace CatLib.Demo.Routing
                     router.Reg("group-callback-routing/error", (request, response) =>
                     {
                         throw new System.Exception("this throw exception");
-                    }).OnError((req, res , ex, next) =>
+                    }).OnError((req, res, ex, next) =>
                     {
                         Debug.Log("on error , this is route");
-                    //next.Do(req, ex); 
-                    // 由于路由条目和路由组是同级关系，根据规则，将会出现2个onError的过滤器链，这里没有继续next 所以 组中定义的onerror将不会执行到
-                    // 异常是冒泡执行的，所以一旦被临近filter chain拦截那么全局异常也不会触发。
-                });
+                        //next.Do(req, ex); 
+                        // 由于路由条目和路由组是同级关系，根据规则，将会出现2个onError的过滤器链，这里没有继续next 所以 组中定义的onerror将不会执行到
+                        // 异常是冒泡执行的，所以一旦被临近filter chain拦截那么全局异常也不会触发。
+                    });
 
-                }).Defaults("param", "this is group default param").OnError((request,res , ex, next) =>
+                }).Defaults("param", "this is group default param").OnError((request, res, ex, next) =>
                 {
                     Debug.Log("on error , this is group");
                     next(request, res, ex);
@@ -81,7 +87,7 @@ namespace CatLib.Demo.Routing
                 router.OnError((request, res, ex, next) =>
                 {
                     Debug.Log("on error , this is router");
-                    next(request , res, ex);
+                    next(request, res, ex);
                 });
 
                 router.Dispatch("catlib://group-callback-routing/with-group-1");
@@ -99,10 +105,12 @@ namespace CatLib.Demo.Routing
                 }).Group("group-name-1");
 
                 router.Dispatch("catlib://group-callback-routing/with-name-group-1");
-
             });
         }
 
+        /// <summary>
+        /// 注册服务提供者
+        /// </summary>
         public void Register()
         {
         }

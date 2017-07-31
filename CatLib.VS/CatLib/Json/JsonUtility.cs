@@ -11,14 +11,13 @@
 
 using CatLib.API.Json;
 using System;
-using System.Collections.Generic;
 
 namespace CatLib.Json
 {
     /// <summary>
     /// Json处理器
     /// </summary>
-    internal sealed class JsonUtility : IJson, IJsonAware
+    public class JsonUtility : IJson, IJsonAware
     {
         /// <summary>
         /// 处理器
@@ -48,17 +47,6 @@ namespace CatLib.Json
         {
             GuardHandler();
             return handler.Decode<T>(json);
-        }
-
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <param name="json">json数据</param>
-        /// <returns>反序列化的对象</returns>
-        public IDictionary<string, object> Decode(string json)
-        {
-            GuardHandler();
-            return handler.Decode(json);
         }
 
         /// <summary>

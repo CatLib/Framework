@@ -16,7 +16,7 @@ using System.Threading;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.Debugger.WebConsole;
-
+using SimpleJson;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -48,8 +48,8 @@ namespace CatLib.Tests.Debugger.WebLog.Controller
             console.Stop();
 
             var json = app.Make<IJson>();
-            var retJson = json.Decode(ret)["Response"] as IList<object>;
-            var ret2Json = json.Decode(ret2)["Response"] as IList<object>;
+            var retJson = json.Decode<JsonObject>(ret)["Response"] as IList<object>;
+            var ret2Json = json.Decode<JsonObject>(ret2)["Response"] as IList<object>;
 
             Assert.AreEqual(HttpStatusCode.OK, statu);
             var id = (retJson[0] as IDictionary<string, object>)["id"];

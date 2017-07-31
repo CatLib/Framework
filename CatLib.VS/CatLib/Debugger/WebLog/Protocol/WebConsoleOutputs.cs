@@ -79,20 +79,7 @@ namespace CatLib.Debugger.WebLog.Protocol
         /// <param name="entry"></param>
         public void WriteLine(ILogEntry entry)
         {
-            var callStack = new List<string>(entry.StackTrace.FrameCount);
-
-            for (var i = 0; i < entry.StackTrace.FrameCount; i++)
-            {
-                var frame = entry.StackTrace.GetFrame(i);
-                var method = frame.GetMethod();
-                if (method.DeclaringType == null || !IsCredibleAssembly(method.DeclaringType.Assembly.GetName().Name))
-                {
-                    callStack.Add(string.Format("{0}(at {1}:{2})", method, frame.GetFileName(),
-                        frame.GetFileLineNumber()));
-                }
-            }
-
-            WriteLine(entry.Id, entry.Level, entry.Namespace, entry.Message, callStack, entry.Time);
+            WriteLine(entry.Id, entry.Level, entry.Namespace, entry.Message, entry.GetStackTrace(IsCredibleAssembly), entry.Time);
         }
 
         /// <summary>

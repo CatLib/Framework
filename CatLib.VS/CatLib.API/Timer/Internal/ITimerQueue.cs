@@ -27,9 +27,9 @@ namespace CatLib.API.Timer
         /// <summary>
         /// 当队列的所有计时器完成时
         /// </summary>
-        /// <param name="onComplete">完成时</param>
+        /// <param name="onCompleted">完成时</param>
         /// <returns>当前组实例</returns>
-        ITimerQueue OnComplete(Action onComplete);
+        ITimerQueue OnCompleted(Action onCompleted);
 
         /// <summary>
         /// 设定使用的时间系统

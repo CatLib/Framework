@@ -37,6 +37,11 @@ namespace CatLib.Events
         private readonly object syncRoot;
 
         /// <summary>
+        /// 跳出标记
+        /// </summary>
+        private readonly object breakFlag = false;
+
+        /// <summary>
         /// 调度器
         /// </summary>
         public Dispatcher()
@@ -48,14 +53,34 @@ namespace CatLib.Events
 
         /// <summary>
         /// 触发一个事件,并获取事件的返回结果
-        /// <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
-        /// 反之返回一个事件处理结果数组(<c>object[]</c>)</para>
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="payload">载荷</param>
-        /// <param name="halt">是否只触发一次就终止</param>
         /// <returns>事件结果</returns>
-        public object Trigger(string eventName, object payload = null , bool halt = false)
+        public object[] Trigger(string eventName, object payload = null)
+        {
+            return Dispatch(eventName, payload) as object[];
+        }
+
+        /// <summary>
+        /// 触发一个事件,遇到第一个事件存在处理结果后终止,并获取事件的返回结果
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="payload">载荷</param>
+        /// <returns>事件结果</returns>
+        public object TriggerHalt(string eventName, object payload = null)
+        {
+            return Dispatch(eventName, payload, true);
+        }
+
+        /// <summary>
+        /// 调度事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="payload">载荷</param>
+        /// <param name="halt">遇到第一个事件存在处理结果后终止</param>
+        /// <returns>处理结果</returns>
+        private object Dispatch(string eventName, object payload = null, bool halt = false)
         {
             Guard.Requires<ArgumentNullException>(eventName != null);
             eventName = Normalize(eventName);
@@ -63,18 +88,26 @@ namespace CatLib.Events
             lock (syncRoot)
             {
                 var listeners = GetListeners(eventName);
-                var outputs = new object[listeners.Count];
+                var outputs = new List<object>(listeners.Count);
                 var triggerListener = new List<EventHandler>(listeners.Count);
 
-                var i = 0;
                 foreach (var listener in listeners)
                 {
-                    outputs[i++] = listener.Trigger(payload);
+                    var result = listener.Trigger(payload);
                     triggerListener.Add(listener);
-                    if (halt)
+
+                    if (halt && result != null)
+                    {
+                        outputs.Add(result);
+                        break;
+                    }
+
+                    if (result != null && result.Equals(breakFlag))
                     {
                         break;
                     }
+
+                    outputs.Add(result);
                 }
 
                 foreach (var listener in triggerListener)
@@ -85,7 +118,7 @@ namespace CatLib.Events
                     }
                 }
 
-                return halt ? outputs.Length <= 0 ? null : outputs[0] : outputs;
+                return halt ? outputs.Count <= 0 ? null : outputs[Math.Max(0, outputs.Count - 1)] : outputs.ToArray();
             }
         }
 

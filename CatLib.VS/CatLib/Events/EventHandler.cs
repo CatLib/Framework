@@ -57,7 +57,7 @@ namespace CatLib.Events
         /// <summary>
         /// 调用计数
         /// </summary>
-        private int @ref;
+        private int count;
 
         /// <summary>
         /// 创建一个事件句柄
@@ -78,7 +78,7 @@ namespace CatLib.Events
             IsWildcard = wildcard;
 
             isCancel = false;
-            @ref = 0;
+            count = 0;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace CatLib.Events
         /// <returns>是否撤销成功</returns>
         public void Cancel()
         {
-            if (@ref > 0 || isCancel)
+            if (count > 0 || isCancel)
             {
                 return;
             }
@@ -115,13 +115,13 @@ namespace CatLib.Events
                 }
             }
 
-            @ref++;
+            count++;
 
             var result = handler.Invoke(payload);
 
-            @ref--;
+            count--;
 
-            Guard.Requires<AssertException>(@ref >= 0);
+            Guard.Requires<AssertException>(count >= 0);
 
             return result;
         }

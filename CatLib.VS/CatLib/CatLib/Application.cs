@@ -95,9 +95,9 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 全局唯一自增
+        /// 增量Id
         /// </summary>
-        private long guid;
+        private long incrementId;
 
         /// <summary>
         /// 主线程ID
@@ -201,7 +201,7 @@ namespace CatLib
             inited = true;
             process = StartProcess.Inited;
 
-            Trigger(ApplicationEvents.OnStartComplete, this);
+            Trigger(ApplicationEvents.OnStartCompleted, this);
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace CatLib
             }
 
             provider.Register();
-            serviceProviders.Add(provider, GetPriorities(provider.GetType(), "Init"));
+            serviceProviders.Add(provider, GetPriority(provider.GetType(), "Init"));
             serviceProviderTypes.Add(provider.GetType());
 
             if (inited)
@@ -229,12 +229,12 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 获取一个唯一id
+        /// 获取运行时唯一Id
         /// </summary>
         /// <returns>应用程序内唯一id</returns>
-        public long GetGuid()
+        public long GetRuntimeId()
         {
-            return Interlocked.Increment(ref guid);
+            return Interlocked.Increment(ref incrementId);
         }
 
         /// <summary>
@@ -243,24 +243,33 @@ namespace CatLib
         /// <param name="type">识别的类型</param>
         /// <param name="method">识别的方法</param>
         /// <returns>优先级</returns>
-        public int GetPriorities(Type type, string method = null)
+        public int GetPriority(Type type, string method = null)
         {
-            return Util.GetPriorities(type, method);
+            return Util.GetPriority(type, method);
         }
 
         /// <summary>
         /// 触发一个事件,并获取事件的返回结果
-        /// <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
-        /// 反之返回一个事件处理结果数组(<c>object[]</c>)</para>
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="payload">载荷</param>
-        /// <param name="halt">是否只触发一次就终止</param>
         /// <returns>事件结果</returns>
-        public object Trigger(string eventName, object payload = null, bool halt = false)
+        public object[] Trigger(string eventName, object payload = null)
         {
             GuardDispatcher();
-            return Dispatcher.Trigger(eventName, payload, halt);
+            return Dispatcher.Trigger(eventName, payload);
+        }
+
+        /// <summary>
+        /// 触发一个事件,遇到第一个事件存在处理结果后终止,并获取事件的返回结果
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="payload">载荷</param>
+        /// <returns>事件结果</returns>
+        public object TriggerHalt(string eventName, object payload = null)
+        {
+            GuardDispatcher();
+            return Dispatcher.TriggerHalt(eventName, payload);
         }
 
         /// <summary>

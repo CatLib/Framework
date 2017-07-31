@@ -46,7 +46,7 @@ namespace CatLib.Environment
                 env.SetAssetPath(configManager.Get().Get("env.asset.path", string.Empty));
 
                 return obj;
-            }).Alias("catlib.environment.unity");
+            });
         }
     }
 }

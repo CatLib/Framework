@@ -54,12 +54,12 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 获取应用程序内的唯一Id
+        /// 获取运行时唯一Id
         /// </summary>
         /// <returns>运行时的唯一Id</returns>
-        public static long GetGuid()
+        public static long GetRuntimeId()
         {
-            return Handler.GetGuid();
+            return Handler.GetRuntimeId();
         }
 
         /// <summary>
@@ -119,23 +119,31 @@ namespace CatLib
         /// <param name="type">获取优先级的类型</param>
         /// <param name="method">获取优先级的调用方法</param>
         /// <returns>优先级</returns>
-        public static int GetPriorities(Type type, string method = null)
+        public static int GetPriority(Type type, string method = null)
         {
-            return Handler.GetPriorities(type, method);
+            return Handler.GetPriority(type, method);
         }
 
         /// <summary>
         /// 触发一个事件,并获取事件的返回结果
-        /// <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
-        /// 反之返回一个事件处理结果数组(<c>object[]</c>)</para>
         /// </summary>
         /// <param name="eventName">事件名称</param>
         /// <param name="payload">载荷</param>
-        /// <param name="halt">是否只触发一次就终止</param>
         /// <returns>事件结果</returns>
-        public static object Trigger(string eventName, object payload = null, bool halt = false)
+        public static object Trigger(string eventName, object payload = null)
         {
-            return Handler.Trigger(eventName, payload, halt);
+            return Handler.Trigger(eventName, payload);
+        }
+
+        /// <summary>
+        /// 触发一个事件,遇到第一个事件存在处理结果后终止,并获取事件的返回结果
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="payload">载荷</param>
+        /// <returns>事件结果</returns>
+        public object TriggerHalt(string eventName, object payload = null)
+        {
+            return Handler.TriggerHalt(eventName, payload);
         }
 
         /// <summary>

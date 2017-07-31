@@ -148,7 +148,7 @@ namespace CatLib.Tests.Events
                 return 3;
             });
 
-            Assert.AreEqual(1, dispatcher.Trigger("event.name", 123, true));
+            Assert.AreEqual(1, dispatcher.TriggerHalt("event.name", 123));
             Assert.AreEqual(true, isCall);
         }
 
@@ -178,7 +178,7 @@ namespace CatLib.Tests.Events
 
             handler.Cancel();
 
-            Assert.AreEqual(2, dispatcher.Trigger("event.name", 123, true));
+            Assert.AreEqual(2, dispatcher.TriggerHalt("event.name", 123));
             Assert.AreEqual(false, isCall);
         }
 
@@ -196,8 +196,8 @@ namespace CatLib.Tests.Events
                 return 1;
             }, 1);
 
-            Assert.AreEqual(1, dispatcher.Trigger("event.name", 123, true));
-            Assert.AreEqual(null, dispatcher.Trigger("event.name", 123, true));
+            Assert.AreEqual(1, dispatcher.TriggerHalt("event.name", 123));
+            Assert.AreEqual(null, dispatcher.TriggerHalt("event.name", 123));
             Assert.AreEqual(true, isCall);
         }
 
@@ -219,7 +219,7 @@ namespace CatLib.Tests.Events
             Assert.AreEqual(1, (dispatcher.Trigger("event.name", 123) as object[]).Length);
             Assert.AreEqual(3, callNum);
 
-            Assert.AreEqual(null, dispatcher.Trigger("event.name", 123, true));
+            Assert.AreEqual(null, dispatcher.TriggerHalt("event.name", 123));
         }
 
         [TestMethod]
@@ -244,10 +244,10 @@ namespace CatLib.Tests.Events
                 return 3;
             },1);
 
-            Assert.AreEqual(1, dispatcher.Trigger("event.name", 123, true));
-            Assert.AreEqual(2, dispatcher.Trigger("event.name", 123, true));
-            Assert.AreEqual(3, dispatcher.Trigger("event.name", 123, true));
-            Assert.AreEqual(null, dispatcher.Trigger("event.name", 123, true));
+            Assert.AreEqual(1, dispatcher.TriggerHalt("event.name", 123));
+            Assert.AreEqual(2, dispatcher.TriggerHalt("event.name", 123));
+            Assert.AreEqual(3, dispatcher.TriggerHalt("event.name", 123));
+            Assert.AreEqual(null, dispatcher.TriggerHalt("event.name", 123));
         }
 
         [TestMethod]
@@ -268,9 +268,9 @@ namespace CatLib.Tests.Events
                 return 2;
             }, 1);
 
-            Assert.AreEqual(1, dispatcher.Trigger("event.name", 123, true));
-            Assert.AreEqual(2, dispatcher.Trigger("event.name", 123, true));
-            Assert.AreEqual(null, dispatcher.Trigger("event.name", 123, true));
+            Assert.AreEqual(1, dispatcher.TriggerHalt("event.name", 123));
+            Assert.AreEqual(2, dispatcher.TriggerHalt("event.name", 123));
+            Assert.AreEqual(null, dispatcher.TriggerHalt("event.name", 123));
         }
 
         [TestMethod]
@@ -297,9 +297,70 @@ namespace CatLib.Tests.Events
                 return 3;
             }, 1);
 
-            Assert.AreEqual(1, dispatcher.Trigger("event.call.name", 123, true));
-            Assert.AreEqual(2, dispatcher.Trigger("event.call.name", 123, true));
-            Assert.AreEqual(null, dispatcher.Trigger("event.call.name", 123, true));
+            Assert.AreEqual(1, dispatcher.TriggerHalt("event.call.name", 123));
+            Assert.AreEqual(2, dispatcher.TriggerHalt("event.call.name", 123));
+            Assert.AreEqual(null, dispatcher.TriggerHalt("event.call.name", 123));
+        }
+
+        [TestMethod]
+        public void TestStopBubbling()
+        {
+            var app = MakeEnv();
+
+            var dispatcher = app.Make<IDispatcher>();
+            dispatcher.On("event.*", (payload) =>
+            {
+                Assert.AreEqual(123, payload);
+                return 1;
+            });
+            dispatcher.On("event.time", (payload) =>
+            {
+                Assert.AreEqual(123, payload);
+                return 2;
+            });
+            dispatcher.On("event.time", (payload) =>
+            {
+                Assert.AreEqual(123, payload);
+                return false;
+            },1);
+            dispatcher.On("event.time", (payload) =>
+            {
+                Assert.AreEqual(123, payload);
+                return 4;
+            });
+
+            var results = dispatcher.Trigger("event.time", 123);
+
+            Assert.AreEqual(1, results.Length);
+            Assert.AreEqual(2, results[0]);
+
+            results = dispatcher.Trigger("event.time", 123);
+
+            Assert.AreEqual(3, results.Length);
+            Assert.AreEqual(2, results[0]);
+            Assert.AreEqual(4, results[1]);
+            Assert.AreEqual(1, results[2]);
+        }
+
+        [TestMethod]
+        public void TestHaltNull()
+        {
+            var app = MakeEnv();
+
+            var dispatcher = app.Make<IDispatcher>();
+            dispatcher.On("event.*", (payload) =>
+            {
+                Assert.AreEqual(123, payload);
+                return 1;
+            });
+
+            dispatcher.On("event.time", (payload) =>
+            {
+                Assert.AreEqual(123, payload);
+                return null;
+            });
+
+            Assert.AreEqual(1, dispatcher.TriggerHalt("event.time", 123));
         }
     }
 }

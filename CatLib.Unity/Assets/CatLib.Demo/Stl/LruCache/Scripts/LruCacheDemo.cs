@@ -13,21 +13,25 @@ using UnityEngine;
 
 namespace CatLib.Demo.LruCache
 {
-
+    /// <summary>
+    /// LruCache Demo
+    /// </summary>
     public class LruCacheDemo : IServiceProvider
     {
+        /// <summary>
+        /// 初始化服务提供者
+        /// </summary>
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
-
-                ILruCache<string,string> cache = new LruCache<string, string>(3);
+                var cache = new LruCache<string, string>(3);
 
                 cache.Add("key_1", "val_1");
                 cache.Add("key_2", "val_2");
                 cache.Add("key_3", "val_3");
 
-                foreach(var kv in cache)
+                foreach (var kv in cache)
                 {
                     Debug.Log(kv.Key + " , " + kv.Value);
                 }
@@ -51,12 +55,14 @@ namespace CatLib.Demo.LruCache
                 {
                     Debug.Log(kv.Key + " , " + kv.Value);
                 }
-
             });
         }
 
-        public void Register(){ }
-
+        /// <summary>
+        /// 注册服务提供者
+        /// </summary>
+        public void Register()
+        {
+        }
     }
-
 }

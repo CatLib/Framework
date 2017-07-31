@@ -14,7 +14,7 @@ namespace CatLib.API.Translation
     /// <summary>
     /// 翻译映射
     /// </summary>
-    public interface IMappingHandler
+    public interface ITranslateResources
     {
         /// <summary>
         /// 获取映射

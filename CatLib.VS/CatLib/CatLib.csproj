@@ -62,6 +62,8 @@
     <Compile Include="Debugger\WebMonitorContent\SystemInfoMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
+    <Compile Include="Facade\I18N.cs" />
+    <Compile Include="Facade\Json.cs" />
     <Compile Include="Support\Util\SystemTime.cs" />
     <Compile Include="Support\Version.cs" />
     <Compile Include="Converters\Converters.cs" />

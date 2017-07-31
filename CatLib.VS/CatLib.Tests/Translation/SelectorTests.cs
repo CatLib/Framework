@@ -35,6 +35,13 @@ namespace CatLib.Tests.Translation
         }
 
         [TestMethod]
+        public void TestNotDefineStart()
+        {
+            var selector = new Selector();
+            Assert.AreEqual("hello", selector.Choose("hello|[10,20]world|[21,*]", 5, Languages.Chinese));
+        }
+
+        [TestMethod]
         public void TestRangSelect()
         {
             var selector = new Selector();

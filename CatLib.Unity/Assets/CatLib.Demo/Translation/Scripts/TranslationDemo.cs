@@ -19,8 +19,14 @@ namespace CatLib.Demo.Translation
     /// </summary>
     public class TranslationDemo : IServiceProvider
     {
-        private class TranslationDict : IMappingHandler
+        /// <summary>
+        /// 翻译字典
+        /// </summary>
+        private class TranslationDict : ITranslateResources
         {
+            /// <summary>
+            /// 测试用的字典
+            /// </summary>
             private Dictionary<string, string> dict = new Dictionary<string, string>
             {
                 { "hello" , "[1,10]hello|[11,*]world" },
@@ -40,12 +46,15 @@ namespace CatLib.Demo.Translation
             }
         }
 
+        /// <summary>
+        /// 初始化
+        /// </summary>
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 var translator = App.Make<ITranslator>();
-                translator.AddMappingHandler(new TranslationDict());
+                translator.SetResources(new TranslationDict());
 
                 translator.SetFallback(Languages.Chinese);
                 translator.SetLocale(Languages.English);
@@ -57,6 +66,9 @@ namespace CatLib.Demo.Translation
             });
         }
 
+        /// <summary>
+        /// 注册服务提供者
+        /// </summary>
         public void Register()
         {
         }

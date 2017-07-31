@@ -38,10 +38,10 @@ namespace CatLib
         void Register(IServiceProvider provider);
 
         /// <summary>
-        /// 获取应用程序内的唯一Id
+        /// 获取程序运行时唯一Id
         /// </summary>
         /// <returns>运行时的唯一Id</returns>
-        long GetGuid();
+        long GetRuntimeId();
 
         /// <summary>
         /// 是否是主线程
@@ -82,6 +82,6 @@ namespace CatLib
         /// <param name="type">获取优先级的类型</param>
         /// <param name="method">获取优先级的调用方法</param>
         /// <returns>优先级</returns>
-        int GetPriorities(Type type, string method = null);
+        int GetPriority(Type type, string method = null);
     }
 }

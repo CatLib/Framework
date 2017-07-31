@@ -9,16 +9,14 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib
+using CatLib.API.Translation;
+
+namespace CatLib.Facade
 {
     /// <summary>
-    /// 当被释放时
+    /// 国际化I18N
     /// </summary>
-    public interface IDestroy
+    public sealed class I18N : Facade<ITranslator>
     {
-        /// <summary>
-        /// 当被释放时调用
-        /// </summary>
-        void OnDestroy();
     }
 }

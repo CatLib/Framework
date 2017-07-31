@@ -25,7 +25,7 @@ namespace CatLib
         /// <param name="type">识别的类型</param>
         /// <param name="method">识别的方法</param>
         /// <returns>优先级</returns>
-        public static int GetPriorities(Type type, string method = null)
+        public static int GetPriority(Type type, string method = null)
         {
             Guard.Requires<ArgumentNullException>(type != null);
             var priority = typeof(PriorityAttribute);

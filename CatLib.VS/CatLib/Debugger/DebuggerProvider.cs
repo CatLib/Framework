@@ -34,14 +34,13 @@ namespace CatLib.Debugger
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <returns>迭代器</returns>
         [Priority(5)]
         public void Init()
         {
             var config = App.Make<IConfigManager>();
             if (config == null || config.Default.Get("debugger.webconsole.enable", true))
             {
-                App.On(ApplicationEvents.OnStartComplete, (payload) =>
+                App.On(ApplicationEvents.OnStartCompleted, (payload) =>
                 {
                     App.Make<HttpDebuggerConsole>();
                 });
@@ -140,7 +139,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
-            App.Singleton<Logger>().Alias<ILogger>().Alias("debugger.logger").OnResolving((binder, obj) =>
+            App.Singleton<Logger>().Alias<ILogger>().OnResolving((binder, obj) =>
             {
                 var logger = obj as Logger;
 
@@ -186,7 +185,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebMonitor()
         {
-            App.Singleton<MonitorStore>().Alias<IMonitor>().Alias("debugger.monitor");
+            App.Singleton<MonitorStore>().Alias<IMonitor>();
         }
 
         /// <summary>

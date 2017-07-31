@@ -32,7 +32,7 @@ namespace CatLib.Translation
         /// </summary>
         public void Register()
         {
-            App.Singleton<Translator>().Alias<ITranslator>().Alias("catlib.translation.translator").OnResolving((bind, obj) =>
+            App.Singleton<Translator>().Alias<ITranslator>().OnResolving((bind, obj) =>
             {
                 var tran = obj as Translator;
                 tran.SetSelector(new Selector());

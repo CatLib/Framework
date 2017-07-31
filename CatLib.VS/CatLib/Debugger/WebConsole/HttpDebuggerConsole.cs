@@ -24,7 +24,7 @@ namespace CatLib.Debugger.WebConsole
     /// http调试控制台
     /// </summary>
     [Routed("debug://http-debugger-console")]
-    public sealed class HttpDebuggerConsole : IDestroy
+    public sealed class HttpDebuggerConsole : IOnDestroy
     {
         /// <summary>
         /// http监听器

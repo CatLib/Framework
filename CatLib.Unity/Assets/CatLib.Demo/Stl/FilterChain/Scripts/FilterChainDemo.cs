@@ -11,18 +11,23 @@
 
 namespace CatLib.Demo.FilterChain
 {
+    /// <summary>
+    /// 过滤器链Demo
+    /// </summary>
     public class FilterChainDemo : IServiceProvider
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
         public void Init()
         {
-            App.On(ApplicationEvents.OnStartComplete, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
             {
                 var filters = new FilterChain<string>();
 
-                bool isCall = true;
+                var isCall = true;
                 filters.Add((data, next) =>
                 {
-                    //这里模拟一个递归调用
                     if (isCall)
                     {
                         isCall = false;
@@ -41,10 +46,14 @@ namespace CatLib.Demo.FilterChain
                 });
 
                 filters.Do("hello world", (data) => UnityEngine.Debug.Log("filter end , " + data));
-
             });
         }
 
-        public void Register(){ }
+        /// <summary>
+        /// 注册服务提供者
+        /// </summary>
+        public void Register()
+        {
+        }
     }
 }

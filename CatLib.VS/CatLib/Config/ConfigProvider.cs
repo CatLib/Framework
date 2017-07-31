@@ -53,7 +53,7 @@ namespace CatLib.Config
                 });
 
                 return configManager;
-            }).Alias("catlib.config.manager");
+            });
         }
 
         /// <summary>

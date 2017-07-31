@@ -14,25 +14,29 @@ using System;
 
 namespace CatLib.Demo.FilterChain
 {
-    /**
-     * 这个类提供了当前demo演示时用到的组件 
-     */
+    /// <summary>
+    /// 引导程序
+    /// </summary>
     public class Bootstraps : IBootstrap
     {
-
+        /// <summary>
+        /// 引导程序
+        /// </summary>
         public void Bootstrap()
         {
             App.Register(new EventsProvider());
             App.Register(new FilterChainDemo());
         }
-
     }
 
-    /**
-     * 这个类是入口类用于启动框架 
-     */
+    /// <summary>
+    /// 程序入口
+    /// </summary>
     public class Program : UnityEngine.MonoBehaviour
     {
+        /// <summary>
+        /// Unity Awake
+        /// </summary>
         public void Awake()
         {
             var application = new Application(this);
@@ -43,5 +47,4 @@ namespace CatLib.Demo.FilterChain
             application.Bootstrap(new Bootstraps()).Init();
         }
     }
-
 }

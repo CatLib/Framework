@@ -9,23 +9,26 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Routing;
 using UnityEngine;
 
 namespace CatLib.Demo.Routing
 {
-
-    /**
-     * 这个Demo演示了属性路由
-     */
-
     // 路由的最简使用方式
     // 如果类或者方法没有给定名字那么会自动使用类名或者方法名作为路由路径
     // 如下面的路由会被默认给定名字：attr-routing-simple/call 
+
+    /// <summary>
+    /// 属性路由
+    /// </summary>
     [Routed]
     public class AttrRoutingSimple
     {
+        /// <summary>
+        /// 调用测试
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
         [Routed]
         public void Call(IRequest request, IResponse response)
         {
@@ -33,6 +36,12 @@ namespace CatLib.Demo.Routing
         }
 
         //连续的大写会被视作一个整体最终的路由路径就是：catlib://attr-routing-simple/call-mtest
+
+        /// <summary>
+        /// 调用测试
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
         [Routed]
         public void CallMTest(IRequest request, IResponse response)
         {
@@ -69,7 +78,6 @@ namespace CatLib.Demo.Routing
     // 如果实现了 IMiddleware 接口那么所有指向位这个类的路由将会通过指定的中间件，中间件可以拦截，修改请求。 
     public class AttrRouting : IMiddleware
     {
-
         /// <summary>
         /// 中间件
         /// </summary>
@@ -92,20 +100,20 @@ namespace CatLib.Demo.Routing
         // 这是一个静态路由，没有通过uri接受任何参数
         // 路由接受函数的前2个参数一定是 IRequest 和 IResponse ，如果是同步路由您可以选择性的接受她们，如果是异步路由您必须严格填写顺序。
         [Routed("attr-routing/class-static")]
-        public void ClassStatic(IRequest request , IResponse response)
+        public void ClassStatic(IRequest request, IResponse response)
         {
-            Debug.Log("in class [" + typeof(AttrRouting).ToString() + "] , call function: ClassStatic() , fragment:" + request.Uri.Fragment);
+            Debug.Log("in class [" + typeof(AttrRouting) + "] , call function: ClassStatic() , fragment:" + request.Uri.Fragment);
         }
 
         //您也可以在路由方法中强制指定scheme，这样她会忽略来自class中定义的scheme。
         //这里我们定义了3个需要接受的参数，其中str表示位必填参数，如果您没有填写，那么路由将不能匹配。而desc和age是可选参数，如果您没有填写他会使用默认值。
         //与此同时我们还为age定义了正则约束，如果您填写了age这个参数那么他必须受到正则约束才能匹配
-        [Routed("catlib://attr-routing/return-response/{str}/{desc?}/{age?}" , 
-                    Defaults = "desc=>this is default desc" , 
+        [Routed("catlib://attr-routing/return-response/{str}/{desc?}/{age?}",
+                    Defaults = "desc=>this is default desc",
                     Where = "age=>[0-9]+")]
         public void ReturnResponse(IRequest request, IResponse response)
         {
-            Debug.Log("in class [" + typeof(AttrRouting).ToString() + "] , call function: ReturnResponse() , get params: " + request.Get("str") + " , " + request.Get("desc") + " , " + request.Get("age"));
+            Debug.Log("in class [" + typeof(AttrRouting) + "] , call function: ReturnResponse() , get params: " + request.Get("str") + " , " + request.Get("desc") + " , " + request.Get("age"));
             // request["str"] 等价于 request.Get("str")
             response.SetContext("this is callback response :" + request["str"]);
             // 您不需要给定返回值，因为 response 是引用的
@@ -116,7 +124,7 @@ namespace CatLib.Demo.Routing
         [Routed("attr-routing/options-param")]
         public static void OptionsParam(IResponse response)
         {
-            Debug.Log("in class [" + typeof(AttrRouting).ToString() + "] , call function: OptionsParam()");
+            Debug.Log("in class [" + typeof(AttrRouting) + "] , call function: OptionsParam()");
             response.SetContext("this is callback from : OptionsParam()");
         }
 
@@ -125,7 +133,7 @@ namespace CatLib.Demo.Routing
         [Routed("attr-routing/other-param")]
         public static void OtherParam(IRequest request, IApplication application)
         {
-            Debug.Log("in class [" + typeof(AttrRouting).ToString() + "] , call function: OtherParam() , param : " + application.GetType().ToString());
+            Debug.Log("in class [" + typeof(AttrRouting) + "] , call function: OtherParam() , param : " + application.GetType().ToString());
             Debug.Log("this is from call in context : " + request.GetContext().ToString());
         }
 
@@ -135,5 +143,4 @@ namespace CatLib.Demo.Routing
             Debug.Log("this is reg route");
         }
     }
-
 }

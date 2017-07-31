@@ -9,16 +9,14 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib
+using CatLib.API.Json;
+
+namespace CatLib.Facade
 {
     /// <summary>
-    /// 应用程序事件
+    /// Json
     /// </summary>
-    public sealed class ApplicationEvents
+    public sealed class Json : Facade<IJson>
     {
-        /// <summary>
-        /// 当程序启动完成
-        /// </summary>
-        public static readonly string OnStartCompleted = "Application.OnStartCompleted";
     }
 }

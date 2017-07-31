@@ -371,7 +371,7 @@ namespace CatLib.Tests.Timer
                 {
                     statu++;
                 }).LoopFrame(4);
-            }).OnComplete(() =>
+            }).OnCompleted(() =>
             {
                 isComplete = true;
             });
@@ -399,7 +399,7 @@ namespace CatLib.Tests.Timer
                 {
                     statu++;
                 }).Delay(0.1f);
-            }).OnComplete(() =>
+            }).OnCompleted(() =>
             {
                 isComplete = true;
             });
@@ -434,7 +434,7 @@ namespace CatLib.Tests.Timer
                 {
                     statu++;
                 }).Delay(0.15f);
-            }).OnComplete(() =>
+            }).OnCompleted(() =>
             {
                 isComplete = true;
             });
@@ -459,7 +459,7 @@ namespace CatLib.Tests.Timer
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                group.OnComplete(() =>
+                group.OnCompleted(() =>
                 {
 
                 });
@@ -491,7 +491,7 @@ namespace CatLib.Tests.Timer
                 {
                     statu++;
                 }).Delay(0.3f);
-            }).OnComplete(() =>
+            }).OnCompleted(() =>
             {
                 isComplete = true;
             });
@@ -527,7 +527,7 @@ namespace CatLib.Tests.Timer
                 {
                     statu++;
                 }).Delay(0.3f);
-            }).OnComplete(() =>
+            }).OnCompleted(() =>
             {
                 isComplete = true;
             });

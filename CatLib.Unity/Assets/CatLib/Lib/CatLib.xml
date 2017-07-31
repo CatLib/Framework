@@ -351,11 +351,6 @@
             日志等级
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.StackTrace">
-            <summary>
-            调用堆栈
-            </summary>
-        </member>
         <member name="P:CatLib.Debugger.Log.ILogEntry.Message">
             <summary>
             日志内容
@@ -370,6 +365,13 @@
             <summary>
             记录时间
             </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.ILogEntry.GetStackTrace(System.Predicate{System.String})">
+            <summary>
+            获取调用堆栈
+            </summary>
+            <param name="match">是否符合输出条件</param>
+            <returns>调用堆栈</returns>
         </member>
         <member name="T:CatLib.Debugger.Log.Logger">
             <summary>
@@ -396,11 +398,12 @@
             构造一个日志系统
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32)">
+        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32,System.Action)">
             <summary>
             设定调用堆栈忽略的步数
             </summary>
             <param name="skipFrames">跳过的步数</param>
+            <param name="area">作用区域</param>
         </member>
         <member name="M:CatLib.Debugger.Log.Logger.AddLogHandler(CatLib.Debugger.Log.ILogHandler)">
             <summary>
@@ -591,6 +594,13 @@
             <param name="message">消息内容</param>
             <param name="skipFrams">跳过的帧数</param>
         </member>
+        <member name="M:CatLib.Debugger.Log.LogEntry.GetStackTrace(System.Predicate{System.String})">
+            <summary>
+            获取调用堆栈
+            </summary>
+            <param name="match">是否符合输出条件</param>
+            <returns>调用堆栈</returns>
+        </member>
         <member name="T:CatLib.Debugger.DebuggerProvider">
             <summary>
             调试服务
@@ -600,7 +610,6 @@
             <summary>
             初始化
             </summary>
-            <returns>迭代器</returns>
         </member>
         <member name="M:CatLib.Debugger.DebuggerProvider.InitMainThreadGroup">
             <summary>
@@ -968,6 +977,51 @@
             日志处理器
             </summary>
             <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Facade.I18N">
+            <summary>
+            国际化I18N
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Json">
+            <summary>
+            Json
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Config">
+            <summary>
+            配置管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Logger">
+            <summary>
+            日志器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Env">
+            <summary>
+            环境
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.FileSystem">
+            <summary>
+            文件系统管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Router">
+            <summary>
+            路由
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Time">
+            <summary>
+            时间管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Timer">
+            <summary>
+            计时器管理器
+            </summary>
         </member>
         <member name="T:CatLib.SystemTime">
             <summary>
@@ -2176,21 +2230,40 @@
             同步锁
             </summary>
         </member>
+        <member name="F:CatLib.Events.Dispatcher.breakFlag">
+            <summary>
+            跳出标记
+            </summary>
+        </member>
         <member name="M:CatLib.Events.Dispatcher.#ctor">
             <summary>
             调度器
             </summary>
         </member>
-        <member name="M:CatLib.Events.Dispatcher.Trigger(System.String,System.Object,System.Boolean)">
+        <member name="M:CatLib.Events.Dispatcher.Trigger(System.String,System.Object)">
             <summary>
             触发一个事件,并获取事件的返回结果
-            <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
-            反之返回一个事件处理结果数组(<c>object[]</c>)</para>
             </summary>
             <param name="eventName">事件名称</param>
             <param name="payload">载荷</param>
-            <param name="halt">是否只触发一次就终止</param>
             <returns>事件结果</returns>
+        </member>
+        <member name="M:CatLib.Events.Dispatcher.TriggerHalt(System.String,System.Object)">
+            <summary>
+            触发一个事件,遇到第一个事件存在处理结果后终止,并获取事件的返回结果
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="payload">载荷</param>
+            <returns>事件结果</returns>
+        </member>
+        <member name="M:CatLib.Events.Dispatcher.Dispatch(System.String,System.Object,System.Boolean)">
+            <summary>
+            调度事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="payload">载荷</param>
+            <param name="halt">遇到第一个事件存在处理结果后终止</param>
+            <returns>处理结果</returns>
         </member>
         <member name="M:CatLib.Events.Dispatcher.On(System.String,System.Action{System.Object},System.Int32)">
             <summary>
@@ -2276,7 +2349,7 @@
             是否取消事件
             </summary>
         </member>
-        <member name="F:CatLib.Events.EventHandler.ref">
+        <member name="F:CatLib.Events.EventHandler.count">
             <summary>
             调用计数
             </summary>
@@ -2316,41 +2389,6 @@
         <member name="M:CatLib.Events.EventsProvider.Register">
             <summary>
             注册事件服务
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Config">
-            <summary>
-            配置管理器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Logger">
-            <summary>
-            日志器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Env">
-            <summary>
-            环境
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.FileSystem">
-            <summary>
-            文件系统管理器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Router">
-            <summary>
-            路由
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Time">
-            <summary>
-            时间管理器
-            </summary>
-        </member>
-        <member name="T:CatLib.Facade.Timer">
-            <summary>
-            计时器管理器
             </summary>
         </member>
         <member name="T:CatLib.FileSystem.Adapter.Local">
@@ -2856,13 +2894,6 @@
             <param name="json">json数据</param>
             <returns>反序列化的类型</returns>
         </member>
-        <member name="M:CatLib.Json.JsonUtility.Decode(System.String)">
-            <summary>
-            反序列化
-            </summary>
-            <param name="json">json数据</param>
-            <returns>反序列化的对象</returns>
-        </member>
         <member name="M:CatLib.Json.JsonUtility.Encode(System.Object)">
             <summary>
             序列化
@@ -2887,13 +2918,6 @@
             <typeparam name="T">类型</typeparam>
             <param name="json">json数据</param>
             <returns>反序列化的类型</returns>
-        </member>
-        <member name="M:CatLib.Json.SimpleJsonAdapter.Decode(System.String)">
-            <summary>
-            反序列化
-            </summary>
-            <param name="json">json数据</param>
-            <returns>反序列化的对象</returns>
         </member>
         <member name="M:CatLib.Json.SimpleJsonAdapter.Encode(System.Object)">
             <summary>
@@ -5326,9 +5350,9 @@
             启动流程
             </summary>
         </member>
-        <member name="F:CatLib.Application.guid">
+        <member name="F:CatLib.Application.incrementId">
             <summary>
-            全局唯一自增
+            增量Id
             </summary>
         </member>
         <member name="F:CatLib.Application.mainThreadId">
@@ -5378,13 +5402,13 @@
             <param name="provider">注册服务提供者</param>
             <exception cref="T:CatLib.RuntimeException">服务提供者被重复注册时触发</exception>
         </member>
-        <member name="M:CatLib.Application.GetGuid">
+        <member name="M:CatLib.Application.GetRuntimeId">
             <summary>
-            获取一个唯一id
+            获取运行时唯一Id
             </summary>
             <returns>应用程序内唯一id</returns>
         </member>
-        <member name="M:CatLib.Application.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.Application.GetPriority(System.Type,System.String)">
             <summary>
             获取优先级
             </summary>
@@ -5392,15 +5416,20 @@
             <param name="method">识别的方法</param>
             <returns>优先级</returns>
         </member>
-        <member name="M:CatLib.Application.Trigger(System.String,System.Object,System.Boolean)">
+        <member name="M:CatLib.Application.Trigger(System.String,System.Object)">
             <summary>
             触发一个事件,并获取事件的返回结果
-            <para>如果<paramref name="halt"/>为<c>true</c>那么返回的结果是事件的返回结果,没有一个事件进行处理的话返回<c>null</c>
-            反之返回一个事件处理结果数组(<c>object[]</c>)</para>
             </summary>
             <param name="eventName">事件名称</param>
             <param name="payload">载荷</param>
-            <param name="halt">是否只触发一次就终止</param>
+            <returns>事件结果</returns>
+        </member>
+        <member name="M:CatLib.Application.TriggerHalt(System.String,System.Object)">
+            <summary>
+            触发一个事件,遇到第一个事件存在处理结果后终止,并获取事件的返回结果
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="payload">载荷</param>
             <returns>事件结果</returns>
         </member>
         <member name="M:CatLib.Application.On(System.String,System.Action{System.Object},System.Int32)">
@@ -6778,7 +6807,7 @@
             通用支持
             </summary>
         </member>
-        <member name="M:CatLib.Util.GetPriorities(System.Type,System.String)">
+        <member name="M:CatLib.Util.GetPriority(System.Type,System.String)">
             <summary>
             获取优先级
             </summary>
@@ -6826,7 +6855,7 @@
             计时器参数
             </summary>
         </member>
-        <member name="F:CatLib.Timer.Timer.isComplete">
+        <member name="F:CatLib.Timer.Timer.isCompleted">
             <summary>
             当前计时器是否已经被完成
             </summary>
@@ -6958,7 +6987,7 @@
             <param name="deltaTime">一帧的时间</param>
             <returns>是否完成</returns>
         </member>
-        <member name="M:CatLib.Timer.Timer.GuardComplete(System.String)">
+        <member name="M:CatLib.Timer.Timer.GuardCompleted(System.String)">
             <summary>
             检测完成状态
             </summary>
@@ -6984,7 +7013,7 @@
             计时器列表
             </summary>
         </member>
-        <member name="F:CatLib.Timer.TimerQueue.onComplete">
+        <member name="F:CatLib.Timer.TimerQueue.onCompleted">
             <summary>
             当队列中的所有任务完成时
             </summary>
@@ -6999,7 +7028,7 @@
             构建时间组时的逻辑帧
             </summary>
         </member>
-        <member name="P:CatLib.Timer.TimerQueue.IsComplete">
+        <member name="P:CatLib.Timer.TimerQueue.IsCompleted">
             <summary>
             当前计时器队列是否完成的
             </summary>
@@ -7010,11 +7039,11 @@
             </summary>
             <param name="time">时间实现</param>
         </member>
-        <member name="M:CatLib.Timer.TimerQueue.OnComplete(System.Action)">
+        <member name="M:CatLib.Timer.TimerQueue.OnCompleted(System.Action)">
             <summary>
             当组的所有计时器完成时
             </summary>
-            <param name="onComplete">完成时</param>
+            <param name="onCompleted">完成时</param>
             <returns>当前组实例</returns>
         </member>
         <member name="M:CatLib.Timer.TimerQueue.SetTime(CatLib.API.Time.ITime)">
@@ -7042,7 +7071,7 @@
             </summary>
             <returns>计时器</returns>
         </member>
-        <member name="M:CatLib.Timer.TimerQueue.GuardComplete(System.String)">
+        <member name="M:CatLib.Timer.TimerQueue.GuardCompleted(System.String)">
             <summary>
             检测完成状态
             </summary>
@@ -7455,22 +7484,16 @@
             备选语言
             </summary>
         </member>
-        <member name="F:CatLib.Translation.Translator.maps">
+        <member name="F:CatLib.Translation.Translator.resources">
             <summary>
-            翻译映射
+            翻译翻译资源
             </summary>
         </member>
-        <member name="M:CatLib.Translation.Translator.#ctor">
+        <member name="M:CatLib.Translation.Translator.SetResources(CatLib.API.Translation.ITranslateResources)">
             <summary>
-            构建一个国际化组件
-            </summary>
-        </member>
-        <member name="M:CatLib.Translation.Translator.AddMappingHandler(CatLib.API.Translation.IMappingHandler,System.Int32)">
-            <summary>
-            增加翻译资源映射
+            设定翻译资源
             </summary>
             <param name="map">映射</param>
-            <param name="priority">优先级</param>
         </member>
         <member name="M:CatLib.Translation.Translator.SetFallback(System.String)">
             <summary>
