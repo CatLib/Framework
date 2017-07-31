@@ -147,7 +147,7 @@ namespace CatLib.Config
             }
 
             object result;
-            return converters.TryConvert(val, out result, def.GetType()) ? (T)result : def;
+            return converters.TryConvert(val, out result, typeof(T)) ? (T)result : def;
         }
     }
 }
