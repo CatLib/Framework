@@ -13,6 +13,13 @@ CatLib.VS/CatLib.API/bin
 CatLib.VS/CatLib.API/obj
 CatLib.VS/CatLib.Tests.Server/bin
 CatLib.VS/CatLib.Tests.Server/obj
+CatLib.VS/coverage.xml
+CatLib.Unity/CatLib.apk
+CatLib.Unity/CatLib-1.0-v1.symbols.zip
+CatLib.VS/CatLib.Unity/obj/
+CatLib.VS/CatLib.Unity.API/obj/
+CatLib.VS/CatLib.Unity/bin/
+CatLib.VS/CatLib.Unity.API/bin/
 
 .vscode
 .vs
@@ -35,6 +42,3 @@ ExportedObj/
 Icon?
 ehthumbs.db
 Thumbs.db
-CatLib.VS/coverage.xml
-CatLib.Unity/CatLib.apk
-CatLib.Unity/CatLib-1.0-v1.symbols.zip
