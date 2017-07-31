@@ -148,8 +148,7 @@ namespace CatLib.Converters
             do
             {
                 status = coverterDictionary.TryGetValue(from, out toDictionary);
-                from = from.BaseType;
-            } while (!status && from != null);
+            } while (!status && (from = from.BaseType) != null);
 
             if (!status)
             {
@@ -159,8 +158,7 @@ namespace CatLib.Converters
             do
             {
                 status = toDictionary.TryGetValue(to, out converter);
-                to = to.BaseType;
-            } while (!status && to != null);
+            } while (!status && (to = to.BaseType) != null);
 
             return status;
         }

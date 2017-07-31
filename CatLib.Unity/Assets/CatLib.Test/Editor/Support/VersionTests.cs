@@ -115,31 +115,31 @@ namespace CatLib.Tests
         {
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var version = new Version("1.01.2-beta.10+29830");
+                new Version("1.01.2-beta.10+29830");
             });
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var version = new Version("1.1b.2-beta.10+29830");
+                new Version("1.1b.2-beta.10+29830");
             });
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var version = new Version("1.1.2/beta.10+29830");
+                new Version("1.1.2/beta.10+29830");
             });
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var version = new Version("1.1.2-00.10+29830");
+                new Version("1.1.2-00.10+29830");
             });
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var version = new Version("1.1.2-+29830");
+                new Version("1.1.2-+29830");
             });
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var version = new Version("1.1.2-0.+29830");
+                new Version("1.1.2-0.+29830");
             });
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                var version = new Version("1.1..2-0.beta2+29830");
+                new Version("1.1..2-0.beta2+29830");
             });
         }
     }
