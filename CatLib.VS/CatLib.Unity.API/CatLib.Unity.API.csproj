@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\3rd\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
