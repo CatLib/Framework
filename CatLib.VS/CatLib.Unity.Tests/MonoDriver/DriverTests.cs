@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using System.Collections;
 using CatLib.API.MonoDriver;
 using CatLib.Events;

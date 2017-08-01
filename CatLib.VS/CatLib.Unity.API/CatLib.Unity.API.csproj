@@ -36,9 +36,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\3rd\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\DebugLevels.cs" />
+    <Compile Include="Environment\IEnvironment.cs" />
+    <Compile Include="MonoDriver\Feature\IFixedUpdate.cs" />
+    <Compile Include="MonoDriver\Feature\ILateUpdate.cs" />
+    <Compile Include="MonoDriver\Feature\IOnDestroy.cs" />
+    <Compile Include="MonoDriver\Feature\IOnGUI.cs" />
+    <Compile Include="MonoDriver\Feature\IUpdate.cs" />
+    <Compile Include="MonoDriver\IMonoDriver.cs" />
+    <Compile Include="MonoDriver\MonoDriverEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Timer\Internal\ITimer.cs" />
+    <Compile Include="Timer\Internal\ITimerQueue.cs" />
+    <Compile Include="Timer\ITimerManager.cs" />
+    <Compile Include="Time\Internal\ITime.cs" />
+    <Compile Include="Time\ITimeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CatLib.API\CatLib.API.csproj">

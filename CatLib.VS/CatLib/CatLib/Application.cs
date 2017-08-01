@@ -13,7 +13,6 @@ using CatLib.API.Events;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace CatLib
 {
@@ -134,13 +133,11 @@ namespace CatLib
         /// <summary>
         /// 构建一个CatLib实例
         /// </summary>
-        /// <param name="baseComponent">基础组件</param>
         [ExcludeFromCodeCoverage]
-        public Application(Component baseComponent = null)
+        public Application()
         {
             App.Handler = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
-            Instance(Type2Service(typeof(Component)), baseComponent);
             RegisterCoreAlias();
         }
 

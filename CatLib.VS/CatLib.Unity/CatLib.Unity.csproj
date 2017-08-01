@@ -35,9 +35,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\3rd\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\EnvironmentProvider.cs" />
+    <Compile Include="Environment\UnityEnvironment.cs" />
+    <Compile Include="MonoDriver\DriverBehaviour.cs" />
+    <Compile Include="MonoDriver\MonoDriver.cs" />
+    <Compile Include="MonoDriver\MonoDriverProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Timer\Timer.cs" />
+    <Compile Include="Timer\TimerManager.cs" />
+    <Compile Include="Timer\TimerProvider.cs" />
+    <Compile Include="Timer\TimerQueue.cs" />
+    <Compile Include="Timer\TimerTypes.cs" />
+    <Compile Include="Time\TimeManager.cs" />
+    <Compile Include="Time\TimeProvider.cs" />
+    <Compile Include="Time\UnityTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CatLib.API\CatLib.API.csproj">
@@ -52,6 +68,12 @@
       <Project>{bbb2dae2-638b-4419-9591-3cecca312e4e}</Project>
       <Name>CatLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Environment\catlib.json" />
+    <None Include="MonoDriver\catlib.json" />
+    <None Include="Timer\catlib.json" />
+    <None Include="Time\catlib.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

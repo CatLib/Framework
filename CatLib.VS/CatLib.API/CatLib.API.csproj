@@ -37,14 +37,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="UnityEditor">
-      <HintPath>..\3rd\UnityEditor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\3rd\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatLib\Facade.cs" />
@@ -57,21 +49,12 @@
     <Compile Include="Converters\IConvertersManager.cs" />
     <Compile Include="CatLib\App.cs" />
     <Compile Include="CatLib\ApplicationEvents.cs" />
-    <Compile Include="Environment\DebugLevels.cs" />
-    <Compile Include="Environment\IEnvironment.cs" />
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
-    <Compile Include="MonoDriver\Feature\IFixedUpdate.cs" />
-    <Compile Include="MonoDriver\Feature\IOnGUI.cs" />
-    <Compile Include="MonoDriver\IMonoDriver.cs" />
-    <Compile Include="MonoDriver\MonoDriverEvents.cs" />
     <Compile Include="Support\AssertException.cs" />
     <Compile Include="Support\Container\ContainerExpand.cs" />
     <Compile Include="Support\IAwait.cs" />
     <Compile Include="Support\RuntimeException.cs" />
-    <Compile Include="MonoDriver\Feature\IOnDestroy.cs" />
-    <Compile Include="MonoDriver\Feature\ILateUpdate.cs" />
-    <Compile Include="MonoDriver\Feature\IUpdate.cs" />
     <Compile Include="Support\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="CatLib\IBootstrap.cs" />
     <Compile Include="CatLib\IServiceProvider.cs" />
@@ -109,11 +92,6 @@
     <Compile Include="Support\SortSet\ISortSet.cs" />
     <Compile Include="Support\Template\IManager.cs" />
     <Compile Include="Support\Template\ISingleManager.cs" />
-    <Compile Include="Timer\Internal\ITimer.cs" />
-    <Compile Include="Timer\Internal\ITimerQueue.cs" />
-    <Compile Include="Timer\ITimerManager.cs" />
-    <Compile Include="Time\Internal\ITime.cs" />
-    <Compile Include="Time\ITimeManager.cs" />
     <Compile Include="Translation\Features\ITranslateResources.cs" />
     <Compile Include="Translation\ITranslator.cs" />
     <Compile Include="Translation\Languages.cs" />

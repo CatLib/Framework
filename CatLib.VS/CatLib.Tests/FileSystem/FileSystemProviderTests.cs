@@ -10,15 +10,11 @@
  */
 
 using System;
-using System.Collections;
 using System.IO;
-using CatLib.API;
 using CatLib.API.Config;
-using CatLib.API.Environment;
 using CatLib.API.FileSystem;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Environment;
 using CatLib.Events;
 using CatLib.FileSystem;
 using CatLib.FileSystem.Adapter;
@@ -32,7 +28,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.FileSystem
@@ -46,7 +41,6 @@ namespace CatLib.Tests.FileSystem
             public void Init()
             {
                 var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
-                App.Make<IEnvironment>().SetAssetPath(path);
             }
 
             public void Register(){ }
@@ -66,7 +60,6 @@ namespace CatLib.Tests.FileSystem
                 return Type.GetType(t);
             });
             app.Register(new FileSystemProvider());
-            app.Register(new EnvironmentProvider());
             app.Register(new PrepareEnv());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());

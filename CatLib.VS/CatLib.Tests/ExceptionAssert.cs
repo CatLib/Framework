@@ -22,7 +22,7 @@ namespace CatLib.Tests
     /// <summary>
     /// 异常断言
     /// </summary>
-    static class ExceptionAssert
+    public static class ExceptionAssert
     {
         /// <summary>
         /// 行为中需要引发一个异常

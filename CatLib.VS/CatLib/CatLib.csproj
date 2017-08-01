@@ -39,14 +39,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="UnityEditor">
-      <HintPath>..\3rd\UnityEditor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\3rd\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
@@ -124,8 +116,6 @@
     <Compile Include="Debugger\WebLog\Controller\Util.cs" />
     <Compile Include="Debugger\WebLog\LogStore.cs" />
     <Compile Include="Debugger\WebLog\LogHandler\WebLogHandler.cs" />
-    <Compile Include="Environment\EnvironmentProvider.cs" />
-    <Compile Include="Environment\UnityEnvironment.cs" />
     <Compile Include="Events\Dispatcher.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\EventsProvider.cs" />
@@ -151,15 +141,12 @@
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
     <Compile Include="Json\SimpleJsonAdapter.cs" />
-    <Compile Include="MonoDriver\MonoDriver.cs" />
-    <Compile Include="MonoDriver\MonoDriverProvider.cs" />
     <Compile Include="Routing\ExceptionRequest.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="Support\Container\BindData.cs" />
     <Compile Include="Support\Container\Container.cs" />
     <Compile Include="Support\Container\GivenData.cs" />
     <Compile Include="CatLib\Application.cs" />
-    <Compile Include="MonoDriver\DriverBehaviour.cs" />
     <Compile Include="Support\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />
@@ -189,14 +176,6 @@
     <Compile Include="Support\Template\SingleManager.cs" />
     <Compile Include="Support\Util\Str.cs" />
     <Compile Include="Support\Util\Util.cs" />
-    <Compile Include="Timer\Timer.cs" />
-    <Compile Include="Timer\TimerQueue.cs" />
-    <Compile Include="Timer\TimerManager.cs" />
-    <Compile Include="Timer\TimerProvider.cs" />
-    <Compile Include="Timer\TimerTypes.cs" />
-    <Compile Include="Time\TimeManager.cs" />
-    <Compile Include="Time\TimeProvider.cs" />
-    <Compile Include="Time\UnityTime.cs" />
     <Compile Include="Translation\ISelector.cs" />
     <Compile Include="Translation\Selector.cs" />
     <Compile Include="Translation\TranslationProvider.cs" />
@@ -207,16 +186,12 @@
     <None Include="Converters\catlib.json" />
     <None Include="CatLib\catlib.json" />
     <None Include="Debugger\catlib.json" />
-    <None Include="Environment\catlib.json" />
     <None Include="Events\catlib.json" />
     <None Include="Facade\catlib.json" />
     <None Include="FileSystem\catlib.json" />
     <None Include="Json\catlib.json" />
-    <None Include="MonoDriver\catlib.json" />
     <None Include="Routing\catlib.json" />
     <None Include="Support\catlib.json" />
-    <None Include="Timer\catlib.json" />
-    <None Include="Time\catlib.json" />
     <None Include="Translation\catlib.json" />
   </ItemGroup>
   <ItemGroup>
