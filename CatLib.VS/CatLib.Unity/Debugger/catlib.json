@@ -1,0 +1,11 @@
+{
+  "source": "catlib/debugger",
+  "folder": "Debugger",
+  "require": {
+    "catlib/support": "~1.0",
+    "catlib/api": "~1.0",
+    "catlib/config": "~1.0",
+	"catlib/monodriver" :  "~1.0",
+	"catlib/json" :  "~1.0"
+  }
+}
