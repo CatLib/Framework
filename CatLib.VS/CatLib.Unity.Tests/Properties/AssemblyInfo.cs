@@ -12,18 +12,18 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CatLib.Tests")]
+[assembly: AssemblyTitle("CatLib.Unity.Tests")]
 [assembly: AssemblyDescription("CatLib Unit Tests")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CatLib")]
-[assembly: AssemblyProduct("CatLib.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyProduct("CatLib.Unity.Tests")]
+[assembly: AssemblyCopyright("Copyright © CatLib 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("8d8774b0-b6ce-4571-89f6-f3707fffc167")]
+[assembly: Guid("d4f435b5-e64e-42bd-95b4-084cd48ae747")]
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
