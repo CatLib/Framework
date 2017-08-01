@@ -39,5 +39,19 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CatLib.API\CatLib.API.csproj">
+      <Project>{5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e}</Project>
+      <Name>CatLib.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CatLib.Unity.API\CatLib.Unity.API.csproj">
+      <Project>{651a86a0-f4f6-46d9-a2f9-3bafca24f1d5}</Project>
+      <Name>CatLib.Unity.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CatLib\CatLib.csproj">
+      <Project>{bbb2dae2-638b-4419-9591-3cecca312e4e}</Project>
+      <Name>CatLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
