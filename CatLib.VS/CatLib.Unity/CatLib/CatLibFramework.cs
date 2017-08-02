@@ -20,9 +20,9 @@ namespace CatLib.CatLib
     public sealed class CatLibFramework : MonoBehaviour
     {
         /// <summary>
-        /// Unity Awake
+        /// Unity Start
         /// </summary>
-        public void Awake()
+        public void Start()
         {
             var gameBox = new UnityApplication(this);
             gameBox.Bootstrap(GetBootstraps());

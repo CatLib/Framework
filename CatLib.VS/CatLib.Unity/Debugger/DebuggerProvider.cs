@@ -11,10 +11,8 @@
 
 #if CATLIB
 using CatLib.API.Config;
-using CatLib.API.Debugger;
 using CatLib.API.MonoDriver;
 using CatLib.API.Routing;
-using CatLib.Debugger.Log;
 using CatLib.Debugger.Log.Handler;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebLog;
@@ -23,40 +21,89 @@ using CatLib.Debugger.WebMonitorContent;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
+using ILogger = CatLib.API.Debugger.ILogger;
+using ILogHandler = CatLib.Debugger.Log.ILogHandler;
+using Logger = CatLib.Debugger.Log.Logger;
 
 namespace CatLib.Debugger
 {
     /// <summary>
     /// 调试服务
     /// </summary>
-    public sealed class DebuggerProvider : IServiceProvider
+    public sealed class UnityDebuggerProvider : MonoBehaviour , IServiceProvider
     {
+        /// <summary>
+        /// 基础服务提供者
+        /// </summary>
+        private readonly DebuggerProvider baseProvider;
+
+        /// <summary>
+        /// 启动性能监控
+        /// </summary>
+        public bool MonitorPerformance = true;
+
+        /// <summary>
+        /// 启动屏幕监控
+        /// </summary>
+        public bool MonitorScreen = true;
+
+        /// <summary>
+        /// 启动场景监控
+        /// </summary>
+        public bool MonitorScene = true;
+
+        /// <summary>
+        /// 启动系统信息监控
+        /// </summary>
+        public bool MonitorSystemInfo = true;
+
+        /// <summary>
+        /// 启动路径监控
+        /// </summary>
+        public bool MonitorPath = true;
+
+        /// <summary>
+        /// 启动输入监控
+        /// </summary>
+        public bool MonitorInput = true;
+
+        /// <summary>
+        /// 启动定位监控
+        /// </summary>
+        public bool MonitorInputLocation = true;
+
+        /// <summary>
+        /// 启动陀螺仪监控
+        /// </summary>
+        public bool MonitorInputGyroscope = true;
+
+        /// <summary>
+        /// 启动罗盘监控
+        /// </summary>
+        public bool MonitorInputCompass = true;
+
+        /// <summary>
+        /// 启动显卡监控
+        /// </summary>
+        public bool MonitorGraphics = true;
+
+        /// <summary>
+        /// Unity服务提供者
+        /// </summary>
+        public UnityDebuggerProvider()
+        {
+            baseProvider = new DebuggerProvider();
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
         [Priority(5)]
         public void Init()
         {
-            var config = App.Make<IConfigManager>();
-            if (config == null || config.Default.Get("debugger.webconsole.enable", true))
-            {
-                App.On(ApplicationEvents.OnStartCompleted, (payload) =>
-                {
-                    App.Make<HttpDebuggerConsole>();
-                });
-
-                App.Make<LogStore>();
-                App.Make<MonitorStore>();
-
-                foreach (var monitor in GetMonitors())
-                {
-                    if (config == null || config.Default.Get(monitor.Key, true))
-                    {
-                        App.Make(App.Type2Service(monitor.Value));
-                    }
-                }
-                InitMainThreadGroup();
-            }
+            baseProvider.Init();
+            InitMainThreadGroup();
         }
 
         /// <summary>
@@ -69,7 +116,7 @@ namespace CatLib.Debugger
 
             if (driver != null)
             {
-                router.Group("DebuggerMainThreadCall").Middleware((request, response, next) =>
+                router.Group("Debugger.MainThreadCall").Middleware((request, response, next) =>
                 {
                     var wait = new AutoResetEvent(false);
                     driver.MainThread(() =>
@@ -91,21 +138,21 @@ namespace CatLib.Debugger
         /// <summary>
         /// 获取监控
         /// </summary>
-        /// <returns>监控</returns>
-        private IList<KeyValuePair<string, Type>> GetMonitors()
+        /// <returns></returns>
+        private IList<KeyValuePair<Type, bool>> GetMonitors()
         {
-            return new List<KeyValuePair<string, Type>>
+            return new List<KeyValuePair<Type, bool>>
             {
-                new KeyValuePair<string, Type>("debugger.monitor.performance" , typeof(PerformanceMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.screen" , typeof(ScreenMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.scene" , typeof(SceneMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.systeminfo" , typeof(SystemInfoMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.path" , typeof(PathMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.input",typeof(InputMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.input.location" , typeof(InputLocationMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.input.gyro" , typeof(InputGyroscopeMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.input.compass" , typeof(InputCompassMonitor)),
-                new KeyValuePair<string, Type>("debugger.monitor.graphics" , typeof(GraphicsMonitor)),
+                new KeyValuePair<Type, bool>(typeof(PerformanceMonitor) , MonitorPerformance),
+                new KeyValuePair<Type, bool>(typeof(ScreenMonitor) , MonitorScreen),
+                new KeyValuePair<Type, bool>(typeof(SceneMonitor) , MonitorScene),
+                new KeyValuePair<Type, bool>(typeof(SystemInfoMonitor) , MonitorSystemInfo),
+                new KeyValuePair<Type, bool>(typeof(PathMonitor) , MonitorPath),
+                new KeyValuePair<Type, bool>(typeof(InputMonitor) , MonitorInput),
+                new KeyValuePair<Type, bool>(typeof(InputLocationMonitor) ,MonitorInputLocation),
+                new KeyValuePair<Type, bool>(typeof(InputGyroscopeMonitor) , MonitorInputGyroscope),
+                new KeyValuePair<Type, bool>(typeof(InputCompassMonitor),MonitorInputCompass),
+                new KeyValuePair<Type, bool>(typeof(GraphicsMonitor) , MonitorGraphics),
             };
         }
 
@@ -114,10 +161,7 @@ namespace CatLib.Debugger
         /// </summary>
         public void Register()
         {
-            RegisterLogger();
-            RegisterWebConsole();
-            RegisterWebMonitor();
-            RegisterWebLog();
+            baseProvider.Register();
             RegisterWebMonitorContent();
         }
 

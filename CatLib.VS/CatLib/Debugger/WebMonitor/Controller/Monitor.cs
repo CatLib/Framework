@@ -18,7 +18,7 @@ namespace CatLib.Debugger.WebMonitor.Controller
     /// <summary>
     /// 监控
     /// </summary>
-    [Routed("debug://monitor" , Group = "DebuggerMainThreadCall")]
+    [Routed("debug://monitor" , Group = "Debugger.MainThreadCall")]
     public class Monitor
     {
         /// <summary>
@@ -28,7 +28,7 @@ namespace CatLib.Debugger.WebMonitor.Controller
         /// <param name="indexShow">首先显示的列表</param>
         /// <param name="monitorStore">容器存储</param>
         [Routed("get-monitors-index")]
-        public void GetMonitorsIndex(IResponse response , [Inject("Debugger.WebMonitor.Monitor.IndexMonitor")]IEnumerable<string> indexShow, MonitorStore monitorStore)
+        public void GetMonitorsIndex(IResponse response , [Inject("Debugger.IndexMonitor")]IEnumerable<string> indexShow, MonitorStore monitorStore)
         {
             var outputs = new GetMonitors();
 

@@ -18,7 +18,7 @@ namespace CatLib.Debugger.WebMonitorContent.Controller
     /// <summary>
     /// 指令
     /// </summary>
-    [Routed("debug://command", Group = "DebuggerMainThreadCall")]
+    [Routed("debug://command", Group = "Debugger.MainThreadCall")]
     [ExcludeFromCodeCoverage]
     public sealed class Command
     {
