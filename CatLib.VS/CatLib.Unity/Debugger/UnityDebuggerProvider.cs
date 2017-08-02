@@ -24,12 +24,27 @@ namespace CatLib.Debugger
     /// <summary>
     /// 调试服务
     /// </summary>
-    public sealed class UnityDebuggerProvider : MonoBehaviour , IServiceProvider
+    public sealed class UnityDebuggerProvider : MonoBehaviour, IServiceProvider
     {
         /// <summary>
         /// 基础服务提供者
         /// </summary>
         private readonly DebuggerProvider baseProvider;
+
+        /// <summary>
+        /// 是否启用Web控制台
+        /// </summary>
+        public bool WebConsoleEnable = true;
+
+        /// <summary>
+        /// 监听Host
+        /// </summary>
+        public string WebConsoleHost = "*";
+
+        /// <summary>
+        /// 监听端口
+        /// </summary>
+        public int WebConsolePort = 9478;
 
         /// <summary>
         /// Unity控制台日志句柄
@@ -91,7 +106,12 @@ namespace CatLib.Debugger
         /// </summary>
         public UnityDebuggerProvider()
         {
-            baseProvider = new DebuggerProvider();
+            baseProvider = new DebuggerProvider()
+            {
+                WebConsoleEnable = WebConsoleEnable,
+                WebConsoleHost = WebConsoleHost,
+                WebConsolePort = WebConsolePort
+            };
         }
 
         /// <summary>

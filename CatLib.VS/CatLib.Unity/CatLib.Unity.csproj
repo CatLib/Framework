@@ -49,7 +49,7 @@
     <Compile Include="CatLib\CatLibFramework.cs" />
     <Compile Include="CatLib\Providers.cs" />
     <Compile Include="CatLib\UnityApplication.cs" />
-    <Compile Include="Debugger\DebuggerProvider.cs" />
+    <Compile Include="Debugger\UnityDebuggerProvider.cs" />
     <Compile Include="Debugger\Log\Handler\UnityConsoleLogHandler.cs" />
     <Compile Include="Debugger\WebMonitorContent\Controller\Command.cs" />
     <Compile Include="Debugger\WebMonitorContent\GraphicsMonitor.cs" />
