@@ -90,7 +90,7 @@ namespace CatLib.Debugger
         private void InitWebConsole()
         {
             var config = App.Make<IConfig>();
-            if (config == null || config.Get("Debugger.WebConsoleEnable", WebConsoleEnable))
+            if (config == null || config.Get("DebuggerProvider.WebConsoleEnable", WebConsoleEnable))
             {
                 App.On(ApplicationEvents.OnStartCompleted, (payload) =>
                 {
