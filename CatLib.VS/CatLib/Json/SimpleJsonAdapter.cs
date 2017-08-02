@@ -10,8 +10,6 @@
  */
 
 using CatLib.API.Json;
-using SimpleJson;
-using System.Collections.Generic;
 
 namespace CatLib.Json
 {
