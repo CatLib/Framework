@@ -28,13 +28,31 @@ namespace CatLib.Debugger
     public sealed class DebuggerProvider : IServiceProvider
     {
         /// <summary>
+        /// 日志句柄
+        /// </summary>
+        public IDictionary<string , Type> LogHandlers { get; set; }
+
+        /// <summary>
+        /// 首页的日志显示
+        /// </summary>
+        public IList<string> IndexMonitor { get; set; }
+
+        /// <summary>
         /// 初始化
         /// </summary>
         [Priority(5)]
         public void Init()
         {
+            InitWebConsole();
+        }
+
+        /// <summary>
+        /// 初始化Web控制台
+        /// </summary>
+        private void InitWebConsole()
+        {
             var config = App.Make<IConfigManager>();
-            if (config == null || config.Default.Get("debugger.webconsole.enable", true))
+            if (config == null || config.Default.Get("Debugger.WebConsole.Enable", true))
             {
                 App.On(ApplicationEvents.OnStartCompleted, (payload) =>
                 {
@@ -63,9 +81,9 @@ namespace CatLib.Debugger
         /// <returns>句柄</returns>
         private IDictionary<string, Type> GetLogHandlers()
         {
-            return new Dictionary<string, Type>
+            return new Dictionary<string, Type>(LogHandlers ?? new Dictionary<string, Type>())
             {
-                { "debugger.logger.handler.console" , typeof(StdOutLogHandler) }
+                { "Debugger.Logger.Handler.Console" , typeof(StdOutLogHandler) }
             };
         }
 
@@ -104,8 +122,8 @@ namespace CatLib.Debugger
                 var port = 9478;
                 if (config != null)
                 {
-                    host = config.Default.Get("debugger.webconsole.host", "*");
-                    port = config.Default.Get("debugger.webconsole.port", 9478);
+                    host = config.Default.Get("Debugger.WebConsole.Host", "*");
+                    port = config.Default.Get("Debugger.WebConsole.Port", 9478);
                 }
 
                 var httpDebuggerConsole = obj as HttpDebuggerConsole;
@@ -129,12 +147,8 @@ namespace CatLib.Debugger
         private void RegisterWebLog()
         {
             App.Singleton<LogStore>();
-
-            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>(IndexMonitor ?? new List<string>())
             {
-                "Profiler.GetMonoUsedSize@memory",
-                "Profiler.GetTotalAllocatedMemory",
-                "fps"
             });
         }
     }
