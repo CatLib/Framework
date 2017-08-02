@@ -42,6 +42,7 @@
     <Compile Include="CatLib\Facade.cs" />
     <Compile Include="Config\Features\IConfigLocator.cs" />
     <Compile Include="Config\IConfigManager.cs" />
+    <Compile Include="Config\Internal\ConfigExtend.cs" />
     <Compile Include="Config\Internal\IConfig.cs" />
     <Compile Include="Converters\ConverterException.cs" />
     <Compile Include="Converters\Features\ITypeConverter.cs" />

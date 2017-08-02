@@ -16,7 +16,7 @@ namespace CatLib
     ///<summary>
     /// 容器拓展
     /// </summary>
-    public static class ContainerExpand
+    public static class ContainerExtend
     {
         /// <summary>
         /// 以单例的形式绑定一个服务

@@ -90,23 +90,25 @@ namespace CatLib.Debugger
         private void InitWebConsole()
         {
             var config = App.Make<IConfig>();
-            if (config == null || config.Get("DebuggerProvider.WebConsoleEnable", WebConsoleEnable))
+            if (!config.SafeGet("DebuggerProvider.WebConsoleEnable", WebConsoleEnable))
             {
-                App.On(ApplicationEvents.OnStartCompleted, (payload) =>
-                {
-                    App.Make<HttpDebuggerConsole>();
-                });
+                return;
+            }
 
-                App.Make<LogStore>();
-                App.Make<MonitorStore>();
+            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
+            {
+                App.Make<HttpDebuggerConsole>();
+            });
 
-                AutoMake = AutoMake ?? new Dictionary<string, KeyValuePair<Type, bool>>();
-                foreach (var make in AutoMake)
+            App.Make<LogStore>();
+            App.Make<MonitorStore>();
+
+            AutoMake = AutoMake ?? new Dictionary<string, KeyValuePair<Type, bool>>();
+            foreach (var make in AutoMake)
+            {
+                if (config.SafeGet(make.Key, make.Value.Value))
                 {
-                    if (config == null || config.Get(make.Key, make.Value.Value))
-                    {
-                        App.Make(App.Type2Service(make.Value.Key));
-                    }
+                    App.Make(App.Type2Service(make.Value.Key));
                 }
             }
         }
@@ -144,11 +146,11 @@ namespace CatLib.Debugger
             {
                 var logger = obj as Logger;
 
-                var config = App.Make<IConfigManager>();
+                var config = App.Make<IConfig>();
 
                 foreach (var handler in GetLogHandlers())
                 {
-                    if (config == null || config.Default.Get(handler.Key, handler.Value.Value))
+                    if (config.SafeGet(handler.Key, handler.Value.Value))
                     {
                         logger.AddLogHandler(App.Make<ILogHandler>(App.Type2Service(handler.Value.Key)));
                     }
@@ -165,14 +167,9 @@ namespace CatLib.Debugger
         {
             App.Singleton<HttpDebuggerConsole>().OnResolving((binder, obj) =>
             {
-                var config = App.Make<IConfigManager>();
-                var host = "*";
-                var port = 9478;
-                if (config != null)
-                {
-                    host = config.Default.Get("DebuggerProvider.WebConsoleHost", WebConsoleHost);
-                    port = config.Default.Get("DebuggerProvider.WebConsolePort", WebConsolePort);
-                }
+                var config = App.Make<IConfig>();
+                var host = config.SafeGet("DebuggerProvider.WebConsoleHost", WebConsoleHost);
+                var port = config.SafeGet("DebuggerProvider.WebConsolePort", WebConsolePort);
 
                 var httpDebuggerConsole = obj as HttpDebuggerConsole;
                 httpDebuggerConsole.Start(host, port);

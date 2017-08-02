@@ -22,6 +22,19 @@ namespace CatLib.FileSystem
     public sealed class FileSystemProvider : IServiceProvider
     {
         /// <summary>
+        /// 默认路径
+        /// </summary>
+        public string DefaultPath { get; set; }
+
+        /// <summary>
+        /// 文件服务提供者
+        /// </summary>
+        public FileSystemProvider()
+        {
+            DefaultPath = string.Empty;
+        }
+
+        /// <summary>
         /// 服务提供者进程
         /// </summary>
         /// <returns>迭代器</returns>
@@ -61,9 +74,7 @@ namespace CatLib.FileSystem
         /// </summary>
         private void InitRegisterLocalDriver()
         {
-            var config = App.Make<IConfig>();
-            var path = config.Get("FileSystem.Default.Path", string.Empty);
-     
+            var path = App.Make<IConfig>().SafeGet("FileSystemProvider.DefaultPath", DefaultPath);
             if (!string.IsNullOrEmpty(path))
             {
                 App.Make<IFileSystemManager>().Extend(() => new FileSystem(new Local(path)));

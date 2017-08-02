@@ -202,6 +202,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebUI()
         {
+            // 名字为相关监控定义的名字
             baseProvider.IndexMonitor = new List<string>
             {
                 "Profiler.GetMonoUsedSize@memory",
