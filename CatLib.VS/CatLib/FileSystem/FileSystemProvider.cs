@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using System;
 using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;
