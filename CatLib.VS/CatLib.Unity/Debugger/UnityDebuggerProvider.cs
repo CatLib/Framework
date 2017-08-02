@@ -10,21 +10,14 @@
  */
 
 #if CATLIB
-using CatLib.API.Config;
 using CatLib.API.MonoDriver;
 using CatLib.API.Routing;
 using CatLib.Debugger.Log.Handler;
-using CatLib.Debugger.WebConsole;
-using CatLib.Debugger.WebLog;
-using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitorContent;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using ILogger = CatLib.API.Debugger.ILogger;
-using ILogHandler = CatLib.Debugger.Log.ILogHandler;
-using Logger = CatLib.Debugger.Log.Logger;
 
 namespace CatLib.Debugger
 {
@@ -37,6 +30,11 @@ namespace CatLib.Debugger
         /// 基础服务提供者
         /// </summary>
         private readonly DebuggerProvider baseProvider;
+
+        /// <summary>
+        /// Unity控制台日志句柄
+        /// </summary>
+        public bool UnityConsoleLoggerHandler = true;
 
         /// <summary>
         /// 启动性能监控
@@ -136,45 +134,35 @@ namespace CatLib.Debugger
         }
 
         /// <summary>
-        /// 获取监控
-        /// </summary>
-        /// <returns></returns>
-        private IList<KeyValuePair<Type, bool>> GetMonitors()
-        {
-            return new List<KeyValuePair<Type, bool>>
-            {
-                new KeyValuePair<Type, bool>(typeof(PerformanceMonitor) , MonitorPerformance),
-                new KeyValuePair<Type, bool>(typeof(ScreenMonitor) , MonitorScreen),
-                new KeyValuePair<Type, bool>(typeof(SceneMonitor) , MonitorScene),
-                new KeyValuePair<Type, bool>(typeof(SystemInfoMonitor) , MonitorSystemInfo),
-                new KeyValuePair<Type, bool>(typeof(PathMonitor) , MonitorPath),
-                new KeyValuePair<Type, bool>(typeof(InputMonitor) , MonitorInput),
-                new KeyValuePair<Type, bool>(typeof(InputLocationMonitor) ,MonitorInputLocation),
-                new KeyValuePair<Type, bool>(typeof(InputGyroscopeMonitor) , MonitorInputGyroscope),
-                new KeyValuePair<Type, bool>(typeof(InputCompassMonitor),MonitorInputCompass),
-                new KeyValuePair<Type, bool>(typeof(GraphicsMonitor) , MonitorGraphics),
-            };
-        }
-
-        /// <summary>
         /// 注册调试服务
         /// </summary>
         public void Register()
         {
-            baseProvider.Register();
+            RegisterLogger();
+            RegisterWebUI();
             RegisterWebMonitorContent();
+            RegisterMonitors();
+            baseProvider.Register();
         }
 
         /// <summary>
-        /// 获取日志句柄
+        /// 获取监控
         /// </summary>
-        /// <returns>句柄</returns>
-        private IDictionary<string, Type> GetLogHandlers()
+        /// <returns></returns>
+        private void RegisterMonitors()
         {
-            return new Dictionary<string, Type>
+            baseProvider.AutoMake = new Dictionary<string, KeyValuePair<Type, bool>>
             {
-                { "debugger.logger.handler.unity" , typeof(UnityConsoleLogHandler) },
-                { "debugger.logger.handler.console" , typeof(StdOutLogHandler) }
+                { "UnityDebuggerProvider.MonitorPerformance" , new KeyValuePair<Type, bool>(typeof(PerformanceMonitor) , MonitorPerformance) },
+                { "UnityDebuggerProvider.MonitorScreen" , new KeyValuePair<Type, bool>(typeof(ScreenMonitor) , MonitorScreen)},
+                { "UnityDebuggerProvider.MonitorScene" , new KeyValuePair<Type, bool>(typeof(SceneMonitor) , MonitorScene)},
+                { "UnityDebuggerProvider.MonitorSystemInfo" , new KeyValuePair<Type, bool>(typeof(SystemInfoMonitor) , MonitorSystemInfo)},
+                { "UnityDebuggerProvider.MonitorPath" , new KeyValuePair<Type, bool>(typeof(PathMonitor) , MonitorPath)},
+                { "UnityDebuggerProvider.MonitorInput" , new KeyValuePair<Type, bool>(typeof(InputMonitor) , MonitorInput)},
+                { "UnityDebuggerProvider.MonitorInputLocation" , new KeyValuePair<Type, bool>(typeof(InputLocationMonitor) ,MonitorInputLocation)},
+                { "UnityDebuggerProvider.MonitorInputGyroscope" , new KeyValuePair<Type, bool>(typeof(InputGyroscopeMonitor) , MonitorInputGyroscope)},
+                { "UnityDebuggerProvider.MonitorInputCompass" , new KeyValuePair<Type, bool>(typeof(InputCompassMonitor),MonitorInputCompass)},
+                { "UnityDebuggerProvider.MonitorGraphics" , new KeyValuePair<Type, bool>(typeof(GraphicsMonitor) , MonitorGraphics)},
             };
         }
 
@@ -183,68 +171,23 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
-            App.Singleton<Logger>().Alias<ILogger>().OnResolving((binder, obj) =>
+            baseProvider.LogHandlers = new Dictionary<string, KeyValuePair<Type, bool>>
             {
-                var logger = obj as Logger;
-
-                var config = App.Make<IConfigManager>();
-
-                foreach (var handler in GetLogHandlers())
-                {
-                    if (config == null || config.Default.Get(handler.Key, true))
-                    {
-                        logger.AddLogHandler(App.Make<ILogHandler>(App.Type2Service(handler.Value)));
-                    }
-                }
-
-                return obj;
-            });
+                { "UnityDebuggerProvider.UnityConsoleLoggerHandler" , new KeyValuePair<Type, bool>(typeof(UnityConsoleLogHandler) , UnityConsoleLoggerHandler)},
+            };
         }
 
         /// <summary>
-        /// 注册web控制台基础服务
+        /// 注册WebUI
         /// </summary>
-        private void RegisterWebConsole()
+        private void RegisterWebUI()
         {
-            App.Singleton<HttpDebuggerConsole>().OnResolving((binder, obj) =>
-            {
-                var config = App.Make<IConfigManager>();
-                var host = "*";
-                var port = 9478;
-                if (config != null)
-                {
-                    host = config.Default.Get("debugger.webconsole.host", "*");
-                    port = config.Default.Get("debugger.webconsole.port", 9478);
-                }
-
-                var httpDebuggerConsole = obj as HttpDebuggerConsole;
-                httpDebuggerConsole.Start(host, port);
-
-                return obj;
-            });
-        }
-
-        /// <summary>
-        /// 注册监控
-        /// </summary>
-        private void RegisterWebMonitor()
-        {
-            App.Singleton<MonitorStore>().Alias<IMonitor>();
-        }
-
-        /// <summary>
-        /// 注册Web调试服务
-        /// </summary>
-        private void RegisterWebLog()
-        {
-            App.Singleton<LogStore>();
-
-            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            baseProvider.IndexMonitor = new List<string>
             {
                 "Profiler.GetMonoUsedSize@memory",
                 "Profiler.GetTotalAllocatedMemory",
                 "fps"
-            });
+            };
         }
 
         /// <summary>

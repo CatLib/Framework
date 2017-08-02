@@ -33,6 +33,11 @@ namespace CatLib.Debugger
         public IDictionary<string, KeyValuePair<Type, bool>> LogHandlers { get; set; }
 
         /// <summary>
+        /// 自动生成列表
+        /// </summary>
+        public IDictionary<string, KeyValuePair<Type, bool>> AutoMake { get; set; }
+
+        /// <summary>
         /// 首页的日志显示
         /// </summary>
         public IList<string> IndexMonitor { get; set; }
@@ -62,6 +67,8 @@ namespace CatLib.Debugger
         /// </summary>
         public DebuggerProvider()
         {
+            LogHandlers = null;
+            IndexMonitor = null;
             ConsoleLoggerHandler = true;
             WebConsoleEnable = true;
             WebConsoleHost = "*";
@@ -82,8 +89,8 @@ namespace CatLib.Debugger
         /// </summary>
         private void InitWebConsole()
         {
-            var config = App.Make<IConfigManager>();
-            if (config == null || config.Default.Get("Debugger.WebConsoleEnable", WebConsoleEnable))
+            var config = App.Make<IConfig>();
+            if (config == null || config.Get("Debugger.WebConsoleEnable", WebConsoleEnable))
             {
                 App.On(ApplicationEvents.OnStartCompleted, (payload) =>
                 {
@@ -92,6 +99,15 @@ namespace CatLib.Debugger
 
                 App.Make<LogStore>();
                 App.Make<MonitorStore>();
+
+                AutoMake = AutoMake ?? new Dictionary<string, KeyValuePair<Type, bool>>();
+                foreach (var make in AutoMake)
+                {
+                    if (config == null || config.Get(make.Key, make.Value.Value))
+                    {
+                        App.Make(App.Type2Service(make.Value.Key));
+                    }
+                }
             }
         }
 
