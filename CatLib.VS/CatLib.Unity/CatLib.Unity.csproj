@@ -41,6 +41,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CatLib\Assemblys.cs" />
+    <Compile Include="CatLib\Bootstrap.cs" />
+    <Compile Include="CatLib\Bootstrap\ProviderBootstrap.cs" />
+    <Compile Include="CatLib\Bootstrap\StartBootstrap.cs" />
+    <Compile Include="CatLib\Bootstrap\TypeFinderBootstrap.cs" />
+    <Compile Include="CatLib\CatLibFramework.cs" />
+    <Compile Include="CatLib\Providers.cs" />
+    <Compile Include="CatLib\UnityApplication.cs" />
     <Compile Include="Debugger\DebuggerProvider.cs" />
     <Compile Include="Debugger\Log\Handler\UnityConsoleLogHandler.cs" />
     <Compile Include="Debugger\WebMonitorContent\Controller\Command.cs" />
@@ -93,5 +101,6 @@
     <None Include="Timer\catlib.json" />
     <None Include="Time\catlib.json" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
