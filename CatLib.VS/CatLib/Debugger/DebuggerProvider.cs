@@ -38,6 +38,31 @@ namespace CatLib.Debugger
         public IList<string> IndexMonitor { get; set; }
 
         /// <summary>
+        /// WebConsole是否启用
+        /// </summary>
+        public bool WebConsoleEnable { get; set; }
+
+        /// <summary>
+        /// Web控制器Host
+        /// </summary>
+        public string WebConsoleHost { get; set; }
+
+        /// <summary>
+        /// Web控制台端口
+        /// </summary>
+        public int WebConsolePort { get; set; }
+
+        /// <summary>
+        /// 构建一个调试服务提供者
+        /// </summary>
+        public DebuggerProvider()
+        {
+            WebConsoleEnable = true;
+            WebConsoleHost = "*";
+            WebConsolePort = 9478;
+        }
+
+        /// <summary>
         /// 初始化
         /// </summary>
         [Priority(5)]
@@ -52,7 +77,7 @@ namespace CatLib.Debugger
         private void InitWebConsole()
         {
             var config = App.Make<IConfigManager>();
-            if (config == null || config.Default.Get("Debugger.WebConsole.Enable", true))
+            if (config == null || config.Default.Get("Debugger.WebConsole.Enable", WebConsoleEnable))
             {
                 App.On(ApplicationEvents.OnStartCompleted, (payload) =>
                 {
@@ -122,8 +147,8 @@ namespace CatLib.Debugger
                 var port = 9478;
                 if (config != null)
                 {
-                    host = config.Default.Get("Debugger.WebConsole.Host", "*");
-                    port = config.Default.Get("Debugger.WebConsole.Port", 9478);
+                    host = config.Default.Get("Debugger.WebConsole.Host", WebConsoleHost);
+                    port = config.Default.Get("Debugger.WebConsole.Port", WebConsolePort);
                 }
 
                 var httpDebuggerConsole = obj as HttpDebuggerConsole;
