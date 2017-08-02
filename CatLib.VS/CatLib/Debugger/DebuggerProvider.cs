@@ -114,7 +114,7 @@ namespace CatLib.Debugger
         {
             return new Dictionary<string, KeyValuePair<Type, bool>>(LogHandlers ?? new Dictionary<string, KeyValuePair<Type, bool>>())
             {
-                { "Debugger.ConsoleLoggerHandler" ,
+                { "DebuggerProvider.ConsoleLoggerHandler" ,
                     new KeyValuePair<Type, bool>(typeof(StdOutLogHandler) , ConsoleLoggerHandler) }
             };
         }
@@ -154,8 +154,8 @@ namespace CatLib.Debugger
                 var port = 9478;
                 if (config != null)
                 {
-                    host = config.Default.Get("Debugger.WebConsoleHost", WebConsoleHost);
-                    port = config.Default.Get("Debugger.WebConsolePort", WebConsolePort);
+                    host = config.Default.Get("DebuggerProvider.WebConsoleHost", WebConsoleHost);
+                    port = config.Default.Get("DebuggerProvider.WebConsolePort", WebConsolePort);
                 }
 
                 var httpDebuggerConsole = obj as HttpDebuggerConsole;
@@ -179,7 +179,7 @@ namespace CatLib.Debugger
         private void RegisterWebLog()
         {
             App.Singleton<LogStore>();
-            App.Instance("Debugger.IndexMonitor", new List<string>(IndexMonitor ?? new List<string>())
+            App.Instance("DebuggerProvider.IndexMonitor", new List<string>(IndexMonitor ?? new List<string>())
             {
             });
         }
