@@ -153,6 +153,7 @@ namespace CatLib.Debugger
 
             if (driver != null)
             {
+                //todo: 多线程阻塞风险，必须去除
                 router.Group("Debugger.MainThreadCall").Middleware((request, response, next) =>
                 {
                     var wait = new AutoResetEvent(false);
