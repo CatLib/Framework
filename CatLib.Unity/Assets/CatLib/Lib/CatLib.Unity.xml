@@ -284,25 +284,28 @@
             指令
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.GyroEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.GyroEnable(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.API.Debugger.ILogger)">
             <summary>
             陀螺仪命令
             </summary>
             <param name="request">请求</param>
+            <param name="response">响应</param>
             <param name="logger">日志</param>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.CompassEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.CompassEnable(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.API.Debugger.ILogger)">
             <summary>
             罗盘命令
             </summary>
             <param name="request">请求</param>
+            <param name="response">响应</param>
             <param name="logger">日志</param>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.LocationEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.LocationEnable(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,CatLib.API.Debugger.ILogger)">
             <summary>
             定位器命令
             </summary>
             <param name="request">请求</param>
+            <param name="response">响应</param>
             <param name="logger">日志</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.GraphicsMonitor">

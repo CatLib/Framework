@@ -149,6 +149,7 @@ namespace CatLib.Debugger.WebConsole
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
+
             context.Response.OutputStream.Close();
         }
 
@@ -168,10 +169,19 @@ namespace CatLib.Debugger.WebConsole
             var path = string.Join("/", segments, 1, segments.Length - 1);
             var uri = string.Format("{0}://{1}", scheme, path);
             var response = router.Dispatch(uri);
-            if (response != null)
+
+            if (response == null)
             {
-                RoutedResponseHandler(context, response);
+                return;
             }
+
+            var whileCount = 0;
+            while (response.GetContext() == null && whileCount++ < 1000)
+            {
+                System.Threading.Thread.Sleep(1);
+            }
+
+            RoutedResponseHandler(context, response);
         }
 
         /// <summary>

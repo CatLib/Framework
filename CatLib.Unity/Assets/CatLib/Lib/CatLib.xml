@@ -626,10 +626,11 @@
             监控
             </summary>
         </member>
-        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitorsIndex(CatLib.API.Routing.IResponse,System.Collections.Generic.IEnumerable{System.String},CatLib.Debugger.WebMonitor.MonitorStore)">
+        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.GetMonitorsIndex(CatLib.API.Routing.IRequest,CatLib.API.Routing.IResponse,System.Collections.Generic.IEnumerable{System.String},CatLib.Debugger.WebMonitor.MonitorStore)">
             <summary>
             获取首页的监控
             </summary>
+            <param name="request">请求</param>
             <param name="response">响应</param>
             <param name="indexShow">首先显示的列表</param>
             <param name="monitorStore">容器存储</param>
@@ -641,6 +642,13 @@
             <param name="request">请求</param>
             <param name="response">响应</param>
             <param name="monitorStore">监控存储</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitor.Controller.Monitor.CallMainThread(CatLib.API.Routing.IRequest,System.Action)">
+            <summary>
+            主线程调用
+            </summary>
+            <param name="request">请求</param>
+            <param name="action">调用方法</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitor.MonitorStore">
             <summary>
@@ -2762,6 +2770,19 @@
             <param name="defaultValue"></param>
             <returns></returns>
         </member>
+        <member name="M:CatLib.Routing.ExceptionRequest.Replace(System.String,System.String)">
+            <summary>
+            替换参数
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:CatLib.Routing.ExceptionRequest.ReplaceContext(System.Object)">
+            <summary>
+            替换上下文
+            </summary>
+            <param name="context">上下文</param>
+        </member>
         <member name="P:CatLib.Routing.ExceptionRequest.Item(System.String)">
             <summary>
             获取字符串附加物
@@ -3098,6 +3119,12 @@
             </summary>
             <returns>请求上下文</returns>
         </member>
+        <member name="M:CatLib.Routing.Request.ReplaceContext(System.Object)">
+            <summary>
+            替换上下文
+            </summary>
+            <param name="context">上下文</param>
+        </member>
         <member name="M:CatLib.Routing.Request.Get(System.String,System.String)">
             <summary>
             获取字符串附加物
@@ -3105,6 +3132,13 @@
             <param name="key">键</param>
             <param name="defaultValue">默认值</param>
             <returns>值</returns>
+        </member>
+        <member name="M:CatLib.Routing.Request.Replace(System.String,System.String)">
+            <summary>
+            替换参数
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值</param>
         </member>
         <member name="P:CatLib.Routing.Request.Item(System.String)">
             <summary>
@@ -3182,13 +3216,6 @@
             设定参数
             </summary>
             <param name="parameters">参数字典</param>
-        </member>
-        <member name="M:CatLib.Routing.Request.AddParameters(System.String,System.String)">
-            <summary>
-            增加参数
-            </summary>
-            <param name="key">键</param>
-            <param name="val">值</param>
         </member>
         <member name="M:CatLib.Routing.Request.SetRoute(CatLib.Routing.Route)">
             <summary>

@@ -151,26 +151,21 @@ namespace CatLib.Debugger
             var router = App.Make<IRouter>();
             var driver = App.Make<IMonoDriver>();
 
-            if (driver != null)
+            if (driver == null)
             {
-                //todo: 多线程阻塞风险，必须去除
-                router.Group("Debugger.MainThreadCall").Middleware((request, response, next) =>
-                {
-                    var wait = new AutoResetEvent(false);
-                    driver.MainThread(() =>
-                    {
-                        try
-                        {
-                            next(request, response);
-                        }
-                        finally
-                        {
-                            wait.Set();
-                        }
-                    });
-                    wait.WaitOne();
-                });
+                return;
             }
+
+            Action<Action> mainThreadCall = (call) =>
+            {
+                driver.MainThread(call);
+            };
+
+            router.Group("Debugger.MainThreadCallWithContext").Middleware((request, response, next) =>
+            {
+                request.ReplaceContext(mainThreadCall);
+                next(request, response);
+            });
         }
 
         /// <summary>

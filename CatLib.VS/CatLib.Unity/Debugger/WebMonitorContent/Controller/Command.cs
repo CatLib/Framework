@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Routing;
 using UnityEngine;
 using ILogger = CatLib.API.Debugger.ILogger;
@@ -18,7 +19,7 @@ namespace CatLib.Debugger.WebMonitorContent.Controller
     /// <summary>
     /// 指令
     /// </summary>
-    [Routed("debug://command", Group = "Debugger.MainThreadCall")]
+    [Routed("debug://command", Group = "Debugger.MainThreadCallWithContext")]
     [ExcludeFromCodeCoverage]
     public sealed class Command
     {
@@ -26,60 +27,68 @@ namespace CatLib.Debugger.WebMonitorContent.Controller
         /// 陀螺仪命令
         /// </summary>
         /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
         /// <param name="logger">日志</param>
         [Routed("input-gyro-enable/{enable}")]
-        public void GyroEnable(IRequest request, ILogger logger)
+        public void GyroEnable(IRequest request, IResponse response, ILogger logger)
         {
-            if (request.GetBoolean("enable"))
+            var mainThread = (Action<Action>)request.GetContext();
+
+            mainThread.Invoke(() =>
             {
-                logger.Debug("Input.gyro.enabled = true");
-                Input.gyro.enabled = true;
-            }
-            else
-            {
-                logger.Debug("Input.gyro.enabled = false");
-                Input.gyro.enabled = false;
-            }
+                Input.gyro.enabled = request.GetBoolean("enable");
+                logger.Debug("Input.gyro.enabled = " + Input.gyro.enabled);
+            });
+
+            response.SetContext(true);
         }
 
         /// <summary>
         /// 罗盘命令
         /// </summary>
         /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
         /// <param name="logger">日志</param>
         [Routed("input-compass-enable/{enable}")]
-        public void CompassEnable(IRequest request, ILogger logger)
+        public void CompassEnable(IRequest request, IResponse response, ILogger logger)
         {
-            if (request.GetBoolean("enable"))
+            var mainThread = (Action<Action>)request.GetContext();
+
+            mainThread.Invoke(() =>
             {
-                logger.Debug("Input.compass.enabled = true");
-                Input.compass.enabled = true;
-            }
-            else
-            {
-                logger.Debug("Input.compass.enabled = false");
-                Input.compass.enabled = false;
-            }
+                Input.compass.enabled = request.GetBoolean("enable");
+                logger.Debug("Input.compass.enabled = " + Input.compass.enabled);
+            });
+
+            response.SetContext(true);
         }
 
         /// <summary>
         /// 定位器命令
         /// </summary>
         /// <param name="request">请求</param>
+        /// <param name="response">响应</param>
         /// <param name="logger">日志</param>
         [Routed("input-location-enable/{enable}")]
-        public void LocationEnable(IRequest request, ILogger logger)
+        public void LocationEnable(IRequest request, IResponse response, ILogger logger)
         {
-            if (request.GetBoolean("enable"))
+            var mainThread = (Action<Action>)request.GetContext();
+
+            mainThread.Invoke(() =>
             {
-                logger.Debug("Input.location.Start()");
-                Input.location.Start();
-            }
-            else
-            {
-                logger.Debug("Input.location.Stop()");
-                Input.location.Stop();
-            }
+                if (request.GetBoolean("enable"))
+                {
+                    logger.Debug("Input.location.Start()");
+                    Input.location.Start();
+                }
+                else
+                {
+                    logger.Debug("Input.location.Stop()");
+                    Input.location.Stop();
+                }
+            });
+
+            response.SetContext(true);
         }
     }
 }

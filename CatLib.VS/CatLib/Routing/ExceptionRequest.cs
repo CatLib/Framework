@@ -39,7 +39,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 上下文
         /// </summary>
-        private readonly object context;
+        private object context;
 
         /// <summary>
         /// 构建一个请求
@@ -81,6 +81,25 @@ namespace CatLib.Routing
         public string Get(string key, string defaultValue = null)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 替换参数
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        public void Replace(string key, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 替换上下文
+        /// </summary>
+        /// <param name="context">上下文</param>
+        public void ReplaceContext(object context)
+        {
+            this.context = context;
         }
 
         /// <summary>
