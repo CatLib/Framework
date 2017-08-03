@@ -9,6 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.Config;
+using CatLib.Converters;
+using CatLib.Events;
+using CatLib.Routing;
+
 namespace CatLib
 {
     /// <summary>
@@ -26,6 +31,10 @@ namespace CatLib
             {
                 return new IServiceProvider[]
                 {
+                    new ConvertersProvider(), 
+                    new ConfigProvider(), 
+                    new EventsProvider(),
+                    new RoutingProvider(), 
                 };
             }
         }

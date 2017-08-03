@@ -95,7 +95,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Debugger\catlib.json" />
     <None Include="Environment\catlib.json" />
     <None Include="MonoDriver\catlib.json" />
     <None Include="Timer\catlib.json" />

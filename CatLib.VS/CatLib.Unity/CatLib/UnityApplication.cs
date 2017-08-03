@@ -16,7 +16,7 @@ namespace CatLib
     /// <summary>
     /// Unity Application
     /// </summary>
-    public sealed class UnityApplication : Application
+    internal sealed class UnityApplication : Application
     {
         /// <summary>
         /// Unity Application

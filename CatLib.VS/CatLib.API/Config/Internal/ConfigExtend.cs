@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Config;
 
 namespace CatLib
@@ -23,13 +24,43 @@ namespace CatLib
         /// <para>自动对IConfig对象进行空判断，如果为空则返回默认值</para>
         /// </summary>
         /// <typeparam name="T">默认类型</typeparam>
-        /// <param name="config">配置值</param>
+        /// <param name="config">配置中枢</param>
         /// <param name="name">配置名字</param>
         /// <param name="def">默认值</param>
         /// <returns></returns>
         public static T SafeGet<T>(this IConfig config, string name, T def = default(T))
         {
             return config == null ? def : config.Get(name, def);
+        }
+
+        /// <summary>
+        /// 安全的观察
+        /// <para>自动对IConfig对象进行空判断，如果为空则不处理</para>
+        /// </summary>
+        /// <param name="config">配置中枢</param>
+        /// <param name="name">配置名字</param>
+        /// <param name="callback">默认值</param>
+        public static void SafeWatch(this IConfig config, string name, Action<object> callback)
+        {
+            if (config != null)
+            {
+                config.Watch(name, callback);
+            }
+        }
+
+        /// <summary>
+        /// 安全的设置
+        /// <para>自动对IConfig对象进行空判断，如果为空则不处理</para>
+        /// </summary>
+        /// <param name="config">配置中枢</param>
+        /// <param name="name">配置名字</param>
+        /// <param name="value">配置的值</param>
+        public static void SafeSet(this IConfig config, string name, object value)
+        {
+            if (config != null)
+            {
+                config.Set(name, value);
+            }
         }
     }
 }

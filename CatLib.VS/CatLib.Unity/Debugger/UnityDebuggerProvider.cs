@@ -24,6 +24,8 @@ namespace CatLib.Debugger
     /// <summary>
     /// 调试服务
     /// </summary>
+    [DisallowMultipleComponent]
+    [AddComponentMenu("CatLib/Debugger")]
     public sealed class UnityDebuggerProvider : MonoBehaviour, IServiceProvider
     {
         /// <summary>
@@ -106,7 +108,7 @@ namespace CatLib.Debugger
         /// </summary>
         public UnityDebuggerProvider()
         {
-            baseProvider = new DebuggerProvider()
+            baseProvider = new DebuggerProvider
             {
                 WebConsoleEnable = WebConsoleEnable,
                 WebConsoleHost = WebConsoleHost,

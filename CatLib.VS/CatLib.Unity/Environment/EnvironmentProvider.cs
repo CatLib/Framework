@@ -21,6 +21,16 @@ namespace CatLib.Environment
     public sealed class EnvironmentProvider : IServiceProvider
     {
         /// <summary>
+        /// 调试等级
+        /// </summary>
+        public DebugLevels DebugLevel = DebugLevels.Auto;
+
+        /// <summary>
+        /// 资源路径
+        /// </summary>
+        public string AssetPath = string.Empty;
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public void Init()
@@ -34,16 +44,11 @@ namespace CatLib.Environment
         {
             App.Singleton<UnityEnvironment>().Alias<IEnvironment>().OnResolving((bind, obj) =>
             {
-                var env = obj as UnityEnvironment;
+                var env = (UnityEnvironment)obj;
+                var config = App.Make<IConfig>();
 
-                var configManager = App.Make<IConfigManager>();
-                if (configManager == null)
-                {
-                    return obj;
-                }
-
-                env.SetDebugLevel(configManager.Get().Get("env.debug", DebugLevels.Auto));
-                env.SetAssetPath(configManager.Get().Get("env.asset.path", string.Empty));
+                env.SetDebugLevel(config.SafeGet("EnvironmentProvider.DebugLevel", DebugLevel));
+                env.SetAssetPath(config.SafeGet("EnvironmentProvider.AssetPath", AssetPath));
 
                 return obj;
             });

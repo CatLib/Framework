@@ -21,6 +21,11 @@ namespace CatLib.Time
     public sealed class TimeProvider : IServiceProvider
     {
         /// <summary>
+        /// 默认时间的名字
+        /// </summary>
+        public string DefaultTime = "default";
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public void Init()
@@ -42,20 +47,16 @@ namespace CatLib.Time
         {
             App.Singleton<TimeManager>().Alias<ITimeManager>().Alias<ITime>().OnResolving((bind, obj) =>
             {
-                var timeManager = obj as TimeManager;
+                var timeManager = (TimeManager)obj;
 
                 timeManager.Extend(() => new UnityTime());
 
-                var config = App.Make<IConfigManager>();
-
-                if (config != null)
+                var config = App.Make<IConfig>();
+                config.SafeWatch("TimeProvider.DefaultTime", (value) =>
                 {
-                    config.Default.Watch("time.default", (value) =>
-                    {
-                        timeManager.SetDefault(value.ToString());
-                    });
-                    timeManager.SetDefault(config.Default.Get("time.default", "default"));
-                }
+                    timeManager.SetDefault(value.ToString());
+                });
+                timeManager.SetDefault(config.SafeGet("TimeProvider.DefaultTime", DefaultTime));
 
                 return timeManager;
             });
