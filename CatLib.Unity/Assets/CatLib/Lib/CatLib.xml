@@ -468,7 +468,7 @@
             首页的日志显示
             </summary>
         </member>
-        <member name="P:CatLib.Debugger.DebuggerProvider.ConsoleLoggerHandler">
+        <member name="P:CatLib.Debugger.DebuggerProvider.StdConsoleLoggerHandler">
             <summary>
             控制台日志处理器
             </summary>

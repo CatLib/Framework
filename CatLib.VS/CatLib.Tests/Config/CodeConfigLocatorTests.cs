@@ -19,7 +19,6 @@ using TestMethod = NUnit.Framework.TestAttribute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-
 namespace CatLib.Tests.Config
 {
     /// <summary>

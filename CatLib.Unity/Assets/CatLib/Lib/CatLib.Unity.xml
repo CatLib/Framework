@@ -64,17 +64,17 @@
             引导程序接口
             </summary>
         </member>
-        <member name="T:CatLib.CatLib.CatLibFramework">
+        <member name="T:CatLib.CatLibFramework">
             <summary>
             CatLib框架
             </summary>
         </member>
-        <member name="M:CatLib.CatLib.CatLibFramework.Start">
+        <member name="M:CatLib.CatLibFramework.Start">
             <summary>
             Unity Start
             </summary>
         </member>
-        <member name="M:CatLib.CatLib.CatLibFramework.GetBootstraps">
+        <member name="M:CatLib.CatLibFramework.GetBootstraps">
             <summary>
             获取引导程序
             </summary>
@@ -150,6 +150,11 @@
         <member name="F:CatLib.Debugger.UnityDebuggerProvider.UnityConsoleLoggerHandler">
             <summary>
             Unity控制台日志句柄
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.StdConsoleLoggerHandler">
+            <summary>
+            标准输出控制台日志句柄
             </summary>
         </member>
         <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorPerformance">

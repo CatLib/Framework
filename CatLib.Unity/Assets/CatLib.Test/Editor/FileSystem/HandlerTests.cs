@@ -22,7 +22,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.FileSystem
@@ -111,7 +110,7 @@ namespace CatLib.Tests.FileSystem
             Env(() =>
             {
                 Assert.AreEqual(FileAttributes.Directory, handlerDir.GetAttributes() & FileAttributes.Directory);
-                Assert.AreEqual((FileAttributes) 0, handlerFile.GetAttributes() & FileAttributes.Directory);
+                Assert.AreEqual((FileAttributes)0, handlerFile.GetAttributes() & FileAttributes.Directory);
             });
         }
 

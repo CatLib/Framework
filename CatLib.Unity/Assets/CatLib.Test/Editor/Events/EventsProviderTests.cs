@@ -11,7 +11,6 @@
 
 using CatLib.API.Events;
 using CatLib.Events;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -53,7 +52,7 @@ namespace CatLib.Tests.Events
                 Assert.AreEqual(123, payload);
             });
 
-            Assert.AreEqual(null , (dispatcher.Trigger("event.name", 123) as object[])[0]);
+            Assert.AreEqual(null, (dispatcher.Trigger("event.name", 123) as object[])[0]);
             Assert.AreEqual(true, isCall);
         }
 
@@ -228,21 +227,21 @@ namespace CatLib.Tests.Events
             var app = MakeEnv();
 
             var dispatcher = app.Make<IDispatcher>();
-            var handler = dispatcher.On("event.name", (payload) =>
+            dispatcher.On("event.name", (payload) =>
             {
                 Assert.AreEqual(123, payload);
                 return 1;
-            },1);
+            }, 1);
             dispatcher.On("event.name", (payload) =>
             {
                 Assert.AreEqual(123, payload);
                 return 2;
-            },1);
+            }, 1);
             dispatcher.On("event.*", (payload) =>
             {
                 Assert.AreEqual(123, payload);
                 return 3;
-            },1);
+            }, 1);
 
             Assert.AreEqual(1, dispatcher.TriggerHalt("event.name", 123));
             Assert.AreEqual(2, dispatcher.TriggerHalt("event.name", 123));
@@ -322,7 +321,7 @@ namespace CatLib.Tests.Events
             {
                 Assert.AreEqual(123, payload);
                 return false;
-            },1);
+            }, 1);
             dispatcher.On("event.time", (payload) =>
             {
                 Assert.AreEqual(123, payload);

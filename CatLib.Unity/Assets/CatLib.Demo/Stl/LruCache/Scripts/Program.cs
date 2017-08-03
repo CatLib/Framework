@@ -39,7 +39,7 @@ namespace CatLib.Demo.LruCache
         /// </summary>
         public void Awake()
         {
-            var application = new Application(this);
+            var application = new Application();
             application.OnFindType((type) =>
             {
                 return Type.GetType(type);

@@ -12,7 +12,7 @@
 using CatLib.API.Routing;
 using UnityEngine;
 
-namespace CatLib.Bootstrap
+namespace YourNameSpace
 {
     /// <summary>
     /// 用户代码入口

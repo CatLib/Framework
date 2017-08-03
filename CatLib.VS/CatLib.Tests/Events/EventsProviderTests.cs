@@ -227,7 +227,7 @@ namespace CatLib.Tests.Events
             var app = MakeEnv();
 
             var dispatcher = app.Make<IDispatcher>();
-            var handler = dispatcher.On("event.name", (payload) =>
+            dispatcher.On("event.name", (payload) =>
             {
                 Assert.AreEqual(123, payload);
                 return 1;

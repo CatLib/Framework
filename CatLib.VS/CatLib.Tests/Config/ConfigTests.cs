@@ -32,9 +32,9 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void ConfigTest()
         {
-            var converent = new CatLib.Converters.Converters();
+            var converent = new global::CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
-            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
+            var config = new global::CatLib.Config.Config(converent, new CodeConfigLocator());
             config.SetConverters(converent);
             config.SetLocator(new CodeConfigLocator());
 
@@ -66,7 +66,7 @@ namespace CatLib.Tests.Config
         {
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                var config = new CatLib.Config.Config(new CatLib.Converters.Converters(), null);
+                var config = new global::CatLib.Config.Config(new global::CatLib.Converters.Converters(), null);
                 config.Set("test", "test");
             });
         }
@@ -76,7 +76,7 @@ namespace CatLib.Tests.Config
         {
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                var config = new CatLib.Config.Config(null, new CodeConfigLocator());
+                var config = new global::CatLib.Config.Config(null, new CodeConfigLocator());
                 config.Set("test", "test");
             });
         }
@@ -84,9 +84,9 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void GetUndefinedTest()
         {
-            var converent = new CatLib.Converters.Converters();
+            var converent = new global::CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
-            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
+            var config = new global::CatLib.Config.Config(converent, new CodeConfigLocator());
             config.SetLocator(new CodeConfigLocator());
             config.Set("123", "123");
 
@@ -96,9 +96,9 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void GetWithUndefinedTypeConverterTest()
         {
-            var converent = new CatLib.Converters.Converters();
+            var converent = new global::CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
-            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
+            var config = new global::CatLib.Config.Config(converent, new CodeConfigLocator());
             config.SetLocator(new CodeConfigLocator());
             config.Set("123", "123");
 
@@ -108,10 +108,10 @@ namespace CatLib.Tests.Config
         [TestMethod]
         public void ExceptionConverterTest()
         {
-            var converent = new CatLib.Converters.Converters();
+            var converent = new global::CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
             converent.AddConverter(new StringInt32Converter());
-            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
+            var config = new global::CatLib.Config.Config(converent, new CodeConfigLocator());
             config.Set("123", "abc");
             Assert.AreEqual(0, config.Get("123", 0));
         }
@@ -121,9 +121,9 @@ namespace CatLib.Tests.Config
         /// </summary>
         public void SaveTest()
         {
-            var converent = new CatLib.Converters.Converters();
+            var converent = new global::CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
-            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
+            var config = new global::CatLib.Config.Config(converent, new CodeConfigLocator());
             config.Set("123", "abc");
             config.Save();
         }

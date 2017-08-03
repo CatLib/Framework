@@ -49,6 +49,11 @@ namespace CatLib.Debugger
         public bool UnityConsoleLoggerHandler = true;
 
         /// <summary>
+        /// 标准输出控制台日志句柄
+        /// </summary>
+        public bool StdConsoleLoggerHandler = true;
+
+        /// <summary>
         /// 启动性能监控
         /// </summary>
         public bool MonitorPerformance = true;
@@ -123,7 +128,8 @@ namespace CatLib.Debugger
             {
                 WebConsoleEnable = WebConsoleEnable,
                 WebConsoleHost = WebConsoleHost,
-                WebConsolePort = WebConsolePort
+                WebConsolePort = WebConsolePort,
+                StdConsoleLoggerHandler = StdConsoleLoggerHandler
             };
         }
 

@@ -54,11 +54,11 @@ namespace CatLib.Tests.Config
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {
-                return new CatLib.Config.Config(new CatLib.Converters.Converters(), new CodeConfigLocator());
+                return new global::CatLib.Config.Config(new global::CatLib.Converters.Converters(), new CodeConfigLocator());
             });
 
-            Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get().GetType());
-            Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get("default").GetType());
+            Assert.AreEqual(typeof(global::CatLib.Config.Config), configManager.Get().GetType());
+            Assert.AreEqual(typeof(global::CatLib.Config.Config), configManager.Get("default").GetType());
             Assert.AreNotSame(configManager.Get(), configManager["default"]);
 
             configManager.SetDefault(string.Empty);
@@ -72,9 +72,9 @@ namespace CatLib.Tests.Config
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {
-                var convert = new CatLib.Converters.Converters();
+                var convert = new global::CatLib.Converters.Converters();
                 convert.AddConverter(new StringStringConverter());
-                return new CatLib.Config.Config(convert, new CodeConfigLocator());
+                return new global::CatLib.Config.Config(convert, new CodeConfigLocator());
             });
 
             var watchValue = string.Empty;

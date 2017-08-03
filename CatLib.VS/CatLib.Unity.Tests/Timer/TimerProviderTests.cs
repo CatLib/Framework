@@ -754,7 +754,6 @@ namespace CatLib.Tests.Timer
         /// <param name="time"></param>
         private void RunTime(IApplication app, float time)
         {
-            var application = app as Application;
             var driver = app.Make<IMonoDriver>() as global::CatLib.MonoDriver.MonoDriver;
             var num = Math.Ceiling(time / 0.25f);
 
@@ -772,7 +771,6 @@ namespace CatLib.Tests.Timer
         /// <param name="frame"></param>
         private void RunFrame(IApplication app, int frame)
         {
-            var application = app as Application;
             var driver = app.Make<IMonoDriver>() as MDriver;
             for (var i = 0; i < frame; i++)
             {

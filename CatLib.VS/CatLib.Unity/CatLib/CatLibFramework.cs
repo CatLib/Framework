@@ -12,11 +12,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CatLib.CatLib
+namespace CatLib
 {
     /// <summary>
     /// CatLib框架
     /// </summary>
+    [DisallowMultipleComponent]
+    [AddComponentMenu("CatLib/Framework")]
     public sealed class CatLibFramework : MonoBehaviour
     {
         /// <summary>

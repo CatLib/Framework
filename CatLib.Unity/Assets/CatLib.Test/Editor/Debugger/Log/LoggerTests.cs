@@ -46,7 +46,7 @@ namespace CatLib.Tests.Debugger.Log
             {
                 logger.Debug(LogLevels.Debug.ToString() + "{0}", "helloworld");
                 return LogLevels.Debug.ToString();
-            });   
+            });
         }
 
         [TestMethod]
@@ -148,7 +148,7 @@ namespace CatLib.Tests.Debugger.Log
             });
         }
 
-        public void AssertLog(Func<ILogger , string> doLogger)
+        public void AssertLog(Func<ILogger, string> doLogger)
         {
             logLevel = string.Empty;
             var app = DebuggerHelper.GetApplication(false);

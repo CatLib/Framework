@@ -34,7 +34,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             var app = DebuggerHelper.GetApplication();
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
-            var handler = new OnceRecordMonitorHandler("title", "ms",new []{"tags"} , ()=> "helloworld");
+            var handler = new OnceRecordMonitorHandler("title", "ms", new[] { "tags" }, () => "helloworld");
             monitor.Monitor(handler);
 
             string ret;
@@ -52,7 +52,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
 
-            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            App.Instance("DebuggerProvider.IndexMonitor", new List<string>
             {
                 "title",
             });
@@ -90,7 +90,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             {
                 get
                 {
-                    return new []
+                    return new[]
                     {
                         "tag"
                     };
@@ -165,7 +165,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
 
-            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            App.Instance("DebuggerProvider.IndexMonitor", new List<string>
             {
                 "test",
             });
@@ -189,7 +189,7 @@ namespace CatLib.Tests.Debugger.WebMonitor.Controller
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
 
-            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            App.Instance("DebuggerProvider.IndexMonitor", new List<string>
             {
                 "test",
             });

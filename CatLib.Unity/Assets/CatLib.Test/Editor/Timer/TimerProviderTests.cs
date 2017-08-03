@@ -20,6 +20,7 @@ using CatLib.Events;
 using CatLib.MonoDriver;
 using CatLib.Time;
 using CatLib.Timer;
+using MDriver = global::CatLib.MonoDriver.MonoDriver;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -139,7 +140,7 @@ namespace CatLib.Tests.Timer
             manager.Extend(() => new TimerTestTime(), "test");
 
             var config = app.Make<IConfigManager>();
-            config.Default.Set("time.default", "test");
+            config.Default.Set("TimeProvider.DefaultTime", "test");
         }
 
         [TestMethod]
@@ -153,7 +154,7 @@ namespace CatLib.Tests.Timer
             }).Delay(1);
 
             var app = App.Handler as Application;
-            var driver = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var driver = app.Make<IMonoDriver>() as MDriver;
 
             //0.25
             Assert.AreEqual(false, statu);
@@ -753,8 +754,7 @@ namespace CatLib.Tests.Timer
         /// <param name="time"></param>
         private void RunTime(IApplication app, float time)
         {
-            var application = app as Application;
-            var driver = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var driver = app.Make<IMonoDriver>() as global::CatLib.MonoDriver.MonoDriver;
             var num = Math.Ceiling(time / 0.25f);
 
             for (int i = 0; i < num; i++)
@@ -771,8 +771,7 @@ namespace CatLib.Tests.Timer
         /// <param name="frame"></param>
         private void RunFrame(IApplication app, int frame)
         {
-            var application = app as Application;
-            var driver = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var driver = app.Make<IMonoDriver>() as MDriver;
             for (var i = 0; i < frame; i++)
             {
                 NextFrame();

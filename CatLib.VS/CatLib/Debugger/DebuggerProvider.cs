@@ -45,7 +45,7 @@ namespace CatLib.Debugger
         /// <summary>
         /// 控制台日志处理器
         /// </summary>
-        public bool ConsoleLoggerHandler { get; set; }
+        public bool StdConsoleLoggerHandler { get; set; }
 
         /// <summary>
         /// WebConsole是否启用
@@ -69,7 +69,7 @@ namespace CatLib.Debugger
         {
             LogHandlers = null;
             IndexMonitor = null;
-            ConsoleLoggerHandler = false;
+            StdConsoleLoggerHandler = false;
             WebConsoleEnable = false;
             WebConsoleHost = "*";
             WebConsolePort = 9478;
@@ -133,7 +133,7 @@ namespace CatLib.Debugger
             return new Dictionary<string, KeyValuePair<Type, bool>>(LogHandlers ?? new Dictionary<string, KeyValuePair<Type, bool>>())
             {
                 { "DebuggerProvider.ConsoleLoggerHandler" ,
-                    new KeyValuePair<Type, bool>(typeof(StdOutLogHandler) , ConsoleLoggerHandler) }
+                    new KeyValuePair<Type, bool>(typeof(StdOutLogHandler) , StdConsoleLoggerHandler) }
             };
         }
 

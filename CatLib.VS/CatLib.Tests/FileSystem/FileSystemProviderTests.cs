@@ -42,7 +42,7 @@ namespace CatLib.Tests.FileSystem
         [TestInitialize]
         public void TestInitialize()
         {
-            path = Path.Combine(Environment.CurrentDirectory, "FileSystemTest");
+            path = Path.Combine(global::System.Environment.CurrentDirectory, "FileSystemTest");
             if (SIO.Directory.Exists(path))
             {
                 SIO.Directory.Delete(path, true);
