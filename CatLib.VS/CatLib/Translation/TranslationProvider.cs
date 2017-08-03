@@ -34,18 +34,12 @@ namespace CatLib.Translation
         {
             App.Singleton<Translator>().Alias<ITranslator>().OnResolving((bind, obj) =>
             {
-                var tran = obj as Translator;
+                var tran = (Translator)obj;
                 tran.SetSelector(new Selector());
 
-                var config = App.Make<IConfigManager>();
-
-                if (config == null)
-                {
-                    return obj;
-                }
-
-                tran.SetLocale(config.Default.Get("translation.default", Languages.Chinese));
-                tran.SetFallback(config.Default.Get("translation.fallback", Languages.Chinese));
+                var config = App.Make<IConfig>();
+                tran.SetLocale(config.SafeGet("translation.default", Languages.Chinese));
+                tran.SetFallback(config.SafeGet("translation.fallback", Languages.Chinese));
 
                 return obj;
             });

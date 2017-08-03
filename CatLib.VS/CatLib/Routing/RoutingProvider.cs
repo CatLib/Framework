@@ -25,7 +25,6 @@ namespace CatLib.Routing
         /// 执行路由编译，路由编译总是最后进行的
         /// </summary>
         /// <returns>迭代器</returns>
-        [Priority]
         public void Init()
         {
             var router = App.Make<Router>();
@@ -37,7 +36,7 @@ namespace CatLib.Routing
         /// </summary>
         public void Register()
         {
-            App.Singleton<Router>((app, param) =>
+            App.Singleton<Router>((_, __) =>
             {
                 var router = new Router(App.Handler, App.Handler);
                 router.SetDefaultScheme("catlib");
@@ -52,26 +51,20 @@ namespace CatLib.Routing
         /// </summary>
         private void RegisterAttrRouteCompiler()
         {
-            App.Bind<AttrRouteCompiler>().OnResolving((bind, obj) =>
+            App.Bind<AttrRouteCompiler>().OnResolving((_, obj) =>
             {
-                var compiler = obj as AttrRouteCompiler;
+                var compiler = (AttrRouteCompiler)obj;
 
                 var containList = new List<string>()
                 {
                     "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor", "CatLib", "CatLib.Tests"
                 };
 
-                var config = App.Make<IConfigManager>();
-                if (config != null)
-                {
-                    var reserved = config.Default.Get("routing.stripping.reserved", string.Empty);
-                    containList.AddRange(reserved.Split(';'));
-                }
+                var config = App.Make<IConfig>();
+                var reserved = config.SafeGet("routing.stripping.reserved", string.Empty);
+                containList.AddRange(reserved.Split(';'));
 
-                compiler.OnStripping((assembly) =>
-                {
-                    return !containList.Contains(assembly.GetName().Name);
-                });
+                compiler.OnStripping((assembly) => !containList.Contains(assembly.GetName().Name));
 
                 return obj;
             });

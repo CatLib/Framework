@@ -20,6 +20,7 @@ namespace CatLib
     {
         /// <summary>
         /// 安全的获取配置
+        /// <para>自动对IConfig对象进行空判断，如果为空则返回默认值</para>
         /// </summary>
         /// <typeparam name="T">默认类型</typeparam>
         /// <param name="config">配置值</param>
