@@ -17,6 +17,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 请求(由于某些异常导致请求都无法被构建所以我们提供一个必定可以被构建的请求类)
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal sealed class ExceptionRequest : IRequest
     {
         /// <summary>
