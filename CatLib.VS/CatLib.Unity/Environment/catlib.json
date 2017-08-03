@@ -1,7 +1,0 @@
-{
-  "source": "catlib/environment",
-  "folder": "Environment",
-  "require": {
-    "catlib/api": "~1.0"
-  }
-}

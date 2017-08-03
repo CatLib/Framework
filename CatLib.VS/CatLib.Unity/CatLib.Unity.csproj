@@ -94,12 +94,6 @@
       <Name>CatLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Environment\catlib.json" />
-    <None Include="MonoDriver\catlib.json" />
-    <None Include="Timer\catlib.json" />
-    <None Include="Time\catlib.json" />
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
