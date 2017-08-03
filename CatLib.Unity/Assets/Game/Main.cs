@@ -9,7 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using CatLib;
 using CatLib.API.Routing;
+using CatLib.Facade;
 using UnityEngine;
 
 namespace YourNameSpace
@@ -33,6 +35,23 @@ namespace YourNameSpace
             //todo: user code here
             Debug.Log("hello world! user code here!");
             GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+            App.Singleton<Test>();
+            App.Make<Test>();
+        }
+
+        [Routed("bootstrap://test")]
+        public void Test()
+        {
+            
+        }
+    }
+
+    public class Test: IUpdate
+    {
+        public void Update()
+        {
+            Router.Instance.Dispatch("bootstrap://test");
         }
     }
 }
