@@ -33,7 +33,7 @@ namespace CatLib.Json
         {
             App.Singleton<JsonUtility>().OnResolving((binder, obj) =>
             {
-                var jsonUtility = obj as JsonUtility;
+                var jsonUtility = (JsonUtility)obj;
                 jsonUtility.SetJson(new SimpleJsonAdapter());
                 return jsonUtility;
             }).Alias<IJson>().Alias<IJsonAware>();

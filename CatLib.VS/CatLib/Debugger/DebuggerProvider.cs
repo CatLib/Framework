@@ -144,15 +144,20 @@ namespace CatLib.Debugger
         {
             App.Singleton<Logger>().Alias<ILogger>().OnResolving((binder, obj) =>
             {
-                var logger = obj as Logger;
-
+                var logger = (Logger)obj;
                 var config = App.Make<IConfig>();
 
                 foreach (var handler in GetLogHandlers())
                 {
-                    if (config.SafeGet(handler.Key, handler.Value.Value))
+                    if (!config.SafeGet(handler.Key, handler.Value.Value))
                     {
-                        logger.AddLogHandler(App.Make<ILogHandler>(App.Type2Service(handler.Value.Key)));
+                        continue;
+                    }
+
+                    var logHandler = App.Make<ILogHandler>(App.Type2Service(handler.Value.Key));
+                    if (logHandler != null)
+                    {
+                        logger.AddLogHandler(logHandler);
                     }
                 }
 
@@ -171,7 +176,7 @@ namespace CatLib.Debugger
                 var host = config.SafeGet("DebuggerProvider.WebConsoleHost", WebConsoleHost);
                 var port = config.SafeGet("DebuggerProvider.WebConsolePort", WebConsolePort);
 
-                var httpDebuggerConsole = obj as HttpDebuggerConsole;
+                var httpDebuggerConsole = (HttpDebuggerConsole)obj;
                 httpDebuggerConsole.Start(host, port);
 
                 return obj;
@@ -192,7 +197,8 @@ namespace CatLib.Debugger
         private void RegisterWebLog()
         {
             App.Singleton<LogStore>();
-            App.Instance("DebuggerProvider.IndexMonitor", new List<string>(IndexMonitor ?? new List<string>())
+            App.Instance("DebuggerProvider.IndexMonitor", 
+                new List<string>(IndexMonitor ?? new List<string>())
             {
             });
         }

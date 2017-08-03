@@ -16,7 +16,7 @@ namespace CatLib.Json
     /// <summary>
     /// Facebook Simple Json 适配器
     /// </summary>
-    public sealed class SimpleJsonAdapter : IJson
+    internal sealed class SimpleJsonAdapter : IJson
     {
         /// <summary>
         /// 反序列化
