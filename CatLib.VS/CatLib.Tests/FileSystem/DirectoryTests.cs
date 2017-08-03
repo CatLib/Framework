@@ -22,7 +22,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.FileSystem
@@ -40,7 +39,7 @@ namespace CatLib.Tests.FileSystem
         {
             Env(() =>
             {
-                local.Write("DirectoryTests.Directory/helloworld" , GetByte("hello world"));
+                local.Write("DirectoryTests.Directory/helloworld", GetByte("hello world"));
                 local.Write("DirectoryTests.Directory/helloworld2", GetByte("hello world2"));
                 local.MakeDir("DirectoryTests.Directory/helloworld-dir");
 
@@ -48,7 +47,7 @@ namespace CatLib.Tests.FileSystem
                 Assert.AreEqual(3, handlers.Length);
 
                 var dict = new Dictionary<string, bool>();
-                dict.Add("DirectoryTests.Directory\\helloworld" , false);
+                dict.Add("DirectoryTests.Directory\\helloworld", false);
                 dict.Add("DirectoryTests.Directory\\helloworld2", false);
                 dict.Add("DirectoryTests.Directory\\helloworld-dir", false);
 

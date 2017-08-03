@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Config.Locator;
@@ -112,7 +111,7 @@ namespace CatLib.Tests.Config
             var converent = new CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
             converent.AddConverter(new StringInt32Converter());
-            var config = new CatLib.Config.Config(converent , new CodeConfigLocator());
+            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
             config.Set("123", "abc");
             Assert.AreEqual(0, config.Get("123", 0));
         }
@@ -124,7 +123,7 @@ namespace CatLib.Tests.Config
         {
             var converent = new CatLib.Converters.Converters();
             converent.AddConverter(new StringStringConverter());
-            var config = new CatLib.Config.Config(converent , new CodeConfigLocator());
+            var config = new CatLib.Config.Config(converent, new CodeConfigLocator());
             config.Set("123", "abc");
             config.Save();
         }

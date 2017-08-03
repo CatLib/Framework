@@ -10,13 +10,11 @@
  */
 
 using System.Collections.Generic;
-using CatLib.API;
 using CatLib.API.Translation;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Events;
 using CatLib.Translation;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -25,7 +23,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Translation
@@ -47,7 +44,7 @@ namespace CatLib.Tests.Translation
 
         private class BasicTranslateResources : ITranslateResources
         {
-            private Dictionary<string, string> dictZh = new Dictionary<string,string>
+            private Dictionary<string, string> dictZh = new Dictionary<string, string>
             {
                 { "hello" , "[1,10]zh_hello_1|[11,*]zh_hello_2" },
                 { "world" , "zh_world_1" },
@@ -85,7 +82,8 @@ namespace CatLib.Tests.Translation
                 if (locale == Languages.English)
                 {
                     return dictEn.TryGetValue(key, out str);
-                }else if (locale == Languages.Japanese)
+                }
+                else if (locale == Languages.Japanese)
                 {
                     return dictJp.TryGetValue(key, out str);
                 }
@@ -104,7 +102,7 @@ namespace CatLib.Tests.Translation
 
             Assert.AreEqual("[1,10]en_hello_1|[11,*]en_hello_2", translator.Get("hello"));
             Assert.AreEqual("en_hello_1", translator.Get("hello", 5));
-            Assert.AreEqual("en_hello_2" ,translator.Get("hello" , 20));
+            Assert.AreEqual("en_hello_2", translator.Get("hello", 20));
         }
 
         [TestMethod]
@@ -129,7 +127,7 @@ namespace CatLib.Tests.Translation
             translator.SetLocale(Languages.Chinese);
 
             Assert.AreEqual("[1,10]en_hello_1|[11,*]en_hello_2", translator.GetBy("hello", Languages.English));
-            Assert.AreEqual("[1,10]en_hello_1|[11,*]en_hello_2", translator.GetBy("hello", new[] { Languages.Japanese ,Languages.English, Languages.Chinese}));
+            Assert.AreEqual("[1,10]en_hello_1|[11,*]en_hello_2", translator.GetBy("hello", new[] { Languages.Japanese, Languages.English, Languages.Chinese }));
         }
 
         [TestMethod]
@@ -199,7 +197,7 @@ namespace CatLib.Tests.Translation
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
 
-            Assert.AreEqual("zh hello , my name is catlib", translator.Get("replace", "start:hello" , "name" , "catlib"));
+            Assert.AreEqual("zh hello , my name is catlib", translator.Get("replace", "start:hello", "name", "catlib"));
         }
 
         [TestMethod]
@@ -210,7 +208,7 @@ namespace CatLib.Tests.Translation
             translator.SetResources(new BasicTranslateResources());
             translator.SetFallback(Languages.Chinese);
             translator.SetLocale(null);
-            Assert.AreEqual("jp hello , my name is catlib", translator.GetBy("replace",new []{ Languages.Japanese, Languages.English }, "start:hello", "name", "catlib"));
+            Assert.AreEqual("jp hello , my name is catlib", translator.GetBy("replace", new[] { Languages.Japanese, Languages.English }, "start:hello", "name", "catlib"));
         }
 
         [TestMethod]
@@ -235,7 +233,7 @@ namespace CatLib.Tests.Translation
             translator.SetLocale(null);
 
             Assert.AreEqual("jp count is:10",
-                translator.GetBy("count", 10, new[] {Languages.Japanese, Languages.English}));
+                translator.GetBy("count", 10, new[] { Languages.Japanese, Languages.English }));
         }
 
         [TestMethod]
@@ -284,8 +282,8 @@ namespace CatLib.Tests.Translation
             translator.SetFallback(null);
             translator.SetLocale(null);
 
-            Assert.AreEqual(string.Empty, translator.GetBy("undefined", 10, new[] {Languages.Afrikaans}));
-            Assert.AreEqual(string.Empty, translator.GetBy("undefined" , 10, Languages.Afrikaans));
+            Assert.AreEqual(string.Empty, translator.GetBy("undefined", 10, new[] { Languages.Afrikaans }));
+            Assert.AreEqual(string.Empty, translator.GetBy("undefined", 10, Languages.Afrikaans));
         }
 
         [TestMethod]
@@ -309,7 +307,7 @@ namespace CatLib.Tests.Translation
             translator.SetFallback(null);
             translator.SetLocale(null);
 
-            Assert.AreEqual(string.Empty, translator.GetBy("undefined", new[] {Languages.Afrikaans}));
+            Assert.AreEqual(string.Empty, translator.GetBy("undefined", new[] { Languages.Afrikaans }));
         }
 
         [TestMethod]

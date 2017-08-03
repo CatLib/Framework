@@ -24,8 +24,8 @@ namespace CatLib
         /// </summary>
         public void Bootstrap()
         {
-            LoadCodeProvider();
             LoadUnityComponentProvider();
+            LoadCodeProvider();
         }
 
         /// <summary>
@@ -33,9 +33,12 @@ namespace CatLib
         /// </summary>
         private void LoadCodeProvider()
         {
-            foreach (var type in Providers.ServiceProviders)
+            foreach (var provider in Providers.ServiceProviders)
             {
-                App.Register(type);
+                if (!App.IsRegisted(provider))
+                {
+                    App.Register(provider);
+                }
             }
         }
 
@@ -51,19 +54,18 @@ namespace CatLib
             }
 
             var unityObject = typeof(Object);
-            var serviceProviders = root.GetComponents<IServiceProvider>();
-            foreach (var serviceProvider in serviceProviders)
+            foreach (var provider in root.GetComponents<IServiceProvider>())
             {
-                if (serviceProvider == null)
+                if (provider == null)
                 {
                     continue;
                 }
 
-                App.Register(serviceProvider);
+                App.Register(provider);
 
-                if (unityObject.IsInstanceOfType(serviceProvider))
+                if (unityObject.IsInstanceOfType(provider))
                 {
-                    Object.Destroy((Object)serviceProvider);
+                    Object.Destroy((Object)provider);
                 }
             }
         }

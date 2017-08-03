@@ -13,7 +13,7 @@ using System.Collections;
 using CatLib.API.MonoDriver;
 using CatLib.Events;
 using CatLib.MonoDriver;
-
+using MDriver = global::CatLib.MonoDriver.MonoDriver;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -78,7 +78,7 @@ namespace CatLib.Tests.MonoDriver
             c.Singleton<TestStaticClass>();
             c.Make<TestStaticClass>();
 
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             d.Update();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
         }
@@ -96,7 +96,7 @@ namespace CatLib.Tests.MonoDriver
 
             c.Release<TestStaticClass>();
 
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             d.Update();
             Assert.AreEqual(string.Empty, updateResult);
         }
@@ -114,7 +114,7 @@ namespace CatLib.Tests.MonoDriver
       
             c.Instance<TestStaticClass>(null);
 
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             d.Update();
             Assert.AreEqual(string.Empty, updateResult);
 
@@ -135,7 +135,7 @@ namespace CatLib.Tests.MonoDriver
             c.Singleton<TestStaticClass>();
             var cls = c.Make<TestStaticClass>();
 
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             d.Update();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
             d.Detach(cls);
@@ -154,7 +154,7 @@ namespace CatLib.Tests.MonoDriver
             c.Singleton<TestStaticClass>();
             var cls = c.Make<TestStaticClass>();
 
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             d.Update();
             d.LateUpdate();
             Assert.AreEqual("TestStaticClassUpdate", updateResult);
@@ -174,7 +174,7 @@ namespace CatLib.Tests.MonoDriver
         public void MainThreadCall()
         {
             var c = MakeDriver();
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             var isCall = false;
             d.MainThread(() =>
             {
@@ -195,7 +195,7 @@ namespace CatLib.Tests.MonoDriver
             var c = MakeDriver();
 
             isRunCoroutine = false;
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             d.MainThread(Coroutine());
 
             Assert.AreEqual(true, isRunCoroutine);
@@ -209,7 +209,7 @@ namespace CatLib.Tests.MonoDriver
         {
             var c = MakeDriver();
             isRunCoroutine = false;
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             d.StartCoroutine(Coroutine());
             Assert.AreEqual(true, isRunCoroutine);
             d.StopCoroutine(Coroutine());
@@ -222,7 +222,7 @@ namespace CatLib.Tests.MonoDriver
         public void RepeatLoadTest()
         {
             var c = MakeDriver();
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             var obj = new TestStaticClass();
 
             d.Attach(obj);
@@ -240,7 +240,7 @@ namespace CatLib.Tests.MonoDriver
         public void OnDestroyTest()
         {
             var c = MakeDriver();
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             var obj = new TestStaticClass();
 
             d.Attach(obj);
@@ -260,7 +260,7 @@ namespace CatLib.Tests.MonoDriver
         {
             onDestroyResult = string.Empty;
             var c = MakeDriver();
-            var d = c.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = c.Make<IMonoDriver>() as MDriver;
             var obj = new TestStaticClass();
             d.Detach(obj);
             Assert.AreEqual(string.Empty, onDestroyResult);
@@ -349,7 +349,7 @@ namespace CatLib.Tests.MonoDriver
             });
 
             app.Make<DoubleOnDestroyClass>();
-            var d = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = app.Make<IMonoDriver>() as MDriver;
             d.OnDestroy();
 
             Assert.AreEqual(true, onRelease);
@@ -376,7 +376,7 @@ namespace CatLib.Tests.MonoDriver
             app.Singleton<TestFixedUpdateClass>();
 
             app.Make<TestFixedUpdateClass>();
-            var d = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = app.Make<IMonoDriver>() as MDriver;
             d.FixedUpdate();
 
             Assert.AreEqual("helloworld", fixedUpdateValue);
@@ -402,7 +402,7 @@ namespace CatLib.Tests.MonoDriver
             app.Singleton<TestOnGUIValue>();
 
             app.Make<TestOnGUIValue>();
-            var d = app.Make<IMonoDriver>() as CatLib.MonoDriver.MonoDriver;
+            var d = app.Make<IMonoDriver>() as MDriver;
             d.OnGUI();
 
             Assert.AreEqual("hellogui", onGUIValue);

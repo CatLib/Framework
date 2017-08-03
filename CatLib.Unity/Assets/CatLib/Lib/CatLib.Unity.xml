@@ -4,5 +4,1403 @@
         <name>CatLib.Unity</name>
     </assembly>
     <members>
+        <member name="T:CatLib.Assemblys">
+            <summary>
+            程序集会自动添加加载方案
+            </summary>
+        </member>
+        <member name="P:CatLib.Assemblys.Assembly">
+            <summary>
+            程序集会自动添加加载方案
+            </summary>
+        </member>
+        <member name="T:CatLib.Bootstrap">
+            <summary>
+            框架默认的引导程序
+            </summary>
+        </member>
+        <member name="P:CatLib.Bootstrap.ServiceBootstraps">
+            <summary>
+            引导程序
+            </summary>
+        </member>
+        <member name="T:CatLib.ProviderBootstrap">
+            <summary>
+            默认提供者引导
+            </summary>
+        </member>
+        <member name="M:CatLib.ProviderBootstrap.Bootstrap">
+            <summary>
+            引导程序接口
+            </summary>
+        </member>
+        <member name="M:CatLib.ProviderBootstrap.LoadCodeProvider">
+            <summary>
+            加载以代码形式提供的服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.ProviderBootstrap.LoadUnityComponentProvider">
+            <summary>
+            加载Unity组件的服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.StartBootstrap">
+            <summary>
+            默认提供者引导
+            </summary>
+        </member>
+        <member name="M:CatLib.StartBootstrap.Bootstrap">
+            <summary>
+            引导程序接口
+            </summary>
+        </member>
+        <member name="T:CatLib.TypeFinderBootstrap">
+            <summary>
+            默认提供者引导
+            </summary>
+        </member>
+        <member name="M:CatLib.TypeFinderBootstrap.Bootstrap">
+            <summary>
+            引导程序接口
+            </summary>
+        </member>
+        <member name="T:CatLib.CatLib.CatLibFramework">
+            <summary>
+            CatLib框架
+            </summary>
+        </member>
+        <member name="M:CatLib.CatLib.CatLibFramework.Start">
+            <summary>
+            Unity Start
+            </summary>
+        </member>
+        <member name="M:CatLib.CatLib.CatLibFramework.GetBootstraps">
+            <summary>
+            获取引导程序
+            </summary>
+            <returns>引导脚本</returns>
+        </member>
+        <member name="T:CatLib.Providers">
+            <summary>
+            框架默认的服务提供者
+            <para>这里的提供者在框架启动时必定会被加载</para>
+            </summary>
+        </member>
+        <member name="P:CatLib.Providers.ServiceProviders">
+            <summary>
+            服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.UnityApplication">
+            <summary>
+            Unity Application
+            </summary>
+        </member>
+        <member name="M:CatLib.UnityApplication.#ctor(UnityEngine.Component)">
+            <summary>
+            Unity Application
+            </summary>
+            <param name="component">根组件</param>
+        </member>
+        <member name="T:CatLib.Config.Locator.UnitySettingLocator">
+            <summary>
+            Unity设置定位器
+            </summary>
+        </member>
+        <member name="M:CatLib.Config.Locator.UnitySettingLocator.Set(System.String,System.String)">
+            <summary>
+            设定值
+            </summary>
+            <param name="name">配置名</param>
+            <param name="value">配置值</param>
+        </member>
+        <member name="M:CatLib.Config.Locator.UnitySettingLocator.TryGetValue(System.String,System.String@)">
+            <summary>
+            根据配置名获取配置的值
+            </summary>
+            <param name="name">配置名</param>
+            <param name="value">配置值</param>
+            <returns>是否获取到配置</returns>
+        </member>
+        <member name="M:CatLib.Config.Locator.UnitySettingLocator.Save">
+            <summary>
+            保存配置
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.UnityDebuggerProvider">
+            <summary>
+            调试服务
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.WebConsoleEnable">
+            <summary>
+            是否启用Web控制台
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.WebConsoleHost">
+            <summary>
+            监听Host
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.WebConsolePort">
+            <summary>
+            监听端口
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.UnityConsoleLoggerHandler">
+            <summary>
+            Unity控制台日志句柄
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorPerformance">
+            <summary>
+            启动性能监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorScreen">
+            <summary>
+            启动屏幕监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorScene">
+            <summary>
+            启动场景监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorSystemInfo">
+            <summary>
+            启动系统信息监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorPath">
+            <summary>
+            启动路径监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorInput">
+            <summary>
+            启动输入监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorInputLocation">
+            <summary>
+            启动定位监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorInputGyroscope">
+            <summary>
+            启动陀螺仪监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorInputCompass">
+            <summary>
+            启动罗盘监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorGraphics">
+            <summary>
+            启动显卡监控
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.baseProvider">
+            <summary>
+            基础服务提供者
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.UnityDebuggerProvider.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.Awake">
+            <summary>
+            Unity服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.InitMainThreadGroup">
+            <summary>
+            初始化主线程组
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.Register">
+            <summary>
+            注册调试服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.RegisterMonitors">
+            <summary>
+            获取监控
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.RegisterLogger">
+            <summary>
+            注册日志系统
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.RegisterWebUI">
+            <summary>
+            注册WebUI
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.UnityDebuggerProvider.RegisterWebMonitorContent">
+            <summary>
+            注册Web监控
+            </summary>
+        </member>
+        <member name="T:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.#ctor">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.Controller.Command">
+            <summary>
+            指令
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.GyroEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+            <summary>
+            陀螺仪命令
+            </summary>
+            <param name="request">请求</param>
+            <param name="logger">日志</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.CompassEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+            <summary>
+            罗盘命令
+            </summary>
+            <param name="request">请求</param>
+            <param name="logger">日志</param>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.Controller.Command.LocationEnable(CatLib.API.Routing.IRequest,CatLib.API.Debugger.ILogger)">
+            <summary>
+            定位器命令
+            </summary>
+            <param name="request">请求</param>
+            <param name="logger">日志</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.GraphicsMonitor">
+            <summary>
+            显卡相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.GraphicsMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            显卡相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputCompassMonitor">
+            <summary>
+            罗盘相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputCompassMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            罗盘相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputGyroscopeMonitor">
+            <summary>
+            陀螺仪相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputGyroscopeMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            陀螺仪相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputLocationMonitor">
+            <summary>
+            定位相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputLocationMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            定位相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.InputMonitor">
+            <summary>
+            输入触摸相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.InputMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            输入触摸相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.PathMonitor">
+            <summary>
+            路径相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.PathMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            构建路径相关监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.PerformanceMonitor">
+            <summary>
+            性能相关监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.PerformanceMonitor.#ctor(CatLib.Debugger.IMonitor,CatLib.API.Time.ITime)">
+            <summary>
+            构建一个性能监控
+            </summary>
+            <param name="monitor">监控</param>
+            <param name="time">使用的时间</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.SceneMonitor">
+            <summary>
+            场景监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.SceneMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            构建一个场景监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.ScreenMonitor">
+            <summary>
+            屏幕监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.ScreenMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            屏幕监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Debugger.WebMonitorContent.SystemInfoMonitor">
+            <summary>
+            系统信息监控
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.WebMonitorContent.SystemInfoMonitor.#ctor(CatLib.Debugger.IMonitor)">
+            <summary>
+            系统信息监控
+            </summary>
+            <param name="monitor">监控</param>
+        </member>
+        <member name="T:CatLib.Environment.EnvironmentProvider">
+            <summary>
+            环境服务提供者
+            </summary>
+        </member>
+        <member name="F:CatLib.Environment.EnvironmentProvider.DebugLevel">
+            <summary>
+            调试等级
+            </summary>
+        </member>
+        <member name="F:CatLib.Environment.EnvironmentProvider.AssetPath">
+            <summary>
+            资源路径
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.EnvironmentProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.EnvironmentProvider.Register">
+            <summary>
+            注册核心服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.Environment.UnityEnvironment">
+            <summary>
+            Unity环境
+            </summary>
+        </member>
+        <member name="P:CatLib.Environment.UnityEnvironment.DebugLevel">
+            <summary>
+            调试等级
+            </summary>
+        </member>
+        <member name="F:CatLib.Environment.UnityEnvironment.assetPath">
+            <summary>
+            资源路径
+            </summary>
+        </member>
+        <member name="P:CatLib.Environment.UnityEnvironment.AssetPath">
+            <summary>
+            系统资源路径
+            <para>不同的调试等级下对应不同的资源路径</para>
+            <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
+            <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
+            <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>
+            <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
+            <para>如果开发者有手动设置资源路径，将使用开发者设置的路径</para>
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.#ctor">
+            <summary>
+            构造一个环境
+            </summary>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.GetAssetPathWithUnity">
+            <summary>
+            从Unity获取资源路径
+            </summary>
+            <returns>资源路径</returns>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.SetDebugLevel(CatLib.API.Environment.DebugLevels)">
+            <summary>
+            设定调试等级
+            </summary>
+            <param name="level">调试等级</param>
+        </member>
+        <member name="M:CatLib.Environment.UnityEnvironment.SetAssetPath(System.String)">
+            <summary>
+            设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
+            </summary>
+            <param name="path">路径</param>
+        </member>
+        <member name="T:CatLib.Facade.Env">
+            <summary>
+            环境
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Time">
+            <summary>
+            时间管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Timer">
+            <summary>
+            计时器管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.MonoDriver.DriverBehaviour">
+            <summary>
+            驱动脚本
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.DriverBehaviour.driver">
+            <summary>
+            驱动器
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.Awake">
+            <summary>
+            Awake
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.SetDriver(CatLib.MonoDriver.MonoDriver)">
+            <summary>
+            设定驱动器
+            </summary>
+            <param name="driver">驱动器</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.Update">
+            <summary>
+            每帧更新时
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.LateUpdate">
+            <summary>
+            在每帧更新时之后
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.OnDestroy">
+            <summary>
+            当释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.FixedUpdate">
+            <summary>
+            固定刷新
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.DriverBehaviour.OnGUI">
+            <summary>
+            当绘制GUI时
+            </summary>
+        </member>
+        <member name="T:CatLib.MonoDriver.MonoDriver">
+            <summary>
+            Mono驱动器
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.update">
+            <summary>
+            更新
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.lateUpdate">
+            <summary>
+            延后更新
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.fixedUpdate">
+            <summary>
+            固定更新
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.onGui">
+            <summary>
+            GUI绘制
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.destroy">
+            <summary>
+            释放时需要调用的
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.loadSet">
+            <summary>
+            载入结果集
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.container">
+            <summary>
+            应用程序
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.behaviour">
+            <summary>
+            Mono驱动程序
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.syncRoot">
+            <summary>
+            同步锁
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.mainThreadDispatcherQueue">
+            <summary>
+            主线程调度队列
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.mainThreadId">
+            <summary>
+            主线程ID
+            </summary>
+        </member>
+        <member name="P:CatLib.MonoDriver.MonoDriver.IsMainThread">
+            <summary>
+            是否是主线程
+            </summary>
+        </member>
+        <member name="F:CatLib.MonoDriver.MonoDriver.dispatcher">
+            <summary>
+            调度器
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.#ctor(CatLib.IContainer,CatLib.API.Events.IDispatcher,UnityEngine.Component)">
+            <summary>
+            构建一个Mono驱动器
+            </summary>
+            <param name="container">容器</param>、
+            <param name="dispatcher">全局调度器</param>
+            <param name="component">组件</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.InitComponent(UnityEngine.Component)">
+            <summary>
+            初始化组件
+            </summary>
+            <param name="component">Unity组件</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnResolving(CatLib.IBindData,System.Object)">
+            <summary>
+            默认的解决事件
+            </summary>
+            <param name="binder">绑定数据</param>
+            <param name="obj">对象</param>
+            <returns>处理后的对象</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.DefaultOnRelease(CatLib.IBindData,System.Object)">
+            <summary>
+            默认的释放事件
+            </summary>
+            <param name="binder">绑定数据</param>
+            <param name="obj">对象</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.Detach(System.Object)">
+            <summary>
+            从驱动器中卸载对象
+            如果对象使用了增强接口，那么卸载对应增强接口
+            从驱动器中卸载对象会引发IDestroy增强接口
+            </summary>
+            <param name="obj">对象</param>
+            <exception cref="T:System.ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.Attach(System.Object)">
+            <summary>
+            如果对象实现了增强接口那么将对象装载进对应驱动器
+            </summary>
+            <param name="obj">对象</param>
+            <exception cref="T:System.ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.MainThread(System.Collections.IEnumerator)">
+            <summary>
+            在主线程中调用
+            </summary>
+            <param name="action">代码块执行会处于主线程</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.MainThread(System.Action)">
+            <summary>
+            在主线程中调用
+            </summary>
+            <param name="action">代码块执行会处于主线程</param>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.ActionWrapper(System.Action)">
+            <summary>
+            包装器
+            </summary>
+            <param name="action">回调函数</param>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.StartCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            启动协程
+            </summary>
+            <param name="routine">协程内容</param>
+            <returns>协程</returns>
+            <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.StopCoroutine(System.Collections.IEnumerator)">
+            <summary>
+            停止协程
+            </summary>
+            <param name="routine">协程</param>
+            <exception cref="T:System.ArgumentNullException">当<paramref name="routine"/>为<c>null</c>时引发</exception>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.Update">
+            <summary>
+            每帧更新
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.LateUpdate">
+            <summary>
+            每帧更新后
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.FixedUpdate">
+            <summary>
+            固定刷新
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.OnGUI">
+            <summary>
+            GUI绘制时
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.OnDestroy">
+            <summary>
+            当释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndRemove``1(CatLib.ISortSet{``0,System.Int32},System.Object)">
+            <summary>
+            转换到指定目标并且删除
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="sortset">有序集</param>
+            <param name="obj">对象</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.ConvertAndAdd``1(CatLib.ISortSet{``0,System.Int32},System.Object,System.String)">
+            <summary>
+            转换到指定目标并且添加
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="sortset">有序集</param>
+            <param name="obj">对象</param>
+            <param name="function">获取优先级的函数名</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriver.GetPriorities(System.Type,System.String)">
+            <summary>
+            获取优先级
+            </summary>
+            <param name="type">识别的类型</param>
+            <param name="method">识别的方法</param>
+            <returns>优先级</returns>
+        </member>
+        <member name="T:CatLib.MonoDriver.MonoDriverProvider">
+            <summary>
+            Mono驱动器服务
+            </summary>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriverProvider.Init">
+            <summary>
+            Mono驱动器初始化
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.MonoDriver.MonoDriverProvider.Register">
+            <summary>
+            注册路由条目
+            </summary>
+        </member>
+        <member name="T:CatLib.Routing.UnityRoutingProvider">
+            <summary>
+            路由服务
+            </summary>
+        </member>
+        <member name="F:CatLib.Routing.UnityRoutingProvider.DefaultScheme">
+            <summary>
+            默认的Scheme
+            </summary>
+        </member>
+        <member name="F:CatLib.Routing.UnityRoutingProvider.CompilerAssembly">
+            <summary>
+            需要编译的程序集
+            </summary>
+        </member>
+        <member name="F:CatLib.Routing.UnityRoutingProvider.baseProvider">
+            <summary>
+            基础服务提供者
+            </summary>
+        </member>
+        <member name="P:CatLib.Routing.UnityRoutingProvider.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
+        <member name="M:CatLib.Routing.UnityRoutingProvider.Awake">
+            <summary>
+            构造一个路由服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Routing.UnityRoutingProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Routing.UnityRoutingProvider.Register">
+            <summary>
+            注册路由服务
+            </summary>
+        </member>
+        <member name="T:CatLib.Timer.Timer">
+            <summary>
+            计时器
+            </summary>
+        </member>
+        <member name="T:CatLib.Timer.Timer.TimerArgs">
+            <summary>
+            计时器参数
+            </summary>
+        </member>
+        <member name="P:CatLib.Timer.Timer.TimerArgs.Type">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:CatLib.Timer.Timer.TimerArgs.IntArgs">
+            <summary>
+            整型参数
+            </summary>
+        </member>
+        <member name="P:CatLib.Timer.Timer.TimerArgs.FloatArgs">
+            <summary>
+            浮点型参数
+            </summary>
+        </member>
+        <member name="P:CatLib.Timer.Timer.TimerArgs.FuncBoolArg">
+            <summary>
+            布尔回调函数
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.Timer.task">
+            <summary>
+            任务行为
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.Timer.args">
+            <summary>
+            计时器参数
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.Timer.isCompleted">
+            <summary>
+            当前计时器是否已经被完成
+            </summary>
+        </member>
+        <member name="P:CatLib.Timer.Timer.Queue">
+            <summary>
+            计时器队列
+            </summary>
+        </member>
+        <member name="M:CatLib.Timer.Timer.#ctor(CatLib.API.Timer.ITimerQueue,System.Action)">
+            <summary>
+            创建一个计时器
+            </summary>
+            <param name="task">任务实现</param>
+            <param name="queue">当前逻辑帧</param>
+            <returns>执行的任务</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.Delay(System.Single)">
+            <summary>
+            延迟指定时间后执行
+            </summary>
+            <param name="time">延迟时间(秒)</param>
+        </member>
+        <member name="M:CatLib.Timer.Timer.DelayFrame(System.Int32)">
+            <summary>
+            延迟指定帧数帧后执行
+            </summary>
+            <param name="frame">帧数</param>
+        </member>
+        <member name="M:CatLib.Timer.Timer.Loop(System.Single)">
+            <summary>
+            循环执行指定时间
+            </summary>
+            <param name="time">循环时间(秒)</param>
+        </member>
+        <member name="M:CatLib.Timer.Timer.Loop(System.Func{System.Boolean})">
+            <summary>
+            循环执行，直到函数返回false
+            </summary>
+            <param name="callback">循环状态函数</param>
+        </member>
+        <member name="M:CatLib.Timer.Timer.LoopFrame(System.Int32)">
+            <summary>
+            循环执行指定帧数
+            </summary>
+            <param name="frame">循环执行的帧数</param>
+        </member>
+        <member name="M:CatLib.Timer.Timer.Interval(System.Single,System.Int32)">
+            <summary>
+            间隔多少时间执行一次
+            </summary>
+            <param name="time">间隔的时间</param>
+            <param name="life">最多允许触发的次数</param>
+        </member>
+        <member name="M:CatLib.Timer.Timer.IntervalFrame(System.Int32,System.Int32)">
+            <summary>
+            间隔多少帧执行一次
+            </summary>
+            <param name="frame">间隔的帧数</param>
+            <param name="life">最多允许触发的次数</param>
+        </member>
+        <member name="M:CatLib.Timer.Timer.Tick(System.Single@)">
+            <summary>
+            触发计时器
+            </summary>
+            <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
+            <returns>当前计时器是否完成了任务</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.ExecTask(System.Single@)">
+            <summary>
+            执行任务
+            </summary>
+            <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
+            <returns>计时器是否已经完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.TaskDelayFrame(CatLib.Timer.Timer,System.Single@)">
+            <summary>
+            延迟帧执行
+            </summary>
+            <param name="timer">计时器</param>
+            <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
+            <returns>是否完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.TaskDelayTime(CatLib.Timer.Timer,System.Single@)">
+            <summary>
+            延迟时间执行
+            </summary>
+            <param name="timer">计时器</param>
+            <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
+            <returns>是否完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.TaskLoopFunc(CatLib.Timer.Timer,System.Single@)">
+            <summary>
+            根据函数结果决定是否循环
+            </summary>
+            <param name="timer">计时器</param>
+            <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
+            <returns>是否完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.TaskLoopTime(CatLib.Timer.Timer,System.Single@)">
+            <summary>
+            循环执行指定的时间
+            </summary>
+            <param name="timer">计时器</param>
+            <param name="deltaTime">上一帧到当前帧的时间(秒)</param>
+            <returns>是否完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.TaskLoopFrame(CatLib.Timer.Timer,System.Single@)">
+            <summary>
+            循环执行指定帧数
+            </summary>
+            <param name="timer">计时器</param>
+            <param name="deltaTime">一帧的时间</param>
+            <returns>是否完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.TaskInterval(CatLib.Timer.Timer,System.Single@)">
+            <summary>
+            间隔指定时间执行
+            </summary>
+            <param name="timer">计时器</param>
+            <param name="deltaTime">一帧的时间</param>
+            <returns>是否完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.TaskIntervalFrame(CatLib.Timer.Timer,System.Single@)">
+            <summary>
+            间隔指定时间执行
+            </summary>
+            <param name="timer">计时器</param>
+            <param name="deltaTime">一帧的时间</param>
+            <returns>是否完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.Timer.GuardCompleted(System.String)">
+            <summary>
+            检测完成状态
+            </summary>
+            <param name="func">函数名</param>
+        </member>
+        <member name="T:CatLib.Timer.TimerManager">
+            <summary>
+            计时器管理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerManager.timeManager">
+            <summary>
+            时间管理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerManager.executeList">
+            <summary>
+            运行列表
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerManager.timerQueue">
+            <summary>
+            计时器队列堆栈
+            </summary>
+        </member>
+        <member name="M:CatLib.Timer.TimerManager.#ctor(CatLib.API.Time.ITimeManager)">
+            <summary>
+            构建一个计时器管理器
+            </summary>
+            <param name="timeManager">时间管理器</param>
+        </member>
+        <member name="M:CatLib.Timer.TimerManager.Make(System.Action)">
+            <summary>
+            创建一个计时器
+            </summary>
+            <param name="task">计时器执行的任务</param>
+            <returns>计时器</returns>
+        </member>
+        <member name="M:CatLib.Timer.TimerManager.MakeQueue(System.Action,System.Int32)">
+            <summary>
+            创建一个计时器队列
+            </summary>
+            <param name="area">在这个区域中Make的计时器会按照Make顺序加入同一个队列</param>
+            <param name="priority">优先级(值越小越优先)</param>
+            <returns>计时器队列</returns>
+        </member>
+        <member name="M:CatLib.Timer.TimerManager.Cancel(CatLib.API.Timer.ITimerQueue)">
+            <summary>
+            停止计时器队列的运行
+            </summary>
+            <param name="queue">计时器队列</param>
+        </member>
+        <member name="M:CatLib.Timer.TimerManager.Pause(CatLib.API.Timer.ITimerQueue)">
+            <summary>
+            暂停计时器队列
+            </summary>
+            <param name="queue">计时器队列</param>
+        </member>
+        <member name="M:CatLib.Timer.TimerManager.Play(CatLib.API.Timer.ITimerQueue)">
+            <summary>
+            重新开始播放计时器队列
+            </summary>
+            <param name="queue">计时器队列</param>
+        </member>
+        <member name="M:CatLib.Timer.TimerManager.Update">
+            <summary>
+            每帧更新
+            </summary>
+        </member>
+        <member name="T:CatLib.Timer.TimerProvider">
+            <summary>
+            计时器服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Timer.TimerProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Timer.TimerProvider.Register">
+            <summary>
+            注册计时器服务
+            </summary>
+        </member>
+        <member name="T:CatLib.Timer.TimerQueue">
+            <summary>
+            计时器队列
+            </summary>
+        </member>
+        <member name="P:CatLib.Timer.TimerQueue.IsPause">
+            <summary>
+            是否是暂停的
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerQueue.time">
+            <summary>
+            时间实现
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerQueue.timers">
+            <summary>
+            计时器列表
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerQueue.onCompleted">
+            <summary>
+            当队列中的所有任务完成时
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerQueue.cursor">
+            <summary>
+            游标,确定了当前执行的timer位置
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerQueue.frame">
+            <summary>
+            构建时间组时的逻辑帧
+            </summary>
+        </member>
+        <member name="P:CatLib.Timer.TimerQueue.IsCompleted">
+            <summary>
+            当前计时器队列是否完成的
+            </summary>
+        </member>
+        <member name="M:CatLib.Timer.TimerQueue.#ctor(CatLib.API.Time.ITime)">
+            <summary>
+            构建一个计时器队列
+            </summary>
+            <param name="time">时间实现</param>
+        </member>
+        <member name="M:CatLib.Timer.TimerQueue.OnCompleted(System.Action)">
+            <summary>
+            当组的所有计时器完成时
+            </summary>
+            <param name="onCompleted">完成时</param>
+            <returns>当前组实例</returns>
+        </member>
+        <member name="M:CatLib.Timer.TimerQueue.SetTime(CatLib.API.Time.ITime)">
+            <summary>
+            设定使用的时间系统
+            </summary>
+            <param name="time">时间</param>
+            <returns>当前组实例</returns>
+        </member>
+        <member name="M:CatLib.Timer.TimerQueue.Tick">
+            <summary>
+            触发计时器
+            </summary>
+            <returns>计时器队列是否已经完成</returns>
+        </member>
+        <member name="M:CatLib.Timer.TimerQueue.Add(CatLib.Timer.Timer)">
+            <summary>
+            将计时器加入队列
+            </summary>
+            <param name="timer">计时器</param>
+        </member>
+        <member name="M:CatLib.Timer.TimerQueue.GetTimer">
+            <summary>
+            获取计时器
+            </summary>
+            <returns>计时器</returns>
+        </member>
+        <member name="M:CatLib.Timer.TimerQueue.GuardCompleted(System.String)">
+            <summary>
+            检测完成状态
+            </summary>
+            <param name="func">函数名</param>
+        </member>
+        <member name="T:CatLib.Timer.TimerTypes">
+            <summary>
+            时间任务类型
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerTypes.DelayTime">
+            <summary>
+            延迟时间执行
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerTypes.DelayFrame">
+            <summary>
+            延迟帧数执行
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerTypes.LoopTime">
+            <summary>
+            循环执行指定时间
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerTypes.LoopFunc">
+            <summary>
+            循环执行直到函数返回false
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerTypes.LoopFrame">
+            <summary>
+            循环执行指定帧数
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerTypes.Interval">
+            <summary>
+            间隔指定时间执行
+            </summary>
+        </member>
+        <member name="F:CatLib.Timer.TimerTypes.IntervalFrame">
+            <summary>
+            间隔指定帧执行
+            </summary>
+        </member>
+        <member name="T:CatLib.Time.TimeManager">
+            <summary>
+            时间服务管理器
+            时间服务允许获取一个或者多个不同类型的时间
+            </summary>
+        </member>
+        <member name="F:CatLib.Time.TimeManager.defaultName">
+            <summary>
+            默认名字
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.TimeManager.SetDefault(System.String)">
+            <summary>
+            设定默认名字
+            </summary>
+            <param name="name">默认名字</param>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.Time">
+            <summary>
+            从游戏开始到现在所用的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.DeltaTime">
+            <summary>
+            上一帧到当前帧的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.FixedTime">
+            <summary>
+            从游戏开始到现在的时间（秒）使用固定时间来更新
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.TimeSinceLevelLoad">
+            <summary>
+            从当前scene开始到目前为止的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.FixedDeltaTime">
+            <summary>
+            固定的上一帧到当前帧的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.MaximumDeltaTime">
+            <summary>
+            能获取最大的上一帧到当前帧的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.SmoothDeltaTime">
+            <summary>
+            平稳的上一帧到当前帧的时间(秒)，根据前N帧的加权平均值
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.TimeScale">
+            <summary>
+            时间缩放系数
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.FrameCount">
+            <summary>
+            总帧数
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.RealtimeSinceStartup">
+            <summary>
+            自游戏开始后的总时间（暂停也会增加）
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.CaptureFramerate">
+            <summary>
+            每秒的帧率
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.UnscaledDeltaTime">
+            <summary>
+            不考虑时间缩放上一帧到当前帧的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.TimeManager.UnscaledTime">
+            <summary>
+            不考虑时间缩放的从游戏开始到现在的时间
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.TimeManager.GetDefaultName">
+            <summary>
+            获取默认的文件系统名字
+            </summary>
+            <returns>默认的文件系统名字</returns>
+        </member>
+        <member name="T:CatLib.Time.TimeProvider">
+            <summary>
+            时间服务
+            </summary>
+        </member>
+        <member name="F:CatLib.Time.TimeProvider.DefaultTime">
+            <summary>
+            默认时间的名字
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.TimeProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.TimeProvider.Register">
+            <summary>
+            注册时间服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.TimeProvider.RegisterTimeManager">
+            <summary>
+            注册时间服务管理器
+            </summary>
+        </member>
+        <member name="T:CatLib.Time.UnityTime">
+            <summary>
+            Unity时间系统
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.Time">
+            <summary>
+            从游戏开始到现在所用的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.DeltaTime">
+            <summary>
+            上一帧到当前帧的时间(秒)
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.FixedTime">
+            <summary>
+            从游戏开始到现在的时间（秒）使用固定时间来更新
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.TimeSinceLevelLoad">
+            <summary>
+            从当前scene开始到目前为止的时间（秒）
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.FixedDeltaTime">
+            <summary>
+            固定的更新时间（秒）
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.MaximumDeltaTime">
+            <summary>
+            能获取的最大更新时间
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.SmoothDeltaTime">
+            <summary>
+            平稳的更新时间，根据前N帧的加权平均值
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.TimeScale">
+            <summary>
+            时间缩放系数
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.FrameCount">
+            <summary>
+            总帧数
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.RealtimeSinceStartup">
+            <summary>
+            自游戏开始后的总时间（暂停也会增加）
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.CaptureFramerate">
+            <summary>
+            每秒的帧率
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.UnscaledDeltaTime">
+            <summary>
+            不考虑时间缩放的更新时间
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTime.UnscaledTime">
+            <summary>
+            不考虑时间缩放的从游戏开始到现在的时间
+            </summary>
+        </member>
+        <member name="T:CatLib.Time.UnityTimeProvider">
+            <summary>
+            路由服务
+            </summary>
+        </member>
+        <member name="F:CatLib.Time.UnityTimeProvider.DefaultTime">
+            <summary>
+            默认的时间名字
+            </summary>
+        </member>
+        <member name="F:CatLib.Time.UnityTimeProvider.baseProvider">
+            <summary>
+            基础服务提供者
+            </summary>
+        </member>
+        <member name="P:CatLib.Time.UnityTimeProvider.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.UnityTimeProvider.Awake">
+            <summary>
+            构造一个路由服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.UnityTimeProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.UnityTimeProvider.Register">
+            <summary>
+            注册路由服务
+            </summary>
+        </member>
     </members>
 </doc>

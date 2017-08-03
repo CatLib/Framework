@@ -11,7 +11,6 @@
 
 using CatLib.API.Environment;
 using CatLib.Environment;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

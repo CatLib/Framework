@@ -24,7 +24,7 @@ namespace CatLib.Debugger.WebConsole
     /// http调试控制台
     /// </summary>
     [Routed("debug://http-debugger-console")]
-    public sealed class HttpDebuggerConsole : IOnDestroy
+    public sealed class HttpDebuggerConsole
     {
         /// <summary>
         /// http监听器
@@ -52,6 +52,11 @@ namespace CatLib.Debugger.WebConsole
         private readonly string guid;
 
         /// <summary>
+        /// 同步锁
+        /// </summary>
+        private readonly object syncRoot = new object();
+
+        /// <summary>
         /// http调试控制台
         /// </summary>
         /// <param name="logger">日志记录器</param>
@@ -70,6 +75,14 @@ namespace CatLib.Debugger.WebConsole
             this.json = json;
             guid = Guid.NewGuid().ToString();
             RegisterNotFoundRouted();
+        }
+
+        /// <summary>
+        /// 当析构时
+        /// </summary>
+        ~HttpDebuggerConsole()
+        {
+            Stop();
         }
 
         /// <summary>
@@ -92,12 +105,15 @@ namespace CatLib.Debugger.WebConsole
         /// <param name="port">监听端口</param>
         public void Start(string host = "*", int port = 9478)
         {
-            if (listener != null)
+            lock (syncRoot)
             {
-                listener.Dispose();
+                if (listener != null)
+                {
+                    listener.Dispose();
+                }
+                listener = new HttpListener(host, port);
+                listener.OnRequest += OnRequest;
             }
-            listener = new HttpListener(host, port);
-            listener.OnRequest += OnRequest;
         }
 
         /// <summary>
@@ -105,18 +121,13 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         public void Stop()
         {
-            if (listener != null)
+            lock (syncRoot)
             {
-                listener.Dispose();
+                if (listener != null)
+                {
+                    listener.Dispose();
+                }
             }
-        }
-
-        /// <summary>
-        /// 当释放时
-        /// </summary>
-        public void OnDestroy()
-        {
-            Stop();
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace CatLib.Tests
         /// <param name="url">请求地址</param>
         /// <param name="ret">请求结果</param>
         /// <returns>http状态码</returns>
-        public static HttpStatusCode Get(string url ,out string ret)
+        public static HttpStatusCode Get(string url, out string ret)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "get";

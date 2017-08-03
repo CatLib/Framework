@@ -39,7 +39,7 @@ namespace CatLib.Tests.Stl
 
         public class TestManager : SingleManager<ITestInterface>
         {
-            
+
         }
 
         [TestMethod]

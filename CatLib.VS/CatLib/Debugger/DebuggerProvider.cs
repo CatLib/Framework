@@ -69,8 +69,8 @@ namespace CatLib.Debugger
         {
             LogHandlers = null;
             IndexMonitor = null;
-            ConsoleLoggerHandler = true;
-            WebConsoleEnable = true;
+            ConsoleLoggerHandler = false;
+            WebConsoleEnable = false;
             WebConsoleHost = "*";
             WebConsolePort = 9478;
         }
@@ -176,10 +176,14 @@ namespace CatLib.Debugger
                 var host = config.SafeGet("DebuggerProvider.WebConsoleHost", WebConsoleHost);
                 var port = config.SafeGet("DebuggerProvider.WebConsolePort", WebConsolePort);
 
-                var httpDebuggerConsole = (HttpDebuggerConsole)obj;
+                var httpDebuggerConsole = (HttpDebuggerConsole) obj;
                 httpDebuggerConsole.Start(host, port);
 
                 return obj;
+            }).OnRelease((_, obj) =>
+            {
+                var httpDebuggerConsole = (HttpDebuggerConsole)obj;
+                httpDebuggerConsole.Stop();
             });
         }
 

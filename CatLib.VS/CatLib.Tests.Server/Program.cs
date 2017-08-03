@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API.Config;
 using CatLib.API.Routing;
 using CatLib.Config;
@@ -18,6 +17,7 @@ using CatLib.Debugger;
 using CatLib.Events;
 using CatLib.Json;
 using CatLib.Routing;
+using System;
 
 namespace CatLib.Tests.Server
 {
@@ -41,18 +41,6 @@ namespace CatLib.Tests.Server
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
             app.Register(new EventsProvider());
-            var config = app.Make<IConfigManager>().Default;
-            config.Set("UnityDebuggerProvider.UnityConsoleLoggerHandler", false);
-            config.Set("UnityDebuggerProvider.MonitorPerformance", false);
-            config.Set("UnityDebuggerProvider.MonitorScreen", false);
-            config.Set("UnityDebuggerProvider.MonitorScene", false);
-            config.Set("UnityDebuggerProvider.MonitorSystemInfo", false);
-            config.Set("UnityDebuggerProvider.MonitorPath", false);
-            config.Set("UnityDebuggerProvider.MonitorInput", false);
-            config.Set("UnityDebuggerProvider.MonitorInputLocation", false);
-            config.Set("UnityDebuggerProvider.MonitorInputGyroscope", false);
-            config.Set("UnityDebuggerProvider.MonitorInputCompass", false);
-            config.Set("UnityDebuggerProvider.MonitorGraphics", false);
             app.Init();
 
             app.Make<IRouter>().Middleware((request, response, next) =>

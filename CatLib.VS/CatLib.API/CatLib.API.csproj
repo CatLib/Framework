@@ -36,10 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatLib\Facade.cs" />
+    <Compile Include="CatLib\IServiceProviderType.cs" />
     <Compile Include="Config\Features\IConfigLocator.cs" />
     <Compile Include="Config\IConfigManager.cs" />
     <Compile Include="Config\Internal\ConfigExtend.cs" />

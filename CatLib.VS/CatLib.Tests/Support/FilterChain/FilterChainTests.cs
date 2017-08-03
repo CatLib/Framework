@@ -15,7 +15,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Stl
@@ -85,7 +84,7 @@ namespace CatLib.Tests.Stl
                 {
                     chain.Do(data, (in1) =>
                     {
-                        
+
                     });
                 }
                 next(inData);
@@ -108,13 +107,13 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void TestFilterChainT1T2()
         {
-            var chain = new FilterChain<string,string>();
+            var chain = new FilterChain<string, string>();
 
             var data1 = "123";
             var data2 = "222";
 
             var isCall = false;
-            chain.Add((in1Data,in2Data, next) =>
+            chain.Add((in1Data, in2Data, next) =>
             {
                 if (in1Data == data1 && in2Data == data2)
                 {
@@ -129,10 +128,10 @@ namespace CatLib.Tests.Stl
             });
 
             var completeCall = false;
-            chain.Do(data1, data2 , (in1, in2) =>
-            {
-                completeCall = true;
-            });
+            chain.Do(data1, data2, (in1, in2) =>
+           {
+               completeCall = true;
+           });
             Assert.AreEqual(2, chain.FilterList.Length);
             Assert.AreEqual(true, isCall);
             Assert.AreEqual(true, completeCall);
@@ -141,35 +140,35 @@ namespace CatLib.Tests.Stl
         [TestMethod]
         public void NoFilterChainCallT1T2()
         {
-            var chain = new FilterChain<string,string>();
+            var chain = new FilterChain<string, string>();
 
             var isCall = false;
-            chain.Do("","", (i,n) =>
-            {
-                isCall = !isCall;
-            });
+            chain.Do("", "", (i, n) =>
+             {
+                 isCall = !isCall;
+             });
 
-            chain.Do("","");
+            chain.Do("", "");
             Assert.AreEqual(true, isCall);
         }
 
         [TestMethod]
         public void TestFilterChainT1T2T3()
         {
-            var chain = new FilterChain<string, string , string>();
+            var chain = new FilterChain<string, string, string>();
 
             var data1 = "123";
             var data2 = "222";
             var data3 = "333";
 
             var isCall = false;
-            chain.Add((in1Data, in2Data , in3Data, next) =>
+            chain.Add((in1Data, in2Data, in3Data, next) =>
             {
                 if (in1Data == data1 && in2Data == data2 && in3Data == data3)
                 {
                     isCall = true;
                 }
-                next(in1Data, in2Data , in3Data);
+                next(in1Data, in2Data, in3Data);
             });
 
             chain.Add((in1Data, in2Data, in3Data, next) =>
@@ -194,12 +193,12 @@ namespace CatLib.Tests.Stl
             var chain = new FilterChain<string, string, string>();
 
             var isCall = false;
-            chain.Do("", "", "", (i, n , f) =>
+            chain.Do("", "", "", (i, n, f) =>
             {
                 isCall = !isCall;
             });
 
-            chain.Do("", "" , "");
+            chain.Do("", "", "");
             Assert.AreEqual(true, isCall);
         }
     }

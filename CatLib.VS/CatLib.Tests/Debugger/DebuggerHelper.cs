@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Converters;
@@ -17,6 +16,7 @@ using CatLib.Debugger;
 using CatLib.Events;
 using CatLib.Json;
 using CatLib.Routing;
+using System;
 
 namespace CatLib.Tests.Debugger
 {

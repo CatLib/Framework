@@ -38,7 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
@@ -91,7 +90,6 @@
     <Compile Include="Debugger\Log\Logger.cs" />
     <Compile Include="Debugger\Log\ILogHandler.cs" />
     <Compile Include="Config\ConfigManager.cs" />
-    <Compile Include="Config\Locator\UnitySettingLocator.cs" />
     <Compile Include="Debugger\Log\Handler\StdOutLogHandler.cs" />
     <Compile Include="Debugger\Log\LogEntry.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\OnceRecordMonitorHandler.cs" />

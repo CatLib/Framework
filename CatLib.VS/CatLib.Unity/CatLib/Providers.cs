@@ -11,13 +11,21 @@
 
 using CatLib.Config;
 using CatLib.Converters;
+using CatLib.Debugger;
 using CatLib.Events;
+using CatLib.FileSystem;
+using CatLib.Json;
+using CatLib.MonoDriver;
 using CatLib.Routing;
+using CatLib.Time;
+using CatLib.Timer;
+using CatLib.Translation;
 
 namespace CatLib
 {
     /// <summary>
-    /// 框架默认的服务提供者(这里的提供者在框架启动时必定会被加载)
+    /// 框架默认的服务提供者
+    /// <para>这里的提供者在框架启动时必定会被加载</para>
     /// </summary>
     [ExcludeFromCodeCoverage]
     internal class Providers
@@ -35,6 +43,13 @@ namespace CatLib
                     new ConfigProvider(), 
                     new EventsProvider(),
                     new RoutingProvider(), 
+                    new MonoDriverProvider(), 
+                    new DebuggerProvider(), 
+                    new JsonProvider(), 
+                    new FileSystemProvider(), 
+                    new TranslationProvider(), 
+                    new TimeProvider(), 
+                    new TimerProvider(), 
                 };
             }
         }

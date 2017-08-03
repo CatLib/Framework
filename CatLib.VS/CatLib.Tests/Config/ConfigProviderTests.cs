@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Config.Locator;
@@ -25,7 +24,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Config
@@ -80,15 +78,15 @@ namespace CatLib.Tests.Config
             });
 
             var watchValue = string.Empty;
-            configManager.Default.Watch("watch" , (value) =>
-            {
-                watchValue = value.ToString();
-            });
+            configManager.Default.Watch("watch", (value) =>
+           {
+               watchValue = value.ToString();
+           });
 
-            configManager.Default.Set("watch" , "123");
+            configManager.Default.Set("watch", "123");
             configManager.Default.Set("nowatch", "333");
 
-            Assert.AreEqual("123" , watchValue);
+            Assert.AreEqual("123", watchValue);
         }
     }
 }

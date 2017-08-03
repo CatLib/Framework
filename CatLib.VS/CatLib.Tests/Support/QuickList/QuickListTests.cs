@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

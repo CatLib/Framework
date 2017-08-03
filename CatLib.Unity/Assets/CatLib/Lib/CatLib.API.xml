@@ -14,6 +14,16 @@
             门面实例
             </summary>
         </member>
+        <member name="T:CatLib.IServiceProviderType">
+            <summary>
+            主动标志服务提供者的基础类型
+            </summary>
+        </member>
+        <member name="P:CatLib.IServiceProviderType.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
         <member name="T:CatLib.API.Config.IConfigLocator">
             <summary>
             配置定位器
@@ -1552,6 +1562,40 @@
             祖鲁
             </summary>
         </member>
+        <member name="T:CatLib.ConfigExtend">
+            <summary>
+            配置扩展
+            </summary>
+        </member>
+        <member name="M:CatLib.ConfigExtend.SafeGet``1(CatLib.API.Config.IConfig,System.String,``0)">
+            <summary>
+            安全的获取配置
+            <para>自动对IConfig对象进行空判断，如果为空则返回默认值</para>
+            </summary>
+            <typeparam name="T">默认类型</typeparam>
+            <param name="config">配置中枢</param>
+            <param name="name">配置名字</param>
+            <param name="def">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.ConfigExtend.SafeWatch(CatLib.API.Config.IConfig,System.String,System.Action{System.Object})">
+            <summary>
+            安全的观察
+            <para>自动对IConfig对象进行空判断，如果为空则不处理</para>
+            </summary>
+            <param name="config">配置中枢</param>
+            <param name="name">配置名字</param>
+            <param name="callback">默认值</param>
+        </member>
+        <member name="M:CatLib.ConfigExtend.SafeSet(CatLib.API.Config.IConfig,System.String,System.Object)">
+            <summary>
+            安全的设置
+            <para>自动对IConfig对象进行空判断，如果为空则不处理</para>
+            </summary>
+            <param name="config">配置中枢</param>
+            <param name="name">配置名字</param>
+            <param name="value">配置的值</param>
+        </member>
         <member name="T:CatLib.App">
             <summary>
             CatLib实例
@@ -1572,6 +1616,13 @@
             注册服务提供者
             </summary>
             <param name="provider">服务提供者</param>
+        </member>
+        <member name="M:CatLib.App.IsRegisted(CatLib.IServiceProvider)">
+            <summary>
+            服务提供者是否已经注册过
+            </summary>
+            <param name="provider">服务提供者</param>
+            <returns>服务提供者是否已经注册过</returns>
         </member>
         <member name="M:CatLib.App.GetRuntimeId">
             <summary>
@@ -1938,12 +1989,12 @@
             <param name="message">异常消息</param>
             <param name="innerException">内部异常</param>
         </member>
-        <member name="T:CatLib.ContainerExpand">
+        <member name="T:CatLib.ContainerExtend">
             <summary>
              容器拓展
              </summary>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Singleton(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -1952,7 +2003,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``2(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Singleton``2(CatLib.IContainer)">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -1961,7 +2012,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Singleton``1(CatLib.IContainer)">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -1969,7 +2020,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Singleton``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -1978,7 +2029,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``2(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Bind``2(CatLib.IContainer)">
             <summary>
             常规绑定一个服务
             </summary>
@@ -1987,7 +2038,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Bind``1(CatLib.IContainer)">
             <summary>
             常规绑定一个服务
             </summary>
@@ -1995,7 +2046,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Bind``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             常规绑定一个服务
             </summary>
@@ -2004,7 +2055,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Bind(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             常规绑定一个服务
             </summary>
@@ -2013,7 +2064,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.MakeWith``1(CatLib.IContainer,System.Object[])">
+        <member name="M:CatLib.ContainerExtend.MakeWith``1(CatLib.IContainer,System.Object[])">
             <summary>
             构造一个服务，允许传入构造参数
             </summary>
@@ -2022,7 +2073,7 @@
             <param name="param">构造参数</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Make``1(CatLib.IContainer)">
             <summary>
             构造一个服务
             </summary>
@@ -2030,7 +2081,7 @@
             <param name="container">服务容器</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.IContainer,System.String)">
+        <member name="M:CatLib.ContainerExtend.Make``1(CatLib.IContainer,System.String)">
             <summary>
             构造一个服务
             </summary>
@@ -2039,14 +2090,14 @@
             <param name="service">服务名</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Release``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Release``1(CatLib.IContainer)">
             <summary>
             释放服务
             </summary>
             <typeparam name="TService">服务名</typeparam>
             <param name="container">服务容器</param>
         </member>
-        <member name="M:CatLib.ContainerExpand.Instance``1(CatLib.IContainer,System.Object)">
+        <member name="M:CatLib.ContainerExtend.Instance``1(CatLib.IContainer,System.Object)">
             <summary>
             静态化一个服务,实例值会经过解决修饰器
             </summary>
@@ -2172,6 +2223,13 @@
             注册服务提供者
             </summary>
             <param name="provider">服务提供者</param>
+        </member>
+        <member name="M:CatLib.IApplication.IsRegisted(CatLib.IServiceProvider)">
+            <summary>
+            服务提供者是否已经注册过
+            </summary>
+            <param name="provider">服务提供者</param>
+            <returns>服务提供者是否已经注册过</returns>
         </member>
         <member name="M:CatLib.IApplication.GetRuntimeId">
             <summary>

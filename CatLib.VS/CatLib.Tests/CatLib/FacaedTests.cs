@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.API;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -18,7 +17,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests
@@ -29,12 +27,12 @@ namespace CatLib.Tests
 
         public class FacaedTestClass
         {
-            
+
         }
 
         public class TestClassFacaed : Facade<FacaedTestClass>
         {
-            
+
         }
 
         /// <summary>

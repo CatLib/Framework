@@ -11,7 +11,6 @@
 
 using System.Net;
 using CatLib.Debugger.WebConsole;
-using CatLib.Debugger.WebLog;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;

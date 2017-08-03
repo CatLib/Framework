@@ -26,13 +26,8 @@ namespace CatLib.Debugger
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("CatLib/Debugger")]
-    public sealed class UnityDebuggerProvider : MonoBehaviour, IServiceProvider
+    public sealed class UnityDebuggerProvider : MonoBehaviour, IServiceProvider , IServiceProviderType
     {
-        /// <summary>
-        /// 基础服务提供者
-        /// </summary>
-        private readonly DebuggerProvider baseProvider;
-
         /// <summary>
         /// 是否启用Web控制台
         /// </summary>
@@ -104,9 +99,25 @@ namespace CatLib.Debugger
         public bool MonitorGraphics = true;
 
         /// <summary>
+        /// 基础服务提供者
+        /// </summary>
+        private DebuggerProvider baseProvider;
+
+        /// <summary>
+        /// 提供者基础类型
+        /// </summary>
+        public Type BaseType
+        {
+            get
+            {
+                return baseProvider.GetType();
+            }
+        }
+
+        /// <summary>
         /// Unity服务提供者
         /// </summary>
-        public UnityDebuggerProvider()
+        public void Awake()
         {
             baseProvider = new DebuggerProvider
             {

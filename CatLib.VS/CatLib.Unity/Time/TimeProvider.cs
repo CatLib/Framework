@@ -18,7 +18,7 @@ namespace CatLib.Time
     /// <summary>
     /// 时间服务
     /// </summary>
-    public sealed class TimeProvider : IServiceProvider
+    internal sealed class TimeProvider : IServiceProvider
     {
         /// <summary>
         /// 默认时间的名字

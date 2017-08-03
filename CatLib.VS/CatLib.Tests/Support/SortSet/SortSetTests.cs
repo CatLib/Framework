@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using Random = System.Random;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -590,13 +589,13 @@ namespace CatLib.Tests.Stl
                 master.Add(i, i);
             }
 
-            Assert.AreEqual(0 , master.First());
-            Assert.AreEqual(65535 , master.Last());
+            Assert.AreEqual(0, master.First());
+            Assert.AreEqual(65535, master.Last());
 
             for (var i = 0; i < 65536; i++)
             {
-                Assert.AreEqual(i , master.First());
-                Assert.AreEqual(i , master.Shift());
+                Assert.AreEqual(i, master.First());
+                Assert.AreEqual(i, master.Shift());
             }
 
             Assert.AreEqual(0, master.Count);
@@ -660,7 +659,7 @@ namespace CatLib.Tests.Stl
             ExceptionAssert.Throws<InvalidOperationException>(() =>
             {
                 master.First();
-            }); 
+            });
         }
 
         /// <summary>
@@ -683,7 +682,7 @@ namespace CatLib.Tests.Stl
         public void ToArray()
         {
             var master = new SortSet<int, int>(0.25, 32);
-            master.Add(10 , 10);
+            master.Add(10, 10);
             master.Add(90, 90);
             master.Add(20, 20);
             master.Add(80, 80);
@@ -716,7 +715,7 @@ namespace CatLib.Tests.Stl
 
             var a = master.ToArray();
 
-            Assert.AreEqual(80 , a[0]);
+            Assert.AreEqual(80, a[0]);
             Assert.AreEqual(20, a[1]);
             Assert.AreEqual(90, a[2]);
             Assert.AreEqual(10, a[3]);
@@ -806,21 +805,21 @@ namespace CatLib.Tests.Stl
                 master.Add(i, i);
             }
 
-            var assertList = new List<int>() {0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
+            var assertList = new List<int>() { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
             var tmpList = new List<int>();
             foreach (var i in master)
             {
                 tmpList.Add(i);
                 master.Remove(i);
-                master.Remove(i+1);
-                master.Remove(i+2);
-                master.Remove(i+3);
-                master.Remove(i+4);
-                master.Remove(i+5);
-                master.Remove(i+6);
-                master.Remove(i+7);
-                master.Remove(i+8);
-                master.Remove(i+9);
+                master.Remove(i + 1);
+                master.Remove(i + 2);
+                master.Remove(i + 3);
+                master.Remove(i + 4);
+                master.Remove(i + 5);
+                master.Remove(i + 6);
+                master.Remove(i + 7);
+                master.Remove(i + 8);
+                master.Remove(i + 9);
             }
 
             var n = 0;

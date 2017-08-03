@@ -10,7 +10,6 @@
  */
 
 using System;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 #else
@@ -40,7 +39,7 @@ namespace CatLib.Tests
         /// <param name="action">行为</param>
         /// <param name="message">异常消息</param>
         /// <returns></returns>
-        public static Exception Throws(Action action,string message)
+        public static Exception Throws(Action action, string message)
         {
             try
             {
