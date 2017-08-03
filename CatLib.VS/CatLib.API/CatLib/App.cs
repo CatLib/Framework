@@ -151,7 +151,7 @@ namespace CatLib
         /// <param name="eventName">事件名</param>
         /// <param name="payload">载荷</param>
         /// <returns>事件结果</returns>
-        public object TriggerHalt(string eventName, object payload = null)
+        public static object TriggerHalt(string eventName, object payload = null)
         {
             return Handler.TriggerHalt(eventName, payload);
         }
