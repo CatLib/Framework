@@ -21,6 +21,16 @@ namespace CatLib.Translation
     public sealed class TranslationProvider : IServiceProvider
     {
         /// <summary>
+        /// 默认语言
+        /// </summary>
+        public string DefaultLanguage = Languages.Chinese;
+
+        /// <summary>
+        /// 备选语言
+        /// </summary>
+        public string FallbackLanguage = Languages.Chinese;
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public void Init()
@@ -34,18 +44,12 @@ namespace CatLib.Translation
         {
             App.Singleton<Translator>().Alias<ITranslator>().OnResolving((bind, obj) =>
             {
-                var tran = obj as Translator;
+                var tran = (Translator)obj;
                 tran.SetSelector(new Selector());
 
-                var config = App.Make<IConfigManager>();
-
-                if (config == null)
-                {
-                    return obj;
-                }
-
-                tran.SetLocale(config.Default.Get("translation.default", Languages.Chinese));
-                tran.SetFallback(config.Default.Get("translation.fallback", Languages.Chinese));
+                var config = App.Make<IConfig>();
+                tran.SetLocale(config.SafeGet("TranslationProvider.DefaultLanguage", DefaultLanguage));
+                tran.SetFallback(config.SafeGet("TranslationProvider.FallbackLanguage", FallbackLanguage));
 
                 return obj;
             });

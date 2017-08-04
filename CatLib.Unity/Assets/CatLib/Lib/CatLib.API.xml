@@ -14,6 +14,16 @@
             门面实例
             </summary>
         </member>
+        <member name="T:CatLib.IServiceProviderType">
+            <summary>
+            主动标志服务提供者的基础类型
+            </summary>
+        </member>
+        <member name="P:CatLib.IServiceProviderType.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
         <member name="T:CatLib.API.Config.IConfigLocator">
             <summary>
             配置定位器
@@ -209,57 +219,6 @@
             <param name="cloneFromExtendName">克隆自的管理器名字</param>
             <returns>转换器</returns>
         </member>
-        <member name="T:CatLib.API.Environment.DebugLevels">
-            <summary>
-            调试等级
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Prod">
-            <summary>
-            生产环境
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Staging">
-            <summary>
-            仿真环境
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Dev">
-            <summary>
-            开发者模式（在移动设备上允许开启调试）
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Auto">
-            <summary>
-            自动模式（如果在编辑器模式下则使用开发者模式（非仿真环境）如果发布则使用生产环境）
-            </summary>
-        </member>
-        <member name="T:CatLib.API.Environment.IEnvironment">
-            <summary>
-            环境
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Environment.IEnvironment.DebugLevel">
-            <summary>
-            调试等级
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Environment.IEnvironment.AssetPath">
-            <summary>
-            系统资源路径
-            <para>不同的调试等级下对应不同的资源路径(如Unity环境:)</para>
-            <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
-            <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
-            <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>
-            <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Environment.IEnvironment.SetAssetPath(System.String)">
-            <summary>
-            设定资源路径，开发者设定的资源路径会覆盖默认的资源路径策略
-            </summary>
-            <param name="path">路径</param>
-        </member>
         <member name="T:CatLib.API.Events.IDispatcher">
             <summary>
             调度器
@@ -317,66 +276,6 @@
         <member name="P:CatLib.API.Events.IEventHandler.IsLife">
             <summary>
             事件是否是有效的
-            </summary>
-        </member>
-        <member name="T:CatLib.API.MonoDriver.IMonoDriver">
-            <summary>
-            Mono驱动器
-            </summary>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IMonoDriver.MainThread(System.Collections.IEnumerator)">
-            <summary>
-            在主线程中调用
-            </summary>
-            <param name="action">协程，执行会处于主线程</param>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IMonoDriver.MainThread(System.Action)">
-            <summary>
-            在主线程中调用
-            </summary>
-            <param name="action">回调，回调的内容会处于主线程</param>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IMonoDriver.StartCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            启动协程
-            </summary>
-            <param name="routine">协程</param>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IMonoDriver.StopCoroutine(System.Collections.IEnumerator)">
-            <summary>
-            停止协程
-            </summary>
-            <param name="routine">协程</param>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IMonoDriver.Detach(System.Object)">
-            <summary>
-            从驱动器中卸载对象
-            如果对象使用了增强接口，那么卸载对应增强接口
-            从驱动器中卸载对象会引发IDestroy增强接口
-            </summary>
-            <param name="obj">对象</param>
-            <exception cref="T:System.ArgumentNullException">当卸载对象为<c>null</c>时引发</exception>
-        </member>
-        <member name="M:CatLib.API.MonoDriver.IMonoDriver.Attach(System.Object)">
-            <summary>
-            如果对象实现了增强接口那么将对象装载进对应驱动器
-            </summary>
-            <param name="obj">对象</param>
-            <exception cref="T:System.ArgumentNullException">当装载对象为<c>null</c>时引发</exception>
-        </member>
-        <member name="T:CatLib.API.MonoDriver.MonoDriverEvents">
-            <summary>
-            Mono驱动器事件
-            </summary>
-        </member>
-        <member name="F:CatLib.API.MonoDriver.MonoDriverEvents.OnBeforeDestroy">
-            <summary>
-            当释放之前
-            </summary>
-        </member>
-        <member name="F:CatLib.API.MonoDriver.MonoDriverEvents.OnDestroyed">
-            <summary>
-            当释放完成后
             </summary>
         </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
@@ -876,9 +775,22 @@
             <summary>
             获取字符串附加物
             </summary>
-            <param name="key"></param>
-            <param name="defaultValue"></param>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
             <returns></returns>
+        </member>
+        <member name="M:CatLib.API.Routing.IRequest.ReplaceParameter(System.String,System.String)">
+            <summary>
+            替换参数
+            </summary>
+            <param name="key">键</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:CatLib.API.Routing.IRequest.ReplaceContext(System.Object)">
+            <summary>
+            替换上下文
+            </summary>
+            <param name="context">上下文</param>
         </member>
         <member name="P:CatLib.API.Routing.IRequest.Item(System.String)">
             <summary>
@@ -1133,199 +1045,6 @@
             <param name="area">区域</param>
             <param name="name">路由组名字</param>
             <returns>当前实例</returns>
-        </member>
-        <member name="T:CatLib.API.Timer.ITimer">
-            <summary>
-            计时器
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Timer.ITimer.Queue">
-            <summary>
-            计时器队列
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimer.Delay(System.Single)">
-            <summary>
-            延迟指定时间后执行
-            </summary>
-            <param name="time">延迟时间(秒)</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimer.DelayFrame(System.Int32)">
-            <summary>
-            延迟指定帧数帧后执行
-            </summary>
-            <param name="frame">帧数</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimer.Loop(System.Single)">
-            <summary>
-            循环执行指定时间
-            </summary>
-            <param name="time">循环时间(秒)</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimer.Loop(System.Func{System.Boolean})">
-            <summary>
-            循环执行，直到函数返回false
-            </summary>
-            <param name="loopFunc">循环状态函数</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimer.LoopFrame(System.Int32)">
-            <summary>
-            循环执行指定帧数
-            </summary>
-            <param name="frame">循环的帧数</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimer.Interval(System.Single,System.Int32)">
-            <summary>
-            间隔多少时间执行一次
-            执行时的当前帧计算间隔
-            </summary>
-            <param name="time">间隔的时间</param>
-            <param name="life">最多允许触发的次数</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimer.IntervalFrame(System.Int32,System.Int32)">
-            <summary>
-            间隔多少帧执行一次
-            执行时的当前帧计算间隔
-            </summary>
-            <param name="frame">间隔的帧数</param>
-            <param name="life">最多允许触发的次数</param>
-        </member>
-        <member name="T:CatLib.API.Timer.ITimerQueue">
-            <summary>
-            计时器任务队列
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Timer.ITimerQueue.IsPause">
-            <summary>
-            是否是暂停的
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimerQueue.OnCompleted(System.Action)">
-            <summary>
-            当队列的所有计时器完成时
-            </summary>
-            <param name="onCompleted">完成时</param>
-            <returns>当前组实例</returns>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimerQueue.SetTime(CatLib.API.Time.ITime)">
-            <summary>
-            设定使用的时间系统
-            </summary>
-            <param name="time">时间</param>
-            <returns>当前组实例</returns>
-        </member>
-        <member name="T:CatLib.API.Timer.ITimerManager">
-            <summary>
-            计时器管理器
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimerManager.Make(System.Action)">
-            <summary>
-            创建一个计时器
-            </summary>
-            <param name="task">计时器执行的任务</param>
-            <returns>计时器</returns>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimerManager.MakeQueue(System.Action,System.Int32)">
-            <summary>
-            创建一个计时器队列
-            </summary>
-            <param name="area">在这个区域中Make的计时器会按照Make顺序加入同一个队列</param>
-            <param name="priority">优先级(值越小越优先)</param>
-            <returns>路由器组</returns>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimerManager.Cancel(CatLib.API.Timer.ITimerQueue)">
-            <summary>
-            停止计时器队列的运行
-            </summary>
-            <param name="queue">计时器队列</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimerManager.Pause(CatLib.API.Timer.ITimerQueue)">
-            <summary>
-            暂停计时器队列
-            </summary>
-            <param name="queue">计时器队列</param>
-        </member>
-        <member name="M:CatLib.API.Timer.ITimerManager.Play(CatLib.API.Timer.ITimerQueue)">
-            <summary>
-            重新开始播放计时器队列
-            </summary>
-            <param name="queue">计时器队列</param>
-        </member>
-        <member name="T:CatLib.API.Time.ITime">
-            <summary>
-            时间
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.Time">
-            <summary>
-            从游戏开始到现在所用的时间(秒)
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.DeltaTime">
-            <summary>
-            上一帧到当前帧的时间(秒)
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.FixedTime">
-            <summary>
-            从游戏开始到现在的时间（秒）使用固定时间来更新
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.TimeSinceLevelLoad">
-            <summary>
-            从当前scene开始到目前为止的时间(秒)
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.FixedDeltaTime">
-            <summary>
-            固定的上一帧到当前帧的时间(秒)
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.MaximumDeltaTime">
-            <summary>
-            能获取最大的上一帧到当前帧的时间(秒)
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.SmoothDeltaTime">
-            <summary>
-            平稳的上一帧到当前帧的时间(秒)，根据前N帧的加权平均值
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.TimeScale">
-            <summary>
-            时间缩放系数
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.FrameCount">
-            <summary>
-            总帧数
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.RealtimeSinceStartup">
-            <summary>
-            自游戏开始后的总时间（暂停也会增加）
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.CaptureFramerate">
-            <summary>
-            每秒的帧率
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.UnscaledDeltaTime">
-            <summary>
-            不考虑时间缩放上一帧到当前帧的时间(秒)
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Time.ITime.UnscaledTime">
-            <summary>
-            不考虑时间缩放的从游戏开始到现在的时间
-            </summary>
-        </member>
-        <member name="T:CatLib.API.Time.ITimeManager">
-            <summary>
-            时间服务管理器
-            </summary>
         </member>
         <member name="T:CatLib.API.Translation.ITranslateResources">
             <summary>
@@ -1856,6 +1575,40 @@
             祖鲁
             </summary>
         </member>
+        <member name="T:CatLib.ConfigExtend">
+            <summary>
+            配置扩展
+            </summary>
+        </member>
+        <member name="M:CatLib.ConfigExtend.SafeGet``1(CatLib.API.Config.IConfig,System.String,``0)">
+            <summary>
+            安全的获取配置
+            <para>自动对IConfig对象进行空判断，如果为空则返回默认值</para>
+            </summary>
+            <typeparam name="T">默认类型</typeparam>
+            <param name="config">配置中枢</param>
+            <param name="name">配置名字</param>
+            <param name="def">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.ConfigExtend.SafeWatch(CatLib.API.Config.IConfig,System.String,System.Action{System.Object})">
+            <summary>
+            安全的观察
+            <para>自动对IConfig对象进行空判断，如果为空则不处理</para>
+            </summary>
+            <param name="config">配置中枢</param>
+            <param name="name">配置名字</param>
+            <param name="callback">默认值</param>
+        </member>
+        <member name="M:CatLib.ConfigExtend.SafeSet(CatLib.API.Config.IConfig,System.String,System.Object)">
+            <summary>
+            安全的设置
+            <para>自动对IConfig对象进行空判断，如果为空则不处理</para>
+            </summary>
+            <param name="config">配置中枢</param>
+            <param name="name">配置名字</param>
+            <param name="value">配置的值</param>
+        </member>
         <member name="T:CatLib.App">
             <summary>
             CatLib实例
@@ -1876,6 +1629,13 @@
             注册服务提供者
             </summary>
             <param name="provider">服务提供者</param>
+        </member>
+        <member name="M:CatLib.App.IsRegisted(CatLib.IServiceProvider)">
+            <summary>
+            服务提供者是否已经注册过
+            </summary>
+            <param name="provider">服务提供者</param>
+            <returns>服务提供者是否已经注册过</returns>
         </member>
         <member name="M:CatLib.App.GetRuntimeId">
             <summary>
@@ -2219,26 +1979,6 @@
             当程序启动完成
             </summary>
         </member>
-        <member name="T:CatLib.IFixedUpdate">
-            <summary>
-            FixedUpdate时调用
-            </summary>
-        </member>
-        <member name="M:CatLib.IFixedUpdate.FixedUpdate">
-            <summary>
-            FixedUpdate时调用
-            </summary>
-        </member>
-        <member name="T:CatLib.IOnGUI">
-            <summary>
-            GUI绘制时
-            </summary>
-        </member>
-        <member name="M:CatLib.IOnGUI.OnGUI">
-            <summary>
-            GUI绘制时
-            </summary>
-        </member>
         <member name="T:CatLib.AssertException">
             <summary>
             断言异常
@@ -2262,12 +2002,12 @@
             <param name="message">异常消息</param>
             <param name="innerException">内部异常</param>
         </member>
-        <member name="T:CatLib.ContainerExpand">
+        <member name="T:CatLib.ContainerExtend">
             <summary>
              容器拓展
              </summary>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Singleton(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -2276,7 +2016,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``2(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Singleton``2(CatLib.IContainer)">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -2285,7 +2025,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Singleton``1(CatLib.IContainer)">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -2293,7 +2033,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Singleton``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Singleton``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             以单例的形式绑定一个服务
             </summary>
@@ -2302,7 +2042,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``2(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Bind``2(CatLib.IContainer)">
             <summary>
             常规绑定一个服务
             </summary>
@@ -2311,7 +2051,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Bind``1(CatLib.IContainer)">
             <summary>
             常规绑定一个服务
             </summary>
@@ -2319,7 +2059,7 @@
             <param name="container">服务容器</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Bind``1(CatLib.IContainer,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             常规绑定一个服务
             </summary>
@@ -2328,7 +2068,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Bind(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
+        <member name="M:CatLib.ContainerExtend.Bind(CatLib.IContainer,System.String,System.Func{CatLib.IContainer,System.Object[],System.Object})">
             <summary>
             常规绑定一个服务
             </summary>
@@ -2337,7 +2077,7 @@
             <param name="concrete">服务实现</param>
             <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.MakeWith``1(CatLib.IContainer,System.Object[])">
+        <member name="M:CatLib.ContainerExtend.MakeWith``1(CatLib.IContainer,System.Object[])">
             <summary>
             构造一个服务，允许传入构造参数
             </summary>
@@ -2346,7 +2086,7 @@
             <param name="param">构造参数</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Make``1(CatLib.IContainer)">
             <summary>
             构造一个服务
             </summary>
@@ -2354,7 +2094,7 @@
             <param name="container">服务容器</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Make``1(CatLib.IContainer,System.String)">
+        <member name="M:CatLib.ContainerExtend.Make``1(CatLib.IContainer,System.String)">
             <summary>
             构造一个服务
             </summary>
@@ -2363,14 +2103,14 @@
             <param name="service">服务名</param>
             <returns>服务实例</returns>
         </member>
-        <member name="M:CatLib.ContainerExpand.Release``1(CatLib.IContainer)">
+        <member name="M:CatLib.ContainerExtend.Release``1(CatLib.IContainer)">
             <summary>
             释放服务
             </summary>
             <typeparam name="TService">服务名</typeparam>
             <param name="container">服务容器</param>
         </member>
-        <member name="M:CatLib.ContainerExpand.Instance``1(CatLib.IContainer,System.Object)">
+        <member name="M:CatLib.ContainerExtend.Instance``1(CatLib.IContainer,System.Object)">
             <summary>
             静态化一个服务,实例值会经过解决修饰器
             </summary>
@@ -2426,36 +2166,6 @@
             </summary>
             <param name="message">异常消息</param>
             <param name="innerException">内部异常</param>
-        </member>
-        <member name="T:CatLib.IOnDestroy">
-            <summary>
-            当被释放时
-            </summary>
-        </member>
-        <member name="M:CatLib.IOnDestroy.OnDestroy">
-            <summary>
-            当被释放时调用
-            </summary>
-        </member>
-        <member name="T:CatLib.ILateUpdate">
-            <summary>
-            在Update之后调用
-            </summary>
-        </member>
-        <member name="M:CatLib.ILateUpdate.LateUpdate">
-            <summary>
-            LateUpdate时调用
-            </summary>
-        </member>
-        <member name="T:CatLib.IUpdate">
-            <summary>
-            Update 接口
-            </summary>
-        </member>
-        <member name="M:CatLib.IUpdate.Update">
-            <summary>
-            当Update时调用
-            </summary>
         </member>
         <member name="T:CatLib.ExcludeFromCodeCoverageAttribute">
             <summary>
@@ -2526,6 +2236,13 @@
             注册服务提供者
             </summary>
             <param name="provider">服务提供者</param>
+        </member>
+        <member name="M:CatLib.IApplication.IsRegisted(CatLib.IServiceProvider)">
+            <summary>
+            服务提供者是否已经注册过
+            </summary>
+            <param name="provider">服务提供者</param>
+            <returns>服务提供者是否已经注册过</returns>
         </member>
         <member name="M:CatLib.IApplication.GetRuntimeId">
             <summary>

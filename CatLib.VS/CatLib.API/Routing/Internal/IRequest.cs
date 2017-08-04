@@ -40,10 +40,23 @@ namespace CatLib.API.Routing
         /// <summary>
         /// 获取字符串附加物
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
+        /// <param name="key">键</param>
+        /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
         string Get(string key, string defaultValue = null);
+
+        /// <summary>
+        /// 替换参数
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        void ReplaceParameter(string key, string value);
+
+        /// <summary>
+        /// 替换上下文
+        /// </summary>
+        /// <param name="context">上下文</param>
+        void ReplaceContext(object context);
 
         /// <summary>
         /// 获取字符串附加物

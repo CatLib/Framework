@@ -42,13 +42,17 @@ namespace CatLib.Config
         /// </summary>
         private void RegisterManager()
         {
-            App.Singleton<ConfigManager>().Alias<IConfigManager>().OnResolving((bind, obj) =>
+            App.Singleton<ConfigManager>().Alias<IConfigManager>().OnResolving((_, obj) =>
             {
-                var configManager = obj as ConfigManager;
-
+                var configManager = (ConfigManager)obj;
                 configManager.Extend(() =>
                 {
-                    var config = new Config(App.Make<IConverters>() , new CodeConfigLocator());
+                    var converters = App.Make<IConverters>();
+                    if (converters == null)
+                    {
+                        throw new RuntimeException("IConverters Not registered bind");
+                    }
+                    var config = new Config(converters, new CodeConfigLocator());
                     return config;
                 });
 
@@ -61,10 +65,7 @@ namespace CatLib.Config
         /// </summary>
         private void RegisterDefaultConfig()
         {
-            App.Bind<IConfig>((container, @params) =>
-            {
-                return App.Make<IConfigManager>().Default;
-            });
+            App.Bind<IConfig>((container, _) => container.Make<IConfigManager>().Default);
         }
     }
 }

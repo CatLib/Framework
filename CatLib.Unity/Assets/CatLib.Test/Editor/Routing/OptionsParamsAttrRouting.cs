@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API;
 using CatLib.API.Routing;
 
 namespace CatLib.Tests.Routing
@@ -23,13 +22,13 @@ namespace CatLib.Tests.Routing
         [Routed]
         public void Call(IRequest request)
         {
-            
+
         }
 
         [Routed]
         public void CallNull()
         {
-            
+
         }
 
         [Routed]

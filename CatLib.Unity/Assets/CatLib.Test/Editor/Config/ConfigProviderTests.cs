@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.API;
 using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Config.Locator;
@@ -25,7 +24,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Config
@@ -56,11 +54,11 @@ namespace CatLib.Tests.Config
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {
-                return new CatLib.Config.Config(new CatLib.Converters.Converters(), new CodeConfigLocator());
+                return new global::CatLib.Config.Config(new global::CatLib.Converters.Converters(), new CodeConfigLocator());
             });
 
-            Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get().GetType());
-            Assert.AreEqual(typeof(CatLib.Config.Config), configManager.Get("default").GetType());
+            Assert.AreEqual(typeof(global::CatLib.Config.Config), configManager.Get().GetType());
+            Assert.AreEqual(typeof(global::CatLib.Config.Config), configManager.Get("default").GetType());
             Assert.AreNotSame(configManager.Get(), configManager["default"]);
 
             configManager.SetDefault(string.Empty);
@@ -74,21 +72,21 @@ namespace CatLib.Tests.Config
             configManager.SetDefault("catlib");
             configManager.Extend(() =>
             {
-                var convert = new CatLib.Converters.Converters();
+                var convert = new global::CatLib.Converters.Converters();
                 convert.AddConverter(new StringStringConverter());
-                return new CatLib.Config.Config(convert, new CodeConfigLocator());
+                return new global::CatLib.Config.Config(convert, new CodeConfigLocator());
             });
 
             var watchValue = string.Empty;
-            configManager.Default.Watch("watch" , (value) =>
-            {
-                watchValue = value.ToString();
-            });
+            configManager.Default.Watch("watch", (value) =>
+           {
+               watchValue = value.ToString();
+           });
 
-            configManager.Default.Set("watch" , "123");
+            configManager.Default.Set("watch", "123");
             configManager.Default.Set("nowatch", "333");
 
-            Assert.AreEqual("123" , watchValue);
+            Assert.AreEqual("123", watchValue);
         }
     }
 }

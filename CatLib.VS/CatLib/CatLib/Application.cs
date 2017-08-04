@@ -13,7 +13,6 @@ using CatLib.API.Events;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace CatLib
 {
@@ -134,13 +133,11 @@ namespace CatLib
         /// <summary>
         /// 构建一个CatLib实例
         /// </summary>
-        /// <param name="baseComponent">基础组件</param>
         [ExcludeFromCodeCoverage]
-        public Application(Component baseComponent = null)
+        public Application()
         {
             App.Handler = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
-            Instance(Type2Service(typeof(Component)), baseComponent);
             RegisterCoreAlias();
         }
 
@@ -213,19 +210,29 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(provider != null);
 
-            if (serviceProviderTypes.Contains(provider.GetType()))
+            if (IsRegisted(provider))
             {
                 throw new RuntimeException("Provider [" + provider.GetType() + "] is already register.");
             }
 
             provider.Register();
             serviceProviders.Add(provider, GetPriority(provider.GetType(), "Init"));
-            serviceProviderTypes.Add(provider.GetType());
+            serviceProviderTypes.Add(GetProviderBaseType(provider));
 
             if (inited)
             {
                 provider.Init();
             }
+        }
+
+        /// <summary>
+        /// 服务提供者是否已经注册过
+        /// </summary>
+        /// <param name="provider">服务提供者</param>
+        /// <returns>服务提供者是否已经注册过</returns>
+        public bool IsRegisted(IServiceProvider provider)
+        {
+            return serviceProviderTypes.Contains(GetProviderBaseType(provider));
         }
 
         /// <summary>
@@ -341,6 +348,17 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 获取服务提供者基础类型
+        /// </summary>
+        /// <param name="provider">服务提供者</param>
+        /// <returns>基础类型</returns>
+        private Type GetProviderBaseType(IServiceProvider provider)
+        {
+            var providerType = provider as IServiceProviderType;
+            return providerType == null ? provider.GetType() : providerType.BaseType;
+        }
+
+        /// <summary>
         /// 注册核心别名
         /// </summary>
         private void RegisterCoreAlias()
@@ -349,8 +367,8 @@ namespace CatLib
             Instance(application, this);
             foreach (var type in new[]
             {
-                typeof(IApplication) ,
-                typeof(App) ,
+                typeof(IApplication),
+                typeof(App),
                 typeof(IContainer)
             })
             {

@@ -10,11 +10,9 @@
  */
 
 using System;
-using CatLib.API;
 using CatLib.API.Routing;
 using CatLib.Events;
 using CatLib.Routing;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -23,7 +21,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Routing
@@ -77,7 +74,7 @@ namespace CatLib.Tests.Routing
             router = App.Make<IRouter>();
             router.OnError((req, res, ex, next) =>
             {
-                if(ex is UndefinedDefaultSchemeException)
+                if (ex is UndefinedDefaultSchemeException)
                 {
                     next(req, res, ex);
                     return;
@@ -327,7 +324,7 @@ namespace CatLib.Tests.Routing
                 router.Reg("lambda://call/more-error/{age}/{default?}", (req, res) =>
                 {
                     res.SetContext("RouterTests.MoreRouteWithGroupTest-3." + req["age"] + "." + req["default"]);
-                    throw  new Exception("unit test error!");
+                    throw new Exception("unit test error!");
                 });
             }).Defaults("default", "helloworld").Where("age", "[0-9]+").Middleware((req, res, next) =>
             {
@@ -344,7 +341,7 @@ namespace CatLib.Tests.Routing
             response = router.Dispatch("lambda://call/more-2/6/catlib");
             Assert.AreEqual("RouterTests.MoreRouteWithGroupTest-2.6.catlib[local group middleware][global middleware]", response.GetContext().ToString());
 
-            Assert.AreEqual(false ,isError);
+            Assert.AreEqual(false, isError);
             response = router.Dispatch("lambda://call/more-error/6/catlib");
             Assert.AreEqual(null, response);
             Assert.AreEqual(true, isError);
@@ -446,7 +443,7 @@ namespace CatLib.Tests.Routing
             ExceptionAssert.DoesNotThrow(() =>
             {
                 var response = router.Dispatch("options-params-attr-routing/call");
-                Assert.AreEqual("[global middleware]" , response.GetContext());
+                Assert.AreEqual("[global middleware]", response.GetContext());
             });
         }
 
@@ -515,13 +512,13 @@ namespace CatLib.Tests.Routing
 
             //变量含有特殊字符将会被降级为字符串
             bool tf = false;
-            router.Reg("wrong://hellworld/nihao/{miaomiao*&^$}", (req,res) =>
+            router.Reg("wrong://hellworld/nihao/{miaomiao*&^$}", (req, res) =>
             {
                 tf = true;
             });
 
             router.Dispatch("wrong://hellworld/nihao/{miaomiao*&^$}");
-            Assert.AreEqual(true , tf);
+            Assert.AreEqual(true, tf);
         }
 
         [TestMethod]

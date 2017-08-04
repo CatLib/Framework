@@ -19,7 +19,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Translation
@@ -86,7 +85,7 @@ namespace CatLib.Tests.Translation
         {
             var selector = new Selector();
 
-            var langs = new []
+            var langs = new[]
             {
                 Languages.Azerbaijani,
                 Languages.Tibetan,

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Net;
 using CatLib.API.Routing;
 using CatLib.Debugger.WebConsole;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -146,12 +145,12 @@ namespace CatLib.Tests.Debugger.WebConsole
             var app = DebuggerHelper.GetApplication();
             var console = app.Make<HttpDebuggerConsole>();
 
-            console.OnDestroy();
-
+            app.Release<HttpDebuggerConsole>();
             string ret;
             ExceptionAssert.Throws<WebException>(() =>
             {
                 var statu = HttpHelper.Get("http://localhost:9478/", out ret);
+                Console.WriteLine(statu);
             });
         }
 
@@ -173,7 +172,7 @@ namespace CatLib.Tests.Debugger.WebConsole
             {
                 console.Stop();
             }
-            
+
             Assert.AreEqual(HttpStatusCode.OK, statu);
         }
     }

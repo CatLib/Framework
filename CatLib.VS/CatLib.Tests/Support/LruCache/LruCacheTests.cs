@@ -61,7 +61,7 @@ namespace CatLib.Tests.Stl
                 Assert.Fail();
             }
 
-            foreach (var v in new [] {"1", "0", "4", "3", "2"})
+            foreach (var v in new[] { "1", "0", "4", "3", "2" })
             {
                 Assert.AreEqual(v, cache[v]);
             }
@@ -87,7 +87,8 @@ namespace CatLib.Tests.Stl
                 if (v == "0")
                 {
                     Assert.AreEqual("10", cache[v]);
-                }else if (v == "1")
+                }
+                else if (v == "1")
                 {
                     Assert.AreEqual("11", cache[v]);
                 }
@@ -114,7 +115,7 @@ namespace CatLib.Tests.Stl
             cache.Add("999", "999");
 
             Assert.AreEqual(5, cache.Count);
-            foreach (var v in new[] {"999","1", "0", "4", "3"})
+            foreach (var v in new[] { "999", "1", "0", "4", "3" })
             {
                 Assert.AreEqual(v, cache[v]);
             }

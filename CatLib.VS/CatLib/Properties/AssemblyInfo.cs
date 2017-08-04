@@ -32,4 +32,5 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("Assembly-CSharp-Editor"),
             InternalsVisibleTo("Assembly-CSharp-Editor-firstpass"),
-            InternalsVisibleTo("CatLib.Tests")]
+            InternalsVisibleTo("CatLib.Tests"),
+           InternalsVisibleTo("CatLib.Unity.Tests")]

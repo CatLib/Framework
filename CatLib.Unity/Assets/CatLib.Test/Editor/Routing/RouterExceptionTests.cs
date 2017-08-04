@@ -13,7 +13,6 @@ using System;
 using CatLib.API.Routing;
 using CatLib.Events;
 using CatLib.Routing;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -22,7 +21,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Routing
@@ -67,7 +65,7 @@ namespace CatLib.Tests.Routing
 
             router.Dispatch("catlib://helloworld/call");
             Assert.AreEqual(false, isThrowOnError);
-            Assert.AreEqual(true , isThrowOnNotFound);
+            Assert.AreEqual(true, isThrowOnNotFound);
         }
 
         /// <summary>
@@ -170,7 +168,7 @@ namespace CatLib.Tests.Routing
                 router.Dispatch("ui://helloworld/call");
             });
 
-            Assert.AreEqual(1 , throwError);
+            Assert.AreEqual(1, throwError);
             Assert.AreEqual(0, throwNotFound);
         }
 
@@ -189,7 +187,7 @@ namespace CatLib.Tests.Routing
             router.Reg("ui://helloworld/call2", (req, res) =>
             {
                 router.Dispatch("ui://helloworld/call3");
-            }).OnError((req, res, ex ,next) =>
+            }).OnError((req, res, ex, next) =>
             {
                 if (throwError == 1)
                 {
@@ -209,7 +207,7 @@ namespace CatLib.Tests.Routing
                 next(req);
             });
 
-            
+
             router.OnError((req, res, ex, next) =>
             {
                 throwError++;

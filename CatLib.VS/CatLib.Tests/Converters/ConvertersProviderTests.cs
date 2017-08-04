@@ -10,7 +10,6 @@
  */
 
 using System;
-using CatLib.API;
 using CatLib.API.Converters;
 using CatLib.Converters;
 using CatLib.Events;
@@ -20,7 +19,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 
@@ -52,7 +50,7 @@ namespace CatLib.Tests.Converters
             Assert.AreEqual(123, manager.Default.Convert<int>("123"));
 
             int val;
-            if(manager.Default.TryConvert("333" , out val))
+            if (manager.Default.TryConvert("333", out val))
             {
                 Assert.AreEqual(333, val);
             }
@@ -86,7 +84,7 @@ namespace CatLib.Tests.Converters
             {
                 return 100;
             }
-        } 
+        }
 
         [TestMethod]
         public void TestConvertClone()
@@ -118,7 +116,7 @@ namespace CatLib.Tests.Converters
             ExceptionAssert.DoesNotThrow(() =>
             {
                 Application tmp;
-                manager.Default.TryConvert("123" , out tmp);
+                manager.Default.TryConvert("123", out tmp);
             });
 
             ExceptionAssert.DoesNotThrow(() =>
@@ -129,7 +127,7 @@ namespace CatLib.Tests.Converters
 
             ExceptionAssert.Throws<ConverterException>(() =>
             {
-                manager.Default.Convert("123" , typeof(Application));
+                manager.Default.Convert("123", typeof(Application));
             });
         }
 
@@ -152,7 +150,7 @@ namespace CatLib.Tests.Converters
             val = manager.Default.Convert<TestEnums>("World");
 
             Assert.AreEqual(TestEnums.World, val);
-            
+
             var intVal = manager.Default.Convert<string>(TestEnums.World);
 
             Assert.AreEqual("World", intVal);
@@ -229,7 +227,7 @@ namespace CatLib.Tests.Converters
             manager.Default.AddConverter(new TestThrowErrorConvertsClass());
 
             int val;
-            Assert.AreEqual(false, manager.Default.TryConvert("123" , out val));
+            Assert.AreEqual(false, manager.Default.TryConvert("123", out val));
         }
 
         [TestMethod]

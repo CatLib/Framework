@@ -36,11 +36,11 @@ namespace CatLib
                 (methodInfo = type.GetMethod(method)) != null &&
                 methodInfo.IsDefined(priority, false))
             {
-                currentPriority = (methodInfo.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
+                currentPriority = ((PriorityAttribute)methodInfo.GetCustomAttributes(priority, false)[0]).Priorities;
             }
             else if (type.IsDefined(priority, false))
             {
-                currentPriority = (type.GetCustomAttributes(priority, false)[0] as PriorityAttribute).Priorities;
+                currentPriority = ((PriorityAttribute)type.GetCustomAttributes(priority, false)[0]).Priorities;
             }
 
             return currentPriority;

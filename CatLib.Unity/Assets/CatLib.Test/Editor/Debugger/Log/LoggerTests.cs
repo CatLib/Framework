@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Reflection;
 using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
 #if UNITY_EDITOR || NUNIT
@@ -46,7 +47,7 @@ namespace CatLib.Tests.Debugger.Log
             {
                 logger.Debug(LogLevels.Debug.ToString() + "{0}", "helloworld");
                 return LogLevels.Debug.ToString();
-            });   
+            });
         }
 
         [TestMethod]
@@ -144,11 +145,42 @@ namespace CatLib.Tests.Debugger.Log
             {
                 (logger as Logger).SetSkip(10, () =>
                 {
+                    var flag = BindingFlags.Instance | BindingFlags.NonPublic;
+                    var type = logger.GetType();
+                    var field = type.GetField("skipFrames", flag);
+                    Assert.AreEqual(10, (int)field.GetValue(logger));
                 });
             });
         }
 
-        public void AssertLog(Func<ILogger , string> doLogger)
+        [TestMethod]
+        public void TestSetSkipRecursiveCall()
+        {
+            logLevel = string.Empty;
+            var app = DebuggerHelper.GetApplication(false);
+            var logger = app.Make<ILogger>();
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                (logger as Logger).SetSkip(0);
+            });
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                var flag = BindingFlags.Instance | BindingFlags.NonPublic;
+                var type = logger.GetType();
+                var field = type.GetField("skipFrames", flag);
+                (logger as Logger).SetSkip(10, () =>
+                {
+                    (logger as Logger).SetSkip(20, () =>
+                    {
+                        Assert.AreEqual(10, (int)field.GetValue(logger));
+                    });
+                });
+                Assert.AreEqual(0, (int)field.GetValue(logger));
+            });
+        }
+
+        public void AssertLog(Func<ILogger, string> doLogger)
         {
             logLevel = string.Empty;
             var app = DebuggerHelper.GetApplication(false);

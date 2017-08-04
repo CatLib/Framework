@@ -36,6 +36,11 @@ namespace CatLib.Debugger.Log
         private int skipFrames = 4;
 
         /// <summary>
+        /// 调用计数
+        /// </summary>
+        private int callCount;
+
+        /// <summary>
         /// 构造一个日志系统
         /// </summary>
         public Logger()
@@ -58,12 +63,18 @@ namespace CatLib.Debugger.Log
                     var old = this.skipFrames;
                     try
                     {
-                        this.skipFrames = skipFrames;
+                        if (callCount++ == 0)
+                        {
+                            this.skipFrames = skipFrames;
+                        }
                         area.Invoke();
                     }
                     finally
                     {
-                        this.skipFrames = old;
+                        if (--callCount == 0)
+                        {
+                            this.skipFrames = old;
+                        }
                     }
                 }
             }
@@ -104,6 +115,10 @@ namespace CatLib.Debugger.Log
         /// <exception cref="InvalidArgumentException">当传入的日志等级无效</exception>
         private void ExecLog(LogLevels level, object message, params object[] context)
         {
+            if (handlers.Count <= 0)
+            {
+                return;
+            }
             var result = string.Format(message.ToString(), context);
             lock (syncRoot)
             {

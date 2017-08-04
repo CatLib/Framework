@@ -58,7 +58,7 @@ namespace CatLib.Tests.Stl
             });
 
             list.RemoveAt(1);
-            Assert.AreEqual(0 , list[0].Val);
+            Assert.AreEqual(0, list[0].Val);
             Assert.AreEqual(8, list[1].Val);
             Assert.AreEqual(9, list[2].Val);
             Assert.AreEqual(null, list[3]);
@@ -361,7 +361,7 @@ namespace CatLib.Tests.Stl
             Assert.AreEqual(0, master[9]);
             Assert.AreEqual(6, master.Count);
         }
-        
+
         /// <summary>
         /// 移除区间边界测试
         /// </summary>

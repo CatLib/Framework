@@ -662,7 +662,7 @@ namespace CatLib.Tests.Stl
             var result = container.Make<MakeTestNoParamClass>();
             Assert.AreEqual(0, result.I);
             Assert.AreNotEqual(null, result.Dependency);
-            
+
             var result2 = container.MakeWith<MakeTestNoParamClass>(100);
             Assert.AreEqual(100, result2.I);
             Assert.AreNotEqual(null, result2.Dependency);
@@ -1264,10 +1264,10 @@ namespace CatLib.Tests.Stl
             var container = MakeContainer();
             var data = new List<string> { "hello world" };
             var isCallTest = false;
-            container.Singleton("Test", (c, p) => { return "Test1"; }).OnRelease((bind , o)=> { isCallTest = true; });
+            container.Singleton("Test", (c, p) => { return "Test1"; }).OnRelease((bind, o) => { isCallTest = true; });
             container.Instance("TestInstance2", data);
 
-            Assert.AreEqual("Test1", container.Make("Test")); 
+            Assert.AreEqual("Test1", container.Make("Test"));
 
             container.Flush();
 
@@ -1288,7 +1288,7 @@ namespace CatLib.Tests.Stl
         {
             var container = MakeContainer();
             container.Bind<TestParamsMakeClass>();
-            Assert.AreEqual(typeof(TestParamsMakeClass) , container.MakeWith<TestParamsMakeClass>(null).GetType());
+            Assert.AreEqual(typeof(TestParamsMakeClass), container.MakeWith<TestParamsMakeClass>(null).GetType());
         }
 
         /// <summary>

@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Converters;
@@ -17,6 +16,7 @@ using CatLib.Debugger;
 using CatLib.Events;
 using CatLib.Json;
 using CatLib.Routing;
+using System;
 
 namespace CatLib.Tests.Debugger
 {
@@ -34,17 +34,17 @@ namespace CatLib.Tests.Debugger
             app.Register(new EventsProvider());
             app.Register(new ConvertersProvider());
             var config = app.Make<IConfigManager>().Default;
-            config.Set("debugger.webconsole.enable", enableWebConsole);
-            config.Set("debugger.logger.handler.unity", false);
-            config.Set("debugger.monitor.performance", false);
-            config.Set("debugger.monitor.screen", false);
-            config.Set("debugger.monitor.scene", false);
-            config.Set("debugger.monitor.systeminfo", false);
-            config.Set("debugger.monitor.path", false);
-            config.Set("debugger.monitor.input", false);
-            config.Set("debugger.monitor.input.location", false);
-            config.Set("debugger.monitor.input.gyro", false);
-            config.Set("debugger.monitor.input.compass", false);
+            config.Set("DebuggerProvider.WebConsoleEnable", enableWebConsole);
+            config.Set("UnityDebuggerProvider.UnityConsoleLoggerHandler", false);
+            config.Set("UnityDebuggerProvider.MonitorPerformance", false);
+            config.Set("UnityDebuggerProvider.MonitorScreen", false);
+            config.Set("UnityDebuggerProvider.MonitorScene", false);
+            config.Set("UnityDebuggerProvider.MonitorSystemInfo", false);
+            config.Set("UnityDebuggerProvider.MonitorPath", false);
+            config.Set("UnityDebuggerProvider.MonitorInput", false);
+            config.Set("UnityDebuggerProvider.MonitorInputLocation", false);
+            config.Set("UnityDebuggerProvider.MonitorInputGyroscope", false);
+            config.Set("UnityDebuggerProvider.MonitorInputCompass", false);
             config.Set("debugger.monitor.graphics", false);
             app.Init();
             return app;

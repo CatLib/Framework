@@ -72,7 +72,7 @@ namespace CatLib.Routing
                 kv = parameter.Split('=');
                 if (kv.Length == 2)
                 {
-                    request.AddParameters(kv[0], kv[1]);
+                    request.ReplaceParameter(kv[0], kv[1]);
                 }
             }
         }
@@ -97,7 +97,7 @@ namespace CatLib.Routing
                 val = matches.Groups[route.Compiled.Variables[i]].Value;
                 if (!string.IsNullOrEmpty(val))
                 {
-                    request.AddParameters(route.Compiled.Variables[i], val);
+                    request.ReplaceParameter(route.Compiled.Variables[i], val);
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace CatLib.Routing
                 defaults = route.GetDefaults(varName);
                 if (!string.IsNullOrEmpty(defaults))
                 {
-                    request.AddParameters(varName, defaults);
+                    request.ReplaceParameter(varName, defaults);
                 }
             }
         }

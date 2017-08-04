@@ -9,10 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.Debugger.WebConsole;
