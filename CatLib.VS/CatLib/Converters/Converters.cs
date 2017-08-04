@@ -143,24 +143,52 @@ namespace CatLib.Converters
         {
             bool status;
             Dictionary<Type, ITypeConverter> toDictionary;
-            converter = null;
-
+            
             do
             {
-                status = coverterDictionary.TryGetValue(from, out toDictionary);
+                status = FindConverterByType(coverterDictionary, from, out toDictionary);
             } while (!status && (from = from.BaseType) != null);
 
             if (!status)
             {
+                converter = null;
                 return false;
             }
 
             do
             {
-                status = toDictionary.TryGetValue(to, out converter);
+                status = FindConverterByType(toDictionary, to, out converter);
             } while (!status && (to = to.BaseType) != null);
 
             return status;
+        }
+
+        /// <summary>
+        /// 根据类型查找转换器
+        /// </summary>
+        /// <typeparam name="TValue">字典值类型</typeparam>
+        /// <param name="dict">查询字典</param>
+        /// <param name="baseType">基础类型</param>
+        /// <param name="value">查找到的值</param>
+        /// <returns>是否成功找到</returns>
+        private bool FindConverterByType<TValue>(IDictionary<Type, TValue> dict , Type baseType, out TValue value)
+        {
+            var status = dict.TryGetValue(baseType, out value);
+            if (status)
+            {
+                return true;
+            }
+
+            foreach (var interfaceType in baseType.GetInterfaces())
+            {
+                status = dict.TryGetValue(interfaceType, out value);
+                if (status)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -1082,6 +1082,16 @@
             <param name="converter">转换器</param>
             <returns>是否成功获取转换器</returns>
         </member>
+        <member name="M:CatLib.Converters.Converters.FindConverterByType``1(System.Collections.Generic.IDictionary{System.Type,``0},System.Type,``0@)">
+            <summary>
+            根据类型查找转换器
+            </summary>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="dict">查询字典</param>
+            <param name="baseType">基础类型</param>
+            <param name="value">查找到的值</param>
+            <returns>是否成功找到</returns>
+        </member>
         <member name="T:CatLib.Converters.ConvertersManager">
             <summary>
             转换器管理器
