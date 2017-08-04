@@ -50,7 +50,7 @@ namespace CatLib.API.Routing
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        void Replace(string key, string value);
+        void ReplaceParameter(string key, string value);
 
         /// <summary>
         /// 替换上下文

@@ -88,7 +88,7 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        public void Replace(string key, string value)
+        public void ReplaceParameter(string key, string value)
         {
             throw new NotImplementedException();
         }

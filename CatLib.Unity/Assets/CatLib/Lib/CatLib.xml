@@ -2770,7 +2770,7 @@
             <param name="defaultValue"></param>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Routing.ExceptionRequest.Replace(System.String,System.String)">
+        <member name="M:CatLib.Routing.ExceptionRequest.ReplaceParameter(System.String,System.String)">
             <summary>
             替换参数
             </summary>
@@ -3133,7 +3133,7 @@
             <param name="defaultValue">默认值</param>
             <returns>值</returns>
         </member>
-        <member name="M:CatLib.Routing.Request.Replace(System.String,System.String)">
+        <member name="M:CatLib.Routing.Request.ReplaceParameter(System.String,System.String)">
             <summary>
             替换参数
             </summary>

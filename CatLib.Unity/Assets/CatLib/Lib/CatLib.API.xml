@@ -779,7 +779,7 @@
             <param name="defaultValue">默认值</param>
             <returns></returns>
         </member>
-        <member name="M:CatLib.API.Routing.IRequest.Replace(System.String,System.String)">
+        <member name="M:CatLib.API.Routing.IRequest.ReplaceParameter(System.String,System.String)">
             <summary>
             替换参数
             </summary>
