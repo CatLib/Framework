@@ -1,6 +1,6 @@
 {
-  "source": "catlib/routing",
-  "folder": "Routing",
+  "source": "catlib/json",
+  "folder": "json",
   "require": {
     "catlib/api": "~1.0"
   }
