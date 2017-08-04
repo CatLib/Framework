@@ -31,18 +31,6 @@ namespace CatLib.Tests.Routing
     public class RequestTests
     {
         /// <summary>
-        /// 无参数请求测试
-        /// </summary>
-        [TestMethod]
-        public void NullParamRequestTest()
-        {
-            var obj = new object();
-            var request = new Request("catlib://routing/world", obj);
-            request.SetParameters(null);
-            Assert.AreEqual("world", request.Get("hello", "world"));
-        }
-
-        /// <summary>
         /// 请求测试
         /// </summary>
         [TestMethod]
@@ -51,7 +39,7 @@ namespace CatLib.Tests.Routing
             var obj = new object();
             var request = new Request("catlib://routing/world", obj);
 
-            request.SetParameters(new Dictionary<string, string>()
+            request.SetParameters(new Dictionary<string, string>
             {
                 {"1", "1"},
                 {"2", "2"},
