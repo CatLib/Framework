@@ -22,6 +22,7 @@ namespace CatLib
         /// <summary>
         /// 引导程序接口
         /// </summary>
+        [Priority(20)]
         public void Bootstrap()
         {
             LoadUnityComponentProvider();

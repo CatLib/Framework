@@ -22,6 +22,7 @@ namespace CatLib
         /// <summary>
         /// 引导程序接口
         /// </summary>
+        [Priority(10)]
         public void Bootstrap()
         {
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())

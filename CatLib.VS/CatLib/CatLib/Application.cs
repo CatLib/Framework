@@ -158,7 +158,14 @@ namespace CatLib
 
             process = StartProcess.Bootstrap;
 
+            var sorting = new SortSet<IBootstrap, int>();
+
             foreach (var bootstrap in bootstraps)
+            {
+                sorting.Add(bootstrap, GetPriority(bootstrap.GetType(), "Bootstrap"));
+            }
+
+            foreach (var bootstrap in sorting)
             {
                 if (bootstrap != null)
                 {
