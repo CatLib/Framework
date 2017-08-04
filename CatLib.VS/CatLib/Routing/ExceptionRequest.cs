@@ -17,6 +17,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 请求(由于某些异常导致请求都无法被构建所以我们提供一个必定可以被构建的请求类)
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal sealed class ExceptionRequest : IRequest
     {
         /// <summary>
@@ -38,7 +39,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 上下文
         /// </summary>
-        private readonly object context;
+        private object context;
 
         /// <summary>
         /// 构建一个请求
@@ -80,6 +81,25 @@ namespace CatLib.Routing
         public string Get(string key, string defaultValue = null)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 替换参数
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        public void ReplaceParameter(string key, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 替换上下文
+        /// </summary>
+        /// <param name="context">上下文</param>
+        public void ReplaceContext(object context)
+        {
+            this.context = context;
         }
 
         /// <summary>

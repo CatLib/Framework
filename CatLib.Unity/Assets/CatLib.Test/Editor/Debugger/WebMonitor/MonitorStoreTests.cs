@@ -15,7 +15,6 @@ using CatLib.Debugger;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -68,7 +67,7 @@ namespace CatLib.Tests.Debugger.WebMonitor
             var console = app.Make<HttpDebuggerConsole>();
             var monitor = app.Make<IMonitor>();
 
-            App.Instance("Debugger.WebMonitor.Monitor.IndexMonitor", new List<string>
+            App.Instance("DebuggerProvider.IndexMonitor", new List<string>
             {
                 "titlenotfound",
                 "title"

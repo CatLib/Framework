@@ -43,9 +43,9 @@ namespace CatLib.Converters
         {
             App.Singleton<ConvertersManager>()
                 .Alias<IConvertersManager>()
-                .OnResolving((binder, obj) =>
+                .OnResolving((_, obj) =>
                 {
-                    var manager = obj as ConvertersManager;
+                    var manager = (ConvertersManager)obj;
                     manager.Extend(LoadDefaultConverters);
                     return obj;
                 });
@@ -56,10 +56,7 @@ namespace CatLib.Converters
         /// </summary>
         private void RegisterDefaultConverter()
         {
-            App.Bind<IConverters>((continer, @params) =>
-            {
-                return App.Make<IConvertersManager>().Default;
-            });
+            App.Bind<IConverters>((continer, _) => continer.Make<IConvertersManager>().Default);
         }
 
         /// <summary>

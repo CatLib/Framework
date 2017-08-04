@@ -17,7 +17,6 @@ using TestMethod = NUnit.Framework.TestAttribute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-
 namespace CatLib.Tests
 {
     [TestClass]
@@ -62,12 +61,12 @@ namespace CatLib.Tests
 
         public class ContainerHelperTestClass
         {
-            
+
         }
 
         public class TestClassService
         {
-            
+
         }
 
         /// <summary>

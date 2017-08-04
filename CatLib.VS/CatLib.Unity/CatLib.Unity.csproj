@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{069DC7A3-5EBC-4207-B089-94C1951B3C34}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CatLib</RootNamespace>
+    <AssemblyName>CatLib.Unity</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CATLIB</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\CatLib.Unity.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\CatLib.Unity\Assets\CatLib\Lib\</OutputPath>
+    <DefineConstants>TRACE;CATLIB</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\CatLib.Unity\Assets\CatLib\Lib\CatLib.Unity.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\3rd\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CatLib\Assemblys.cs" />
+    <Compile Include="CatLib\Bootstrap.cs" />
+    <Compile Include="CatLib\Bootstrap\ProviderBootstrap.cs" />
+    <Compile Include="CatLib\Bootstrap\StartBootstrap.cs" />
+    <Compile Include="CatLib\Bootstrap\TypeFinderBootstrap.cs" />
+    <Compile Include="CatLib\CatLibFramework.cs" />
+    <Compile Include="CatLib\Providers.cs" />
+    <Compile Include="CatLib\UnityApplication.cs" />
+    <Compile Include="Config\Locator\UnitySettingLocator.cs" />
+    <Compile Include="Debugger\UnityDebuggerProvider.cs" />
+    <Compile Include="Debugger\Log\Handler\UnityConsoleLogHandler.cs" />
+    <Compile Include="Debugger\WebMonitorContent\Controller\Command.cs" />
+    <Compile Include="Debugger\WebMonitorContent\GraphicsMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputCompassMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputGyroscopeMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputLocationMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\InputMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\PathMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\PerformanceMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\SceneMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\ScreenMonitor.cs" />
+    <Compile Include="Debugger\WebMonitorContent\SystemInfoMonitor.cs" />
+    <Compile Include="Environment\EnvironmentProvider.cs" />
+    <Compile Include="Environment\UnityEnvironment.cs" />
+    <Compile Include="Facade\Env.cs" />
+    <Compile Include="Facade\Time.cs" />
+    <Compile Include="Facade\Timer.cs" />
+    <Compile Include="MonoDriver\DriverBehaviour.cs" />
+    <Compile Include="MonoDriver\MonoDriver.cs" />
+    <Compile Include="MonoDriver\MonoDriverProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\UnityRoutingProvider.cs" />
+    <Compile Include="Timer\Timer.cs" />
+    <Compile Include="Timer\TimerManager.cs" />
+    <Compile Include="Timer\TimerProvider.cs" />
+    <Compile Include="Timer\TimerQueue.cs" />
+    <Compile Include="Timer\TimerTypes.cs" />
+    <Compile Include="Time\TimeManager.cs" />
+    <Compile Include="Time\TimeProvider.cs" />
+    <Compile Include="Time\UnityTime.cs" />
+    <Compile Include="Time\UnityTimeProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CatLib.API\CatLib.API.csproj">
+      <Project>{5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e}</Project>
+      <Name>CatLib.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CatLib.Unity.API\CatLib.Unity.API.csproj">
+      <Project>{651a86a0-f4f6-46d9-a2f9-3bafca24f1d5}</Project>
+      <Name>CatLib.Unity.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CatLib\CatLib.csproj">
+      <Project>{bbb2dae2-638b-4419-9591-3cecca312e4e}</Project>
+      <Name>CatLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

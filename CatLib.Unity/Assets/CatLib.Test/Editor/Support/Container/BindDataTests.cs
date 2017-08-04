@@ -10,7 +10,6 @@
  */
 
 using System;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -39,7 +38,7 @@ namespace CatLib.Tests.Stl
 
             var needs = bindData.Needs("TestService");
             var needsWithType = bindData.Needs<BindDataTest>();
-           
+
             Assert.AreNotEqual(null, needs);
             Assert.AreNotEqual(null, needsWithType);
         }
@@ -139,7 +138,7 @@ namespace CatLib.Tests.Stl
                 Assert.AreSame(bindData, bind);
             });
 
-            container.Instance("CanAddOnRelease" , "Test");
+            container.Instance("CanAddOnRelease", "Test");
             container.Release("CanAddOnRelease");
         }
         /// <summary>

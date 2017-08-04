@@ -39,9 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\3rd\UnityEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -97,7 +94,6 @@
     <Compile Include="Converters\Plan\UInt16StringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt32StringConverterTests.cs" />
     <Compile Include="Converters\Plan\UInt64StringConverterTests.cs" />
-    <Compile Include="Environment\EnvTests.cs" />
     <Compile Include="Debugger\DebuggerHelper.cs" />
     <Compile Include="Debugger\Log\LoggerTests.cs" />
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsoleTests.cs" />
@@ -115,7 +111,6 @@
     <Compile Include="Support\Container\GivenDataTests.cs" />
     <Compile Include="CatLib\ApplicationTests.cs" />
     <Compile Include="Support\Container\ContainerHelperTests.cs" />
-    <Compile Include="MonoDriver\DriverTests.cs" />
     <Compile Include="CatLib\FacaedTests.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="FileSystem\Adapter\LocalTests.cs" />
@@ -142,8 +137,6 @@
     <Compile Include="Support\SortSet\SortSetTests.cs" />
     <Compile Include="Support\Template\SingleManagerTests.cs" />
     <Compile Include="Support\Util\StrTests.cs" />
-    <Compile Include="Timer\TimerProviderTests.cs" />
-    <Compile Include="Time\TimeProviderTests.cs" />
     <Compile Include="Translation\SelectorTests.cs" />
     <Compile Include="Translation\TranslationTests.cs" />
   </ItemGroup>

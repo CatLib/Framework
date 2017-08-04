@@ -16,13 +16,13 @@ namespace CatLib.Tests.Routing
     [Routed]
     public class AttrCompilerRouting
     {
-        [Routed("routed://first-compiler-then-group/{str?}",Group = "DefaultGroup")]
-        public void FirstCompilerThenAddGroup(IRequest request,IResponse response)
+        [Routed("routed://first-compiler-then-group/{str?}", Group = "DefaultGroup")]
+        public void FirstCompilerThenAddGroup(IRequest request, IResponse response)
         {
             response.SetContext(request["str"]);
         }
 
-        [Routed("routed://use-group-and-local-defaults/{str?}",Group = "DefaultGroup2" , Defaults = "str=>hello world")]
+        [Routed("routed://use-group-and-local-defaults/{str?}", Group = "DefaultGroup2", Defaults = "str=>hello world")]
         public void UseGroupAndLocalDefaults(IRequest request, IResponse response)
         {
             response.SetContext(request["str"]);

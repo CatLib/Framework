@@ -9,11 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System.Collections.Generic;
-using System.Net;
-using CatLib.Debugger;
-using CatLib.Debugger.WebConsole;
-using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -31,10 +26,10 @@ namespace CatLib.Tests.Debugger.WebMonitor.Handler
         [TestMethod]
         public void TestSizeBound()
         {
-            var monitor = new SizeMonitorHandler("test",new []{"test"}, () =>
-            {
-                return (long)1024;
-            });
+            var monitor = new SizeMonitorHandler("test", new[] { "test" }, () =>
+               {
+                   return (long)1024;
+               });
 
             Assert.AreEqual("1.00", monitor.Value);
             Assert.AreEqual("unit.size.kb", monitor.Unit);

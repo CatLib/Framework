@@ -22,10 +22,27 @@ namespace CatLib.Routing
     public sealed class RoutingProvider : IServiceProvider
     {
         /// <summary>
+        /// 默认的Scheme
+        /// </summary>
+        public string DefaultScheme { get; set; }
+
+        /// <summary>
+        /// 会进行属性路由编译的程序集
+        /// </summary>
+        public IList<string> CompilerAssembly { get; set; }
+
+        /// <summary>
+        /// 路由服务
+        /// </summary>
+        public RoutingProvider()
+        {
+            DefaultScheme = "catlib";
+        }
+
+        /// <summary>
         /// 执行路由编译，路由编译总是最后进行的
         /// </summary>
         /// <returns>迭代器</returns>
-        [Priority]
         public void Init()
         {
             var router = App.Make<Router>();
@@ -37,10 +54,11 @@ namespace CatLib.Routing
         /// </summary>
         public void Register()
         {
-            App.Singleton<Router>((app, param) =>
+            App.Singleton<Router>((_, __) =>
             {
                 var router = new Router(App.Handler, App.Handler);
-                router.SetDefaultScheme("catlib");
+                var config = App.Make<IConfig>();
+                router.SetDefaultScheme(config.SafeGet("RoutingProvider.DefaultScheme", DefaultScheme));
                 return router;
             }).Alias<IRouter>();
 
@@ -52,26 +70,22 @@ namespace CatLib.Routing
         /// </summary>
         private void RegisterAttrRouteCompiler()
         {
-            App.Bind<AttrRouteCompiler>().OnResolving((bind, obj) =>
+            App.Bind<AttrRouteCompiler>().OnResolving((_, obj) =>
             {
-                var compiler = obj as AttrRouteCompiler;
-
-                var containList = new List<string>()
+                var compiler = (AttrRouteCompiler)obj;
+                var config = App.Make<IConfig>();
+                //todo： 需要转化器支持string到IList<string>, IList<string> 到 string
+                var containList = new List<string>(config.SafeGet("RoutingProvider.CompilerAssembly", CompilerAssembly ?? new List<string>()))
                 {
-                    "Assembly-CSharp", "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor", "CatLib", "CatLib.Tests"
+                    "Assembly-CSharp",
+                    "Assembly-CSharp-Editor-firstpass",
+                    "Assembly-CSharp-Editor",
+                    "CatLib",
+                    "CatLib.Unity",
+                    "CatLib.Tests"
                 };
 
-                var config = App.Make<IConfigManager>();
-                if (config != null)
-                {
-                    var reserved = config.Default.Get("routing.stripping.reserved", string.Empty);
-                    containList.AddRange(reserved.Split(';'));
-                }
-
-                compiler.OnStripping((assembly) =>
-                {
-                    return !containList.Contains(assembly.GetName().Name);
-                });
+                compiler.OnStripping(assembly => !containList.Contains(assembly.GetName().Name));
 
                 return obj;
             });

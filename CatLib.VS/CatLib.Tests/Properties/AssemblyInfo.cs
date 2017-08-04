@@ -10,14 +10,13 @@
  */
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CatLibTests")]
+[assembly: AssemblyTitle("CatLib.Tests")]
 [assembly: AssemblyDescription("CatLib Unit Tests")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CatLib")]
-[assembly: AssemblyProduct("CatLibTests")]
+[assembly: AssemblyProduct("CatLib.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -20,7 +20,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 属性路由编译器
     /// </summary>
-    internal sealed class AttrRouteCompiler
+    public sealed class AttrRouteCompiler
     {
         /// <summary>
         /// 路由器

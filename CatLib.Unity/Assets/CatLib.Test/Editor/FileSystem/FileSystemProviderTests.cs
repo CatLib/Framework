@@ -10,20 +10,15 @@
  */
 
 using System;
-using System.Collections;
 using System.IO;
-using CatLib.API;
 using CatLib.API.Config;
-using CatLib.API.Environment;
 using CatLib.API.FileSystem;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Environment;
 using CatLib.Events;
 using CatLib.FileSystem;
 using CatLib.FileSystem.Adapter;
 using SIO = System.IO;
-
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -32,7 +27,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.FileSystem
@@ -40,22 +34,15 @@ namespace CatLib.Tests.FileSystem
     [TestClass]
     public class FileSystemProviderTests
     {
-
-        public class PrepareEnv : IServiceProvider
-        {
-            public void Init()
-            {
-                var path = Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
-                App.Make<IEnvironment>().SetAssetPath(path);
-            }
-
-            public void Register(){ }
-        }
+        /// <summary>
+        /// 测试路径
+        /// </summary>
+        private string path;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            var path = SIO.Path.Combine(System.Environment.CurrentDirectory, "FileSystemTest");
+            path = Path.Combine(global::System.Environment.CurrentDirectory, "FileSystemTest");
             if (SIO.Directory.Exists(path))
             {
                 SIO.Directory.Delete(path, true);
@@ -65,9 +52,10 @@ namespace CatLib.Tests.FileSystem
             {
                 return Type.GetType(t);
             });
-            app.Register(new FileSystemProvider());
-            app.Register(new EnvironmentProvider());
-            app.Register(new PrepareEnv());
+            app.Register(new FileSystemProvider
+            {
+                DefaultPath = path
+            });
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
             app.Register(new EventsProvider());
@@ -92,7 +80,7 @@ namespace CatLib.Tests.FileSystem
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 var storage = App.Make<IFileSystemManager>();
-                storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(App.Make<IEnvironment>().AssetPath)));
+                storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(path)));
             });
         }
 
@@ -102,14 +90,14 @@ namespace CatLib.Tests.FileSystem
             TestInitialize();
 
             var storage = App.Make<IFileSystemManager>();
-            storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local( Path.Combine(App.Make<IEnvironment>().AssetPath, "DefaultConfigTest"))) , "local-2");
+            storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(Path.Combine(path, "DefaultConfigTest"))), "local-2");
 
             var config = App.Make<IConfigManager>();
-            config.Get().Set("filesystems.default" , "local-2");
+            config.Get().Set("filesystems.default", "local-2");
 
             storage.Disk().Write("DefaultConfigTest", GetByte("hello world"));
             Assert.AreEqual(true, storage.Disk("local").Exists("DefaultConfigTest/DefaultConfigTest"));
-            Assert.AreEqual("hello world" , GetString(storage.Disk("local").Read("DefaultConfigTest/DefaultConfigTest")));
+            Assert.AreEqual("hello world", GetString(storage.Disk("local").Read("DefaultConfigTest/DefaultConfigTest")));
         }
 
         [TestMethod]

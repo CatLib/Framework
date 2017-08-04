@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using CatLib.API;
 using CatLib.API.Json;
 using CatLib.Events;
 using CatLib.Json;
@@ -24,7 +23,6 @@ using TestInitialize = NUnit.Framework.SetUpAttribute;
 using TestCleanup = NUnit.Framework.TearDownAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
 namespace CatLib.Tests.Json
@@ -88,7 +86,7 @@ namespace CatLib.Tests.Json
             {
                 jsonUnility.Decode<JsonObject>(string.Empty);
             });
- 
+
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
                 jsonUnility.Decode<DemoClass>(string.Empty);

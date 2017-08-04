@@ -38,6 +38,13 @@ namespace CatLib
         void Register(IServiceProvider provider);
 
         /// <summary>
+        /// 服务提供者是否已经注册过
+        /// </summary>
+        /// <param name="provider">服务提供者</param>
+        /// <returns>服务提供者是否已经注册过</returns>
+        bool IsRegisted(IServiceProvider provider);
+
+        /// <summary>
         /// 获取程序运行时唯一Id
         /// </summary>
         /// <returns>运行时的唯一Id</returns>
