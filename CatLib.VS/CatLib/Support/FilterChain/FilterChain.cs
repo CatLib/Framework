@@ -96,7 +96,10 @@ namespace CatLib
                 stack.Push(++index);
                 if (index >= filterList.Count)
                 {
-                    then.Invoke(inData);
+                    if (then != null)
+                    {
+                        then.Invoke(inData);
+                    }
                     return;
                 }
                 filterList[index].Invoke(inData, Next(then));
@@ -188,7 +191,10 @@ namespace CatLib
                 stack.Push(++index);
                 if (index >= filterList.Count)
                 {
-                    then.Invoke(inData, outData);
+                    if (then != null)
+                    {
+                        then.Invoke(inData, outData);
+                    }
                     return;
                 }
                 filterList[index].Invoke(inData, outData, Next(then));
@@ -282,7 +288,10 @@ namespace CatLib
                 stack.Push(++index);
                 if (index >= filterList.Count)
                 {
-                    then.Invoke(inData, outData, exception);
+                    if (then != null)
+                    {
+                        then.Invoke(inData, outData, exception);
+                    }
                     return;
                 }
                 filterList[index].Invoke(inData, outData, exception, Next(then));
