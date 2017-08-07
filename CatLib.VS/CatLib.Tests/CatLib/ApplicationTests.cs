@@ -226,7 +226,7 @@ namespace CatLib.Tests
         {
             var app = MakeApplication();
 
-            app.On("testevent", (payload) =>
+            app.Listen("testevent", (payload) =>
             {
                 Assert.AreEqual("abc", payload);
                 return 123;
