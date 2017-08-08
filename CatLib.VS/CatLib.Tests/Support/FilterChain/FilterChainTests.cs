@@ -14,6 +14,7 @@ using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
@@ -200,6 +201,37 @@ namespace CatLib.Tests.Stl
 
             chain.Do("", "", "");
             Assert.AreEqual(true, isCall);
+        }
+
+        [TestMethod]
+        public void TestNullThen()
+        {
+            var chain1 = new FilterChain<string>();
+            chain1.Add((str, next) => { });
+            chain1.Add((str, next) => { });
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                chain1.Do(null);
+            });
+
+            var chain2 = new FilterChain<string,string>();
+            chain2.Add((str,str1, next) => { });
+            chain2.Add((str,str1, next) => { });
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                chain2.Do(null, null);
+            });
+
+            var chain3 = new FilterChain<string, string,string>();
+            chain3.Add((str, str1,str2, next) => { });
+            chain3.Add((str, str1 ,str2, next) => { });
+
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                chain3.Do(null, null, null);
+            });
         }
     }
 }

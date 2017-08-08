@@ -4,6 +4,883 @@
         <name>CatLib</name>
     </assembly>
     <members>
+        <member name="T:CatLib.Converters.Plan.IListStringStringConverter">
+            <summary>
+            IList string转string
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.IListStringStringConverter.From">
+            <summary>
+            来源类型
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.IListStringStringConverter.To">
+            <summary>
+            目标类型
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.IListStringStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringIListStringConverter">
+            <summary>
+            string转IList string
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringIListStringConverter.From">
+            <summary>
+            来源类型
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringIListStringConverter.To">
+            <summary>
+            目标类型
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringIListStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.BoolStringConverter">
+            <summary>
+            bool转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.BoolStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.BoolStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.BoolStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.ByteStringConverter">
+            <summary>
+            byte转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.ByteStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.ByteStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.ByteStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.CharStringConverter">
+            <summary>
+            char转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.CharStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.CharStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.CharStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.DateTimeStringConverter">
+            <summary>
+            datetime转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.DateTimeStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.DateTimeStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.DateTimeStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.DecimalStringConverter">
+            <summary>
+            decimal转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.DecimalStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.DecimalStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.DecimalStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.DoubleStringConverter">
+            <summary>
+            double转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.DoubleStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.DoubleStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.DoubleStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.EnumStringConverter">
+            <summary>
+            enum转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.EnumStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.EnumStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.EnumStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.Int16StringConverter">
+            <summary>
+            int16转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.Int16StringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.Int16StringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.Int16StringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.Int32StringConverter">
+            <summary>
+            int32转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.Int32StringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.Int32StringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.Int32StringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.Int64StringConverter">
+            <summary>
+            int64转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.Int64StringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.Int64StringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.Int64StringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.SByteStringConverter">
+            <summary>
+            sbyte转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.SByteStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.SByteStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.SByteStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.SingleStringConverter">
+            <summary>
+            single转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.SingleStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.SingleStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.SingleStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringBoolConverter">
+            <summary>
+            string转bool转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringBoolConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringBoolConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringBoolConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringByteConverter">
+            <summary>
+            string转byte转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringByteConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringByteConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringByteConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringCharConverter">
+            <summary>
+            string转char转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringCharConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringCharConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringCharConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringDateTimeConverter">
+            <summary>
+            string转datetime转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringDateTimeConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringDateTimeConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringDateTimeConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringDecimalConverter">
+            <summary>
+            string转decimal转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringDecimalConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringDecimalConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringDecimalConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringDoubleConverter">
+            <summary>
+            string转double转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringDoubleConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringDoubleConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringDoubleConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringEnumConverter">
+            <summary>
+            string转enum转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringEnumConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringEnumConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringEnumConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringInt16Converter">
+            <summary>
+            string转int16转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringInt16Converter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringInt16Converter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringInt16Converter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringInt32Converter">
+            <summary>
+            string转int32转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringInt32Converter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringInt32Converter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringInt32Converter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringInt64Converter">
+            <summary>
+            string转long转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringInt64Converter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringInt64Converter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringInt64Converter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringSByteConverter">
+            <summary>
+            string转int32转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringSByteConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringSByteConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringSByteConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringSingleConverter">
+            <summary>
+            string转float转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringSingleConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringSingleConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringSingleConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringStringConverter">
+            <summary>
+            string转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringStringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringStringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringStringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringUInt16Converter">
+            <summary>
+            string转uint16转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringUInt16Converter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringUInt16Converter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringUInt16Converter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringUInt32Converter">
+            <summary>
+            string转int转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringUInt32Converter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringUInt32Converter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringUInt32Converter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.StringUInt64Converter">
+            <summary>
+            string转ulong转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringUInt64Converter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.StringUInt64Converter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.StringUInt64Converter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.UInt16StringConverter">
+            <summary>
+            uint16转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.UInt16StringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.UInt16StringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.UInt16StringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.UInt32StringConverter">
+            <summary>
+            uint转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.UInt32StringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.UInt32StringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.UInt32StringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Plan.UInt64StringConverter">
+            <summary>
+            ulong转string转换器
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.UInt64StringConverter.From">
+            <summary>
+            来源
+            </summary>
+        </member>
+        <member name="P:CatLib.Converters.Plan.UInt64StringConverter.To">
+            <summary>
+            目标
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Plan.UInt64StringConverter.ConvertTo(System.Object,System.Type)">
+            <summary>
+            源类型转换到目标类型
+            </summary>
+            <param name="source">源类型</param>
+            <param name="to">目标类型</param>
+            <returns>目标类型</returns>
+        </member>
+        <member name="T:CatLib.Converters.Converters">
+            <summary>
+            转换器
+            </summary>
+        </member>
+        <member name="F:CatLib.Converters.Converters.coverterDictionary">
+            <summary>
+            转换器字典
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Converters.#ctor">
+            <summary>
+            构建一个转换器
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.Converters.AddConverter(CatLib.API.Converters.ITypeConverter)">
+            <summary>
+            增加一个转换器
+            </summary>
+            <param name="converter">转换器</param>
+        </member>
+        <member name="M:CatLib.Converters.Converters.Convert(System.Object,System.Type)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <param name="source">源数据</param>
+            <param name="to">目标类型</param>
+            <returns>目标数据</returns>
+        </member>
+        <member name="M:CatLib.Converters.Converters.Convert``1(System.Object)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <typeparam name="TTarget">目标类型</typeparam>
+            <param name="source">源数据</param>
+            <returns>目标数据</returns>
+        </member>
+        <member name="M:CatLib.Converters.Converters.TryConvert(System.Object,System.Object@,System.Type)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <param name="source">源数据</param>
+            <param name="target">目标数据</param>
+            <param name="to">目标类型</param>
+            <returns>是否成功转换</returns>
+        </member>
+        <member name="M:CatLib.Converters.Converters.TryConvert``1(System.Object,``0@)">
+            <summary>
+            从源类型转为目标类型
+            </summary>
+            <typeparam name="TTarget">目标类型</typeparam>
+            <param name="source">源数据</param>
+            <param name="target">目标数据</param>
+            <returns>是否成功转换</returns>
+        </member>
+        <member name="M:CatLib.Converters.Converters.TryGetConverter(System.Type,System.Type,CatLib.API.Converters.ITypeConverter@)">
+            <summary>
+            获取类型所需的转换器
+            </summary>
+            <param name="from">来源类型</param>
+            <param name="to">目标类型</param>
+            <param name="converter">转换器</param>
+            <returns>是否成功获取转换器</returns>
+        </member>
+        <member name="M:CatLib.Converters.Converters.FindConverterByType``1(System.Collections.Generic.IDictionary{System.Type,``0},System.Type,``0@)">
+            <summary>
+            根据类型查找转换器
+            </summary>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="dict">查询字典</param>
+            <param name="baseType">基础类型</param>
+            <param name="value">查找到的值</param>
+            <returns>是否成功找到</returns>
+        </member>
+        <member name="T:CatLib.Converters.ConvertersManager">
+            <summary>
+            转换器管理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.ConvertersManager.CloneExtend(System.String,System.String)">
+            <summary>
+            克隆指定转换器(注意克隆只克隆解决器提供的结果)
+            </summary>
+            <param name="newExtendName">新的名字</param>
+            <param name="cloneFromExtendName">克隆自的管理器名字</param>
+            <returns>转换器</returns>
+        </member>
+        <member name="T:CatLib.Converters.ConvertersProvider">
+            <summary>
+            转换器服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.ConvertersProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.ConvertersProvider.Register">
+            <summary>
+            注册文件系统服务
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.ConvertersProvider.RegisterManager">
+            <summary>
+            注册管理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.ConvertersProvider.RegisterDefaultConverter">
+            <summary>
+            注册默认的转换器
+            </summary>
+        </member>
+        <member name="M:CatLib.Converters.ConvertersProvider.LoadDefaultConverters">
+            <summary>
+            加载默认的转换器
+            </summary>
+            <returns>默认的转换器</returns>
+        </member>
         <member name="T:CatLib.Debugger.WebConsole.Protocol.GetGuid">
             <summary>
             GetGuid API
@@ -1018,827 +1895,6 @@
             </summary>
             <returns>版本信息</returns>
         </member>
-        <member name="T:CatLib.Converters.Converters">
-            <summary>
-            转换器
-            </summary>
-        </member>
-        <member name="F:CatLib.Converters.Converters.coverterDictionary">
-            <summary>
-            转换器字典
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Converters.#ctor">
-            <summary>
-            构建一个转换器
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Converters.AddConverter(CatLib.API.Converters.ITypeConverter)">
-            <summary>
-            增加一个转换器
-            </summary>
-            <param name="converter">转换器</param>
-        </member>
-        <member name="M:CatLib.Converters.Converters.Convert(System.Object,System.Type)">
-            <summary>
-            从源类型转为目标类型
-            </summary>
-            <param name="source">源数据</param>
-            <param name="to">目标类型</param>
-            <returns>目标数据</returns>
-        </member>
-        <member name="M:CatLib.Converters.Converters.Convert``1(System.Object)">
-            <summary>
-            从源类型转为目标类型
-            </summary>
-            <typeparam name="TTarget">目标类型</typeparam>
-            <param name="source">源数据</param>
-            <returns>目标数据</returns>
-        </member>
-        <member name="M:CatLib.Converters.Converters.TryConvert(System.Object,System.Object@,System.Type)">
-            <summary>
-            从源类型转为目标类型
-            </summary>
-            <param name="source">源数据</param>
-            <param name="target">目标数据</param>
-            <param name="to">目标类型</param>
-            <returns>是否成功转换</returns>
-        </member>
-        <member name="M:CatLib.Converters.Converters.TryConvert``1(System.Object,``0@)">
-            <summary>
-            从源类型转为目标类型
-            </summary>
-            <typeparam name="TTarget">目标类型</typeparam>
-            <param name="source">源数据</param>
-            <param name="target">目标数据</param>
-            <returns>是否成功转换</returns>
-        </member>
-        <member name="M:CatLib.Converters.Converters.TryGetConverter(System.Type,System.Type,CatLib.API.Converters.ITypeConverter@)">
-            <summary>
-            获取类型所需的转换器
-            </summary>
-            <param name="from">来源类型</param>
-            <param name="to">目标类型</param>
-            <param name="converter">转换器</param>
-            <returns>是否成功获取转换器</returns>
-        </member>
-        <member name="T:CatLib.Converters.ConvertersManager">
-            <summary>
-            转换器管理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.ConvertersManager.CloneExtend(System.String,System.String)">
-            <summary>
-            克隆指定转换器(注意克隆只克隆解决器提供的结果)
-            </summary>
-            <param name="newExtendName">新的名字</param>
-            <param name="cloneFromExtendName">克隆自的管理器名字</param>
-            <returns>转换器</returns>
-        </member>
-        <member name="T:CatLib.Converters.ConvertersProvider">
-            <summary>
-            转换器服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.ConvertersProvider.Init">
-            <summary>
-            初始化
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.ConvertersProvider.Register">
-            <summary>
-            注册文件系统服务
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.ConvertersProvider.RegisterManager">
-            <summary>
-            注册管理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.ConvertersProvider.RegisterDefaultConverter">
-            <summary>
-            注册默认的转换器
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.ConvertersProvider.LoadDefaultConverters">
-            <summary>
-            加载默认的转换器
-            </summary>
-            <returns>默认的转换器</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.BoolStringConverter">
-            <summary>
-            bool转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.BoolStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.BoolStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.BoolStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.ByteStringConverter">
-            <summary>
-            byte转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.ByteStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.ByteStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.ByteStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.CharStringConverter">
-            <summary>
-            char转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.CharStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.CharStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.CharStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.DateTimeStringConverter">
-            <summary>
-            datetime转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.DateTimeStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.DateTimeStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.DateTimeStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.DecimalStringConverter">
-            <summary>
-            decimal转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.DecimalStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.DecimalStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.DecimalStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.DoubleStringConverter">
-            <summary>
-            double转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.DoubleStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.DoubleStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.DoubleStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.EnumStringConverter">
-            <summary>
-            enum转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.EnumStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.EnumStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.EnumStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.Int16StringConverter">
-            <summary>
-            int16转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.Int16StringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.Int16StringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.Int16StringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.Int32StringConverter">
-            <summary>
-            int32转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.Int32StringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.Int32StringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.Int32StringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.Int64StringConverter">
-            <summary>
-            int64转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.Int64StringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.Int64StringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.Int64StringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.SByteStringConverter">
-            <summary>
-            sbyte转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.SByteStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.SByteStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.SByteStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.SingleStringConverter">
-            <summary>
-            single转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.SingleStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.SingleStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.SingleStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringBoolConverter">
-            <summary>
-            string转bool转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringBoolConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringBoolConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringBoolConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringByteConverter">
-            <summary>
-            string转byte转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringByteConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringByteConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringByteConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringCharConverter">
-            <summary>
-            string转char转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringCharConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringCharConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringCharConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringDateTimeConverter">
-            <summary>
-            string转datetime转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringDateTimeConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringDateTimeConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringDateTimeConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringDecimalConverter">
-            <summary>
-            string转decimal转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringDecimalConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringDecimalConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringDecimalConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringDoubleConverter">
-            <summary>
-            string转double转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringDoubleConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringDoubleConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringDoubleConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringEnumConverter">
-            <summary>
-            string转enum转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringEnumConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringEnumConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringEnumConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringInt16Converter">
-            <summary>
-            string转int16转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringInt16Converter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringInt16Converter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringInt16Converter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringInt32Converter">
-            <summary>
-            string转int32转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringInt32Converter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringInt32Converter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringInt32Converter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringInt64Converter">
-            <summary>
-            string转long转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringInt64Converter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringInt64Converter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringInt64Converter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringSByteConverter">
-            <summary>
-            string转int32转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringSByteConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringSByteConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringSByteConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringSingleConverter">
-            <summary>
-            string转float转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringSingleConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringSingleConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringSingleConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringStringConverter">
-            <summary>
-            string转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringStringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringStringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringStringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringUInt16Converter">
-            <summary>
-            string转uint16转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringUInt16Converter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringUInt16Converter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringUInt16Converter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringUInt32Converter">
-            <summary>
-            string转int转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringUInt32Converter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringUInt32Converter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringUInt32Converter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.StringUInt64Converter">
-            <summary>
-            string转ulong转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringUInt64Converter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.StringUInt64Converter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.StringUInt64Converter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.UInt16StringConverter">
-            <summary>
-            uint16转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.UInt16StringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.UInt16StringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.UInt16StringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.UInt32StringConverter">
-            <summary>
-            uint转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.UInt32StringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.UInt32StringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.UInt32StringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
-        <member name="T:CatLib.Converters.Plan.UInt64StringConverter">
-            <summary>
-            ulong转string转换器
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.UInt64StringConverter.From">
-            <summary>
-            来源
-            </summary>
-        </member>
-        <member name="P:CatLib.Converters.Plan.UInt64StringConverter.To">
-            <summary>
-            目标
-            </summary>
-        </member>
-        <member name="M:CatLib.Converters.Plan.UInt64StringConverter.ConvertTo(System.Object,System.Type)">
-            <summary>
-            源类型转换到目标类型
-            </summary>
-            <param name="source">源类型</param>
-            <param name="to">目标类型</param>
-            <returns>目标类型</returns>
-        </member>
         <member name="T:CatLib.Config.ConfigManager">
             <summary>
             配置管理器
@@ -2059,7 +2115,7 @@
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Events.Dispatcher.On(System.String,System.Func{System.Object,System.Object},System.Int32)">
+        <member name="M:CatLib.Events.Dispatcher.Listen(System.String,System.Func{System.Object,System.Object},System.Int32)">
             <summary>
             注册一个事件
             </summary>
@@ -5013,7 +5069,7 @@
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
         </member>
-        <member name="M:CatLib.Application.On(System.String,System.Func{System.Object,System.Object},System.Int32)">
+        <member name="M:CatLib.Application.Listen(System.String,System.Func{System.Object,System.Object},System.Int32)">
             <summary>
             注册一个事件
             </summary>

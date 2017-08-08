@@ -132,7 +132,7 @@ namespace CatLib.Events
         public IEventHandler On(string eventName, Action<object> handler, int life = 0)
         {
             Guard.Requires<ArgumentNullException>(handler != null);
-            return On(eventName, (payload) =>
+            return Listen(eventName, (payload) =>
             {
                 handler.Invoke(payload);
                 return null;
@@ -146,7 +146,7 @@ namespace CatLib.Events
         /// <param name="handler">事件句柄</param>
         /// <param name="life">在几次后事件会被自动释放</param>
         /// <returns>事件句柄</returns>
-        public IEventHandler On(string eventName, Func<object, object> handler, int life = 0)
+        public IEventHandler Listen(string eventName, Func<object, object> handler, int life = 0)
         {
             Guard.Requires<ArgumentNullException>(eventName != null);
             Guard.Requires<ArgumentNullException>(handler != null);

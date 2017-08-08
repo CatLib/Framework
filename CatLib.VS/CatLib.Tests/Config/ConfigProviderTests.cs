@@ -31,7 +31,6 @@ namespace CatLib.Tests.Config
     [TestClass]
     public class ConfigProviderTests
     {
-
         [TestInitialize]
         public void TestInitialize()
         {

@@ -50,6 +50,6 @@ namespace CatLib.API.Events
         /// <param name="handler">事件句柄</param>
         /// <param name="life">在几次后事件会被自动释放</param>
         /// <returns>事件句柄</returns>
-        IEventHandler On(string eventName, Func<object, object> handler, int life = 0);
+        IEventHandler Listen(string eventName, Func<object, object> handler, int life = 0);
     }
 }

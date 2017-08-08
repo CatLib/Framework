@@ -40,6 +40,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Plan\IListStringStringConverter.cs" />
+    <Compile Include="Converters\Plan\StringIListStringConverter.cs" />
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
