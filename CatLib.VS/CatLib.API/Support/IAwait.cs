@@ -15,7 +15,7 @@ namespace CatLib
     /// 等待接口
     /// </summary>
     /// <typeparam name="TInterface">等待目标接口</typeparam>
-    public interface IAwait<TInterface> : IAwait
+    public interface IAwait<TInterface> : IAwait where TInterface : class
     {
         /// <summary>
         /// 结果
