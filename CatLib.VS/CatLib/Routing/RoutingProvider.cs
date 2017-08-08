@@ -74,7 +74,7 @@ namespace CatLib.Routing
             {
                 var compiler = (AttrRouteCompiler)obj;
                 var config = App.Make<IConfig>();
-                //todo： 需要转化器支持string到IList<string>, IList<string> 到 string
+
                 var containList = new List<string>(config.SafeGet("RoutingProvider.CompilerAssembly", CompilerAssembly ?? new List<string>()))
                 {
                     "Assembly-CSharp",

@@ -10,6 +10,8 @@
  */
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using CatLib.API.Converters;
 using CatLib.Converters;
 using CatLib.Events;
