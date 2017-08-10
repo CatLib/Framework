@@ -178,7 +178,8 @@ namespace CatLib.Tests
             var app = new Application();
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                app.Bootstrap(null).Init();
+                app.Bootstrap(null);
+                app.Init();
             });
         }
 
@@ -250,7 +251,8 @@ namespace CatLib.Tests
             {
                 return Type.GetType(t);
             });
-            app.Bootstrap(new BootstrapClass()).Init();
+            app.Bootstrap(new BootstrapClass());
+            app.Init();
             return app;
         }
 
