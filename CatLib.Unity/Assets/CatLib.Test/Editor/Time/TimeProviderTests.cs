@@ -122,7 +122,8 @@ namespace CatLib.Tests.Time
         [TestInitialize]
         public void TestInitialize()
         {
-            var app = new Application().Bootstrap();
+            var app = new Application();
+            app.Bootstrap();
             app.Register(new TimeProvider());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());

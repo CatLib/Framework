@@ -31,7 +31,8 @@ namespace CatLib.Tests.Routing
         [TestInitialize]
         public void TestInitialize()
         {
-            var app = new Application().Bootstrap();
+            var app = new Application();
+            app.Bootstrap();
             app.OnFindType((t) =>
             {
                 return Type.GetType(t);

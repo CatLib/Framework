@@ -20,18 +20,6 @@ namespace CatLib
     public interface IApplication : IContainer, IDispatcher
     {
         /// <summary>
-        /// 引导程序类型
-        /// </summary>
-        /// <param name="bootstraps">引导程序</param>
-        /// <returns>当前应用程序</returns>
-        IApplication Bootstrap(params IBootstrap[] bootstraps);
-
-        /// <summary>
-        /// 初始化程序
-        /// </summary>
-        void Init();
-
-        /// <summary>
         /// 注册服务提供者
         /// </summary>
         /// <param name="provider">服务提供者</param>
