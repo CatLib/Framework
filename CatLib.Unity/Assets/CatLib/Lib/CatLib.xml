@@ -2124,6 +2124,13 @@
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
         </member>
+        <member name="M:CatLib.Events.Dispatcher.Off(System.String,System.Func{System.Object,System.Object})">
+            <summary>
+            反注册一个事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="handler">事件句柄</param>
+        </member>
         <member name="M:CatLib.Events.Dispatcher.Off(CatLib.Events.EventHandler)">
             <summary>
             移除一个事件
@@ -2205,11 +2212,18 @@
             <param name="life">生命次数</param>
             <param name="wildcard">是否使用了通配符</param>
         </member>
-        <member name="M:CatLib.Events.EventHandler.Cancel">
+        <member name="M:CatLib.Events.EventHandler.Off">
             <summary>
             撤销事件监听
             </summary>
             <returns>是否撤销成功</returns>
+        </member>
+        <member name="M:CatLib.Events.EventHandler.Is(System.Func{System.Object,System.Object})">
+            <summary>
+            是否是指定事件句柄
+            </summary>
+            <param name="handler">事件句柄</param>
+            <returns>是否是</returns>
         </member>
         <member name="M:CatLib.Events.EventHandler.Trigger(System.Object)">
             <summary>
@@ -5077,6 +5091,13 @@
             <param name="handler">事件句柄</param>
             <param name="life">在几次后事件会被自动释放</param>
             <returns>事件句柄</returns>
+        </member>
+        <member name="M:CatLib.Application.Off(System.String,System.Func{System.Object,System.Object})">
+            <summary>
+            反注册一个事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="handler">事件句柄</param>
         </member>
         <member name="P:CatLib.Application.Version">
             <summary>

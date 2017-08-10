@@ -19,7 +19,7 @@ namespace CatLib.API.Events
         /// <summary>
         /// 取消注册的事件
         /// </summary>
-        void Cancel();
+        void Off();
 
         /// <summary>
         /// 剩余的调用次数，当为0时事件会被释放
