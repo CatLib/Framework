@@ -2219,18 +2219,6 @@
             应用程序接口
             </summary>
         </member>
-        <member name="M:CatLib.IApplication.Bootstrap(CatLib.IBootstrap[])">
-            <summary>
-            引导程序类型
-            </summary>
-            <param name="bootstraps">引导程序</param>
-            <returns>当前应用程序</returns>
-        </member>
-        <member name="M:CatLib.IApplication.Init">
-            <summary>
-            初始化程序
-            </summary>
-        </member>
         <member name="M:CatLib.IApplication.Register(CatLib.IServiceProvider)">
             <summary>
             注册服务提供者

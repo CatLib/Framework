@@ -47,7 +47,8 @@ namespace CatLib.Tests.FileSystem
             {
                 SIO.Directory.Delete(path, true);
             }
-            var app = new Application().Bootstrap();
+            var app = new Application();
+            app.Bootstrap();
             app.OnFindType((t) =>
             {
                 return Type.GetType(t);

@@ -147,13 +147,13 @@ namespace CatLib
         /// <param name="bootstraps">引导程序</param>
         /// <returns>CatLib实例</returns>
         /// <exception cref="ArgumentNullException">当引导类型为null时引发</exception>
-        public IApplication Bootstrap(params IBootstrap[] bootstraps)
+        public void Bootstrap(params IBootstrap[] bootstraps)
         {
             Guard.Requires<ArgumentNullException>(bootstraps != null);
 
             if (bootstrapped)
             {
-                return this;
+                return;
             }
 
             process = StartProcess.Bootstrap;
@@ -175,8 +175,6 @@ namespace CatLib
 
             process = StartProcess.Bootstraped;
             bootstrapped = true;
-
-            return this;
         }
 
         /// <summary>
