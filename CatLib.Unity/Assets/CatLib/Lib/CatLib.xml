@@ -5392,6 +5392,11 @@
             尾节点
             </summary>
         </member>
+        <member name="E:CatLib.LruCache`2.OnRemoveLeastUsed">
+            <summary>
+            当移除最后使用的元素之前
+            </summary>
+        </member>
         <member name="T:CatLib.LruCache`2.Enumerator">
             <summary>
             近期最少使用缓存迭代器
