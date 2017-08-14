@@ -25,7 +25,7 @@ namespace CatLib.Tests.Debugger
         public static Application GetApplication(bool enableWebConsole = true)
         {
             var app = new Application();
-            app.OnFindType((str) => Type.GetType(str));
+            app.OnFindType((str) => { return Type.GetType(str);});
             app.Bootstrap();
             app.Register(new RoutingProvider());
             app.Register(new JsonProvider());

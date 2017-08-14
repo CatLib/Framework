@@ -10,6 +10,7 @@
  */
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CatLib.API")]
@@ -27,3 +28,8 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: InternalsVisibleTo("Assembly-CSharp-Editor"),
+           InternalsVisibleTo("Assembly-CSharp-Editor-firstpass"),
+           InternalsVisibleTo("CatLib.Tests"),
+           InternalsVisibleTo("CatLib.Unity.Tests")]

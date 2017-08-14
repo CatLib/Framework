@@ -139,6 +139,7 @@ namespace CatLib
             App.Handler = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
             RegisterCoreAlias();
+            OnFindType((finder) => { return Type.GetType(finder); });
         }
 
         /// <summary>

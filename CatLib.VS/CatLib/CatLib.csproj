@@ -47,8 +47,6 @@
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
     <Compile Include="Facade\I18N.cs" />
     <Compile Include="Facade\Json.cs" />
-    <Compile Include="Support\Util\SystemTime.cs" />
-    <Compile Include="Support\Version.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="Converters\ConvertersManager.cs" />
     <Compile Include="Converters\ConvertersProvider.cs" />
@@ -128,11 +126,7 @@
     <Compile Include="Json\SimpleJsonAdapter.cs" />
     <Compile Include="Routing\ExceptionRequest.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
-    <Compile Include="Support\Container\BindData.cs" />
-    <Compile Include="Support\Container\Container.cs" />
-    <Compile Include="Support\Container\GivenData.cs" />
     <Compile Include="CatLib\Application.cs" />
-    <Compile Include="Support\FilterChain\FilterChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AttrRouteCompiler.cs" />
     <Compile Include="Routing\CompiledRoute.cs" />
@@ -151,16 +145,6 @@
     <Compile Include="Routing\Validators\HostValidator.cs" />
     <Compile Include="Routing\Validators\IValidators.cs" />
     <Compile Include="Routing\Validators\UriValidator.cs" />
-    <Compile Include="Support\Guard\Guard.cs" />
-    <Compile Include="Support\LruCache\CacheNode.cs" />
-    <Compile Include="Support\LruCache\LruCache.cs" />
-    <Compile Include="Support\QuickList\Internal\InternalList.cs" />
-    <Compile Include="Support\QuickList\QuickList.cs" />
-    <Compile Include="Support\SortSet\SortSet.cs" />
-    <Compile Include="Support\Template\Manager.cs" />
-    <Compile Include="Support\Template\SingleManager.cs" />
-    <Compile Include="Support\Util\Str.cs" />
-    <Compile Include="Support\Util\Util.cs" />
     <Compile Include="Translation\ISelector.cs" />
     <Compile Include="Translation\Selector.cs" />
     <Compile Include="Translation\TranslationProvider.cs" />
@@ -176,7 +160,6 @@
     <None Include="FileSystem\catlib.json" />
     <None Include="Json\catlib.json" />
     <None Include="Routing\catlib.json" />
-    <None Include="Support\catlib.json" />
     <None Include="Translation\catlib.json" />
   </ItemGroup>
   <ItemGroup>
