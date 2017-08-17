@@ -881,6 +881,286 @@
             </summary>
             <returns>默认的转换器</returns>
         </member>
+        <member name="T:CatLib.Debugger.Log.LogUtil">
+            <summary>
+            Log通用工具
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.LogUtil.lastId">
+            <summary>
+            日志LastId
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.LogUtil.GetLastId">
+            <summary>
+            获取日志LastId
+            </summary>
+            <returns>日志LastId</returns>
+        </member>
+        <member name="T:CatLib.Debugger.Log.ILogEntry">
+            <summary>
+            日志条目
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Id">
+            <summary>
+            条目id
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Level">
+            <summary>
+            日志等级
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Message">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Namespace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.ILogEntry.Time">
+            <summary>
+            记录时间
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.ILogEntry.GetStackTrace(System.Predicate{System.String})">
+            <summary>
+            获取调用堆栈
+            </summary>
+            <param name="assemblyMatch">程序集是否符合输出条件</param>
+            <returns>调用堆栈</returns>
+        </member>
+        <member name="M:CatLib.Debugger.Log.ILogEntry.IsIgnore(System.Type)">
+            <summary>
+            是否可以被忽略
+            </summary>
+            <param name="type">处理器类型</param>
+            <returns>是否可以忽略这个处理器</returns>
+        </member>
+        <member name="T:CatLib.Debugger.Log.Logger">
+            <summary>
+            日志系统
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Logger.handlers">
+            <summary>
+            日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Logger.syncRoot">
+            <summary>
+            同步锁
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Logger.skipFrames">
+            <summary>
+            调用堆栈忽略的步数
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Logger.callCount">
+            <summary>
+            调用计数
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.#ctor">
+            <summary>
+            构造一个日志系统
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32,System.Action)">
+            <summary>
+            设定调用堆栈忽略的步数
+            </summary>
+            <param name="skipFrames">跳过的步数</param>
+            <param name="area">作用区域</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.AddLogHandler(CatLib.Debugger.Log.ILogHandler)">
+            <summary>
+            增加日志处理器
+            </summary>
+            <param name="handler">处理器</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            输出一条日志，日志级别为传入的等级
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Log(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            输出日志内容
+            </summary>
+            <param name="entry">日志实体</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.ExecLog(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
+            <summary>
+            将日志推入日志处理器
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Debug(System.Object,System.Object[])">
+            <summary>
+            输出一条调试级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Info(System.Object,System.Object[])">
+            <summary>
+            输出一条信息级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Notice(System.Object,System.Object[])">
+            <summary>
+            输出一条通知级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Warning(System.Object,System.Object[])">
+            <summary>
+            输出一条警告级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Error(System.Object,System.Object[])">
+            <summary>
+            输出一条错误级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Critical(System.Object,System.Object[])">
+            <summary>
+            输出一条关键级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Alert(System.Object,System.Object[])">
+            <summary>
+            输出一条警报级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.Emergency(System.Object,System.Object[])">
+            <summary>
+            输出一条紧急级日志
+            </summary>
+            <param name="message">日志内容</param>
+            <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Logger.MakeLogEntry(CatLib.API.Debugger.LogLevels,System.String)">
+            <summary>
+            制作一个日志条目
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">日志</param>
+            <returns>日志条目</returns>
+        </member>
+        <member name="T:CatLib.Debugger.Log.ILogHandler">
+            <summary>
+            日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.ILogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Debugger.Log.Handler.StdOutLogHandler">
+            <summary>
+            标准输出日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Handler.StdOutLogHandler.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.#ctor">
+            <summary>
+            标准输出日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
+        <member name="T:CatLib.Debugger.Log.LogEntry">
+            <summary>
+            日志条目记录
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Id">
+            <summary>
+            条目id
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Level">
+            <summary>
+            日志等级
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.StackTrace">
+            <summary>
+            调用堆栈
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Message">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Namespace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.LogEntry.Time">
+            <summary>
+            记录时间
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.LogEntry.#ctor(CatLib.API.Debugger.LogLevels,System.String,System.Int32)">
+            <summary>
+            日志条目记录
+            </summary>
+            <param name="level">日志等级</param>
+            <param name="message">消息内容</param>
+            <param name="skipFrams">跳过的帧数</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.LogEntry.GetStackTrace(System.Predicate{System.String})">
+            <summary>
+            获取调用堆栈
+            </summary>
+            <param name="assemblyMatch">程序集是否符合输出条件</param>
+            <returns>调用堆栈</returns>
+        </member>
+        <member name="M:CatLib.Debugger.Log.LogEntry.IsIgnore(System.Type)">
+            <summary>
+            是否可以被忽略
+            </summary>
+            <param name="type">处理器类型</param>
+            <returns>是否可以忽略这个处理器</returns>
+        </member>
         <member name="T:CatLib.Debugger.WebConsole.Protocol.GetGuid">
             <summary>
             GetGuid API
@@ -1080,255 +1360,6 @@
             <summary>
             监控值
             </summary>
-        </member>
-        <member name="T:CatLib.Debugger.Log.ILogEntry">
-            <summary>
-            日志条目
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Id">
-            <summary>
-            条目id
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Level">
-            <summary>
-            日志等级
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Message">
-            <summary>
-            日志内容
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Namespace">
-            <summary>
-            命名空间
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.ILogEntry.Time">
-            <summary>
-            记录时间
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.ILogEntry.GetStackTrace(System.Predicate{System.String})">
-            <summary>
-            获取调用堆栈
-            </summary>
-            <param name="match">是否符合输出条件</param>
-            <returns>调用堆栈</returns>
-        </member>
-        <member name="T:CatLib.Debugger.Log.Logger">
-            <summary>
-            日志系统
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Logger.handlers">
-            <summary>
-            日志处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Logger.syncRoot">
-            <summary>
-            同步锁
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Logger.skipFrames">
-            <summary>
-            调用堆栈忽略的步数
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Logger.callCount">
-            <summary>
-            调用计数
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.#ctor">
-            <summary>
-            构造一个日志系统
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.SetSkip(System.Int32,System.Action)">
-            <summary>
-            设定调用堆栈忽略的步数
-            </summary>
-            <param name="skipFrames">跳过的步数</param>
-            <param name="area">作用区域</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.AddLogHandler(CatLib.Debugger.Log.ILogHandler)">
-            <summary>
-            增加日志处理器
-            </summary>
-            <param name="handler">处理器</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Log(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
-            <summary>
-            输出一条日志，日志级别为传入的等级
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.ExecLog(CatLib.API.Debugger.LogLevels,System.Object,System.Object[])">
-            <summary>
-            将日志推入日志处理器
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-            <exception cref="T:CatLib.API.Debugger.InvalidArgumentException">当传入的日志等级无效</exception>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Debug(System.Object,System.Object[])">
-            <summary>
-            输出一条调试级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Info(System.Object,System.Object[])">
-            <summary>
-            输出一条信息级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Notice(System.Object,System.Object[])">
-            <summary>
-            输出一条通知级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Warning(System.Object,System.Object[])">
-            <summary>
-            输出一条警告级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Error(System.Object,System.Object[])">
-            <summary>
-            输出一条错误级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Critical(System.Object,System.Object[])">
-            <summary>
-            输出一条关键级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Alert(System.Object,System.Object[])">
-            <summary>
-            输出一条警报级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.Emergency(System.Object,System.Object[])">
-            <summary>
-            输出一条紧急级日志
-            </summary>
-            <param name="message">日志内容</param>
-            <param name="context">上下文,用于替换占位符</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Logger.MakeLogEntry(CatLib.API.Debugger.LogLevels,System.String)">
-            <summary>
-            制作一个日志条目
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">日志</param>
-            <returns>日志条目</returns>
-        </member>
-        <member name="T:CatLib.Debugger.Log.ILogHandler">
-            <summary>
-            日志处理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.ILogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            日志处理器
-            </summary>
-            <param name="log">日志条目</param>
-        </member>
-        <member name="T:CatLib.Debugger.Log.Handler.StdOutLogHandler">
-            <summary>
-            标准输出日志处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Handler.StdOutLogHandler.mapping">
-            <summary>
-            实际处理方法
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.#ctor">
-            <summary>
-            标准输出日志处理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.StdOutLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            日志处理器
-            </summary>
-            <param name="log">日志条目</param>
-        </member>
-        <member name="T:CatLib.Debugger.Log.LogEntry">
-            <summary>
-            日志条目记录
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.LogEntry.lastId">
-            <summary>
-            日志ID
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Id">
-            <summary>
-            条目id
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Level">
-            <summary>
-            日志等级
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.StackTrace">
-            <summary>
-            调用堆栈
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Message">
-            <summary>
-            日志内容
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Namespace">
-            <summary>
-            命名空间
-            </summary>
-        </member>
-        <member name="P:CatLib.Debugger.Log.LogEntry.Time">
-            <summary>
-            记录时间
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.LogEntry.#ctor(CatLib.API.Debugger.LogLevels,System.String,System.Int32)">
-            <summary>
-            日志条目记录
-            </summary>
-            <param name="level">日志等级</param>
-            <param name="message">消息内容</param>
-            <param name="skipFrams">跳过的帧数</param>
-        </member>
-        <member name="M:CatLib.Debugger.Log.LogEntry.GetStackTrace(System.Predicate{System.String})">
-            <summary>
-            获取调用堆栈
-            </summary>
-            <param name="match">是否符合输出条件</param>
-            <returns>调用堆栈</returns>
         </member>
         <member name="T:CatLib.Debugger.DebuggerProvider">
             <summary>

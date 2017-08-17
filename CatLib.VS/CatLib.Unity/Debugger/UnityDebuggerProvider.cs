@@ -16,7 +16,7 @@ using CatLib.Debugger.Log.Handler;
 using CatLib.Debugger.WebMonitorContent;
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using CatLib.Debugger.Log;
 using UnityEngine;
 
 namespace CatLib.Debugger
@@ -52,6 +52,11 @@ namespace CatLib.Debugger
         /// 标准输出控制台日志句柄
         /// </summary>
         public bool StdConsoleLoggerHandler = true;
+
+        /// <summary>
+        /// 关联Unity Log
+        /// </summary>
+        public bool AssociationUnityLog = true;
 
         /// <summary>
         /// 启动性能监控
@@ -141,6 +146,11 @@ namespace CatLib.Debugger
         {
             baseProvider.Init();
             InitMainThreadGroup();
+
+            if (AssociationUnityLog)
+            {
+                App.Make<UnityLog>();
+            }
         }
 
         /// <summary>
@@ -210,6 +220,8 @@ namespace CatLib.Debugger
             {
                 { "UnityDebuggerProvider.UnityConsoleLoggerHandler" , new KeyValuePair<Type, bool>(typeof(UnityConsoleLogHandler) , UnityConsoleLoggerHandler)},
             };
+
+            App.Singleton<UnityLog>();
         }
 
         /// <summary>

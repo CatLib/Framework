@@ -23,11 +23,6 @@ namespace CatLib.Debugger.Log
     internal sealed class LogEntry : ILogEntry
     {
         /// <summary>
-        /// 日志ID
-        /// </summary>
-        private static long lastId;
-
-        /// <summary>
         /// 条目id
         /// </summary>
         public long Id { get; private set; }
@@ -73,16 +68,16 @@ namespace CatLib.Debugger.Log
             {
                 Namespace = declaringType.Namespace;
             }
-            Id = Interlocked.Increment(ref lastId);
+            Id = LogUtil.GetLastId();
             Time = DateTime.Now.Timestamp();
         }
 
         /// <summary>
         /// 获取调用堆栈
         /// </summary>
-        /// <param name="match">是否符合输出条件</param>
+        /// <param name="assemblyMatch">程序集是否符合输出条件</param>
         /// <returns>调用堆栈</returns>
-        public string[] GetStackTrace(Predicate<string> match = null)
+        public string[] GetStackTrace(Predicate<string> assemblyMatch = null)
         {
             var callStack = new List<string>(StackTrace.FrameCount);
 
@@ -90,13 +85,23 @@ namespace CatLib.Debugger.Log
             {
                 var frame = StackTrace.GetFrame(i);
                 var method = frame.GetMethod();
-                if (method.DeclaringType == null || !match(method.DeclaringType.Assembly.GetName().Name))
+                if (method.DeclaringType == null || !assemblyMatch(method.DeclaringType.Assembly.GetName().Name))
                 {
                     callStack.Add(string.Format("{0}(at {1}:{2})", method, frame.GetFileName(),
                         frame.GetFileLineNumber()));
                 }
             }
             return callStack.ToArray();
+        }
+
+        /// <summary>
+        /// 是否可以被忽略
+        /// </summary>
+        /// <param name="type">处理器类型</param>
+        /// <returns>是否可以忽略这个处理器</returns>
+        public bool IsIgnore(Type type)
+        {
+            return false;
         }
     }
 }

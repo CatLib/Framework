@@ -47,8 +47,15 @@ namespace CatLib.Debugger.Log
         /// <summary>
         /// 获取调用堆栈
         /// </summary>
-        /// <param name="match">是否符合输出条件</param>
+        /// <param name="assemblyMatch">程序集是否符合输出条件</param>
         /// <returns>调用堆栈</returns>
-        string[] GetStackTrace(Predicate<string> match = null);
+        string[] GetStackTrace(Predicate<string> assemblyMatch = null);
+
+        /// <summary>
+        /// 是否可以被忽略
+        /// </summary>
+        /// <param name="type">处理器类型</param>
+        /// <returns>是否可以忽略这个处理器</returns>
+        bool IsIgnore(Type type);
     }
 }

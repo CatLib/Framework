@@ -10,6 +10,7 @@
  */
 
 using CatLib.Converters.Plan;
+using System;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -17,7 +18,6 @@ using TestClass = NUnit.Framework.TestFixtureAttribute;
 using TestMethod = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using Category = Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute;
 #endif
 
@@ -45,7 +45,7 @@ namespace CatLib.Tests.Converters.Plan
 
             ExceptionAssert.Throws<ArgumentException>(() =>
             {
-                var result = converter.ConvertTo("123", typeof(string));
+                converter.ConvertTo("123", typeof(string));
             });   
         }
     }

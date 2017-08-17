@@ -100,6 +100,33 @@ namespace CatLib.Tests.Stl
         }
 
         /// <summary>
+        /// 测试移除事件
+        /// </summary>
+        [TestMethod]
+        public void TestRemoveEvent()
+        {
+            var cache = new LruCache<string, string>(5);
+            for (var i = 0; i < 5; i++)
+            {
+                cache.Add(i.ToString(), i.ToString());
+            }
+
+            var callNum = 0;
+            cache.OnRemoveLeastUsed += (key, val) =>
+            {
+                if (callNum++ <= 0)
+                {
+                    cache.Get(key);
+                }
+            };
+            cache.Add("10", "10");
+
+            Assert.AreEqual(default(string), cache.Get("1"));
+            Assert.AreEqual(5, cache.Count);
+            Assert.AreEqual(1, callNum);
+        }
+
+        /// <summary>
         /// 末尾移除测试
         /// </summary>
         [TestMethod]
