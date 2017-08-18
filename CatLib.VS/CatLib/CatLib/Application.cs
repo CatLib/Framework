@@ -139,6 +139,7 @@ namespace CatLib
             App.Handler = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
             RegisterCoreAlias();
+            OnFindType((finder) => { return Type.GetType(finder); }, 1);
         }
 
         /// <summary>
@@ -308,6 +309,17 @@ namespace CatLib
         {
             GuardDispatcher();
             return Dispatcher.Listen(eventName, handler, life);
+        }
+
+        /// <summary>
+        /// 反注册一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="handler">事件句柄</param>
+        public void Off(string eventName, Func<object, object> handler)
+        {
+            GuardDispatcher();
+            Dispatcher.Off(eventName, handler);
         }
 
         /// <summary>

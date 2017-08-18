@@ -43,6 +43,11 @@ namespace CatLib
         private CacheNode<TKey, TVal> tail;
 
         /// <summary>
+        /// 当移除最后使用的元素之前
+        /// </summary>
+        public event Action<TKey, TVal> OnRemoveLeastUsed;
+
+        /// <summary>
         /// 近期最少使用缓存迭代器
         /// </summary>
         private struct Enumerator : IEnumerable<KeyValuePair<TKey, TVal>>
@@ -235,6 +240,15 @@ namespace CatLib
         /// </summary>
         private void RemoveLeastUsed()
         {
+            if (OnRemoveLeastUsed != null)
+            {
+                OnRemoveLeastUsed.Invoke(tail.KeyValue.Key, tail.KeyValue.Value);
+                if (lruCache.Count < maxCapacity)
+                {
+                    return;
+                }
+            }
+
             lruCache.Remove(tail.KeyValue.Key);
             tail.Backward.Forward = null;
             tail = tail.Backward;

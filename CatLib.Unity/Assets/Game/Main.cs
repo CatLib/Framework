@@ -11,6 +11,7 @@
 
 using CatLib;
 using CatLib.API.Routing;
+using CatLib.Debugger;
 using CatLib.Facade;
 using UnityEngine;
 

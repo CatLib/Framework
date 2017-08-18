@@ -10,6 +10,7 @@
  */
 
 using CatLib.Converters.Plan;
+using System;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -35,6 +36,17 @@ namespace CatLib.Tests.Converters.Plan
             }, typeof(string));
 
             Assert.AreEqual("hello;world;same", result);
+        }
+
+        [TestMethod]
+        public void TestIListStringStringConvertToThrowTypeError()
+        {
+            var converter = new IListStringStringConverter();
+
+            ExceptionAssert.Throws<ArgumentException>(() =>
+            {
+                converter.ConvertTo("123", typeof(string));
+            });   
         }
     }
 }

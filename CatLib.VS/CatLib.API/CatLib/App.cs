@@ -181,6 +181,16 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 反注册一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="handler">事件句柄</param>
+        public static void Off(string eventName, Func<object, object> handler)
+        {
+            Handler.Off(eventName, handler);
+        }
+
+        /// <summary>
         /// 获取服务的绑定数据,如果绑定不存在则返回null
         /// </summary>
         /// <param name="service">服务名或者别名</param>

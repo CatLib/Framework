@@ -9,26 +9,27 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Events
+using System.Threading;
+
+namespace CatLib.Debugger.Log
 {
     /// <summary>
-    /// 事件句柄
+    /// Log通用工具
     /// </summary>
-    public interface IEventHandler
+    public static class LogUtil
     {
         /// <summary>
-        /// 取消注册的事件
+        /// 日志LastId
         /// </summary>
-        void Off();
+        private static long lastId;
 
         /// <summary>
-        /// 剩余的调用次数，当为0时事件会被释放
+        /// 获取日志LastId
         /// </summary>
-        int Life { get; }
-
-        /// <summary>
-        /// 事件是否是有效的
-        /// </summary>
-        bool IsLife { get; }
+        /// <returns>日志LastId</returns>
+        public static long GetLastId()
+        {
+            return Interlocked.Increment(ref lastId);
+        }
     }
 }

@@ -38,6 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Debugger\Log\UnityLogEntryTests.cs" />
     <Compile Include="Environment\EnvTests.cs" />
     <Compile Include="MonoDriver\DriverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

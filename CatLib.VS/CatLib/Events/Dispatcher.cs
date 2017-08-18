@@ -114,7 +114,7 @@ namespace CatLib.Events
                 {
                     if (!listener.IsLife)
                     {
-                        listener.Cancel();
+                        listener.Off();
                     }
                 }
 
@@ -173,6 +173,55 @@ namespace CatLib.Events
                 }
 
                 return eventHandler;
+            }
+        }
+
+        /// <summary>
+        /// 反注册一个事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="handler">事件句柄</param>
+        public void Off(string eventName, Func<object, object> handler)
+        {
+            Guard.Requires<ArgumentNullException>(eventName != null);
+            Guard.Requires<ArgumentNullException>(handler != null);
+
+            var preRemove = new List<EventHandler>();
+            var handlers = new List<EventHandler>();
+
+            lock (syncRoot)
+            {
+                if (this.handlers.TryGetValue(eventName, out handlers))
+                {
+                    foreach (var baseHandler in handlers)
+                    {
+                        if (baseHandler.Is(handler))
+                        {
+                            preRemove.Add(baseHandler);
+                        }
+                    }
+                }
+
+                eventName = eventName.IndexOf("*") != -1 ? Str.AsteriskWildcard(eventName) : eventName;
+                foreach (var regex in wildcardHandlers)
+                {
+                    if (regex.Key.ToString() != eventName)
+                    {
+                        continue;
+                    }
+                    foreach (var baseHandler in regex.Value)
+                    {
+                        if (baseHandler.Is(handler))
+                        {
+                            preRemove.Add(baseHandler);
+                        }
+                    }
+                }
+            }
+
+            foreach (var removeHandler in preRemove)
+            {
+                removeHandler.Off();
             }
         }
 

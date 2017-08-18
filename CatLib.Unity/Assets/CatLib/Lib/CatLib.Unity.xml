@@ -127,6 +127,124 @@
             保存配置
             </summary>
         </member>
+        <member name="T:CatLib.Debugger.Log.UnityLog">
+            <summary>
+            Unity Log
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.UnityLog.baseLogger">
+            <summary>
+            基础日志工具
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.UnityLog.#ctor(CatLib.Debugger.Log.Logger)">
+            <summary>
+            Unity Log
+            </summary>
+            <param name="baseLogger">基础日志工具</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.UnityLog.OnDestroy">
+            <summary>
+            当释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.UnityLog.Log(System.String,System.String,UnityEngine.LogType)">
+            <summary>
+            输出Unity日志
+            </summary>
+            <param name="message">消息内容</param>
+            <param name="stackTrace">调用堆栈</param>
+            <param name="type">日志类型</param>
+        </member>
+        <member name="T:CatLib.Debugger.Log.UnityLogEntry">
+            <summary>
+            Unity日志实体
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.UnityLogEntry.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.UnityLogEntry.Id">
+            <summary>
+            条目id
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.UnityLogEntry.Level">
+            <summary>
+            日志等级
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.UnityLogEntry.Message">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.UnityLogEntry.Namespace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:CatLib.Debugger.Log.UnityLogEntry.Time">
+            <summary>
+            记录时间
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.UnityLogEntry.callStack">
+            <summary>
+            调用堆栈
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.UnityLogEntry.#ctor(System.String,System.String,UnityEngine.LogType)">
+            <summary>
+            Unity日志实体
+            </summary>
+            <param name="message">消息内容</param>
+            <param name="stackTrace">调用堆栈</param>
+            <param name="logType">日志类型</param>
+        </member>
+        <member name="M:CatLib.Debugger.Log.UnityLogEntry.GetStackTrace(System.Predicate{System.String})">
+            <summary>
+            获取调用堆栈
+            </summary>
+            <param name="match">是否符合输出条件</param>
+            <returns>调用堆栈</returns>
+        </member>
+        <member name="M:CatLib.Debugger.Log.UnityLogEntry.IsIgnore(System.Type)">
+            <summary>
+            是否可以被忽略
+            </summary>
+            <param name="type">处理器类型</param>
+            <returns>是否可以忽略这个处理器</returns>
+        </member>
+        <member name="M:CatLib.Debugger.Log.UnityLogEntry.SetNameSpace(System.String)">
+            <summary>
+            设定命名空间
+            </summary>
+            <param name="code">代码</param>
+        </member>
+        <member name="T:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.mapping">
+            <summary>
+            实际处理方法
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.#ctor">
+            <summary>
+            Unity控制台日志处理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
+            <summary>
+            日志处理器
+            </summary>
+            <param name="log">日志条目</param>
+        </member>
         <member name="T:CatLib.Debugger.UnityDebuggerProvider">
             <summary>
             调试服务
@@ -155,6 +273,11 @@
         <member name="F:CatLib.Debugger.UnityDebuggerProvider.StdConsoleLoggerHandler">
             <summary>
             标准输出控制台日志句柄
+            </summary>
+        </member>
+        <member name="F:CatLib.Debugger.UnityDebuggerProvider.AssociationUnityLog">
+            <summary>
+            关联Unity Log
             </summary>
         </member>
         <member name="F:CatLib.Debugger.UnityDebuggerProvider.MonitorPerformance">
@@ -257,27 +380,6 @@
             <summary>
             注册Web监控
             </summary>
-        </member>
-        <member name="T:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler">
-            <summary>
-            Unity控制台日志处理器
-            </summary>
-        </member>
-        <member name="F:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.mapping">
-            <summary>
-            实际处理方法
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.#ctor">
-            <summary>
-            Unity控制台日志处理器
-            </summary>
-        </member>
-        <member name="M:CatLib.Debugger.Log.Handler.UnityConsoleLogHandler.Handler(CatLib.Debugger.Log.ILogEntry)">
-            <summary>
-            日志处理器
-            </summary>
-            <param name="log">日志条目</param>
         </member>
         <member name="T:CatLib.Debugger.WebMonitorContent.Controller.Command">
             <summary>

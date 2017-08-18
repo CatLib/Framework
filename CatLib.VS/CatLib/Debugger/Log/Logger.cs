@@ -107,6 +107,28 @@ namespace CatLib.Debugger.Log
         }
 
         /// <summary>
+        /// 输出日志内容
+        /// </summary>
+        /// <param name="entry">日志实体</param>
+        public void Log(ILogEntry entry)
+        {
+            if (handlers.Count <= 0)
+            {
+                return;
+            }
+            lock (syncRoot)
+            {
+                foreach (var handler in handlers)
+                {
+                    if (!entry.IsIgnore(handler.GetType()))
+                    {
+                        handler.Handler(entry);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 将日志推入日志处理器
         /// </summary>
         /// <param name="level">日志等级</param>
@@ -115,19 +137,7 @@ namespace CatLib.Debugger.Log
         /// <exception cref="InvalidArgumentException">当传入的日志等级无效</exception>
         private void ExecLog(LogLevels level, object message, params object[] context)
         {
-            if (handlers.Count <= 0)
-            {
-                return;
-            }
-            var result = string.Format(message.ToString(), context);
-            lock (syncRoot)
-            {
-                var entry = MakeLogEntry(level, result);
-                foreach (var handler in handlers)
-                {
-                    handler.Handler(entry);
-                }
-            }
+            Log(MakeLogEntry(level, string.Format(message.ToString(), context)));
         }
 
         /// <summary>

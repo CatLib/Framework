@@ -50,6 +50,8 @@
     <Compile Include="CatLib\Providers.cs" />
     <Compile Include="CatLib\UnityApplication.cs" />
     <Compile Include="Config\Locator\UnitySettingLocator.cs" />
+    <Compile Include="Debugger\Log\UnityLog.cs" />
+    <Compile Include="Debugger\Log\UnityLogEntry.cs" />
     <Compile Include="Debugger\UnityDebuggerProvider.cs" />
     <Compile Include="Debugger\Log\Handler\UnityConsoleLogHandler.cs" />
     <Compile Include="Debugger\WebMonitorContent\Controller\Command.cs" />

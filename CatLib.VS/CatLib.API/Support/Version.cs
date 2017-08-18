@@ -17,7 +17,7 @@ namespace CatLib
     /// <summary>
     /// 版本（遵循semver）
     /// </summary>
-    internal class Version
+    public sealed class Version
     {
         /// <summary>
         /// 版本匹配正则式

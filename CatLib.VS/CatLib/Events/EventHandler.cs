@@ -85,7 +85,7 @@ namespace CatLib.Events
         /// 撤销事件监听
         /// </summary>
         /// <returns>是否撤销成功</returns>
-        public void Cancel()
+        public void Off()
         {
             if (count > 0 || isCancel)
             {
@@ -94,6 +94,16 @@ namespace CatLib.Events
 
             dispatcher.Off(this);
             isCancel = true;
+        }
+
+        /// <summary>
+        /// 是否是指定事件句柄
+        /// </summary>
+        /// <param name="handler">事件句柄</param>
+        /// <returns>是否是</returns>
+        internal bool Is(Func<object, object> handler)
+        {
+            return handler == this.handler;
         }
 
         /// <summary>

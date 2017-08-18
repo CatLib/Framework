@@ -29,7 +29,7 @@ namespace CatLib
                 return new Dictionary<string, int>
                 {
                     { "Assembly-CSharp" , 0 },
-                    { "CatLib.Unity" , 1 },
+                    { "CatLib.Unity" , 10 },
                 };
             }
         }
