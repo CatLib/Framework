@@ -3602,7 +3602,6 @@
             <summary>
             服务提供者初始化
             </summary>
-            <returns>迭代器</returns>
         </member>
         <member name="M:CatLib.IServiceProvider.Register">
             <summary>

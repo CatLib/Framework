@@ -19,7 +19,6 @@ namespace CatLib
         /// <summary>
         /// 服务提供者初始化
         /// </summary>
-        /// <returns>迭代器</returns>
         void Init();
 
         /// <summary>
