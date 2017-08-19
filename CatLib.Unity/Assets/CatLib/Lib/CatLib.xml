@@ -1790,11 +1790,6 @@
             配置管理器
             </summary>
         </member>
-        <member name="T:CatLib.Facade.Logger">
-            <summary>
-            日志器
-            </summary>
-        </member>
         <member name="T:CatLib.Facade.FileSystem">
             <summary>
             文件系统管理器
