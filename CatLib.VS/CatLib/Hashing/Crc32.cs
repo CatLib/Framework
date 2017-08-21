@@ -9,6 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using System;
+using System.IO;
+
 namespace CatLib.Hashing
 {
     /// <summary>
@@ -75,6 +78,70 @@ namespace CatLib.Hashing
             return this;
         }
 
+        /// <summary>
+        /// 添加整数进行校验
+        /// </summary>
+        /// <param name = "value">添加的整数</param>
+        public Crc32 Update(int value)
+        {
+            crc = Table[(crc ^ value) & 0xFF] ^ (crc >> 8);
+            return this;
+        }
 
+        /// <summary>
+        /// 对字节数组进行校验
+        /// </summary>
+        /// <param name="buffer">字节数组</param>
+        /// <param name="offset">偏移量</param>
+        /// <param name="count">长度</param>
+        /// <returns></returns>
+        public Crc32 Update(byte[] buffer, int offset = 0, int count = -1)
+        {
+            Guard.Requires<ArgumentNullException>(buffer != null);
+
+            if (count <= 0)
+            {
+                count = buffer.Length;
+            }
+
+            if (offset < 0 || offset + count > buffer.Length)
+            {
+                throw new ArgumentOutOfRangeException("offset");
+            }
+
+            while (--count >= 0)
+            {
+                crc = Table[(crc ^ buffer[offset++]) & 0xFF] ^ (crc >> 8);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// 对数据流进行校验
+        /// </summary>
+        /// <param name="stream">数据流</param>
+        /// <param name="count">长度</param>
+        public Crc32 Update(Stream stream, long count = -1)
+        {
+            Guard.Requires<ArgumentNullException>(stream != null);
+
+            if (count <= 0)
+            {
+                count = long.MaxValue;
+            }
+
+            while (--count >= 0)
+            {
+                var b = stream.ReadByte();
+                if (b == -1)
+                {
+                    break;
+                }
+                crc = Table[(crc ^ b) & 0xFF] ^ (crc >> 8);
+            }
+
+            return this;
+        }
     }
 }
