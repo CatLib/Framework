@@ -25,6 +25,11 @@ namespace CatLib.Hashing
         private const uint CrcSeed = 0xFFFFFFFF;
 
         /// <summary>
+        /// 默认多项式
+        /// </summary>
+        private const uint DefaultPolynomial = 0xEDB88320;
+
+        /// <summary>
         /// 校验表
         /// </summary>
         private static readonly uint[] Table;
@@ -35,13 +40,12 @@ namespace CatLib.Hashing
         static Crc32()
         {
             Table = new uint[256];
-            const uint kPoly = 0xEDB88320;
             for (uint i = 0; i < 256; i++)
             {
                 var r = i;
                 for (var j = 0; j < 8; j++)
                     if ((r & 1) != 0)
-                        r = (r >> 1) ^ kPoly;
+                        r = (r >> 1) ^ DefaultPolynomial;
                     else
                         r >>= 1;
                 Table[i] = r;
