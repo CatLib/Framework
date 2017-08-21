@@ -82,6 +82,7 @@ namespace CatLib.Hashing
         /// 添加整数进行校验
         /// </summary>
         /// <param name = "value">添加的整数</param>
+        /// <returns>Crc实例</returns>
         public Crc32 Update(int value)
         {
             crc = Table[(crc ^ value) & 0xFF] ^ (crc >> 8);
@@ -94,7 +95,7 @@ namespace CatLib.Hashing
         /// <param name="buffer">字节数组</param>
         /// <param name="offset">偏移量</param>
         /// <param name="count">长度</param>
-        /// <returns></returns>
+        /// <returns>Crc实例</returns>
         public Crc32 Update(byte[] buffer, int offset = 0, int count = -1)
         {
             Guard.Requires<ArgumentNullException>(buffer != null);
@@ -122,6 +123,7 @@ namespace CatLib.Hashing
         /// </summary>
         /// <param name="stream">数据流</param>
         /// <param name="count">长度</param>
+        /// <returns>Crc实例</returns>
         public Crc32 Update(Stream stream, long count = -1)
         {
             Guard.Requires<ArgumentNullException>(stream != null);
