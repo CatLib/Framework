@@ -88,12 +88,12 @@ namespace CatLib.Hashing.Checksum
         };
 
         /// <summary>
-        /// 校验值
+        /// 校验和
         /// </summary>
         private uint checkValue;
 
         /// <summary>
-        /// 校验值
+        /// 校验和
         /// </summary>
         public long Value
         {
@@ -120,7 +120,7 @@ namespace CatLib.Hashing.Checksum
         }
 
         /// <summary>
-        /// 添加整数进行校验
+        /// 添加数据进行校验
         /// </summary>
         /// <param name = "bval">要添加的数据，int的高字节被忽略</param>
         public void Update(int bval)
@@ -143,7 +143,6 @@ namespace CatLib.Hashing.Checksum
         /// <param name="buffer">字节数组</param>
         /// <param name="offset">偏移量</param>
         /// <param name="count">长度</param>
-        /// <returns>Crc实例</returns>
         public void Update(byte[] buffer, int offset, int count)
         {
             Guard.Requires<ArgumentNullException>(buffer != null);

@@ -121,6 +121,7 @@
     <Compile Include="Config\ConfigProvider.cs" />
     <Compile Include="FileSystem\FileSystemManager.cs" />
     <Compile Include="Hashing\Checksum\Adler32.cs" />
+    <Compile Include="Hashing\Checksum\BZip2Crc32.cs" />
     <Compile Include="Hashing\Checksum\IChecksum.cs" />
     <Compile Include="Hashing\Checksum\Crc32.cs" />
     <Compile Include="Json\3rd\SimpleJson.cs" />
