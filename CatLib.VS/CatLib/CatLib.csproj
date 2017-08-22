@@ -46,6 +46,8 @@
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
+    <Compile Include="Encryption\Aes\Aes.cs" />
+    <Compile Include="Encryption\Encrypter.cs" />
     <Compile Include="Facade\I18N.cs" />
     <Compile Include="Facade\Json.cs" />
     <Compile Include="Converters\Converters.cs" />
