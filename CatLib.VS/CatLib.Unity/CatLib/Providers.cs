@@ -14,6 +14,7 @@ using CatLib.Converters;
 using CatLib.Debugger;
 using CatLib.Events;
 using CatLib.FileSystem;
+using CatLib.Hashing;
 using CatLib.Json;
 using CatLib.MonoDriver;
 using CatLib.Routing;
@@ -48,6 +49,7 @@ namespace CatLib
                     new JsonProvider(), 
                     new FileSystemProvider(), 
                     new TranslationProvider(), 
+                    new HashingProvider(), 
                     new TimeProvider(), 
                     new TimerProvider(), 
                 };

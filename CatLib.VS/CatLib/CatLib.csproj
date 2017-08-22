@@ -130,6 +130,7 @@
     <Compile Include="Hashing\Checksum\Crc32.cs" />
     <Compile Include="Hashing\Checksum\IChecksum.cs" />
     <Compile Include="Hashing\Hashing.cs" />
+    <Compile Include="Hashing\HashingProvider.cs" />
     <Compile Include="Hashing\HashString\DjbHash.cs" />
     <Compile Include="Json\3rd\SimpleJson.cs" />
     <Compile Include="Json\JsonProvider.cs" />

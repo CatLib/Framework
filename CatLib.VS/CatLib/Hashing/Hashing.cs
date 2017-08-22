@@ -23,7 +23,7 @@ namespace CatLib.Hashing
     /// <summary>
     /// 哈希
     /// </summary>
-    public sealed class Hashing : IHashing
+    internal sealed class Hashing : IHashing
     {
         /// <summary>
         /// 校验类字典
