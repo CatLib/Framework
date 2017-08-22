@@ -9,12 +9,21 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.Hashing.Checksum
+namespace CatLib.API.Hashing
 {
     /// <summary>
-    /// Crc16
+    /// 哈希算法
     /// </summary>
-    public sealed class Crc16
+    public enum Hashes
     {
+        /// <summary>
+        /// DJB Hash
+        /// </summary>
+        Djb,
+
+        /// <summary>
+        /// Murmur Hash
+        /// </summary>
+        MurmurHash
     }
 }

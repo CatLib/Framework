@@ -53,6 +53,7 @@
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
     <Compile Include="Hashing\Checksums.cs" />
+    <Compile Include="Hashing\Hashes.cs" />
     <Compile Include="Hashing\IHashing.cs" />
     <Compile Include="Support\AssertException.cs" />
     <Compile Include="Support\Container\BindData.cs" />

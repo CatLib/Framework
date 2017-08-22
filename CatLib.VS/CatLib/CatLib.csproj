@@ -122,12 +122,15 @@
     <Compile Include="FileSystem\FileSystemManager.cs" />
     <Compile Include="Hashing\3rd\BCrypt\BCrypt.cs" />
     <Compile Include="Hashing\3rd\BCrypt\SaltParseException.cs" />
+    <Compile Include="Hashing\3rd\MurmurHash\Extensions.cs" />
+    <Compile Include="Hashing\3rd\MurmurHash\Murmur32.cs" />
+    <Compile Include="Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" />
     <Compile Include="Hashing\Checksum\Adler32.cs" />
     <Compile Include="Hashing\Checksum\BZip2Crc32.cs" />
-    <Compile Include="Hashing\Checksum\Crc16.cs" />
     <Compile Include="Hashing\Checksum\Crc32.cs" />
     <Compile Include="Hashing\Checksum\IChecksum.cs" />
     <Compile Include="Hashing\Hashing.cs" />
+    <Compile Include="Hashing\HashString\DjbHash.cs" />
     <Compile Include="Json\3rd\SimpleJson.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
