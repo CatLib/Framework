@@ -120,9 +120,9 @@
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigProvider.cs" />
     <Compile Include="FileSystem\FileSystemManager.cs" />
-    <Compile Include="Hashing\Crc32.cs" />
-    <Compile Include="Hashing\Hashing.cs" />
-    <Compile Include="Hashing\Rc4.cs" />
+    <Compile Include="Hashing\Checksum\IChecksum.cs" />
+    <Compile Include="Hashing\Checksum\Crc32.cs" />
+    <Compile Include="Hashing\Checksum\Rc4.cs" />
     <Compile Include="Json\3rd\SimpleJson.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
