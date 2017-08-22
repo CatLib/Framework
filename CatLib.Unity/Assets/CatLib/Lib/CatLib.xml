@@ -2869,6 +2869,11 @@
             Hash值
             </summary>
         </member>
+        <member name="M:CatLib.Hashing.HashString.DjbHash.#ctor">
+            <summary>
+            Djb Hash
+            </summary>
+        </member>
         <member name="M:CatLib.Hashing.HashString.DjbHash.Initialize">
             <summary>
             初始化

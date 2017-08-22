@@ -69,6 +69,18 @@ namespace CatLib.Tests.Hashing
         }
 
         [TestMethod]
+        public void TestUndefiendChecksums()
+        {
+            var app = MakeEnv();
+            var hash = app.Make<IHashing>();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                hash.Checksum(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, (Checksums.Crc32 + 9999));
+            });
+        }
+
+        [TestMethod]
         public void TestHashPassword()
         {
             var app = MakeEnv();
@@ -110,6 +122,18 @@ namespace CatLib.Tests.Hashing
 
             Assert.AreEqual(hash1, hash2);
             Assert.AreNotEqual(hash2, hash3);
+        }
+
+        [TestMethod]
+        public void TestUndefiendHashes()
+        {
+            var app = MakeEnv();
+            var hash = app.Make<IHashing>();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                hash.HashString("helloworld", (Hashes.Djb + 9999));
+            });
         }
     }
 }

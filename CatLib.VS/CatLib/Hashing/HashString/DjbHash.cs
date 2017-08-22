@@ -25,6 +25,14 @@ namespace CatLib.Hashing.HashString
         private uint hash;
 
         /// <summary>
+        /// Djb Hash
+        /// </summary>
+        public DjbHash()
+        {
+            Reset();
+        }
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public override void Initialize()

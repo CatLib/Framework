@@ -128,7 +128,7 @@ namespace CatLib.Hashing
             Guard.Requires<ArgumentNullException>(input != null);
             Guard.Requires<ArgumentNullException>(encoding != null);
             var data = encoding.GetBytes(input);
-            return HashByte(data);
+            return HashByte(data, hash);
         }
 
         /// <summary>
