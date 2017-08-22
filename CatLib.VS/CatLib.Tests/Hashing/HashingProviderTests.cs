@@ -67,5 +67,49 @@ namespace CatLib.Tests.Hashing
             Assert.AreNotEqual(code2, code3);
             Assert.AreEqual(19726487, code4);
         }
+
+        [TestMethod]
+        public void TestHashPassword()
+        {
+            var app = MakeEnv();
+            var hash = app.Make<IHashing>();
+
+            var pass = hash.HashPassword("helloworld", 10);
+            Assert.AreEqual(true, hash.CheckPassword("helloworld", pass));
+
+            var pass2 = hash.HashPassword("helloworld",8);
+            Assert.AreEqual(true, hash.CheckPassword("helloworld", pass2));
+
+            var pass3 = hash.HashPassword(string.Empty, 8);
+            Assert.AreEqual(true, hash.CheckPassword(string.Empty, pass3));
+        }
+
+        [TestMethod]
+        public void TestMurmurHash()
+        {
+            var app = MakeEnv();
+            var hash = app.Make<IHashing>();
+
+            var hash1 = hash.HashString("helloworld", Hashes.MurmurHash);
+            var hash2 = hash.HashString("helloworld", Hashes.MurmurHash);
+            var hash3 = hash.HashString("helloworl", Hashes.MurmurHash);
+
+            Assert.AreEqual(hash1, hash2);
+            Assert.AreNotEqual(hash2, hash3);
+        }
+
+        [TestMethod]
+        public void TestDjbHash()
+        {
+            var app = MakeEnv();
+            var hash = app.Make<IHashing>();
+
+            var hash1 = hash.HashString("helloworld", Hashes.Djb);
+            var hash2 = hash.HashString("helloworld", Hashes.Djb);
+            var hash3 = hash.HashString("helloworl", Hashes.Djb);
+
+            Assert.AreEqual(hash1, hash2);
+            Assert.AreNotEqual(hash2, hash3);
+        }
     }
 }
