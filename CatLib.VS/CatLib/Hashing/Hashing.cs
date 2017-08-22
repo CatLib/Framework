@@ -66,6 +66,7 @@ namespace CatLib.Hashing
         /// <returns>校验和</returns>
         public long Checksum(byte[] buffer, Checksums checksum = Checksums.Crc32)
         {
+            Guard.Requires<ArgumentNullException>(buffer != null);
             IChecksum checksumClass;
             if (!checksumsDict.TryGetValue(checksum, out checksumClass))
             {
@@ -87,6 +88,7 @@ namespace CatLib.Hashing
         /// <returns>哈希值</returns>
         public string HashPassword(string input, int factor = 10)
         {
+            Guard.Requires<ArgumentNullException>(input != null);
             return BCrypt.Net.BCrypt.HashPassword(input, factor);
         }
 
@@ -98,6 +100,8 @@ namespace CatLib.Hashing
         /// <returns>是否匹配</returns>
         public bool CheckPassword(string input, string hash)
         {
+            Guard.Requires<ArgumentNullException>(input != null);
+            Guard.Requires<ArgumentNullException>(hash != null);
             return BCrypt.Net.BCrypt.Verify(input, hash);
         }
 
@@ -121,6 +125,7 @@ namespace CatLib.Hashing
         /// <returns>哈希值</returns>
         public uint HashString(string input, Encoding encoding, Hashes hash = Hashes.MurmurHash)
         {
+            Guard.Requires<ArgumentNullException>(input != null);
             Guard.Requires<ArgumentNullException>(encoding != null);
             var data = encoding.GetBytes(input);
             return HashByte(data);
@@ -134,6 +139,7 @@ namespace CatLib.Hashing
         /// <returns>哈希值</returns>
         public uint HashByte(byte[] input, Hashes hash = Hashes.MurmurHash)
         {
+            Guard.Requires<ArgumentNullException>(input != null);
             HashAlgorithm hashStringClass;
             if (!hashByteDict.TryGetValue(hash, out hashStringClass))
             {
