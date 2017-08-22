@@ -48,7 +48,6 @@ namespace CatLib.Hashing
             checksumsDict = new Dictionary<Checksums, IChecksum>
             {
                 { Checksums.Crc32, new Crc32() },
-                { Checksums.BZip2Crc32, new BZip2Crc32() },
                 { Checksums.Adler32, new Adler32() }
             };
 

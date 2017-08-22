@@ -22,11 +22,6 @@ namespace CatLib.API.Hashing
         Adler32,
 
         /// <summary>
-        /// BZip2Crc32
-        /// </summary>
-        BZip2Crc32,
-
-        /// <summary>
         /// Crc32
         /// </summary>
         Crc32,

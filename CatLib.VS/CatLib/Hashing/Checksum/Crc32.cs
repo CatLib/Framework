@@ -149,7 +149,7 @@ namespace CatLib.Hashing.Checksum
             Guard.Requires<ArgumentOutOfRangeException>(offset >= 0);
             Guard.Requires<ArgumentOutOfRangeException>(offset < buffer.Length);
             Guard.Requires<ArgumentOutOfRangeException>(count >= 0);
-            Guard.Requires<ArgumentOutOfRangeException>(offset + count < buffer.Length);
+            Guard.Requires<ArgumentOutOfRangeException>(offset + count <= buffer.Length);
 
             for (var i = 0; i < count; ++i)
             {

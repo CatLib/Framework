@@ -295,14 +295,24 @@
             Adler32
             </summary>
         </member>
-        <member name="F:CatLib.API.Hashing.Checksums.BZip2Crc32">
-            <summary>
-            BZip2Crc32
-            </summary>
-        </member>
         <member name="F:CatLib.API.Hashing.Checksums.Crc32">
             <summary>
             Crc32
+            </summary>
+        </member>
+        <member name="T:CatLib.API.Hashing.Hashes">
+            <summary>
+            哈希算法
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Hashing.Hashes.Djb">
+            <summary>
+            DJB Hash
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Hashing.Hashes.MurmurHash">
+            <summary>
+            Murmur Hash
             </summary>
         </member>
         <member name="T:CatLib.API.Hashing.IHashing">
@@ -317,6 +327,47 @@
             <param name="buffer">字节数组</param>
             <param name="checksum">使用校验类类型</param>
             <returns>校验和</returns>
+        </member>
+        <member name="M:CatLib.API.Hashing.IHashing.HashPassword(System.String,System.Int32)">
+            <summary>
+            对输入值进行加密性Hash
+            </summary>
+            <param name="input">输入值</param>
+            <param name="factor">加密因子</param>
+            <returns>哈希值</returns>
+        </member>
+        <member name="M:CatLib.API.Hashing.IHashing.CheckPassword(System.String,System.String)">
+            <summary>
+            验证输入值和加密性哈希值是否匹配
+            </summary>
+            <param name="input">输入值</param>
+            <param name="hash">哈希值</param>
+            <returns>是否匹配</returns>
+        </member>
+        <member name="M:CatLib.API.Hashing.IHashing.HashString(System.String,CatLib.API.Hashing.Hashes)">
+            <summary>
+            对输入值进行非加密哈希
+            </summary>
+            <param name="input">输入值</param>
+            <param name="hash">使用的哈希算法</param>
+            <returns>哈希值</returns>
+        </member>
+        <member name="M:CatLib.API.Hashing.IHashing.HashString(System.String,System.Text.Encoding,CatLib.API.Hashing.Hashes)">
+            <summary>
+            对输入值进行非加密哈希
+            </summary>
+            <param name="input">输入值</param>
+            <param name="encoding">编码</param>
+            <param name="hash">使用的哈希算法</param>
+            <returns>哈希值</returns>
+        </member>
+        <member name="M:CatLib.API.Hashing.IHashing.HashByte(System.Byte[],CatLib.API.Hashing.Hashes)">
+            <summary>
+            对输入值进行非加密哈希
+            </summary>
+            <param name="input">输入值</param>
+            <param name="hash">使用的哈希算法</param>
+            <returns>哈希值</returns>
         </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
             <summary>
