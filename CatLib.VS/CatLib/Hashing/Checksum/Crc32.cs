@@ -122,7 +122,7 @@ namespace CatLib.Hashing.Checksum
         /// <summary>
         /// 添加整数进行校验
         /// </summary>
-        /// <param name = "bval">要添加的校验值，int的高字节被忽略</param>
+        /// <param name = "bval">要添加的数据，int的高字节被忽略</param>
         public void Update(int bval)
         {
             checkValue = table[(checkValue ^ bval) & 0xFF] ^ (checkValue >> 8);

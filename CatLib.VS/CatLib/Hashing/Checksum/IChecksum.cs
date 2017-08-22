@@ -29,7 +29,7 @@ namespace CatLib.Hashing.Checksum
         /// <summary>
         /// 增加一个字节的校验
         /// </summary>
-        /// <param name="bval">要添加的校验值，int的高字节被忽略</param>
+        /// <param name="bval">要添加的数据，int的高字节被忽略</param>
         void Update(int bval);
 
         /// <summary>
