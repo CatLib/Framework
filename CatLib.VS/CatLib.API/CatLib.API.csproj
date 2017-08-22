@@ -52,6 +52,8 @@
     <Compile Include="CatLib\ApplicationEvents.cs" />
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="Hashing\Checksums.cs" />
+    <Compile Include="Hashing\IHashing.cs" />
     <Compile Include="Support\AssertException.cs" />
     <Compile Include="Support\Container\BindData.cs" />
     <Compile Include="Support\Container\Container.cs" />
@@ -113,5 +115,6 @@
     <Compile Include="Translation\ITranslator.cs" />
     <Compile Include="Translation\Languages.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

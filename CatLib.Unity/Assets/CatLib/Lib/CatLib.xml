@@ -2625,6 +2625,234 @@
             </summary>
             <returns>默认的文件系统名字</returns>
         </member>
+        <member name="T:CatLib.Hashing.Checksum.Adler32">
+            <summary>
+            Adler32校验
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.Adler32.Base">
+            <summary>
+            最大素数
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.Adler32.checkValue">
+            <summary>
+            校验和
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Adler32.#ctor">
+            <summary>
+            构建一个Adler32校验
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Adler32.Reset">
+            <summary>
+            重置数据校验，恢复到初始状态
+            </summary>
+        </member>
+        <member name="P:CatLib.Hashing.Checksum.Adler32.Value">
+            <summary>
+            返回Adler32校验和
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Adler32.Update(System.Int32)">
+            <summary>
+            使用输入值更新校验和
+            </summary>
+            <param name="bval">要添加的数据，int的高字节被忽略</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Adler32.Update(System.Byte[])">
+            <summary>
+            使用传入的字节数组更新数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Adler32.Update(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            将字节数组添加到数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="offset">起始偏移量</param>
+            <param name="count">多少长度会被添加到数据校验</param>
+        </member>
+        <member name="T:CatLib.Hashing.Checksum.BZip2Crc32">
+            <summary>
+            BZip数据的Crc32校验
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.BZip2Crc32.CrcInit">
+            <summary>
+            Crc初始化
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.BZip2Crc32.table">
+            <summary>
+            校验表
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.BZip2Crc32.checkValue">
+            <summary>
+            校验和
+            </summary>
+        </member>
+        <member name="P:CatLib.Hashing.Checksum.BZip2Crc32.Value">
+            <summary>
+            校验和
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.BZip2Crc32.#ctor">
+            <summary>
+            构建一个BZip2Crc32
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.BZip2Crc32.Reset">
+            <summary>
+            重置数据校验，恢复到初始状态
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.BZip2Crc32.Update(System.Int32)">
+            <summary>
+            添加数据进行校验
+            </summary>
+            <param name = "bval">要添加的数据，int的高字节被忽略</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.BZip2Crc32.Update(System.Byte[])">
+            <summary>
+            使用传入的字节数组更新数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.BZip2Crc32.Update(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            对字节数组进行校验
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="offset">偏移量</param>
+            <param name="count">长度</param>
+        </member>
+        <member name="T:CatLib.Hashing.Checksum.Crc32">
+            <summary>
+            Crc32校验
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.Crc32.CrcInit">
+            <summary>
+            Crc初始化
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.Crc32.CrcXor">
+            <summary>
+            Crc异或运算
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.Crc32.table">
+            <summary>
+            校验表
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Checksum.Crc32.checkValue">
+            <summary>
+            校验和
+            </summary>
+        </member>
+        <member name="P:CatLib.Hashing.Checksum.Crc32.Value">
+            <summary>
+            校验和
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Crc32.#ctor">
+            <summary>
+            Crc32实例
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Crc32.Reset">
+            <summary>
+            重置数据校验，恢复到初始状态
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Crc32.Update(System.Int32)">
+            <summary>
+            添加数据进行校验
+            </summary>
+            <param name = "bval">要添加的数据，int的高字节被忽略</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Crc32.Update(System.Byte[])">
+            <summary>
+            使用传入的字节数组更新数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Crc32.Update(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            对字节数组进行校验
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="offset">偏移量</param>
+            <param name="count">长度</param>
+        </member>
+        <member name="T:CatLib.Hashing.Checksum.IChecksum">
+            <summary>
+            校验接口
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.IChecksum.Reset">
+            <summary>
+            重置数据校验，恢复到初始状态
+            </summary>
+        </member>
+        <member name="P:CatLib.Hashing.Checksum.IChecksum.Value">
+            <summary>
+            返回到目前为止计算的数据校验和
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.IChecksum.Update(System.Int32)">
+            <summary>
+            增加一个字节的校验
+            </summary>
+            <param name="bval">要添加的数据，int的高字节被忽略</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.IChecksum.Update(System.Byte[])">
+            <summary>
+            使用传入的字节数组更新数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.IChecksum.Update(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            将字节数组添加到数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="offset">起始偏移量</param>
+            <param name="count">多少长度会被添加到数据校验</param>
+        </member>
+        <member name="T:CatLib.Hashing.Hashing">
+            <summary>
+            哈希
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Hashing.checksumsDict">
+            <summary>
+            校验类字典
+            </summary>
+        </member>
+        <member name="F:CatLib.Hashing.Hashing.syncRoot">
+            <summary>
+            同步锁
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Hashing.#ctor">
+            <summary>
+            哈希
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Hashing.Checksum(System.Byte[],CatLib.API.Hashing.Checksums)">
+            <summary>
+            计算校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="checksum">使用校验类类型</param>
+            <returns>校验和</returns>
+        </member>
         <member name="T:CatLib.Json.JsonProvider">
             <summary>
             Json 服务

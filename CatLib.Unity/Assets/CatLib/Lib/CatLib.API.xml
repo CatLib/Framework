@@ -285,6 +285,39 @@
             事件是否是有效的
             </summary>
         </member>
+        <member name="T:CatLib.API.Hashing.Checksums">
+            <summary>
+            使用的校验方法
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Hashing.Checksums.Adler32">
+            <summary>
+            Adler32
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Hashing.Checksums.BZip2Crc32">
+            <summary>
+            BZip2Crc32
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Hashing.Checksums.Crc32">
+            <summary>
+            Crc32
+            </summary>
+        </member>
+        <member name="T:CatLib.API.Hashing.IHashing">
+            <summary>
+            哈希
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Hashing.IHashing.Checksum(System.Byte[],CatLib.API.Hashing.Checksums)">
+            <summary>
+            计算校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="checksum">使用校验类类型</param>
+            <returns>校验和</returns>
+        </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
             <summary>
             无效的参数异常
