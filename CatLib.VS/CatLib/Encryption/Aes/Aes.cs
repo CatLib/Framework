@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Security.Cryptography;
 
 namespace CatLib.Encryption.Aes
@@ -54,8 +55,15 @@ namespace CatLib.Encryption.Aes
 
             var aesEncrypt = rijndaelManaged.CreateEncryptor(rijndaelManaged.Key, rijndaelManaged.IV);
 
-            var aesBufferString = Convert.ToBase64String(aesEncrypt.TransformFinalBlock(content, 0, content.Length));
+            var aesBuffer = aesEncrypt.TransformFinalBlock(content, 0, content.Length);
+            var hMacData = new byte[aesBuffer.Length + rijndaelManaged.IV.Length];
+            Array.Copy(aesBuffer, hMacData, aesBuffer.Length);
+            Array.Copy(rijndaelManaged.IV, 0, hMacData, aesBuffer.Length, rijndaelManaged.IV.Length);
+
+            var aesBufferString = Convert.ToBase64String(aesBuffer);
             var ivString = Convert.ToBase64String(rijndaelManaged.IV);
+
+            var hMac = HMac(hMacData, key);
 
             return null;
         }
