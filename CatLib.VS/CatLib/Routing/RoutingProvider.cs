@@ -24,7 +24,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 默认的Scheme
         /// </summary>
-        [Config("catlib")]
+        [Config]
         public string DefaultScheme { get; set; }
 
         /// <summary>
@@ -32,6 +32,14 @@ namespace CatLib.Routing
         /// </summary>
         [Config]
         public IList<string> CompilerAssembly { get; set; }
+
+        /// <summary>
+        /// 路由服务
+        /// </summary>
+        public RoutingProvider()
+        {
+            DefaultScheme = "catlib";
+        }
 
         /// <summary>
         /// 执行路由编译，路由编译总是最后进行的
