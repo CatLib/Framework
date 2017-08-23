@@ -928,15 +928,9 @@ namespace CatLib
         /// <returns>服务类型</returns>
         private Type GetType(string service)
         {
-            var type = Type.GetType(service);
-            if (type != null)
-            {
-                return type;
-            }
-
             foreach (var finder in findType)
             {
-                type = finder.Invoke(service);
+                var type = finder.Invoke(service);
                 if (type != null)
                 {
                     return type;
