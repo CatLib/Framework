@@ -618,17 +618,6 @@ namespace CatLib.Tests.Stl
             Assert.AreNotEqual(null, result);
         }
 
-        /// <summary>
-        /// 在Container所处的程序集直接非绑定实例
-        /// </summary>
-        [TestMethod]
-        public void MakeBaseAssemblyToGetType()
-        {
-            var container = MakeContainer();
-            var cont = container.Make<Container>();
-            Assert.AreNotEqual(null, cont);
-        }
-
         [TestMethod]
         public void MakeWithNoParam()
         {
