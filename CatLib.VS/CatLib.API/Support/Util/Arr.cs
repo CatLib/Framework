@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+
 namespace CatLib
 {
     /// <summary>
@@ -22,9 +24,23 @@ namespace CatLib
         /// <typeparam name="T">数组类型</typeparam>
         /// <param name="sources">需要合并的数组</param>
         /// <returns>合并后的数组</returns>
-        public static T[] Merge<T>(params T[] sources)
+        public static T[] Merge<T>(params T[][] sources)
         {
-            return null;
+            var length = 0;
+            foreach (var source in sources)
+            {
+                length += source.Length;
+            }
+
+            var merge = new T[length];
+            var current = 0;
+            foreach (var source in sources)
+            {
+                Array.Copy(source, 0, merge, current, source.Length);
+                current += source.Length;
+            }
+
+            return merge;
         }
     }
 }
