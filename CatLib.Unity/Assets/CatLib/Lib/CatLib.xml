@@ -1855,7 +1855,7 @@
             密钥
             </summary>
         </member>
-        <member name="M:CatLib.Encryption.Encrypter.#ctor(System.Byte[],CatLib.Encryption.CipherTypes)">
+        <member name="M:CatLib.Encryption.Encrypter.#ctor(System.Byte[],System.String)">
             <summary>
             加解密
             </summary>
@@ -1882,7 +1882,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Encryption.Encrypter.Supported(System.Byte[],CatLib.Encryption.CipherTypes)">
+        <member name="M:CatLib.Encryption.Encrypter.Supported(System.Byte[],System.String)">
             <summary>
             是否支持
             </summary>
@@ -1890,38 +1890,23 @@
             <param name="cipher">加密类型</param>
             <returns>是否支持</returns>
         </member>
-        <member name="M:CatLib.Encryption.Encrypter.MakeEncrypter(CatLib.Encryption.CipherTypes)">
+        <member name="M:CatLib.Encryption.Encrypter.MakeEncrypter(System.String)">
             <summary>
             根据加密方式生成加密器
             </summary>
             <param name="cipher">加密方式</param>
-        </member>
-        <member name="T:CatLib.Encryption.CipherTypes">
-            <summary>
-            加密类型
-            </summary>
-        </member>
-        <member name="F:CatLib.Encryption.CipherTypes.Aes128Cbc">
-            <summary>
-            AES 128 CBC
-            </summary>
-        </member>
-        <member name="F:CatLib.Encryption.CipherTypes.Aes256Cbc">
-            <summary>
-            AES 256 CBC
-            </summary>
         </member>
         <member name="T:CatLib.Encryption.EncryptionProvider">
             <summary>
             加解密服务
             </summary>
         </member>
-        <member name="F:CatLib.Encryption.EncryptionProvider.Key">
+        <member name="P:CatLib.Encryption.EncryptionProvider.Key">
             <summary>
             密钥
             </summary>
         </member>
-        <member name="F:CatLib.Encryption.EncryptionProvider.CipherTypes">
+        <member name="P:CatLib.Encryption.EncryptionProvider.Cipher">
             <summary>
             加密类型
             </summary>
@@ -1929,6 +1914,11 @@
         <member name="F:CatLib.Encryption.EncryptionProvider.Encoding">
             <summary>
             密钥编码
+            </summary>
+        </member>
+        <member name="M:CatLib.Encryption.EncryptionProvider.#ctor">
+            <summary>
+            加解密服务
             </summary>
         </member>
         <member name="M:CatLib.Encryption.EncryptionProvider.Init">
@@ -1976,6 +1966,11 @@
             默认的配置名字
             </summary>
         </member>
+        <member name="M:CatLib.Config.ConfigManager.#ctor">
+            <summary>
+            配置管理器
+            </summary>
+        </member>
         <member name="M:CatLib.Config.ConfigManager.SetDefault(System.String)">
             <summary>
             设定默认的配置名字
@@ -1987,6 +1982,13 @@
             获取默认的配置名字
             </summary>
             <returns>默认的文件系统名字</returns>
+        </member>
+        <member name="M:CatLib.Config.ConfigManager.Config(System.Object,System.String)">
+            <summary>
+            对目标实例注入配置
+            </summary>
+            <param name="instance">实例</param>
+            <param name="name">使用的配置容器名字</param>
         </member>
         <member name="T:CatLib.Config.Locator.CodeConfigLocator">
             <summary>
@@ -2661,11 +2663,6 @@
         <member name="P:CatLib.FileSystem.FileSystemProvider.DefaultPath">
             <summary>
             默认路径
-            </summary>
-        </member>
-        <member name="M:CatLib.FileSystem.FileSystemProvider.#ctor">
-            <summary>
-            文件服务提供者
             </summary>
         </member>
         <member name="M:CatLib.FileSystem.FileSystemProvider.Init">
@@ -4904,12 +4901,6 @@
             <param name="version">版本号</param>
             <returns>比较结果</returns>
         </member>
-        <member name="M:CatLib.Application.Config(System.Object)">
-            <summary>
-            对目标实例注入配置
-            </summary>
-            <param name="instance">实例</param>
-        </member>
         <member name="M:CatLib.Application.GetProviderBaseType(CatLib.IServiceProvider)">
             <summary>
             获取服务提供者基础类型
@@ -5006,12 +4997,12 @@
             国际化服务提供者
             </summary>
         </member>
-        <member name="F:CatLib.Translation.TranslationProvider.DefaultLanguage">
+        <member name="P:CatLib.Translation.TranslationProvider.DefaultLanguage">
             <summary>
             默认语言
             </summary>
         </member>
-        <member name="F:CatLib.Translation.TranslationProvider.FallbackLanguage">
+        <member name="P:CatLib.Translation.TranslationProvider.FallbackLanguage">
             <summary>
             备选语言
             </summary>

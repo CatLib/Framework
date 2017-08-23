@@ -82,6 +82,13 @@
             </summary>
             <param name="name">配置名</param>
         </member>
+        <member name="M:CatLib.API.Config.IConfigManager.Config(System.Object,System.String)">
+            <summary>
+            对目标实例注入配置
+            </summary>
+            <param name="instance">实例</param>
+            <param name="name">使用的配置容器名字</param>
+        </member>
         <member name="T:CatLib.API.Config.IConfig">
             <summary>
             配置
@@ -2158,7 +2165,7 @@
         </member>
         <member name="F:CatLib.ApplicationEvents.OnIniting">
             <summary>
-            当初始化时
+            当初始化进行时
             </summary>
         </member>
         <member name="F:CatLib.ApplicationEvents.OnStartCompleted">
@@ -3861,12 +3868,6 @@
             <param name="type">获取优先级的类型</param>
             <param name="method">获取优先级的调用方法</param>
             <returns>优先级</returns>
-        </member>
-        <member name="M:CatLib.IApplication.Config(System.Object)">
-            <summary>
-            对目标实例注入配置
-            </summary>
-            <param name="instance">实例</param>
         </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>
