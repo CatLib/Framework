@@ -78,11 +78,5 @@ namespace CatLib
         /// <param name="method">获取优先级的调用方法</param>
         /// <returns>优先级</returns>
         int GetPriority(Type type, string method = null);
-
-        /// <summary>
-        /// 对目标实例注入配置
-        /// </summary>
-        /// <param name="instance">实例</param>
-        void Config(object instance);
     }
 }

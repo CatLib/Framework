@@ -206,7 +206,6 @@ namespace CatLib
             foreach (var provider in serviceProviders)
             {
                 Trigger(ApplicationEvents.OnIniting, provider);
-                Config(provider);
                 provider.Init();
             }
 
@@ -237,7 +236,6 @@ namespace CatLib
             if (inited)
             {
                 Trigger(ApplicationEvents.OnIniting, provider);
-                Config(provider);
                 provider.Init();
             }
         }
@@ -373,40 +371,6 @@ namespace CatLib
         public int Compare(string version)
         {
             return this.version.Compare(version);
-        }
-
-        /// <summary>
-        /// 对目标实例注入配置
-        /// </summary>
-        /// <param name="instance">实例</param>
-        public void Config(object instance)
-        {
-            Guard.Requires<ArgumentNullException>(instance != null);
-            var config = this.Make<IConfig>();
-            foreach (var property in instance.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (!property.CanWrite)
-                {
-                    continue;
-                }
-
-                if (!property.IsDefined(configTarget, false))
-                {
-                    continue;
-                }
-
-                var configAttr = (ConfigAttribute)property.GetCustomAttributes(configTarget, false)[0];
-
-                var value = configAttr.Default;
-                var name = configAttr.Name;
-                if (string.IsNullOrEmpty(name))
-                {
-                    name = instance.GetType().Name + "." + property.Name;
-                }
-
-                var result = config.SafeGet(name, property.PropertyType, value);
-                property.SetValue(instance, result, null);
-            }
         }
 
         /// <summary>

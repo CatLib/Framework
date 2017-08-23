@@ -256,22 +256,6 @@ namespace CatLib.Tests
             public string Name = "123";
         }
 
-        [TestMethod]
-        public void TestInjectConfig()
-        {
-            var app = MakeApplication();
-
-            var config = app.Make<IConfig>();
-            config.SafeSet("TestInjectConfigClass.MyConfig", "helloworld111");
-
-            var cls = new TestInjectConfigClass();
-            app.Config(cls);
-
-            Assert.AreEqual("helloworld111", cls.MyConfig);
-            Assert.AreEqual("helloworld2", cls.MyConfig2);
-            Assert.AreEqual("123" , cls.Name);
-        }
-
         private Application MakeApplication()
         {
             var app = new Application();
