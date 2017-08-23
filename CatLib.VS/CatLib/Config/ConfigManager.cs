@@ -90,7 +90,10 @@ namespace CatLib.Config
                 }
 
                 var result = config.SafeGet(configName, property.PropertyType, value);
-                property.SetValue(instance, result, null);
+                if (result != null)
+                {
+                    property.SetValue(instance, result, null);
+                }
             }
         }
     }

@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using CatLib.API.Config;
 using CatLib.API.Translation;
 
 namespace CatLib.Translation
@@ -23,12 +22,14 @@ namespace CatLib.Translation
         /// <summary>
         /// 默认语言
         /// </summary>
-        public string DefaultLanguage = Languages.Chinese;
+        [Config(Languages.Chinese)]
+        public string DefaultLanguage { get; set; }
 
         /// <summary>
         /// 备选语言
         /// </summary>
-        public string FallbackLanguage = Languages.Chinese;
+        [Config(Languages.Chinese)]
+        public string FallbackLanguage { get; set; }
 
         /// <summary>
         /// 初始化
@@ -47,9 +48,8 @@ namespace CatLib.Translation
                 var tran = (Translator)obj;
                 tran.SetSelector(new Selector());
 
-                var config = App.Make<IConfig>();
-                tran.SetLocale(config.SafeGet("TranslationProvider.DefaultLanguage", DefaultLanguage));
-                tran.SetFallback(config.SafeGet("TranslationProvider.FallbackLanguage", FallbackLanguage));
+                tran.SetLocale(DefaultLanguage);
+                tran.SetFallback(FallbackLanguage);
 
                 return obj;
             });

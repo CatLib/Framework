@@ -24,8 +24,10 @@ namespace CatLib.Config
         /// <summary>
         /// 初始化
         /// </summary>
+        [Priority(0)]
         public void Init()
         {
+            App.Make<IConfigManager>();
         }
 
         /// <summary>

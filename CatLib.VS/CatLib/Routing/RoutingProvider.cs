@@ -10,7 +10,7 @@
  */
 
 #if CATLIB
-using CatLib.API.Config;
+using System;
 using CatLib.API.Routing;
 using System.Collections.Generic;
 
@@ -24,20 +24,14 @@ namespace CatLib.Routing
         /// <summary>
         /// 默认的Scheme
         /// </summary>
+        [Config("catlib")]
         public string DefaultScheme { get; set; }
 
         /// <summary>
         /// 会进行属性路由编译的程序集
         /// </summary>
+        [Config(null)]
         public IList<string> CompilerAssembly { get; set; }
-
-        /// <summary>
-        /// 路由服务
-        /// </summary>
-        public RoutingProvider()
-        {
-            DefaultScheme = "catlib";
-        }
 
         /// <summary>
         /// 执行路由编译，路由编译总是最后进行的
@@ -57,8 +51,7 @@ namespace CatLib.Routing
             App.Singleton<Router>((_, __) =>
             {
                 var router = new Router(App.Handler, App.Handler);
-                var config = App.Make<IConfig>();
-                router.SetDefaultScheme(config.SafeGet("RoutingProvider.DefaultScheme", DefaultScheme));
+                router.SetDefaultScheme(DefaultScheme);
                 return router;
             }).Alias<IRouter>();
 
@@ -73,9 +66,8 @@ namespace CatLib.Routing
             App.Bind<AttrRouteCompiler>().OnResolving((_, obj) =>
             {
                 var compiler = (AttrRouteCompiler)obj;
-                var config = App.Make<IConfig>();
 
-                var containList = new List<string>(config.SafeGet("RoutingProvider.CompilerAssembly", CompilerAssembly ?? new List<string>()))
+                var containList = new List<string>(CompilerAssembly ?? new List<string>())
                 {
                     "Assembly-CSharp",
                     "Assembly-CSharp-Editor-firstpass",

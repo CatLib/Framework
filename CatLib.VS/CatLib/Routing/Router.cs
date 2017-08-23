@@ -142,7 +142,7 @@ namespace CatLib.Routing
             Guard.Requires<ArgumentNullException>(action != null);
             lock (syncRoot)
             {
-                return RegisterRoute(uris, new RouteAction()
+                return RegisterRoute(uris, new RouteAction
                 {
                     Type = RouteAction.RouteTypes.CallBack,
                     Action = action,
@@ -164,7 +164,7 @@ namespace CatLib.Routing
             Guard.NotEmptyOrNull(func, "func");
             lock (syncRoot)
             {
-                return RegisterRoute(uris, new RouteAction()
+                return RegisterRoute(uris, new RouteAction
                 {
                     Type = RouteAction.RouteTypes.ControllerCall,
                     Controller = controller,
