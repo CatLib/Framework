@@ -28,13 +28,21 @@ namespace CatLib.Encryption
         /// <summary>
         /// 加密类型
         /// </summary>
-        [Config("AES-128-CBC")]
+        [Config]
         public string Cipher { get; set; }
 
         /// <summary>
         /// 密钥编码
         /// </summary>
         public Encoding Encoding = Encoding.Default;
+
+        /// <summary>
+        /// 加解密服务
+        /// </summary>
+        public EncryptionProvider()
+        {
+            Cipher = "AES-128-CBC";
+        }
 
         /// <summary>
         /// 服务提供者初始化
