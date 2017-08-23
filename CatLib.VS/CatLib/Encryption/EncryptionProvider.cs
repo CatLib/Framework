@@ -22,7 +22,7 @@ namespace CatLib.Encryption
         /// <summary>
         /// 密钥
         /// </summary>
-        [Config(null)]
+        [Config]
         public string Key { get; set; }
 
         /// <summary>

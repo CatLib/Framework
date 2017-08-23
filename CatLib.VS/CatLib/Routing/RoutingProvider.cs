@@ -30,7 +30,7 @@ namespace CatLib.Routing
         /// <summary>
         /// 会进行属性路由编译的程序集
         /// </summary>
-        [Config(null)]
+        [Config]
         public IList<string> CompilerAssembly { get; set; }
 
         /// <summary>

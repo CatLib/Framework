@@ -34,7 +34,7 @@ namespace CatLib
         /// </summary>
         /// <param name="defaultValue">默认值</param>
         /// <param name="name">使用输入的配置名来获取配置</param>
-        public ConfigAttribute(object defaultValue, string name = null)
+        public ConfigAttribute(object defaultValue = null, string name = null)
         {
             Default = defaultValue;
             Name = name;

@@ -17,7 +17,7 @@ namespace CatLib
     public sealed class ApplicationEvents
     {
         /// <summary>
-        /// 当初始化时
+        /// 当初始化进行时
         /// </summary>
         public static readonly string OnIniting = "CatLib.Application.OnIniting";
 

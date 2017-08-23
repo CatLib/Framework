@@ -23,7 +23,7 @@ namespace CatLib.FileSystem
         /// <summary>
         /// 默认路径
         /// </summary>
-        [Config(null)]
+        [Config]
         public string DefaultPath { get; set; }
 
         /// <summary>
