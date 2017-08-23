@@ -117,8 +117,8 @@ namespace CatLib.Encryption
         /// <param name="hmac">验证码</param>
         private string Encode(string iv, string value, string hmac)
         {
-            var templete = "{\"iv\":\"{0}\",\"value\":\"{1}\",\"hmac\":\"{2}\"}";
-            return string.Format(templete, iv, value, hmac);
+            var templete = "{\"iv\":\"" + iv + "\",\"value\":\"" + value + "\",\"hmac\":\"" + hmac + "\"}";
+            return templete;
         }
 
         /// <summary>

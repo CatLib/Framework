@@ -34,6 +34,20 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 安全的获取配置
+        /// <para>自动对IConfig对象进行空判断，如果为空则返回默认值</para>
+        /// </summary>
+        /// <param name="config">配置中枢</param>
+        /// <param name="name">配置名字</param>
+        /// <param name="type">配置的类型</param>
+        /// <param name="def">默认值</param>
+        /// <returns></returns>
+        public static object SafeGet(this IConfig config, string name, Type type, object def = null)
+        {
+            return config == null ? def : config.Get(name, type, def);
+        }
+
+        /// <summary>
         /// 安全的观察
         /// <para>自动对IConfig对象进行空判断，如果为空则不处理</para>
         /// </summary>

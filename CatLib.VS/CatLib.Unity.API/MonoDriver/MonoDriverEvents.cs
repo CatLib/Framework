@@ -19,11 +19,11 @@ namespace CatLib.API.MonoDriver
         /// <summary>
         /// 当释放之前
         /// </summary>
-        public static readonly string OnBeforeDestroy = "MonoDriver.OnBeforeDestroy";
+        public static readonly string OnBeforeDestroy = "CatLib.API.MonoDriver.OnBeforeDestroy";
 
         /// <summary>
         /// 当释放完成后
         /// </summary>
-        public static readonly string OnDestroyed = "MonoDriver.OnDestroyed";
+        public static readonly string OnDestroyed = "CatLib.API.MonoDriver.OnDestroyed";
     }
 }

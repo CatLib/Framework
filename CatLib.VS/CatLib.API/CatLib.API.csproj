@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="CatLib\Facade.cs" />
     <Compile Include="CatLib\IServiceProviderType.cs" />
+    <Compile Include="CatLib\ConfigAttribute.cs" />
     <Compile Include="Config\Features\IConfigLocator.cs" />
     <Compile Include="Config\IConfigManager.cs" />
     <Compile Include="Config\Internal\ConfigExtend.cs" />
@@ -50,6 +51,8 @@
     <Compile Include="Converters\IConvertersManager.cs" />
     <Compile Include="CatLib\App.cs" />
     <Compile Include="CatLib\ApplicationEvents.cs" />
+    <Compile Include="Encryption\EncryptionException.cs" />
+    <Compile Include="Encryption\IEncrypter.cs" />
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
     <Compile Include="Hashing\Checksums.cs" />
