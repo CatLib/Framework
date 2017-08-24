@@ -141,7 +141,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		public int ReadRawBuffer(byte[] outBuffer, int offset, int length)
 		{
 			if (length < 0) {
-				throw new ArgumentOutOfRangeException(nameof(length));
+				throw new ArgumentOutOfRangeException("length");
 			}
 
 			int currentOffset = offset;
@@ -173,7 +173,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		public int ReadClearTextBuffer(byte[] outBuffer, int offset, int length)
 		{
 			if (length < 0) {
-				throw new ArgumentOutOfRangeException(nameof(length));
+				throw new ArgumentOutOfRangeException("length");
 			}
 
 			int currentOffset = offset;
@@ -334,16 +334,18 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		/// </param>
 		public InflaterInputStream(Stream baseInputStream, Inflater inflater, int bufferSize)
 		{
-			if (baseInputStream == null) {
-				throw new ArgumentNullException(nameof(baseInputStream));
+		    IsStreamOwner = true;
+
+            if (baseInputStream == null) {
+				throw new ArgumentNullException("baseInputStream");
 			}
 
 			if (inflater == null) {
-				throw new ArgumentNullException(nameof(inflater));
+				throw new ArgumentNullException("inflater");
 			}
 
 			if (bufferSize <= 0) {
-				throw new ArgumentOutOfRangeException(nameof(bufferSize));
+				throw new ArgumentOutOfRangeException("bufferSize");
 			}
 
 			this.baseInputStream = baseInputStream;
@@ -359,7 +361,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		/// When the flag is true <see cref="Stream.Dispose()" /> will close the underlying stream also.
 		/// </summary>
 		/// <remarks>The default value is true.</remarks>
-		public bool IsStreamOwner { get; set; } = true;
+		public bool IsStreamOwner { get; set; }
 
 		/// <summary>
 		/// Skip specified number of bytes of uncompressed data
@@ -377,7 +379,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		public long Skip(long count)
 		{
 			if (count <= 0) {
-				throw new ArgumentOutOfRangeException(nameof(count));
+				throw new ArgumentOutOfRangeException("count");
 			}
 
 			// v0.80 Skip by seeking if underlying stream supports it...

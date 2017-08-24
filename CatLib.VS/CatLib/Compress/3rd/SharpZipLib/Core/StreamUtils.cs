@@ -32,20 +32,20 @@ namespace ICSharpCode.SharpZipLib.Core
 		static public void ReadFully(Stream stream, byte[] buffer, int offset, int count)
 		{
 			if (stream == null) {
-				throw new ArgumentNullException(nameof(stream));
+				throw new ArgumentNullException("stream");
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException(nameof(buffer));
+				throw new ArgumentNullException("buffer");
 			}
 
 			// Offset can equal length when buffer and count are 0.
 			if ((offset < 0) || (offset > buffer.Length)) {
-				throw new ArgumentOutOfRangeException(nameof(offset));
+				throw new ArgumentOutOfRangeException("offset");
 			}
 
 			if ((count < 0) || (offset + count > buffer.Length)) {
-				throw new ArgumentOutOfRangeException(nameof(count));
+				throw new ArgumentOutOfRangeException("count");
 			}
 
 			while (count > 0) {
@@ -67,20 +67,20 @@ namespace ICSharpCode.SharpZipLib.Core
 		static public void Copy(Stream source, Stream destination, byte[] buffer)
 		{
 			if (source == null) {
-				throw new ArgumentNullException(nameof(source));
+				throw new ArgumentNullException("source");
 			}
 
 			if (destination == null) {
-				throw new ArgumentNullException(nameof(destination));
+				throw new ArgumentNullException("destination");
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException(nameof(buffer));
+				throw new ArgumentNullException("buffer");
 			}
 
 			// Ensure a reasonable size of buffer is used without being prohibitive.
 			if (buffer.Length < 128) {
-				throw new ArgumentException("Buffer is too small", nameof(buffer));
+				throw new ArgumentException("Buffer is too small", "buffer");
 			}
 
 			bool copying = true;
@@ -132,24 +132,24 @@ namespace ICSharpCode.SharpZipLib.Core
 			object sender, string name, long fixedTarget)
 		{
 			if (source == null) {
-				throw new ArgumentNullException(nameof(source));
+				throw new ArgumentNullException("source");
 			}
 
 			if (destination == null) {
-				throw new ArgumentNullException(nameof(destination));
+				throw new ArgumentNullException("destination");
 			}
 
 			if (buffer == null) {
-				throw new ArgumentNullException(nameof(buffer));
+				throw new ArgumentNullException("buffer");
 			}
 
 			// Ensure a reasonable size of buffer is used without being prohibitive.
 			if (buffer.Length < 128) {
-				throw new ArgumentException("Buffer is too small", nameof(buffer));
+				throw new ArgumentException("Buffer is too small", "buffer");
 			}
 
 			if (progressHandler == null) {
-				throw new ArgumentNullException(nameof(progressHandler));
+				throw new ArgumentNullException("progressHandler");
 			}
 
 			bool copying = true;

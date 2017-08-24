@@ -136,7 +136,7 @@ namespace ICSharpCode.SharpZipLib.Core
 			get { return minSize_; }
 			set {
 				if ((value < 0) || (maxSize_ < value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 
 				minSize_ = value;
@@ -152,7 +152,7 @@ namespace ICSharpCode.SharpZipLib.Core
 			get { return maxSize_; }
 			set {
 				if ((value < 0) || (minSize_ > value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 
 				maxSize_ = value;
@@ -170,7 +170,7 @@ namespace ICSharpCode.SharpZipLib.Core
 
 			set {
 				if (value > maxDate_) {
-					throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MaxDate");
+					throw new ArgumentOutOfRangeException("value", "Exceeds MaxDate");
 				}
 
 				minDate_ = value;
@@ -188,7 +188,7 @@ namespace ICSharpCode.SharpZipLib.Core
 
 			set {
 				if (minDate_ > value) {
-					throw new ArgumentOutOfRangeException(nameof(value), "Exceeds MinDate");
+					throw new ArgumentOutOfRangeException("value", "Exceeds MinDate");
 				}
 
 				maxDate_ = value;
@@ -251,7 +251,7 @@ namespace ICSharpCode.SharpZipLib.Core
 			get { return minSize_; }
 			set {
 				if ((value < 0) || (maxSize_ < value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 
 				minSize_ = value;
@@ -265,7 +265,7 @@ namespace ICSharpCode.SharpZipLib.Core
 			get { return maxSize_; }
 			set {
 				if ((value < 0) || (minSize_ > value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 
 				maxSize_ = value;

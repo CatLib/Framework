@@ -531,15 +531,15 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		public void SetDictionary(byte[] buffer, int index, int count)
 		{
 			if (buffer == null) {
-				throw new ArgumentNullException(nameof(buffer));
+				throw new ArgumentNullException("buffer");
 			}
 
 			if (index < 0) {
-				throw new ArgumentOutOfRangeException(nameof(index));
+				throw new ArgumentOutOfRangeException("index");
 			}
 
 			if (count < 0) {
-				throw new ArgumentOutOfRangeException(nameof(count));
+				throw new ArgumentOutOfRangeException("count");
 			}
 
 			if (!IsNeedingDictionary) {
@@ -615,7 +615,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		public int Inflate(byte[] buffer)
 		{
 			if (buffer == null) {
-				throw new ArgumentNullException(nameof(buffer));
+				throw new ArgumentNullException("buffer");
 			}
 
 			return Inflate(buffer, 0, buffer.Length);
@@ -651,15 +651,15 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		public int Inflate(byte[] buffer, int offset, int count)
 		{
 			if (buffer == null) {
-				throw new ArgumentNullException(nameof(buffer));
+				throw new ArgumentNullException("buffer");
 			}
 
 			if (count < 0) {
-				throw new ArgumentOutOfRangeException(nameof(count), "count cannot be negative");
+				throw new ArgumentOutOfRangeException("count", "count cannot be negative");
 			}
 
 			if (offset < 0) {
-				throw new ArgumentOutOfRangeException(nameof(offset), "offset cannot be negative");
+				throw new ArgumentOutOfRangeException("offset", "offset cannot be negative");
 			}
 
 			if (offset + count > buffer.Length) {

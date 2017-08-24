@@ -122,15 +122,15 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		public void SetInput(byte[] buffer, int offset, int count)
 		{
 			if (buffer == null) {
-				throw new ArgumentNullException(nameof(buffer));
+				throw new ArgumentNullException("buffer");
 			}
 
 			if (offset < 0) {
-				throw new ArgumentOutOfRangeException(nameof(offset));
+				throw new ArgumentOutOfRangeException("offset");
 			}
 
 			if (count < 0) {
-				throw new ArgumentOutOfRangeException(nameof(count));
+				throw new ArgumentOutOfRangeException("count");
 			}
 
 			if (inputOff < inputEnd) {
@@ -143,7 +143,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 			* check is very tricky: it also handles integer wrap around.
 			*/
 			if ((offset > end) || (end > buffer.Length)) {
-				throw new ArgumentOutOfRangeException(nameof(count));
+				throw new ArgumentOutOfRangeException("count");
 			}
 
 			inputBuf = buffer;
@@ -263,7 +263,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		public void SetLevel(int level)
 		{
 			if ((level < 0) || (level > 9)) {
-				throw new ArgumentOutOfRangeException(nameof(level));
+				throw new ArgumentOutOfRangeException("level");
 			}
 
 			goodLength = DeflaterConstants.GOOD_LENGTH[level];

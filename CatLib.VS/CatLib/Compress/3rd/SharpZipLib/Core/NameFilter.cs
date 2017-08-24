@@ -45,7 +45,7 @@ namespace ICSharpCode.SharpZipLib.Core
 		{
 			bool result = true;
 			try {
-				var exp = new Regex(expression, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+				new Regex(expression, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 			} catch (ArgumentException) {
 				result = false;
 			}
@@ -76,7 +76,7 @@ namespace ICSharpCode.SharpZipLib.Core
 								toCompile = items[i];
 							}
 
-							var testRegex = new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+							new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 						}
 					}
 				}
@@ -110,7 +110,7 @@ namespace ICSharpCode.SharpZipLib.Core
 					} else if (original[endIndex] == escape) {
 						endIndex += 1;
 						if (endIndex >= original.Length) {
-							throw new ArgumentException("Missing terminating escape character", nameof(original));
+							throw new ArgumentException("Missing terminating escape character", "original");
 						}
 						// include escape if this is not an escaped separator
 						if (Array.IndexOf(separators, original[endIndex]) < 0)
@@ -219,9 +219,9 @@ namespace ICSharpCode.SharpZipLib.Core
 					// these are left unhandled here as the caller is responsible for ensuring all is valid.
 					// several functions IsValidFilterExpression and IsValidExpression are provided for such checking
 					if (include) {
-						inclusions_.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline));
+						inclusions_.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
 					} else {
-						exclusions_.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline));
+						exclusions_.Add(new Regex(toCompile, RegexOptions.IgnoreCase | RegexOptions.Singleline));
 					}
 				}
 			}

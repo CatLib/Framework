@@ -63,20 +63,22 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		/// </exception>
 		public DeflaterOutputStream(Stream baseOutputStream, Deflater deflater, int bufferSize)
 		{
-			if (baseOutputStream == null) {
-				throw new ArgumentNullException(nameof(baseOutputStream));
+		    IsStreamOwner = true;
+
+            if (baseOutputStream == null) {
+				throw new ArgumentNullException("baseOutputStream");
 			}
 
 			if (baseOutputStream.CanWrite == false) {
-				throw new ArgumentException("Must support writing", nameof(baseOutputStream));
+				throw new ArgumentException("Must support writing", "baseOutputStream");
 			}
 
 			if (deflater == null) {
-				throw new ArgumentNullException(nameof(deflater));
+				throw new ArgumentNullException("deflater");
 			}
 
 			if (bufferSize < 512) {
-				throw new ArgumentOutOfRangeException(nameof(bufferSize));
+				throw new ArgumentOutOfRangeException("bufferSize");
 			}
 
 			baseOutputStream_ = baseOutputStream;
@@ -128,7 +130,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		/// When the flag is true <see cref="Stream.Dispose()" /> will close the underlying stream also.
 		/// </summary>
 		/// <remarks>The default value is true.</remarks>
-		public bool IsStreamOwner { get; set; } = true;
+		public bool IsStreamOwner { get; set; }
 
 		///	<summary>
 		/// Allows client to determine if an entry can be patched after its added

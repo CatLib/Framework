@@ -64,7 +64,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		public void SetData(byte[] data, int offset, int count)
 		{
 			if (data == null) {
-				throw new ArgumentNullException(nameof(data));
+				throw new ArgumentNullException("data");
 			}
 
 			_data = new byte[count];
@@ -236,7 +236,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			get { return _modificationTime; }
 			set {
 				if (!IsValidValue(value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 
 				_flags |= Flags.ModificationTime;
@@ -253,7 +253,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			get { return _lastAccessTime; }
 			set {
 				if (!IsValidValue(value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 
 				_flags |= Flags.AccessTime;
@@ -270,7 +270,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			get { return _createTime; }
 			set {
 				if (!IsValidValue(value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 
 				_flags |= Flags.CreateTime;
@@ -389,7 +389,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			get { return _lastModificationTime; }
 			set {
 				if (!IsValidValue(value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 				_lastModificationTime = value;
 			}
@@ -402,7 +402,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			get { return _createTime; }
 			set {
 				if (!IsValidValue(value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 				_createTime = value;
 			}
@@ -415,7 +415,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			get { return _lastAccessTime; }
 			set {
 				if (!IsValidValue(value)) {
-					throw new ArgumentOutOfRangeException(nameof(value));
+					throw new ArgumentOutOfRangeException("value");
 				}
 				_lastAccessTime = value;
 			}
@@ -614,7 +614,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		public void AddEntry(ITaggedData taggedData)
 		{
 			if (taggedData == null) {
-				throw new ArgumentNullException(nameof(taggedData));
+				throw new ArgumentNullException("taggedData");
 			}
 			AddEntry(taggedData.TagID, taggedData.GetData());
 		}
@@ -628,13 +628,13 @@ namespace ICSharpCode.SharpZipLib.Zip
 		public void AddEntry(int headerID, byte[] fieldData)
 		{
 			if ((headerID > ushort.MaxValue) || (headerID < 0)) {
-				throw new ArgumentOutOfRangeException(nameof(headerID));
+				throw new ArgumentOutOfRangeException("headerID");
 			}
 
 			int addLength = (fieldData == null) ? 0 : fieldData.Length;
 
 			if (addLength > ushort.MaxValue) {
-				throw new ArgumentOutOfRangeException(nameof(fieldData), "exceeds maximum length");
+				throw new ArgumentOutOfRangeException("fieldData", "exceeds maximum length");
 			}
 
 			// Test for new length before adjusting data.
@@ -701,7 +701,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		public void AddData(byte[] data)
 		{
 			if (data == null) {
-				throw new ArgumentNullException(nameof(data));
+				throw new ArgumentNullException("data");
 			}
 
 			_newEntry.Write(data, 0, data.Length);
