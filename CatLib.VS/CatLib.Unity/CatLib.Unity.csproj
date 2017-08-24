@@ -65,6 +65,7 @@
     <Compile Include="Debugger\WebMonitorContent\SceneMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\ScreenMonitor.cs" />
     <Compile Include="Debugger\WebMonitorContent\SystemInfoMonitor.cs" />
+    <Compile Include="Encryption\UnityEncryptionProvider.cs" />
     <Compile Include="Environment\EnvironmentProvider.cs" />
     <Compile Include="Environment\UnityEnvironment.cs" />
     <Compile Include="Facade\Env.cs" />

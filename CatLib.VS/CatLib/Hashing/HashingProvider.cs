@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 using CatLib.API.Hashing;
 
 namespace CatLib.Hashing
@@ -34,3 +35,4 @@ namespace CatLib.Hashing
         }
     }
 }
+#endif

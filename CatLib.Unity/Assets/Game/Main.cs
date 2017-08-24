@@ -9,10 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using CatLib;
 using CatLib.API.Routing;
-using CatLib.Debugger;
-using CatLib.Facade;
 using UnityEngine;
 
 namespace YourNameSpace

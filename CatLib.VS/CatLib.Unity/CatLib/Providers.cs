@@ -12,6 +12,7 @@
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Debugger;
+using CatLib.Encryption;
 using CatLib.Events;
 using CatLib.FileSystem;
 using CatLib.Hashing;
@@ -50,6 +51,7 @@ namespace CatLib
                     new FileSystemProvider(), 
                     new TranslationProvider(), 
                     new HashingProvider(), 
+                    new EncryptionProvider(),
                     new TimeProvider(), 
                     new TimerProvider(), 
                 };

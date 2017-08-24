@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 using System.Text;
 using CatLib.API.Encryption;
 
@@ -69,3 +70,4 @@ namespace CatLib.Encryption
         }
     }
 }
+#endif
