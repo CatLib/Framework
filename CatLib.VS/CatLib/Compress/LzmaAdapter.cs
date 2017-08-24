@@ -9,11 +9,10 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using System.IO;
 using CatLib.API.Compress;
 using SharpCompress.Compressors;
 using SharpCompress.Compressors.LZMA;
+using System.IO;
 
 namespace CatLib.Compress
 {
