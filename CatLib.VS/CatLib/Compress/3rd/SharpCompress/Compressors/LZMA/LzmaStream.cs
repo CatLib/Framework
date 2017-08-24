@@ -79,6 +79,7 @@ namespace SharpCompress.Compressors.LZMA
         public LzmaStream(byte[] properties, Stream inputStream, long inputSize, long outputSize,
                           Stream presetDictionary, bool isLZMA2)
         {
+            Properties = new byte[5];
             this.inputStream = inputStream;
             this.inputSize = inputSize;
             this.outputSize = outputSize;
@@ -139,6 +140,7 @@ namespace SharpCompress.Compressors.LZMA
         /// <param name="outputStream"></param>
         public LzmaStream(LzmaEncoderProperties properties, bool isLZMA2, Stream presetDictionary, Stream outputStream)
         {
+            Properties = new byte[5];
             this.isLZMA2 = isLZMA2;
             availableBytes = 0;
             endReached = true;
@@ -164,17 +166,26 @@ namespace SharpCompress.Compressors.LZMA
         /// <summary>
         /// 
         /// </summary>
-        public override bool CanRead => encoder == null;
+        public override bool CanRead
+        {
+            get { return encoder == null; }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public override bool CanSeek => false;
+        public override bool CanSeek
+        {
+            get { return false; }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public override bool CanWrite => encoder != null;
+        public override bool CanWrite
+        {
+            get { return encoder != null; }
+        }
 
         /// <summary>
         /// 
@@ -200,7 +211,10 @@ namespace SharpCompress.Compressors.LZMA
                 {
                     position = encoder.Code(null, true);
                 }
-                inputStream?.Dispose();
+                if (inputStream != null)
+                {
+                    inputStream.Dispose();
+                }
             }
             base.Dispose(disposing);
         }
@@ -208,12 +222,19 @@ namespace SharpCompress.Compressors.LZMA
         /// <summary>
         /// 
         /// </summary>
-        public override long Length => position + availableBytes;
+        public override long Length
+        {
+            get { return position + availableBytes; }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public override long Position { get => position; set => throw new NotSupportedException(); }
+        public override long Position
+        {
+            get { return position; }
+            set { throw new NotSupportedException(); }
+        }
 
         /// <summary>
         /// 
@@ -404,6 +425,6 @@ namespace SharpCompress.Compressors.LZMA
         /// <summary>
         /// 
         /// </summary>
-        public byte[] Properties { get; } = new byte[5];
+        public byte[] Properties { get; set; }
     }
 }

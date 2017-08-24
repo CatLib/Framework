@@ -178,6 +178,9 @@ namespace SharpCompress.Compressors.LZMA.LZ
             _streamPos -= (UInt32)subValue;
         }
 
-        public bool IsDataStarved => _streamPos - _pos < _keepSizeAfter;
+        public bool IsDataStarved
+        {
+            get { return _streamPos - _pos < _keepSizeAfter; }
+        }
     }
 }

@@ -13,7 +13,10 @@ namespace SharpCompress.Common.SevenZip
         internal List<long> UnpackSizes = new List<long>();
         internal uint? UnpackCRC;
 
-        internal bool UnpackCRCDefined => UnpackCRC != null;
+        internal bool UnpackCRCDefined
+        {
+            get { return UnpackCRC != null; }
+        }
 
         public long GetUnpackSize()
         {

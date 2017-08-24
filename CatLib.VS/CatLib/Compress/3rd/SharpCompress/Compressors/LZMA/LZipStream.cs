@@ -110,22 +110,31 @@ namespace SharpCompress.Compressors.LZMA
         /// <summary>
         /// 
         /// </summary>
-        public CompressionMode Mode { get; }
+        public CompressionMode Mode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public override bool CanRead => Mode == CompressionMode.Decompress;
+        public override bool CanRead
+        {
+            get { return Mode == CompressionMode.Decompress; }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public override bool CanSeek => false;
+        public override bool CanSeek
+        {
+            get { return false; }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public override bool CanWrite => Mode == CompressionMode.Compress;
+        public override bool CanWrite
+        {
+            get { return Mode == CompressionMode.Compress; }
+        }
 
         /// <summary>
         /// 
@@ -140,12 +149,22 @@ namespace SharpCompress.Compressors.LZMA
         /// <summary>
         /// 
         /// </summary>
-        public override long Length => throw new NotImplementedException();
+        public override long Length
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public override long Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override long Position
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
 
         /// <summary>
         /// 
@@ -154,7 +173,10 @@ namespace SharpCompress.Compressors.LZMA
         /// <param name="offset"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public override int Read(byte[] buffer, int offset, int count) => stream.Read(buffer, offset, count);
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            return stream.Read(buffer, offset, count);
+        }
 
         /// <summary>
         /// 
@@ -162,13 +184,19 @@ namespace SharpCompress.Compressors.LZMA
         /// <param name="offset"></param>
         /// <param name="origin"></param>
         /// <returns></returns>
-        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException();
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
-        public override void SetLength(long value) => throw new NotImplementedException();
+        public override void SetLength(long value)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// 
@@ -191,7 +219,10 @@ namespace SharpCompress.Compressors.LZMA
         /// </summary>
         /// <param name="stream">The stream to read from. Must not be null.</param>
         /// <returns><c>true</c> if the given stream is an LZip file, <c>false</c> otherwise.</returns>
-        public static bool IsLZipFile(Stream stream) => ValidateAndReadSize(stream) != 0;
+        public static bool IsLZipFile(Stream stream)
+        {
+            return ValidateAndReadSize(stream) != 0;
+        }
 
         /// <summary>
         /// Reads the 6-byte header of the stream, and returns 0 if either the header
@@ -202,7 +233,7 @@ namespace SharpCompress.Compressors.LZMA
         {
             if (stream == null)
             {
-                throw new ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException("stream");
             }
             // Read the header
             byte[] header = new byte[6];
@@ -232,7 +263,7 @@ namespace SharpCompress.Compressors.LZMA
         {
             if (stream == null)
             {
-                throw new ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException("stream");
             }
             // hard coding the dictionary size encoding
             byte[] header = new byte[6] {(byte)'L', (byte)'Z', (byte)'I', (byte)'P', 1, 113};
@@ -242,8 +273,9 @@ namespace SharpCompress.Compressors.LZMA
         /// <summary>
         /// Creates a byte array to communicate the parameters and dictionary size to LzmaStream.
         /// </summary>
-        private static byte[] GetProperties(int dictionarySize) =>
-            new byte[]
+        private static byte[] GetProperties(int dictionarySize)
+        {
+            return new byte[]
             {
                 // Parameters as per http://www.nongnu.org/lzip/manual/lzip_manual.html#Stream-format
                 // but encoded as a single byte in the format LzmaStream expects.
@@ -252,10 +284,11 @@ namespace SharpCompress.Compressors.LZMA
                 // pos_state_bits = 2
                 93,
                 // Dictionary size as 4-byte little-endian value
-                (byte)(dictionarySize & 0xff),
-                (byte)((dictionarySize >> 8) & 0xff),
-                (byte)((dictionarySize >> 16) & 0xff),
-                (byte)((dictionarySize >> 24) & 0xff)
+                (byte) (dictionarySize & 0xff),
+                (byte) ((dictionarySize >> 8) & 0xff),
+                (byte) ((dictionarySize >> 16) & 0xff),
+                (byte) ((dictionarySize >> 24) & 0xff)
             };
+        }
     }
 }

@@ -58,22 +58,22 @@ namespace SharpCompress.Compressors.LZMA.Utilites
         {
             if (stream == null)
             {
-                throw new ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException("stream");
             }
 
             if (buffer == null)
             {
-                throw new ArgumentNullException(nameof(buffer));
+                throw new ArgumentNullException("buffer");
             }
 
             if (offset < 0 || offset > buffer.Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(offset));
+                throw new ArgumentOutOfRangeException("offset");
             }
 
             if (length < 0 || length > buffer.Length - offset)
             {
-                throw new ArgumentOutOfRangeException(nameof(length));
+                throw new ArgumentOutOfRangeException("length");
             }
 
             while (length > 0)

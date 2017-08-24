@@ -50,7 +50,7 @@ namespace SharpCompress.Compressors.LZMA
             return bits;
         }
 
-        public int Length { get; }
+        public int Length { get; set; }
 
         public bool this[int index]
         {
@@ -58,7 +58,7 @@ namespace SharpCompress.Compressors.LZMA
             {
                 if (index < 0 || index >= Length)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index));
+                    throw new ArgumentOutOfRangeException("index");
                 }
 
                 return (mBits[index >> 5] & (1u << (index & 31))) != 0;
@@ -69,7 +69,7 @@ namespace SharpCompress.Compressors.LZMA
         {
             if (index < 0 || index >= Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentOutOfRangeException("index");
             }
 
             mBits[index >> 5] |= 1u << (index & 31);
@@ -79,7 +79,7 @@ namespace SharpCompress.Compressors.LZMA
         {
             if (index < 0 || index >= Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentOutOfRangeException("index");
             }
 
             uint bits = mBits[index >> 5];
