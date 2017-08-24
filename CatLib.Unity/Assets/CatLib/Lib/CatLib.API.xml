@@ -24,27 +24,45 @@
             提供者基础类型
             </summary>
         </member>
-        <member name="T:CatLib.ConfigAttribute">
+        <member name="T:CatLib.API.Compress.ICompress">
             <summary>
-            从配置组件中获取配置填充到属性中
+            压缩解压缩
             </summary>
         </member>
-        <member name="P:CatLib.ConfigAttribute.Default">
+        <member name="M:CatLib.API.Compress.ICompress.Compress(System.Byte[])">
             <summary>
-            默认值
+            压缩
+            </summary>
+            <param name="bytes">需要压缩的字节流</param>
+            <returns>压缩后的结果</returns>
+        </member>
+        <member name="M:CatLib.API.Compress.ICompress.UnCompress(System.Byte[])">
+            <summary>
+            解压缩
+            </summary>
+            <param name="bytes">需要解压缩的字节流</param>
+            <returns>解压缩的结果</returns>
+        </member>
+        <member name="T:CatLib.API.Compress.ICompressManager">
+            <summary>
+            压缩管理器
             </summary>
         </member>
-        <member name="P:CatLib.ConfigAttribute.Name">
+        <member name="M:CatLib.API.Compress.ICompressManager.Compress(System.Byte[],System.String)">
             <summary>
-            配置名字
+            压缩
             </summary>
+            <param name="bytes">需要压缩的字节流</param>
+            <param name="name">使用的压缩解压缩名字</param>
+            <returns>压缩后的结果</returns>
         </member>
-        <member name="M:CatLib.ConfigAttribute.#ctor(System.Object,System.String)">
+        <member name="M:CatLib.API.Compress.ICompressManager.UnCompress(System.Byte[],System.String)">
             <summary>
-            被标记的对象可以配置
+            解压缩
             </summary>
-            <param name="defaultValue">默认值</param>
-            <param name="name">使用输入的配置名来获取配置</param>
+            <param name="bytes">需要解压缩的字节流</param>
+            <param name="name">使用的压缩解压缩名字</param>
+            <returns>解压缩的结果</returns>
         </member>
         <member name="T:CatLib.API.Config.IConfigLocator">
             <summary>
@@ -1745,6 +1763,28 @@
             <summary>
             祖鲁
             </summary>
+        </member>
+        <member name="T:CatLib.ConfigAttribute">
+            <summary>
+            从配置组件中获取配置填充到属性中
+            </summary>
+        </member>
+        <member name="P:CatLib.ConfigAttribute.Default">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="P:CatLib.ConfigAttribute.Name">
+            <summary>
+            配置名字
+            </summary>
+        </member>
+        <member name="M:CatLib.ConfigAttribute.#ctor(System.Object,System.String)">
+            <summary>
+            被标记的对象可以配置
+            </summary>
+            <param name="defaultValue">默认值</param>
+            <param name="name">使用输入的配置名来获取配置</param>
         </member>
         <member name="T:CatLib.ConfigExtend">
             <summary>
