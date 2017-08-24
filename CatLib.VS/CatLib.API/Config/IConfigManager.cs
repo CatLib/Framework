@@ -21,5 +21,12 @@ namespace CatLib.API.Config
         /// </summary>
         /// <param name="name">配置名</param>
         void SetDefault(string name);
+
+        /// <summary>
+        /// 对目标实例注入配置
+        /// </summary>
+        /// <param name="instance">实例</param>
+        /// <param name="name">使用的配置容器名字</param>
+        void Config(object instance, string name = null);
     }
 }

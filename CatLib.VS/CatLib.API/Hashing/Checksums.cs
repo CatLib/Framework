@@ -9,14 +9,21 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Debugger;
-
-namespace CatLib.Facade
+namespace CatLib.API.Hashing
 {
     /// <summary>
-    /// 日志器
+    /// 使用的校验方法
     /// </summary>
-    public sealed class Logger : Facade<ILogger>
+    public enum Checksums
     {
+        /// <summary>
+        /// Adler32
+        /// </summary>
+        Adler32,
+
+        /// <summary>
+        /// Crc32
+        /// </summary>
+        Crc32,
     }
 }

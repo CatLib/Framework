@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="CatLib\Facade.cs" />
     <Compile Include="CatLib\IServiceProviderType.cs" />
+    <Compile Include="Config\Features\ConfigAttribute.cs" />
     <Compile Include="Config\Features\IConfigLocator.cs" />
     <Compile Include="Config\IConfigManager.cs" />
     <Compile Include="Config\Internal\ConfigExtend.cs" />
@@ -50,8 +51,13 @@
     <Compile Include="Converters\IConvertersManager.cs" />
     <Compile Include="CatLib\App.cs" />
     <Compile Include="CatLib\ApplicationEvents.cs" />
+    <Compile Include="Encryption\EncryptionException.cs" />
+    <Compile Include="Encryption\IEncrypter.cs" />
     <Compile Include="Events\IDispatcher.cs" />
     <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="Hashing\Checksums.cs" />
+    <Compile Include="Hashing\Hashes.cs" />
+    <Compile Include="Hashing\IHashing.cs" />
     <Compile Include="Support\AssertException.cs" />
     <Compile Include="Support\Container\BindData.cs" />
     <Compile Include="Support\Container\Container.cs" />
@@ -105,6 +111,7 @@
     <Compile Include="Support\Template\ISingleManager.cs" />
     <Compile Include="Support\Template\Manager.cs" />
     <Compile Include="Support\Template\SingleManager.cs" />
+    <Compile Include="Support\Util\Arr.cs" />
     <Compile Include="Support\Util\Str.cs" />
     <Compile Include="Support\Util\SystemTime.cs" />
     <Compile Include="Support\Util\Util.cs" />
@@ -113,5 +120,6 @@
     <Compile Include="Translation\ITranslator.cs" />
     <Compile Include="Translation\Languages.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

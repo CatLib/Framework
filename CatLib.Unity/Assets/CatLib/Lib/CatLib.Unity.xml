@@ -521,6 +521,61 @@
             </summary>
             <param name="monitor">监控</param>
         </member>
+        <member name="T:CatLib.Encryption.UnityEncryptionProvider">
+            <summary>
+            加解密服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.Encryption.UnityEncryptionProvider.CipherTypes">
+            <summary>
+            加密类型
+            </summary>
+        </member>
+        <member name="F:CatLib.Encryption.UnityEncryptionProvider.CipherTypes.Aes128Cbc">
+            <summary>
+            AES 128 CBC
+            </summary>
+        </member>
+        <member name="F:CatLib.Encryption.UnityEncryptionProvider.CipherTypes.Aes256Cbc">
+            <summary>
+            AES 256 CBC
+            </summary>
+        </member>
+        <member name="F:CatLib.Encryption.UnityEncryptionProvider.Key">
+            <summary>
+            密钥
+            </summary>
+        </member>
+        <member name="F:CatLib.Encryption.UnityEncryptionProvider.Cipher">
+            <summary>
+            加密类型
+            </summary>
+        </member>
+        <member name="F:CatLib.Encryption.UnityEncryptionProvider.baseProvider">
+            <summary>
+            基础服务提供者
+            </summary>
+        </member>
+        <member name="P:CatLib.Encryption.UnityEncryptionProvider.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
+        <member name="M:CatLib.Encryption.UnityEncryptionProvider.Awake">
+            <summary>
+            Unity服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Encryption.UnityEncryptionProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Encryption.UnityEncryptionProvider.Register">
+            <summary>
+            注册服务
+            </summary>
+        </member>
         <member name="T:CatLib.Environment.EnvironmentProvider">
             <summary>
             环境服务提供者

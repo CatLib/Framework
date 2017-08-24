@@ -9,9 +9,11 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Config;
 using CatLib.API.Events;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 
 namespace CatLib
@@ -92,6 +94,11 @@ namespace CatLib
                 return process;
             }
         }
+
+        /// <summary>
+        /// 配置注入目标
+        /// </summary>
+        private Type configTarget = typeof(ConfigAttribute);
 
         /// <summary>
         /// 增量Id
@@ -198,6 +205,7 @@ namespace CatLib
 
             foreach (var provider in serviceProviders)
             {
+                Trigger(ApplicationEvents.OnIniting, provider);
                 provider.Init();
             }
 
@@ -227,6 +235,7 @@ namespace CatLib
 
             if (inited)
             {
+                Trigger(ApplicationEvents.OnIniting, provider);
                 provider.Init();
             }
         }

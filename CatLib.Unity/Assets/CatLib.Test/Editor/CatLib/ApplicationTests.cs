@@ -10,6 +10,7 @@
  */
 
 using System;
+using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Events;
@@ -242,6 +243,17 @@ namespace CatLib.Tests
         {
             var app = MakeApplication();
             Assert.AreEqual(true, app.IsMainThread);
+        }
+
+        public class TestInjectConfigClass
+        {
+            [Config("helloworld")]
+            public string MyConfig { get; set; }
+
+            [Config("helloworld2")]
+            public string MyConfig2 { get; set; }
+
+            public string Name = "123";
         }
 
         private Application MakeApplication()

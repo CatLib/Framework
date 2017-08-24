@@ -12,8 +12,10 @@
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Debugger;
+using CatLib.Encryption;
 using CatLib.Events;
 using CatLib.FileSystem;
+using CatLib.Hashing;
 using CatLib.Json;
 using CatLib.MonoDriver;
 using CatLib.Routing;
@@ -48,6 +50,8 @@ namespace CatLib
                     new JsonProvider(), 
                     new FileSystemProvider(), 
                     new TranslationProvider(), 
+                    new HashingProvider(), 
+                    new EncryptionProvider(),
                     new TimeProvider(), 
                     new TimerProvider(), 
                 };

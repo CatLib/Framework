@@ -11,6 +11,8 @@
 
 using System;
 using CatLib.API.Routing;
+using CatLib.Config;
+using CatLib.Converters;
 using CatLib.Events;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
@@ -39,19 +41,22 @@ namespace CatLib.Tests.Routing
             });
             app.Register(new RoutingProvider());
             app.Register(new EventsProvider());
-
+            app.Register(new ConfigProvider());
+            app.Register(new ConvertersProvider());
+            
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
-            var router = App.Make<IRouter>();
+           
             app.On(RouterEvents.OnBeforeRouterAttrCompiler, (payload) =>
             {
-                router.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
+                var internalRouter = App.Make<IRouter>();
+                internalRouter.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
                     (req, res, next) =>
                     {
                         next(req, res);
                         res.SetContext(res.GetContext() + "[with group middleware]");
                     });
 
-                router.Group("throw-error-group").OnError((req, res, ex, next) =>
+                internalRouter.Group("throw-error-group").OnError((req, res, ex, next) =>
                 {
                     //这个组拦截了异常冒泡
                 }).Middleware((req, res, next) =>
@@ -59,7 +64,7 @@ namespace CatLib.Tests.Routing
                     next(req, res);
                     res.SetContext(res.GetContext() + "[with throw error group middleware]");
                 });
-                router.Group("DefaultGroup2").Defaults("str", "TestUseGroupAndLocalDefaults");
+                internalRouter.Group("DefaultGroup2").Defaults("str", "TestUseGroupAndLocalDefaults");
             });
 
             app.On(RouterEvents.OnDispatcher, (payload) =>
@@ -72,7 +77,7 @@ namespace CatLib.Tests.Routing
 
             app.Init();
 
-            router = App.Make<IRouter>();
+            var router = App.Make<IRouter>();
             router.OnError((req, res, ex, next) =>
             {
                 if (ex is UndefinedDefaultSchemeException)

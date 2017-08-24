@@ -40,7 +40,7 @@ namespace CatLib.Debugger.WebLog.Protocol
         /// <summary>
         /// 输出
         /// </summary>
-        private IList<IDictionary<string, object>> outputs;
+        private readonly IList<IDictionary<string, object>> outputs;
 
         /// <summary>
         /// Web控制台输出

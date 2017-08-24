@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;
 
@@ -24,15 +23,8 @@ namespace CatLib.FileSystem
         /// <summary>
         /// 默认路径
         /// </summary>
+        [Config]
         public string DefaultPath { get; set; }
-
-        /// <summary>
-        /// 文件服务提供者
-        /// </summary>
-        public FileSystemProvider()
-        {
-            DefaultPath = string.Empty;
-        }
 
         /// <summary>
         /// 服务提供者进程
@@ -73,10 +65,9 @@ namespace CatLib.FileSystem
         /// </summary>
         private void InitRegisterLocalDriver()
         {
-            var path = App.Make<IConfig>().SafeGet("FileSystemProvider.DefaultPath", DefaultPath);
-            if (!string.IsNullOrEmpty(path))
+            if (!string.IsNullOrEmpty(DefaultPath))
             {
-                App.Make<IFileSystemManager>().Extend(() => new FileSystem(new Local(path)));
+                App.Make<IFileSystemManager>().Extend(() => new FileSystem(new Local(DefaultPath)));
             }
         }
     }
