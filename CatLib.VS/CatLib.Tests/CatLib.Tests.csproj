@@ -55,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Compress\CompressProviderTests.cs" />
     <Compile Include="Converters\Plan\StringIListStringConverterTests.cs" />
     <Compile Include="Converters\Plan\IListStringStringConverterTests.cs" />
     <Compile Include="Debugger\WebLog\LogStoreTests.cs" />

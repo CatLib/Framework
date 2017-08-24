@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="CatLib\Facade.cs" />
     <Compile Include="CatLib\IServiceProviderType.cs" />
+    <Compile Include="Compress\ICompress.cs" />
+    <Compile Include="Compress\ICompressManager.cs" />
     <Compile Include="Config\Features\ConfigAttribute.cs" />
     <Compile Include="Config\Features\IConfigLocator.cs" />
     <Compile Include="Config\IConfigManager.cs" />

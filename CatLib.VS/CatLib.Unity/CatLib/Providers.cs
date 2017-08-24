@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.Compress;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Debugger;
@@ -41,19 +42,20 @@ namespace CatLib
             {
                 return new IServiceProvider[]
                 {
-                    new ConvertersProvider(), 
-                    new ConfigProvider(), 
-                    new EventsProvider(),
-                    new RoutingProvider(), 
-                    new MonoDriverProvider(), 
-                    new DebuggerProvider(), 
-                    new JsonProvider(), 
-                    new FileSystemProvider(), 
-                    new TranslationProvider(), 
-                    new HashingProvider(), 
+                    new CompressProvider(),
+                    new ConfigProvider(),
+                    new ConvertersProvider(),
+                    new DebuggerProvider(),
                     new EncryptionProvider(),
-                    new TimeProvider(), 
-                    new TimerProvider(), 
+                    new EventsProvider(),
+                    new FileSystemProvider(),
+                    new HashingProvider(),
+                    new JsonProvider(),
+                    new MonoDriverProvider(),
+                    new RoutingProvider(),
+                    new TimeProvider(),
+                    new TimerProvider(),
+                    new TranslationProvider(),
                 };
             }
         }
