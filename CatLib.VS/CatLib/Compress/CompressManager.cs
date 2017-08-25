@@ -35,9 +35,9 @@ namespace CatLib.Compress
         /// <param name="bytes">需要解压缩的字节流</param>
         /// <param name="name">使用的压缩解压缩名字</param>
         /// <returns>解压缩的结果</returns>
-        public byte[] UnCompress(byte[] bytes, string name = null)
+        public byte[] Decomporess(byte[] bytes, string name = null)
         {
-            return Get(name).UnCompress(bytes);
+            return Get(name).Decompress(bytes);
         }
     }
 }

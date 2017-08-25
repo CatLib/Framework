@@ -28,6 +28,6 @@ namespace CatLib.API.Compress
         /// </summary>
         /// <param name="bytes">需要解压缩的字节流</param>
         /// <returns>解压缩的结果</returns>
-        byte[] UnCompress(byte[] bytes);
+        byte[] Decompress(byte[] bytes);
     }
 }

@@ -5473,7 +5473,7 @@
             <param name="bytes">需要压缩的字节流</param>
             <returns>压缩后的结果</returns>
         </member>
-        <member name="M:CatLib.Compress.GZipAdapter.UnCompress(System.Byte[])">
+        <member name="M:CatLib.Compress.GZipAdapter.Decompress(System.Byte[])">
             <summary>
             解压缩
             </summary>
@@ -5493,7 +5493,7 @@
             <param name="name">使用的压缩解压缩名字</param>
             <returns>压缩后的结果</returns>
         </member>
-        <member name="M:CatLib.Compress.CompressManager.UnCompress(System.Byte[],System.String)">
+        <member name="M:CatLib.Compress.CompressManager.Decomporess(System.Byte[],System.String)">
             <summary>
             解压缩
             </summary>
@@ -5513,7 +5513,7 @@
             <param name="bytes">需要压缩的字节流</param>
             <returns>压缩后的结果</returns>
         </member>
-        <member name="M:CatLib.Compress.LzmaAdapter.UnCompress(System.Byte[])">
+        <member name="M:CatLib.Compress.LzmaAdapter.Decompress(System.Byte[])">
             <summary>
             解压缩
             </summary>

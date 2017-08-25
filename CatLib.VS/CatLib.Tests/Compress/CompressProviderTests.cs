@@ -62,7 +62,7 @@ namespace CatLib.Tests.Compress
             var manager = app.Make<ICompressManager>();
             var compress = manager.Compress(System.Text.Encoding.Default.GetBytes("helloworld,helloworld,helloworld,helloworld,helloworld"), name);
             Assert.AreEqual(true, compress.Length < "helloworld,helloworld,helloworld,helloworld,helloworld".Length);
-            Assert.AreEqual("helloworld,helloworld,helloworld,helloworld,helloworld", System.Text.Encoding.Default.GetString(manager.UnCompress(compress, name)));
+            Assert.AreEqual("helloworld,helloworld,helloworld,helloworld,helloworld", System.Text.Encoding.Default.GetString(manager.Decomporess(compress, name)));
         }
 
         [TestMethod]
