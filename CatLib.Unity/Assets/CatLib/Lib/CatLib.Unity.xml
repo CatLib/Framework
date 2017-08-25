@@ -1442,9 +1442,14 @@
             时间服务
             </summary>
         </member>
-        <member name="F:CatLib.Time.TimeProvider.DefaultTime">
+        <member name="P:CatLib.Time.TimeProvider.DefaultTime">
             <summary>
             默认时间的名字
+            </summary>
+        </member>
+        <member name="M:CatLib.Time.TimeProvider.#ctor">
+            <summary>
+            时间服务
             </summary>
         </member>
         <member name="M:CatLib.Time.TimeProvider.Init">

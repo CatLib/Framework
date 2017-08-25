@@ -9,10 +9,9 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 using System;
 using UnityEngine;
-
-#if CATLIB
 
 namespace CatLib.Time
 {
@@ -20,6 +19,7 @@ namespace CatLib.Time
     /// 路由服务
     /// </summary>
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(CatLibFramework))]
     [AddComponentMenu("CatLib/Time")]
     public sealed class UnityTimeProvider : MonoBehaviour, IServiceProvider, IServiceProviderType
     {

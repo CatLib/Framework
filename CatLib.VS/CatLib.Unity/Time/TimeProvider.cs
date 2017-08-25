@@ -23,7 +23,16 @@ namespace CatLib.Time
         /// <summary>
         /// 默认时间的名字
         /// </summary>
-        public string DefaultTime = "default";
+        [Config]
+        public string DefaultTime { get; set; }
+
+        /// <summary>
+        /// 时间服务
+        /// </summary>
+        public TimeProvider()
+        {
+            DefaultTime = "default";
+        }
 
         /// <summary>
         /// 初始化
@@ -52,11 +61,12 @@ namespace CatLib.Time
                 timeManager.Extend(() => new UnityTime());
 
                 var config = App.Make<IConfig>();
-                config.SafeWatch("TimeProvider.DefaultTime", (value) =>
+                config.SafeWatch("TimeProvider.DefaultTime", value =>
                 {
                     timeManager.SetDefault(value.ToString());
                 });
-                timeManager.SetDefault(config.SafeGet("TimeProvider.DefaultTime", DefaultTime));
+
+                timeManager.SetDefault(DefaultTime);
 
                 return timeManager;
             });

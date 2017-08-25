@@ -78,7 +78,7 @@ namespace CatLib.Debugger
         /// <summary>
         /// 初始化
         /// </summary>
-        [Priority(5)]
+        [Priority(20)]
         public void Init()
         {
             InitWebConsole();
