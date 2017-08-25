@@ -8,7 +8,6 @@
             <ModulePaths>  
               <Exclude>  
                 <ModulePath>.*\.tests\.dll$</ModulePath> 
-                <ModulePath>.*\.api\.dll$</ModulePath> 
               </Exclude>  
             </ModulePaths>
             <Attributes>

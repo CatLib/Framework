@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace CatLib
 {
@@ -41,6 +42,119 @@ namespace CatLib
             }
 
             return merge;
+        }
+
+        /// <summary>
+        /// 从数组中获取一个或者指定数量的随机值
+        /// </summary>
+        /// <typeparam name="T">数组类型</typeparam>
+        /// <param name="source">源数据</param>
+        /// <param name="number">随机的数量</param>
+        /// <returns>随机后的元素</returns>
+        public static T[] Random<T>(T[] source, int number = 1)
+        {
+            number = Math.Max(number, 1);
+            source = Shuffle(source);
+            var requested = new T[number];
+            var i = 0;
+            foreach (var result in source)
+            {
+                if (i >= number)
+                {
+                    break;
+                }
+                requested[i++] = result;
+            }
+
+            return requested;
+        }
+
+        /// <summary>
+        /// 将数组中的元素打乱
+        /// </summary>
+        /// <typeparam name="T">数组类型</typeparam>
+        /// <param name="sources">源数据</param>
+        /// <param name="seed">种子</param>
+        /// <returns>打乱后的数据</returns>
+        public static T[] Shuffle<T>(T[] sources , int? seed = null)
+        {
+            var requested = new List<T>(sources);
+
+            var random = new Random(seed.GetValueOrDefault(Guid.NewGuid().GetHashCode()));
+            for (var i = 0; i < requested.Count; i++)
+            {
+                var index = random.Next(0, requested.Count - 1);
+                if (index == i)
+                {
+                    continue;
+                }
+                var temp = requested[i];
+                requested[i] = requested[index];
+                requested[index] = temp;
+            }
+
+            return requested.ToArray();
+        }
+
+        /// <summary>
+        /// 从数组中移除选定的元素，并用新元素从<paramref name="start"/>位置开始插入
+        /// </summary>
+        /// <typeparam name="T">数组类型</typeparam>
+        /// <param name="source">源数组</param>
+        /// <param name="start">删除元素的开始位置</param>
+        /// <param name="length">移除的元素个数，也是被返回数组的长度</param>
+        /// <param name="replSource">在start位置插入的数组</param>
+        /// <returns>被删除的数组</returns>
+        public static T[] Splice<T>(ref T[] source, int start, int? length = null, T[] replSource = null)
+        {
+            Guard.Requires<ArgumentNullException>(source != null);
+
+            start = (start >= 0) ? Math.Min(start, source.Length) : Math.Max(source.Length + start, 0);
+
+            length = (length == null)
+                ? Math.Max(source.Length - start, 0)
+                : (length >= 0)
+                    ? Math.Min(length.Value, source.Length - start)
+                    : Math.Max(source.Length + length.Value - start, 0);
+
+            var requested = new T[length.Value];
+
+            if (length.Value == source.Length)
+            {
+                // 现在移除所有旧的元素，然后用新的元素替换。
+                Array.Copy(source, requested, source.Length);
+                source = replSource ?? new T[] { };
+                return requested;
+            }
+
+            Array.Copy(source, start, requested, 0, length.Value);
+
+            if (replSource == null || replSource.Length == 0)
+            {
+                var newSource = new T[source.Length - length.Value];
+                // 现在只删除不插入
+                if (start > 0)
+                {
+                    Array.Copy(source, 0, newSource, 0, start);
+                }
+                Array.Copy(source, start + length.Value, newSource, start, source.Length - (start + length.Value));
+                source = newSource;
+            }
+            else
+            {
+                var newSource = new T[source.Length - length.Value + replSource.Length];
+                // 删除并且插入
+                if (start > 0)
+                {
+                    Array.Copy(source, 0, newSource, 0, start);
+                }
+                Array.Copy(replSource, 0, newSource, start, replSource.Length);
+                Array.Copy(source, start + length.Value, newSource, start + replSource.Length,
+                    source.Length - (start + length.Value));
+                source = newSource;
+            }
+
+            return requested;
         }
     }
 }

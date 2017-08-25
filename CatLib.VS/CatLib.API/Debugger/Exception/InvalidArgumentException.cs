@@ -16,6 +16,7 @@ namespace CatLib.API.Debugger
     /// <summary>
     /// 无效的参数异常
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class InvalidArgumentException : ArgumentException
     {
         /// <summary>

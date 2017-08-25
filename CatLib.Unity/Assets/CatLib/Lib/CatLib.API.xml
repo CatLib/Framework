@@ -5164,6 +5164,35 @@
             <param name="sources">需要合并的数组</param>
             <returns>合并后的数组</returns>
         </member>
+        <member name="M:CatLib.Arr.Random``1(``0[],System.Int32)">
+            <summary>
+            从数组中获取一个或者指定数量的随机值
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="source">源数据</param>
+            <param name="number">随机的数量</param>
+            <returns>随机后的元素</returns>
+        </member>
+        <member name="M:CatLib.Arr.Shuffle``1(``0[],System.Nullable{System.Int32})">
+            <summary>
+            将数组中的元素打乱
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="sources">源数据</param>
+            <param name="seed">种子</param>
+            <returns>打乱后的数据</returns>
+        </member>
+        <member name="M:CatLib.Arr.Splice``1(``0[]@,System.Int32,System.Nullable{System.Int32},``0[])">
+            <summary>
+            从数组中移除选定的元素，并用新元素从<paramref name="start"/>位置开始插入
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="source">源数组</param>
+            <param name="start">删除元素的开始位置</param>
+            <param name="length">移除的元素个数，也是被返回数组的长度</param>
+            <param name="replSource">在start位置插入的数组</param>
+            <returns>被删除的数组</returns>
+        </member>
         <member name="T:CatLib.Str">
             <summary>
             字符串

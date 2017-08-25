@@ -18,6 +18,7 @@ namespace CatLib
     /// <summary>
     /// CatLib实例
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class App
     {
         /// <summary>
