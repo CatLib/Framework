@@ -5193,6 +5193,16 @@
             <param name="replSource">在start位置插入的数组</param>
             <returns>被删除的数组</returns>
         </member>
+        <member name="M:CatLib.Arr.Chunk``1(``0[],System.Int32)">
+            <summary>
+            将数组分为新的数组块
+            <para>其中每个数组的单元数目由 size 参数决定。最后一个数组的单元数目可能会少几个。</para>
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="source">源数据</param>
+            <param name="size">每个分块的大小</param>
+            <returns></returns>
+        </member>
         <member name="T:CatLib.Str">
             <summary>
             字符串

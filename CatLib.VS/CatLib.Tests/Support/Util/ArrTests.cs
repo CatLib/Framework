@@ -149,5 +149,22 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual("cat", arr1[4]);
             Assert.AreEqual(5, arr1.Length);
         }
+
+        [TestMethod]
+        public void TestChunk()
+        {
+            var arr1 = new[] { "red", "orange", "white", "dog", "cat" };
+
+            var result = Arr.Chunk(arr1, 2);
+
+            Assert.AreEqual("red", result[0][0]);
+            Assert.AreEqual("orange", result[0][1]);
+            Assert.AreEqual(2, result[0].Length);
+            Assert.AreEqual("white", result[1][0]);
+            Assert.AreEqual("dog", result[1][1]);
+            Assert.AreEqual(2, result[1].Length);
+            Assert.AreEqual("cat", result[2][0]);
+            Assert.AreEqual(1, result[2].Length);
+        }
     }
 }

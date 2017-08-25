@@ -76,7 +76,7 @@ namespace CatLib
         /// <param name="sources">源数据</param>
         /// <param name="seed">种子</param>
         /// <returns>打乱后的数据</returns>
-        public static T[] Shuffle<T>(T[] sources , int? seed = null)
+        public static T[] Shuffle<T>(T[] sources, int? seed = null)
         {
             var requested = new List<T>(sources);
 
@@ -154,6 +154,35 @@ namespace CatLib
                 source = newSource;
             }
 
+            return requested;
+        }
+
+        /// <summary>
+        /// 将数组分为新的数组块
+        /// <para>其中每个数组的单元数目由 size 参数决定。最后一个数组的单元数目可能会少几个。</para>
+        /// </summary>
+        /// <typeparam name="T">数组类型</typeparam>
+        /// <param name="source">源数据</param>
+        /// <param name="size">每个分块的大小</param>
+        /// <returns></returns>
+        public static T[][] Chunk<T>(T[] source , int size)
+        {
+            Guard.Requires<ArgumentNullException>(source != null);
+            size = Math.Max(1, size);
+            var requested = new T[source.Length / size][];
+
+            var chunk = new T[size];
+            for (var i = 0; i < source.Length; i++)
+            {
+                var pos = i / size;
+                if ((i + 1) % size == 0)
+                {
+                    requested[pos] = chunk;
+                    chunk = new T[size];
+                }
+                chunk[i - (pos * i)] = source[i];
+            }
+            
             return requested;
         }
     }
