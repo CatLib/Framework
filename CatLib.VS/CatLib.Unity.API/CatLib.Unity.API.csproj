@@ -42,7 +42,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Environment\DebugLevels.cs" />
     <Compile Include="Environment\IEnvironment.cs" />
     <Compile Include="MonoDriver\Feature\IFixedUpdate.cs" />
     <Compile Include="MonoDriver\Feature\ILateUpdate.cs" />

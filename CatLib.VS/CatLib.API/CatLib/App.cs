@@ -135,6 +135,15 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 设定调试等级
+        /// </summary>
+        /// <param name="level">调试等级</param>
+        public static void SetDebugLevel(DebugLevels level)
+        {
+            Handler.SetDebugLevel(level);
+        }
+
+        /// <summary>
         /// 触发一个事件,并获取事件的返回结果
         /// </summary>
         /// <param name="eventName">事件名称</param>

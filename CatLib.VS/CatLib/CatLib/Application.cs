@@ -9,11 +9,9 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Config;
 using CatLib.API.Events;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading;
 
 namespace CatLib
@@ -147,6 +145,7 @@ namespace CatLib
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
             RegisterCoreAlias();
             OnFindType((finder) => { return Type.GetType(finder); }, 1);
+            SetDebugLevel(DebugLevels.Prod);
         }
 
         /// <summary>
@@ -268,6 +267,15 @@ namespace CatLib
         public int GetPriority(Type type, string method = null)
         {
             return Util.GetPriority(type, method);
+        }
+
+        /// <summary>
+        /// 设定调试等级
+        /// </summary>
+        /// <param name="level">调试等级</param>
+        public void SetDebugLevel(DebugLevels level)
+        {
+            Instance(Type2Service(typeof(DebugLevels)), level);
         }
 
         /// <summary>

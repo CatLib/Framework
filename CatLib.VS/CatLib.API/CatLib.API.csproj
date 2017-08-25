@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CatLib\DebugLevels.cs" />
     <Compile Include="CatLib\Facade.cs" />
     <Compile Include="CatLib\IServiceProviderType.cs" />
     <Compile Include="Compress\ICompress.cs" />

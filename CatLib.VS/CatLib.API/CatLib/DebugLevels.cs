@@ -9,7 +9,7 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Environment
+namespace CatLib
 {
     /// <summary>
     /// 调试等级
@@ -27,13 +27,8 @@ namespace CatLib.API.Environment
         Staging,
 
         /// <summary>
-        /// 开发者模式（在移动设备上允许开启调试）
+        /// 开发者模式
         /// </summary>
         Dev,
-
-        /// <summary>
-        /// 自动模式（如果在编辑器模式下则使用开发者模式（非仿真环境）如果发布则使用生产环境）
-        /// </summary>
-        Auto,
     }
 }

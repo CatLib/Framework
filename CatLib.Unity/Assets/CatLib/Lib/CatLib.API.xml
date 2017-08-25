@@ -4,6 +4,26 @@
         <name>CatLib.API</name>
     </assembly>
     <members>
+        <member name="T:CatLib.DebugLevels">
+            <summary>
+            调试等级
+            </summary>
+        </member>
+        <member name="F:CatLib.DebugLevels.Prod">
+            <summary>
+            生产环境
+            </summary>
+        </member>
+        <member name="F:CatLib.DebugLevels.Staging">
+            <summary>
+            仿真环境
+            </summary>
+        </member>
+        <member name="F:CatLib.DebugLevels.Dev">
+            <summary>
+            开发者模式
+            </summary>
+        </member>
         <member name="T:CatLib.Facade`1">
             <summary>
             门面
@@ -1905,6 +1925,12 @@
             <param name="type">获取优先级的类型</param>
             <param name="method">获取优先级的调用方法</param>
             <returns>优先级</returns>
+        </member>
+        <member name="M:CatLib.App.SetDebugLevel(CatLib.DebugLevels)">
+            <summary>
+            设定调试等级
+            </summary>
+            <param name="level">调试等级</param>
         </member>
         <member name="M:CatLib.App.Trigger(System.String,System.Object)">
             <summary>
@@ -3908,6 +3934,12 @@
             <param name="type">获取优先级的类型</param>
             <param name="method">获取优先级的调用方法</param>
             <returns>优先级</returns>
+        </member>
+        <member name="M:CatLib.IApplication.SetDebugLevel(CatLib.DebugLevels)">
+            <summary>
+            设定调试等级
+            </summary>
+            <param name="level">调试等级</param>
         </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>

@@ -4,39 +4,9 @@
         <name>CatLib.Unity.API</name>
     </assembly>
     <members>
-        <member name="T:CatLib.API.Environment.DebugLevels">
-            <summary>
-            调试等级
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Prod">
-            <summary>
-            生产环境
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Staging">
-            <summary>
-            仿真环境
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Dev">
-            <summary>
-            开发者模式（在移动设备上允许开启调试）
-            </summary>
-        </member>
-        <member name="F:CatLib.API.Environment.DebugLevels.Auto">
-            <summary>
-            自动模式（如果在编辑器模式下则使用开发者模式（非仿真环境）如果发布则使用生产环境）
-            </summary>
-        </member>
         <member name="T:CatLib.API.Environment.IEnvironment">
             <summary>
             环境
-            </summary>
-        </member>
-        <member name="P:CatLib.API.Environment.IEnvironment.DebugLevel">
-            <summary>
-            调试等级
             </summary>
         </member>
         <member name="P:CatLib.API.Environment.IEnvironment.AssetPath">

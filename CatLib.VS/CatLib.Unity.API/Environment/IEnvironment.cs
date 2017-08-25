@@ -17,11 +17,6 @@ namespace CatLib.API.Environment
     public interface IEnvironment
     {
         /// <summary>
-        /// 调试等级
-        /// </summary>
-        DebugLevels DebugLevel { get; }
-
-        /// <summary>
         /// 系统资源路径
         /// <para>不同的调试等级下对应不同的资源路径(如Unity环境:)</para>
         /// <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>

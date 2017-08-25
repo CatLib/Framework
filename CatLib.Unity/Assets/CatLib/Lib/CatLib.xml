@@ -10349,6 +10349,12 @@
             <param name="method">识别的方法</param>
             <returns>优先级</returns>
         </member>
+        <member name="M:CatLib.Application.SetDebugLevel(CatLib.DebugLevels)">
+            <summary>
+            设定调试等级
+            </summary>
+            <param name="level">调试等级</param>
+        </member>
         <member name="M:CatLib.Application.Trigger(System.String,System.Object)">
             <summary>
             触发一个事件,并获取事件的返回结果
