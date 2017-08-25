@@ -169,20 +169,24 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(source != null);
             size = Math.Max(1, size);
-            var requested = new T[source.Length / size][];
+            var requested = new T[source.Length / size + (source.Length % size == 0 ? 0 : 1)][];
 
-            var chunk = new T[size];
+            T[] chunk = null;
             for (var i = 0; i < source.Length; i++)
             {
                 var pos = i / size;
-                if ((i + 1) % size == 0)
+                if (i % size == 0)
                 {
-                    requested[pos] = chunk;
-                    chunk = new T[size];
+                    if (chunk != null)
+                    {
+                        requested[pos - 1] = chunk;
+                    }
+                    chunk = new T[(i + size) <= source.Length ? size : source.Length - i];
                 }
-                chunk[i - (pos * i)] = source[i];
+                chunk[i - (pos * size)] = source[i];
             }
-            
+            requested[requested.Length - 1] = chunk;
+
             return requested;
         }
     }

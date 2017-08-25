@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -70,6 +69,21 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual("dog", arr1[1]);
             Assert.AreEqual("cat", arr1[2]);
             Assert.AreEqual("white", arr1[3]);
+        }
+
+        [TestMethod]
+        public void TestBaseNegativeSplice()
+        {
+            var arr1 = new[] {"red", "orange", "white"};
+            var arr2 = new[] { "dog", "cat" };
+
+            var remove = Arr.Splice(ref arr1, -1, null, arr2);
+            Assert.AreEqual("white", remove[0]);
+
+            Assert.AreEqual("red", arr1[0]);
+            Assert.AreEqual("orange", arr1[1]);
+            Assert.AreEqual("dog", arr1[2]);
+            Assert.AreEqual("cat", arr1[3]);
         }
 
         [TestMethod]
@@ -165,6 +179,61 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual(2, result[1].Length);
             Assert.AreEqual("cat", result[2][0]);
             Assert.AreEqual(1, result[2].Length);
+        }
+
+        [TestMethod]
+        public void TestChunk2()
+        {
+            var arr1 = new[] { "red", "orange", "white", "dog", "cat" , "flower" };
+
+            var result = Arr.Chunk(arr1, 2);
+
+            Assert.AreEqual("red", result[0][0]);
+            Assert.AreEqual("orange", result[0][1]);
+            Assert.AreEqual(2, result[0].Length);
+            Assert.AreEqual("white", result[1][0]);
+            Assert.AreEqual("dog", result[1][1]);
+            Assert.AreEqual(2, result[1].Length);
+            Assert.AreEqual("cat", result[2][0]);
+            Assert.AreEqual("flower", result[2][1]);
+            Assert.AreEqual(2, result[2].Length);
+        }
+
+        [TestMethod]
+        public void TestChunk3()
+        {
+            var arr1 = new[] { "red" };
+
+            var result = Arr.Chunk(arr1, 2);
+
+            Assert.AreEqual("red", result[0][0]);
+            Assert.AreEqual(1, result[0].Length);
+        }
+
+        [TestMethod]
+        public void TestChunk4()
+        {
+            var arr1 = new[] { "red" , "white" };
+
+            var result = Arr.Chunk(arr1, 2);
+
+            Assert.AreEqual("red", result[0][0]);
+            Assert.AreEqual("white", result[0][1]);
+            Assert.AreEqual(2, result[0].Length);
+        }
+
+        [TestMethod]
+        public void TestChunk5()
+        {
+            var arr1 = new[] { "red", "white" , "dog" };
+
+            var result = Arr.Chunk(arr1, 2);
+
+            Assert.AreEqual("red", result[0][0]);
+            Assert.AreEqual("white", result[0][1]);
+            Assert.AreEqual(2, result[0].Length);
+            Assert.AreEqual("dog", result[1][0]);
+            Assert.AreEqual(1, result[1].Length);
         }
     }
 }
