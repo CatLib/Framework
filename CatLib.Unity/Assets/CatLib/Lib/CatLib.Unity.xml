@@ -591,6 +591,85 @@
             计时器管理器
             </summary>
         </member>
+        <member name="T:CatLib.FileSystem.UnityFileSystemProvider">
+            <summary>
+            Unity 文件系统服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.FileSystem.UnityFileSystemProvider.PathTypes">
+            <summary>
+            路径类型
+            </summary>
+        </member>
+        <member name="F:CatLib.FileSystem.UnityFileSystemProvider.PathTypes.DataPath">
+            <summary>
+            数据路径
+            </summary>
+        </member>
+        <member name="F:CatLib.FileSystem.UnityFileSystemProvider.PathTypes.StreamingAssets">
+            <summary>
+            StreamingAssets
+            </summary>
+        </member>
+        <member name="F:CatLib.FileSystem.UnityFileSystemProvider.PathTypes.PersistentDataPath">
+            <summary>
+            可读可写路径
+            </summary>
+        </member>
+        <member name="F:CatLib.FileSystem.UnityFileSystemProvider.PathTypes.Auto">
+            <summary>
+            自动识别
+            </summary>
+        </member>
+        <member name="F:CatLib.FileSystem.UnityFileSystemProvider.PathType">
+            <summary>
+            路径类型
+            </summary>
+        </member>
+        <member name="F:CatLib.FileSystem.UnityFileSystemProvider.baseProvider">
+            <summary>
+            基础服务提供者
+            </summary>
+        </member>
+        <member name="P:CatLib.FileSystem.UnityFileSystemProvider.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
+        <member name="M:CatLib.FileSystem.UnityFileSystemProvider.Awake">
+            <summary>
+            Unity服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.FileSystem.UnityFileSystemProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.FileSystem.UnityFileSystemProvider.Register">
+            <summary>
+            注册服务
+            </summary>
+        </member>
+        <member name="M:CatLib.FileSystem.UnityFileSystemProvider.GetDefaultPath">
+            <summary>
+            默认的路径
+            <para>不同的调试等级下对应不同的资源路径</para>
+            <para><c>DebugLevels.Prod</c> : 生产环境下将会为<c>Application.persistentDataPath</c>读写目录</para>
+            <para><c>DebugLevels.Staging</c> : 仿真环境下将会为<c>StreamingAssets</c>文件夹</para>
+            <para><c>DebugLevels.Dev</c> : 开发者环境下将会为<c>Application.dataPath</c>数据路径</para>
+            <para>调试等级无论如何设置，脱离编辑器将自动使用<c>Application.persistentDataPath</c>读写目录</para>
+            <para>如果开发者有手动设置资源路径，将使用开发者设置的路径</para>
+            </summary>
+            <returns>路径</returns>
+        </member>
+        <member name="M:CatLib.FileSystem.UnityFileSystemProvider.GetPathWithDebugLevels(CatLib.DebugLevels)">
+            <summary>
+            根据调试等级获取路径
+            </summary>
+            <param name="level">调试等级</param>
+            <returns>路径</returns>
+        </member>
         <member name="T:CatLib.MonoDriver.DriverBehaviour">
             <summary>
             驱动脚本

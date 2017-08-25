@@ -69,6 +69,7 @@
     <Compile Include="Facade\Env.cs" />
     <Compile Include="Facade\Time.cs" />
     <Compile Include="Facade\Timer.cs" />
+    <Compile Include="FileSystem\UnityFileSystemProvider.cs" />
     <Compile Include="MonoDriver\DriverBehaviour.cs" />
     <Compile Include="MonoDriver\MonoDriver.cs" />
     <Compile Include="MonoDriver\MonoDriverProvider.cs" />

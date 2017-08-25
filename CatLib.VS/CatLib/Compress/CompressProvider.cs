@@ -50,6 +50,7 @@ namespace CatLib.Compress
                 var manager = (CompressManager)obj;
                 manager.Extend(() => new GZipAdapter(DefaultLevel));
                 manager.Extend(() => new LzmaAdapter(), "lzma");
+                manager.Extend(() => manager.Get(), "gzip");
                 return obj;
             });
 
