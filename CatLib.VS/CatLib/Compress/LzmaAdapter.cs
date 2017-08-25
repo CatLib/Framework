@@ -42,7 +42,7 @@ namespace CatLib.Compress
         /// </summary>
         /// <param name="bytes">需要解压缩的字节流</param>
         /// <returns>解压缩的结果</returns>
-        public byte[] UnCompress(byte[] bytes)
+        public byte[] Decompress(byte[] bytes)
         {
             using (var ms = new MemoryStream())
             {
