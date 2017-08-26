@@ -303,5 +303,45 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual("aaa", result[7]);
             Assert.AreEqual("aaa", result[8]);
         }
+
+        [TestMethod]
+        public void TestFillZeroWithSource()
+        {
+            var result = Arr.Fill(0, 3, "aaa", new[] { "dog", "cat", "white", "red", "world" });
+            Assert.AreEqual("aaa", result[0]);
+            Assert.AreEqual("aaa", result[1]);
+            Assert.AreEqual("aaa", result[2]);
+            Assert.AreEqual("dog", result[3]);
+            Assert.AreEqual("cat", result[4]);
+            Assert.AreEqual("white", result[5]);
+            Assert.AreEqual("red", result[6]);
+            Assert.AreEqual("world", result[7]);
+        }
+
+        [TestMethod]
+        public void TestFillException()
+        {
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Arr.Fill(-1, 3, "aaa", new[] {"dog", "cat", "white", "red", "world"});
+            });
+
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                Arr.Fill(0, 0, "aaa", new[] { "dog", "cat", "white", "red", "world" });
+            });
+        }
+
+        [TestMethod]
+        public void TestFilter()
+        {
+            var result = Arr.Filter(new[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}, (i) => i % 2 == 0);
+            Assert.AreEqual(2, result[0]);
+            Assert.AreEqual(4, result[1]);
+            Assert.AreEqual(6, result[2]);
+            Assert.AreEqual(8, result[3]);
+            Assert.AreEqual(0, result[4]);
+            Assert.AreEqual(5, result.Length);
+        }
     }
 }

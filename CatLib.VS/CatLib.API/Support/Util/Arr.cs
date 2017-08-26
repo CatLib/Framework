@@ -165,7 +165,7 @@ namespace CatLib
         /// <param name="source">源数据</param>
         /// <param name="size">每个分块的大小</param>
         /// <returns></returns>
-        public static T[][] Chunk<T>(T[] source , int size)
+        public static T[][] Chunk<T>(T[] source, int size)
         {
             Guard.Requires<ArgumentNullException>(source != null);
             size = Math.Max(1, size);
@@ -199,7 +199,7 @@ namespace CatLib
         /// <param name="value">填充的值</param>
         /// <param name="source">以这个数组作为源</param>
         /// <returns>填充后的数组</returns>
-        public static T[] Fill<T>(int start, int length, T value , T[] source = null)
+        public static T[] Fill<T>(int start, int length, T value, T[] source = null)
         {
             Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
             Guard.Requires<ArgumentOutOfRangeException>(length > 0);
@@ -222,6 +222,32 @@ namespace CatLib
             }
 
             return requested;
+        }
+
+        /// <summary>
+        /// 输入数组中的每个值传给回调函数,如果回调函数返回 true，则把输入数组中的当前值加入结果数组中
+        /// </summary>
+        /// <typeparam name="T">数组类型</typeparam>
+        /// <param name="source">数组源</param>
+        /// <param name="predicate">回调函数</param>
+        /// <returns></returns>
+        public static T[] Filter<T>(T[] source, Predicate<T> predicate)
+        {
+            Guard.Requires<ArgumentNullException>(source != null);
+            Guard.Requires<ArgumentNullException>(predicate != null);
+            var elements = new T[source.Length];
+
+            var i = 0;
+            foreach (var result in source)
+            {
+                if (predicate.Invoke(result))
+                {
+                    elements[i++] = result;
+                }
+            }
+
+            Array.Resize(ref elements, i);
+            return elements;
         }
     }
 }
