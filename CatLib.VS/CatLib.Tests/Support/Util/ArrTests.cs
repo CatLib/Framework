@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
 using TestClass = NUnit.Framework.TestFixtureAttribute;
@@ -234,6 +236,72 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual(2, result[0].Length);
             Assert.AreEqual("dog", result[1][0]);
             Assert.AreEqual(1, result[1].Length);
+        }
+
+        [TestMethod]
+        public void TestFill()
+        {
+            var result = Arr.Fill(1, 5, "aaa");
+            Assert.AreEqual(null, result[0]);
+            Assert.AreEqual("aaa", result[1]);
+            Assert.AreEqual("aaa", result[2]);
+            Assert.AreEqual("aaa", result[3]);
+            Assert.AreEqual("aaa", result[4]);
+            Assert.AreEqual("aaa", result[5]);
+        }
+
+        [TestMethod]
+        public void TestFillZeroStart()
+        {
+            var result = Arr.Fill(0, 5, "aaa");
+            Assert.AreEqual("aaa", result[0]);
+            Assert.AreEqual("aaa", result[1]);
+            Assert.AreEqual("aaa", result[2]);
+            Assert.AreEqual("aaa", result[3]);
+            Assert.AreEqual("aaa", result[4]);
+        }
+
+        [TestMethod]
+        public void TestFillWithSource()
+        {
+            var result = Arr.Fill(2, 3, "aaa", new[] {"dog", "cat", "white", "red", "world"});
+            Assert.AreEqual("dog", result[0]);
+            Assert.AreEqual("cat", result[1]);
+            Assert.AreEqual("aaa", result[2]);
+            Assert.AreEqual("aaa", result[3]);
+            Assert.AreEqual("aaa", result[4]);
+            Assert.AreEqual("white", result[5]);
+            Assert.AreEqual("red", result[6]);
+            Assert.AreEqual("world", result[7]);
+        }
+
+        [TestMethod]
+        public void TestFillBoundWithSource()
+        {
+            var result = Arr.Fill(5, 3, "aaa", new[] { "dog", "cat", "white", "red", "world" });
+            Assert.AreEqual("dog", result[0]);
+            Assert.AreEqual("cat", result[1]);
+            Assert.AreEqual("white", result[2]);
+            Assert.AreEqual("red", result[3]);
+            Assert.AreEqual("world", result[4]);
+            Assert.AreEqual("aaa", result[5]);
+            Assert.AreEqual("aaa", result[6]);
+            Assert.AreEqual("aaa", result[7]);
+        }
+
+        [TestMethod]
+        public void TestFillBound2WithSource()
+        {
+            var result = Arr.Fill(6, 3, "aaa", new[] { "dog", "cat", "white", "red", "world" });
+            Assert.AreEqual("dog", result[0]);
+            Assert.AreEqual("cat", result[1]);
+            Assert.AreEqual("white", result[2]);
+            Assert.AreEqual("red", result[3]);
+            Assert.AreEqual("world", result[4]);
+            Assert.AreEqual(null, result[5]);
+            Assert.AreEqual("aaa", result[6]);
+            Assert.AreEqual("aaa", result[7]);
+            Assert.AreEqual("aaa", result[8]);
         }
     }
 }

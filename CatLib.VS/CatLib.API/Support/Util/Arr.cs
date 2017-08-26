@@ -204,7 +204,7 @@ namespace CatLib
             Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
             Guard.Requires<ArgumentOutOfRangeException>(length > 0);
             var count = start + length;
-            var requested = new T[source == null ? count : Math.Max(source.Length, count)];
+            var requested = new T[source == null ? count : source.Length + count];
 
             if (start > 0 && source != null)
             {
@@ -216,9 +216,9 @@ namespace CatLib
                 requested[i] = value;
             }
 
-            if (source != null && count < source.Length)
+            if (source != null && start < source.Length)
             {
-                Array.Copy(source, count, requested, count, source.Length - count);
+                Array.Copy(source, start, requested, count, source.Length - start);
             }
 
             return requested;
