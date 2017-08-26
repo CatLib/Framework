@@ -46,16 +46,27 @@ namespace CatLib.Tests.Support.Util
         public void TestRandom()
         {
             var arr = new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-            var results = Arr.Random(arr);
+            var results = Arr.Rand(arr);
 
             var i = 0;
-            while (Arr.Random(arr)[0] == results[0])
+            while (Arr.Rand(arr)[0] == results[0])
             {
                 if (i++ > 1000)
                 {
                     Assert.Fail();
                 }
             }
+
+            Assert.AreEqual("1" , arr[0]);
+            Assert.AreEqual("2", arr[1]);
+            Assert.AreEqual("3", arr[2]);
+            Assert.AreEqual("4", arr[3]);
+            Assert.AreEqual("5", arr[4]);
+            Assert.AreEqual("6", arr[5]);
+            Assert.AreEqual("7", arr[6]);
+            Assert.AreEqual("8", arr[7]);
+            Assert.AreEqual("9", arr[8]);
+            Assert.AreEqual("0", arr[9]);
         }
 
         [TestMethod]
@@ -76,7 +87,7 @@ namespace CatLib.Tests.Support.Util
         [TestMethod]
         public void TestBaseNegativeSplice()
         {
-            var arr1 = new[] {"red", "orange", "white"};
+            var arr1 = new[] { "red", "orange", "white" };
             var arr2 = new[] { "dog", "cat" };
 
             var remove = Arr.Splice(ref arr1, -1, null, arr2);
@@ -186,7 +197,7 @@ namespace CatLib.Tests.Support.Util
         [TestMethod]
         public void TestChunk2()
         {
-            var arr1 = new[] { "red", "orange", "white", "dog", "cat" , "flower" };
+            var arr1 = new[] { "red", "orange", "white", "dog", "cat", "flower" };
 
             var result = Arr.Chunk(arr1, 2);
 
@@ -215,7 +226,7 @@ namespace CatLib.Tests.Support.Util
         [TestMethod]
         public void TestChunk4()
         {
-            var arr1 = new[] { "red" , "white" };
+            var arr1 = new[] { "red", "white" };
 
             var result = Arr.Chunk(arr1, 2);
 
@@ -227,7 +238,7 @@ namespace CatLib.Tests.Support.Util
         [TestMethod]
         public void TestChunk5()
         {
-            var arr1 = new[] { "red", "white" , "dog" };
+            var arr1 = new[] { "red", "white", "dog" };
 
             var result = Arr.Chunk(arr1, 2);
 
@@ -264,7 +275,8 @@ namespace CatLib.Tests.Support.Util
         [TestMethod]
         public void TestFillWithSource()
         {
-            var result = Arr.Fill(2, 3, "aaa", new[] {"dog", "cat", "white", "red", "world"});
+            var data = new[] {"dog", "cat", "white", "red", "world"};
+            var result = Arr.Fill(2, 3, "aaa", data);
             Assert.AreEqual("dog", result[0]);
             Assert.AreEqual("cat", result[1]);
             Assert.AreEqual("aaa", result[2]);
@@ -273,6 +285,12 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual("white", result[5]);
             Assert.AreEqual("red", result[6]);
             Assert.AreEqual("world", result[7]);
+
+            Assert.AreEqual("dog" , data[0]);
+            Assert.AreEqual("cat", data[1]);
+            Assert.AreEqual("white", data[2]);
+            Assert.AreEqual("red", data[3]);
+            Assert.AreEqual("world", data[4]);
         }
 
         [TestMethod]
@@ -323,7 +341,7 @@ namespace CatLib.Tests.Support.Util
         {
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                Arr.Fill(-1, 3, "aaa", new[] {"dog", "cat", "white", "red", "world"});
+                Arr.Fill(-1, 3, "aaa", new[] { "dog", "cat", "white", "red", "world" });
             });
 
             ExceptionAssert.Throws<ArgumentOutOfRangeException>(() =>
@@ -335,7 +353,7 @@ namespace CatLib.Tests.Support.Util
         [TestMethod]
         public void TestFilter()
         {
-            var result = Arr.Filter(new[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}, (i) => i % 2 == 0);
+            var result = Arr.Filter(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }, (i) => i % 2 == 0);
             Assert.AreEqual(2, result[0]);
             Assert.AreEqual(4, result[1]);
             Assert.AreEqual(6, result[2]);
@@ -347,16 +365,21 @@ namespace CatLib.Tests.Support.Util
         [TestMethod]
         public void TestMap()
         {
-            var result = Arr.Map(new[] {1, 2, 3}, (i) => i * 2);
+            var data = new[] {1, 2, 3};
+            var result = Arr.Map(data, (i) => i * 2);
             Assert.AreEqual(2, result[0]);
             Assert.AreEqual(4, result[1]);
             Assert.AreEqual(6, result[2]);
+
+            Assert.AreEqual(1, data[0]);
+            Assert.AreEqual(2, data[1]);
+            Assert.AreEqual(3, data[2]);
         }
 
         [TestMethod]
         public void TestPop()
         {
-            var elements = new[] {1, 2, 3};
+            var elements = new[] { 1, 2, 3 };
             var result = Arr.Pop(ref elements);
 
             Assert.AreEqual(3, result);
@@ -369,13 +392,88 @@ namespace CatLib.Tests.Support.Util
         public void TestPush()
         {
             var elements = new[] { 1, 2, 3 };
-            Arr.Push(ref elements, 4, 5);
+            var result = Arr.Push(ref elements, 4, 5);
             Assert.AreEqual(5, elements.Length);
             Assert.AreEqual(1, elements[0]);
             Assert.AreEqual(2, elements[1]);
             Assert.AreEqual(3, elements[2]);
             Assert.AreEqual(4, elements[3]);
             Assert.AreEqual(5, elements[4]);
+            Assert.AreEqual(5, result);
+        }
+
+        [TestMethod]
+        public void TestReduce()
+        {
+            var result = Arr.Reduce(new[] { "a", "b", "c" }, (v1, v2) => v1 + "-" + v2, "hello");
+
+            Assert.AreEqual("hello-a-b-c", result);
+        }
+
+        [TestMethod]
+        public void TestSlice()
+        {
+            var result = Arr.Slice(new[] { "a", "b", "c" }, 1, -1);
+            Assert.AreEqual("b", result[0]);
+            Assert.AreEqual(1, result.Length);
+        }
+
+        [TestMethod]
+        public void TestShift()
+        {
+            var data = new[] { "a", "b", "c" };
+            var result = Arr.Shift(ref data);
+
+            Assert.AreEqual("a", result);
+            Assert.AreEqual(2, data.Length);
+            Assert.AreEqual("b", data[0]);
+            Assert.AreEqual("c", data[1]);
+        }
+
+        [TestMethod]
+        public void TestUnShift()
+        {
+            var data = new[] { "c" };
+            var result = Arr.UnShift(ref data, "a", "b");
+
+            Assert.AreEqual(3, result);
+            Assert.AreEqual(3, data.Length);
+            Assert.AreEqual("a", data[0]);
+            Assert.AreEqual("b", data[1]);
+            Assert.AreEqual("c", data[2]);
+        }
+
+        [TestMethod]
+        public void TestReverse()
+        {
+            var data = new[] { "a", "b", "c" };
+            var result = Arr.Reverse(data);
+
+            Assert.AreEqual(3, result.Length);
+            Assert.AreEqual("c", result[0]);
+            Assert.AreEqual("b", result[1]);
+            Assert.AreEqual("a", result[2]);
+
+            Assert.AreEqual("a", data[0]);
+            Assert.AreEqual("b", data[1]);
+            Assert.AreEqual("c", data[2]);
+        }
+
+        [TestMethod]
+        public void TestReverseWithStartLength()
+        {
+            var data = new[] { "a", "b", "c", "d", "e" };
+            var result = Arr.Reverse(data, 1, 2);
+
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("c", result[0]);
+            Assert.AreEqual("b", result[1]);
+
+            Assert.AreEqual("a", data[0]);
+            Assert.AreEqual("b", data[1]);
+            Assert.AreEqual("c", data[2]);
+            Assert.AreEqual("d", data[3]);
+            Assert.AreEqual("e", data[4]);
         }
     }
 }
