@@ -352,5 +352,30 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual(4, result[1]);
             Assert.AreEqual(6, result[2]);
         }
+
+        [TestMethod]
+        public void TestPop()
+        {
+            var elements = new[] {1, 2, 3};
+            var result = Arr.Pop(ref elements);
+
+            Assert.AreEqual(3, result);
+            Assert.AreEqual(2, elements.Length);
+            Assert.AreEqual(1, elements[0]);
+            Assert.AreEqual(2, elements[1]);
+        }
+
+        [TestMethod]
+        public void TestPush()
+        {
+            var elements = new[] { 1, 2, 3 };
+            Arr.Push(ref elements, 4, 5);
+            Assert.AreEqual(5, elements.Length);
+            Assert.AreEqual(1, elements[0]);
+            Assert.AreEqual(2, elements[1]);
+            Assert.AreEqual(3, elements[2]);
+            Assert.AreEqual(4, elements[3]);
+            Assert.AreEqual(5, elements[4]);
+        }
     }
 }

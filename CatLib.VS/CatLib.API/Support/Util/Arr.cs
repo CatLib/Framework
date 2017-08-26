@@ -270,6 +270,35 @@ namespace CatLib
             return source;
         }
 
+        /// <summary>
+        /// 删除数组中的最后一个元素
+        /// </summary>
+        /// <typeparam name="T">删除数组中的最后一个元素</typeparam>
+        /// <param name="source">数组源</param>
+        /// <returns>被删除的元素</returns>
+        public static T Pop<T>(ref T[] source)
+        {
+            Guard.Requires<ArgumentNullException>(source != null);
+            Guard.Requires<InvalidOperationException>(source.Length > 0);
 
+            T result = source[source.Length - 1];
+            Array.Resize(ref source, source.Length - 1);
+            return result;
+        }
+
+        /// <summary>
+        /// 将一个或多个元素加入数组尾端
+        /// </summary>
+        /// <typeparam name="T">数组诶型</typeparam>
+        /// <param name="source">数组源</param>
+        /// <param name="elements">要加入的元素</param>
+        public static void Push<T>(ref T[] source, params T[] elements)
+        {
+            Guard.Requires<ArgumentNullException>(source != null);
+            Guard.Requires<InvalidOperationException>(elements != null);
+
+            Array.Resize(ref source, source.Length + elements.Length);
+            Array.Copy(elements, 0, source, source.Length - elements.Length, elements.Length);
+        }
     }
 }
