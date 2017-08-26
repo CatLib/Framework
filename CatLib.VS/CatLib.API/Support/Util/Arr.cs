@@ -249,5 +249,27 @@ namespace CatLib
             Array.Resize(ref elements, i);
             return elements;
         }
+
+        /// <summary>
+        /// 将数组值传入用户自定义函数，自定义函数返回的值作为新的数组值
+        /// </summary>
+        /// <typeparam name="T">数组类型</typeparam>
+        /// <param name="source">数组源</param>
+        /// <param name="callback">自定义函数</param>
+        /// <returns>处理后的数组</returns>
+        public static T[] Map<T>(T[] source, Func<T, T> callback)
+        {
+            Guard.Requires<ArgumentNullException>(source != null);
+            Guard.Requires<ArgumentNullException>(callback != null);
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                source[i] = callback.Invoke(source[i]);
+            }
+
+            return source;
+        }
+
+
     }
 }

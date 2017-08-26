@@ -343,5 +343,14 @@ namespace CatLib.Tests.Support.Util
             Assert.AreEqual(0, result[4]);
             Assert.AreEqual(5, result.Length);
         }
+
+        [TestMethod]
+        public void TestMap()
+        {
+            var result = Arr.Map(new[] {1, 2, 3}, (i) => i * 2);
+            Assert.AreEqual(2, result[0]);
+            Assert.AreEqual(4, result[1]);
+            Assert.AreEqual(6, result[2]);
+        }
     }
 }
