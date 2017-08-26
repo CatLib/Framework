@@ -189,5 +189,39 @@ namespace CatLib
 
             return requested;
         }
+
+        /// <summary>
+        /// 填充数组
+        /// </summary>
+        /// <typeparam name="T">数组类型</typeparam>
+        /// <param name="start">起始下标</param>
+        /// <param name="length">填充长度</param>
+        /// <param name="value">填充的值</param>
+        /// <param name="source">以这个数组作为源</param>
+        /// <returns>填充后的数组</returns>
+        public static T[] Fill<T>(int start, int length, T value , T[] source = null)
+        {
+            Guard.Requires<ArgumentOutOfRangeException>(start >= 0);
+            Guard.Requires<ArgumentOutOfRangeException>(length > 0);
+            var count = start + length;
+            var requested = new T[source == null ? count : Math.Max(source.Length, count)];
+
+            if (start > 0 && source != null)
+            {
+                Array.Copy(source, requested, Math.Min(source.Length, start));
+            }
+
+            for (var i = start; i < count; i++)
+            {
+                requested[i] = value;
+            }
+
+            if (source != null && count < source.Length)
+            {
+                Array.Copy(source, count, requested, count, source.Length - count);
+            }
+
+            return requested;
+        }
     }
 }
