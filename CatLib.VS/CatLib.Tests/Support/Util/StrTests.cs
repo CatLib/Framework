@@ -94,5 +94,28 @@ namespace CatLib.API.Stl
             var result = Str.Repeat("abc", 2);
             Assert.AreEqual("abcabc", result);
         }
+
+        [TestMethod]
+        public void TestStrShuffle()
+        {
+            var str = "helloworld";
+            var i = 0;
+            while (Str.Shuffle(str) == "helloworld")
+            {
+                if (i++ > 1000)
+                {
+                    Assert.Fail();
+                }
+            }
+
+            Assert.AreEqual("helloworld", str);
+        }
+
+        [TestMethod]
+        public void TestStrShuffleEmpty()
+        {
+            var str = string.Empty;
+            Assert.AreEqual(string.Empty, Str.Shuffle(str));
+        }
     }
 }

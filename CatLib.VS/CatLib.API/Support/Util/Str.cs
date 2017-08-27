@@ -95,5 +95,37 @@ namespace CatLib
             }
             return requested;
         }
+
+        /// <summary>
+        /// 随机打乱字符串中的所有字符
+        /// </summary>
+        /// <param name="str">需要被打乱的字符串</param>
+        /// <param name="seed">种子</param>
+        /// <returns>被打乱的字符串</returns>
+        public static string Shuffle(string str, int? seed = null)
+        {
+            Guard.Requires<ArgumentNullException>(str != null);
+            var random = new Random(seed.GetValueOrDefault(Guid.NewGuid().GetHashCode()));
+
+            var requested = new string[str.Length];
+            for (var i = 0; i < str.Length; i++)
+            {
+                var index = random.Next(0, str.Length - 1);
+
+                requested[i] = requested[i] ?? str.Substring(i, 1);
+                requested[index] = requested[index] ?? str.Substring(index, 1);
+
+                if (index == i)
+                {
+                    continue;
+                }
+
+                var temp = requested[i];
+                requested[i] = requested[index];
+                requested[index] = temp;
+            }
+
+            return Arr.Reduce(requested, (v1, v2) => v1 + v2, string.Empty);
+        }
     }
 }

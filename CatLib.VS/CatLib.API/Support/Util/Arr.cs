@@ -26,6 +26,7 @@ namespace CatLib
         /// <returns>合并后的数组</returns>
         public static T[] Merge<T>(params T[][] sources)
         {
+            Guard.Requires<ArgumentNullException>(sources != null);
             var length = 0;
             foreach (var source in sources)
             {
@@ -52,6 +53,7 @@ namespace CatLib
         /// <returns>随机后的元素</returns>
         public static T[] Rand<T>(T[] source, int number = 1)
         {
+            Guard.Requires<ArgumentNullException>(source != null);
             number = Math.Max(number, 1);
             source = Shuffle(source);
             var requested = new T[number];
@@ -77,6 +79,7 @@ namespace CatLib
         /// <returns>打乱后的数组</returns>
         public static T[] Shuffle<T>(T[] source, int? seed = null)
         {
+            Guard.Requires<ArgumentNullException>(source != null);
             var requested = new T[source.Length];
             Array.Copy(source, requested, source.Length);
 
