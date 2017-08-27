@@ -120,7 +120,7 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(source != null);
 
-            NormalizationPosition(source.Length, ref start, ref length);
+            Util.NormalizationPosition(source.Length, ref start, ref length);
 
             var requested = new T[length.Value];
 
@@ -356,7 +356,7 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(source != null);
 
-            NormalizationPosition(source.Length, ref start, ref length);
+            Util.NormalizationPosition(source.Length, ref start, ref length);
 
             var requested = new T[length.Value];
             Array.Copy(source, start, requested, 0, length.Value);
@@ -391,7 +391,7 @@ namespace CatLib
         /// <param name="source">规定数组</param>
         /// <param name="elements">插入的元素</param>
         /// <returns>数组元素个数</returns>
-        public static int UnShift<T>(ref T[] source, params T[] elements)
+        public static int Unshift<T>(ref T[] source, params T[] elements)
         {
             Guard.Requires<ArgumentNullException>(source != null);
             Guard.Requires<ArgumentNullException>(elements != null);
@@ -425,7 +425,7 @@ namespace CatLib
         public static T[] Reverse<T>(T[] source, int start = 0, int? length = null)
         {
             Guard.Requires<ArgumentNullException>(source != null);
-            NormalizationPosition(source.Length, ref start, ref length);
+            Util.NormalizationPosition(source.Length, ref start, ref length);
             var tmpSource = new T[source.Length];
             Array.Copy(source, tmpSource, source.Length);
             Array.Reverse(tmpSource, start, length.Value);
@@ -433,23 +433,6 @@ namespace CatLib
             var resquested = new T[length.Value];
             Array.Copy(tmpSource, start, resquested, 0, length.Value);
             return resquested;
-        }
-
-        /// <summary>
-        /// 标准化位置
-        /// </summary>
-        /// <param name="sourceLength">源数组长度</param>
-        /// <param name="start">起始位置</param>
-        /// <param name="length">作用长度</param>
-        private static void NormalizationPosition(int sourceLength, ref int start, ref int? length)
-        {
-            start = (start >= 0) ? Math.Min(start, sourceLength) : Math.Max(sourceLength + start, 0);
-
-            length = (length == null)
-                ? Math.Max(sourceLength - start, 0)
-                : (length >= 0)
-                    ? Math.Min(length.Value, sourceLength - start)
-                    : Math.Max(sourceLength + length.Value - start, 0);
         }
     }
 }
