@@ -127,5 +127,40 @@ namespace CatLib
 
             return Arr.Reduce(requested, (v1, v2) => v1 + v2, string.Empty);
         }
+
+        /// <summary>
+        /// 计算子串在字符串中出现的次数
+        /// <para>子串是区分大小写的</para>
+        /// <para>该函数不计数重叠的子串</para>
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="subStr"></param>
+        /// <param name="start"></param>
+        /// <param name="length"></param>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
+        public static int SubstringCount(string str, string subStr, int start = 0, int? length = null , StringComparison comparison = StringComparison.CurrentCultureIgnoreCase)
+        {
+            Guard.Requires<ArgumentNullException>(str != null);
+            Guard.Requires<ArgumentNullException>(subStr != null);
+
+            Util.NormalizationPosition(str.Length, ref start, ref length);
+
+            var count = 0;
+            int index;
+            while (length.Value > 0)
+            {
+                if ((index = str.IndexOf(subStr, start, length.Value, comparison)) < 0)
+                {
+                    break;
+                    
+                }
+                count++;
+                length -= index + subStr.Length - start;
+                start = index + subStr.Length;
+            }
+
+            return count;
+        }
     }
 }
