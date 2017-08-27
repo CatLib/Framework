@@ -86,6 +86,8 @@ namespace CatLib
         /// <returns>重复后的字符串</returns>
         public static string Repeat(string str, int num)
         {
+            Guard.Requires<ArgumentNullException>(str != null);
+            Guard.Requires<ArgumentOutOfRangeException>(num > 0);
             var requested = string.Empty;
             for (var i = 0; i < num; i++)
             {
