@@ -19,7 +19,7 @@ namespace CatLib
     public static class Str
     {
         /// <summary>
-        /// 判断是否属于(允许使用信号通配表达式)
+        /// 判断是否属于(允许使用星号通配表达式)
         /// </summary>
         /// <param name="pattern">比较字符串</param>
         /// <param name="value">输入字符串</param>
