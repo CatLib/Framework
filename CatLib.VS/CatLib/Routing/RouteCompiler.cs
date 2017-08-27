@@ -255,26 +255,10 @@ namespace CatLib.Routing
             var nbTokens = tokens.Count;
             if (nbTokens - 1 == index)
             {
-                regexp += StrRepeat(")?", nbTokens - firstOptional - (0 == firstOptional ? 1 : 0));
+                regexp += Str.Repeat(")?", nbTokens - firstOptional - (0 == firstOptional ? 1 : 0));
             }
 
             return regexp;
-        }
-
-        /// <summary>
-        /// 重复字符串
-        /// </summary>
-        /// <param name="val">值</param>
-        /// <param name="num">重复的次数</param>
-        /// <returns>字符串</returns>
-        private static string StrRepeat(string val, int num)
-        {
-            var tmp = string.Empty;
-            for (var i = 0; i < num; i++)
-            {
-                tmp += val;
-            }
-            return tmp;
         }
 
         /// <summary>

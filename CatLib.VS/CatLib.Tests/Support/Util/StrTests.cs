@@ -87,5 +87,12 @@ namespace CatLib.API.Stl
 
             Assert.AreEqual(0, result.Length);
         }
+
+        [TestMethod]
+        public void TestStrRepeat()
+        {
+            var result = Str.Repeat("abc", 2);
+            Assert.AreEqual("abcabc", result);
+        }
     }
 }

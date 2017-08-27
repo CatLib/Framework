@@ -10,7 +10,6 @@
  */
 
 using System;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CatLib
@@ -76,6 +75,22 @@ namespace CatLib
                 requested[i / length] = str.Substring(i, Math.Min(str.Length - i, length));
             }
 
+            return requested;
+        }
+
+        /// <summary>
+        /// 将字符串重复指定的次数
+        /// </summary>
+        /// <param name="str">需要被重复的字符串</param>
+        /// <param name="num">重复的次数</param>
+        /// <returns>重复后的字符串</returns>
+        public static string Repeat(string str, int num)
+        {
+            var requested = string.Empty;
+            for (var i = 0; i < num; i++)
+            {
+                requested += str;
+            }
             return requested;
         }
     }
