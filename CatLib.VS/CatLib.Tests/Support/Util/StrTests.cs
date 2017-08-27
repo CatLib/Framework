@@ -135,6 +135,23 @@ namespace CatLib.API.Stl
 
             count = Str.SubstringCount("heLLoworldworld", "l", 0, null, StringComparison.CurrentCulture);
             Assert.AreEqual(2, count);
+
+            count = Str.SubstringCount("abcabcab", "abcab");
+            Assert.AreEqual(1, count);
+        }
+
+        [TestMethod]
+        public void TestSubstringEmpty()
+        {
+            var count = Str.SubstringCount(string.Empty, "wor");
+            Assert.AreEqual(0, count);
+        }
+
+        [TestMethod]
+        public void TestSubstringStartLargeThanLength()
+        {
+            var count = Str.SubstringCount("helloworld", "wor", 999, 9);
+            Assert.AreEqual(0, count);
         }
     }
 }
