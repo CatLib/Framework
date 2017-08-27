@@ -162,5 +162,18 @@ namespace CatLib
 
             return count;
         }
+
+        /// <summary>
+        /// 反转字符串
+        /// </summary>
+        /// <param name="str">规定要反转的字符串</param>
+        /// <returns>反转后的字符串</returns>
+        public static string Reverse(string str)
+        {
+            var chars = str.ToCharArray();
+            Array.Reverse(chars);
+
+            return new string(chars);
+        }
     }
 }

@@ -153,5 +153,12 @@ namespace CatLib.API.Stl
             var count = Str.SubstringCount("helloworld", "wor", 999, 9);
             Assert.AreEqual(0, count);
         }
+
+        [TestMethod]
+        public void TestReverse()
+        {
+            var result = Str.Reverse("hello");
+            Assert.AreEqual("olleh", result);
+        }
     }
 }
