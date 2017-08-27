@@ -19,6 +19,7 @@ namespace CatLib.Routing
     /// 路由服务
     /// </summary>
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(CatLibFramework))]
     [AddComponentMenu("CatLib/Routing")]
     public sealed class UnityRoutingProvider : MonoBehaviour, IServiceProvider, IServiceProviderType
     {

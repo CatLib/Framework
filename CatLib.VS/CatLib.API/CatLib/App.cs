@@ -18,6 +18,7 @@ namespace CatLib
     /// <summary>
     /// CatLib实例
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class App
     {
         /// <summary>
@@ -132,6 +133,15 @@ namespace CatLib
         public static int GetPriority(Type type, string method = null)
         {
             return Handler.GetPriority(type, method);
+        }
+
+        /// <summary>
+        /// 设定调试等级
+        /// </summary>
+        /// <param name="level">调试等级</param>
+        public static void SetDebugLevel(DebugLevels level)
+        {
+            Handler.SetDebugLevel(level);
         }
 
         /// <summary>

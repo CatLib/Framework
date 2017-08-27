@@ -78,5 +78,11 @@ namespace CatLib
         /// <param name="method">获取优先级的调用方法</param>
         /// <returns>优先级</returns>
         int GetPriority(Type type, string method = null);
+
+        /// <summary>
+        /// 设定调试等级
+        /// </summary>
+        /// <param name="level">调试等级</param>
+        void SetDebugLevel(DebugLevels level);
     }
 }

@@ -23,7 +23,7 @@ namespace CatLib.MonoDriver
         /// Mono驱动器初始化
         /// </summary>
         /// <returns>迭代器</returns>
-        [Priority(1)]
+        [Priority(10)]
         public void Init()
         {
             App.Make<IMonoDriver>();

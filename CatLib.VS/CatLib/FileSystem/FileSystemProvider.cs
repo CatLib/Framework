@@ -30,6 +30,7 @@ namespace CatLib.FileSystem
         /// 服务提供者进程
         /// </summary>
         /// <returns>迭代器</returns>
+        [Priority(10)]
         public void Init()
         {
             InitRegisterLocalDriver();
