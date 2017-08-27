@@ -5338,7 +5338,7 @@
         </member>
         <member name="M:CatLib.Str.Is(System.String,System.String)">
             <summary>
-            判断是否属于(允许使用信号通配表达式)
+            判断是否属于(允许使用星号通配表达式)
             </summary>
             <param name="pattern">比较字符串</param>
             <param name="value">输入字符串</param>
@@ -5357,6 +5357,14 @@
             </summary>
             <param name="str">输入</param>
             <returns>输出</returns>
+        </member>
+        <member name="M:CatLib.Str.Split(System.String,System.Int32)">
+            <summary>
+            根据长度将字符串分割到数组中
+            </summary>
+            <param name="str">要分割的字符串</param>
+            <param name="length">规定每个数组元素的长度。默认是 1。</param>
+            <returns>分割的字符串</returns>
         </member>
         <member name="T:CatLib.SystemTime">
             <summary>

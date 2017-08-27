@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CatLib
@@ -55,6 +57,26 @@ namespace CatLib
                 str = str.Replace(q, @"\" + q);
             }
             return str;
+        }
+
+        /// <summary>
+        /// 根据长度将字符串分割到数组中
+        /// </summary>
+        /// <param name="str">要分割的字符串</param>
+        /// <param name="length">规定每个数组元素的长度。默认是 1。</param>
+        /// <returns>分割的字符串</returns>
+        public static string[] Split(string str, int length = 1)
+        {
+            Guard.Requires<ArgumentNullException>(str != null);
+            Guard.Requires<ArgumentOutOfRangeException>(length > 0);
+            var requested = new string[str.Length / length + (str.Length % length == 0 ? 0 : 1)];
+
+            for (var i = 0; i < str.Length; i += length)
+            {
+                requested[i / length] = str.Substring(i, Math.Min(str.Length - i, length));
+            }
+
+            return requested;
         }
     }
 }
