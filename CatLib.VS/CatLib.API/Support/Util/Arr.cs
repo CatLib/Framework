@@ -20,10 +20,10 @@ namespace CatLib
     public static class Arr
     {
         /// <summary>
-        /// 合并数组
+        /// 将多个规定数组合并成一个数组
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="sources">需要合并的数组</param>
+        /// <param name="sources">规定数组</param>
         /// <returns>合并后的数组</returns>
         public static T[] Merge<T>(params T[][] sources)
         {
@@ -45,10 +45,10 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 从数组中获取一个或者指定数量的随机值
+        /// 从规定数组中获取一个或者指定数量的随机值
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">源数据</param>
+        /// <param name="source">规定数组</param>
         /// <param name="number">随机的数量</param>
         /// <returns>随机后的元素</returns>
         public static T[] Rand<T>(T[] source, int number = 1)
@@ -70,12 +70,12 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 将数组中的元素打乱
+        /// 将规定数组中的元素打乱
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">源数据</param>
+        /// <param name="source">规定数组</param>
         /// <param name="seed">种子</param>
-        /// <returns>打乱后的数据</returns>
+        /// <returns>打乱后的数组</returns>
         public static T[] Shuffle<T>(T[] source, int? seed = null)
         {
             var requested = new T[source.Length];
@@ -101,7 +101,7 @@ namespace CatLib
         /// 从数组中移除指定长度的元素，如果给定了<paramref name="replSource"/>参数，那么新元素从<paramref name="start"/>位置开始插入
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">源数组</param>
+        /// <param name="source">规定数组</param>
         /// <param name="start">
         /// 删除元素的开始位置。
         /// <para>如果该值设置为正数，则从前往后开始删除</para>
@@ -165,7 +165,7 @@ namespace CatLib
         /// <para>其中每个数组的单元数目由 <paramref name="size"/> 参数决定。最后一个数组的单元数目可能会少几个。</para>
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">源数据</param>
+        /// <param name="source">规定数组</param>
         /// <param name="size">每个分块的大小</param>
         /// <returns></returns>
         public static T[][] Chunk<T>(T[] source, int size)
@@ -194,13 +194,13 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 填充数组
+        /// 对数组进行填充，如果传入了规定数组，那么会在规定数组的基础上进行填充
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
         /// <param name="start">起始下标</param>
         /// <param name="length">填充长度</param>
         /// <param name="value">填充的值</param>
-        /// <param name="source">以这个数组作为源</param>
+        /// <param name="source">规定数组</param>
         /// <returns>填充后的数组</returns>
         public static T[] Fill<T>(int start, int length, T value, T[] source = null)
         {
@@ -231,9 +231,9 @@ namespace CatLib
         /// 输入数组中的每个值传给回调函数,如果回调函数返回 true，则把输入数组中的当前值加入结果数组中
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">数组源</param>
+        /// <param name="source">规定数组</param>
         /// <param name="predicate">回调函数</param>
-        /// <returns></returns>
+        /// <returns>需求数组</returns>
         public static T[] Filter<T>(T[] source, Predicate<T> predicate)
         {
             Guard.Requires<ArgumentNullException>(source != null);
@@ -257,7 +257,7 @@ namespace CatLib
         /// 将数组值传入用户自定义函数，自定义函数返回的值作为新的数组值
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">数组源</param>
+        /// <param name="source">规定数组</param>
         /// <param name="callback">自定义函数</param>
         /// <returns>处理后的数组</returns>
         public static T[] Map<T>(T[] source, Func<T, T> callback)
@@ -277,10 +277,10 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 删除数组中的最后一个元素
+        /// 删除数组中的最后一个元素，并将删除的元素作为返回值返回
         /// </summary>
         /// <typeparam name="T">删除数组中的最后一个元素</typeparam>
-        /// <param name="source">数组源</param>
+        /// <param name="source">规定数组</param>
         /// <returns>被删除的元素</returns>
         public static T Pop<T>(ref T[] source)
         {
@@ -296,7 +296,7 @@ namespace CatLib
         /// 将一个或多个元素加入数组尾端
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">数组源</param>
+        /// <param name="source">规定数组</param>
         /// <param name="elements">要加入的元素</param>
         /// <returns>数组的元素个数</returns>
         public static int Push<T>(ref T[] source, params T[] elements)
@@ -312,11 +312,11 @@ namespace CatLib
 
         /// <summary>
         /// 向用户自定义函数发送数组中的值，并返回一个字符串
-        /// <para>如果数组是空的且未传递 <paramref name="initial"/> 参数，该函数返回 null</para>
+        /// <para>如果数组是空的且未传递<paramref name="initial"/>参数，该函数返回 null</para>
         /// <para>如果指定了<paramref name="initial"/>参数，则该参数将被当成是数组中的第一个值来处理，如果数组为空的话就作为最终返回值(string)</para>
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">数组源</param>
+        /// <param name="source">规定数组</param>
         /// <param name="callback">自定义函数</param>
         /// <param name="initial">初始值</param>
         /// <returns></returns>
@@ -337,7 +337,7 @@ namespace CatLib
         /// 在数组中根据条件取出一段值，并返回。
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">数组源</param>
+        /// <param name="source">规定数组</param>
         /// <param name="start">
         /// 取出元素的开始位置。
         /// <para>如果该值设置为正数，则从前往后开始取</para>
@@ -366,7 +366,7 @@ namespace CatLib
         /// 删除数组中第一个元素，并返回被删除元素的值
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">源数组</param>
+        /// <param name="source">规定数组</param>
         /// <returns>被删除元素的值</returns>
         public static T Shift<T>(ref T[] source)
         {
@@ -386,7 +386,7 @@ namespace CatLib
         /// 向数组插入新元素。新数组的值将被插入到数组的开头。
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">源数组</param>
+        /// <param name="source">规定数组</param>
         /// <param name="elements">插入的元素</param>
         /// <returns>数组元素个数</returns>
         public static int UnShift<T>(ref T[] source, params T[] elements)
@@ -408,7 +408,7 @@ namespace CatLib
         /// 以相反的顺序返回数组
         /// </summary>
         /// <typeparam name="T">数组类型</typeparam>
-        /// <param name="source">源数组</param>
+        /// <param name="source">规定数组</param>
         /// <param name="start">
         /// 起始元素的开始位置。
         /// <para>如果该值设置为正数，则从前往后开始取</para>
