@@ -37,12 +37,12 @@ namespace CatLib.Debugger.Log
         /// <summary>
         /// 条目id
         /// </summary>
-        public long Id { get; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// 日志等级
         /// </summary>
-        public LogLevels Level { get; }
+        public LogLevels Level { get; private set; }
 
         /// <summary>
         /// 日志内容
@@ -57,7 +57,7 @@ namespace CatLib.Debugger.Log
         /// <summary>
         /// 记录时间
         /// </summary>
-        public long Time { get; }
+        public long Time { get; private set; }
 
         /// <summary>
         /// 调用堆栈
