@@ -133,7 +133,7 @@ namespace CatLib
         public static string Shuffle(string str, int? seed = null)
         {
             Guard.Requires<ArgumentNullException>(str != null);
-            var random = new Random(seed.GetValueOrDefault(Guid.NewGuid().GetHashCode()));
+            var random = Util.MakeRandom(seed);
 
             var requested = new string[str.Length];
             for (var i = 0; i < str.Length; i++)
@@ -158,16 +158,15 @@ namespace CatLib
 
         /// <summary>
         /// 计算子串在字符串中出现的次数
-        /// <para>子串是区分大小写的</para>
         /// <para>该函数不计数重叠的子串</para>
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="subStr"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="comparison"></param>
-        /// <returns></returns>
-        public static int SubstringCount(string str, string subStr, int start = 0, int? length = null , StringComparison comparison = StringComparison.CurrentCultureIgnoreCase)
+        /// <param name="str">规定字符串</param>
+        /// <param name="subStr">子字符串</param>
+        /// <param name="start">起始位置</param>
+        /// <param name="length">需要扫描的长度</param>
+        /// <param name="comparison">扫描规则</param>
+        /// <returns>子字符串出现的次数</returns>
+        public static int SubstringCount(string str, string subStr, int start = 0, int? length = null, StringComparison comparison = StringComparison.CurrentCultureIgnoreCase)
         {
             Guard.Requires<ArgumentNullException>(str != null);
             Guard.Requires<ArgumentNullException>(subStr != null);
@@ -175,13 +174,13 @@ namespace CatLib
             Util.NormalizationPosition(str.Length, ref start, ref length);
 
             var count = 0;
-            int index;
             while (length.Value > 0)
             {
+                int index;
                 if ((index = str.IndexOf(subStr, start, length.Value, comparison)) < 0)
                 {
                     break;
-                    
+
                 }
                 count++;
                 length -= index + subStr.Length - start;
@@ -209,7 +208,11 @@ namespace CatLib
         /// </summary>
         /// <param name="str">规定要填充的字符串</param>
         /// <param name="length">规定新的字符串长度。如果该值小于字符串的原始长度，则不进行任何操作。</param>
-        /// <param name="padStr">规定供填充使用的字符串。默认是空白。如果传入的字符串长度小于等于0那么会使用空白代替。</param>
+        /// <param name="padStr">
+        /// 规定供填充使用的字符串。默认是空白。
+        /// <para>如果传入的字符串长度小于等于0那么会使用空白代替。</para>
+        /// <para>注释：空白不是空字符串</para>
+        /// </param>
         /// <param name="type">
         /// 规定填充字符串的哪边。
         /// <para><see cref="PadTypes.Both"/>填充字符串的两侧。如果不是偶数，则右侧获得额外的填充。</para>
@@ -234,7 +237,8 @@ namespace CatLib
             {
                 leftPadding = needPadding >> 1;
                 rightPadding = (needPadding >> 1) + (needPadding % 2 == 0 ? 0 : 1);
-            }else if (type == PadTypes.Right)
+            }
+            else if (type == PadTypes.Right)
             {
                 rightPadding = needPadding;
             }
@@ -251,6 +255,133 @@ namespace CatLib
 
             return Repeat(padStr, leftPadCount).Substring(0, leftPadding) + str +
                    Repeat(padStr, rightPadCount).Substring(0, rightPadding);
+        }
+
+        /// <summary>
+        /// 在规定搜索值之后返回字符串的剩余部分。
+        /// <para>如果没有找到则返回输入字符串本身</para>
+        /// </summary>
+        /// <param name="str">输入字符串</param>
+        /// <param name="search">规定搜索值</param>
+        /// <returns>剩余部分</returns>
+        public static string After(string str, string search)
+        {
+            Guard.Requires<ArgumentNullException>(search != null);
+            if (str == null || str.Length <= 0)
+            {
+                return str;
+            }
+
+            var index = str.IndexOf(search);
+            if (index < 0)
+            {
+                return str;
+            }
+
+            return str.Substring(index + search.Length, str.Length - index - search.Length);
+        }
+
+        /// <summary>
+        /// 判断规定字符串是否包含规定的子字符串
+        /// <para>子字符串是识别大小写的</para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="str">规定字符串</param>
+        /// <param name="needles">规定的子字符串</param>
+        /// <returns>是否包含</returns>
+        public static bool Contains(string str, params string[] needles)
+        {
+            Guard.Requires<ArgumentNullException>(str != null);
+            Guard.Requires<ArgumentNullException>(needles != null);
+
+            foreach (var needle in needles)
+            {
+                if (str.Contains(needle))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 在规定字符串中替换匹配的内容
+        /// </summary>
+        /// <param name="matches">匹配的内容</param>
+        /// <param name="replace">替换的值</param>
+        /// <param name="str">规定字符串</param>
+        /// <returns></returns>
+        public static string Replace(string[] matches, string replace, string str)
+        {
+            Guard.Requires<ArgumentNullException>(matches != null);
+            Guard.Requires<ArgumentNullException>(replace != null);
+            Guard.Requires<ArgumentNullException>(str != null);
+
+            foreach (var match in matches)
+            {
+                str = str.Replace(match, replace);
+            }
+            return str;
+        }
+
+        /// <summary>
+        /// 替换规定字符串中第一次遇到的匹配项
+        /// </summary>
+        /// <param name="match">匹配项</param>
+        /// <param name="replace">替换的内容</param>
+        /// <param name="str">规定字符串</param>
+        /// <returns>替换后的字符串</returns>
+        public static string ReplaceFirst(string match, string replace, string str)
+        {
+            Guard.Requires<ArgumentNullException>(match != null);
+            Guard.Requires<ArgumentNullException>(replace != null);
+            Guard.Requires<ArgumentNullException>(str != null);
+
+            var index = str.IndexOf(match, StringComparison.Ordinal);
+            return index < 0 ? str : str.Remove(index, match.Length).Insert(index, replace);
+        }
+
+        /// <summary>
+        /// 替换规定字符串中从后往前第一次遇到的匹配项
+        /// </summary>
+        /// <param name="match">匹配项</param>
+        /// <param name="replace">替换的内容</param>
+        /// <param name="str">规定字符串</param>
+        /// <returns>替换后的字符串</returns>
+        public static string ReplaceLast(string match, string replace, string str)
+        {
+            Guard.Requires<ArgumentNullException>(match != null);
+            Guard.Requires<ArgumentNullException>(replace != null);
+            Guard.Requires<ArgumentNullException>(str != null);
+
+            var index = str.LastIndexOf(match, StringComparison.Ordinal);
+            return index < 0 ? str : str.Remove(index, match.Length).Insert(index, replace);
+        }
+
+        /// <summary>
+        /// 生成一个随机字母（含大小写），数字的字符串。
+        /// </summary>
+        /// <param name="length">字符串长度</param>
+        /// <param name="seed">种子</param>
+        /// <returns>随机的字符串</returns>
+        public static string Random(int length = 16, int? seed = null)
+        {
+            Guard.Requires<ArgumentOutOfRangeException>(length > 0);
+
+            var requested = string.Empty;
+            var random = Util.MakeRandom(seed);
+            for (int len; (len = requested.Length) < length;)
+            {
+                var size = length - len;
+                var bytes = new byte[size];
+                random.NextBytes(bytes);
+
+                var code = Replace(new[] { "/", "+", "=" }, string.Empty, Convert.ToBase64String(bytes));
+                requested += code.Substring(0, Math.Min(size, code.Length));
+            }
+
+            return requested;
         }
     }
 }

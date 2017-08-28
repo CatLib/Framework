@@ -47,6 +47,16 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 构建一个随机生成器
+        /// </summary>
+        /// <param name="seed">种子</param>
+        /// <returns>随机生成器</returns>
+        public static Random MakeRandom(int? seed = null)
+        {
+            return new Random(seed.GetValueOrDefault(Guid.NewGuid().GetHashCode()));
+        }
+
+        /// <summary>
         /// 标准化位置
         /// </summary>
         /// <param name="sourceLength">源长度</param>

@@ -83,7 +83,7 @@ namespace CatLib
             var requested = new T[source.Length];
             Array.Copy(source, requested, source.Length);
 
-            var random = new Random(seed.GetValueOrDefault(Guid.NewGuid().GetHashCode()));
+            var random = Util.MakeRandom(seed);
             for (var i = 0; i < requested.Length; i++)
             {
                 var index = random.Next(0, requested.Length - 1);

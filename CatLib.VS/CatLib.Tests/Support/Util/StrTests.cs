@@ -186,5 +186,65 @@ namespace CatLib.API.Stl
             result = Str.Pad(string.Empty, 10, "wor");
             Assert.AreEqual("worworworw", result);
         }
+
+        [TestMethod]
+        public void TestAfter()
+        {
+            var result = Str.After("helloworld", "wor");
+            Assert.AreEqual("ld", result);
+
+            result = Str.After("helloworld", "world");
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [TestMethod]
+        public void TestContains()
+        {
+            var result = Str.Contains("helloworld", "ppp", "wor");
+            Assert.AreEqual(true, result);
+
+            result = Str.Contains("helloworld", "ppp", "Wor");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void TestReplace()
+        {
+            var result = Str.Replace(new[] { "+", "-", "wor" }, string.Empty, "he+lloworld,h-+elloworld");
+            Assert.AreEqual("hellold,hellold", result);
+
+            result = Str.Replace(new[] { "+", "-", "wor" }, "a", "he+lloworld,h-+elloworld");
+            Assert.AreEqual("healloald,haaelloald", result);
+        }
+
+        [TestMethod]
+        public void TestReplaceFirst()
+        {
+            var result = Str.ReplaceFirst("wor", "god", "helloworld,helloworld");
+            Assert.AreEqual("hellogodld,helloworld", result);
+        }
+
+        [TestMethod]
+        public void TestReplaceLast()
+        {
+            var result = Str.ReplaceLast("wor", "god", "helloworld,helloworld");
+            Assert.AreEqual("helloworld,hellogodld", result);
+        }
+
+        [TestMethod]
+        public void TestRandom()
+        {
+            var str = Str.Random();
+            var i = 0;
+            while (Str.Random() == str)
+            {
+                if (i++ > 10)
+                {
+                    Assert.Fail();
+                }
+            }
+
+            Assert.AreEqual(16, str.Length);
+        }
     }
 }
