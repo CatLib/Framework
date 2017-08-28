@@ -160,5 +160,12 @@ namespace CatLib.API.Stl
             var result = Str.Reverse("hello");
             Assert.AreEqual("olleh", result);
         }
+
+        [TestMethod]
+        public void TestPad()
+        {
+            var result = Str.Pad("hello");
+
+        }
     }
 }

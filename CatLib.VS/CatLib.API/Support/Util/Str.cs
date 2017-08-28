@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CatLib
@@ -19,6 +20,27 @@ namespace CatLib
     /// </summary>
     public static class Str
     {
+        /// <summary>
+        /// 填充类型
+        /// </summary>
+        public enum PadTypes
+        {
+            /// <summary>
+            /// 填充字符串的两侧。如果不是偶数，则右侧获得额外的填充。
+            /// </summary>
+            Both,
+
+            /// <summary>
+            /// 填充字符串的左侧。
+            /// </summary>
+            Left,
+
+            /// <summary>
+            /// 填充字符串的右侧。默认。
+            /// </summary>
+            Right
+        }
+
         /// <summary>
         /// 判断是否属于(允许使用星号通配表达式)
         /// </summary>
@@ -87,13 +109,19 @@ namespace CatLib
         public static string Repeat(string str, int num)
         {
             Guard.Requires<ArgumentNullException>(str != null);
-            Guard.Requires<ArgumentOutOfRangeException>(num > 0);
-            var requested = string.Empty;
+            Guard.Requires<ArgumentOutOfRangeException>(num >= 0);
+
+            if (num == 0)
+            {
+                return str;
+            }
+
+            var requested = new StringBuilder();
             for (var i = 0; i < num; i++)
             {
-                requested += str;
+                requested.Append(str);
             }
-            return requested;
+            return requested.ToString();
         }
 
         /// <summary>
@@ -174,6 +202,53 @@ namespace CatLib
             Array.Reverse(chars);
 
             return new string(chars);
+        }
+
+        /// <summary>
+        /// 把字符串填充为新的长度。
+        /// </summary>
+        /// <param name="str">规定要填充的字符串</param>
+        /// <param name="length">规定新的字符串长度。如果该值小于字符串的原始长度，则不进行任何操作。</param>
+        /// <param name="padStr">规定供填充使用的字符串。默认是空白。</param>
+        /// <param name="type">
+        /// 规定填充字符串的哪边。
+        /// <para><see cref="PadTypes.Both"/>填充字符串的两侧。如果不是偶数，则右侧获得额外的填充。</para>
+        /// <para><see cref="PadTypes.Left"/>填充字符串的左侧。</para>
+        /// <para><see cref="PadTypes.Right"/>填充字符串的右侧。默认。</para>
+        /// </param>
+        /// <returns>被填充的字符串</returns>
+        public static string Pad(string str, int length, string padStr = null, PadTypes type = PadTypes.Right)
+        {
+            Guard.Requires<ArgumentNullException>(str != null);
+
+            padStr = padStr ?? string.Empty;
+            var needPadding = length - str.Length;
+            if (needPadding <= 0)
+            {
+                return str;
+            }
+
+            int rightPadding;
+            var leftPadding = rightPadding = 0;
+
+            if (type == PadTypes.Both)
+            {
+                leftPadding = needPadding >> 1;
+                rightPadding = (needPadding >> 1) + (needPadding % 2 == 0 ? 0 : 1);
+            }else if (type == PadTypes.Right)
+            {
+                leftPadding = needPadding;
+            }
+            else
+            {
+                rightPadding = needPadding;
+            }
+
+            var leftPadCount = leftPadding / padStr.Length + (leftPadding % padStr.Length == 0 ? 0 : 1);
+            var rightPadCount = rightPadding / padStr.Length + (rightPadding % padStr.Length == 0 ? 0 : 1);
+
+            return Repeat(padStr, leftPadCount).Substring(0, leftPadding) + str +
+                   Repeat(padStr, rightPadCount).Substring(0, rightPadding);
         }
     }
 }
