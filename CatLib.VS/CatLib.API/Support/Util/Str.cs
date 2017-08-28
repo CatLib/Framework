@@ -42,10 +42,11 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 判断是否属于(允许使用星号通配表达式)
+        /// 判断规定字符串是否符合匹配表达式
+        /// <para>匹配表达式允许使用星号(*)通配</para>
         /// </summary>
-        /// <param name="pattern">比较字符串</param>
-        /// <param name="value">输入字符串</param>
+        /// <param name="pattern">匹配表达式</param>
+        /// <param name="value">规定字符串</param>
         /// <returns>是否匹配</returns>
         public static bool Is(string pattern, string value)
         {
