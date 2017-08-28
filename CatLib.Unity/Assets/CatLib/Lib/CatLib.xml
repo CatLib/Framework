@@ -8178,7 +8178,7 @@
         </member>
         <member name="P:CatLib.FileSystem.FileSystemProvider.DefaultDevice">
             <summary>
-            默认设备
+            默认驱动名字
             </summary>
         </member>
         <member name="P:CatLib.FileSystem.FileSystemProvider.DefaultPath">

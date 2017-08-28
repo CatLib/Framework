@@ -94,7 +94,7 @@ namespace CatLib.Tests.FileSystem
             storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(Path.Combine(path, "DefaultConfigTest"))), "local-2");
 
             var config = App.Make<IConfigManager>();
-            config.Get().Set("filesystems.default", "local-2");
+            config.Default.Set("FileSystemProvider.DefaultDevice", "local-2");
 
             storage.Disk().Write("DefaultConfigTest", GetByte("hello world"));
             Assert.AreEqual(true, storage.Disk("local").Exists("DefaultConfigTest/DefaultConfigTest"));
