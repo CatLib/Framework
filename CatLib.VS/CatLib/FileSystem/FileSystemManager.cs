@@ -9,8 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Config;
 using CatLib.API.FileSystem;
+using System;
 
 namespace CatLib.FileSystem
 {
@@ -20,16 +20,18 @@ namespace CatLib.FileSystem
     internal sealed class FileSystemManager : SingleManager<IFileSystem>, IFileSystemManager
     {
         /// <summary>
-        /// 配置
+        /// 默认名字
         /// </summary>
-        private readonly IConfigManager configManager;
+        private string name = "local";
 
         /// <summary>
-        /// 文件系统管理器
+        /// 设定默认驱动名字
         /// </summary>
-        public FileSystemManager(IConfigManager configManager)
+        /// <param name="name">默认驱动名字</param>
+        public void SetDefaultDevice(string name)
         {
-            this.configManager = configManager;
+            Guard.Requires<ArgumentNullException>(name != null);
+            this.name = name;
         }
 
         /// <summary>
@@ -48,7 +50,8 @@ namespace CatLib.FileSystem
         /// <returns>默认的文件系统名字</returns>
         protected override string GetDefaultName()
         {
-            return configManager == null ? "local" : configManager.Default.Get("filesystems.default", "local");
+            return name;
         }
     }
 }
+

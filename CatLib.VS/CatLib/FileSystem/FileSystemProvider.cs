@@ -10,6 +10,7 @@
  */
 
 #if CATLIB
+using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;
 
@@ -21,10 +22,24 @@ namespace CatLib.FileSystem
     public sealed class FileSystemProvider : IServiceProvider
     {
         /// <summary>
+        /// 默认驱动名字
+        /// </summary>
+        [Config]
+        public string DefaultDevice { get; set; }
+
+        /// <summary>
         /// 默认路径
         /// </summary>
         [Config]
         public string DefaultPath { get; set; }
+
+        /// <summary>
+        /// 文件系统服务提供者
+        /// </summary>
+        public FileSystemProvider()
+        {
+            DefaultDevice = "local";
+        }
 
         /// <summary>
         /// 服务提供者进程
@@ -50,7 +65,19 @@ namespace CatLib.FileSystem
         /// </summary>
         private void RegisterManager()
         {
-            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>();
+            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>().OnResolving((_, obj) =>
+            {
+                var manager = (FileSystemManager) obj;
+                manager.SetDefaultDevice(DefaultDevice);
+
+                var configManager = App.Make<IConfigManager>();
+                configManager.Default.SafeWatch("FileSystemProvider.DefaultDevice", (name) =>
+                {
+                    manager.SetDefaultDevice(name.ToString());
+                });
+
+                return obj;
+            });
         }
 
         /// <summary>

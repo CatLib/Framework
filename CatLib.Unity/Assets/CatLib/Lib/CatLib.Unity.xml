@@ -621,6 +621,11 @@
             自动识别
             </summary>
         </member>
+        <member name="F:CatLib.FileSystem.UnityFileSystemProvider.DefaultDevice">
+            <summary>
+            默认驱动的名字
+            </summary>
+        </member>
         <member name="F:CatLib.FileSystem.UnityFileSystemProvider.PathType">
             <summary>
             路径类型

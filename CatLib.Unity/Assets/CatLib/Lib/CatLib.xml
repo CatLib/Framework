@@ -8176,9 +8176,19 @@
             文件系统服务提供者
             </summary>
         </member>
+        <member name="P:CatLib.FileSystem.FileSystemProvider.DefaultDevice">
+            <summary>
+            默认驱动名字
+            </summary>
+        </member>
         <member name="P:CatLib.FileSystem.FileSystemProvider.DefaultPath">
             <summary>
             默认路径
+            </summary>
+        </member>
+        <member name="M:CatLib.FileSystem.FileSystemProvider.#ctor">
+            <summary>
+            文件系统服务提供者
             </summary>
         </member>
         <member name="M:CatLib.FileSystem.FileSystemProvider.Init">
@@ -8290,15 +8300,16 @@
             文件系统管理器
             </summary>
         </member>
-        <member name="F:CatLib.FileSystem.FileSystemManager.configManager">
+        <member name="F:CatLib.FileSystem.FileSystemManager.name">
             <summary>
-            配置
+            默认名字
             </summary>
         </member>
-        <member name="M:CatLib.FileSystem.FileSystemManager.#ctor(CatLib.API.Config.IConfigManager)">
+        <member name="M:CatLib.FileSystem.FileSystemManager.SetDefaultDevice(System.String)">
             <summary>
-            文件系统管理器
+            设定默认驱动名字
             </summary>
+            <param name="name">默认驱动名字</param>
         </member>
         <member name="M:CatLib.FileSystem.FileSystemManager.Disk(System.String)">
             <summary>
@@ -9488,14 +9499,6 @@
             <param name="index">第几个下标</param>
             <param name="firstOptional">第一个可选项的下标</param>
             <returns></returns>
-        </member>
-        <member name="M:CatLib.Routing.RouteCompiler.StrRepeat(System.String,System.Int32)">
-            <summary>
-            重复字符串
-            </summary>
-            <param name="val">值</param>
-            <param name="num">重复的次数</param>
-            <returns>字符串</returns>
         </member>
         <member name="M:CatLib.Routing.RouteCompiler.FindNextSeparator(System.String)">
             <summary>

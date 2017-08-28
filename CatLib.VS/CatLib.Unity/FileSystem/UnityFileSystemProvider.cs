@@ -50,6 +50,11 @@ namespace CatLib.FileSystem
         }
 
         /// <summary>
+        /// 默认驱动的名字
+        /// </summary>
+        public string DefaultDevice = "local";
+
+        /// <summary>
         /// 路径类型
         /// </summary>
         public PathTypes PathType = PathTypes.Auto;
@@ -75,7 +80,10 @@ namespace CatLib.FileSystem
         /// </summary>
         public void Awake()
         {
-            baseProvider = new FileSystemProvider();
+            baseProvider = new FileSystemProvider
+            {
+                DefaultDevice = DefaultDevice,
+            };
         }
 
         /// <summary>

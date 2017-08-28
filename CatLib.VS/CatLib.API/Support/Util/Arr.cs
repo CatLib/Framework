@@ -10,7 +10,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 
 namespace CatLib
 {
@@ -27,6 +26,7 @@ namespace CatLib
         /// <returns>合并后的数组</returns>
         public static T[] Merge<T>(params T[][] sources)
         {
+            Guard.Requires<ArgumentNullException>(sources != null);
             var length = 0;
             foreach (var source in sources)
             {
@@ -53,6 +53,7 @@ namespace CatLib
         /// <returns>随机后的元素</returns>
         public static T[] Rand<T>(T[] source, int number = 1)
         {
+            Guard.Requires<ArgumentNullException>(source != null);
             number = Math.Max(number, 1);
             source = Shuffle(source);
             var requested = new T[number];
@@ -78,10 +79,11 @@ namespace CatLib
         /// <returns>打乱后的数组</returns>
         public static T[] Shuffle<T>(T[] source, int? seed = null)
         {
+            Guard.Requires<ArgumentNullException>(source != null);
             var requested = new T[source.Length];
             Array.Copy(source, requested, source.Length);
 
-            var random = new Random(seed.GetValueOrDefault(Guid.NewGuid().GetHashCode()));
+            var random = Util.MakeRandom(seed);
             for (var i = 0; i < requested.Length; i++)
             {
                 var index = random.Next(0, requested.Length - 1);
@@ -118,7 +120,7 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(source != null);
 
-            NormalizationPosition(source.Length, ref start, ref length);
+            Util.NormalizationPosition(source.Length, ref start, ref length);
 
             var requested = new T[length.Value];
 
@@ -354,7 +356,7 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(source != null);
 
-            NormalizationPosition(source.Length, ref start, ref length);
+            Util.NormalizationPosition(source.Length, ref start, ref length);
 
             var requested = new T[length.Value];
             Array.Copy(source, start, requested, 0, length.Value);
@@ -389,7 +391,7 @@ namespace CatLib
         /// <param name="source">规定数组</param>
         /// <param name="elements">插入的元素</param>
         /// <returns>数组元素个数</returns>
-        public static int UnShift<T>(ref T[] source, params T[] elements)
+        public static int Unshift<T>(ref T[] source, params T[] elements)
         {
             Guard.Requires<ArgumentNullException>(source != null);
             Guard.Requires<ArgumentNullException>(elements != null);
@@ -423,7 +425,7 @@ namespace CatLib
         public static T[] Reverse<T>(T[] source, int start = 0, int? length = null)
         {
             Guard.Requires<ArgumentNullException>(source != null);
-            NormalizationPosition(source.Length, ref start, ref length);
+            Util.NormalizationPosition(source.Length, ref start, ref length);
             var tmpSource = new T[source.Length];
             Array.Copy(source, tmpSource, source.Length);
             Array.Reverse(tmpSource, start, length.Value);
@@ -431,23 +433,6 @@ namespace CatLib
             var resquested = new T[length.Value];
             Array.Copy(tmpSource, start, resquested, 0, length.Value);
             return resquested;
-        }
-
-        /// <summary>
-        /// 标准化位置
-        /// </summary>
-        /// <param name="sourceLength">源数组长度</param>
-        /// <param name="start">起始位置</param>
-        /// <param name="length">作用长度</param>
-        private static void NormalizationPosition(int sourceLength, ref int start, ref int? length)
-        {
-            start = (start >= 0) ? Math.Min(start, sourceLength) : Math.Max(sourceLength + start, 0);
-
-            length = (length == null)
-                ? Math.Max(sourceLength - start, 0)
-                : (length >= 0)
-                    ? Math.Min(length.Value, sourceLength - start)
-                    : Math.Max(sourceLength + length.Value - start, 0);
         }
     }
 }
