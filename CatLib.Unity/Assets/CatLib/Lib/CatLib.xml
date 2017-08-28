@@ -9489,14 +9489,6 @@
             <param name="firstOptional">第一个可选项的下标</param>
             <returns></returns>
         </member>
-        <member name="M:CatLib.Routing.RouteCompiler.StrRepeat(System.String,System.Int32)">
-            <summary>
-            重复字符串
-            </summary>
-            <param name="val">值</param>
-            <param name="num">重复的次数</param>
-            <returns>字符串</returns>
-        </member>
         <member name="M:CatLib.Routing.RouteCompiler.FindNextSeparator(System.String)">
             <summary>
             搜索下一个分隔符

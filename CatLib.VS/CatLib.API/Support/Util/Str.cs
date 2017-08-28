@@ -209,7 +209,7 @@ namespace CatLib
         /// </summary>
         /// <param name="str">规定要填充的字符串</param>
         /// <param name="length">规定新的字符串长度。如果该值小于字符串的原始长度，则不进行任何操作。</param>
-        /// <param name="padStr">规定供填充使用的字符串。默认是空白。</param>
+        /// <param name="padStr">规定供填充使用的字符串。默认是空白。如果传入的字符串长度小于等于0那么会使用空白代替。</param>
         /// <param name="type">
         /// 规定填充字符串的哪边。
         /// <para><see cref="PadTypes.Both"/>填充字符串的两侧。如果不是偶数，则右侧获得额外的填充。</para>
@@ -221,7 +221,6 @@ namespace CatLib
         {
             Guard.Requires<ArgumentNullException>(str != null);
 
-            padStr = padStr ?? string.Empty;
             var needPadding = length - str.Length;
             if (needPadding <= 0)
             {
@@ -237,12 +236,15 @@ namespace CatLib
                 rightPadding = (needPadding >> 1) + (needPadding % 2 == 0 ? 0 : 1);
             }else if (type == PadTypes.Right)
             {
-                leftPadding = needPadding;
+                rightPadding = needPadding;
             }
             else
             {
-                rightPadding = needPadding;
+                leftPadding = needPadding;
             }
+
+            padStr = padStr ?? " ";
+            padStr = padStr.Length <= 0 ? " " : padStr;
 
             var leftPadCount = leftPadding / padStr.Length + (leftPadding % padStr.Length == 0 ? 0 : 1);
             var rightPadCount = rightPadding / padStr.Length + (rightPadding % padStr.Length == 0 ? 0 : 1);

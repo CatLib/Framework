@@ -164,8 +164,27 @@ namespace CatLib.API.Stl
         [TestMethod]
         public void TestPad()
         {
-            var result = Str.Pad("hello");
+            var result = Str.Pad("hello", 10, "worldtest", Str.PadTypes.Both);
+            Assert.AreEqual("wohellowor", result);
 
+            result = Str.Pad("hello", 10, "worldtest");
+            Assert.AreEqual("helloworld", result);
+
+            result = Str.Pad("hello", 10, "worldtest" , Str.PadTypes.Left);
+            Assert.AreEqual("worldhello", result);
+        }
+
+        [TestMethod]
+        public void TestEmptyStrPad()
+        {
+            var result = Str.Pad(string.Empty, 10, "wor", Str.PadTypes.Left);
+            Assert.AreEqual("worworworw", result);
+
+            result = Str.Pad(string.Empty, 10, "wor", Str.PadTypes.Both);
+            Assert.AreEqual("worwoworwo", result);
+
+            result = Str.Pad(string.Empty, 10, "wor");
+            Assert.AreEqual("worworworw", result);
         }
     }
 }

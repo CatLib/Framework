@@ -5296,7 +5296,7 @@
             <param name="source">规定数组</param>
             <returns>被删除元素的值</returns>
         </member>
-        <member name="M:CatLib.Arr.UnShift``1(``0[]@,``0[])">
+        <member name="M:CatLib.Arr.Unshift``1(``0[]@,``0[])">
             <summary>
             向数组插入新元素。新数组的值将被插入到数组的开头。
             </summary>
@@ -5323,17 +5323,29 @@
             </param>
             <returns>反转的数组</returns>
         </member>
-        <member name="M:CatLib.Arr.NormalizationPosition(System.Int32,System.Int32@,System.Nullable{System.Int32}@)">
-            <summary>
-            标准化位置
-            </summary>
-            <param name="sourceLength">源数组长度</param>
-            <param name="start">起始位置</param>
-            <param name="length">作用长度</param>
-        </member>
         <member name="T:CatLib.Str">
             <summary>
             字符串
+            </summary>
+        </member>
+        <member name="T:CatLib.Str.PadTypes">
+            <summary>
+            填充类型
+            </summary>
+        </member>
+        <member name="F:CatLib.Str.PadTypes.Both">
+            <summary>
+            填充字符串的两侧。如果不是偶数，则右侧获得额外的填充。
+            </summary>
+        </member>
+        <member name="F:CatLib.Str.PadTypes.Left">
+            <summary>
+            填充字符串的左侧。
+            </summary>
+        </member>
+        <member name="F:CatLib.Str.PadTypes.Right">
+            <summary>
+            填充字符串的右侧。默认。
             </summary>
         </member>
         <member name="M:CatLib.Str.Is(System.String,System.String)">
@@ -5366,6 +5378,57 @@
             <param name="length">规定每个数组元素的长度。默认是 1。</param>
             <returns>分割的字符串</returns>
         </member>
+        <member name="M:CatLib.Str.Repeat(System.String,System.Int32)">
+            <summary>
+            将字符串重复指定的次数
+            </summary>
+            <param name="str">需要被重复的字符串</param>
+            <param name="num">重复的次数</param>
+            <returns>重复后的字符串</returns>
+        </member>
+        <member name="M:CatLib.Str.Shuffle(System.String,System.Nullable{System.Int32})">
+            <summary>
+            随机打乱字符串中的所有字符
+            </summary>
+            <param name="str">需要被打乱的字符串</param>
+            <param name="seed">种子</param>
+            <returns>被打乱的字符串</returns>
+        </member>
+        <member name="M:CatLib.Str.SubstringCount(System.String,System.String,System.Int32,System.Nullable{System.Int32},System.StringComparison)">
+            <summary>
+            计算子串在字符串中出现的次数
+            <para>子串是区分大小写的</para>
+            <para>该函数不计数重叠的子串</para>
+            </summary>
+            <param name="str"></param>
+            <param name="subStr"></param>
+            <param name="start"></param>
+            <param name="length"></param>
+            <param name="comparison"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.Str.Reverse(System.String)">
+            <summary>
+            反转字符串
+            </summary>
+            <param name="str">规定要反转的字符串</param>
+            <returns>反转后的字符串</returns>
+        </member>
+        <member name="M:CatLib.Str.Pad(System.String,System.Int32,System.String,CatLib.Str.PadTypes)">
+            <summary>
+            把字符串填充为新的长度。
+            </summary>
+            <param name="str">规定要填充的字符串</param>
+            <param name="length">规定新的字符串长度。如果该值小于字符串的原始长度，则不进行任何操作。</param>
+            <param name="padStr">规定供填充使用的字符串。默认是空白。如果传入的字符串长度小于等于0那么会使用空白代替。</param>
+            <param name="type">
+            规定填充字符串的哪边。
+            <para><see cref="F:CatLib.Str.PadTypes.Both"/>填充字符串的两侧。如果不是偶数，则右侧获得额外的填充。</para>
+            <para><see cref="F:CatLib.Str.PadTypes.Left"/>填充字符串的左侧。</para>
+            <para><see cref="F:CatLib.Str.PadTypes.Right"/>填充字符串的右侧。默认。</para>
+            </param>
+            <returns>被填充的字符串</returns>
+        </member>
         <member name="T:CatLib.SystemTime">
             <summary>
             时间
@@ -5397,6 +5460,14 @@
             <param name="type">识别的类型</param>
             <param name="method">识别的方法</param>
             <returns>优先级</returns>
+        </member>
+        <member name="M:CatLib.Util.NormalizationPosition(System.Int32,System.Int32@,System.Nullable{System.Int32}@)">
+            <summary>
+            标准化位置
+            </summary>
+            <param name="sourceLength">源长度</param>
+            <param name="start">起始位置</param>
+            <param name="length">作用长度</param>
         </member>
         <member name="T:CatLib.Version">
             <summary>
