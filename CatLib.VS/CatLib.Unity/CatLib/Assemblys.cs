@@ -30,7 +30,6 @@ namespace CatLib
                 {
                     { "Assembly-CSharp" , 0 },
                     { "CatLib.Unity" , 10 },
-                    { "CatLib.API" , 100 },
                 };
             }
         }
