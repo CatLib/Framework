@@ -434,7 +434,7 @@ namespace CatLib.Tests.Support.Util
         public void TestUnShift()
         {
             var data = new[] { "c" };
-            var result = Arr.UnShift(ref data, "a", "b");
+            var result = Arr.Unshift(ref data, "a", "b");
 
             Assert.AreEqual(3, result);
             Assert.AreEqual(3, data.Length);
