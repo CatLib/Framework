@@ -42,8 +42,8 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 判断规定字符串是否符合匹配表达式
-        /// <para>匹配表达式允许使用星号(*)通配</para>
+        /// 将规定字符串翻译为星号匹配表达式
+        /// <para>即删减正则表达式中除了星号外的所有功能</para>
         /// </summary>
         /// <param name="pattern">匹配表达式</param>
         /// <param name="value">规定字符串</param>
@@ -54,10 +54,11 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 将语句翻译为星号通配表达式(即删减正则表达式中除了星号外的所有功能)
+        /// 将规定字符串翻译为星号匹配表达式
+        /// <para>即删减正则表达式中除了星号外的所有功能</para>
         /// </summary>
-        /// <param name="pattern">输入</param>
-        /// <returns>输出</returns>
+        /// <param name="pattern">规定字符串</param>
+        /// <returns>处理后的字符串</returns>
         public static string AsteriskWildcard(string pattern)
         {
             pattern = RegexQuote(pattern);
@@ -67,10 +68,10 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 转义正则表达式
+        /// 为每个正则表达式语法中的字符前增加一个反斜线。 
         /// </summary>
-        /// <param name="str">输入</param>
-        /// <returns>输出</returns>
+        /// <param name="str">规定字符串</param>
+        /// <returns>处理后的字符串</returns>
         public static string RegexQuote(string str)
         {
             string[] quote = { @"\", ".", "+", "*", "?", "[", "^", "]", "$", "(", ")", "{", "}", "=", "!", "<", ">", "|", ":", "-" };
@@ -192,9 +193,9 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 反转字符串
+        /// 反转规定字符串
         /// </summary>
-        /// <param name="str">规定要反转的字符串</param>
+        /// <param name="str">规定字符串</param>
         /// <returns>反转后的字符串</returns>
         public static string Reverse(string str)
         {
@@ -259,10 +260,10 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 在规定搜索值之后返回字符串的剩余部分。
-        /// <para>如果没有找到则返回输入字符串本身</para>
+        /// 在规定字符串中查找在规定搜索值，并在规定搜索值之后返回规定字符串的剩余部分。
+        /// <para>如果没有找到则返回规定字符串本身</para>
         /// </summary>
-        /// <param name="str">输入字符串</param>
+        /// <param name="str">规定字符串</param>
         /// <param name="search">规定搜索值</param>
         /// <returns>剩余部分</returns>
         public static string After(string str, string search)
@@ -283,12 +284,12 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 判断规定字符串是否包含规定的子字符串
+        /// 判断规定字符串是否包含规定子字符串
         /// <para>子字符串是识别大小写的</para>
         /// <para></para>
         /// </summary>
         /// <param name="str">规定字符串</param>
-        /// <param name="needles">规定的子字符串</param>
+        /// <param name="needles">规定子字符串</param>
         /// <returns>是否包含</returns>
         public static bool Contains(string str, params string[] needles)
         {
@@ -307,9 +308,9 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 在规定字符串中替换匹配的内容
+        /// 在规定字符串中替换匹配项
         /// </summary>
-        /// <param name="matches">匹配的内容</param>
+        /// <param name="matches">匹配项</param>
         /// <param name="replace">替换的值</param>
         /// <param name="str">规定字符串</param>
         /// <returns></returns>
@@ -328,6 +329,7 @@ namespace CatLib
 
         /// <summary>
         /// 替换规定字符串中第一次遇到的匹配项
+        /// <para>该函数对大小写敏感</para>
         /// </summary>
         /// <param name="match">匹配项</param>
         /// <param name="replace">替换的内容</param>
@@ -345,6 +347,7 @@ namespace CatLib
 
         /// <summary>
         /// 替换规定字符串中从后往前第一次遇到的匹配项
+        /// <para>该函数对大小写敏感</para>
         /// </summary>
         /// <param name="match">匹配项</param>
         /// <param name="replace">替换的内容</param>
