@@ -10037,6 +10037,11 @@
             默认的Scheme
             </summary>
         </member>
+        <member name="P:CatLib.Routing.RoutingProvider.RouterCompiler">
+            <summary>
+            是否进行路由编译
+            </summary>
+        </member>
         <member name="P:CatLib.Routing.RoutingProvider.CompilerAssembly">
             <summary>
             会进行属性路由编译的程序集
