@@ -5323,6 +5323,67 @@
             </param>
             <returns>反转的数组</returns>
         </member>
+        <member name="T:CatLib.IReferenceCount">
+            <summary>
+            引用计数
+            </summary>
+        </member>
+        <member name="P:CatLib.IReferenceCount.Count">
+            <summary>
+            当前引用计数
+            </summary>
+        </member>
+        <member name="M:CatLib.IReferenceCount.Retain">
+            <summary>
+            加计数。
+            </summary>
+        </member>
+        <member name="M:CatLib.IReferenceCount.Release">
+            <summary>
+            减计数
+            </summary>
+        </member>
+        <member name="T:CatLib.ReferenceCount">
+            <summary>
+            引用计数
+            </summary>
+        </member>
+        <member name="F:CatLib.ReferenceCount.count">
+            <summary>
+            计数
+            </summary>
+        </member>
+        <member name="F:CatLib.ReferenceCount.disposable">
+            <summary>
+            释放句柄
+            </summary>
+        </member>
+        <member name="P:CatLib.ReferenceCount.Count">
+            <summary>
+            当前计数
+            </summary>
+        </member>
+        <member name="M:CatLib.ReferenceCount.#ctor">
+            <summary>
+            引用计数
+            </summary>
+        </member>
+        <member name="M:CatLib.ReferenceCount.#ctor(System.IDisposable)">
+            <summary>
+            引用计数
+            </summary>
+            <param name="disposable">释放接口</param>
+        </member>
+        <member name="M:CatLib.ReferenceCount.Retain">
+            <summary>
+            加计数。
+            </summary>
+        </member>
+        <member name="M:CatLib.ReferenceCount.Release">
+            <summary>
+            减计数
+            </summary>
+        </member>
         <member name="T:CatLib.Str">
             <summary>
             字符串

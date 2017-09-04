@@ -10285,11 +10285,6 @@
             启动流程
             </summary>
         </member>
-        <member name="F:CatLib.Application.configTarget">
-            <summary>
-            配置注入目标
-            </summary>
-        </member>
         <member name="F:CatLib.Application.incrementId">
             <summary>
             增量Id
