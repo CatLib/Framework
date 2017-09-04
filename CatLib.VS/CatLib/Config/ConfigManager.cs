@@ -26,6 +26,11 @@ namespace CatLib.Config
         private string defaultName;
 
         /// <summary>
+        /// 扫描目标
+        /// </summary>
+        private static readonly Type target = typeof(ConfigAttribute);
+
+        /// <summary>
         /// 配置管理器
         /// </summary>
         public ConfigManager()
@@ -75,12 +80,12 @@ namespace CatLib.Config
                     continue;
                 }
 
-                if (!property.IsDefined(typeof(ConfigAttribute), false))
+                if (!property.IsDefined(target, false))
                 {
                     continue;
                 }
 
-                var configAttr = (ConfigAttribute)property.GetCustomAttributes(typeof(ConfigAttribute), false)[0];
+                var configAttr = (ConfigAttribute)property.GetCustomAttributes(target, false)[0];
 
                 var value = configAttr.Default;
                 var configName = configAttr.Name;

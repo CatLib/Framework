@@ -948,6 +948,11 @@
             默认的Scheme
             </summary>
         </member>
+        <member name="F:CatLib.Routing.UnityRoutingProvider.RouterCompiler">
+            <summary>
+            进行路由编译
+            </summary>
+        </member>
         <member name="F:CatLib.Routing.UnityRoutingProvider.CompilerAssembly">
             <summary>
             需要编译的程序集

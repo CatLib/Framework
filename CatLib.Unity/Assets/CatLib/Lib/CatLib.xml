@@ -7482,6 +7482,11 @@
             默认的配置名字
             </summary>
         </member>
+        <member name="F:CatLib.Config.ConfigManager.target">
+            <summary>
+            扫描目标
+            </summary>
+        </member>
         <member name="M:CatLib.Config.ConfigManager.#ctor">
             <summary>
             配置管理器
@@ -10035,6 +10040,11 @@
         <member name="P:CatLib.Routing.RoutingProvider.DefaultScheme">
             <summary>
             默认的Scheme
+            </summary>
+        </member>
+        <member name="P:CatLib.Routing.RoutingProvider.RouterCompiler">
+            <summary>
+            是否进行路由编译
             </summary>
         </member>
         <member name="P:CatLib.Routing.RoutingProvider.CompilerAssembly">

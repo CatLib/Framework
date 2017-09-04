@@ -29,6 +29,11 @@ namespace CatLib.Routing
         public string DefaultScheme = "catlib";
 
         /// <summary>
+        /// 进行路由编译
+        /// </summary>
+        public bool RouterCompiler = true;
+
+        /// <summary>
         /// 需要编译的程序集
         /// </summary>
         public string[] CompilerAssembly = { };
@@ -57,7 +62,8 @@ namespace CatLib.Routing
             baseProvider = new RoutingProvider
             {
                 DefaultScheme = DefaultScheme,
-                CompilerAssembly = CompilerAssembly
+                CompilerAssembly = CompilerAssembly,
+                RouterCompiler = RouterCompiler
             };
         }
 

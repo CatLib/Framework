@@ -28,6 +28,12 @@ namespace CatLib.Routing
         public string DefaultScheme { get; set; }
 
         /// <summary>
+        /// 是否进行路由编译
+        /// </summary>
+        [Config]
+        public bool RouterCompiler { get; set; }
+
+        /// <summary>
         /// 会进行属性路由编译的程序集
         /// </summary>
         [Config]
@@ -39,6 +45,7 @@ namespace CatLib.Routing
         public RoutingProvider()
         {
             DefaultScheme = "catlib";
+            RouterCompiler = true;
         }
 
         /// <summary>
@@ -47,6 +54,10 @@ namespace CatLib.Routing
         /// <returns>迭代器</returns>
         public void Init()
         {
+            if (!RouterCompiler)
+            {
+                return;
+            }
             var router = App.Make<Router>();
             router.RouterCompiler();
         }

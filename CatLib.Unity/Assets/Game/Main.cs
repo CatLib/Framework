@@ -9,8 +9,9 @@
  * Document: http://catlib.io/
  */
 
+using CatLib;
+using CatLib.API.Debugger;
 using CatLib.API.Routing;
-using UnityEngine;
 
 namespace YourNameSpace
 {
@@ -24,15 +25,19 @@ namespace YourNameSpace
         public void Config()
         {
             //可以在这里完成常规配置（如果有的话）。
-            Debug.Log("config code here!");
+            UnityEngine.Debug.Log("config code here!");
         }
 
         [Routed("bootstrap://start")]
         public void Bootstrap()
         {
-            //todo: user code here
-            Debug.Log("hello world! user code here!");
-            GameObject.CreatePrimitive(PrimitiveType.Cube);
+            // called this function after, use App.Make function to get service
+            // ex: App.Make<ILogger>().Debug("hello world");
+            // all can make service see : http://catlib.io/v1/guide/can-make.html
+
+            // todo: user code here
+            UnityEngine.Debug.Log("hello world! user code here!");
+            UnityEngine.GameObject.CreatePrimitive(UnityEngine.PrimitiveType.Cube);
         }
     }
 }
