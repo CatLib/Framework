@@ -32,7 +32,7 @@ namespace CatLib
         /// <summary>
         /// 当前计数
         /// </summary>
-        public int Count
+        public int RefCount
         {
             get
             {

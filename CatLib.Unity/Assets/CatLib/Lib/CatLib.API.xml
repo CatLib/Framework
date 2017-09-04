@@ -5328,7 +5328,7 @@
             引用计数
             </summary>
         </member>
-        <member name="P:CatLib.IReferenceCount.Count">
+        <member name="P:CatLib.IReferenceCount.RefCount">
             <summary>
             当前引用计数
             </summary>
@@ -5358,7 +5358,7 @@
             释放句柄
             </summary>
         </member>
-        <member name="P:CatLib.ReferenceCount.Count">
+        <member name="P:CatLib.ReferenceCount.RefCount">
             <summary>
             当前计数
             </summary>

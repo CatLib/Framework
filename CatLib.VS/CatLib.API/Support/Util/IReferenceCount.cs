@@ -19,7 +19,7 @@ namespace CatLib
         /// <summary>
         /// 当前引用计数
         /// </summary>
-        int Count { get; }
+        int RefCount { get; }
 
         /// <summary>
         /// 加计数。

@@ -85,7 +85,7 @@ namespace CatLib.Tests.Support.Util
 
             var rc = new ReferenceCount(cls);
             rc.Retain();
-            Assert.AreEqual(1, rc.Count);
+            Assert.AreEqual(1, rc.RefCount);
             rc.Release();
 
             Assert.AreEqual(true, isCall);
@@ -107,7 +107,7 @@ namespace CatLib.Tests.Support.Util
             var cls = new TestInherit();
 
             cls.Retain();
-            Assert.AreEqual(1, cls.Count);
+            Assert.AreEqual(1, cls.RefCount);
             cls.Release();
 
             Assert.AreEqual(true, cls.IsReleaseCall);
