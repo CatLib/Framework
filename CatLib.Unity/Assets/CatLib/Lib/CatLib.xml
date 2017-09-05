@@ -8673,6 +8673,112 @@
             <param name="item">需要序列化的对象</param>
             <returns>json数据</returns>
         </member>
+        <member name="T:CatLib.Maths.MathProvider">
+            <summary>
+            数学库服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Maths.MathProvider.Init">
+            <summary>
+            服务提供者初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Maths.MathProvider.Register">
+            <summary>
+            当注册服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Maths.MathProvider.InitedRandom(CatLib.Maths.Math)">
+            <summary>
+            初始化随机库
+            </summary>
+            <param name="math">随机库</param>
+        </member>
+        <member name="T:CatLib.Maths.RandomAdaptor">
+            <summary>
+            随机算法适配器
+            </summary>
+        </member>
+        <member name="F:CatLib.Maths.RandomAdaptor.random">
+            <summary>
+            随机算法
+            </summary>
+        </member>
+        <member name="M:CatLib.Maths.RandomAdaptor.#ctor(System.Random)">
+            <summary>
+            随机算法适配器
+            </summary>
+            <param name="random">随机算法</param>
+        </member>
+        <member name="M:CatLib.Maths.RandomAdaptor.Next">
+            <summary>
+            返回一个随机数
+            </summary>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.Maths.RandomAdaptor.Next(System.Int32)">
+            <summary>
+            返回一个随机数
+            </summary>
+            <param name="minValue">最小值</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.Maths.RandomAdaptor.Next(System.Int32,System.Int32)">
+            <summary>
+            返回一个随机数
+            </summary>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.Maths.RandomAdaptor.NextBytes(System.Byte[])">
+            <summary>
+            生成随机数填充流
+            </summary>
+            <param name="buffer">流</param>
+        </member>
+        <member name="M:CatLib.Maths.RandomAdaptor.NextDouble">
+            <summary>
+            返回一个介于0到1之间的随机数
+            </summary>
+            <returns>随机数</returns>
+        </member>
+        <member name="T:CatLib.Maths.Math">
+            <summary>
+            数学库
+            </summary>
+        </member>
+        <member name="F:CatLib.Maths.Math.randoms">
+            <summary>
+            随机数算法构建器字典
+            </summary>
+        </member>
+        <member name="M:CatLib.Maths.Math.MakeRandom(CatLib.API.Maths.RandomTypes)">
+            <summary>
+            生成随机算法
+            </summary>
+            <param name="type">算法类型</param>
+            <returns>随机数算法</returns>
+        </member>
+        <member name="M:CatLib.Maths.Math.MakeRandom(System.Int32,CatLib.API.Maths.RandomTypes)">
+            <summary>
+            生成随机算法
+            </summary>
+            <returns>随机数算法</returns>
+        </member>
+        <member name="M:CatLib.Maths.Math.RegisterRandom(CatLib.API.Maths.RandomTypes,System.Func{System.Int32,CatLib.API.Maths.IRandom})">
+            <summary>
+            注册随机数算法
+            </summary>
+            <param name="type">算法类型</param>
+            <param name="builder">构建器</param>
+        </member>
+        <member name="M:CatLib.Maths.Math.ThrowRandomTypesNotImplemented(CatLib.API.Maths.RandomTypes)">
+            <summary>
+            触发随机算法没有实现异常
+            </summary>
+            <param name="type">随机算法</param>
+        </member>
         <member name="T:CatLib.Routing.ExceptionRequest">
             <summary>
             请求(由于某些异常导致请求都无法被构建所以我们提供一个必定可以被构建的请求类)
@@ -11145,6 +11251,730 @@
             Determines if a given object is numeric in any way
             (can be integer, double, null, etc).
             </summary>
+        </member>
+        <member name="T:MathNet.Numerics.Euclid">
+            <summary>
+            Integer number theory functions.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Modulus(System.Double,System.Double)">
+            <summary>
+            Canonical Modulus. The result has the sign of the divisor.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Modulus(System.Single,System.Single)">
+            <summary>
+            Canonical Modulus. The result has the sign of the divisor.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Modulus(System.Int32,System.Int32)">
+            <summary>
+            Canonical Modulus. The result has the sign of the divisor.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Modulus(System.Int64,System.Int64)">
+            <summary>
+            Canonical Modulus. The result has the sign of the divisor.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Remainder(System.Double,System.Double)">
+            <summary>
+            Remainder (% operator). The result has the sign of the dividend.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Remainder(System.Single,System.Single)">
+            <summary>
+            Remainder (% operator). The result has the sign of the dividend.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Remainder(System.Int32,System.Int32)">
+            <summary>
+            Remainder (% operator). The result has the sign of the dividend.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Remainder(System.Int64,System.Int64)">
+            <summary>
+            Remainder (% operator). The result has the sign of the dividend.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsEven(System.Int32)">
+            <summary>
+            Find out whether the provided 32 bit integer is an even number.
+            </summary>
+            <param name="number">The number to very whether it's even.</param>
+            <returns>True if and only if it is an even number.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsEven(System.Int64)">
+            <summary>
+            Find out whether the provided 64 bit integer is an even number.
+            </summary>
+            <param name="number">The number to very whether it's even.</param>
+            <returns>True if and only if it is an even number.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsOdd(System.Int32)">
+            <summary>
+            Find out whether the provided 32 bit integer is an odd number.
+            </summary>
+            <param name="number">The number to very whether it's odd.</param>
+            <returns>True if and only if it is an odd number.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsOdd(System.Int64)">
+            <summary>
+            Find out whether the provided 64 bit integer is an odd number.
+            </summary>
+            <param name="number">The number to very whether it's odd.</param>
+            <returns>True if and only if it is an odd number.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsPowerOfTwo(System.Int32)">
+            <summary>
+            Find out whether the provided 32 bit integer is a perfect power of two.
+            </summary>
+            <param name="number">The number to very whether it's a power of two.</param>
+            <returns>True if and only if it is a power of two.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsPowerOfTwo(System.Int64)">
+            <summary>
+            Find out whether the provided 64 bit integer is a perfect power of two.
+            </summary>
+            <param name="number">The number to very whether it's a power of two.</param>
+            <returns>True if and only if it is a power of two.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsPerfectSquare(System.Int32)">
+            <summary>
+            Find out whether the provided 32 bit integer is a perfect square, i.e. a square of an integer.
+            </summary>
+            <param name="number">The number to very whether it's a perfect square.</param>
+            <returns>True if and only if it is a perfect square.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.IsPerfectSquare(System.Int64)">
+            <summary>
+            Find out whether the provided 64 bit integer is a perfect square, i.e. a square of an integer.
+            </summary>
+            <param name="number">The number to very whether it's a perfect square.</param>
+            <returns>True if and only if it is a perfect square.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.PowerOfTwo(System.Int32)">
+            <summary>
+            Raises 2 to the provided integer exponent (0 &lt;= exponent &lt; 31).
+            </summary>
+            <param name="exponent">The exponent to raise 2 up to.</param>
+            <returns>2 ^ exponent.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"/>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.PowerOfTwo(System.Int64)">
+            <summary>
+            Raises 2 to the provided integer exponent (0 &lt;= exponent &lt; 63).
+            </summary>
+            <param name="exponent">The exponent to raise 2 up to.</param>
+            <returns>2 ^ exponent.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"/>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.Log2(System.Int32)">
+            <summary>
+            Evaluate the binary logarithm of an integer number.
+            </summary>
+            <remarks>Two-step method using a De Bruijn-like sequence table lookup.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.CeilingToPowerOfTwo(System.Int32)">
+            <summary>
+            Find the closest perfect power of two that is larger or equal to the provided
+            32 bit integer.
+            </summary>
+            <param name="number">The number of which to find the closest upper power of two.</param>
+            <returns>A power of two.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"/>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.CeilingToPowerOfTwo(System.Int64)">
+            <summary>
+            Find the closest perfect power of two that is larger or equal to the provided
+            64 bit integer.
+            </summary>
+            <param name="number">The number of which to find the closest upper power of two.</param>
+            <returns>A power of two.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"/>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.GreatestCommonDivisor(System.Int64,System.Int64)">
+            <summary>
+            Returns the greatest common divisor (<c>gcd</c>) of two integers using Euclid's algorithm.
+            </summary>
+            <param name="a">First Integer: a.</param>
+            <param name="b">Second Integer: b.</param>
+            <returns>Greatest common divisor <c>gcd</c>(a,b)</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.GreatestCommonDivisor(System.Collections.Generic.IList{System.Int64})">
+            <summary>
+            Returns the greatest common divisor (<c>gcd</c>) of a set of integers using Euclid's
+            algorithm.
+            </summary>
+            <param name="integers">List of Integers.</param>
+            <returns>Greatest common divisor <c>gcd</c>(list of integers)</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.GreatestCommonDivisor(System.Int64[])">
+            <summary>
+            Returns the greatest common divisor (<c>gcd</c>) of a set of integers using Euclid's algorithm.
+            </summary>
+            <param name="integers">List of Integers.</param>
+            <returns>Greatest common divisor <c>gcd</c>(list of integers)</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.ExtendedGreatestCommonDivisor(System.Int64,System.Int64,System.Int64@,System.Int64@)">
+            <summary>
+            Computes the extended greatest common divisor, such that a*x + b*y = <c>gcd</c>(a,b).
+            </summary>
+            <param name="a">First Integer: a.</param>
+            <param name="b">Second Integer: b.</param>
+            <param name="x">Resulting x, such that a*x + b*y = <c>gcd</c>(a,b).</param>
+            <param name="y">Resulting y, such that a*x + b*y = <c>gcd</c>(a,b)</param>
+            <returns>Greatest common divisor <c>gcd</c>(a,b)</returns>
+            <example>
+            <code>
+            long x,y,d;
+            d = Fn.GreatestCommonDivisor(45,18,out x, out y);
+            -> d == 9 &amp;&amp; x == 1 &amp;&amp; y == -2
+            </code>
+            The <c>gcd</c> of 45 and 18 is 9: 18 = 2*9, 45 = 5*9. 9 = 1*45 -2*18, therefore x=1 and y=-2.
+            </example>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.LeastCommonMultiple(System.Int64,System.Int64)">
+            <summary>
+            Returns the least common multiple (<c>lcm</c>) of two integers using Euclid's algorithm.
+            </summary>
+            <param name="a">First Integer: a.</param>
+            <param name="b">Second Integer: b.</param>
+            <returns>Least common multiple <c>lcm</c>(a,b)</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.LeastCommonMultiple(System.Collections.Generic.IList{System.Int64})">
+            <summary>
+            Returns the least common multiple (<c>lcm</c>) of a set of integers using Euclid's algorithm.
+            </summary>
+            <param name="integers">List of Integers.</param>
+            <returns>Least common multiple <c>lcm</c>(list of integers)</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Euclid.LeastCommonMultiple(System.Int64[])">
+            <summary>
+            Returns the least common multiple (<c>lcm</c>) of a set of integers using Euclid's algorithm.
+            </summary>
+            <param name="integers">List of Integers.</param>
+            <returns>Least common multiple <c>lcm</c>(list of integers)</returns>
+        </member>
+        <member name="T:MathNet.Numerics.Random.MersenneTwister">
+            <summary>
+            Random number generator using Mersenne Twister 19937 algorithm.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister.LowerMask">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister.M">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister.MatrixA">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister.N">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister.Reciprocal">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister.UpperMask">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister.Mag01">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister._mt">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.MersenneTwister._mti">
+            <summary>
+            Mersenne twister constant.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.MersenneTwister"/> class using
+            a seed based on time and unique GUIDs.
+            </summary>
+            <remarks>If the seed value is zero, it is set to one. Uses the
+            value of true to
+            set whether the instance is thread safe.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.MersenneTwister"/> class using
+            a seed based on time and unique GUIDs.
+            </summary>
+            <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.MersenneTwister"/> class.
+            </summary>
+            <param name="seed">The seed value.</param>
+            <remarks>Uses the value of true to
+            set whether the instance is thread safe.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.MersenneTwister"/> class.
+            </summary>
+            <param name="seed">The seed value.</param>
+            <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
+        </member>
+        <member name="P:MathNet.Numerics.Random.MersenneTwister.Default">
+            <summary>
+            Default instance, thread-safe.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.DoSample">
+            <summary>
+            Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.DoSampleInteger">
+            <summary>
+            Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.DoSampleBytes(System.Byte[])">
+            <summary>
+            Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.Doubles(System.Double[],System.Int32)">
+            <summary>
+            Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <remarks>Supports being called in parallel from multiple threads.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.Doubles(System.Int32,System.Int32)">
+            <summary>
+            Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <remarks>Supports being called in parallel from multiple threads.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.MersenneTwister.DoubleSequence(System.Int32)">
+            <summary>
+            Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
+        </member>
+        <member name="T:MathNet.Numerics.Random.RandomSeed">
+            <summary>
+            Random seed
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSeed.Time">
+            <summary>
+            Provides a time-dependent seed value, matching the default behavior of System.Random.
+            WARNING: There is no randomness in this seed and quick repeated calls can cause
+            the same seed value. Do not use for cryptography!
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSeed.Guid">
+            <summary>
+            Provides a seed based on time and unique GUIDs.
+            WARNING: There is only low randomness in this seed, but at least quick repeated
+            calls will result in different seed values. Do not use for cryptography!
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSeed.Robust">
+            <summary>
+            Provides a seed based on an internal random number generator (crypto if available), time and unique GUIDs.
+            WARNING: There is only medium randomness in this seed, but quick repeated
+            calls will result in different seed values. Do not use for cryptography!
+            </summary>
+        </member>
+        <member name="T:MathNet.Numerics.Random.RandomSource">
+            <summary>
+            Base class for random number generators. This class introduces a layer between <see cref="T:System.Random"/>
+            and the Math.Net Numerics random number generators to provide thread safety.
+            When used directly it use the System.Random as random number source.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.RandomSource"/> class using
+            the value of true to set whether
+            the instance is thread safe or not.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.RandomSource"/> class.
+            </summary>
+            <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
+            <remarks>Thread safe instances are two and half times slower than non-thread
+            safe classes.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextDoubles(System.Double[])">
+            <summary>
+            Fills an array with uniform random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <param name="values">The array to fill with random values.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextDoubles(System.Int32)">
+            <summary>
+            Returns an array of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <param name="count">The size of the array to fill.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextDoubleSequence">
+            <summary>
+            Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.Next">
+            <summary>
+            Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.Next(System.Int32)">
+            <summary>
+            Returns a random number less then a specified maximum.
+            </summary>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1.</param>
+            <returns>A 32-bit signed integer less than <paramref name="maxExclusive"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxExclusive"/> is zero or negative.</exception>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.Next(System.Int32,System.Int32)">
+            <summary>
+            Returns a random number within a specified range.
+            </summary>
+            <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
+            <returns>
+            A 32-bit signed integer greater than or equal to <paramref name="minInclusive"/> and less than <paramref name="maxExclusive"/>; that is, the range of return values includes <paramref name="minInclusive"/> but not <paramref name="maxExclusive"/>. If <paramref name="minInclusive"/> equals <paramref name="maxExclusive"/>, <paramref name="minInclusive"/> is returned.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minInclusive"/> is greater than <paramref name="maxExclusive"/>. </exception>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32s(System.Int32[])">
+            <summary>
+            Fills an array with random 32-bit signed integers greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+            </summary>
+            <param name="values">The array to fill with random values.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32s(System.Int32)">
+            <summary>
+            Returns an array with random 32-bit signed integers greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+            </summary>
+            <param name="count">The size of the array to fill.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32s(System.Int32[],System.Int32)">
+            <summary>
+            Fills an array with random numbers within a specified range.
+            </summary>
+            <param name="values">The array to fill with random values.</param>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32s(System.Int32,System.Int32)">
+            <summary>
+            Returns an array with random 32-bit signed integers within the specified range.
+            </summary>
+            <param name="count">The size of the array to fill.</param>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32s(System.Int32[],System.Int32,System.Int32)">
+            <summary>
+            Fills an array with random numbers within a specified range.
+            </summary>
+            <param name="values">The array to fill with random values.</param>
+            <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32s(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Returns an array with random 32-bit signed integers within the specified range.
+            </summary>
+            <param name="count">The size of the array to fill.</param>
+            <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32Sequence">
+            <summary>
+            Returns an infinite sequence of random 32-bit signed integers greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextInt32Sequence(System.Int32,System.Int32)">
+            <summary>
+            Returns an infinite sequence of random numbers within a specified range.
+            </summary>
+            <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.NextBytes(System.Byte[])">
+            <summary>
+            Fills the elements of a specified array of bytes with random numbers.
+            </summary>
+            <param name="buffer">An array of bytes to contain random numbers.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="buffer"/> is null. </exception>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.Sample">
+            <summary>
+            Returns a random number between 0.0 and 1.0.
+            </summary>
+            <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.DoSample">
+            <summary>
+            Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.DoSampleInteger">
+            <summary>
+            Returns a random 32-bit signed integer greater than or equal to zero and less than 2147483647 (<see cref="F:System.Int32.MaxValue"/>).
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.DoSampleBytes(System.Byte[])">
+            <summary>
+            Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.DoSampleInt32WithNBits(System.Int32)">
+            <summary>
+            Returns a random N-bit signed integer greater than or equal to zero and less than 2^N.
+            N (bit count) is expected to be greater than zero and less than 32 (not verified).
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.DoSampleInt64WithNBits(System.Int32)">
+            <summary>
+            Returns a random N-bit signed long integer greater than or equal to zero and less than 2^N.
+            N (bit count) is expected to be greater than zero and less than 64 (not verified).
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.DoSampleInteger(System.Int32)">
+            <summary>
+            Returns a random 32-bit signed integer within the specified range.
+            </summary>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 2 (not verified, must be ensured by caller).</param>
+        </member>
+        <member name="M:MathNet.Numerics.Random.RandomSource.DoSampleInteger(System.Int32,System.Int32)">
+            <summary>
+            Returns a random 32-bit signed integer within the specified range.
+            </summary>
+            <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
+            <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ minExclusive + 2 (not verified, must be ensured by caller).</param>
+        </member>
+        <member name="T:MathNet.Numerics.Random.Xorshift">
+            <summary>
+            Implements a multiply-with-carry Xorshift pseudo random number generator (RNG) specified in Marsaglia, George. (2003). Xorshift RNGs.
+            <code>Xn = a * Xn−3 + c mod 2^32</code>
+            http://www.jstatsoft.org/v08/i14/paper
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift.YSeed">
+            <summary>
+            The default value for X1.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift.ZSeed">
+            <summary>
+            The default value for X2.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift.ASeed">
+            <summary>
+            The default value for the multiplier.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift.CSeed">
+            <summary>
+            The default value for the carry over.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift.UlongToDoubleMultiplier">
+            <summary>
+            The multiplier to compute a double-precision floating point number [0, 1)
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift._x">
+            <summary>
+            Seed or last but three unsigned random number.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift._y">
+            <summary>
+            Last but two unsigned random number.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift._z">
+            <summary>
+            Last but one unsigned random number.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift._c">
+            <summary>
+            The value of the carry over.
+            </summary>
+        </member>
+        <member name="F:MathNet.Numerics.Random.Xorshift._a">
+            <summary>
+            The multiplier.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class using
+            a seed based on time and unique GUIDs.
+            </summary>
+            <remarks>If the seed value is zero, it is set to one. Uses the
+            value of true to
+            set whether the instance is thread safe.
+            Uses the default values of:
+            <list>
+            <item>a = 916905990</item>
+            <item>c = 13579</item>
+            <item>X1 = 77465321</item>
+            <item>X2 = 362436069</item>
+            </list></remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor(System.Int64,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class using
+            a seed based on time and unique GUIDs.
+            </summary>
+            <param name="a">The multiply value</param>
+            <param name="c">The initial carry value.</param>
+            <param name="x1">The initial value if X1.</param>
+            <param name="x2">The initial value if X2.</param>
+            <remarks>If the seed value is zero, it is set to one. Uses the
+            value of true to
+            set whether the instance is thread safe.
+            Note: <paramref name="c"/> must be less than <paramref name="a"/>.
+            </remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class using
+            a seed based on time and unique GUIDs.
+            </summary>
+            <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
+            <remarks>
+            Uses the default values of:
+            <list>
+            <item>a = 916905990</item>
+            <item>c = 13579</item>
+            <item>X1 = 77465321</item>
+            <item>X2 = 362436069</item>
+            </list></remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor(System.Boolean,System.Int64,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class using
+            a seed based on time and unique GUIDs.
+            </summary>
+            <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
+            <param name="a">The multiply value</param>
+            <param name="c">The initial carry value.</param>
+            <param name="x1">The initial value if X1.</param>
+            <param name="x2">The initial value if X2.</param>
+            <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class.
+            </summary>
+            <param name="seed">The seed value.</param>
+            <remarks>If the seed value is zero, it is set to one. Uses the
+            value of true to
+            set whether the instance is thread safe.
+            Uses the default values of:
+            <list>
+            <item>a = 916905990</item>
+            <item>c = 13579</item>
+            <item>X1 = 77465321</item>
+            <item>X2 = 362436069</item>
+            </list></remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor(System.Int32,System.Int64,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class.
+            </summary>
+            <param name="seed">The seed value.</param>
+            <remarks>If the seed value is zero, it is set to one. Uses the
+            value of true to
+            set whether the instance is thread safe.</remarks>
+            <param name="a">The multiply value</param>
+            <param name="c">The initial carry value.</param>
+            <param name="x1">The initial value if X1.</param>
+            <param name="x2">The initial value if X2.</param>
+            <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class.
+            </summary>
+            <param name="seed">The seed value.</param>
+            <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
+            <remarks>
+            Uses the default values of:
+            <list>
+            <item>a = 916905990</item>
+            <item>c = 13579</item>
+            <item>X1 = 77465321</item>
+            <item>X2 = 362436069</item>
+            </list></remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.#ctor(System.Int32,System.Boolean,System.Int64,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MathNet.Numerics.Random.Xorshift"/> class.
+            </summary>
+            <param name="seed">The seed value.</param>
+            <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
+            <param name="a">The multiply value</param>
+            <param name="c">The initial carry value.</param>
+            <param name="x1">The initial value if X1.</param>
+            <param name="x2">The initial value if X2.</param>
+            <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.DoSample">
+            <summary>
+            Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.DoSampleInteger">
+            <summary>
+            Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.DoSampleBytes(System.Byte[])">
+            <summary>
+            Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+            </summary>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.Doubles(System.Double[],System.Int32,System.UInt64,System.UInt64,System.UInt64,System.UInt64)">
+            <summary>
+            Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <remarks>Supports being called in parallel from multiple threads.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.Doubles(System.Int32,System.Int32,System.UInt64,System.UInt64,System.UInt64,System.UInt64)">
+            <summary>
+            Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <remarks>Supports being called in parallel from multiple threads.</remarks>
+        </member>
+        <member name="M:MathNet.Numerics.Random.Xorshift.DoubleSequence(System.Int32,System.UInt64,System.UInt64,System.UInt64,System.UInt64)">
+            <summary>
+            Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+            </summary>
+            <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
         </member>
     </members>
 </doc>

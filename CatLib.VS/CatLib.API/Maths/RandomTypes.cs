@@ -9,12 +9,21 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Math
+namespace CatLib.API.Maths
 {
     /// <summary>
-    /// 数学库
+    /// 随机算法类型
     /// </summary>
-    public interface IMath
+    public enum RandomTypes
     {
+        /// <summary>
+        /// 马特赛特旋转演算法
+        /// </summary>
+        MersenneTwister,
+
+        /// <summary>
+        /// Xorshift
+        /// </summary>
+        Xorshift
     }
 }

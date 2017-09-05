@@ -53,7 +53,16 @@ namespace CatLib
         /// <returns>随机生成器</returns>
         public static Random MakeRandom(int? seed = null)
         {
-            return new Random(seed.GetValueOrDefault(Guid.NewGuid().GetHashCode()));
+            return new Random(seed.GetValueOrDefault(MakeSeed()));
+        }
+
+        /// <summary>
+        /// 生成种子
+        /// </summary>
+        /// <returns>种子</returns>
+        public static int MakeSeed()
+        {
+            return Environment.TickCount ^ Guid.NewGuid().GetHashCode();
         }
 
         /// <summary>

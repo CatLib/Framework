@@ -487,6 +487,64 @@
             <param name="hash">使用的哈希算法</param>
             <returns>哈希值</returns>
         </member>
+        <member name="T:CatLib.API.Maths.IMath">
+            <summary>
+            数学库
+            </summary>
+        </member>
+        <member name="T:CatLib.API.Maths.IRandom">
+            <summary>
+            随机数
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Maths.IRandom.Next">
+            <summary>
+            返回一个随机数
+            </summary>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.API.Maths.IRandom.Next(System.Int32)">
+            <summary>
+            返回一个随机数
+            </summary>
+            <param name="minValue">最小值</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.API.Maths.IRandom.Next(System.Int32,System.Int32)">
+            <summary>
+            返回一个随机数
+            </summary>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.API.Maths.IRandom.NextBytes(System.Byte[])">
+            <summary>
+            生成随机数填充流
+            </summary>
+            <param name="buffer">流</param>
+        </member>
+        <member name="M:CatLib.API.Maths.IRandom.NextDouble">
+            <summary>
+            返回一个介于0到1之间的随机数
+            </summary>
+            <returns>随机数</returns>
+        </member>
+        <member name="T:CatLib.API.Maths.RandomTypes">
+            <summary>
+            随机算法类型
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Maths.RandomTypes.MersenneTwister">
+            <summary>
+            马特赛特旋转演算法
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Maths.RandomTypes.Xorshift">
+            <summary>
+            Xorshift
+            </summary>
+        </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
             <summary>
             无效的参数异常
@@ -5589,6 +5647,12 @@
             </summary>
             <param name="seed">种子</param>
             <returns>随机生成器</returns>
+        </member>
+        <member name="M:CatLib.Util.MakeSeed">
+            <summary>
+            生成种子
+            </summary>
+            <returns>种子</returns>
         </member>
         <member name="M:CatLib.Util.NormalizationPosition(System.Int32,System.Int32@,System.Nullable{System.Int32}@)">
             <summary>

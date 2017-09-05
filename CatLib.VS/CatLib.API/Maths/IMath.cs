@@ -9,14 +9,12 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Math;
-
-namespace CatLib.Math
+namespace CatLib.API.Maths
 {
     /// <summary>
     /// 数学库
     /// </summary>
-    public sealed class Math : IMath
+    public interface IMath
     {
     }
 }
