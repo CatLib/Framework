@@ -8673,57 +8673,57 @@
             <param name="item">需要序列化的对象</param>
             <returns>json数据</returns>
         </member>
-        <member name="T:CatLib.Maths.MathProvider">
+        <member name="T:CatLib.Random.RandomProvider">
             <summary>
-            数学库服务提供者
+            随机算法服务提供者
             </summary>
         </member>
-        <member name="M:CatLib.Maths.MathProvider.Init">
+        <member name="M:CatLib.Random.RandomProvider.Init">
             <summary>
             服务提供者初始化
             </summary>
         </member>
-        <member name="M:CatLib.Maths.MathProvider.Register">
+        <member name="M:CatLib.Random.RandomProvider.Register">
             <summary>
             当注册服务提供者
             </summary>
         </member>
-        <member name="M:CatLib.Maths.MathProvider.InitedRandom(CatLib.Maths.Math)">
+        <member name="M:CatLib.Random.RandomProvider.InitedRandom(CatLib.Random.RandomFactory)">
             <summary>
             初始化随机库
             </summary>
-            <param name="math">随机库</param>
+            <param name="randomFactory">随机库</param>
         </member>
-        <member name="T:CatLib.Maths.RandomAdaptor">
+        <member name="T:CatLib.Random.RandomAdaptor">
             <summary>
             随机算法适配器
             </summary>
         </member>
-        <member name="F:CatLib.Maths.RandomAdaptor.random">
+        <member name="F:CatLib.Random.RandomAdaptor.random">
             <summary>
             随机算法
             </summary>
         </member>
-        <member name="M:CatLib.Maths.RandomAdaptor.#ctor(System.Random)">
+        <member name="M:CatLib.Random.RandomAdaptor.#ctor(System.Random)">
             <summary>
             随机算法适配器
             </summary>
             <param name="random">随机算法</param>
         </member>
-        <member name="M:CatLib.Maths.RandomAdaptor.Next">
+        <member name="M:CatLib.Random.RandomAdaptor.Next">
             <summary>
             返回一个随机数
             </summary>
             <returns>随机数</returns>
         </member>
-        <member name="M:CatLib.Maths.RandomAdaptor.Next(System.Int32)">
+        <member name="M:CatLib.Random.RandomAdaptor.Next(System.Int32)">
             <summary>
             返回一个随机数
             </summary>
             <param name="minValue">最小值</param>
             <returns>随机数</returns>
         </member>
-        <member name="M:CatLib.Maths.RandomAdaptor.Next(System.Int32,System.Int32)">
+        <member name="M:CatLib.Random.RandomAdaptor.Next(System.Int32,System.Int32)">
             <summary>
             返回一个随机数
             </summary>
@@ -8731,49 +8731,49 @@
             <param name="maxValue">最大值</param>
             <returns>随机数</returns>
         </member>
-        <member name="M:CatLib.Maths.RandomAdaptor.NextBytes(System.Byte[])">
+        <member name="M:CatLib.Random.RandomAdaptor.NextBytes(System.Byte[])">
             <summary>
             生成随机数填充流
             </summary>
             <param name="buffer">流</param>
         </member>
-        <member name="M:CatLib.Maths.RandomAdaptor.NextDouble">
+        <member name="M:CatLib.Random.RandomAdaptor.NextDouble">
             <summary>
             返回一个介于0到1之间的随机数
             </summary>
             <returns>随机数</returns>
         </member>
-        <member name="T:CatLib.Maths.Math">
+        <member name="T:CatLib.Random.RandomFactory">
             <summary>
-            数学库
+            随机算法生成器
             </summary>
         </member>
-        <member name="F:CatLib.Maths.Math.randoms">
+        <member name="F:CatLib.Random.RandomFactory.randoms">
             <summary>
             随机数算法构建器字典
             </summary>
         </member>
-        <member name="M:CatLib.Maths.Math.MakeRandom(CatLib.API.Maths.RandomTypes)">
+        <member name="M:CatLib.Random.RandomFactory.MakeRandom(CatLib.API.Random.RandomTypes)">
             <summary>
             生成随机算法
             </summary>
             <param name="type">算法类型</param>
             <returns>随机数算法</returns>
         </member>
-        <member name="M:CatLib.Maths.Math.MakeRandom(System.Int32,CatLib.API.Maths.RandomTypes)">
+        <member name="M:CatLib.Random.RandomFactory.MakeRandom(System.Int32,CatLib.API.Random.RandomTypes)">
             <summary>
             生成随机算法
             </summary>
             <returns>随机数算法</returns>
         </member>
-        <member name="M:CatLib.Maths.Math.RegisterRandom(CatLib.API.Maths.RandomTypes,System.Func{System.Int32,CatLib.API.Maths.IRandom})">
+        <member name="M:CatLib.Random.RandomFactory.RegisterRandom(CatLib.API.Random.RandomTypes,System.Func{System.Int32,CatLib.API.Random.IRandom})">
             <summary>
             注册随机数算法
             </summary>
             <param name="type">算法类型</param>
             <param name="builder">构建器</param>
         </member>
-        <member name="M:CatLib.Maths.Math.ThrowRandomTypesNotImplemented(CatLib.API.Maths.RandomTypes)">
+        <member name="M:CatLib.Random.RandomFactory.ThrowRandomTypesNotImplemented(CatLib.API.Random.RandomTypes)">
             <summary>
             触发随机算法没有实现异常
             </summary>

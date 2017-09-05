@@ -61,9 +61,9 @@
     <Compile Include="Hashing\Checksums.cs" />
     <Compile Include="Hashing\Hashes.cs" />
     <Compile Include="Hashing\IHashing.cs" />
-    <Compile Include="Maths\IMath.cs" />
-    <Compile Include="Maths\IRandom.cs" />
-    <Compile Include="Maths\RandomTypes.cs" />
+    <Compile Include="Random\IRandomFactory.cs" />
+    <Compile Include="Random\IRandom.cs" />
+    <Compile Include="Random\RandomTypes.cs" />
     <Compile Include="Support\Exception\AssertException.cs" />
     <Compile Include="Support\Container\BindData.cs" />
     <Compile Include="Support\Container\Container.cs" />

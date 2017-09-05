@@ -10,9 +10,9 @@
  */
 
 using System;
-using CatLib.API.Maths;
+using CatLib.API.Random;
 
-namespace CatLib.Maths
+namespace CatLib.Random
 {
     /// <summary>
     /// 随机算法适配器
@@ -22,13 +22,13 @@ namespace CatLib.Maths
         /// <summary>
         /// 随机算法
         /// </summary>
-        private readonly Random random;
+        private readonly System.Random random;
 
         /// <summary>
         /// 随机算法适配器
         /// </summary>
         /// <param name="random">随机算法</param>
-        public RandomAdaptor(Random random)
+        public RandomAdaptor(System.Random random)
         {
             Guard.Requires<ArgumentNullException>(random != null);
             this.random = random;

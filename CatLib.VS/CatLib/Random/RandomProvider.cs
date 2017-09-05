@@ -9,15 +9,15 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Maths;
+using CatLib.API.Random;
 using MathNet.Numerics.Random;
 
-namespace CatLib.Maths
+namespace CatLib.Random
 {
     /// <summary>
-    /// 数学库服务提供者
+    /// 随机算法服务提供者
     /// </summary>
-    public sealed class MathProvider : IServiceProvider
+    public sealed class RandomProvider : IServiceProvider
     {
         /// <summary>
         /// 服务提供者初始化
@@ -31,9 +31,9 @@ namespace CatLib.Maths
         /// </summary>
         public void Register()
         {
-            App.Singleton<Math>().Alias<IMath>().OnResolving((_, obj) =>
+            App.Singleton<RandomFactory>().Alias<IRandomFactory>().OnResolving((_, obj) =>
             {
-                var math = (Math) obj;
+                var math = (RandomFactory) obj;
                 InitedRandom(math);
                 return obj;
             });
@@ -42,11 +42,11 @@ namespace CatLib.Maths
         /// <summary>
         /// 初始化随机库
         /// </summary>
-        /// <param name="math">随机库</param>
-        private void InitedRandom(Math math)
+        /// <param name="randomFactory">随机库</param>
+        private void InitedRandom(RandomFactory randomFactory)
         {
-            math.RegisterRandom(RandomTypes.MersenneTwister, (seed) => new RandomAdaptor(new MersenneTwister(seed)));
-            math.RegisterRandom(RandomTypes.Xorshift, (seed) => new RandomAdaptor(new Xorshift(seed)));
+            randomFactory.RegisterRandom(RandomTypes.MersenneTwister, (seed) => new RandomAdaptor(new MersenneTwister(seed)));
+            randomFactory.RegisterRandom(RandomTypes.Xorshift, (seed) => new RandomAdaptor(new Xorshift(seed)));
         }
     }
 }

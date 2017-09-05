@@ -9,10 +9,10 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib.API.Maths
+namespace CatLib.API.Random
 {
     /// <summary>
-    /// 随机数
+    /// 随机算法
     /// </summary>
     public interface IRandom
     {

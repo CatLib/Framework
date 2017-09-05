@@ -11,14 +11,14 @@
 
 using System;
 using System.Collections.Generic;
-using CatLib.API.Maths;
+using CatLib.API.Random;
 
-namespace CatLib.Maths
+namespace CatLib.Random
 {
     /// <summary>
-    /// 数学库
+    /// 随机算法生成器
     /// </summary>
-    public sealed class Math : IMath
+    public sealed class RandomFactory : IRandomFactory
     {
         /// <summary>
         /// 随机数算法构建器字典

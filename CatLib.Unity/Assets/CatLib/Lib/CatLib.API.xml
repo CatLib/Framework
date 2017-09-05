@@ -487,30 +487,30 @@
             <param name="hash">使用的哈希算法</param>
             <returns>哈希值</returns>
         </member>
-        <member name="T:CatLib.API.Maths.IMath">
+        <member name="T:CatLib.API.Random.IRandomFactory">
             <summary>
-            数学库
+            随机算法生成器
             </summary>
         </member>
-        <member name="T:CatLib.API.Maths.IRandom">
+        <member name="T:CatLib.API.Random.IRandom">
             <summary>
-            随机数
+            随机算法
             </summary>
         </member>
-        <member name="M:CatLib.API.Maths.IRandom.Next">
+        <member name="M:CatLib.API.Random.IRandom.Next">
             <summary>
             返回一个随机数
             </summary>
             <returns>随机数</returns>
         </member>
-        <member name="M:CatLib.API.Maths.IRandom.Next(System.Int32)">
+        <member name="M:CatLib.API.Random.IRandom.Next(System.Int32)">
             <summary>
             返回一个随机数
             </summary>
             <param name="minValue">最小值</param>
             <returns>随机数</returns>
         </member>
-        <member name="M:CatLib.API.Maths.IRandom.Next(System.Int32,System.Int32)">
+        <member name="M:CatLib.API.Random.IRandom.Next(System.Int32,System.Int32)">
             <summary>
             返回一个随机数
             </summary>
@@ -518,29 +518,29 @@
             <param name="maxValue">最大值</param>
             <returns>随机数</returns>
         </member>
-        <member name="M:CatLib.API.Maths.IRandom.NextBytes(System.Byte[])">
+        <member name="M:CatLib.API.Random.IRandom.NextBytes(System.Byte[])">
             <summary>
             生成随机数填充流
             </summary>
             <param name="buffer">流</param>
         </member>
-        <member name="M:CatLib.API.Maths.IRandom.NextDouble">
+        <member name="M:CatLib.API.Random.IRandom.NextDouble">
             <summary>
             返回一个介于0到1之间的随机数
             </summary>
             <returns>随机数</returns>
         </member>
-        <member name="T:CatLib.API.Maths.RandomTypes">
+        <member name="T:CatLib.API.Random.RandomTypes">
             <summary>
             随机算法类型
             </summary>
         </member>
-        <member name="F:CatLib.API.Maths.RandomTypes.MersenneTwister">
+        <member name="F:CatLib.API.Random.RandomTypes.MersenneTwister">
             <summary>
             马特赛特旋转演算法
             </summary>
         </member>
-        <member name="F:CatLib.API.Maths.RandomTypes.Xorshift">
+        <member name="F:CatLib.API.Random.RandomTypes.Xorshift">
             <summary>
             Xorshift
             </summary>
