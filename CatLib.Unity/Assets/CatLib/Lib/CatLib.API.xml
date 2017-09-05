@@ -545,6 +545,16 @@
             Xorshift
             </summary>
         </member>
+        <member name="F:CatLib.API.Random.RandomTypes.WH2006">
+            <summary>
+            Wichmann-Hill
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Random.RandomTypes.Mrg32k3a">
+            <summary>
+            均匀随机数发生器(产数效率较低)
+            </summary>
+        </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
             <summary>
             无效的参数异常

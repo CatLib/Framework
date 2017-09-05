@@ -214,8 +214,10 @@
     <Compile Include="Json\SimpleJsonAdapter.cs" />
     <Compile Include="Random\3rd\MathNet\Euclid.cs" />
     <Compile Include="Random\3rd\MathNet\Random\MersenneTwister.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\Mrg32k3a.cs" />
     <Compile Include="Random\3rd\MathNet\Random\RandomSeed.cs" />
     <Compile Include="Random\3rd\MathNet\Random\RandomSource.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\WH2006.cs" />
     <Compile Include="Random\3rd\MathNet\Random\Xorshift.cs" />
     <Compile Include="Random\RandomProvider.cs" />
     <Compile Include="Random\RandomAdaptor.cs" />

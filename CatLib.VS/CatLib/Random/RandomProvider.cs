@@ -47,6 +47,8 @@ namespace CatLib.Random
         {
             randomFactory.RegisterRandom(RandomTypes.MersenneTwister, (seed) => new RandomAdaptor(new MersenneTwister(seed)));
             randomFactory.RegisterRandom(RandomTypes.Xorshift, (seed) => new RandomAdaptor(new Xorshift(seed)));
+            randomFactory.RegisterRandom(RandomTypes.WH2006, (seed) => new RandomAdaptor(new WH2006(seed)));
+            randomFactory.RegisterRandom(RandomTypes.Mrg32k3a, (seed) => new RandomAdaptor(new Mrg32k3a(seed)));
         }
     }
 }

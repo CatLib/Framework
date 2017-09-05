@@ -24,6 +24,16 @@ namespace CatLib.API.Random
         /// <summary>
         /// Xorshift
         /// </summary>
-        Xorshift
+        Xorshift,
+
+        /// <summary>
+        /// Wichmann-Hill
+        /// </summary>
+        WH2006,
+
+        /// <summary>
+        /// 均匀随机数发生器(产数效率较低)
+        /// </summary>
+        Mrg32k3a,
     }
 }
