@@ -19,6 +19,7 @@ using CatLib.FileSystem;
 using CatLib.Hashing;
 using CatLib.Json;
 using CatLib.MonoDriver;
+using CatLib.Random;
 using CatLib.Routing;
 using CatLib.Time;
 using CatLib.Timer;
@@ -56,6 +57,7 @@ namespace CatLib
                     new TimeProvider(),
                     new TimerProvider(),
                     new TranslationProvider(),
+                    new RandomProvider(), 
                 };
             }
         }
