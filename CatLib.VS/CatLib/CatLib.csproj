@@ -212,6 +212,11 @@
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
     <Compile Include="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="Math\3rd\MathNet\Euclid.cs" />
+    <Compile Include="Math\3rd\MathNet\Random\MersenneTwister.cs" />
+    <Compile Include="Math\3rd\MathNet\Random\RandomSeed.cs" />
+    <Compile Include="Math\3rd\MathNet\Random\RandomSource.cs" />
+    <Compile Include="Math\3rd\MathNet\Random\Xorshift.cs" />
     <Compile Include="Routing\ExceptionRequest.cs" />
     <Compile Include="Routing\RouterEvents.cs" />
     <Compile Include="CatLib\Application.cs" />
