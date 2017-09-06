@@ -20,7 +20,6 @@ namespace CatLib.Random
     /// 路由服务
     /// </summary>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(CatLibFramework))]
     [AddComponentMenu("CatLib/Random")]
     public sealed class UnityRandomProvider : MonoBehaviour, IServiceProvider, IServiceProviderType
     {

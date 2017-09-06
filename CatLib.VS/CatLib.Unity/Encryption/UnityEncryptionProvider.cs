@@ -19,7 +19,6 @@ namespace CatLib.Encryption
     /// 加解密服务提供者
     /// </summary>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(CatLibFramework))]
     [AddComponentMenu("CatLib/Encryption")]
     public sealed class UnityEncryptionProvider : MonoBehaviour, IServiceProvider, IServiceProviderType
     {

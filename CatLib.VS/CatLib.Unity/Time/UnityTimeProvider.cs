@@ -19,7 +19,6 @@ namespace CatLib.Time
     /// 路由服务
     /// </summary>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(CatLibFramework))]
     [AddComponentMenu("CatLib/Time")]
     public sealed class UnityTimeProvider : MonoBehaviour, IServiceProvider, IServiceProviderType
     {

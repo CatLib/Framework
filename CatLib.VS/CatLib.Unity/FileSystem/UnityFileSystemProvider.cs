@@ -18,7 +18,6 @@ namespace CatLib.FileSystem
     /// <summary>
     /// Unity 文件系统服务提供者
     /// </summary>
-    [RequireComponent(typeof(CatLibFramework))]
     [DisallowMultipleComponent]
     [AddComponentMenu("CatLib/FileSystem")]
     public sealed class UnityFileSystemProvider : MonoBehaviour, IServiceProvider, IServiceProviderType
