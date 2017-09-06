@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+#if CATLIB
 using CatLib.API.Random;
 using MathNet.Numerics.Random;
 
@@ -67,3 +68,4 @@ namespace CatLib.Random
         }
     }
 }
+#endif
