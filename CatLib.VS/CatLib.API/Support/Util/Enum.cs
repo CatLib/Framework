@@ -82,10 +82,6 @@ namespace CatLib
         /// <returns>是否相等</returns>
         public static bool operator ==(Enum left, Enum right)
         {
-            if (Equals(left, null) && Equals(right, null))
-            {
-                return true;
-            }
             return !Equals(left, null) && left.Equals(right);
         }
 

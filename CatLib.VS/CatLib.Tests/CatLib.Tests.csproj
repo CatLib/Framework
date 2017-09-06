@@ -65,6 +65,7 @@
     <Compile Include="Hashing\HashingProviderTests.cs" />
     <Compile Include="Random\RandomProviderTests.cs" />
     <Compile Include="Support\Util\ArrTests.cs" />
+    <Compile Include="Support\Util\EnumTests.cs" />
     <Compile Include="Support\Util\ReferenceCountTests.cs" />
     <Compile Include="Support\VersionTests.cs" />
     <Compile Include="Config\CodeConfigLocatorTests.cs" />
