@@ -522,7 +522,7 @@
             <summary>
             返回一个随机数
             </summary>
-            <param name="maxValue">最大值</param>
+            <param name="maxValue">最大值(不包含)</param>
             <param name="type">使用的随机算法类型</param>
             <returns>随机数</returns>
         </member>
@@ -530,8 +530,8 @@
             <summary>
             返回一个随机数
             </summary>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
+            <param name="minValue">最小值(包含)</param>
+            <param name="maxValue">最大值(不包含)</param>
             <param name="type">使用的随机算法类型</param>
             <returns>随机数</returns>
         </member>
@@ -544,7 +544,7 @@
         </member>
         <member name="M:CatLib.API.Random.IRandomFactory.NextDouble(CatLib.API.Random.RandomTypes)">
             <summary>
-            返回一个介于0到1之间的随机数
+            返回一个介于0(包含)到1(不包含)之间的随机数
             </summary>
             <param name="type">使用的随机算法类型</param>
             <returns>随机数</returns>
@@ -564,15 +564,15 @@
             <summary>
             返回一个随机数
             </summary>
-            <param name="maxValue">最大值</param>
+            <param name="maxValue">最大值(不包含)</param>
             <returns>随机数</returns>
         </member>
         <member name="M:CatLib.API.Random.IRandom.Next(System.Int32,System.Int32)">
             <summary>
             返回一个随机数
             </summary>
-            <param name="minValue">最小值</param>
-            <param name="maxValue">最大值</param>
+            <param name="minValue">最小值(包含)</param>
+            <param name="maxValue">最大值(不包含)</param>
             <returns>随机数</returns>
         </member>
         <member name="M:CatLib.API.Random.IRandom.NextBytes(System.Byte[])">
@@ -583,7 +583,7 @@
         </member>
         <member name="M:CatLib.API.Random.IRandom.NextDouble">
             <summary>
-            返回一个介于0到1之间的随机数
+            返回一个介于0(包含)到1(不包含)之间的随机数
             </summary>
             <returns>随机数</returns>
         </member>
