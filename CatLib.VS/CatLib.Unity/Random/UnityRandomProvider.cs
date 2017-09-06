@@ -26,7 +26,7 @@ namespace CatLib.Random
         /// <summary>
         /// 默认的随机算法
         /// </summary>
-        public RandomTypes DefaultRandomType = RandomTypes.MersenneTwister;
+        public string DefaultRandomType = RandomTypes.MersenneTwister;
 
         /// <summary>
         /// 基础服务提供者
