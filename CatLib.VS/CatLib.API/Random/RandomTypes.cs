@@ -14,26 +14,43 @@ namespace CatLib.API.Random
     /// <summary>
     /// 随机算法类型
     /// </summary>
-    public enum RandomTypes
+    public class RandomTypes : Enum
     {
         /// <summary>
         /// 马特赛特旋转演算法
         /// </summary>
-        MersenneTwister,
+        public static readonly RandomTypes MersenneTwister = new RandomTypes("MersenneTwister");
 
         /// <summary>
         /// Xorshift
         /// </summary>
-        Xorshift,
+        public static readonly RandomTypes Xorshift = new RandomTypes("Xorshift");
 
         /// <summary>
         /// Wichmann-Hill
         /// </summary>
-        WH2006,
+        public static readonly RandomTypes WH2006 = new RandomTypes("WH2006");
 
         /// <summary>
         /// 均匀随机数发生器(产数效率较低)
         /// </summary>
-        Mrg32k3a,
+        public static readonly RandomTypes Mrg32k3a = new RandomTypes("Mrg32k3a");
+
+        /// <summary>
+        /// 随机算法类型
+        /// </summary>
+        /// <param name="name">随机算法名字</param>
+        protected RandomTypes(string name) : base(name)
+        {
+        }
+
+        /// <summary>
+        /// 字符串转RandomTypes
+        /// </summary>
+        /// <param name="type">类型</param>
+        public static implicit operator RandomTypes(string type)
+        {
+            return new RandomTypes(type);
+        }
     }
 }

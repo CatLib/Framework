@@ -71,6 +71,7 @@
     <Compile Include="Support\Container\GivenData.cs" />
     <Compile Include="Support\FilterChain\FilterChain.cs" />
     <Compile Include="Support\Guard\Guard.cs" />
+    <Compile Include="Support\Util\Enum.cs" />
     <Compile Include="Support\Util\IAwait.cs" />
     <Compile Include="Support\LruCache\CacheNode.cs" />
     <Compile Include="Support\LruCache\LruCache.cs" />

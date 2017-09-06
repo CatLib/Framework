@@ -492,6 +492,63 @@
             随机算法生成器
             </summary>
         </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.Make">
+            <summary>
+            生成随机算法
+            </summary>
+            <returns>随机数算法</returns>
+        </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.Make(CatLib.API.Random.RandomTypes)">
+            <summary>
+            生成随机算法
+            </summary>
+            <param name="type">算法类型</param>
+            <returns>随机数算法</returns>
+        </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.Make(System.Int32,CatLib.API.Random.RandomTypes)">
+            <summary>
+            生成随机算法
+            </summary>
+            <returns>随机数算法</returns>
+        </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.Next(CatLib.API.Random.RandomTypes)">
+            <summary>
+            返回一个随机数
+            </summary>
+            <param name="type">使用的随机算法类型</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.Next(System.Int32,CatLib.API.Random.RandomTypes)">
+            <summary>
+            返回一个随机数
+            </summary>
+            <param name="minValue">最小值</param>
+            <param name="type">使用的随机算法类型</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.Next(System.Int32,System.Int32,CatLib.API.Random.RandomTypes)">
+            <summary>
+            返回一个随机数
+            </summary>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="type">使用的随机算法类型</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.NextBytes(System.Byte[],CatLib.API.Random.RandomTypes)">
+            <summary>
+            生成随机数填充流
+            </summary>
+            <param name="buffer">流</param>
+            <param name="type">使用的随机算法类型</param>
+        </member>
+        <member name="M:CatLib.API.Random.IRandomFactory.NextDouble(CatLib.API.Random.RandomTypes)">
+            <summary>
+            返回一个介于0到1之间的随机数
+            </summary>
+            <param name="type">使用的随机算法类型</param>
+            <returns>随机数</returns>
+        </member>
         <member name="T:CatLib.API.Random.IRandom">
             <summary>
             随机算法
@@ -554,6 +611,18 @@
             <summary>
             均匀随机数发生器(产数效率较低)
             </summary>
+        </member>
+        <member name="M:CatLib.API.Random.RandomTypes.#ctor(System.String)">
+            <summary>
+            随机算法类型
+            </summary>
+            <param name="name">随机算法名字</param>
+        </member>
+        <member name="M:CatLib.API.Random.RandomTypes.op_Implicit(System.String)~CatLib.API.Random.RandomTypes">
+            <summary>
+            字符串转RandomTypes
+            </summary>
+            <param name="type">类型</param>
         </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
             <summary>
@@ -3216,6 +3285,62 @@
             </summary>
             <param name="argumentValue">参数值</param>
             <param name="argumentName">参数名</param>
+        </member>
+        <member name="T:CatLib.Enum">
+            <summary>
+            自定义枚举
+            </summary>
+        </member>
+        <member name="F:CatLib.Enum.name">
+            <summary>
+            名字
+            </summary>
+        </member>
+        <member name="M:CatLib.Enum.#ctor(System.String)">
+            <summary>
+            构造一个枚举名字
+            </summary>
+        </member>
+        <member name="M:CatLib.Enum.ToString">
+            <summary>
+            转为字符串
+            </summary>
+            <returns>字符串</returns>
+        </member>
+        <member name="M:CatLib.Enum.Equals(System.Object)">
+            <summary>
+            是否相等
+            </summary>
+            <param name="obj">对象</param>
+            <returns>是否相等</returns>
+        </member>
+        <member name="M:CatLib.Enum.GetHashCode">
+            <summary>
+            获取哈希码
+            </summary>
+            <returns>哈希吗</returns>
+        </member>
+        <member name="M:CatLib.Enum.op_Implicit(CatLib.Enum)~System.String">
+            <summary>
+            自定义枚举转字符串
+            </summary>
+            <param name="e">自定义枚举转字符串</param>
+        </member>
+        <member name="M:CatLib.Enum.op_Equality(CatLib.Enum,CatLib.Enum)">
+            <summary>
+            是否相等
+            </summary>
+            <param name="left">左值</param>
+            <param name="right">右值</param>
+            <returns>是否相等</returns>
+        </member>
+        <member name="M:CatLib.Enum.op_Inequality(CatLib.Enum,CatLib.Enum)">
+            <summary>
+            是否不等
+            </summary>
+            <param name="left">左值</param>
+            <param name="right">右值</param>
+            <returns>是否不等</returns>
         </member>
         <member name="T:CatLib.IAwait`1">
             <summary>

@@ -938,6 +938,41 @@
             注册路由条目
             </summary>
         </member>
+        <member name="T:CatLib.Random.UnityRandomProvider">
+            <summary>
+            路由服务
+            </summary>
+        </member>
+        <member name="F:CatLib.Random.UnityRandomProvider.DefaultRandomType">
+            <summary>
+            默认的随机算法
+            </summary>
+        </member>
+        <member name="F:CatLib.Random.UnityRandomProvider.baseProvider">
+            <summary>
+            基础服务提供者
+            </summary>
+        </member>
+        <member name="P:CatLib.Random.UnityRandomProvider.BaseType">
+            <summary>
+            提供者基础类型
+            </summary>
+        </member>
+        <member name="M:CatLib.Random.UnityRandomProvider.Awake">
+            <summary>
+            Unity Awake
+            </summary>
+        </member>
+        <member name="M:CatLib.Random.UnityRandomProvider.Init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Random.UnityRandomProvider.Register">
+            <summary>
+            注册路由服务
+            </summary>
+        </member>
         <member name="T:CatLib.Routing.UnityRoutingProvider">
             <summary>
             路由服务

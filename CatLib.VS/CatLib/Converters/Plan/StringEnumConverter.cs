@@ -57,7 +57,7 @@ namespace CatLib.Converters.Plan
                 value = value.Substring(indexOfLastDot + 1, value.Length - indexOfLastDot - 1).Trim();
             }
 
-            return Enum.Parse(to, value);
+            return System.Enum.Parse(to, value);
         }
     }
 }
