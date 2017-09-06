@@ -27,7 +27,7 @@ namespace CatLib.Random
         public string DefaultRandomType { get; set; }
 
         /// <summary>
-        /// 默认的随机算法
+        /// 随机算法服务提供者
         /// </summary>
         public RandomProvider()
         {

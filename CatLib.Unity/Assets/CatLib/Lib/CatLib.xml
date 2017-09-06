@@ -8685,7 +8685,7 @@
         </member>
         <member name="M:CatLib.Random.RandomProvider.#ctor">
             <summary>
-            默认的随机算法
+            随机算法服务提供者
             </summary>
         </member>
         <member name="M:CatLib.Random.RandomProvider.Init">
