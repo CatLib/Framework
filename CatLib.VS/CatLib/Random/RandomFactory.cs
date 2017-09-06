@@ -18,7 +18,7 @@ namespace CatLib.Random
     /// <summary>
     /// 随机算法生成器
     /// </summary>
-    public sealed class RandomFactory : IRandomFactory, IRandom
+    public sealed class RandomFactory : IRandomFactory
     {
         /// <summary>
         /// 随机数算法构建器字典
@@ -105,23 +105,23 @@ namespace CatLib.Random
         /// <summary>
         /// 返回一个随机数
         /// </summary>
-        /// <param name="minValue">最小值</param>
+        /// <param name="maxValue">最大值</param>
         /// <returns>随机数</returns>
-        public int Next(int minValue)
+        public int Next(int maxValue)
         {
-            return Next(minValue, defaultRandomType);
+            return Next(maxValue, defaultRandomType);
         }
 
         /// <summary>
         /// 返回一个随机数
         /// </summary>
-        /// <param name="minValue">最小值</param>
+        /// <param name="maxValue">最大值</param>
         /// <param name="type">使用的随机算法类型</param>
         /// <returns>随机数</returns>
-        public int Next(int minValue, RandomTypes type)
+        public int Next(int maxValue, RandomTypes type)
         {
             var random = GetRandom(type);
-            return random.Next(minValue);
+            return random.Next(maxValue);
         }
 
         /// <summary>

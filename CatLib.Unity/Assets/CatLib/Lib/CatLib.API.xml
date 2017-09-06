@@ -522,7 +522,7 @@
             <summary>
             返回一个随机数
             </summary>
-            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
             <param name="type">使用的随机算法类型</param>
             <returns>随机数</returns>
         </member>
@@ -564,7 +564,7 @@
             <summary>
             返回一个随机数
             </summary>
-            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
             <returns>随机数</returns>
         </member>
         <member name="M:CatLib.API.Random.IRandom.Next(System.Int32,System.Int32)">
@@ -3298,7 +3298,7 @@
         </member>
         <member name="M:CatLib.Enum.#ctor(System.String)">
             <summary>
-            构造一个枚举名字
+            构造一个枚举
             </summary>
         </member>
         <member name="M:CatLib.Enum.ToString">

@@ -14,7 +14,7 @@ namespace CatLib.API.Random
     /// <summary>
     /// 随机算法生成器
     /// </summary>
-    public interface IRandomFactory
+    public interface IRandomFactory : IRandom
     {
         /// <summary>
         /// 生成随机算法
@@ -45,10 +45,10 @@ namespace CatLib.API.Random
         /// <summary>
         /// 返回一个随机数
         /// </summary>
-        /// <param name="minValue">最小值</param>
+        /// <param name="maxValue">最大值</param>
         /// <param name="type">使用的随机算法类型</param>
         /// <returns>随机数</returns>
-        int Next(int minValue , RandomTypes type);
+        int Next(int maxValue, RandomTypes type);
 
         /// <summary>
         /// 返回一个随机数

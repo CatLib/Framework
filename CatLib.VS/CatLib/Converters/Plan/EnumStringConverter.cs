@@ -26,7 +26,7 @@ namespace CatLib.Converters.Plan
         {
             get
             {
-                return typeof(Enum);
+                return typeof(System.Enum);
             }
         }
 

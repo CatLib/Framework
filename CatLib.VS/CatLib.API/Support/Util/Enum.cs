@@ -22,7 +22,7 @@ namespace CatLib
         private readonly string name;
 
         /// <summary>
-        /// 构造一个枚举名字
+        /// 构造一个枚举
         /// </summary>
         protected Enum(string name)
         {
@@ -62,7 +62,7 @@ namespace CatLib
         /// <returns>哈希吗</returns>
         public override int GetHashCode()
         {
-            return ToString().GetHashCode();
+            return (GetType() + "." + ToString()).GetHashCode();
         }
 
         /// <summary>

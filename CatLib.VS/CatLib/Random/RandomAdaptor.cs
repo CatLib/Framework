@@ -46,11 +46,11 @@ namespace CatLib.Random
         /// <summary>
         /// 返回一个随机数
         /// </summary>
-        /// <param name="minValue">最小值</param>
+        /// <param name="maxValue">最小值</param>
         /// <returns>随机数</returns>
-        public int Next(int minValue)
+        public int Next(int maxValue)
         {
-            return random.Next(minValue);
+            return random.Next(maxValue);
         }
 
         /// <summary>

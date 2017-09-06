@@ -25,9 +25,9 @@ namespace CatLib.API.Random
         /// <summary>
         /// 返回一个随机数
         /// </summary>
-        /// <param name="minValue">最小值</param>
+        /// <param name="maxValue">最大值</param>
         /// <returns>随机数</returns>
-        int Next(int minValue);
+        int Next(int maxValue);
 
         /// <summary>
         /// 返回一个随机数
