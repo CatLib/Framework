@@ -25,7 +25,6 @@ namespace CatLib.Debugger
     /// 调试服务
     /// </summary>
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(CatLibFramework))]
     [AddComponentMenu("CatLib/Debugger")]
     public sealed class UnityDebuggerProvider : MonoBehaviour, IServiceProvider , IServiceProviderType
     {

@@ -94,11 +94,6 @@ namespace CatLib
         }
 
         /// <summary>
-        /// 配置注入目标
-        /// </summary>
-        private Type configTarget = typeof(ConfigAttribute);
-
-        /// <summary>
         /// 增量Id
         /// </summary>
         private long incrementId;
@@ -144,7 +139,7 @@ namespace CatLib
             App.Handler = this;
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
             RegisterCoreAlias();
-            OnFindType((finder) => { return Type.GetType(finder); }, 1);
+            OnFindType(finder => { return Type.GetType(finder); }, 1);
             SetDebugLevel(DebugLevels.Prod);
         }
 

@@ -35,7 +35,7 @@ namespace CatLib.Tests.Stl
         {
             var num = 500000;
             var lst = new QuickList<int>();
-            var rand = new Random();
+            var rand = new System.Random();
             var lst2 = new List<int>();
             for (var i = 0; i < num; i++)
             {
@@ -59,7 +59,7 @@ namespace CatLib.Tests.Stl
         {
             var num = 50000;
             var lst = new QuickList<int>();
-            var rand = new Random();
+            var rand = new System.Random();
             var lst2 = new List<int>();
             for (var i = 0; i < num; i++)
             {

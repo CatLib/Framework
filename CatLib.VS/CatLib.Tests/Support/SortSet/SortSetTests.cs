@@ -237,7 +237,7 @@ namespace CatLib.Tests.Stl
             var list = new SortSet<int, int>();
             var lst = new List<int>();
             int num = 50000;
-            var rand = new Random();
+            var rand = new System.Random();
             for (var i = 0; i < num; i++)
             {
                 var s = rand.Next(0, 1000);
@@ -259,7 +259,7 @@ namespace CatLib.Tests.Stl
             //var list2 = new SortSet<object, int>();
             int num = 50000;
             var list = new SortSet<int, int>();
-            var rand = new Random();
+            var rand = new System.Random();
 
             for (var i = 0; i < num; i++)
             {
@@ -291,7 +291,7 @@ namespace CatLib.Tests.Stl
             int num = 50000;
             var list = new SortSet<int, int>();
             var lst = new List<int>();
-            var rand = new Random();
+            var rand = new System.Random();
 
             for (var i = 0; i < num; i++)
             {
@@ -332,7 +332,7 @@ namespace CatLib.Tests.Stl
             {
                 list.Add(i, i);
             }
-            var rand = new Random();
+            var rand = new System.Random();
             for (var i = 0; i < Math.Min(num, 100); i++)
             {
                 var rank = rand.Next(0, num);
@@ -371,7 +371,7 @@ namespace CatLib.Tests.Stl
                 var num = 100;
                 var list = new SortSet<int, int>();
                 var lst = new List<int>();
-                var rand = new Random();
+                var rand = new System.Random();
 
                 for (var i = 0; i < num; i++)
                 {
