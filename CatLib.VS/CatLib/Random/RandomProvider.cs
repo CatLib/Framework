@@ -20,6 +20,20 @@ namespace CatLib.Random
     public sealed class RandomProvider : IServiceProvider
     {
         /// <summary>
+        /// 默认的随机算法
+        /// </summary>
+        [Config]
+        public RandomTypes DefaultRandomType { get; set; }
+
+        /// <summary>
+        /// 默认的随机算法
+        /// </summary>
+        public RandomProvider()
+        {
+            DefaultRandomType = RandomTypes.MersenneTwister;
+        }
+
+        /// <summary>
         /// 服务提供者初始化
         /// </summary>
         public void Init()
@@ -31,7 +45,8 @@ namespace CatLib.Random
         /// </summary>
         public void Register()
         {
-            App.Singleton<RandomFactory>().Alias<IRandomFactory>().OnResolving((_, obj) =>
+            App.Singleton<RandomFactory>((_, __) => new RandomFactory(DefaultRandomType))
+                .Alias<IRandomFactory>().Alias<IRandom>().OnResolving((_, obj) =>
             {
                 var math = (RandomFactory) obj;
                 InitedRandom(math);
