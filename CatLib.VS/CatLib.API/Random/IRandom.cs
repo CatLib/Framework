@@ -25,15 +25,15 @@ namespace CatLib.API.Random
         /// <summary>
         /// 返回一个随机数
         /// </summary>
-        /// <param name="maxValue">最大值</param>
+        /// <param name="maxValue">最大值(不包含)</param>
         /// <returns>随机数</returns>
         int Next(int maxValue);
 
         /// <summary>
         /// 返回一个随机数
         /// </summary>
-        /// <param name="minValue">最小值</param>
-        /// <param name="maxValue">最大值</param>
+        /// <param name="minValue">最小值(包含)</param>
+        /// <param name="maxValue">最大值(不包含)</param>
         /// <returns>随机数</returns>
         int Next(int minValue, int maxValue);
 
@@ -44,7 +44,7 @@ namespace CatLib.API.Random
         void NextBytes(byte[] buffer);
 
         /// <summary>
-        /// 返回一个介于0到1之间的随机数
+        /// 返回一个介于0(包含)到1(不包含)之间的随机数
         /// </summary>
         /// <returns>随机数</returns>
         double NextDouble();
