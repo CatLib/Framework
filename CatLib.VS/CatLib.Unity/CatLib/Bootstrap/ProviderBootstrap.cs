@@ -55,7 +55,8 @@ namespace CatLib
             }
 
             var unityObject = typeof(Object);
-            foreach (var provider in root.GetComponents<IServiceProvider>())
+            var providers = root.GetComponentsInChildren<IServiceProvider>();
+            foreach (var provider in providers)
             {
                 if (provider == null)
                 {
