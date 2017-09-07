@@ -10,6 +10,8 @@
 
 > We are currently preparing to convert the comments in the code to the English version. We look forward to your joining.
 
+> CatLib for Unity 请访问：[CatLib/CatLib](https://github.com/CatLib/CatLib)
+
 ## 关于CatLib
 
 CatLib 是一套渐进式的服务提供者框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
