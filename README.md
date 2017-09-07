@@ -14,7 +14,7 @@
 
 ## 关于CatLib
 
-CatLib 是一套渐进式的服务提供者框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
+CatLib 是一套`渐进式`的`服务提供者框架`，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
 
 - [依赖注入容器](http://catlib.io/v1/guide/container.html).
 - [路由系统](http://catlib.io/v1/guide/routing.html).
