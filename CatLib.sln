@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib", "project\CatLib\CatLib.csproj", "{BBB2DAE2-638B-4419-9591-3CECCA312E4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib", "projects\CatLib\CatLib.csproj", "{BBB2DAE2-638B-4419-9591-3CECCA312E4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.Tests", "project\CatLib.Tests\CatLib.Tests.csproj", "{8D8774B0-B6CE-4571-89F6-F3707FFFC167}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.Tests", "projects\CatLib.Tests\CatLib.Tests.csproj", "{8D8774B0-B6CE-4571-89F6-F3707FFFC167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.API", "project\CatLib.API\CatLib.API.csproj", "{5BF5D9DC-26F3-46AE-A735-FE37B0D4FE2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.API", "projects\CatLib.API\CatLib.API.csproj", "{5BF5D9DC-26F3-46AE-A735-FE37B0D4FE2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.Tests.Server", "project\CatLib.Tests.Server\CatLib.Tests.Server.csproj", "{542CFBC4-AE3C-4EDF-B6DE-618F42A17CC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.Tests.Server", "projects\CatLib.Tests.Server\CatLib.Tests.Server.csproj", "{542CFBC4-AE3C-4EDF-B6DE-618F42A17CC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
