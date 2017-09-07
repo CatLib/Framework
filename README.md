@@ -1,36 +1,35 @@
 <p align="center"><img width="173" height="57" src="http://catlib.io/images/logo.txt.png"></p>
 
 <p align="center">
-<a href="https://github.com/yb199478/CatLib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" title="license-mit" /></a>
-<a href="https://github.com/yb199478/catlib/"><img src="https://badge.fury.io/gh/catlib%2Fcatlib.svg" title="GitHub version" /></a>
+<a href="https://github.com/Catlib/Framework/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" title="license-mit" /></a>
+<a href="https://github.com/CatLib/Framework/"><img src="https://badge.fury.io/gh/catlib%2Fframework.svg" title="GitHub version" /></a>
 <a href="https://ci.appveyor.com/project/yb199478/catlib"><img src="https://ci.appveyor.com/api/projects/status/f12rb3x5hxvq6yr7?svg=true" title="Build status"/></a>
-<a href="https://codecov.io/gh/CatLib/CatLib">
-  <img src="https://codecov.io/gh/CatLib/CatLib/branch/master/graph/badge.svg" alt="Codecov" />
+<a href="https://codecov.io/gh/CatLib/Framework">
+  <img src="https://codecov.io/gh/CatLib/Framework/branch/master/graph/badge.svg" alt="Codecov" />
 </a>
-
-> English Document: [en.catlib.io](http://en.catlib.io)  / 中文文档: [catlib.io](http://catlib.io)
 
 > We are currently preparing to convert the comments in the code to the English version. We look forward to your joining.
 
+> CatLib for Unity 请访问：[CatLib/CatLib](https://github.com/CatLib/CatLib)
+
 ## 关于CatLib
 
-CatLib是为Unity3D开发的全栈开发框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
+CatLib 是一套渐进式的服务提供者框架，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
 
 - [依赖注入容器](http://catlib.io/v1/guide/container.html).
 - [路由系统](http://catlib.io/v1/guide/routing.html).
 - 支持任意来源的[配置](http://catlib.io/v1/guide/config.html).
 - [标准库](http://catlib.io/v1/guide/support.html)
 - 抽象[文件系统](http://catlib.io/v1/guide/file-system.html).
-- 多功能[计时器](http://catlib.io/v1/guide/timer.html).
 - [哈希](http://catlib.io/v1/guide/hashing.html)，[加解密](http://catlib.io/v1/guide/encryption.html)，[Json](http://catlib.io/v1/guide/json.html).
 
-CatLib提供了构建一个游戏所必备的基础组件 , 您可以通过接口简单的调用就可以访问这些组件的特性. 您也可以根据业务需求自由组合搭配这些组件，来构建一个完整的项目。
+CatLib提供了项目所必备的基础组件 , 您可以通过接口简单的调用就可以访问这些组件的特性. 您也可以根据业务需求自由组合搭配这些组件，来构建一个完整的项目。
 
 无论您是一个新的项目还是一个正在被开发的项目，您都可以轻松的嵌入CatLib。绝大多数的CatLib的组件都可以被单独使用和无感知替换的，我们也欢迎其他的框架开发者来使用这些组件。
 
 ## 学习CatLib
 
-我们已经准备了各个组件的教程，您只需要进入 [CatLib 中文手册](http://catlib.io) 就可以看到她们。
+我们已经准备了各个组件的教程，您只需要进入 [中文文档](http://catlib.io) / [English Document](http://en.catlib.io) 就可以看到她们。
 
 ## 架构图
 ![](http://catlib.io/images/architecture-diagram.svg)
