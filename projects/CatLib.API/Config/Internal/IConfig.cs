@@ -64,7 +64,7 @@ namespace CatLib.API.Config
         /// <param name="type">配置最终转换到的类型</param>
         /// <param name="def">当找不到配置时的默认值</param>
         /// <returns>配置的值，如果找不到则返回默认值</returns>
-        object Get(string name, Type type, object def = null);
+        object Get(string name, Type type, object def);
 
         /// <summary>
         /// 根据配置名获取配置
