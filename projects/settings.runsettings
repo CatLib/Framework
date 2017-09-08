@@ -18,6 +18,7 @@
             <Sources>
               <Exclude>
                 <Source>.*\\3rd\\.*</Source>
+				<Source>.*\\Facade\\.*</Source>
               </Exclude>
             </Sources>
           </CodeCoverage>  
