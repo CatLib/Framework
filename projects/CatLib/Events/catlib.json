@@ -1,8 +1,0 @@
-{
-  "source": "catlib/events",
-  "folder": "Events",
-  "require": {
-    "catlib/support": "~1.0",
-    "catlib/api": "~1.0"
-  }
-}

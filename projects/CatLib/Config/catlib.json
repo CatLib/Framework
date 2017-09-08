@@ -1,9 +1,0 @@
-{
-  "source": "catlib/config",
-  "folder": "Config",
-  "require": {
-    "catlib/support": "~1.0",
-    "catlib/api": "~1.0",
-    "catlib/converters": "~1.0"
-  }
-}
