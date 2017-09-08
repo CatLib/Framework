@@ -11,8 +11,6 @@
 
 using CatLib.API.Hashing;
 using CatLib.Hashing.Checksum;
-using CatLib.Hashing.HashString;
-using Murmur;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -25,6 +23,16 @@ namespace CatLib.Hashing
     /// </summary>
     internal sealed class Hashing : IHashing
     {
+        /// <summary>
+        /// 校验类字典
+        /// </summary>
+        private readonly Dictionary<Checksums, Func<IChecksum>> checksumsMaker;
+
+        /// <summary>
+        /// 非加密哈希字典
+        /// </summary>
+        private readonly Dictionary<Hashes, Func<HashAlgorithm>> hashByteMaker;
+
         /// <summary>
         /// 校验类字典
         /// </summary>
@@ -41,21 +49,64 @@ namespace CatLib.Hashing
         private readonly object syncRoot = new object();
 
         /// <summary>
+        /// 默认的校验算法
+        /// </summary>
+        private readonly Checksums defaultChecksum;
+
+        /// <summary>
+        /// 默认的哈希算法
+        /// </summary>
+        private readonly Hashes defaultHash;
+
+        /// <summary>
         /// 哈希
         /// </summary>
-        public Hashing()
+        public Hashing(Checksums defaultChecksum, Hashes defaultHash)
         {
-            checksumsDict = new Dictionary<Checksums, IChecksum>
-            {
-                { Checksums.Crc32, new Crc32() },
-                { Checksums.Adler32, new Adler32() }
-            };
+            Guard.Requires<ArgumentNullException>(defaultChecksum != null);
+            Guard.Requires<ArgumentNullException>(defaultHash != null);
 
-            hashByteDict = new Dictionary<Hashes, HashAlgorithm>
-            {
-                { Hashes.MurmurHash , new Murmur32ManagedX86() },
-                { Hashes.Djb, new DjbHash() }
-            };
+            this.defaultChecksum = defaultChecksum;
+            this.defaultHash = defaultHash;
+
+            checksumsMaker = new Dictionary<Checksums, Func<IChecksum>>();
+            hashByteMaker = new Dictionary<Hashes, Func<HashAlgorithm>>();
+            checksumsDict = new Dictionary<Checksums, IChecksum>();
+            hashByteDict = new Dictionary<Hashes, HashAlgorithm>();
+        }
+
+        /// <summary>
+        /// 注册校验算法
+        /// </summary>
+        /// <param name="checksum">校验类类型</param>
+        /// <param name="builder">构建器</param>
+        public void RegisterChecksum(Checksums checksum, Func<IChecksum> builder)
+        {
+            Guard.Requires<ArgumentNullException>(checksum != null);
+            Guard.Requires<ArgumentNullException>(builder != null);
+            checksumsMaker.Add(checksum, builder);
+        }
+
+        /// <summary>
+        /// 注册校验算法
+        /// </summary>
+        /// <param name="hash">哈希类类型</param>
+        /// <param name="builder">构建器</param>
+        public void RegisterHash(Hashes hash, Func<HashAlgorithm> builder)
+        {
+            Guard.Requires<ArgumentNullException>(hash != null);
+            Guard.Requires<ArgumentNullException>(builder != null);
+            hashByteMaker.Add(hash, builder);
+        }
+
+        /// <summary>
+        /// 使用默认的校验算法计算校验和
+        /// </summary>
+        /// <param name="buffer">字节数组</param>
+        /// <returns>校验和</returns>
+        public long Checksum(byte[] buffer)
+        {
+            return Checksum(buffer, defaultChecksum);
         }
 
         /// <summary>
@@ -64,13 +115,19 @@ namespace CatLib.Hashing
         /// <param name="buffer">字节数组</param>
         /// <param name="checksum">使用校验类类型</param>
         /// <returns>校验和</returns>
-        public long Checksum(byte[] buffer, Checksums checksum = Checksums.Crc32)
+        public long Checksum(byte[] buffer, Checksums checksum)
         {
             Guard.Requires<ArgumentNullException>(buffer != null);
             IChecksum checksumClass;
             if (!checksumsDict.TryGetValue(checksum, out checksumClass))
             {
-                throw new RuntimeException("Undefiend Checksum:" + checksum);
+                Func<IChecksum> checksumMaker;
+                if (!checksumsMaker.TryGetValue(checksum, out checksumMaker)
+                    || (checksumClass = checksumMaker.Invoke()) == null)
+                {
+                    throw new RuntimeException("Undefiend Checksum:" + checksum);
+                }
+                checksumsDict[checksum] = checksumClass;
             }
             lock (syncRoot)
             {
@@ -109,9 +166,19 @@ namespace CatLib.Hashing
         /// 对输入值进行非加密哈希
         /// </summary>
         /// <param name="input">输入值</param>
+        /// <returns>哈希值</returns>
+        public uint HashString(string input)
+        {
+            return HashString(input, defaultHash);
+        }
+
+        /// <summary>
+        /// 对输入值进行非加密哈希
+        /// </summary>
+        /// <param name="input">输入值</param>
         /// <param name="hash">使用的哈希算法</param>
         /// <returns>哈希值</returns>
-        public uint HashString(string input, Hashes hash = Hashes.MurmurHash)
+        public uint HashString(string input, Hashes hash)
         {
             return HashString(input, Encoding.Default, hash);
         }
@@ -123,7 +190,7 @@ namespace CatLib.Hashing
         /// <param name="encoding">编码</param>
         /// <param name="hash">使用的哈希算法</param>
         /// <returns>哈希值</returns>
-        public uint HashString(string input, Encoding encoding, Hashes hash = Hashes.MurmurHash)
+        public uint HashString(string input, Encoding encoding, Hashes hash)
         {
             Guard.Requires<ArgumentNullException>(input != null);
             Guard.Requires<ArgumentNullException>(encoding != null);
@@ -135,16 +202,35 @@ namespace CatLib.Hashing
         /// 对输入值进行非加密哈希
         /// </summary>
         /// <param name="input">输入值</param>
+        /// <returns>哈希值</returns>
+        public uint HashByte(byte[] input)
+        {
+            return HashByte(input, defaultHash);
+        }
+
+        /// <summary>
+        /// 对输入值进行非加密哈希
+        /// </summary>
+        /// <param name="input">输入值</param>
         /// <param name="hash">使用的哈希算法</param>
         /// <returns>哈希值</returns>
-        public uint HashByte(byte[] input, Hashes hash = Hashes.MurmurHash)
+        public uint HashByte(byte[] input, Hashes hash)
         {
             Guard.Requires<ArgumentNullException>(input != null);
+            Guard.Requires<ArgumentNullException>(hash != null);
+
             HashAlgorithm hashStringClass;
             if (!hashByteDict.TryGetValue(hash, out hashStringClass))
             {
-                throw new RuntimeException("Undefiend Hashing:" + hash);
+                Func<HashAlgorithm> hashStringMaker;
+                if (!hashByteMaker.TryGetValue(hash, out hashStringMaker)
+                    || (hashStringClass = hashStringMaker.Invoke()) == null)
+                {
+                    throw new RuntimeException("Undefiend Hashing:" + hash);
+                }
+                hashByteDict[hash] = hashStringClass;
             }
+
             return BitConverter.ToUInt32(hashStringClass.ComputeHash(input), 0);
         }
     }

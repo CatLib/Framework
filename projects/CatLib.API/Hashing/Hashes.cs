@@ -14,16 +14,33 @@ namespace CatLib.API.Hashing
     /// <summary>
     /// 哈希算法
     /// </summary>
-    public enum Hashes
+    public class Hashes : Enum
     {
         /// <summary>
         /// DJB Hash
         /// </summary>
-        Djb,
+        public static readonly Hashes Djb = new Hashes("Djb");
 
         /// <summary>
         /// Murmur Hash
         /// </summary>
-        MurmurHash
+        public static readonly Hashes MurmurHash = new Hashes("MurmurHash");
+
+        /// <summary>
+        /// 哈希算法类型
+        /// </summary>
+        /// <param name="name">哈希算法名字</param>
+        protected Hashes(string name) : base(name)
+        {
+        }
+
+        /// <summary>
+        /// 字符串转Hashes
+        /// </summary>
+        /// <param name="type">类型</param>
+        public static implicit operator Hashes(string type)
+        {
+            return new Hashes(type);
+        }
     }
 }

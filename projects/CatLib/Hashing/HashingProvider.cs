@@ -11,6 +11,9 @@
 
 #if CATLIB
 using CatLib.API.Hashing;
+using CatLib.Hashing.Checksum;
+using CatLib.Hashing.HashString;
+using Murmur;
 
 namespace CatLib.Hashing
 {
@@ -19,6 +22,27 @@ namespace CatLib.Hashing
     /// </summary>
     public sealed class HashingProvider : IServiceProvider
     {
+        /// <summary>
+        /// 默认的校验类
+        /// </summary>
+        [Config]
+        public string DefaultChecksum { get; set; }
+
+        /// <summary>
+        /// 默认的哈希类
+        /// </summary>
+        [Config]
+        public string DefaultHash { get; set; }
+
+        /// <summary>
+        /// 哈希服务提供者
+        /// </summary>
+        public HashingProvider()
+        {
+            DefaultChecksum = Checksums.Crc32;
+            DefaultHash = Hashes.MurmurHash;
+        }
+
         /// <summary>
         /// 服务提供者初始化
         /// </summary>
@@ -31,7 +55,19 @@ namespace CatLib.Hashing
         /// </summary>
         public void Register()
         {
-            App.Singleton<Hashing>().Alias<IHashing>();
+            App.Singleton<Hashing>((_, __) => new Hashing(DefaultChecksum, DefaultHash))
+                .Alias<IHashing>().OnResolving((_, obj) =>
+            {
+                var hashing = (Hashing)obj;
+
+                hashing.RegisterChecksum(Checksums.Crc32, () => new Crc32());
+                hashing.RegisterChecksum(Checksums.Adler32, () => new Adler32());
+
+                hashing.RegisterHash(Hashes.MurmurHash, () => new Murmur32ManagedX86());
+                hashing.RegisterHash(Hashes.Djb, () => new DjbHash());
+
+                return obj;
+            });
         }
     }
 }
