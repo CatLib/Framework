@@ -249,18 +249,6 @@
     <Compile Include="Translation\Translator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\catlib.json" />
-    <None Include="Converters\catlib.json" />
-    <None Include="CatLib\catlib.json" />
-    <None Include="Debugger\catlib.json" />
-    <None Include="Events\catlib.json" />
-    <None Include="Facade\catlib.json" />
-    <None Include="FileSystem\catlib.json" />
-    <None Include="Json\catlib.json" />
-    <None Include="Routing\catlib.json" />
-    <None Include="Translation\catlib.json" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CatLib.API\CatLib.API.csproj">
       <Project>{5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e}</Project>
       <Name>CatLib.API</Name>
