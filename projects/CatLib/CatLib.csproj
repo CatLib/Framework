@@ -123,6 +123,11 @@
     <Compile Include="Encryption\AesEncrypter.cs" />
     <Compile Include="Encryption\Encrypter.cs" />
     <Compile Include="Encryption\EncryptionProvider.cs" />
+    <Compile Include="Facade\Compress.cs" />
+    <Compile Include="Facade\Converters.cs" />
+    <Compile Include="Facade\Dispatcher.cs" />
+    <Compile Include="Facade\Encrypter.cs" />
+    <Compile Include="Facade\Hashing.cs" />
     <Compile Include="Facade\I18N.cs" />
     <Compile Include="Facade\Json.cs" />
     <Compile Include="Converters\Converters.cs" />
@@ -185,6 +190,7 @@
     <Compile Include="Events\EventsProvider.cs" />
     <Compile Include="Facade\Config.cs" />
     <Compile Include="Facade\FileSystem.cs" />
+    <Compile Include="Facade\Random.cs" />
     <Compile Include="Facade\Router.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
     <Compile Include="FileSystem\Directory.cs" />
