@@ -70,15 +70,14 @@ namespace CatLib.Random
         public IRandom Make(int seed, RandomTypes type)
         {
             Func<int, IRandom> builder;
-            if (!randomsMaker.TryGetValue(type, out builder))
+            IRandom result;
+
+            if (!randomsMaker.TryGetValue(type, out builder) || 
+                 (result = builder.Invoke(seed)) == null)
             {
-                throw ThrowRandomTypesNotImplemented(type);
+                throw new NotImplementedException("RandomTypes [" + type + "] is not implemented");
             }
-            var result = builder.Invoke(seed);
-            if (result == null)
-            {
-                throw ThrowRandomTypesNotImplemented(type);
-            }
+
             return result;
         }
 
@@ -195,6 +194,7 @@ namespace CatLib.Random
         /// <param name="builder">构建器</param>
         public void RegisterRandom(RandomTypes type, Func<int, IRandom> builder)
         {
+            Guard.Requires<ArgumentNullException>(type != null);
             Guard.Requires<ArgumentNullException>(builder != null);
             randomsMaker.Add(type, builder);
         }
@@ -212,15 +212,6 @@ namespace CatLib.Random
                 randomsCache[type] = random = Make(type);
             }
             return random;
-        }
-
-        /// <summary>
-        /// 触发随机算法没有实现异常
-        /// </summary>
-        /// <param name="type">随机算法</param>
-        private NotImplementedException ThrowRandomTypesNotImplemented(RandomTypes type)
-        {
-            return new NotImplementedException("RandomTypes [" + type + "] is not implemented");
         }
     }
 }
