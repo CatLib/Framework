@@ -42,7 +42,7 @@ namespace CatLib
         /// <param name="type">配置的类型</param>
         /// <param name="def">默认值</param>
         /// <returns></returns>
-        public static object SafeGet(this IConfig config, string name, Type type, object def = null)
+        public static object SafeGet(this IConfig config, string name, Type type, object def)
         {
             return config == null ? def : config.Get(name, type, def);
         }

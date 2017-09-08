@@ -134,7 +134,7 @@ namespace CatLib.Config
         /// <param name="type">配置最终转换到的类型</param>
         /// <param name="def">当找不到配置时的默认值</param>
         /// <returns>配置的值，如果找不到则返回默认值</returns>
-        public object Get(string name, Type type, object def = null)
+        public object Get(string name, Type type, object def)
         {
             Guard.Requires<AssertException>(locator != null);
             Guard.Requires<AssertException>(converters != null);
