@@ -203,6 +203,11 @@ namespace CatLib
             Guard.NotEmptyOrNull(alias, "alias");
             Guard.NotEmptyOrNull(service, "service");
 
+            if (alias == service)
+            {
+                throw new RuntimeException("Alias is Same as Service Name: [" + alias + "].");
+            }
+
             alias = Normalize(alias);
             service = Normalize(service);
 

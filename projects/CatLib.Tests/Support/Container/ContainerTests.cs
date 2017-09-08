@@ -1265,6 +1265,17 @@ namespace CatLib.Tests.Stl
             Assert.AreEqual(null, container.Make("Test"));
         }
 
+        [TestMethod]
+        public void TestSameAliaseServiceName()
+        {
+            var container = MakeContainer();
+
+            ExceptionAssert.Throws<RuntimeException>(() =>
+            {
+                container.Singleton<ContainerTest>().Alias<ContainerTest>();
+            });
+        }
+
         public class TestParamsMakeClass
         {
             public TestParamsMakeClass()
