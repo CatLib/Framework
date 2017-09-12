@@ -36,6 +36,7 @@ namespace CatLib.Encryption
         /// <param name="cipher">加密类型</param>
         public Encrypter(byte[] key, string cipher)
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             this.key = key;
             if (!Supported(key, cipher))
             {
