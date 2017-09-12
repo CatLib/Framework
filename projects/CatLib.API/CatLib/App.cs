@@ -418,11 +418,11 @@ namespace CatLib
         /// 以单例的形式绑定一个服务
         /// </summary>
         /// <typeparam name="TService">服务名</typeparam>
-        /// <typeparam name="TConcrete">服务实现</typeparam>
+        /// <typeparam name="TAlias">服务别名</typeparam>
         /// <returns>服务绑定数据</returns>
-        public static IBindData Singleton<TService, TConcrete>() where TConcrete : class
+        public static IBindData Singleton<TService, TAlias>()
         {
-            return Handler.Singleton<TService, TConcrete>();
+            return Handler.Singleton<TService, TAlias>();
         }
 
         /// <summary>
@@ -450,11 +450,11 @@ namespace CatLib
         /// 常规绑定一个服务
         /// </summary>
         /// <typeparam name="TService">服务名</typeparam>
-        /// <typeparam name="TConcrete">服务实现</typeparam>
+        /// <typeparam name="TAlias">服务别名</typeparam>
         /// <returns>服务绑定数据</returns>
-        public static IBindData Bind<TService, TConcrete>() where TConcrete : class
+        public static IBindData Bind<TService, TAlias>()
         {
-            return Handler.Bind<TService, TConcrete>();
+            return Handler.Bind<TService, TAlias>();
         }
 
         /// <summary>

@@ -2307,7 +2307,7 @@
             以单例的形式绑定一个服务
             </summary>
             <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
+            <typeparam name="TAlias">服务别名</typeparam>
             <returns>服务绑定数据</returns>
         </member>
         <member name="M:CatLib.App.Singleton``1">
@@ -2330,7 +2330,7 @@
             常规绑定一个服务
             </summary>
             <typeparam name="TService">服务名</typeparam>
-            <typeparam name="TConcrete">服务实现</typeparam>
+            <typeparam name="TAlias">服务别名</typeparam>
             <returns>服务绑定数据</returns>
         </member>
         <member name="M:CatLib.App.Bind``1">
