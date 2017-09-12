@@ -894,7 +894,7 @@ namespace CatLib.Tests.Stl
                 container.Make<TestMakeParamInjectAttrRequiredClass>();
             });
 
-            container.Bind<IMsg, MakeTestClassDependency>();
+            container.Bind<MakeTestClassDependency, IMsg>();
             var result = container.Make<TestMakeParamInjectAttrRequiredClass>();
             Assert.AreEqual("hello", result.GetMsg());
         }
