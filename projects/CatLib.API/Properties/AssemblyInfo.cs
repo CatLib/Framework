@@ -26,8 +26,8 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
 
 [assembly: InternalsVisibleTo("Assembly-CSharp-Editor"),
            InternalsVisibleTo("Assembly-CSharp-Editor-firstpass"),
