@@ -72,6 +72,19 @@ namespace CatLib
         }
 
         /// <summary>
+        /// 释放扩展
+        /// </summary>
+        /// <param name="name">名字</param>
+        public void ReleaseExtend(string name = null)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = GetDefaultName();
+            }
+            customResolve.Remove(name);
+        }
+
+        /// <summary>
         /// 是否包含指定拓展
         /// </summary>
         /// <param name="name">名字</param>

@@ -107,5 +107,17 @@ namespace CatLib.Tests.Stl
             Assert.AreEqual(false, manager.ContainsExtend());
             Assert.AreEqual(true, manager.ContainsExtend("hello"));
         }
+
+        [TestMethod]
+        public void TestReleaseExtend()
+        {
+            var manager = new TestManager();
+            manager.Extend(() => new InterfaceImpl(), "hello");
+
+            Assert.AreEqual(true, manager.ContainsExtend("hello"));
+            manager.ReleaseExtend("hello");
+            Assert.AreEqual(false, manager.ContainsExtend());
+            Assert.AreEqual(false, manager.ContainsExtend("hello"));
+        }
     }
 }

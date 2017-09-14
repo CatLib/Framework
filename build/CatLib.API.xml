@@ -5261,6 +5261,12 @@
             <param name="resolve">解决方案实现</param>
             <param name="name">解决方案名</param>
         </member>
+        <member name="M:CatLib.IManager`1.ReleaseExtend(System.String)">
+            <summary>
+            释放扩展
+            </summary>
+            <param name="name">名字</param>
+        </member>
         <member name="M:CatLib.IManager`1.ContainsExtend(System.String)">
             <summary>
             是否包含指定拓展
@@ -5317,6 +5323,12 @@
             自定义解决方案
             </summary>
             <param name="resolve">解决方案</param>
+            <param name="name">名字</param>
+        </member>
+        <member name="M:CatLib.Manager`1.ReleaseExtend(System.String)">
+            <summary>
+            释放扩展
+            </summary>
             <param name="name">名字</param>
         </member>
         <member name="M:CatLib.Manager`1.ContainsExtend(System.String)">

@@ -40,6 +40,12 @@ namespace CatLib
         void Extend(Func<TInterface> resolve, string name = null);
 
         /// <summary>
+        /// 释放扩展
+        /// </summary>
+        /// <param name="name">名字</param>
+        void ReleaseExtend(string name = null);
+
+        /// <summary>
         /// 是否包含指定拓展
         /// </summary>
         /// <param name="name">名字</param>
