@@ -25,7 +25,7 @@ namespace CatLib
         /// <returns>DateTime</returns>
         public static DateTime ToDateTime(int time)
         {
-            var datetStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            var datetStart = TimeZone.CurrentTimeZone.ToLocalTime(UtcTime);
             var toNow = new TimeSpan(long.Parse(time + "0000000"));
             return datetStart.Add(toNow);
         }
@@ -37,7 +37,7 @@ namespace CatLib
         /// <returns>linux时间戳</returns>
         public static int Timestamp(this DateTime time)
         {
-            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(UtcTime);
             return (int)(time - startTime).TotalSeconds;
         }
 
