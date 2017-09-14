@@ -38,5 +38,11 @@ namespace CatLib
         /// <param name="resolve">解决方案实现</param>
         /// <param name="name">解决方案名</param>
         void Extend(Func<TInterface> resolve, string name = null);
+
+        /// <summary>
+        /// 是否包含指定拓展
+        /// </summary>
+        /// <param name="name">名字</param>
+        bool ContainsExtend(string name = null);
     }
 }

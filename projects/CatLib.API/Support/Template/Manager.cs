@@ -17,7 +17,7 @@ namespace CatLib
     /// <summary>
     /// 管理器模版
     /// </summary>
-    public abstract class Manager<TInterface>
+    public abstract class Manager<TInterface> : IManager<TInterface>
     {
         /// <summary>
         /// 自定义解决器
@@ -69,6 +69,20 @@ namespace CatLib
                 throw new RuntimeException("Custom resolve [" + name + "](" + GetType() + ") is already exists.");
             }
             customResolve.Add(name, resolve);
+        }
+
+        /// <summary>
+        /// 是否包含指定拓展
+        /// </summary>
+        /// <param name="name">名字</param>
+        public bool ContainsExtend(string name = null)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = GetDefaultName();
+            }
+
+            return customResolve.ContainsKey(name);
         }
 
         /// <summary>

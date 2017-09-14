@@ -30,8 +30,7 @@ namespace CatLib
         /// <returns>解决方案</returns>
         public new TInterface Get(string name = null)
         {
-            name = string.IsNullOrEmpty(name) ? GetDefaultName() : name;
-            return Make(name);
+            return Make(NormalName(name));
         }
 
         /// <summary>
@@ -64,8 +63,7 @@ namespace CatLib
         /// <param name="name">解决方案名</param>
         public void Release(string name = null)
         {
-            name = string.IsNullOrEmpty(name) ? GetDefaultName() : name;
-            elements.Remove(name);
+            elements.Remove(NormalName(name));
         }
 
         /// <summary>
@@ -83,6 +81,16 @@ namespace CatLib
             element = base.Get(name);
             elements.Add(name, element);
             return element;
+        }
+
+        /// <summary>
+        /// 标准化名字
+        /// </summary>
+        /// <param name="name">名字</param>
+        /// <returns>标准化后的名字</returns>
+        private string NormalName(string name)
+        {
+            return string.IsNullOrEmpty(name) ? GetDefaultName() : name;
         }
     }
 }

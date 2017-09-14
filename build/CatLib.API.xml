@@ -5261,6 +5261,12 @@
             <param name="resolve">解决方案实现</param>
             <param name="name">解决方案名</param>
         </member>
+        <member name="M:CatLib.IManager`1.ContainsExtend(System.String)">
+            <summary>
+            是否包含指定拓展
+            </summary>
+            <param name="name">名字</param>
+        </member>
         <member name="T:CatLib.ISingleManager`1">
             <summary>
             管理器
@@ -5311,6 +5317,12 @@
             自定义解决方案
             </summary>
             <param name="resolve">解决方案</param>
+            <param name="name">名字</param>
+        </member>
+        <member name="M:CatLib.Manager`1.ContainsExtend(System.String)">
+            <summary>
+            是否包含指定拓展
+            </summary>
             <param name="name">名字</param>
         </member>
         <member name="M:CatLib.Manager`1.GetDefaultName">
@@ -5374,6 +5386,13 @@
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案实现</returns>
+        </member>
+        <member name="M:CatLib.SingleManager`1.NormalName(System.String)">
+            <summary>
+            标准化名字
+            </summary>
+            <param name="name">名字</param>
+            <returns>标准化后的名字</returns>
         </member>
         <member name="T:CatLib.Arr">
             <summary>
