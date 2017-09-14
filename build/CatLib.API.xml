@@ -5794,6 +5794,11 @@
             <param name="time">DateTime</param>
             <returns>linux时间戳</returns>
         </member>
+        <member name="F:CatLib.SystemTime.UtcTime">
+            <summary>
+            Utc时间
+            </summary>
+        </member>
         <member name="T:CatLib.Util">
             <summary>
             通用支持

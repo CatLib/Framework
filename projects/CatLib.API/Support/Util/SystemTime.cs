@@ -40,5 +40,10 @@ namespace CatLib
             var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             return (int)(time - startTime).TotalSeconds;
         }
+
+        /// <summary>
+        /// Utc时间
+        /// </summary>
+        public static readonly DateTime UtcTime = new DateTime(1970, 1, 1);
     }
 }
