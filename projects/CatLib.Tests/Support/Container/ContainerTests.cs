@@ -1291,6 +1291,31 @@ namespace CatLib.Tests.Stl
             Assert.AreEqual(typeof(TestParamsMakeClass), container.MakeWith<TestParamsMakeClass>(null).GetType());
         }
 
+        [TestMethod]
+        public void TestBaseStructChange()
+        {
+            var container = new Container();
+            var result = container.Call(this, "TestContainerCall", "100");
+            Assert.AreEqual(100, result);
+        }
+
+        [TestMethod]
+        public void TestBaseStructChangeInvalid()
+        {
+            var container = new Container();
+            var result = container.Call(this, "TestContainerCall", "100000000000000000000");
+            Assert.AreEqual(0, result);
+        }
+
+        /// <summary>
+        /// 测试基础容器调用
+        /// </summary>
+        /// <param name="num"></param>
+        public int TestContainerCall(int num)
+        {
+            return num;
+        }
+
         /// <summary>
         /// 生成容器
         /// </summary>

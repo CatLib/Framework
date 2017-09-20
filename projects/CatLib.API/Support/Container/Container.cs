@@ -829,6 +829,25 @@ namespace CatLib
                         myParam.Add(param[i]);
                         continue;
                     }
+
+                    // 这里我们非常明确如果能够被ChangeType那么应用ChangeType出来的值
+                    // 如果不行则尝试从容器中进行查找可以被注入的类型，所以我们拦截了
+                    // 可能出现的异常。
+                    // 这里的转换只用于基础数据类型转换
+                    try
+                    {
+                        myParam.Add(Convert.ChangeType(param[i], info.ParameterType));
+                        continue;
+                    }
+                    catch (InvalidCastException)
+                    {
+                    }
+                    catch (FormatException)
+                    {
+                    }
+                    catch (OverflowException)
+                    {
+                    }
                 }
 
                 var needService = Type2Service(info.ParameterType);
