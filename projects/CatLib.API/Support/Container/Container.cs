@@ -677,11 +677,9 @@ namespace CatLib
         /// <returns>服务实例</returns>
         private object BuildUseConcrete(BindData makeServiceBindData, Type makeServiceType, object[] param)
         {
-            if (makeServiceBindData.Concrete != null)
-            {
-                return makeServiceBindData.Concrete(this, param);
-            }
-            return BuildMake(makeServiceBindData.Service, makeServiceType, false, param);
+            return makeServiceBindData.Concrete != null ? 
+                makeServiceBindData.Concrete(this, param) : 
+                BuildMake(makeServiceBindData.Service, makeServiceType, false, param);
         }
 
         /// <summary>
