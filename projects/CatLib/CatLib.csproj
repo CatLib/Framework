@@ -24,6 +24,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Debug\CatLib.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\..\build\CatLib.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -249,6 +251,14 @@
     <Compile Include="Routing\Validators\HostValidator.cs" />
     <Compile Include="Routing\Validators\IValidators.cs" />
     <Compile Include="Routing\Validators\UriValidator.cs" />
+    <Compile Include="Socket\3rd\kcp\kcp.cs" />
+    <Compile Include="Socket\3rd\kcp\switch_queue.cs" />
+    <Compile Include="Socket\Emmiter.cs" />
+    <Compile Include="Socket\ITick.cs" />
+    <Compile Include="Socket\KcpConnector.cs" />
+    <Compile Include="Socket\SocketManager.cs" />
+    <Compile Include="Socket\SocketProvider.cs" />
+    <Compile Include="Socket\TcpConnector.cs" />
     <Compile Include="Translation\ISelector.cs" />
     <Compile Include="Translation\Selector.cs" />
     <Compile Include="Translation\TranslationProvider.cs" />
