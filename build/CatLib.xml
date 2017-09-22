@@ -10744,6 +10744,626 @@
             验证调度器是否有效
             </summary>
         </member>
+        <member name="T:CatLib.Socket.Emmiter">
+            <summary>
+            发射器
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.Emmiter.emmiters">
+            <summary>
+            发射器
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.Emmiter.#ctor">
+            <summary>
+            构建一个发射器
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.Emmiter.On(System.String,System.Action{System.Object})">
+            <summary>
+            注册一条事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="callback">回调</param>]
+        </member>
+        <member name="M:CatLib.Socket.Emmiter.Off(System.String,System.Action{System.Object})">
+            <summary>
+            反注册一条事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="callback">回调</param>
+        </member>
+        <member name="M:CatLib.Socket.Emmiter.Trigger(System.String,System.Object)">
+            <summary>
+            触发一个Socket事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="payload">载荷</param>
+        </member>
+        <member name="T:CatLib.Socket.ITick">
+            <summary>
+            需要定期调用
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.ITick.Tick">
+            <summary>
+            定时激活
+            </summary>
+        </member>
+        <member name="T:CatLib.Socket.KcpConnector">
+            <summary>
+            Kcp连接器
+            </summary>
+        </member>
+        <member name="T:CatLib.Socket.KcpConnector.InternalRuntime">
+            <summary>
+            内部运行时
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.InternalRuntime.IsDone">
+            <summary>
+            是否准备完成
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.InternalRuntime.Result">
+            <summary>
+            实现
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.SendWindow">
+            <summary>
+            发送窗口大小
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.RecvWindow">
+            <summary>
+            接受窗口大小
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.NoDelay">
+            <summary>
+            无延迟
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.IntervalTimer">
+            <summary>
+            内部更新器时间
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.Resend">
+            <summary>
+            重发频率（0禁止，1快速重发）
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.CongestionControl">
+            <summary>
+            堵塞控制
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.KcpConnector.Client">
+            <summary>
+            客户端
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.kcpExceptionDict">
+            <summary>
+            kcp异常字典
+            </summary>
+        </member>
+        <member name="T:CatLib.Socket.KcpConnector.Status">
+            <summary>
+            Kcp链接状态
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.Status.Initial">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.Status.Connecting">
+            <summary>
+            链接中
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.Status.Establish">
+            <summary>
+            维持链接
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.Status.Closed">
+            <summary>
+            断开链接
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.client">
+            <summary>
+            Udp客户端
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.emmiter">
+            <summary>
+            事件发射器
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.listenEndPoint">
+            <summary>
+            收到的数据的网络断点(来源)
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.serviceEndPoint">
+            <summary>
+            服务器的网络端点
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.remoteHostname">
+            <summary>
+            Ip地址
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.remotePort">
+            <summary>
+            端口
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.kcp">
+            <summary>
+            Kcp
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.receiveQueue">
+            <summary>
+            开关队列
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.nextUpdateTime">
+            <summary>
+            下一次刷新时间
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.KcpConnector.conv">
+            <summary>
+            会话Id
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.#ctor(System.UInt32,System.String,System.Int32)">
+            <summary>
+            Kcp连接器
+            </summary>
+            <param name="conv">会话</param>
+            <param name="hostname">IP地址</param>
+            <param name="port">链接端口</param>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Connect">
+            <summary>
+            建立链接
+            </summary>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Connect(System.String,System.Int32)">
+            <summary>
+            建立链接
+            </summary>
+            <param name="hostname">服务器地址</param>
+            <param name="port">端口</param>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.On(CatLib.API.Socket.SocketEvents,System.Action{System.Object})">
+            <summary>
+            注册一条事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="callback">回调</param>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Off(CatLib.API.Socket.SocketEvents,System.Action{System.Object})">
+            <summary>
+            反注册一条事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="callback">回调</param>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Trigger(CatLib.API.Socket.SocketEvents,System.Object)">
+            <summary>
+            触发一个Socket事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="payload">载荷</param>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Send(System.Byte[])">
+            <summary>
+            异步发送
+            </summary>
+            <param name="data">发送数据</param>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Disconnect">
+            <summary>
+            断开链接
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Tick">
+            <summary>
+            更新Kcp
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Dispose">
+            <summary>
+            释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Clock">
+            <summary>
+            时钟
+            </summary>
+            <returns>时钟</returns>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.Update(System.UInt32)">
+            <summary>
+            执行更新
+            </summary>
+            <param name="current">时钟</param>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.ProcessReceiveQueue">
+            <summary>
+            执行接收队列
+            </summary>
+            <returns>是否需要更新</returns>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.OnDnsGetHostAddressesComplete(System.IAsyncResult)">
+            <summary>
+            根据Dns获取到Ip地址后
+            </summary>
+            <param name="result">异步执行结果</param>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.InitKcp(System.UInt32)">
+            <summary>
+            初始化Kcp
+            </summary>
+            <param name="conv">会话</param>
+        </member>
+        <member name="M:CatLib.Socket.KcpConnector.OnReceiveCallBack(System.IAsyncResult)">
+            <summary>
+            当接收到回调
+            </summary>
+            <param name="result">结果</param>
+        </member>
+        <member name="T:CatLib.Socket.SocketManager">
+            <summary>
+            Socket管理器
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.SocketManager.socketMaker">
+            <summary>
+            Socket构建字典
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.SocketManager.makeHash">
+            <summary>
+            构建Hash
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.SocketManager.ticks">
+            <summary>
+            需要定期调用的表
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.SocketManager.syncRoot">
+            <summary>
+            同步锁
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketManager.#ctor">
+            <summary>
+            Socket管理器
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketManager.Make(System.String,System.String)">
+            <summary>
+            建立链接
+            </summary>
+            <param name="nsp">
+            网络服务提供商
+            <para>tcp://localhost:9999</para>
+            <para>kcp://819182618@localhost:9999</para>
+            <para>ws://localhost:9999</para>
+            </param>
+            <param name="name">名字</param>
+            <returns>Socket链接</returns>
+        </member>
+        <member name="M:CatLib.Socket.SocketManager.Release(System.String)">
+            <summary>
+            释放生成的Socket
+            </summary>
+            <param name="name">解决方案名</param>
+        </member>
+        <member name="M:CatLib.Socket.SocketManager.Tick">
+            <summary>
+            定期调用
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketManager.ExtendSocketMaker(System.String,System.Func{System.Uri,CatLib.API.Socket.ISocket})">
+            <summary>
+            扩展套接字协议
+            </summary>
+            <param name="protocol">协议名</param>
+            <param name="maker"></param>
+        </member>
+        <member name="M:CatLib.Socket.SocketManager.NormalProtocol(System.String)">
+            <summary>
+            标准化协议名
+            </summary>
+            <param name="protocol">协议名</param>
+            <returns>标准化后的协议名</returns>
+        </member>
+        <member name="M:CatLib.Socket.SocketManager.ExtendSocket(System.String,System.String)">
+            <summary>
+            拓展Socket
+            </summary>
+            <param name="nsp">拓展端口</param>
+            <param name="name">名字</param>
+        </member>
+        <member name="T:CatLib.Socket.SocketProvider">
+            <summary>
+            Socket服务提供者
+            </summary>
+        </member>
+        <member name="T:CatLib.Socket.SocketProvider.BooleanDisposable">
+            <summary>
+            Bool释放器
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.SocketProvider.BooleanDisposable.IsDispose">
+            <summary>
+            是否被释放
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.BooleanDisposable.#ctor">
+            <summary>
+            Bool释放器
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.BooleanDisposable.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.SocketProvider.Tick">
+            <summary>
+            帧刷新时间，以1MS为单位
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.SocketProvider.disposable">
+            <summary>
+            释放句柄
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.#ctor">
+            <summary>
+            Socket服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.Init">
+            <summary>
+            服务提供者初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.Register">
+            <summary>
+            当注册服务提供者
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.MakeTimeInterval(CatLib.Socket.SocketManager)">
+            <summary>
+            生成定时刷新帧
+            </summary>
+            <param name="factory"></param>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.TickThread(System.Object)">
+            <summary>
+            计时线程
+            </summary>
+            <param name="payload">载荷</param>
+        </member>
+        <member name="M:CatLib.Socket.SocketProvider.ExtendSocketMaker(CatLib.Socket.SocketManager)">
+            <summary>
+            拓展Socket构建器
+            </summary>
+            <param name="factory">Socket工厂</param>
+        </member>
+        <member name="T:CatLib.Socket.TcpConnector">
+            <summary>
+            Tcp连接器
+            </summary>
+        </member>
+        <member name="T:CatLib.Socket.TcpConnector.InternalRuntime">
+            <summary>
+            内部运行时
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.TcpConnector.InternalRuntime.IsDone">
+            <summary>
+            是否准备完成
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.TcpConnector.InternalRuntime.Result">
+            <summary>
+            实现
+            </summary>
+        </member>
+        <member name="P:CatLib.Socket.TcpConnector.Client">
+            <summary>
+            客户端
+            </summary>
+        </member>
+        <member name="T:CatLib.Socket.TcpConnector.Status">
+            <summary>
+            链接状态
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.Status.Initial">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.Status.Connecting">
+            <summary>
+            连接中
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.Status.Establish">
+            <summary>
+            建立链接
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.Status.Closed">
+            <summary>
+            关闭
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.remoteHostname">
+            <summary>
+            Ip地址
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.remotePort">
+            <summary>
+            端口
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.client">
+            <summary>
+            Tcp客户端
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.status">
+            <summary>
+            链接状态
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.networkStream">
+            <summary>
+            网络链接基础数据流
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.receiveBuffer">
+            <summary>
+            接收缓冲区Buffer
+            </summary>
+        </member>
+        <member name="F:CatLib.Socket.TcpConnector.emmiter">
+            <summary>
+            事件发射器
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.#ctor(System.String,System.Int32)">
+            <summary>
+            构建一个Tcp连接器
+            </summary>
+            <param name="hostname">IP地址</param>
+            <param name="port">链接端口</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.Connect">
+            <summary>
+            建立链接
+            </summary>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.Connect(System.String,System.Int32)">
+            <summary>
+            建立链接
+            </summary>
+            <param name="hostname">服务器地址</param>
+            <param name="port">服务器端口</param>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.Send(System.Byte[])">
+            <summary>
+            异步发送
+            </summary>
+            <param name="data">发送数据</param>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.Disconnect">
+            <summary>
+            断开链接
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.On(CatLib.API.Socket.SocketEvents,System.Action{System.Object})">
+            <summary>
+            注册一条事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="callback">回调</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.Off(CatLib.API.Socket.SocketEvents,System.Action{System.Object})">
+            <summary>
+            反注册一条事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="callback">回调</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.Trigger(CatLib.API.Socket.SocketEvents,System.Object)">
+            <summary>
+            触发一个Socket事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="payload">载荷</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.Dispose">
+            <summary>
+            释放时
+            </summary>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.OnDnsGetHostAddressesComplete(System.IAsyncResult)">
+            <summary>
+            根据Dns获取到Ip地址后
+            </summary>
+            <param name="result">异步执行结果</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.MakeDefaultTcpClient">
+            <summary>
+            构建一个默认的TcpClient
+            </summary>
+            <returns>TcpClient</returns>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.KeepAlive(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Tcp保活
+            </summary>
+            <param name="active">是否启动</param>
+            <param name="keepAliveIdle">如该连接在指定时间内没有任何数据往来,则进行探测</param>
+            <param name="keepAliveInterval">保活探测间隔</param>
+            <returns>保活数据</returns>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.OnConnectComplete(System.IAsyncResult)">
+            <summary>
+            当链接完成时
+            </summary>
+            <param name="result">异步执行结果</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.OnReceiveCallBack(System.IAsyncResult)">
+            <summary>
+            当存在数据时回调
+            </summary>
+            <param name="result">异步执行结果</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.OnSendCallBack(System.IAsyncResult)">
+            <summary>
+            当发送完成时
+            </summary>
+            <param name="result">异步执行结果</param>
+        </member>
+        <member name="M:CatLib.Socket.TcpConnector.ThrowException(CatLib.Socket.TcpConnector.InternalRuntime,System.Exception)">
+            <summary>
+            触发异常
+            </summary>
+            <param name="runtime">运行时</param>
+            <param name="ex">触发的异常</param>
+        </member>
         <member name="T:CatLib.Translation.ISelector">
             <summary>
             选择器

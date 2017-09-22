@@ -64,6 +64,9 @@
     <Compile Include="Random\IRandomFactory.cs" />
     <Compile Include="Random\IRandom.cs" />
     <Compile Include="Random\RandomTypes.cs" />
+    <Compile Include="Socket\ISocket.cs" />
+    <Compile Include="Socket\ISocketManager.cs" />
+    <Compile Include="Socket\SocketEvents.cs" />
     <Compile Include="Support\Exception\AssertException.cs" />
     <Compile Include="Support\Container\BindData.cs" />
     <Compile Include="Support\Container\Container.cs" />

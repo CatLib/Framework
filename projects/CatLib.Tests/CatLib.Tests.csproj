@@ -64,6 +64,12 @@
     <Compile Include="Encryption\EncryptionProviderTests.cs" />
     <Compile Include="Hashing\HashingProviderTests.cs" />
     <Compile Include="Random\RandomProviderTests.cs" />
+    <Compile Include="Socket\KcpConnectorTests.cs" />
+    <Compile Include="Socket\KcpTestsServer.cs" />
+    <Compile Include="Socket\SocketProviderTests.cs" />
+    <Compile Include="Socket\TcpConnectorTests.cs" />
+    <Compile Include="Socket\TcpTestsServer.cs" />
+    <Compile Include="Socket\Util.cs" />
     <Compile Include="Support\Util\ArrTests.cs" />
     <Compile Include="Support\Util\EnumTests.cs" />
     <Compile Include="Support\Util\ReferenceCountTests.cs" />

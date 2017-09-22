@@ -662,6 +662,153 @@
             </summary>
             <param name="type">类型</param>
         </member>
+        <member name="T:CatLib.API.Socket.ISocket">
+            <summary>
+            套接字服务
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocket.Connect">
+            <summary>
+            建立链接
+            </summary>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocket.Connect(System.String,System.Int32)">
+            <summary>
+            建立链接
+            </summary>
+            <param name="hostname">服务器地址</param>
+            <param name="port">服务器端口</param>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocket.Send(System.Byte[])">
+            <summary>
+            异步发送
+            </summary>
+            <param name="data">发送数据</param>
+            <returns>异步等待接口</returns>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocket.Disconnect">
+            <summary>
+            断开链接
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocket.On(CatLib.API.Socket.SocketEvents,System.Action{System.Object})">
+            <summary>
+            注册一条事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="callback">回调函数</param>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocket.Off(CatLib.API.Socket.SocketEvents,System.Action{System.Object})">
+            <summary>
+            反注册一条事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="callback">回调函数</param>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocket.Trigger(CatLib.API.Socket.SocketEvents,System.Object)">
+            <summary>
+            触发一个Socket事件
+            </summary>
+            <param name="socketEvent">Socket事件</param>
+            <param name="payload">载荷</param>
+        </member>
+        <member name="T:CatLib.API.Socket.ISocketManager">
+            <summary>
+            Socket管理器
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Socket.ISocketManager.Make(System.String,System.String)">
+            <summary>
+            建立链接
+            </summary>
+            <param name="nsp">
+            网络服务提供商
+            <para>tcp://localhost:9999</para>
+            <para>kcp://localhost:9999</para>
+            <para>ws://localhost:9999</para>
+            <para>wss://localhost:9999</para>
+            </param>
+            <param name="name">名字</param>
+            <returns>Socket链接</returns>
+        </member>
+        <member name="T:CatLib.API.Socket.SocketEvents">
+            <summary>
+            套接字事件
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.EventConnect">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.EventDiconnect">
+            <summary>
+            断开链接
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.EventMessage">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.EventSent">
+            <summary>
+            当发送完成
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.EventClosed">
+            <summary>
+            关闭后
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.EventError">
+            <summary>
+            关闭后
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.Connect">
+            <summary>
+            当链接成功时
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.Disconnect">
+            <summary>
+            断开链接时
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.Message">
+            <summary>
+            当收到消息时
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.Sent">
+            <summary>
+            当发送完成时
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.Closed">
+            <summary>
+            当关闭后
+            </summary>
+        </member>
+        <member name="F:CatLib.API.Socket.SocketEvents.Error">
+            <summary>
+            当出现异常时
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Socket.SocketEvents.#ctor(System.String)">
+            <summary>
+            构造一个枚举
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Socket.SocketEvents.op_Implicit(System.String)~CatLib.API.Socket.SocketEvents">
+            <summary>
+            字符串转RandomTypes
+            </summary>
+            <param name="type">类型</param>
+        </member>
         <member name="T:CatLib.API.Debugger.InvalidArgumentException">
             <summary>
             无效的参数异常
