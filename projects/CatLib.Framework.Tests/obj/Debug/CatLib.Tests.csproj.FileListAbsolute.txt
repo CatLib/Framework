@@ -1,0 +1,11 @@
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.Tests.dll
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.Tests.pdb
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.API.dll
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.dll
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.API.pdb
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.API.xml
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.pdb
+D:\Private\Framework\projects\CatLib.Tests\bin\Debug\CatLib.xml
+D:\Private\Framework\projects\CatLib.Tests\obj\Debug\CatLib.Tests.csprojResolveAssemblyReference.cache
+D:\Private\Framework\projects\CatLib.Tests\obj\Debug\CatLib.Tests.dll
+D:\Private\Framework\projects\CatLib.Tests\obj\Debug\CatLib.Tests.pdb

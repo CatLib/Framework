@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BBB2DAE2-638B-4419-9591-3CECCA312E4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CatLib</RootNamespace>
+    <AssemblyName>CatLib.Framework</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CATLIB</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\CatLib.Framework.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591;CS0414;CS0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\build\</OutputPath>
+    <DefineConstants>TRACE;CATLIB</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\build\CatLib.Framework.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591;CS0414;CS0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CatLib.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.0.0\lib\CatLib.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compress\3rd\SharpCompress\Common\SevenZip\CBindPair.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Common\SevenZip\CCoderInfo.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Common\SevenZip\CFolder.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Common\SevenZip\CMethodId.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\CompressionMode.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\AesDecoderStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\Bcj2DecoderStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\BitVector.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\CRC.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\DecoderStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\ICoder.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\Log.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LZipStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaBase.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaDecoder.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaEncoder.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaEncoderProperties.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\CRC.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzBinTree.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzInWindow.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzOutWindow.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoder.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoderBit.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\Registry.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\CrcBuilderStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\CrcCheckStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\IPasswordProvider.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\Utils.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Converters\DataConverter.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\Crypto\Crc32Stream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\IO\BufferedSubStream.cs" />
+    <Compile Include="Compress\3rd\SharpCompress\IO\CountingWritableSubStream.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Checksum\Adler32.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Checksum\Crc32.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Checksum\IChecksum.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Core\FileSystemScanner.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Core\INameTransform.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Core\IScanFilter.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Core\NameFilter.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Core\PathFilter.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Core\StreamUtils.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Core\WindowsPathUtils.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Encryption\PkzipClassic.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Encryption\ZipAESTransform.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\GZip\GZip.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\GZip\GZipConstants.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\GZip\GZipException.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\GZip\GzipInputStream.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\GZip\GzipOutputStream.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\SharpZipBaseException.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\Deflater.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterConstants.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterEngine.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterHuffman.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterPending.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\Inflater.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\InflaterDynHeader.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\PendingBuffer.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\ZipHelperStream.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\ZipConstants.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\ZipEntry.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\ZipException.cs" />
+    <Compile Include="Compress\3rd\SharpZipLib\Zip\ZipExtraData.cs" />
+    <Compile Include="Compress\CompressProvider.cs" />
+    <Compile Include="Compress\GZipAdapter.cs" />
+    <Compile Include="Compress\CompressManager.cs" />
+    <Compile Include="Compress\LzmaAdapter.cs" />
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\ConfigProvider.cs" />
+    <Compile Include="Config\Locator\CodeConfigLocator.cs" />
+    <Compile Include="Converters\Converters.cs" />
+    <Compile Include="Converters\ConvertersManager.cs" />
+    <Compile Include="Converters\ConvertersProvider.cs" />
+    <Compile Include="Converters\Plan\BoolStringConverter.cs" />
+    <Compile Include="Converters\Plan\ByteStringConverter.cs" />
+    <Compile Include="Converters\Plan\CharStringConverter.cs" />
+    <Compile Include="Converters\Plan\DateTimeStringConverter.cs" />
+    <Compile Include="Converters\Plan\DecimalStringConverter.cs" />
+    <Compile Include="Converters\Plan\DoubleStringConverter.cs" />
+    <Compile Include="Converters\Plan\EnumStringConverter.cs" />
+    <Compile Include="Converters\Plan\IListStringStringConverter.cs" />
+    <Compile Include="Converters\Plan\Int16StringConverter.cs" />
+    <Compile Include="Converters\Plan\Int32StringConverter.cs" />
+    <Compile Include="Converters\Plan\Int64StringConverter.cs" />
+    <Compile Include="Converters\Plan\SByteStringConverter.cs" />
+    <Compile Include="Converters\Plan\SingleStringConverter.cs" />
+    <Compile Include="Converters\Plan\StringBoolConverter.cs" />
+    <Compile Include="Converters\Plan\StringByteConverter.cs" />
+    <Compile Include="Converters\Plan\StringCharConverter.cs" />
+    <Compile Include="Converters\Plan\StringDateTimeConverter.cs" />
+    <Compile Include="Converters\Plan\StringDecimalConverter.cs" />
+    <Compile Include="Converters\Plan\StringDoubleConverter.cs" />
+    <Compile Include="Converters\Plan\StringEnumConverter.cs" />
+    <Compile Include="Converters\Plan\StringIListStringConverter.cs" />
+    <Compile Include="Converters\Plan\StringInt16Converter.cs" />
+    <Compile Include="Converters\Plan\StringInt32Converter.cs" />
+    <Compile Include="Converters\Plan\StringInt64Converter.cs" />
+    <Compile Include="Converters\Plan\StringSByteConverter.cs" />
+    <Compile Include="Converters\Plan\StringSingleConverter.cs" />
+    <Compile Include="Converters\Plan\StringStringConverter.cs" />
+    <Compile Include="Converters\Plan\StringUInt16Converter.cs" />
+    <Compile Include="Converters\Plan\StringUInt32Converter.cs" />
+    <Compile Include="Converters\Plan\StringUInt64Converter.cs" />
+    <Compile Include="Converters\Plan\UInt16StringConverter.cs" />
+    <Compile Include="Converters\Plan\UInt32StringConverter.cs" />
+    <Compile Include="Converters\Plan\UInt64StringConverter.cs" />
+    <Compile Include="Debugger\Log\LogUtil.cs" />
+    <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
+    <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
+    <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
+    <Compile Include="Encryption\AesEncrypter.cs" />
+    <Compile Include="Encryption\Encrypter.cs" />
+    <Compile Include="Encryption\EncryptionProvider.cs" />
+    <Compile Include="Facade\Compress.cs" />
+    <Compile Include="Facade\Converters.cs" />
+    <Compile Include="Facade\Dispatcher.cs" />
+    <Compile Include="Facade\Encrypter.cs" />
+    <Compile Include="Facade\Hashing.cs" />
+    <Compile Include="Facade\I18N.cs" />
+    <Compile Include="Facade\Json.cs" />
+    <Compile Include="Debugger\Log\ILogEntry.cs" />
+    <Compile Include="Debugger\WebConsole\BaseProtocol.cs" />
+    <Compile Include="Debugger\WebConsole\HttpDebuggerConsole.cs" />
+    <Compile Include="Debugger\WebConsole\HttpListener.cs" />
+    <Compile Include="Debugger\DebuggerProvider.cs" />
+    <Compile Include="Debugger\WebMonitor\Handler\SizeMonitorHandler.cs" />
+    <Compile Include="Debugger\Log\Logger.cs" />
+    <Compile Include="Debugger\Log\ILogHandler.cs" />
+    <Compile Include="Debugger\Log\Handler\StdOutLogHandler.cs" />
+    <Compile Include="Debugger\Log\LogEntry.cs" />
+    <Compile Include="Debugger\WebMonitor\Handler\OnceRecordMonitorHandler.cs" />
+    <Compile Include="Debugger\WebConsole\IWebConsoleResponse.cs" />
+    <Compile Include="Debugger\WebMonitor\Controller\Monitor.cs" />
+    <Compile Include="Debugger\WebMonitor\MonitorStore.cs" />
+    <Compile Include="Debugger\WebMonitor\Protocol\GetMonitors.cs" />
+    <Compile Include="Debugger\WebLog\Protocol\WebConsoleOutputs.cs" />
+    <Compile Include="Debugger\WebLog\Controller\Log.cs" />
+    <Compile Include="Debugger\WebLog\Controller\Util.cs" />
+    <Compile Include="Debugger\WebLog\LogStore.cs" />
+    <Compile Include="Debugger\WebLog\LogHandler\WebLogHandler.cs" />
+    <Compile Include="Facade\Config.cs" />
+    <Compile Include="Facade\FileSystem.cs" />
+    <Compile Include="Facade\Random.cs" />
+    <Compile Include="Facade\Router.cs" />
+    <Compile Include="FileSystem\Adapter\Local.cs" />
+    <Compile Include="FileSystem\Directory.cs" />
+    <Compile Include="FileSystem\File.cs" />
+    <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FileSystem\FileSystemProvider.cs" />
+    <Compile Include="FileSystem\Handler.cs" />
+    <Compile Include="FileSystem\Adapter\IFileSystemAdapter.cs" />
+    <Compile Include="FileSystem\FileSystemManager.cs" />
+    <Compile Include="Hashing\3rd\BCrypt\BCrypt.cs" />
+    <Compile Include="Hashing\3rd\BCrypt\SaltParseException.cs" />
+    <Compile Include="Hashing\3rd\MurmurHash\Extensions.cs" />
+    <Compile Include="Hashing\3rd\MurmurHash\Murmur32.cs" />
+    <Compile Include="Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" />
+    <Compile Include="Hashing\Checksum\Adler32.cs" />
+    <Compile Include="Hashing\Checksum\Crc32.cs" />
+    <Compile Include="Hashing\Checksum\IChecksum.cs" />
+    <Compile Include="Hashing\Hashing.cs" />
+    <Compile Include="Hashing\HashingProvider.cs" />
+    <Compile Include="Hashing\HashString\DjbHash.cs" />
+    <Compile Include="Json\3rd\SimpleJson.cs" />
+    <Compile Include="Json\JsonProvider.cs" />
+    <Compile Include="Json\JsonUtility.cs" />
+    <Compile Include="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="Random\3rd\MathNet\Euclid.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\MersenneTwister.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\Mrg32k3a.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\RandomSeed.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\RandomSource.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\WH2006.cs" />
+    <Compile Include="Random\3rd\MathNet\Random\Xorshift.cs" />
+    <Compile Include="Random\RandomProvider.cs" />
+    <Compile Include="Random\RandomAdaptor.cs" />
+    <Compile Include="Random\RandomFactory.cs" />
+    <Compile Include="Routing\ExceptionRequest.cs" />
+    <Compile Include="Routing\RouterEvents.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\AttrRouteCompiler.cs" />
+    <Compile Include="Routing\CompiledRoute.cs" />
+    <Compile Include="Routing\Request.cs" />
+    <Compile Include="Routing\Response.cs" />
+    <Compile Include="Routing\Route.cs" />
+    <Compile Include="Routing\RouteAction.cs" />
+    <Compile Include="Routing\RouteCompiler.cs" />
+    <Compile Include="Routing\RouteGroup.cs" />
+    <Compile Include="Routing\RouteOptions.cs" />
+    <Compile Include="Routing\RouteParameterBinder.cs" />
+    <Compile Include="Routing\Router.cs" />
+    <Compile Include="Routing\RoutingProvider.cs" />
+    <Compile Include="Routing\Scheme.cs" />
+    <Compile Include="Routing\Uri.cs" />
+    <Compile Include="Routing\Validators\HostValidator.cs" />
+    <Compile Include="Routing\Validators\IValidators.cs" />
+    <Compile Include="Routing\Validators\UriValidator.cs" />
+    <Compile Include="Socket\3rd\kcp\kcp.cs" />
+    <Compile Include="Socket\3rd\kcp\switch_queue.cs" />
+    <Compile Include="Socket\Emmiter.cs" />
+    <Compile Include="Socket\ITick.cs" />
+    <Compile Include="Socket\KcpConnector.cs" />
+    <Compile Include="Socket\SocketManager.cs" />
+    <Compile Include="Socket\SocketProvider.cs" />
+    <Compile Include="Socket\TcpConnector.cs" />
+    <Compile Include="Translation\ISelector.cs" />
+    <Compile Include="Translation\Selector.cs" />
+    <Compile Include="Translation\TranslationProvider.cs" />
+    <Compile Include="Translation\Translator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CatLib.API\CatLib.Framework.API.csproj">
+      <Project>{5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e}</Project>
+      <Name>CatLib.Framework.API</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CatLib.Core.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

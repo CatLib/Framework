@@ -1,0 +1,9 @@
+D:\Private\Framework\projects\CatLib\bin\Debug\CatLib.xml
+D:\Private\Framework\projects\CatLib\bin\Debug\CatLib.dll
+D:\Private\Framework\projects\CatLib\bin\Debug\CatLib.pdb
+D:\Private\Framework\projects\CatLib\bin\Debug\CatLib.API.dll
+D:\Private\Framework\projects\CatLib\bin\Debug\CatLib.API.pdb
+D:\Private\Framework\projects\CatLib\bin\Debug\CatLib.API.xml
+D:\Private\Framework\projects\CatLib\obj\Debug\CatLib.csprojResolveAssemblyReference.cache
+D:\Private\Framework\projects\CatLib\obj\Debug\CatLib.dll
+D:\Private\Framework\projects\CatLib\obj\Debug\CatLib.pdb
