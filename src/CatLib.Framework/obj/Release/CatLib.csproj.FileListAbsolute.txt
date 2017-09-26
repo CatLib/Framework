@@ -1,6 +1,0 @@
-D:\Private\Framework\build\CatLib.xml
-D:\Private\Framework\build\CatLib.dll
-D:\Private\Framework\build\CatLib.pdb
-D:\Private\Framework\projects\CatLib\obj\Release\CatLib.csprojResolveAssemblyReference.cache
-D:\Private\Framework\projects\CatLib\obj\Release\CatLib.dll
-D:\Private\Framework\projects\CatLib\obj\Release\CatLib.pdb
