@@ -62,12 +62,12 @@ namespace CatLib.Socket
         /// </param>
         /// <param name="name">名字</param>
         /// <returns>Socket链接</returns>
-        public ISocket Make(string nsp, string name)
+        public ISocket Make(string nsp, string name = null)
         {
             lock (syncRoot)
             {
                 Guard.NotEmptyOrNull(nsp, "nsp");
-                Guard.NotEmptyOrNull(name, "name");
+                name = string.IsNullOrEmpty(name) ? GetDefaultName() : name;
 
                 if (!ContainsExtend(name))
                 {

@@ -28,6 +28,6 @@ namespace CatLib.API.Socket
         /// </param>
         /// <param name="name">名字</param>
         /// <returns>Socket链接</returns>
-        ISocket Make(string nsp , string name);
+        ISocket Make(string nsp, string name = null);
     }
 }
