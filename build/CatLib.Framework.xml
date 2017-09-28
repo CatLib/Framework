@@ -10529,6 +10529,11 @@
             <param name="hostname">IP地址</param>
             <param name="port">链接端口</param>
         </member>
+        <member name="P:CatLib.Socket.KcpConnector.Connected">
+            <summary>
+            是否已经链接远端主机
+            </summary>
+        </member>
         <member name="M:CatLib.Socket.KcpConnector.Connect">
             <summary>
             建立链接
@@ -10856,6 +10861,11 @@
             </summary>
             <param name="hostname">IP地址</param>
             <param name="port">链接端口</param>
+        </member>
+        <member name="P:CatLib.Socket.TcpConnector.Connected">
+            <summary>
+            是否已经链接远端主机
+            </summary>
         </member>
         <member name="M:CatLib.Socket.TcpConnector.Connect">
             <summary>

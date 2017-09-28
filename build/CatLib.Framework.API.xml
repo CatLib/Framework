@@ -568,6 +568,11 @@
             套接字服务
             </summary>
         </member>
+        <member name="P:CatLib.API.Socket.ISocket.Connected">
+            <summary>
+            是否已经链接远端主机
+            </summary>
+        </member>
         <member name="M:CatLib.API.Socket.ISocket.Connect">
             <summary>
             建立链接

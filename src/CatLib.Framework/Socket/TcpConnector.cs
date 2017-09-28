@@ -117,6 +117,14 @@ namespace CatLib.Socket
         }
 
         /// <summary>
+        /// 是否已经链接远端主机
+        /// </summary>
+        public bool Connected
+        {
+            get { return status == Status.Establish; }
+        }
+
+        /// <summary>
         /// 建立链接
         /// </summary>
         /// <returns>异步等待接口</returns>

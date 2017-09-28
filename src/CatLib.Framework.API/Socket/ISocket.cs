@@ -19,6 +19,11 @@ namespace CatLib.API.Socket
     public interface ISocket
     {
         /// <summary>
+        /// 是否已经链接远端主机
+        /// </summary>
+        bool Connected { get; }
+
+        /// <summary>
         /// 建立链接
         /// </summary>
         /// <returns>异步等待接口</returns>
