@@ -169,8 +169,8 @@ namespace CatLib.Routing
 
                     where = string.Format(
                         "[^{0}{1}]+",
-                        Str.RegexQuote(defaultSeparator),
-                        defaultSeparator != nextSeparator && nextSeparator != string.Empty ? Str.RegexQuote(nextSeparator) : string.Empty
+                        Regex.Escape(defaultSeparator),
+                        defaultSeparator != nextSeparator && nextSeparator != string.Empty ? Regex.Escape(nextSeparator) : string.Empty
                     );
                 }
 
@@ -237,15 +237,15 @@ namespace CatLib.Routing
             if (token[0] == "text")
             {
                 //传统文本匹配格式
-                return Str.RegexQuote(token[1]);
+                return Regex.Escape(token[1]);
             }
 
             if (index == 0 && firstOptional == 0)
             {
-                return string.Format("{0}(?<{1}>{2})?", Str.RegexQuote(token[1]), token[3], token[2]);
+                return string.Format("{0}(?<{1}>{2})?", Regex.Escape(token[1]), token[3], token[2]);
             }
 
-            var regexp = string.Format("{0}(?<{1}>{2})", Str.RegexQuote(token[1]), token[3], token[2]);
+            var regexp = string.Format("{0}(?<{1}>{2})", Regex.Escape(token[1]), token[3], token[2]);
             if (index < firstOptional)
             {
                 return regexp;
