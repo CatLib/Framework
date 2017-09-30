@@ -57,6 +57,9 @@
     <Compile Include="Hashing\Checksums.cs" />
     <Compile Include="Hashing\Hashes.cs" />
     <Compile Include="Hashing\IHashing.cs" />
+    <Compile Include="Network\INetworkChannel.cs" />
+    <Compile Include="Network\INetworkManager.cs" />
+    <Compile Include="Network\IPacker.cs" />
     <Compile Include="Random\IRandomFactory.cs" />
     <Compile Include="Random\IRandom.cs" />
     <Compile Include="Random\RandomTypes.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="Routing\Internal\IRoute.cs" />
     <Compile Include="Routing\Internal\IRouteGroup.cs" />
     <Compile Include="Routing\IRouter.cs" />
+    <Compile Include="Tick\ITick.cs" />
     <Compile Include="Translation\Features\ITranslateResources.cs" />
     <Compile Include="Translation\ITranslator.cs" />
     <Compile Include="Translation\Languages.cs" />
@@ -95,5 +99,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

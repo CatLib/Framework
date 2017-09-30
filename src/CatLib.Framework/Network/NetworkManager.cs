@@ -18,7 +18,7 @@ namespace CatLib.Network
     /// <summary>
     /// 网络管理器
     /// </summary>
-    internal sealed class NetworkManager : SingleManager<INetworkChannel>, INetworkManager
+    internal sealed class NetworkManager : SingleManager<INetworkChannel>, INetworkManager , ITick
     {
         /// <summary>
         /// 当释放时

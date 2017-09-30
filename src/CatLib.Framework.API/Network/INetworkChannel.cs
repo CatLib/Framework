@@ -67,8 +67,8 @@ namespace CatLib.API.Network
         /// <summary>
         /// 设定心跳包(毫秒)
         /// </summary>
-        /// <param name="interval">心跳包间隔(毫秒)</param>
-        void SetHeartBeat(int interval);
+        /// <param name="intervalMillisecond">心跳包间隔(毫秒)</param>
+        void SetHeartBeat(int intervalMillisecond);
 
         /// <summary>
         /// 链接到服务器

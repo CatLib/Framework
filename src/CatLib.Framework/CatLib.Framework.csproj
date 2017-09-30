@@ -220,6 +220,13 @@
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
     <Compile Include="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="Network\HeartBeatState.cs" />
+    <Compile Include="Network\NetworkChannel.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
+    <Compile Include="Network\NetworkProvider.cs" />
+    <Compile Include="Network\Packer\FramePacker.cs" />
+    <Compile Include="Network\Packer\TextPacker.cs" />
+    <Compile Include="Network\ReceiveState.cs" />
     <Compile Include="Random\3rd\MathNet\Euclid.cs" />
     <Compile Include="Random\3rd\MathNet\Random\MersenneTwister.cs" />
     <Compile Include="Random\3rd\MathNet\Random\Mrg32k3a.cs" />
@@ -258,6 +265,8 @@
     <Compile Include="Socket\SocketManager.cs" />
     <Compile Include="Socket\SocketProvider.cs" />
     <Compile Include="Socket\TcpConnector.cs" />
+    <Compile Include="Tick\TickProvider.cs" />
+    <Compile Include="Tick\TimeTicker.cs" />
     <Compile Include="Translation\ISelector.cs" />
     <Compile Include="Translation\Selector.cs" />
     <Compile Include="Translation\TranslationProvider.cs" />
@@ -275,6 +284,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

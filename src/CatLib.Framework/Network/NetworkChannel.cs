@@ -18,7 +18,7 @@ namespace CatLib.Network
     /// <summary>
     /// 网络频道
     /// </summary>
-    public sealed class NetworkChannel : INetworkChannel
+    public sealed class NetworkChannel : INetworkChannel , ITick
     {
         /// <summary>
         /// 内部等待接口

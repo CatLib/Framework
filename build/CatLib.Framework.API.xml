@@ -426,6 +426,186 @@
             <param name="hash">使用的哈希算法</param>
             <returns>哈希值</returns>
         </member>
+        <member name="T:CatLib.API.Network.INetworkChannel">
+            <summary>
+            网络频道
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkChannel.OnConnected">
+            <summary>
+            当网络链接完成时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkChannel.OnError">
+            <summary>
+            当网络出现异常时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkChannel.OnMessage">
+            <summary>
+            当收到数据包时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkChannel.OnDisconnect">
+            <summary>
+            当网络断开链接
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkChannel.OnClosed">
+            <summary>
+            当网络链接关闭时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkChannel.OnSent">
+            <summary>
+            当数据发送完成
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkChannel.OnMissHeartBeat">
+            <summary>
+            当丢失心跳时
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Network.INetworkChannel.Name">
+            <summary>
+            网络频道名字
+            </summary>
+        </member>
+        <member name="P:CatLib.API.Network.INetworkChannel.Socket">
+            <summary>
+            基础网络套接字
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkChannel.SetHeartBeat(System.Int32)">
+            <summary>
+            设定心跳包(毫秒)
+            </summary>
+            <param name="intervalMillisecond">心跳包间隔(毫秒)</param>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkChannel.Connect">
+            <summary>
+            链接到服务器
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkChannel.Connect(System.String,System.Int32)">
+            <summary>
+            链接到服务器
+            </summary>
+            <param name="hostname">服务器名</param>
+            <param name="port">端口</param>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkChannel.Disconnect">
+            <summary>
+            断开链接
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkChannel.Disconnect(System.Exception)">
+            <summary>
+            断开链接,并给定一个断开链接的异常
+            </summary>
+            <param name="ex">由于什么异常导致断开链接</param>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkChannel.Send(System.Object)">
+            <summary>
+            发送数据
+            </summary>
+            <param name="packet">网络数据包</param>
+        </member>
+        <member name="T:CatLib.API.Network.INetworkManager">
+            <summary>
+            网络管理器
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnReleased">
+            <summary>
+            当释放时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnConnected">
+            <summary>
+            当网络链接完成时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnError">
+            <summary>
+            当网络出现异常时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnMessage">
+            <summary>
+            当收到数据包时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnDisconnect">
+            <summary>
+            当网络断开链接
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnClosed">
+            <summary>
+            当网络链接关闭时
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnSent">
+            <summary>
+            当数据发送完成
+            </summary>
+        </member>
+        <member name="E:CatLib.API.Network.INetworkManager.OnMissHeartBeat">
+            <summary>
+            当丢失心跳时
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkManager.Make(System.String,System.String)">
+            <summary>
+            建立链接
+            </summary>
+            <param name="nsp">网络服务提供商</param>
+            <param name="name">名字</param>
+            <returns>网络频道</returns>
+        </member>
+        <member name="M:CatLib.API.Network.INetworkManager.Make(System.String,CatLib.API.Network.IPacker,System.String)">
+            <summary>
+            建立链接
+            </summary>
+            <param name="nsp">网络服务提供商</param>
+            <param name="packer">打包解包器</param>
+            <param name="name">名字</param>
+            <returns>网络频道</returns>
+        </member>
+        <member name="T:CatLib.API.Network.IPacker">
+            <summary>
+            打包解包器
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Network.IPacker.Input(System.Byte[],System.Exception@)">
+            <summary>
+            <para>检查包的完整性。</para>
+            <para>如果能够得到包长，则返回包的在buffer中的长度(包含包头)，否则返回0继续等待数据。</para>
+            <para>如果协议有问题，则填入ex参数，当前连接会因此断开。</para>
+            </summary>
+            <param name="source">需要检查完整性的数据</param>
+            <param name="ex">用户自定义异常</param>
+            <returns>如果能够得到包长，则返回包的在buffer中的长度(包含包头)，否则返回0继续等待数据。</returns>
+        </member>
+        <member name="M:CatLib.API.Network.IPacker.Encode(System.Object,System.Exception@)">
+            <summary>
+            序列化消息包。
+            <para>如果协议有问题，则填入ex参数，当前连接会因此断开。</para>
+            </summary>
+            <param name="packet">需要序列化的消息包。</param>
+            <param name="ex">用户自定义异常。</param>
+            <returns>序列化后的消息包字节流。如果需要抛弃数据包则返回null。</returns>
+        </member>
+        <member name="M:CatLib.API.Network.IPacker.Decode(System.Byte[],System.Exception@)">
+            <summary>
+            反序列化消息包(包体)。
+            <para>如果协议有问题，则填入ex参数，当前连接会因此断开。</para>
+            </summary>
+            <param name="source">需要反序列化的数据。</param>
+            <param name="ex">用户自定义异常。</param>
+            <returns>反序列化后的消息包。如果需要抛弃数据包则返回null。</returns>
+        </member>
         <member name="T:CatLib.API.Random.IRandomFactory">
             <summary>
             随机算法生成器
@@ -2078,6 +2258,17 @@
             <param name="config">配置中枢</param>
             <param name="name">配置名字</param>
             <param name="value">配置的值</param>
+        </member>
+        <member name="T:CatLib.ITick">
+            <summary>
+            滴答
+            </summary>
+        </member>
+        <member name="M:CatLib.ITick.Tick(System.Int32)">
+            <summary>
+            滴答间流逝的时间
+            </summary>
+            <param name="elapseMillisecond">滴答间流逝的时间</param>
         </member>
     </members>
 </doc>

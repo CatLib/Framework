@@ -20,6 +20,6 @@ namespace CatLib
         /// 滴答间流逝的时间
         /// </summary>
         /// <param name="elapseMillisecond">滴答间流逝的时间</param>
-        void Tick(float elapseMillisecond);
+        void Tick(int elapseMillisecond);
     }
 }
