@@ -194,15 +194,15 @@ namespace CatLib.Network
         /// <summary>
         /// 定期调用
         /// </summary>
-        /// <param name="elapseSeconds">流逝的时间</param>
-        public void Tick(int elapseSeconds)
+        /// <param name="elapseMillisecond">流逝的时间</param>
+        public void Tick(int elapseMillisecond)
         {
-            elapseSeconds = Math.Max(0, elapseSeconds);
+            elapseMillisecond = Math.Max(0, elapseMillisecond);
             lock (syncRoot)
             {
                 foreach (var tick in ticks)
                 {
-                    tick.Tick(elapseSeconds);
+                    tick.Tick(elapseMillisecond);
                 }
             }
         }

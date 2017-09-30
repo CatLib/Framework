@@ -19,7 +19,7 @@ namespace CatLib
         /// <summary>
         /// 滴答间流逝的时间
         /// </summary>
-        /// <param name="elapseSeconds">完成最后一帧所花费的时间（秒）</param>
-        void Tick(float elapseSeconds);
+        /// <param name="elapseMillisecond">滴答间流逝的时间</param>
+        void Tick(float elapseMillisecond);
     }
 }

@@ -21,7 +21,7 @@ namespace CatLib.Network
         /// <summary>
         /// 流逝时间
         /// </summary>
-        private int elapseSeconds;
+        private int elapseMillisecond;
 
         /// <summary>
         /// 触发间隔
@@ -41,41 +41,42 @@ namespace CatLib.Network
         /// <summary>
         /// 心跳包状态
         /// </summary>
-        public HeartBeatState(int interval)
+        /// <param name="intervalMillisecond">毫秒</param>
+        public HeartBeatState(int intervalMillisecond)
         {
-            this.interval = interval;
+            interval = intervalMillisecond;
             Reset();
         }
 
         /// <summary>
         /// 设定心跳包间隔
         /// </summary>
-        /// <param name="interval">间隔</param>
-        public void SetInterval(int interval)
+        /// <param name="intervalMillisecond">间隔毫秒</param>
+        public void SetInterval(int intervalMillisecond)
         {
-            this.interval = interval;
+            interval = intervalMillisecond;
         }
 
         /// <summary>
         /// 触发心跳流逝
         /// </summary>
-        /// <param name="elapseSeconds">流逝时间</param>
-        public void Tick(int elapseSeconds)
+        /// <param name="elapseMillisecond">流逝时间</param>
+        public void Tick(int elapseMillisecond)
         {
             if (interval <= 0)
             {
                 return;
             }
 
-            this.elapseSeconds += Math.Max(elapseSeconds, 0);
+            this.elapseMillisecond += Math.Max(elapseMillisecond, 0);
 
-            if (!(this.elapseSeconds >= interval))
+            if (!(this.elapseMillisecond >= interval))
             {
                 return;
             }
 
             missCount++;
-            this.elapseSeconds = 0;
+            this.elapseMillisecond = 0;
             if (OnMissHeartBeat != null)
             {
                 OnMissHeartBeat.Invoke(missCount);
@@ -87,7 +88,7 @@ namespace CatLib.Network
         /// </summary>
         public void Reset()
         {
-            elapseSeconds = 0;
+            elapseMillisecond = 0;
             missCount = 0;
         }
     }
