@@ -66,6 +66,12 @@
     <Compile Include="Debugger\WebMonitor\MonitorStoreTests.cs" />
     <Compile Include="Encryption\EncryptionProviderTests.cs" />
     <Compile Include="Hashing\HashingProviderTests.cs" />
+    <Compile Include="Network\NetworkChannelTests.cs" />
+    <Compile Include="Network\NetworkProviderTests.cs" />
+    <Compile Include="Network\Packer\FramePackerTests.cs" />
+    <Compile Include="Network\Packer\TextPackerTests.cs" />
+    <Compile Include="Network\ReceiveStateTests.cs" />
+    <Compile Include="Network\TcpServer.cs" />
     <Compile Include="Random\RandomProviderTests.cs" />
     <Compile Include="Socket\KcpConnectorTests.cs" />
     <Compile Include="Socket\KcpTestsServer.cs" />
