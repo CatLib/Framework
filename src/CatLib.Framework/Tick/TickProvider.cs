@@ -9,17 +9,12 @@
  * Document: http://catlib.io/
  */
 
-namespace CatLib
+namespace CatLib.Tick
 {
     /// <summary>
-    /// 滴答
+    /// 时间摆钟服务提供者
     /// </summary>
-    public interface ITick
+    public sealed class TickProvider
     {
-        /// <summary>
-        /// 滴答间流逝的时间
-        /// </summary>
-        /// <param name="elapseSeconds">完成最后一帧所花费的时间（秒）</param>
-        void Tick(float elapseSeconds);
     }
 }
