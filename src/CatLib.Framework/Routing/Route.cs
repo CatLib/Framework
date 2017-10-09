@@ -390,7 +390,7 @@ namespace CatLib.Routing
         /// <param name="context">上下文</param>
         private void ControllerCall(Request request, Response response, object context)
         {
-            container.Call(context, action.Func, request, response);
+            container.Call(context, action.Func);
         }
 
         /// <summary>
