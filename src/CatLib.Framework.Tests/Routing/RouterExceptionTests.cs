@@ -11,7 +11,6 @@
 
 using System;
 using CatLib.API.Routing;
-using CatLib.Events;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -35,7 +34,6 @@ namespace CatLib.Tests.Routing
         {
             var app = new Application();
             app.Bootstrap();
-            app.Register(new EventsProvider());
             app.Init();
             var router = new Router(app, app);
 

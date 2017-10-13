@@ -13,7 +13,6 @@ using System;
 using CatLib.API.Routing;
 using CatLib.Config;
 using CatLib.Converters;
-using CatLib.Events;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -40,7 +39,6 @@ namespace CatLib.Tests.Routing
                 return Type.GetType(t);
             });
             app.Register(new RoutingProvider());
-            app.Register(new EventsProvider());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
             

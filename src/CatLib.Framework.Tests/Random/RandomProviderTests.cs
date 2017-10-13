@@ -11,7 +11,6 @@
 
 using System;
 using CatLib.API.Random;
-using CatLib.Events;
 using CatLib.Random;
 
 #if UNITY_EDITOR || NUNIT
@@ -33,7 +32,6 @@ namespace CatLib.Tests.Random
         {
             var container = new Application();
             container.Bootstrap();
-            container.Register(new EventsProvider());
             container.Register(new RandomProvider());
             container.Init();
             return container;

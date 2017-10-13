@@ -13,7 +13,6 @@ using CatLib.API.Config;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Debugger;
-using CatLib.Events;
 using CatLib.Json;
 using CatLib.Routing;
 using System;
@@ -31,7 +30,6 @@ namespace CatLib.Tests.Debugger
             app.Register(new JsonProvider());
             app.Register(new DebuggerProvider());
             app.Register(new ConfigProvider());
-            app.Register(new EventsProvider());
             app.Register(new ConvertersProvider());
             var config = app.Make<IConfigManager>().Default;
             config.Set("DebuggerProvider.WebConsoleEnable", enableWebConsole);

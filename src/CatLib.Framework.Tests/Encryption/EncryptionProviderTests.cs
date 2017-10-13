@@ -16,7 +16,6 @@ using CatLib.API.Encryption;
 using CatLib.Config;
 using CatLib.Converters;
 using CatLib.Encryption;
-using CatLib.Events;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -35,7 +34,6 @@ namespace CatLib.Tests.Encryption
         {
             var app = new Application();
             app.Bootstrap();
-            app.Register(new EventsProvider());
             app.Register(new ConfigProvider());
             app.Register(new ConvertersProvider());
             app.Register(new EncryptionProvider());

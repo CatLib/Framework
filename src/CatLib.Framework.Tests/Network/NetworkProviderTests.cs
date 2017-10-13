@@ -297,7 +297,7 @@ namespace CatLib.Tests.Network
                         closed = true;
                     };
 
-                    manager.Release("test");
+                    manager.Make("test");
 
                     Assert.AreEqual(false, channel.Socket.Connected);
                     Assert.AreEqual(true, disconnect);

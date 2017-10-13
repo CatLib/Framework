@@ -31,7 +31,15 @@ namespace CatLib.Network.Packer
         public int Input(byte[] source, out Exception ex)
         {
             ex = null;
-            return source == null || source.Length < 4 ? 0 : BitConverter.ToInt32(Arr.Slice(source, 0, 4), 0);
+            try
+            {
+                return source == null || source.Length < 4 ? 0 : BitConverter.ToInt32(Arr.Slice(source, 0, 4), 0);
+            }
+            catch (Exception e)
+            {
+                ex = e;
+                return 0;
+            }
         }
 
         /// <summary>

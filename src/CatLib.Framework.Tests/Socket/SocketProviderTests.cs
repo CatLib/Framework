@@ -9,9 +9,7 @@
  * Document: http://catlib.io/
  */
 
-using System.Threading;
 using CatLib.API.Socket;
-using CatLib.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CatLib.Socket.Tests
@@ -23,7 +21,6 @@ namespace CatLib.Socket.Tests
         {
             var app = new Application();
             app.Bootstrap();
-            app.Register(new EventsProvider());
             app.Register(new SocketProvider());
             app.Init();
             return app;

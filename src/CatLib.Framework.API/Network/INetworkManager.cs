@@ -16,7 +16,7 @@ namespace CatLib.API.Network
     /// <summary>
     /// 网络管理器
     /// </summary>
-    public interface INetworkManager
+    public interface INetworkManager : ISingleManager<INetworkChannel>
     {
         /// <summary>
         /// 当释放时

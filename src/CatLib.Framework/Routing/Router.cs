@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Events;
 using CatLib.API.Routing;
 using System;
 using System.Collections.Generic;

@@ -10531,7 +10531,7 @@
             同步锁
             </summary>
         </member>
-        <member name="M:CatLib.Routing.Router.#ctor(CatLib.API.Events.IDispatcher,CatLib.IContainer)">
+        <member name="M:CatLib.Routing.Router.#ctor(CatLib.IDispatcher,CatLib.IContainer)">
             <summary>
             创建一个新的路由器
             </summary>

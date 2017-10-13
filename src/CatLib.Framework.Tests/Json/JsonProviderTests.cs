@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using CatLib.API.Json;
-using CatLib.Events;
 using CatLib.Json;
 using SimpleJson;
 #if UNITY_EDITOR || NUNIT
@@ -39,7 +38,6 @@ namespace CatLib.Tests.Json
             var app = new Application();
             app.Bootstrap();
             app.Register(new JsonProvider());
-            app.Register(new EventsProvider());
             app.Init();
             return app;
         }

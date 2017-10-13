@@ -10,7 +10,6 @@
  */
 
 using CatLib.API.Hashing;
-using CatLib.Events;
 using CatLib.Hashing;
 
 #if UNITY_EDITOR || NUNIT
@@ -32,7 +31,6 @@ namespace CatLib.Tests.Hashing
         {
             var app = new Application();
             app.Bootstrap();
-            app.Register(new EventsProvider());
             app.Register(new HashingProvider());
             app.Init();
             return app;
