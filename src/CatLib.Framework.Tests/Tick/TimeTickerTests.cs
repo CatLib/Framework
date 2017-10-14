@@ -9,14 +9,12 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Config;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CatLib.Facade
+namespace CatLib.Tests.Tick
 {
-    /// <summary>
-    /// 配置管理器
-    /// </summary>
-    public sealed class Config : Facade<IConfigManager>
+    [TestClass]
+    public class TimeTickerTests
     {
     }
 }

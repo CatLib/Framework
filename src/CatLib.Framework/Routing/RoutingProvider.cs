@@ -24,19 +24,16 @@ namespace CatLib.Routing
         /// <summary>
         /// 默认的Scheme
         /// </summary>
-        [Config]
         public string DefaultScheme { get; set; }
 
         /// <summary>
         /// 是否进行路由编译
         /// </summary>
-        [Config]
         public bool RouterCompiler { get; set; }
 
         /// <summary>
         /// 会进行属性路由编译的程序集
         /// </summary>
-        [Config]
         public IList<string> CompilerAssembly { get; set; }
 
         /// <summary>

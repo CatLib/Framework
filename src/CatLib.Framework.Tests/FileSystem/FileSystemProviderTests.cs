@@ -11,10 +11,7 @@
 
 using System;
 using System.IO;
-using CatLib.API.Config;
 using CatLib.API.FileSystem;
-using CatLib.Config;
-using CatLib.Converters;
 using CatLib.FileSystem;
 using CatLib.FileSystem.Adapter;
 using SIO = System.IO;
@@ -56,8 +53,6 @@ namespace CatLib.Tests.FileSystem
             {
                 DefaultPath = path
             });
-            app.Register(new ConfigProvider());
-            app.Register(new ConvertersProvider());
             app.Init();
         }
 
@@ -91,8 +86,7 @@ namespace CatLib.Tests.FileSystem
             var storage = App.Make<IFileSystemManager>();
             storage.Extend(() => new global::CatLib.FileSystem.FileSystem(new Local(Path.Combine(path, "DefaultConfigTest"))), "local-2");
 
-            var config = App.Make<IConfigManager>();
-            config.Default.Set("FileSystemProvider.DefaultDevice", "local-2");
+            (storage as FileSystemManager).SetDefaultDevice("local-2");
 
             storage.Disk().Write("DefaultConfigTest", GetByte("hello world"));
             Assert.AreEqual(true, storage.Disk("local").Exists("DefaultConfigTest/DefaultConfigTest"));

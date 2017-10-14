@@ -25,13 +25,11 @@ namespace CatLib.Hashing
         /// <summary>
         /// 默认的校验类
         /// </summary>
-        [Config]
         public string DefaultChecksum { get; set; }
 
         /// <summary>
         /// 默认的哈希类
         /// </summary>
-        [Config]
         public string DefaultHash { get; set; }
 
         /// <summary>

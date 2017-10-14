@@ -22,7 +22,6 @@ namespace CatLib.Compress
         /// <summary>
         /// 默认压缩等级
         /// </summary>
-        [Config]
         public int DefaultLevel { get; set; }
 
         /// <summary>

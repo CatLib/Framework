@@ -11,8 +11,6 @@
 
 using System;
 using CatLib.API.Routing;
-using CatLib.Config;
-using CatLib.Converters;
 using CatLib.Routing;
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -39,8 +37,6 @@ namespace CatLib.Tests.Routing
                 return Type.GetType(t);
             });
             app.Register(new RoutingProvider());
-            app.Register(new ConfigProvider());
-            app.Register(new ConvertersProvider());
             
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
            

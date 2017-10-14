@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using CatLib.API.Config;
 using CatLib.API.FileSystem;
 using CatLib.FileSystem.Adapter;
 
@@ -24,13 +23,11 @@ namespace CatLib.FileSystem
         /// <summary>
         /// 默认驱动名字
         /// </summary>
-        [Config]
         public string DefaultDevice { get; set; }
 
         /// <summary>
         /// 默认路径
         /// </summary>
-        [Config]
         public string DefaultPath { get; set; }
 
         /// <summary>
@@ -69,13 +66,6 @@ namespace CatLib.FileSystem
             {
                 var manager = (FileSystemManager) obj;
                 manager.SetDefaultDevice(DefaultDevice);
-
-                var configManager = App.Make<IConfigManager>();
-                configManager.Default.SafeWatch("FileSystemProvider.DefaultDevice", (name) =>
-                {
-                    manager.SetDefaultDevice(name.ToString());
-                });
-
                 return obj;
             });
         }

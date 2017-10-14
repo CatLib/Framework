@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using CatLib.API.Config;
 using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.Log.Handler;
@@ -89,8 +88,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void InitWebConsole()
         {
-            var config = App.Make<IConfig>();
-            if (!config.SafeGet("DebuggerProvider.WebConsoleEnable", WebConsoleEnable))
+            if (!WebConsoleEnable)
             {
                 return;
             }
@@ -106,7 +104,7 @@ namespace CatLib.Debugger
             AutoMake = AutoMake ?? new Dictionary<string, KeyValuePair<Type, bool>>();
             foreach (var make in AutoMake)
             {
-                if (config.SafeGet(make.Key, make.Value.Value))
+                if (make.Value.Value)
                 {
                     App.Make(App.Type2Service(make.Value.Key));
                 }
@@ -145,11 +143,10 @@ namespace CatLib.Debugger
             App.Singleton<Logger>().Alias<ILogger>().OnResolving((binder, obj) =>
             {
                 var logger = (Logger)obj;
-                var config = App.Make<IConfig>();
 
                 foreach (var handler in GetLogHandlers())
                 {
-                    if (!config.SafeGet(handler.Key, handler.Value.Value))
+                    if (!handler.Value.Value)
                     {
                         continue;
                     }
@@ -172,13 +169,8 @@ namespace CatLib.Debugger
         {
             App.Singleton<HttpDebuggerConsole>().OnResolving((binder, obj) =>
             {
-                var config = App.Make<IConfig>();
-                var host = config.SafeGet("DebuggerProvider.WebConsoleHost", WebConsoleHost);
-                var port = config.SafeGet("DebuggerProvider.WebConsolePort", WebConsolePort);
-
                 var httpDebuggerConsole = (HttpDebuggerConsole) obj;
-                httpDebuggerConsole.Start(host, port);
-
+                httpDebuggerConsole.Start(WebConsoleHost, WebConsolePort);
                 return obj;
             }).OnRelease((_, obj) =>
             {

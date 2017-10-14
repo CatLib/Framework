@@ -11,8 +11,6 @@
 
 using CatLib.API.Compress;
 using CatLib.Compress;
-using CatLib.Config;
-using CatLib.Converters;
 
 #if UNITY_EDITOR || NUNIT
 using NUnit.Framework;
@@ -35,8 +33,6 @@ namespace CatLib.Tests.Compress
         {
             var app = new Application();
             app.Bootstrap();
-            app.Register(new ConfigProvider());
-            app.Register(new ConvertersProvider());
             app.Register(new CompressProvider());
             app.Init();
             return app;

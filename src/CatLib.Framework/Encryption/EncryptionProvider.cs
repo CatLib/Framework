@@ -23,13 +23,11 @@ namespace CatLib.Encryption
         /// <summary>
         /// 密钥
         /// </summary>
-        [Config]
         public string Key { get; set; }
 
         /// <summary>
         /// 加密类型
         /// </summary>
-        [Config]
         public string Cipher { get; set; }
 
         /// <summary>

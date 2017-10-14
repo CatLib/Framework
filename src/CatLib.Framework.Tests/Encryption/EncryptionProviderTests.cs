@@ -11,10 +11,7 @@
 
 using System;
 using System.Text;
-using CatLib.API.Config;
 using CatLib.API.Encryption;
-using CatLib.Config;
-using CatLib.Converters;
 using CatLib.Encryption;
 
 #if UNITY_EDITOR || NUNIT
@@ -30,17 +27,16 @@ namespace CatLib.Tests.Encryption
     [TestClass]
     public class EncryptionProviderTests
     {
-        public IApplication MakeEnv(Action then = null)
+        public IApplication MakeEnv(Action<EncryptionProvider> then = null)
         {
             var app = new Application();
             app.Bootstrap();
-            app.Register(new ConfigProvider());
-            app.Register(new ConvertersProvider());
-            app.Register(new EncryptionProvider());
+            var cls = new EncryptionProvider();
+            app.Register(cls);
 
             if (then != null)
             {
-                then.Invoke();
+                then.Invoke(cls);
             }
             app.Init();
             return app;
@@ -49,10 +45,9 @@ namespace CatLib.Tests.Encryption
         [TestMethod]
         public void TestDefaultEncryption()
         {
-            var app = MakeEnv(() =>
+            var app = MakeEnv((cls) =>
             {
-                var config = App.Make<IConfig>();
-                config.SafeSet("EncryptionProvider.Key", "0123456789123456");
+                cls.Key = "0123456789123456";
             });
 
             var encrypter = app.Make<IEncrypter>();
@@ -65,11 +60,10 @@ namespace CatLib.Tests.Encryption
         [TestMethod]
         public void Test256Encryption()
         {
-            var app = MakeEnv(() =>
+            var app = MakeEnv((cls) =>
             {
-                var config = App.Make<IConfig>();
-                config.SafeSet("EncryptionProvider.Key", "01234567891234560123456789123456");
-                config.SafeSet("EncryptionProvider.Cipher", "AES-256-CBC");
+                cls.Key = "01234567891234560123456789123456";
+                cls.Cipher = "AES-256-CBC";
             });
 
             var encrypter = app.Make<IEncrypter>();
@@ -82,10 +76,9 @@ namespace CatLib.Tests.Encryption
         [TestMethod]
         public void TestEncryptionFaild()
         {
-            var app = MakeEnv(() =>
+            var app = MakeEnv((cls) =>
             {
-                var config = App.Make<IConfig>();
-                config.SafeSet("EncryptionProvider.Key", "0123456789123456");
+                cls.Key = "0123456789123456";
             });
 
             var encrypter = app.Make<IEncrypter>();
@@ -124,10 +117,9 @@ namespace CatLib.Tests.Encryption
         [TestMethod]
         public void TestNotSupportedKey()
         {
-            var app = MakeEnv(() =>
+            var app = MakeEnv((cls) =>
             {
-                var config = App.Make<IConfig>();
-                config.SafeSet("EncryptionProvider.Key", "01234567891");
+                cls.Key = "01234567891";
             });
 
             ExceptionAssert.Throws<RuntimeException>(() =>
@@ -139,10 +131,9 @@ namespace CatLib.Tests.Encryption
         [TestMethod]
         public void TestModifyData()
         {
-            var app = MakeEnv(() =>
+            var app = MakeEnv((cls) =>
             {
-                var config = App.Make<IConfig>();
-                config.SafeSet("EncryptionProvider.Key", "0123456789123456");
+                cls.Key = "0123456789123456";
             });
 
             var encrypter = app.Make<IEncrypter>();
@@ -175,10 +166,9 @@ namespace CatLib.Tests.Encryption
         [TestMethod]
         public void TestEmptyByteData()
         {
-            var app = MakeEnv(() =>
+            var app = MakeEnv((cls) =>
             {
-                var config = App.Make<IConfig>();
-                config.SafeSet("EncryptionProvider.Key", "0123456789123456");
+                cls.Key = "0123456789123456";
             });
 
             var encrypter = app.Make<IEncrypter>();

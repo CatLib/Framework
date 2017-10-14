@@ -50,7 +50,6 @@ namespace CatLib.Socket
         /// <summary>
         /// 帧刷新时间，以1MS为单位
         /// </summary>
-        [Config]
         public int Tick { get; set; }
 
         /// <summary>

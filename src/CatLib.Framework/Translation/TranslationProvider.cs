@@ -22,14 +22,21 @@ namespace CatLib.Translation
         /// <summary>
         /// 默认语言
         /// </summary>
-        [Config(Languages.Chinese)]
         public string DefaultLanguage { get; set; }
 
         /// <summary>
         /// 备选语言
         /// </summary>
-        [Config(Languages.Chinese)]
         public string FallbackLanguage { get; set; }
+
+        /// <summary>
+        /// 国际化服务提供者
+        /// </summary>
+        public TranslationProvider()
+        {
+            DefaultLanguage = Languages.Chinese;
+            FallbackLanguage = Languages.Chinese;
+        }
 
         /// <summary>
         /// 初始化
