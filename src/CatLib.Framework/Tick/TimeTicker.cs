@@ -165,7 +165,7 @@ namespace CatLib.Tick
                 var time = ClockTime(RunTicks);
                 if ((time = frame - time) > 0)
                 {
-                    Thread.Sleep(Math.Max(1, time));
+                    Thread.Sleep(time);
                 }
             }
         }
