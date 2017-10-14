@@ -175,12 +175,15 @@ namespace CatLib.Tests.Network
                         var count = 0;
                         while (missCount != 2 && count++ < 6000)
                         {
+                            (manager as NetworkManager).Tick(1);
                             Thread.Sleep(1);
                         }
+
                         Assert.AreEqual(2, missCount);
                         Assert.AreEqual(2, missCountGlobal);
                         channel.Send(Encoding.Default.GetBytes("helloworld"));
                         Thread.Sleep(600);
+                        (manager as NetworkManager).Tick(600);
                         Assert.AreEqual(1, missCount);
                     }
                     finally
@@ -232,16 +235,19 @@ namespace CatLib.Tests.Network
 
                         while (missCount < 1)
                         {
+                            (manager as NetworkManager).Tick(1);
                             Thread.Sleep(1);
                         }
 
                         while (!disconnect)
                         {
+                            (manager as NetworkManager).Tick(1);
                             Thread.Sleep(1);
                         }
 
                         while (!closed)
                         {
+                            (manager as NetworkManager).Tick(1);
                             Thread.Sleep(1);
                         }
 
@@ -297,7 +303,7 @@ namespace CatLib.Tests.Network
                         closed = true;
                     };
 
-                    manager.Make("test");
+                    manager.Release("test");
 
                     Assert.AreEqual(false, channel.Socket.Connected);
                     Assert.AreEqual(true, disconnect);

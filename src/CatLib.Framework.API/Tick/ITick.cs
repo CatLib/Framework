@@ -19,7 +19,7 @@ namespace CatLib
         /// <summary>
         /// 滴答间流逝的时间
         /// </summary>
-        /// <param name="elapseMillisecond">滴答间流逝的时间</param>
+        /// <param name="elapseMillisecond">滴答间流逝的时间(MS)</param>
         void Tick(int elapseMillisecond);
     }
 }
