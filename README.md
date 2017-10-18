@@ -12,16 +12,19 @@
 
 > CatLib for Unity 请访问：[CatLib/CatLib](https://github.com/CatLib/CatLib)
 
+> CatLib Core(最小可用框架) 请访问：[CatLib/Core](https://github.com/CatLib/Core)
+
 ## 关于CatLib
 
 CatLib 是一套`渐进式`的`服务提供者框架`，我们通过集成常见的开发组件来减少开发者们不必要的工作，例如：
 
-- [依赖注入容器](http://catlib.io/v1/guide/container.html).
 - [路由系统](http://catlib.io/v1/guide/routing.html).
 - 支持任意来源的[配置](http://catlib.io/v1/guide/config.html).
-- [标准库](http://catlib.io/v1/guide/support.html)
+- [随机数](http://catlib.io/v1/guide/random.html)
 - 抽象[文件系统](http://catlib.io/v1/guide/file-system.html).
 - [哈希](http://catlib.io/v1/guide/hashing.html)，[加解密](http://catlib.io/v1/guide/encryption.html)，[Json](http://catlib.io/v1/guide/json.html).
+- [国际化](http://catlib.io/v1/guide/translation.html)
+- 基于Web的[远程调试控制台](http://catlib.io/v1/guide/console.html)
 
 CatLib提供了项目所必备的基础组件 , 您可以通过接口简单的调用就可以访问这些组件的特性. 您也可以根据业务需求自由组合搭配这些组件，来构建一个完整的项目。
 

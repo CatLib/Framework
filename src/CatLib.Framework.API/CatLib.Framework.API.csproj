@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5BF5D9DC-26F3-46AE-A735-FE37B0D4FE2E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CatLib.API</RootNamespace>
+    <AssemblyName>CatLib.Framework.API</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CATLIB</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\CatLib.Framework.API.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\build\</OutputPath>
+    <DefineConstants>TRACE;CATLIB</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\build\CatLib.Framework.API.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CatLib.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.1.0\lib\CatLib.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compress\ICompress.cs" />
+    <Compile Include="Compress\ICompressManager.cs" />
+    <Compile Include="Encryption\EncryptionException.cs" />
+    <Compile Include="Encryption\IEncrypter.cs" />
+    <Compile Include="Hashing\Checksums.cs" />
+    <Compile Include="Hashing\Hashes.cs" />
+    <Compile Include="Hashing\IHashing.cs" />
+    <Compile Include="Network\INetworkChannel.cs" />
+    <Compile Include="Network\INetworkManager.cs" />
+    <Compile Include="Network\IPacker.cs" />
+    <Compile Include="Random\IRandomFactory.cs" />
+    <Compile Include="Random\IRandom.cs" />
+    <Compile Include="Random\RandomTypes.cs" />
+    <Compile Include="Socket\ISocket.cs" />
+    <Compile Include="Socket\ISocketManager.cs" />
+    <Compile Include="Socket\SocketEvents.cs" />
+    <Compile Include="Debugger\Exception\InvalidArgumentException.cs" />
+    <Compile Include="Debugger\ILogger.cs" />
+    <Compile Include="Debugger\LogLevels.cs" />
+    <Compile Include="FileSystem\IFileSystemManager.cs" />
+    <Compile Include="FileSystem\Internal\IDirectory.cs" />
+    <Compile Include="FileSystem\Internal\IFile.cs" />
+    <Compile Include="FileSystem\Internal\IFileSystem.cs" />
+    <Compile Include="FileSystem\Internal\IHandler.cs" />
+    <Compile Include="Json\IJson.cs" />
+    <Compile Include="Json\IJsonAware.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\EventArgs\DispatchEventArgs.cs" />
+    <Compile Include="Routing\Exception\DomainException.cs" />
+    <Compile Include="Routing\Exception\NotFoundRouteException.cs" />
+    <Compile Include="Routing\Exception\UndefinedDefaultSchemeException.cs" />
+    <Compile Include="Routing\Features\IMiddleware.cs" />
+    <Compile Include="Routing\Features\RoutedAttribute.cs" />
+    <Compile Include="Routing\Internal\IRequest.cs" />
+    <Compile Include="Routing\Internal\IResponse.cs" />
+    <Compile Include="Routing\Internal\IRoute.cs" />
+    <Compile Include="Routing\Internal\IRouteGroup.cs" />
+    <Compile Include="Routing\IRouter.cs" />
+    <Compile Include="Tick\ITick.cs" />
+    <Compile Include="Translation\Features\ITranslateResources.cs" />
+    <Compile Include="Translation\ITranslator.cs" />
+    <Compile Include="Translation\Languages.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CatLib.Core.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
