@@ -10556,6 +10556,11 @@
             计时器
             </summary>
         </member>
+        <member name="F:CatLib.Tick.TimeTicker.lastDuration">
+            <summary>
+            最后一帧运行时长
+            </summary>
+        </member>
         <member name="M:CatLib.Tick.TimeTicker.#ctor(System.Int32,CatLib.IContainer)">
             <summary>
             时间摆钟
