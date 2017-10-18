@@ -9,8 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
-using System.Threading;
 using CatLib.API.Socket;
 
 namespace CatLib.Socket
@@ -21,48 +19,31 @@ namespace CatLib.Socket
     public sealed class SocketProvider : IServiceProvider
     {
         /// <summary>
-        /// Bool释放器
+        /// Tick桥
         /// </summary>
-        private class BooleanDisposable : IDisposable
+        private sealed class TickBridge : CatLib.ITick
         {
             /// <summary>
-            /// 是否被释放
+            /// Tick桥
             /// </summary>
-            public bool IsDispose { get; private set; }
+            private readonly SocketManager manager;
 
             /// <summary>
-            /// Bool释放器
+            /// Tick桥
             /// </summary>
-            public BooleanDisposable()
+            /// <param name="manager"></param>
+            public TickBridge(SocketManager manager)
             {
-                IsDispose = false;
+                this.manager = manager;
             }
-
             /// <summary>
-            /// 释放
+            /// 定期调用
             /// </summary>
-            public void Dispose()
+            /// <param name="elapseMillisecond">流逝的时间</param>
+            public void Tick(int elapseMillisecond)
             {
-                IsDispose = true;
+                manager.Tick();
             }
-        }
-
-        /// <summary>
-        /// 帧刷新时间，以1MS为单位
-        /// </summary>
-        public int Tick { get; set; }
-
-        /// <summary>
-        /// 释放句柄
-        /// </summary>
-        private IDisposable disposable;
-
-        /// <summary>
-        /// Socket服务提供者
-        /// </summary>
-        public SocketProvider()
-        {
-            Tick = 10;
         }
 
         /// <summary>
@@ -81,41 +62,13 @@ namespace CatLib.Socket
             {
                 var factory = (SocketManager)obj;
                 ExtendSocketMaker(factory);
-                MakeTimeInterval(factory);
+                App.MakeWith<TickBridge>(factory);
                 return factory;
             }).OnRelease((_, __) =>
             {
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
+                App.Release<TickBridge>();
             });
-        }
-
-        /// <summary>
-        /// 生成定时刷新帧
-        /// </summary>
-        /// <param name="factory"></param>
-        private void MakeTimeInterval(SocketManager factory)
-        {
-            var booleanDisposable = new BooleanDisposable();
-            disposable = booleanDisposable;
-            ThreadPool.QueueUserWorkItem(TickThread, booleanDisposable);
-        }
-
-        /// <summary>
-        /// 计时线程
-        /// </summary>
-        /// <param name="payload">载荷</param>
-        private void TickThread(object payload)
-        {
-            var factory = App.Make<SocketManager>();
-            var booleanDisposable = (BooleanDisposable)payload;
-            while (!booleanDisposable.IsDispose)
-            {
-                factory.Tick();
-                Thread.Sleep(Tick);
-            }
+            App.Singleton<TickBridge>();
         }
 
         /// <summary>

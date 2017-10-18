@@ -10243,40 +10243,27 @@
             Socket服务提供者
             </summary>
         </member>
-        <member name="T:CatLib.Socket.SocketProvider.BooleanDisposable">
+        <member name="T:CatLib.Socket.SocketProvider.TickBridge">
             <summary>
-            Bool释放器
+            Tick桥
             </summary>
         </member>
-        <member name="P:CatLib.Socket.SocketProvider.BooleanDisposable.IsDispose">
+        <member name="F:CatLib.Socket.SocketProvider.TickBridge.manager">
             <summary>
-            是否被释放
+            Tick桥
             </summary>
         </member>
-        <member name="M:CatLib.Socket.SocketProvider.BooleanDisposable.#ctor">
+        <member name="M:CatLib.Socket.SocketProvider.TickBridge.#ctor(CatLib.Socket.SocketManager)">
             <summary>
-            Bool释放器
+            Tick桥
             </summary>
+            <param name="manager"></param>
         </member>
-        <member name="M:CatLib.Socket.SocketProvider.BooleanDisposable.Dispose">
+        <member name="M:CatLib.Socket.SocketProvider.TickBridge.Tick(System.Int32)">
             <summary>
-            释放
+            定期调用
             </summary>
-        </member>
-        <member name="P:CatLib.Socket.SocketProvider.Tick">
-            <summary>
-            帧刷新时间，以1MS为单位
-            </summary>
-        </member>
-        <member name="F:CatLib.Socket.SocketProvider.disposable">
-            <summary>
-            释放句柄
-            </summary>
-        </member>
-        <member name="M:CatLib.Socket.SocketProvider.#ctor">
-            <summary>
-            Socket服务提供者
-            </summary>
+            <param name="elapseMillisecond">流逝的时间</param>
         </member>
         <member name="M:CatLib.Socket.SocketProvider.Init">
             <summary>
@@ -10287,18 +10274,6 @@
             <summary>
             当注册服务提供者
             </summary>
-        </member>
-        <member name="M:CatLib.Socket.SocketProvider.MakeTimeInterval(CatLib.Socket.SocketManager)">
-            <summary>
-            生成定时刷新帧
-            </summary>
-            <param name="factory"></param>
-        </member>
-        <member name="M:CatLib.Socket.SocketProvider.TickThread(System.Object)">
-            <summary>
-            计时线程
-            </summary>
-            <param name="payload">载荷</param>
         </member>
         <member name="M:CatLib.Socket.SocketProvider.ExtendSocketMaker(CatLib.Socket.SocketManager)">
             <summary>

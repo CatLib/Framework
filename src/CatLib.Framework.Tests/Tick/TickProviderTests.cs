@@ -78,12 +78,12 @@ namespace CatLib.Tests.Tick
         {
             var app = MakeEnv();
 
-            app.Singleton<TickTestClass>();
-            var cls = app.Make<TickTestClass>();
-            app.Release<TickTestClass>();
-
-            Thread.Sleep(1000);
-            Assert.AreEqual(false, cls.IsTick);
+            ExceptionAssert.DoesNotThrow(() =>
+            {
+                app.Singleton<TickTestClass>();
+                app.Make<TickTestClass>();
+                app.Release<TickTestClass>();
+            });
         }
 
         [TestMethod]
