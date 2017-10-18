@@ -17,12 +17,25 @@ namespace CatLib.Tick
     public sealed class TickProvider : IServiceProvider
     {
         /// <summary>
+        /// Fps
+        /// </summary>
+        public int Fps { get; set; }
+
+        /// <summary>
+        /// 时间摆钟服务提供者
+        /// </summary>
+        public TickProvider()
+        {
+            Fps = 30;
+        }
+
+        /// <summary>
         /// 初始化服务提供者
         /// </summary>
         [Priority(5)]
         public void Init()
         {
-            App.Make<TimeTicker>();
+            App.MakeWith<TimeTicker>(Fps);
         }
 
         /// <summary>
@@ -30,7 +43,11 @@ namespace CatLib.Tick
         /// </summary>
         public void Register()
         {
-            App.Singleton<TimeTicker>();
+            App.Singleton<TimeTicker>().OnRelease((_, obj) =>
+            {
+                var ticker = (TimeTicker) obj;
+                ticker.Dispose();
+            });
         }
     }
 }

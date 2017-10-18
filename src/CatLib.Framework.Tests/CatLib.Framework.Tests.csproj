@@ -106,7 +106,7 @@
     <Compile Include="Routing\RoutingMiddleware.cs" />
     <Compile Include="Routing\RouteCompilerTests.cs" />
     <Compile Include="Routing\UriTests.cs" />
-    <Compile Include="Tick\TimeTickerTests.cs" />
+    <Compile Include="Tick\TickProviderTests.cs" />
     <Compile Include="Translation\SelectorTests.cs" />
     <Compile Include="Translation\TranslationTests.cs" />
   </ItemGroup>
