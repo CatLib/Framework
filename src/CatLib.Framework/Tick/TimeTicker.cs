@@ -82,6 +82,11 @@ namespace CatLib.Tick
         private readonly Stopwatch stopWatch;
 
         /// <summary>
+        /// 最后一帧运行时长
+        /// </summary>
+        private int lastDuration;
+
+        /// <summary>
         /// 时间摆钟
         /// </summary>
         /// <param name="fps">每秒的帧率(0-1000)</param>
@@ -95,7 +100,7 @@ namespace CatLib.Tick
             ticks = new List<ITick>();
             disposable = new BooleanDisposable();
             this.fps = fps;
-            frame = Math.Max(1, (int) Math.Floor(1000.0f / fps));
+            lastDuration = frame = Math.Max(1, (int) Math.Floor(1000.0f / fps));
             stopWatch = new Stopwatch();
 
             container.OnResolving(OnResolving);
@@ -163,6 +168,7 @@ namespace CatLib.Tick
             while (!disposable.IsDispose)
             {
                 var time = ClockTime(RunTicks);
+                lastDuration = Math.Max(frame, time);
                 if ((time = frame - time) > 0)
                 {
                     Thread.Sleep(time);
@@ -179,7 +185,7 @@ namespace CatLib.Tick
             {
                 foreach (var tick in ticks)
                 {
-                    tick.Tick(frame);
+                    tick.Tick(lastDuration);
                 }
             }
         }
