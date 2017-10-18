@@ -121,7 +121,7 @@ namespace CatLib.Tick
         private object OnResolving(IBindData binder, object obj)
         {
             var tick = obj as ITick;
-            if (tick == null)
+            if (tick == null || !binder.IsStatic)
             {
                 return obj;
             }

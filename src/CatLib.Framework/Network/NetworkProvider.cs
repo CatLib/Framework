@@ -22,6 +22,34 @@ namespace CatLib.Network
     public sealed class NetworkProvider : IServiceProvider
     {
         /// <summary>
+        /// Tick桥
+        /// </summary>
+        private sealed class TickBridge : ITick
+        {
+            /// <summary>
+            /// Tick桥
+            /// </summary>
+            private readonly NetworkManager manager;
+
+            /// <summary>
+            /// Tick桥
+            /// </summary>
+            /// <param name="manager"></param>
+            public TickBridge(NetworkManager manager)
+            {
+                this.manager = manager;
+            }
+            /// <summary>
+            /// 定期调用
+            /// </summary>
+            /// <param name="elapseMillisecond">流逝的时间</param>
+            public void Tick(int elapseMillisecond)
+            {
+                manager.Tick(elapseMillisecond);
+            }
+        }
+
+        /// <summary>
         /// 服务提供者初始化
         /// </summary>
         public void Init()
@@ -38,8 +66,13 @@ namespace CatLib.Network
                 var factory = (NetworkManager)obj;
                 ExtendNetworkMaker(factory);
                 BindSocketFactory(factory);
+                App.MakeWith<TickBridge>(factory);
                 return factory;
+            }).OnRelease((_, obj) =>
+            {
+                App.Release<TickBridge>();
             });
+            App.Singleton<TickBridge>();
         }
 
         /// <summary>

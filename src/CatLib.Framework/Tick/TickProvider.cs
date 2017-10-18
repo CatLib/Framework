@@ -26,7 +26,7 @@ namespace CatLib.Tick
         /// </summary>
         public TickProvider()
         {
-            Fps = 30;
+            Fps = 60;
         }
 
         /// <summary>

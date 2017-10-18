@@ -7947,6 +7947,28 @@
             网络服务提供者
             </summary>
         </member>
+        <member name="T:CatLib.Network.NetworkProvider.TickBridge">
+            <summary>
+            Tick桥
+            </summary>
+        </member>
+        <member name="F:CatLib.Network.NetworkProvider.TickBridge.manager">
+            <summary>
+            Tick桥
+            </summary>
+        </member>
+        <member name="M:CatLib.Network.NetworkProvider.TickBridge.#ctor(CatLib.Network.NetworkManager)">
+            <summary>
+            Tick桥
+            </summary>
+            <param name="manager"></param>
+        </member>
+        <member name="M:CatLib.Network.NetworkProvider.TickBridge.Tick(System.Int32)">
+            <summary>
+            定期调用
+            </summary>
+            <param name="elapseMillisecond">流逝的时间</param>
+        </member>
         <member name="M:CatLib.Network.NetworkProvider.Init">
             <summary>
             服务提供者初始化
