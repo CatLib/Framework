@@ -73,19 +73,35 @@ namespace CatLib.Routing
         /// </summary>
         public void Complie()
         {
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            Complie(AppDomain.CurrentDomain.GetAssemblies());
+        }
+
+        /// <summary>
+        /// 需要编译的程序集
+        /// </summary>
+        /// <param name="assemblys">程序集</param>
+        public void Complie(params Assembly[] assemblys)
+        {
+            foreach (var assembly in assemblys)
             {
                 if (IsStripping(assembly))
                 {
                     continue;
                 }
-                foreach (var type in assembly.GetTypes())
-                {
-                    ComplieRouted(type);
-                }
+                Complie(assembly.GetTypes());
             }
+        }
 
-            buildRecord.Clear();
+        /// <summary>
+        /// 需要编译的程序集
+        /// </summary>
+        /// <param name="types">需要编译的类型</param>
+        public void Complie(params Type[] types)
+        {
+            foreach (var type in types)
+            {
+                ComplieRouted(type);
+            }
         }
 
         /// <summary>
