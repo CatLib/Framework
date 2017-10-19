@@ -79,13 +79,34 @@ namespace CatLib.Routing
                 {
                     continue;
                 }
-                foreach (var type in assembly.GetTypes())
-                {
-                    ComplieRouted(type);
-                }
+                Complie(assembly.GetTypes());
             }
+        }
 
-            buildRecord.Clear();
+        /// <summary>
+        /// 需要编译的程序集
+        /// </summary>
+        /// <param name="assemblys">程序集</param>
+        public void Complie(params Assembly[] assemblys)
+        {
+            Guard.Requires<ArgumentNullException>(assemblys != null);
+            foreach (var assembly in assemblys)
+            {
+                Complie(assembly.GetTypes());
+            }
+        }
+
+        /// <summary>
+        /// 需要编译的程序集
+        /// </summary>
+        /// <param name="types">需要编译的类型</param>
+        public void Complie(params Type[] types)
+        {
+            Guard.Requires<ArgumentNullException>(types != null);
+            foreach (var type in types)
+            {
+                ComplieRouted(type);
+            }
         }
 
         /// <summary>
@@ -94,7 +115,7 @@ namespace CatLib.Routing
         /// <param name="type">编译类型</param>
         private void ComplieRouted(Type type)
         {
-            if (!type.IsDefined(this.routed, false))
+            if (type == null || !type.IsDefined(this.routed, false))
             {
                 return;
             }
