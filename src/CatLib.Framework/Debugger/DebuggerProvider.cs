@@ -140,6 +140,7 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterLogger()
         {
+            App.Bind<StdOutLogHandler>();
             App.Singleton<Logger>().Alias<ILogger>().OnResolving((binder, obj) =>
             {
                 var logger = (Logger)obj;
