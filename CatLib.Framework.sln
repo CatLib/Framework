@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.Framework", "src\CatLib.Framework\CatLib.Framework.csproj", "{BBB2DAE2-638B-4419-9591-3CECCA312E4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.Framework.Tests", "src\CatLib.Framework.Tests\CatLib.Framework.Tests.csproj", "{8D8774B0-B6CE-4571-89F6-F3707FFFC167}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatLib.Framework.API", "src\CatLib.Framework.API\CatLib.Framework.API.csproj", "{5BF5D9DC-26F3-46AE-A735-FE37B0D4FE2E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatLib.Framework.NetStandard", "src\CatLib.Framework\CatLib.Framework.NetStandard.csproj", "{646FFB7D-2628-4EF1-BF97-83CDC14CC915}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatLib.Framework.API.NetStandard", "src\CatLib.Framework.API\CatLib.Framework.API.NetStandard.csproj", "{4EB52E2B-5BE7-4975-9B92-99B2DA4624C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,8 +32,19 @@ Global
 		{5BF5D9DC-26F3-46AE-A735-FE37B0D4FE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BF5D9DC-26F3-46AE-A735-FE37B0D4FE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BF5D9DC-26F3-46AE-A735-FE37B0D4FE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{646FFB7D-2628-4EF1-BF97-83CDC14CC915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646FFB7D-2628-4EF1-BF97-83CDC14CC915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646FFB7D-2628-4EF1-BF97-83CDC14CC915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646FFB7D-2628-4EF1-BF97-83CDC14CC915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EB52E2B-5BE7-4975-9B92-99B2DA4624C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB52E2B-5BE7-4975-9B92-99B2DA4624C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB52E2B-5BE7-4975-9B92-99B2DA4624C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB52E2B-5BE7-4975-9B92-99B2DA4624C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D64B5792-80C0-486E-B535-4071F151D2E9}
 	EndGlobalSection
 EndGlobal

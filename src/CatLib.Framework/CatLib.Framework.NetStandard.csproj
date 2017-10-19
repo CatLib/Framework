@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.1.0</Version>
+    <Company>CatLib</Company>
+    <Authors>CatLib</Authors>
+    <Description>CatLib Framework</Description>
+    <Copyright>Copyright © CatLib 2017</Copyright>
+    <AssemblyName>CatLib.Framework</AssemblyName>
+    <RootNamespace>CatLib.Framework</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\build\</OutputPath>
+    <DocumentationFile>..\..\build\netstandard2.0\CatLib.Framework.xml</DocumentationFile>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;CATLIB</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;CATLIB;</DefineConstants>
+    <DocumentationFile></DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CatLib.Framework.API\CatLib.Framework.API.NetStandard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CatLib.Core">
+      <HintPath>..\..\packages\CatLib.Core.NetStandard.1.1.0\netstandard2.0\CatLib.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
