@@ -88,7 +88,7 @@ namespace CatLib.Routing
         /// </summary>
         private void RegisterAttrRouteCompiler()
         {
-            App.Bind<AttrRouteCompiler>().OnResolving((_, obj) =>
+            App.Singleton<AttrRouteCompiler>().OnResolving((_, obj) =>
             {
                 var compiler = (AttrRouteCompiler)obj;
 
