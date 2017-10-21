@@ -1,0 +1,266 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.1.1</Version>
+    <Company>CatLib</Company>
+    <Authors>CatLib</Authors>
+    <Description>CatLib Framework</Description>
+    <Copyright>Copyright © CatLib 2017</Copyright>
+    <AssemblyName>CatLib.Framework</AssemblyName>
+    <RootNamespace>CatLib.Framework</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\build\NetStandard2.0</OutputPath>
+    <DocumentationFile>..\..\build\NetStandard2.0\netstandard2.0\CatLib.Framework.xml</DocumentationFile>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;CATLIB</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;CATLIB;</DefineConstants>
+    <DocumentationFile></DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="..\CatLib.Framework\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Common\SevenZip\CBindPair.cs" Link="Compress\3rd\SharpCompress\Common\SevenZip\CBindPair.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Common\SevenZip\CCoderInfo.cs" Link="Compress\3rd\SharpCompress\Common\SevenZip\CCoderInfo.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Common\SevenZip\CFolder.cs" Link="Compress\3rd\SharpCompress\Common\SevenZip\CFolder.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Common\SevenZip\CMethodId.cs" Link="Compress\3rd\SharpCompress\Common\SevenZip\CMethodId.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\CompressionMode.cs" Link="Compress\3rd\SharpCompress\Compressors\CompressionMode.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\AesDecoderStream.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\AesDecoderStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\Bcj2DecoderStream.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\Bcj2DecoderStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\BitVector.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\BitVector.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\CRC.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\CRC.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\DecoderStream.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\DecoderStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\ICoder.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\ICoder.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\Log.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\Log.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LZipStream.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LZipStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LzmaBase.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaBase.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LzmaDecoder.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaDecoder.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LzmaEncoder.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaEncoder.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LzmaEncoderProperties.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaEncoderProperties.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LzmaStream.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LzmaStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LZ\CRC.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\CRC.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzBinTree.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzBinTree.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzInWindow.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzInWindow.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzOutWindow.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\LzOutWindow.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoder.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoder.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoderBit.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoderBit.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoderBitTree.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\Registry.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\Registry.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\CrcBuilderStream.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\CrcBuilderStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\CrcCheckStream.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\CrcCheckStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\IPasswordProvider.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\IPasswordProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\Utils.cs" Link="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\Utils.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Converters\DataConverter.cs" Link="Compress\3rd\SharpCompress\Converters\DataConverter.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\Crypto\Crc32Stream.cs" Link="Compress\3rd\SharpCompress\Crypto\Crc32Stream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\IO\BufferedSubStream.cs" Link="Compress\3rd\SharpCompress\IO\BufferedSubStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpCompress\IO\CountingWritableSubStream.cs" Link="Compress\3rd\SharpCompress\IO\CountingWritableSubStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Checksum\Adler32.cs" Link="Compress\3rd\SharpZipLib\Checksum\Adler32.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Checksum\Crc32.cs" Link="Compress\3rd\SharpZipLib\Checksum\Crc32.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Checksum\IChecksum.cs" Link="Compress\3rd\SharpZipLib\Checksum\IChecksum.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Core\FileSystemScanner.cs" Link="Compress\3rd\SharpZipLib\Core\FileSystemScanner.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Core\INameTransform.cs" Link="Compress\3rd\SharpZipLib\Core\INameTransform.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Core\IScanFilter.cs" Link="Compress\3rd\SharpZipLib\Core\IScanFilter.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Core\NameFilter.cs" Link="Compress\3rd\SharpZipLib\Core\NameFilter.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Core\PathFilter.cs" Link="Compress\3rd\SharpZipLib\Core\PathFilter.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Core\StreamUtils.cs" Link="Compress\3rd\SharpZipLib\Core\StreamUtils.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Core\WindowsPathUtils.cs" Link="Compress\3rd\SharpZipLib\Core\WindowsPathUtils.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Encryption\PkzipClassic.cs" Link="Compress\3rd\SharpZipLib\Encryption\PkzipClassic.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Encryption\ZipAESTransform.cs" Link="Compress\3rd\SharpZipLib\Encryption\ZipAESTransform.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\GZip\GZip.cs" Link="Compress\3rd\SharpZipLib\GZip\GZip.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\GZip\GZipConstants.cs" Link="Compress\3rd\SharpZipLib\GZip\GZipConstants.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\GZip\GZipException.cs" Link="Compress\3rd\SharpZipLib\GZip\GZipException.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\GZip\GzipInputStream.cs" Link="Compress\3rd\SharpZipLib\GZip\GzipInputStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\GZip\GzipOutputStream.cs" Link="Compress\3rd\SharpZipLib\GZip\GzipOutputStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\SharpZipBaseException.cs" Link="Compress\3rd\SharpZipLib\SharpZipBaseException.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\Deflater.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\Deflater.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\DeflaterConstants.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterConstants.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\DeflaterEngine.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterEngine.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\DeflaterHuffman.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterHuffman.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\DeflaterPending.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\DeflaterPending.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\Inflater.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\Inflater.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\InflaterDynHeader.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\InflaterDynHeader.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\PendingBuffer.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\PendingBuffer.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" Link="Compress\3rd\SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\ZipConstants.cs" Link="Compress\3rd\SharpZipLib\Zip\ZipConstants.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\ZipEntry.cs" Link="Compress\3rd\SharpZipLib\Zip\ZipEntry.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\ZipException.cs" Link="Compress\3rd\SharpZipLib\Zip\ZipException.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\ZipExtraData.cs" Link="Compress\3rd\SharpZipLib\Zip\ZipExtraData.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\3rd\SharpZipLib\Zip\ZipHelperStream.cs" Link="Compress\3rd\SharpZipLib\Zip\ZipHelperStream.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\CompressManager.cs" Link="Compress\CompressManager.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\CompressProvider.cs" Link="Compress\CompressProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\GZipAdapter.cs" Link="Compress\GZipAdapter.cs" />
+    <Compile Include="..\CatLib.Framework\Compress\LzmaAdapter.cs" Link="Compress\LzmaAdapter.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\DebuggerProvider.cs" Link="Debugger\DebuggerProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\Log\Handler\StdOutLogHandler.cs" Link="Debugger\Log\Handler\StdOutLogHandler.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\Log\ILogEntry.cs" Link="Debugger\Log\ILogEntry.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\Log\ILogHandler.cs" Link="Debugger\Log\ILogHandler.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\Log\LogEntry.cs" Link="Debugger\Log\LogEntry.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\Log\Logger.cs" Link="Debugger\Log\Logger.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\Log\LogUtil.cs" Link="Debugger\Log\LogUtil.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebConsole\BaseProtocol.cs" Link="Debugger\WebConsole\BaseProtocol.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebConsole\HttpDebuggerConsole.cs" Link="Debugger\WebConsole\HttpDebuggerConsole.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebConsole\HttpListener.cs" Link="Debugger\WebConsole\HttpListener.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebConsole\IWebConsoleResponse.cs" Link="Debugger\WebConsole\IWebConsoleResponse.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebConsole\Protocol\GetGuid.cs" Link="Debugger\WebConsole\Protocol\GetGuid.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebLog\Controller\Log.cs" Link="Debugger\WebLog\Controller\Log.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebLog\Controller\Util.cs" Link="Debugger\WebLog\Controller\Util.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebLog\LogHandler\WebLogHandler.cs" Link="Debugger\WebLog\LogHandler\WebLogHandler.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebLog\LogStore.cs" Link="Debugger\WebLog\LogStore.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebLog\Protocol\WebConsoleOutputs.cs" Link="Debugger\WebLog\Protocol\WebConsoleOutputs.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\Controller\Monitor.cs" Link="Debugger\WebMonitor\Controller\Monitor.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\Handler\OnceRecordMonitorHandler.cs" Link="Debugger\WebMonitor\Handler\OnceRecordMonitorHandler.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\Handler\SizeMonitorHandler.cs" Link="Debugger\WebMonitor\Handler\SizeMonitorHandler.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\IMonitor.cs" Link="Debugger\WebMonitor\IMonitor.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\IMonitorHandler.cs" Link="Debugger\WebMonitor\IMonitorHandler.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\MonitorStore.cs" Link="Debugger\WebMonitor\MonitorStore.cs" />
+    <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\Protocol\GetMonitors.cs" Link="Debugger\WebMonitor\Protocol\GetMonitors.cs" />
+    <Compile Include="..\CatLib.Framework\Encryption\AesEncrypter.cs" Link="Encryption\AesEncrypter.cs" />
+    <Compile Include="..\CatLib.Framework\Encryption\Encrypter.cs" Link="Encryption\Encrypter.cs" />
+    <Compile Include="..\CatLib.Framework\Encryption\EncryptionProvider.cs" Link="Encryption\EncryptionProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Compress.cs" Link="Facade\Compress.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Dispatcher.cs" Link="Facade\Dispatcher.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Encrypter.cs" Link="Facade\Encrypter.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\FileSystem.cs" Link="Facade\FileSystem.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Hashing.cs" Link="Facade\Hashing.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\I18N.cs" Link="Facade\I18N.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Json.cs" Link="Facade\Json.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Random.cs" Link="Facade\Random.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Router.cs" Link="Facade\Router.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\Adapter\IFileSystemAdapter.cs" Link="FileSystem\Adapter\IFileSystemAdapter.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\Adapter\Local.cs" Link="FileSystem\Adapter\Local.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\Directory.cs" Link="FileSystem\Directory.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\File.cs" Link="FileSystem\File.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\FileSystem.cs" Link="FileSystem\FileSystem.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\FileSystemManager.cs" Link="FileSystem\FileSystemManager.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\FileSystemProvider.cs" Link="FileSystem\FileSystemProvider.cs" />
+    <Compile Include="..\CatLib.Framework\FileSystem\Handler.cs" Link="FileSystem\Handler.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\3rd\BCrypt\Bcrypt.cs" Link="Hashing\3rd\BCrypt\Bcrypt.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\3rd\BCrypt\SaltParseException.cs" Link="Hashing\3rd\BCrypt\SaltParseException.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\3rd\MurmurHash\Extensions.cs" Link="Hashing\3rd\MurmurHash\Extensions.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\3rd\MurmurHash\Murmur32.cs" Link="Hashing\3rd\MurmurHash\Murmur32.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" Link="Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\Checksum\Adler32.cs" Link="Hashing\Checksum\Adler32.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\Checksum\Crc32.cs" Link="Hashing\Checksum\Crc32.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\Checksum\IChecksum.cs" Link="Hashing\Checksum\IChecksum.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\Hashing.cs" Link="Hashing\Hashing.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\HashingProvider.cs" Link="Hashing\HashingProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\HashString\DjbHash.cs" Link="Hashing\HashString\DjbHash.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\SimpleJson.cs" Link="Json\3rd\SimpleJson.cs" />
+    <Compile Include="..\CatLib.Framework\Json\JsonProvider.cs" Link="Json\JsonProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Json\JsonUtility.cs" Link="Json\JsonUtility.cs" />
+    <Compile Include="..\CatLib.Framework\Json\SimpleJsonAdapter.cs" Link="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="..\CatLib.Framework\Network\HeartBeatState.cs" Link="Network\HeartBeatState.cs" />
+    <Compile Include="..\CatLib.Framework\Network\NetworkChannel.cs" Link="Network\NetworkChannel.cs" />
+    <Compile Include="..\CatLib.Framework\Network\NetworkManager.cs" Link="Network\NetworkManager.cs" />
+    <Compile Include="..\CatLib.Framework\Network\NetworkProvider.cs" Link="Network\NetworkProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Network\Packer\FramePacker.cs" Link="Network\Packer\FramePacker.cs" />
+    <Compile Include="..\CatLib.Framework\Network\Packer\TextPacker.cs" Link="Network\Packer\TextPacker.cs" />
+    <Compile Include="..\CatLib.Framework\Network\ReceiveState.cs" Link="Network\ReceiveState.cs" />
+    <Compile Include="..\CatLib.Framework\Random\3rd\MathNet\Euclid.cs" Link="Random\3rd\MathNet\Euclid.cs" />
+    <Compile Include="..\CatLib.Framework\Random\3rd\MathNet\Random\MersenneTwister.cs" Link="Random\3rd\MathNet\Random\MersenneTwister.cs" />
+    <Compile Include="..\CatLib.Framework\Random\3rd\MathNet\Random\Mrg32k3a.cs" Link="Random\3rd\MathNet\Random\Mrg32k3a.cs" />
+    <Compile Include="..\CatLib.Framework\Random\3rd\MathNet\Random\RandomSeed.cs" Link="Random\3rd\MathNet\Random\RandomSeed.cs" />
+    <Compile Include="..\CatLib.Framework\Random\3rd\MathNet\Random\RandomSource.cs" Link="Random\3rd\MathNet\Random\RandomSource.cs" />
+    <Compile Include="..\CatLib.Framework\Random\3rd\MathNet\Random\WH2006.cs" Link="Random\3rd\MathNet\Random\WH2006.cs" />
+    <Compile Include="..\CatLib.Framework\Random\3rd\MathNet\Random\Xorshift.cs" Link="Random\3rd\MathNet\Random\Xorshift.cs" />
+    <Compile Include="..\CatLib.Framework\Random\RandomAdaptor.cs" Link="Random\RandomAdaptor.cs" />
+    <Compile Include="..\CatLib.Framework\Random\RandomFactory.cs" Link="Random\RandomFactory.cs" />
+    <Compile Include="..\CatLib.Framework\Random\RandomProvider.cs" Link="Random\RandomProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\AttrRouteCompiler.cs" Link="Routing\AttrRouteCompiler.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\CompiledRoute.cs" Link="Routing\CompiledRoute.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\ExceptionRequest.cs" Link="Routing\ExceptionRequest.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Request.cs" Link="Routing\Request.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Response.cs" Link="Routing\Response.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Route.cs" Link="Routing\Route.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\RouteAction.cs" Link="Routing\RouteAction.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\RouteCompiler.cs" Link="Routing\RouteCompiler.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\RouteGroup.cs" Link="Routing\RouteGroup.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\RouteOptions.cs" Link="Routing\RouteOptions.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\RouteParameterBinder.cs" Link="Routing\RouteParameterBinder.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Router.cs" Link="Routing\Router.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\RouterEvents.cs" Link="Routing\RouterEvents.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\RoutingProvider.cs" Link="Routing\RoutingProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Scheme.cs" Link="Routing\Scheme.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Uri.cs" Link="Routing\Uri.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Validators\HostValidator.cs" Link="Routing\Validators\HostValidator.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Validators\IValidators.cs" Link="Routing\Validators\IValidators.cs" />
+    <Compile Include="..\CatLib.Framework\Routing\Validators\UriValidator.cs" Link="Routing\Validators\UriValidator.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\3rd\kcp\kcp.cs" Link="Socket\3rd\kcp\kcp.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\3rd\kcp\switch_queue.cs" Link="Socket\3rd\kcp\switch_queue.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\Emmiter.cs" Link="Socket\Emmiter.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\ITick.cs" Link="Socket\ITick.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\KcpConnector.cs" Link="Socket\KcpConnector.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\SocketManager.cs" Link="Socket\SocketManager.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\SocketProvider.cs" Link="Socket\SocketProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Socket\TcpConnector.cs" Link="Socket\TcpConnector.cs" />
+    <Compile Include="..\CatLib.Framework\Tick\TickProvider.cs" Link="Tick\TickProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Tick\TimeTicker.cs" Link="Tick\TimeTicker.cs" />
+    <Compile Include="..\CatLib.Framework\Translation\ISelector.cs" Link="Translation\ISelector.cs" />
+    <Compile Include="..\CatLib.Framework\Translation\Selector.cs" Link="Translation\Selector.cs" />
+    <Compile Include="..\CatLib.Framework\Translation\TranslationProvider.cs" Link="Translation\TranslationProvider.cs" />
+    <Compile Include="..\CatLib.Framework\Translation\Translator.cs" Link="Translation\Translator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="..\CatLib.Framework\Properties\" />
+    <Folder Include="Compress\3rd\SharpCompress\Common\SevenZip\" />
+    <Folder Include="Compress\3rd\SharpCompress\Compressors\LZMA\LZ\" />
+    <Folder Include="Compress\3rd\SharpCompress\Compressors\LZMA\RangeCoder\" />
+    <Folder Include="Compress\3rd\SharpCompress\Compressors\LZMA\Utilites\" />
+    <Folder Include="Compress\3rd\SharpCompress\Converters\" />
+    <Folder Include="Compress\3rd\SharpCompress\Crypto\" />
+    <Folder Include="Compress\3rd\SharpCompress\IO\" />
+    <Folder Include="Compress\3rd\SharpZipLib\Checksum\" />
+    <Folder Include="Compress\3rd\SharpZipLib\Core\" />
+    <Folder Include="Compress\3rd\SharpZipLib\Encryption\" />
+    <Folder Include="Compress\3rd\SharpZipLib\GZip\" />
+    <Folder Include="Compress\3rd\SharpZipLib\Zip\Compression\Streams\" />
+    <Folder Include="Debugger\Log\Handler\" />
+    <Folder Include="Debugger\WebConsole\Protocol\" />
+    <Folder Include="Debugger\WebLog\Controller\" />
+    <Folder Include="Debugger\WebLog\LogHandler\" />
+    <Folder Include="Debugger\WebLog\Protocol\" />
+    <Folder Include="Debugger\WebMonitor\Controller\" />
+    <Folder Include="Debugger\WebMonitor\Handler\" />
+    <Folder Include="Debugger\WebMonitor\Protocol\" />
+    <Folder Include="Encryption\" />
+    <Folder Include="Facade\" />
+    <Folder Include="FileSystem\Adapter\" />
+    <Folder Include="Hashing\3rd\BCrypt\" />
+    <Folder Include="Hashing\3rd\MurmurHash\" />
+    <Folder Include="Hashing\Checksum\" />
+    <Folder Include="Hashing\HashString\" />
+    <Folder Include="Json\3rd\" />
+    <Folder Include="Network\Packer\" />
+    <Folder Include="Random\3rd\MathNet\Random\" />
+    <Folder Include="Routing\Validators\" />
+    <Folder Include="Socket\3rd\kcp\" />
+    <Folder Include="Tick\" />
+    <Folder Include="Translation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CatLib.Framework.API.NetStandard\CatLib.Framework.API.NetStandard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CatLib.Core">
+      <HintPath>..\..\packages\CatLib.Core.NetStandard.1.1.0\netstandard2.0\CatLib.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

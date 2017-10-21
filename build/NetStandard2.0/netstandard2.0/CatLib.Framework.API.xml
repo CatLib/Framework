@@ -44,44 +44,6 @@
             <param name="name">使用的压缩解压缩名字</param>
             <returns>解压缩的结果</returns>
         </member>
-        <member name="T:CatLib.API.Debugger.InvalidArgumentException">
-            <summary>
-            无效的参数异常
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor">
-            <summary>
-            无效的参数
-            </summary>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.Exception)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="innerException">异常结构</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String,System.Exception)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="paramName">诱发异常的参数</param>
-            <param name="innerException">异常结构</param>
-        </member>
-        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String)">
-            <summary>
-            无效的参数
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="paramName">诱发异常的参数</param>
-        </member>
         <member name="T:CatLib.API.Debugger.ILogger">
             <summary>
             日志接口
@@ -151,6 +113,44 @@
             </summary>
             <param name="message">日志内容</param>
             <param name="context">上下文,用于替换占位符</param>
+        </member>
+        <member name="T:CatLib.API.Debugger.InvalidArgumentException">
+            <summary>
+            无效的参数异常
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor">
+            <summary>
+            无效的参数
+            </summary>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.Exception)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="innerException">异常结构</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="paramName">诱发异常的参数</param>
+            <param name="innerException">异常结构</param>
+        </member>
+        <member name="M:CatLib.API.Debugger.InvalidArgumentException.#ctor(System.String,System.String)">
+            <summary>
+            无效的参数
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="paramName">诱发异常的参数</param>
         </member>
         <member name="T:CatLib.API.Debugger.LogLevels">
             <summary>

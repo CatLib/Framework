@@ -8372,6 +8372,18 @@
             编译属性路由
             </summary>
         </member>
+        <member name="M:CatLib.Routing.AttrRouteCompiler.Complie(System.Reflection.Assembly[])">
+            <summary>
+            需要编译的程序集
+            </summary>
+            <param name="assemblys">程序集</param>
+        </member>
+        <member name="M:CatLib.Routing.AttrRouteCompiler.Complie(System.Type[])">
+            <summary>
+            需要编译的程序集
+            </summary>
+            <param name="types">需要编译的类型</param>
+        </member>
         <member name="M:CatLib.Routing.AttrRouteCompiler.ComplieRouted(System.Type)">
             <summary>
             编译属性路由

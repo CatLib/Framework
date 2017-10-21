@@ -7,25 +7,19 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "CatLib.Framework/1.1.0": {
+      "CatLib.Framework.API/1.1.1": {
         "dependencies": {
-          "CatLib.Framework.API": "1.1.0",
           "NETStandard.Library": "2.0.0",
           "CatLib.Core": "1.1.0.0"
         },
         "runtime": {
-          "CatLib.Framework.dll": {}
+          "CatLib.Framework.API.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
       "NETStandard.Library/2.0.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
-        }
-      },
-      "CatLib.Framework.API/1.1.0": {
-        "runtime": {
-          "CatLib.Framework.API.dll": {}
         }
       },
       "CatLib.Core/1.1.0.0": {
@@ -36,7 +30,7 @@
     }
   },
   "libraries": {
-    "CatLib.Framework/1.1.0": {
+    "CatLib.Framework.API/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -54,11 +48,6 @@
       "sha512": "sha512-7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
       "path": "netstandard.library/2.0.0",
       "hashPath": "netstandard.library.2.0.0.nupkg.sha512"
-    },
-    "CatLib.Framework.API/1.1.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     },
     "CatLib.Core/1.1.0.0": {
       "type": "reference",

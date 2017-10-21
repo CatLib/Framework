@@ -1,10 +1,14 @@
 TestResults
 src/CatLib.Framework/bin
 src/CatLib.Framework/obj
+src/CatLib.Framework.NetStandard/bin
+src/CatLib.Framework.NetStandard/obj
 src/CatLib.Framework.Tests/bin
 src/CatLib.Framework.Tests/obj
 src/CatLib.Framework.API/bin
 src/CatLib.Framework.API/obj
+src/CatLib.Framework.API.NetStandard/bin
+src/CatLib.Framework.API.NetStandard/obj
 src/coverage.xml
 
 .vscode

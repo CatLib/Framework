@@ -27,11 +27,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\build\</OutputPath>
+    <OutputPath>..\..\build\Net35\</OutputPath>
     <DefineConstants>TRACE;CATLIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\build\CatLib.Framework.API.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\Net35\CatLib.Framework.API.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
@@ -57,7 +57,7 @@
     <Compile Include="Socket\ISocket.cs" />
     <Compile Include="Socket\ISocketManager.cs" />
     <Compile Include="Socket\SocketEvents.cs" />
-    <Compile Include="Debugger\Exception\InvalidArgumentException.cs" />
+    <Compile Include="Debugger\InvalidArgumentException.cs" />
     <Compile Include="Debugger\ILogger.cs" />
     <Compile Include="Debugger\LogLevels.cs" />
     <Compile Include="FileSystem\IFileSystemManager.cs" />
