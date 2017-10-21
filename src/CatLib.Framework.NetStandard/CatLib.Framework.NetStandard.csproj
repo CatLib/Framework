@@ -17,6 +17,7 @@
     <DocumentationFile>..\..\build\NetStandard2.0\netstandard2.0\CatLib.Framework.xml</DocumentationFile>
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;CATLIB</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1701;1702;1705;CS1591;CS0414;CS0169</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -254,13 +255,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CatLib.Framework.API.NetStandard\CatLib.Framework.API.NetStandard.csproj" />
+    <PackageReference Include="CatLib.Core.NetStandard" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="CatLib.Core">
-      <HintPath>..\..\packages\CatLib.Core.NetStandard.1.1.0\netstandard2.0\CatLib.Core.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\CatLib.Framework.API.NetStandard\CatLib.Framework.API.NetStandard.csproj" />
   </ItemGroup>
 
 </Project>

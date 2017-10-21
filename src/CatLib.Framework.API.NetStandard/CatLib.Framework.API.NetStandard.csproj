@@ -16,6 +16,7 @@
     <OutputPath>..\..\build\NetStandard2.0</OutputPath>
     <DocumentationFile>..\..\build\NetStandard2.0\netstandard2.0\CatLib.Framework.API.xml</DocumentationFile>
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;CATLIB</DefineConstants>
+    <NoWarn>1701;1702;1705</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -90,9 +91,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="CatLib.Core">
-      <HintPath>..\..\packages\CatLib.Core.NetStandard.1.1.0\netstandard2.0\CatLib.Core.dll</HintPath>
-    </Reference>
+    <PackageReference Include="CatLib.Core.NetStandard" Version="1.1.2" />
   </ItemGroup>
 
 </Project>
