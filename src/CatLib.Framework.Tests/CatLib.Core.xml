@@ -1444,6 +1444,14 @@
             <param name="param">构造参数</param>
             <returns>服务实例</returns>
         </member>
+        <member name="M:CatLib.Container.ThrowBuildFaild(System.Type,System.Exception)">
+            <summary>
+            触发编译异常
+            </summary>
+            <param name="makeServiceType">构造的服务类型</param>
+            <param name="ex">异常</param>
+            <returns>运行时异常</returns>
+        </member>
         <member name="M:CatLib.Container.Normalize(System.String)">
             <summary>
             标准化服务名
