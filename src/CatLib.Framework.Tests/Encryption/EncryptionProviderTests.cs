@@ -14,14 +14,7 @@ using System.Text;
 using CatLib.API.Encryption;
 using CatLib.Encryption;
 using System.IO;
-
-#if UNITY_EDITOR || NUNIT
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Encryption
 {
