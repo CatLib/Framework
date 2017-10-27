@@ -101,6 +101,11 @@
             Crc32
             </summary>
         </member>
+        <member name="F:CatLib.API.Hashing.Checksums.Djb">
+            <summary>
+            Djb
+            </summary>
+        </member>
         <member name="M:CatLib.API.Hashing.Checksums.#ctor(System.String)">
             <summary>
             哈希算法类型
@@ -164,7 +169,7 @@
             <summary>
             将字节数组添加到数据校验和，闭包区间内校验器是专享的。
             </summary>
-            <param name="callback">回调闭包</param>
+            <param name="callback">回调闭包(buffer , offset , count)</param>
             <param name="checksum">使用校验类类型</param>
             <returns>闭包区间内的总校验和</returns>
         </member>

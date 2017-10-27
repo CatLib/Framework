@@ -171,11 +171,12 @@
     <Compile Include="Hashing\3rd\MurmurHash\Murmur32.cs" />
     <Compile Include="Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" />
     <Compile Include="Hashing\Checksum\Adler32.cs" />
+    <Compile Include="Hashing\HashingGuard.cs" />
     <Compile Include="Hashing\Checksum\Crc32.cs" />
     <Compile Include="Hashing\Checksum\IChecksum.cs" />
     <Compile Include="Hashing\Hashing.cs" />
     <Compile Include="Hashing\HashingProvider.cs" />
-    <Compile Include="Hashing\HashString\DjbHash.cs" />
+    <Compile Include="Hashing\Checksum\Djb.cs" />
     <Compile Include="Json\3rd\SimpleJson.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />

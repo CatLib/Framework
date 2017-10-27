@@ -63,6 +63,7 @@ namespace CatLib.API.Hashing
         /// </summary>
         /// <param name="input">输入值</param>
         /// <returns>哈希值</returns>
+        [Obsolete("HashString is obsolete, please use Checksum")]
         uint HashString(string input);
 
         /// <summary>
@@ -71,6 +72,7 @@ namespace CatLib.API.Hashing
         /// <param name="input">输入值</param>
         /// <param name="hash">使用的哈希算法</param>
         /// <returns>哈希值</returns>
+        [Obsolete("HashString is obsolete, please use Checksum")]
         uint HashString(string input, Hashes hash);
 
         /// <summary>
@@ -80,6 +82,7 @@ namespace CatLib.API.Hashing
         /// <param name="encoding">编码</param>
         /// <param name="hash">使用的哈希算法</param>
         /// <returns>哈希值</returns>
+        [Obsolete("HashString is obsolete, please use Checksum")]
         uint HashString(string input, Encoding encoding, Hashes hash);
 
         /// <summary>
@@ -87,6 +90,7 @@ namespace CatLib.API.Hashing
         /// </summary>
         /// <param name="input">输入值</param>
         /// <returns>哈希值</returns>
+        [Obsolete("HashString is obsolete, please use Checksum")]
         uint HashByte(byte[] input);
 
         /// <summary>
@@ -95,6 +99,7 @@ namespace CatLib.API.Hashing
         /// <param name="input">输入值</param>
         /// <param name="hash">使用的哈希算法</param>
         /// <returns>哈希值</returns>
+        [Obsolete("HashString is obsolete, please use Checksum")]
         uint HashByte(byte[] input, Hashes hash);
     }
 }
