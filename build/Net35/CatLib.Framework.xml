@@ -6605,6 +6605,11 @@
             文件系统管理器
             </summary>
         </member>
+        <member name="T:CatLib.Facade.Network">
+            <summary>
+            网络
+            </summary>
+        </member>
         <member name="T:CatLib.Facade.Random">
             <summary>
             随机数
@@ -6613,6 +6618,11 @@
         <member name="T:CatLib.Facade.Router">
             <summary>
             路由
+            </summary>
+        </member>
+        <member name="T:CatLib.Facade.Socket">
+            <summary>
+            套接字
             </summary>
         </member>
         <member name="T:CatLib.FileSystem.Adapter.Local">
