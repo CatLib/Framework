@@ -137,7 +137,16 @@ namespace CatLib.Debugger.Log
         /// <exception cref="InvalidArgumentException">当传入的日志等级无效</exception>
         private void ExecLog(LogLevels level, object message, params object[] context)
         {
-            Log(MakeLogEntry(level, string.Format(message.ToString(), context)));
+            string messageString;
+            if (context == null || context.Length == 0)
+            {
+                messageString = message.ToString();
+            }
+            else
+            {
+                messageString = string.Format(message.ToString(), context);
+            }
+            Log(MakeLogEntry(level, messageString));
         }
 
         /// <summary>

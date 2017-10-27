@@ -125,6 +125,97 @@ namespace CatLib.Tests.Debugger.Log
         }
 
         [TestMethod]
+        public void TestNoContextDebugLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Debug(LogLevels.Debug.ToString() + "hello{0}world");
+                return LogLevels.Debug.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextAlertLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Alert(LogLevels.Alert.ToString() + "hello{0}world");
+                return LogLevels.Alert.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextCriticalLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Critical(LogLevels.Critical.ToString() + "hello{0}world");
+                return LogLevels.Critical.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextEmergencyLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Emergency(LogLevels.Emergency.ToString() + "hello{0}world");
+                return LogLevels.Emergency.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextErrorLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Error(LogLevels.Error.ToString() + "hello{0}world");
+                return LogLevels.Error.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextInfoLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Info(LogLevels.Info.ToString() + "hello{0}world");
+                return LogLevels.Info.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextNoticeLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Notice(LogLevels.Notice.ToString() + "hello{0}world");
+                return LogLevels.Notice.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextWarningLogLevel()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Warning(LogLevels.Warning.ToString() + "hello{0}world");
+                return LogLevels.Warning.ToString();
+            });
+        }
+
+        [TestMethod]
+        public void TestNoContextLog()
+        {
+            AssertNoContextLog((logger) =>
+            {
+                logger.Log(LogLevels.Warning, LogLevels.Warning.ToString() + "hello{0}world");
+                return LogLevels.Warning.ToString();
+            });
+        }
+
+
+        [TestMethod]
         public void TestSetSkip()
         {
             logLevel = string.Empty;
@@ -185,6 +276,20 @@ namespace CatLib.Tests.Debugger.Log
             var result = doLogger(logger);
 
             Assert.AreEqual(result + result + "helloworld", logLevel);
+        }
+
+
+        public void AssertNoContextLog(Func<ILogger, string> doLogger)
+        {
+            logLevel = string.Empty;
+            var app = DebuggerHelper.GetApplication(false);
+            var logger = app.Make<ILogger>();
+
+            (logger as Logger).AddLogHandler(new TestHandler());
+
+            var result = doLogger(logger);
+
+            Assert.AreEqual(result + result + "hello{0}world", logLevel);
         }
     }
 }
