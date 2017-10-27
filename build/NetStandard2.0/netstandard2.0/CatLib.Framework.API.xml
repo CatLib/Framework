@@ -491,6 +491,14 @@
             <param name="checksum">使用校验类类型</param>
             <returns>校验和</returns>
         </member>
+        <member name="M:CatLib.API.Hashing.IHashing.Checksum(System.Action{System.Action{System.Byte[],System.Int32,System.Int32}},CatLib.API.Hashing.Checksums)">
+            <summary>
+            将字节数组添加到数据校验和，闭包区间内校验器是专享的。
+            </summary>
+            <param name="callback">回调闭包</param>
+            <param name="checksum">使用校验类类型</param>
+            <returns>闭包区间内的总校验和</returns>
+        </member>
         <member name="M:CatLib.API.Hashing.IHashing.HashPassword(System.String,System.Int32)">
             <summary>
             对输入值进行加密性Hash

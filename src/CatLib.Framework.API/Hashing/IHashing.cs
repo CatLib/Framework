@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using System.Text;
 
 namespace CatLib.API.Hashing
@@ -32,6 +33,14 @@ namespace CatLib.API.Hashing
         /// <param name="checksum">使用校验类类型</param>
         /// <returns>校验和</returns>
         long Checksum(byte[] buffer, Checksums checksum);
+
+        /// <summary>
+        /// 将字节数组添加到数据校验和，闭包区间内校验器是专享的。
+        /// </summary>
+        /// <param name="callback">回调闭包(buffer , offset , count)</param>
+        /// <param name="checksum">使用校验类类型</param>
+        /// <returns>闭包区间内的总校验和</returns>
+        long Checksum(Action<Action<byte[], int, int>> callback, Checksums checksum);
 
         /// <summary>
         /// 对输入值进行加密性Hash

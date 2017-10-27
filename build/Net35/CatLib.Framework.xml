@@ -7324,6 +7324,24 @@
             <param name="checksum">使用校验类类型</param>
             <returns>校验和</returns>
         </member>
+        <member name="M:CatLib.Hashing.Hashing.Checksum(System.Action{System.Action{System.Byte[],System.Int32,System.Int32}},CatLib.API.Hashing.Checksums)">
+            <summary>
+            将字节数组添加到数据校验和
+            </summary>
+            <param name="callback">回调闭包</param>
+            <param name="checksum">使用校验类类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.Hashing.Hashing.Checksum(System.Byte[],System.Int32,System.Int32,CatLib.Hashing.Checksum.IChecksum)">
+            <summary>
+            将字节数组添加到数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="offset">起始偏移量</param>
+            <param name="count">多少长度会被添加到数据校验</param>
+            <param name="checksum">使用效验类类型</param>
+            <returns>效验值</returns>
+        </member>
         <member name="M:CatLib.Hashing.Hashing.HashPassword(System.String,System.Int32)">
             <summary>
             对输入值进行加密性Hash
@@ -7378,6 +7396,13 @@
             <param name="input">输入值</param>
             <param name="hash">使用的哈希算法</param>
             <returns>哈希值</returns>
+        </member>
+        <member name="M:CatLib.Hashing.Hashing.GetChecksum(CatLib.API.Hashing.Checksums)">
+            <summary>
+            获取校验器
+            </summary>
+            <param name="checksum">校验器类型</param>
+            <returns>校验器</returns>
         </member>
         <member name="T:CatLib.Hashing.HashingProvider">
             <summary>

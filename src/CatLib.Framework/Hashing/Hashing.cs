@@ -118,23 +118,54 @@ namespace CatLib.Hashing
         public long Checksum(byte[] buffer, Checksums checksum)
         {
             Guard.Requires<ArgumentNullException>(buffer != null);
-            IChecksum checksumClass;
-            if (!checksumsDict.TryGetValue(checksum, out checksumClass))
-            {
-                Func<IChecksum> checksumMaker;
-                if (!checksumsMaker.TryGetValue(checksum, out checksumMaker)
-                    || (checksumClass = checksumMaker.Invoke()) == null)
-                {
-                    throw new RuntimeException("Undefiend Checksum:" + checksum);
-                }
-                checksumsDict[checksum] = checksumClass;
-            }
+
             lock (syncRoot)
             {
-                checksumClass.Reset();
+                var checksumClass = GetChecksum(checksum);
                 checksumClass.Update(buffer);
                 return checksumClass.Value;
             }
+        }
+
+        /// <summary>
+        /// 将字节数组添加到数据校验和
+        /// </summary>
+        /// <param name="callback">回调闭包</param>
+        /// <param name="checksum">使用校验类类型</param>
+        /// <returns></returns>
+        public long Checksum(Action<Action<byte[], int, int>> callback , Checksums checksum)
+        {
+            Guard.Requires<ArgumentNullException>(callback != null);
+            lock (syncRoot)
+            {
+                var checksumClass = GetChecksum(checksum);
+                long value = 0;
+                callback.Invoke((buffer, offset, count) => 
+                {
+                    value = Checksum(buffer, offset, count, checksumClass);
+                });
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// 将字节数组添加到数据校验和
+        /// </summary>
+        /// <param name="buffer">字节数组</param>
+        /// <param name="offset">起始偏移量</param>
+        /// <param name="count">多少长度会被添加到数据校验</param>
+        /// <param name="checksum">使用效验类类型</param>
+        /// <returns>效验值</returns>
+        private long Checksum(byte[] buffer, int offset, int count, IChecksum checksum)
+        {
+            Guard.Requires<ArgumentNullException>(buffer != null);
+            Guard.Requires<ArgumentOutOfRangeException>(offset >= 0);
+            Guard.Requires<ArgumentOutOfRangeException>(offset < buffer.Length);
+            Guard.Requires<ArgumentOutOfRangeException>(count >= 0);
+            Guard.Requires<ArgumentOutOfRangeException>(offset + count <= buffer.Length);
+
+            checksum.Update(buffer, offset, count);
+            return checksum.Value;
         }
 
         /// <summary>
@@ -232,6 +263,28 @@ namespace CatLib.Hashing
             }
 
             return BitConverter.ToUInt32(hashStringClass.ComputeHash(input), 0);
+        }
+
+        /// <summary>
+        /// 获取校验器
+        /// </summary>
+        /// <param name="checksum">校验器类型</param>
+        /// <returns>校验器</returns>
+        private IChecksum GetChecksum(Checksums checksum)
+        {
+            IChecksum checksumClass;
+            if (!checksumsDict.TryGetValue(checksum, out checksumClass))
+            {
+                Func<IChecksum> checksumMaker;
+                if (!checksumsMaker.TryGetValue(checksum, out checksumMaker)
+                    || (checksumClass = checksumMaker.Invoke()) == null)
+                {
+                    throw new RuntimeException("Undefiend Checksum:" + checksum);
+                }
+                checksumsDict[checksum] = checksumClass;
+            }
+            checksumClass.Reset();
+            return checksumClass;
         }
     }
 }

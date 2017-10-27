@@ -47,6 +47,37 @@ namespace CatLib.Tests.Hashing
         }
 
         [TestMethod]
+        public void TestMultHash()
+        {
+            var app = MakeEnv();
+            var hash = app.Make<IHashing>();
+
+            var data = new byte[][] {
+                new byte[]{ 1,2,3 },
+                new byte[]{ 4,5,6,7 },
+                new byte[]{ 8,9,10 },
+            };
+
+            var code0 = hash.Checksum(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+            var code1 = hash.Checksum((checksum) =>
+            {
+                checksum(data[0], 0, data[0].Length);
+                checksum(data[1], 0, data[1].Length);
+                checksum(data[2], 0, data[2].Length);
+            }, Checksums.Crc32);
+
+            var code2 = hash.Checksum((checksum) =>
+            {
+                checksum(data[0], 0, data[0].Length);
+                checksum(data[1], 2, data[1].Length - 2);
+                checksum(data[2], 0, data[2].Length);
+            }, Checksums.Crc32);
+
+            Assert.AreEqual(code0, code1);
+            Assert.AreNotEqual(code1, code2);
+        }
+
+        [TestMethod]
         public void TestAdler32()
         {
             var app = MakeEnv();
