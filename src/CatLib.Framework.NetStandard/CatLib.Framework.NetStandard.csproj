@@ -154,8 +154,10 @@
     <Compile Include="..\CatLib.Framework\Facade\Hashing.cs" Link="Facade\Hashing.cs" />
     <Compile Include="..\CatLib.Framework\Facade\I18N.cs" Link="Facade\I18N.cs" />
     <Compile Include="..\CatLib.Framework\Facade\Json.cs" Link="Facade\Json.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Network.cs" Link="Facade\Network.cs" />
     <Compile Include="..\CatLib.Framework\Facade\Random.cs" Link="Facade\Random.cs" />
     <Compile Include="..\CatLib.Framework\Facade\Router.cs" Link="Facade\Router.cs" />
+    <Compile Include="..\CatLib.Framework\Facade\Socket.cs" Link="Facade\Socket.cs" />
     <Compile Include="..\CatLib.Framework\FileSystem\Adapter\IFileSystemAdapter.cs" Link="FileSystem\Adapter\IFileSystemAdapter.cs" />
     <Compile Include="..\CatLib.Framework\FileSystem\Adapter\Local.cs" Link="FileSystem\Adapter\Local.cs" />
     <Compile Include="..\CatLib.Framework\FileSystem\Directory.cs" Link="FileSystem\Directory.cs" />
