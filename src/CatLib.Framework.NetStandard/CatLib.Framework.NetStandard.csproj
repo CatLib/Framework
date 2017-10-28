@@ -173,10 +173,12 @@
     <Compile Include="..\CatLib.Framework\Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" Link="Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" />
     <Compile Include="..\CatLib.Framework\Hashing\Checksum\Adler32.cs" Link="Hashing\Checksum\Adler32.cs" />
     <Compile Include="..\CatLib.Framework\Hashing\Checksum\Crc32.cs" Link="Hashing\Checksum\Crc32.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\Checksum\Djb.cs" Link="Hashing\Checksum\Djb.cs" />
     <Compile Include="..\CatLib.Framework\Hashing\Checksum\IChecksum.cs" Link="Hashing\Checksum\IChecksum.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\Checksum\Murmur32.cs" Link="Hashing\Checksum\Murmur32.cs" />
     <Compile Include="..\CatLib.Framework\Hashing\Hashing.cs" Link="Hashing\Hashing.cs" />
+    <Compile Include="..\CatLib.Framework\Hashing\HashingGuard.cs" Link="Hashing\HashingGuard.cs" />
     <Compile Include="..\CatLib.Framework\Hashing\HashingProvider.cs" Link="Hashing\HashingProvider.cs" />
-    <Compile Include="..\CatLib.Framework\Hashing\HashString\DjbHash.cs" Link="Hashing\HashString\DjbHash.cs" />
     <Compile Include="..\CatLib.Framework\Json\3rd\SimpleJson.cs" Link="Json\3rd\SimpleJson.cs" />
     <Compile Include="..\CatLib.Framework\Json\JsonProvider.cs" Link="Json\JsonProvider.cs" />
     <Compile Include="..\CatLib.Framework\Json\JsonUtility.cs" Link="Json\JsonUtility.cs" />
@@ -261,7 +263,6 @@
     <Folder Include="Hashing\3rd\BCrypt\" />
     <Folder Include="Hashing\3rd\MurmurHash\" />
     <Folder Include="Hashing\Checksum\" />
-    <Folder Include="Hashing\HashString\" />
     <Folder Include="Json\3rd\" />
     <Folder Include="Network\Packer\" />
     <Folder Include="Random\3rd\MathNet\Random\" />

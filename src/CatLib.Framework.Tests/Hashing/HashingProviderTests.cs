@@ -151,17 +151,5 @@ namespace CatLib.Tests.Hashing
             Assert.AreEqual(hash1, hash2);
             Assert.AreNotEqual(hash2, hash3);
         }
-
-        [TestMethod]
-        public void TestUndefiendHashes()
-        {
-            var app = MakeEnv();
-            var hash = app.Make<IHashing>();
-
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                hash.HashString("helloworld", (Hashes.Djb + 9999));
-            });
-        }
     }
 }

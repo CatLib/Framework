@@ -171,6 +171,7 @@
     <Compile Include="Hashing\3rd\MurmurHash\Murmur32.cs" />
     <Compile Include="Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" />
     <Compile Include="Hashing\Checksum\Adler32.cs" />
+    <Compile Include="Hashing\Checksum\Murmur32.cs" />
     <Compile Include="Hashing\HashingGuard.cs" />
     <Compile Include="Hashing\Checksum\Crc32.cs" />
     <Compile Include="Hashing\Checksum\IChecksum.cs" />

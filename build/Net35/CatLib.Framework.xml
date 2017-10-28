@@ -7155,6 +7155,46 @@
             <param name="offset">起始偏移量</param>
             <param name="count">多少长度会被添加到数据校验</param>
         </member>
+        <member name="T:CatLib.Hashing.Checksum.Murmur32">
+            <summary>
+            Murmur32
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Murmur32.Initialize">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Murmur32.CatLib#Hashing#Checksum#IChecksum#Reset">
+            <summary>
+            重置数据校验，恢复到初始状态
+            </summary>
+        </member>
+        <member name="P:CatLib.Hashing.Checksum.Murmur32.CatLib#Hashing#Checksum#IChecksum#Value">
+            <summary>
+            返回到目前为止计算的数据校验和
+            </summary>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Murmur32.Update(System.Int32)">
+            <summary>
+            增加一个字节的校验
+            </summary>
+            <param name="bval">要添加的数据，int的高字节被忽略</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Murmur32.Update(System.Byte[])">
+            <summary>
+            使用传入的字节数组更新数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+        </member>
+        <member name="M:CatLib.Hashing.Checksum.Murmur32.Update(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            将字节数组添加到数据校验和
+            </summary>
+            <param name="buffer">字节数组</param>
+            <param name="offset">起始偏移量</param>
+            <param name="count">多少长度会被添加到数据校验</param>
+        </member>
         <member name="T:CatLib.Hashing.Checksum.Crc32">
             <summary>
             Crc32校验
@@ -7342,19 +7382,9 @@
             校验类字典
             </summary>
         </member>
-        <member name="F:CatLib.Hashing.Hashing.hashByteMaker">
-            <summary>
-            非加密哈希字典
-            </summary>
-        </member>
         <member name="F:CatLib.Hashing.Hashing.checksumsDict">
             <summary>
             校验类字典
-            </summary>
-        </member>
-        <member name="F:CatLib.Hashing.Hashing.hashByteDict">
-            <summary>
-            非加密哈希字典
             </summary>
         </member>
         <member name="F:CatLib.Hashing.Hashing.syncRoot">
@@ -7367,28 +7397,16 @@
             默认的校验算法
             </summary>
         </member>
-        <member name="F:CatLib.Hashing.Hashing.defaultHash">
-            <summary>
-            默认的哈希算法
-            </summary>
-        </member>
-        <member name="M:CatLib.Hashing.Hashing.#ctor(CatLib.API.Hashing.Checksums,CatLib.API.Hashing.Hashes)">
+        <member name="M:CatLib.Hashing.Hashing.#ctor(CatLib.API.Hashing.Checksums)">
             <summary>
             哈希
             </summary>
         </member>
-        <member name="M:CatLib.Hashing.Hashing.RegisterChecksum(CatLib.API.Hashing.Checksums,System.Func{CatLib.Hashing.Checksum.IChecksum})">
+        <member name="M:CatLib.Hashing.Hashing.Extend(CatLib.API.Hashing.Checksums,System.Func{CatLib.Hashing.Checksum.IChecksum})">
             <summary>
-            注册校验算法
+            拓展校验算法
             </summary>
             <param name="checksum">校验类类型</param>
-            <param name="builder">构建器</param>
-        </member>
-        <member name="M:CatLib.Hashing.Hashing.RegisterHash(CatLib.API.Hashing.Hashes,System.Func{System.Security.Cryptography.HashAlgorithm})">
-            <summary>
-            注册校验算法
-            </summary>
-            <param name="hash">哈希类类型</param>
             <param name="builder">构建器</param>
         </member>
         <member name="M:CatLib.Hashing.Hashing.Checksum(System.Byte[])">
@@ -7494,11 +7512,6 @@
         <member name="P:CatLib.Hashing.HashingProvider.DefaultChecksum">
             <summary>
             默认的校验类
-            </summary>
-        </member>
-        <member name="P:CatLib.Hashing.HashingProvider.DefaultHash">
-            <summary>
-            默认的哈希类
             </summary>
         </member>
         <member name="M:CatLib.Hashing.HashingProvider.#ctor">
