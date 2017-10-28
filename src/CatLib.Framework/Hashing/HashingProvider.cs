@@ -10,6 +10,7 @@
  */
 
 #if CATLIB
+using System.Text;
 using CatLib.API.Hashing;
 using CatLib.Hashing.Checksum;
 
@@ -26,11 +27,17 @@ namespace CatLib.Hashing
         public string DefaultChecksum { get; set; }
 
         /// <summary>
+        /// 默认的编码
+        /// </summary>
+        public Encoding DefaultEncoding { get; set; }
+
+        /// <summary>
         /// 哈希服务提供者
         /// </summary>
         public HashingProvider()
         {
             DefaultChecksum = Checksums.Crc32;
+            DefaultEncoding = Encoding.Default;
         }
 
         /// <summary>
@@ -45,7 +52,7 @@ namespace CatLib.Hashing
         /// </summary>
         public void Register()
         {
-            App.Singleton<Hashing>((_, __) => new Hashing(DefaultChecksum))
+            App.Singleton<Hashing>((_, __) => new Hashing(DefaultChecksum, DefaultEncoding))
                 .Alias<IHashing>().OnResolving((_, obj) =>
             {
                 var hashing = (Hashing)obj;

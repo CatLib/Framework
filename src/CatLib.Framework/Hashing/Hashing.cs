@@ -43,13 +43,20 @@ namespace CatLib.Hashing
         private readonly Checksums defaultChecksum;
 
         /// <summary>
+        /// 默认的编码
+        /// </summary>
+        private readonly Encoding defaultEncoding;
+
+        /// <summary>
         /// 哈希
         /// </summary>
-        public Hashing(Checksums defaultChecksum)
+        public Hashing(Checksums defaultChecksum, Encoding defaultEncoding)
         {
             Guard.Requires<ArgumentNullException>(defaultChecksum != null);
+            Guard.Requires<ArgumentNullException>(defaultEncoding != null);
 
             this.defaultChecksum = defaultChecksum;
+            this.defaultEncoding = defaultEncoding;
 
             checksumsMaker = new Dictionary<Checksums, Func<IChecksum>>();
             checksumsDict = new Dictionary<Checksums, IChecksum>();
@@ -85,7 +92,7 @@ namespace CatLib.Hashing
         /// <returns>校验和</returns>
         public long Checksum(string input, Checksums checksum)
         {
-            return Checksum(input, Encoding.Default, checksum);
+            return Checksum(input, defaultEncoding, checksum);
         }
 
         /// <summary>
@@ -211,7 +218,7 @@ namespace CatLib.Hashing
         [Obsolete("HashString is obsolete, please use Checksum")]
         public uint HashString(string input, Hashes hash)
         {
-            return HashString(input, Encoding.Default, hash);
+            return HashString(input, defaultEncoding, hash);
         }
 
         /// <summary>
@@ -253,7 +260,7 @@ namespace CatLib.Hashing
             Guard.Requires<ArgumentNullException>(input != null);
             Guard.Requires<ArgumentNullException>(hash != null);
 
-            Dictionary<Hashes, Checksums> mapping = new Dictionary<Hashes, Checksums>
+            var mapping = new Dictionary<Hashes, Checksums>
             {
                 { Hashes.MurmurHash, Checksums.Murmur32 },
                 { Hashes.Djb, Checksums.Djb }
