@@ -1,0 +1,112 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.1.1</Version>
+    <Company>CatLib</Company>
+    <Authors>CatLib</Authors>
+    <Description>CatLib Framework 组件库应用程序接口
+
+- CatLib是渐进式的框架，可以无缝和现有框架融合。无论您的项目处于哪个阶段您都可以轻易的接入CatLib。
+- CatLib提供的依赖注入方案，可以极大程度的帮助项目解耦。
+- CatLib提供了大量可靠，可持续的公共组件，帮助企业降低开发成本。
+- 基于MIT协议，企业可以通过CatLib的组件化方案建立私有的公共组件库，积攒公共组件。
+- 轻量级的框架，所有的组件都是可以被移除的，您可以只选择适合您的组件。
+- 中文文档完善，极低的学习成本。
+- 面向接口编程，底层组件无感知替换。</Description>
+    <Copyright>Copyright © CatLib 2017</Copyright>
+    <AssemblyName>CatLib.Framework.API</AssemblyName>
+    <RootNamespace>CatLib.API</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://github.com/CatLib/Framework/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/CatLib/Framework</PackageProjectUrl>
+    <PackageIconUrl>http://catlib.io/images/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/CatLib/Framework</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>CatLib,Framework</PackageTags>
+    <NeutralLanguage>zh-CN</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\build\NetStandard2.0</OutputPath>
+    <DocumentationFile>..\..\build\NetStandard2.0\netstandard2.0\CatLib.Framework.API.xml</DocumentationFile>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;CATLIB</DefineConstants>
+    <NoWarn>1701;1702;1705</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;CATLIB;</DefineConstants>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="..\CatLib.Framework.API\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CatLib.Framework.API\Compress\ICompress.cs" Link="Compress\ICompress.cs" />
+    <Compile Include="..\CatLib.Framework.API\Compress\ICompressManager.cs" Link="Compress\ICompressManager.cs" />
+    <Compile Include="..\CatLib.Framework.API\Debugger\ILogger.cs" Link="Debugger\ILogger.cs" />
+    <Compile Include="..\CatLib.Framework.API\Debugger\InvalidArgumentException.cs" Link="Debugger\InvalidArgumentException.cs" />
+    <Compile Include="..\CatLib.Framework.API\Debugger\LogLevels.cs" Link="Debugger\LogLevels.cs" />
+    <Compile Include="..\CatLib.Framework.API\Encryption\EncryptionException.cs" Link="Encryption\EncryptionException.cs" />
+    <Compile Include="..\CatLib.Framework.API\Encryption\IEncrypter.cs" Link="Encryption\IEncrypter.cs" />
+    <Compile Include="..\CatLib.Framework.API\FileSystem\IFileSystemManager.cs" Link="FileSystem\IFileSystemManager.cs" />
+    <Compile Include="..\CatLib.Framework.API\FileSystem\Internal\IDirectory.cs" Link="FileSystem\Internal\IDirectory.cs" />
+    <Compile Include="..\CatLib.Framework.API\FileSystem\Internal\IFile.cs" Link="FileSystem\Internal\IFile.cs" />
+    <Compile Include="..\CatLib.Framework.API\FileSystem\Internal\IFileSystem.cs" Link="FileSystem\Internal\IFileSystem.cs" />
+    <Compile Include="..\CatLib.Framework.API\FileSystem\Internal\IHandler.cs" Link="FileSystem\Internal\IHandler.cs" />
+    <Compile Include="..\CatLib.Framework.API\Hashing\Checksums.cs" Link="Hashing\Checksums.cs" />
+    <Compile Include="..\CatLib.Framework.API\Hashing\Hashes.cs" Link="Hashing\Hashes.cs" />
+    <Compile Include="..\CatLib.Framework.API\Hashing\IHashing.cs" Link="Hashing\IHashing.cs" />
+    <Compile Include="..\CatLib.Framework.API\Json\IJson.cs" Link="Json\IJson.cs" />
+    <Compile Include="..\CatLib.Framework.API\Json\IJsonAware.cs" Link="Json\IJsonAware.cs" />
+    <Compile Include="..\CatLib.Framework.API\Network\INetworkChannel.cs" Link="Network\INetworkChannel.cs" />
+    <Compile Include="..\CatLib.Framework.API\Network\INetworkManager.cs" Link="Network\INetworkManager.cs" />
+    <Compile Include="..\CatLib.Framework.API\Network\IPacker.cs" Link="Network\IPacker.cs" />
+    <Compile Include="..\CatLib.Framework.API\Random\IRandom.cs" Link="Random\IRandom.cs" />
+    <Compile Include="..\CatLib.Framework.API\Random\IRandomFactory.cs" Link="Random\IRandomFactory.cs" />
+    <Compile Include="..\CatLib.Framework.API\Random\RandomTypes.cs" Link="Random\RandomTypes.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\EventArgs\DispatchEventArgs.cs" Link="Routing\EventArgs\DispatchEventArgs.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Exception\DomainException.cs" Link="Routing\Exception\DomainException.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Exception\NotFoundRouteException.cs" Link="Routing\Exception\NotFoundRouteException.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Exception\UndefinedDefaultSchemeException.cs" Link="Routing\Exception\UndefinedDefaultSchemeException.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Features\IMiddleware.cs" Link="Routing\Features\IMiddleware.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Features\RoutedAttribute.cs" Link="Routing\Features\RoutedAttribute.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Internal\IRequest.cs" Link="Routing\Internal\IRequest.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Internal\IResponse.cs" Link="Routing\Internal\IResponse.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Internal\IRoute.cs" Link="Routing\Internal\IRoute.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\Internal\IRouteGroup.cs" Link="Routing\Internal\IRouteGroup.cs" />
+    <Compile Include="..\CatLib.Framework.API\Routing\IRouter.cs" Link="Routing\IRouter.cs" />
+    <Compile Include="..\CatLib.Framework.API\Socket\ISocket.cs" Link="Socket\ISocket.cs" />
+    <Compile Include="..\CatLib.Framework.API\Socket\ISocketManager.cs" Link="Socket\ISocketManager.cs" />
+    <Compile Include="..\CatLib.Framework.API\Socket\SocketEvents.cs" Link="Socket\SocketEvents.cs" />
+    <Compile Include="..\CatLib.Framework.API\Tick\ITick.cs" Link="Tick\ITick.cs" />
+    <Compile Include="..\CatLib.Framework.API\Translation\Features\ITranslateResources.cs" Link="Translation\Features\ITranslateResources.cs" />
+    <Compile Include="..\CatLib.Framework.API\Translation\ITranslator.cs" Link="Translation\ITranslator.cs" />
+    <Compile Include="..\CatLib.Framework.API\Translation\Languages.cs" Link="Translation\Languages.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="..\CatLib.Framework.API\Properties\" />
+    <Folder Include="Compress\" />
+    <Folder Include="Encryption\" />
+    <Folder Include="FileSystem\Internal\" />
+    <Folder Include="Hashing\" />
+    <Folder Include="Json\" />
+    <Folder Include="Network\" />
+    <Folder Include="Random\" />
+    <Folder Include="Routing\EventArgs\" />
+    <Folder Include="Routing\Exception\" />
+    <Folder Include="Routing\Features\" />
+    <Folder Include="Routing\Internal\" />
+    <Folder Include="Socket\" />
+    <Folder Include="Tick\" />
+    <Folder Include="Translation\Features\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CatLib.Core.NetStandard" Version="1.1.2" />
+  </ItemGroup>
+
+</Project>

@@ -12,14 +12,7 @@
 using CatLib.API.Debugger;
 using CatLib.Debugger.Log;
 using CatLib.Debugger.WebLog;
-
-#if UNITY_EDITOR || NUNIT
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Debugger.WebLog
 {

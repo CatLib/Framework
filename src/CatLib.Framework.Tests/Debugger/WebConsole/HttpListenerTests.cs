@@ -13,13 +13,7 @@ using System;
 using System.Net;
 using System.Threading;
 using HttpListener = CatLib.Debugger.WebConsole.HttpListener;
-#if UNITY_EDITOR || NUNIT
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Debugger.WebConsole
 {
