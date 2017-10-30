@@ -126,11 +126,11 @@ namespace CatLib.Tests.Hashing
             var app = MakeEnv();
             var hash = app.Make<IHashing>();
 
-            var hash0 = hash.HashString("helloworld");
-            var hash1 = hash.HashString("helloworld", Hashes.MurmurHash);
-            var hash2 = hash.HashString("helloworld", Hashes.MurmurHash);
-            var hash3 = hash.HashString("helloworl", Hashes.MurmurHash);
-            var hash4 = hash.HashByte(System.Text.Encoding.Default.GetBytes("helloworl"));
+            var hash0 = hash.Checksum("helloworld",Checksums.Murmur32);
+            var hash1 = hash.Checksum("helloworld", Checksums.Murmur32);
+            var hash2 = hash.Checksum("helloworld", Checksums.Murmur32);
+            var hash3 = hash.Checksum("helloworl", Checksums.Murmur32);
+            var hash4 = hash.Checksum(System.Text.Encoding.Default.GetBytes("helloworl"), Checksums.Murmur32);
 
             Assert.AreEqual(hash1, hash0);
             Assert.AreEqual(hash1, hash2);
@@ -144,9 +144,9 @@ namespace CatLib.Tests.Hashing
             var app = MakeEnv();
             var hash = app.Make<IHashing>();
 
-            var hash1 = hash.HashString("helloworld", Hashes.Djb);
-            var hash2 = hash.HashString("helloworld", Hashes.Djb);
-            var hash3 = hash.HashString("helloworl", Hashes.Djb);
+            var hash1 = hash.Checksum("helloworld", Checksums.Djb);
+            var hash2 = hash.Checksum("helloworld", Checksums.Djb);
+            var hash3 = hash.Checksum("helloworl", Checksums.Djb);
 
             Assert.AreEqual(hash1, hash2);
             Assert.AreNotEqual(hash2, hash3);

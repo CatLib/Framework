@@ -20,6 +20,30 @@ namespace CatLib.API.Hashing
     public interface IHashing
     {
         /// <summary>
+        /// 使用默认的校验算法计算校验和
+        /// </summary>
+        /// <param name="input">输入</param>
+        /// <returns>校验和</returns>
+        long Checksum(string input);
+
+        /// <summary>
+        /// 使用默认的校验算法计算校验和
+        /// </summary>
+        /// <param name="input">输入</param>
+        /// <param name="checksum">使用校验类类型</param>
+        /// <returns>校验和</returns>
+        long Checksum(string input, Checksums checksum);
+
+        /// <summary>
+        /// 使用默认的校验算法计算校验和
+        /// </summary>
+        /// <param name="input">输入</param>
+        /// <param name="encoding">编码</param>
+        /// <param name="checksum">使用校验类类型</param>
+        /// <returns>校验和</returns>
+        long Checksum(string input, Encoding encoding, Checksums checksum);
+
+        /// <summary>
         /// 计算校验和
         /// </summary>
         /// <param name="buffer">字节数组</param>
