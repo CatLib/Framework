@@ -84,7 +84,7 @@ namespace CatLib.Encryption
 
             var aesBuffer = Convert.FromBase64String(value);
             var ivBuffer = Convert.FromBase64String(iv);
-            var ivAesBuffer = Arr.Merge(rijndaelManaged.IV, aesBuffer);
+            var ivAesBuffer = Arr.Merge(ivBuffer, aesBuffer);
 
             if (Convert.ToBase64String(HMac(ivAesBuffer, key)) != hmac)
             {
@@ -153,7 +153,7 @@ namespace CatLib.Encryption
 
                 result[fragment[0]] = fragment[1];
             }
-
+           
             if (!result.TryGetValue("iv", out iv) ||
                 !result.TryGetValue("value", out value) ||
                 !result.TryGetValue("hmac", out hmac))
