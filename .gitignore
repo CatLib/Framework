@@ -10,6 +10,7 @@ src/CatLib.Framework.API/obj
 src/CatLib.Framework.API.NetStandard/bin
 src/CatLib.Framework.API.NetStandard/obj
 src/coverage.xml
+build
 
 .vscode
 .vs
