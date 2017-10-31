@@ -12,7 +12,7 @@
 using CatLib.API.Encryption;
 using Elliptic;
 using System;
-using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace CatLib.Encryption
 {
@@ -24,7 +24,22 @@ namespace CatLib.Encryption
         /// <summary>
         /// 私有Key
         /// </summary>
-        private Queue<byte[]> privateKey;
+        private byte[] privateKey;
+
+        /// <summary>
+        /// 公钥
+        /// </summary>
+        private byte[] publicKey;
+
+        /// <summary>
+        /// Curve25519 Diffie-Hellman
+        /// </summary>
+        public Curve25519Encrypter()
+        {
+            var randBytes = new byte[32];
+            RandomNumberGenerator.Create().GetBytes(randBytes);
+            GenKey(randBytes);
+        }
 
         /// <summary>
         /// 加密
@@ -33,9 +48,11 @@ namespace CatLib.Encryption
         /// <returns>加密后的数据</returns>
         public string Encrypt(byte[] content)
         {
-            var key = new byte[] { };
-            privateKey.Enqueue(key = Curve25519.ClampPrivateKey(content));
-            return Convert.ToBase64String(Curve25519.GetPublicKey(key));
+            if(content != null && content.Length == 32)
+            {
+                GenKey(content);
+            }
+            return Convert.ToBase64String(publicKey);
         }
 
         /// <summary>
@@ -46,7 +63,17 @@ namespace CatLib.Encryption
         public byte[] Decrypt(string payload)
         {
             var data = Convert.FromBase64String(payload);
-            return Curve25519.GetSharedSecret(privateKey.Dequeue(), data);
+            return Curve25519.GetSharedSecret(privateKey, data);
+        }
+
+        /// <summary>
+        /// 生成密钥
+        /// </summary>
+        /// <param name="data">参数</param>
+        private void GenKey(byte[] data)
+        {
+            privateKey = Curve25519.ClampPrivateKey(data);
+            publicKey = Curve25519.GetPublicKey(privateKey);
         }
     }
 }

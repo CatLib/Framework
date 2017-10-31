@@ -9,7 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.Encryption;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Text;
 
 namespace CatLib.Tests.Encryption
 {
@@ -19,7 +22,16 @@ namespace CatLib.Tests.Encryption
         [TestMethod]
         public void TestCurve25519Encrypter()
         {
+            var alice = new Curve25519Encrypter();
+            var pinker = new Curve25519Encrypter();
 
+            var alicePublic = alice.Encrypt(null);
+            var pinkerPublic = pinker.Encrypt(null);
+
+            var pinkerSay = Encoding.Default.GetString(alice.Decrypt(pinkerPublic));
+            var aliceSay = Encoding.Default.GetString(pinker.Decrypt(alicePublic));
+
+            Assert.AreEqual(aliceSay, pinkerSay);
         }
     }
 }
