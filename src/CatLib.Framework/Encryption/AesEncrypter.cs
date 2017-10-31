@@ -80,7 +80,7 @@ namespace CatLib.Encryption
         /// <returns>解密内容</returns>
         public byte[] Decrypt(string payload)
         {
-            Guard.Requires<ArgumentNullException>(payload != null);
+            Guard.NotEmptyOrNull(payload, "payload");
             return Decrypt(payload, key);
         }
 

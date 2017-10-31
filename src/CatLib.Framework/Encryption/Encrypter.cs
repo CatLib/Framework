@@ -9,7 +9,6 @@
  * Document: http://catlib.io/
  */
 
-using System;
 using CatLib.API.Encryption;
 
 namespace CatLib.Encryption
@@ -26,7 +25,6 @@ namespace CatLib.Encryption
         /// <returns>加密后的数据</returns>
         public string Encrypt(byte[] content)
         {
-            Guard.Requires<ArgumentNullException>(content != null);
             return Default.Encrypt(content);
         }
 
@@ -37,7 +35,6 @@ namespace CatLib.Encryption
         /// <returns>解密内容</returns>
         public byte[] Decrypt(string payload)
         {
-            Guard.NotEmptyOrNull(payload, "payload");
             return Default.Decrypt(payload);
         }
     }
