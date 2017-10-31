@@ -11,7 +11,6 @@
 
 using CatLib.Encryption;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Text;
 
 namespace CatLib.Tests.Encryption
