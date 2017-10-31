@@ -17,7 +17,7 @@ namespace CatLib.Encryption
     /// <summary>
     /// 加解密
     /// </summary>
-    public sealed class Encrypter : IEncrypter
+    public sealed class Encrypter : SingleManager<IEncrypter> , IEncrypter
     {
         /// <summary>
         /// 加解密实现

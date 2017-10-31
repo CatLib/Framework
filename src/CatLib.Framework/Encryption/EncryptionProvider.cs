@@ -31,11 +31,6 @@ namespace CatLib.Encryption
         public string Cipher { get; set; }
 
         /// <summary>
-        /// 密钥编码
-        /// </summary>
-        public Encoding Encoding = Encoding.Default;
-
-        /// <summary>
         /// 加解密服务
         /// </summary>
         public EncryptionProvider()
@@ -55,16 +50,31 @@ namespace CatLib.Encryption
         /// </summary>
         public void Register()
         {
-            App.Singleton<Encrypter>((_, __) =>
+            App.Singleton<Encrypter>().OnResolving((_,obj) =>
             {
-                if (string.IsNullOrEmpty(Key))
-                {
-                    throw new RuntimeException("Please set config [EncryptionProvider.Key]");
-                }
+                var encrypter = (Encrypter)obj;
 
-                Encoding = Encoding ?? Encoding.Default;
-                return new Encrypter(Encoding.GetBytes(Key), Cipher);
+                encrypter.Extend(() =>
+                {
+                    if (string.IsNullOrEmpty(Key))
+                    {
+                        throw new RuntimeException("Please set config [EncryptionProvider.Key]");
+                    }
+
+                    return MakeEncrypter(Key, Cipher);
+                });
+
+                return encrypter;
             }).Alias<IEncrypter>();
+        }
+
+        /// <summary>
+        /// 根据加密方式生成加密器
+        /// </summary>
+        /// <param name="cipher">加密方式</param>
+        private AesEncrypter MakeEncrypter(string key , string cipher)
+        {
+            return new AesEncrypter(cipher == "AES-128-CBC" ? 128 : 256).SetKey(key);
         }
     }
 }

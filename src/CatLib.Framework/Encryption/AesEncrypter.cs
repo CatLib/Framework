@@ -13,18 +13,24 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using CatLib.API.Encryption;
+using System.Text;
 
 namespace CatLib.Encryption
 {
     /// <summary>
     /// Aes加解密
     /// </summary>
-    public sealed class AesEncrypter
+    public sealed class AesEncrypter : IEncrypter
     {
         /// <summary>
         /// RijndaelManaged
         /// </summary>
         private readonly RijndaelManaged rijndaelManaged;
+
+        /// <summary>
+        /// 默认的Key
+        /// </summary>
+        private byte[] key;
 
         /// <summary>
         /// Aes加解密
@@ -50,6 +56,50 @@ namespace CatLib.Encryption
                 Padding = padding,
                 Mode = mode,
             };
+        }
+
+        /// <summary>
+        /// 密钥
+        /// </summary>
+        public AesEncrypter SetKey(string key)
+        {
+            this.key = Encoding.Default.GetBytes(key);
+            if (!Supported(this.key))
+            {
+                throw new RuntimeException("The only supported ciphers are AES-128 and AES-256 with the correct key lengths.");
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// 是否支持
+        /// </summary>
+        /// <param name="key">密钥</param>
+        /// <returns>是否支持</returns>
+        public bool Supported(byte[] key)
+        {
+            return (rijndaelManaged.KeySize == 128 && key.Length == 16) ||
+                   (rijndaelManaged.KeySize == 256 && key.Length == 32);
+        }
+
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="content">加密数据</param>
+        /// <returns>加密后的数据</returns>
+        public string Encrypt(byte[] content)
+        {
+            return Encrypt(content, key);
+        }
+
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="payload">被加密的内容</param>
+        /// <returns>解密内容</returns>
+        public byte[] Decrypt(string payload)
+        {
+            return Decrypt(payload, key);
         }
 
         /// <summary>
@@ -153,7 +203,7 @@ namespace CatLib.Encryption
 
                 result[fragment[0]] = fragment[1];
             }
-           
+
             if (!result.TryGetValue("iv", out iv) ||
                 !result.TryGetValue("value", out value) ||
                 !result.TryGetValue("hmac", out hmac))
