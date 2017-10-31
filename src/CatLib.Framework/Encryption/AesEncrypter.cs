@@ -35,19 +35,22 @@ namespace CatLib.Encryption
         /// <summary>
         /// Aes加解密
         /// </summary>
+        /// <param name="defaultKey">默认的密钥</param>
         /// <param name="rijndaelManaged">RijndaelManaged</param>
-        public AesEncrypter(RijndaelManaged rijndaelManaged)
+        public AesEncrypter(string defaultKey , RijndaelManaged rijndaelManaged)
         {
             this.rijndaelManaged = rijndaelManaged;
+            SetKey(defaultKey);
         }
 
         /// <summary>
         /// Aes加解密
         /// </summary>
+        /// <param name="defaultKey">默认的密钥</param>
         /// <param name="size">密钥长度</param>
         /// <param name="mode">密码模式</param>
         /// <param name="padding">填充模式</param>
-        public AesEncrypter(int size = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
+        public AesEncrypter(string defaultKey, int size = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             rijndaelManaged = new RijndaelManaged
             {
@@ -56,20 +59,7 @@ namespace CatLib.Encryption
                 Padding = padding,
                 Mode = mode,
             };
-        }
-
-        /// <summary>
-        /// 密钥
-        /// </summary>
-        public AesEncrypter SetKey(string key)
-        {
-            Guard.Requires<ArgumentNullException>(key != null);
-            this.key = Encoding.Default.GetBytes(key);
-            if (!Supported(this.key))
-            {
-                throw new RuntimeException("The only supported ciphers are AES-128 and AES-256 with the correct key lengths.");
-            }
-            return this;
+            SetKey(defaultKey);
         }
 
         /// <summary>
@@ -219,6 +209,21 @@ namespace CatLib.Encryption
         {
             return (rijndaelManaged.KeySize == 128 && key.Length == 16) ||
                    (rijndaelManaged.KeySize == 256 && key.Length == 32);
+        }
+
+
+        /// <summary>
+        /// 密钥
+        /// </summary>
+        private AesEncrypter SetKey(string key)
+        {
+            Guard.Requires<ArgumentNullException>(key != null);
+            this.key = Encoding.Default.GetBytes(key);
+            if (!Supported(this.key))
+            {
+                throw new RuntimeException("The only supported ciphers are AES-128 and AES-256 with the correct key lengths.");
+            }
+            return this;
         }
     }
 }

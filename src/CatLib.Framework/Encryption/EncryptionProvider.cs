@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using System.Text;
 using CatLib.API.Encryption;
 
 namespace CatLib.Encryption
@@ -55,13 +54,12 @@ namespace CatLib.Encryption
                 var encrypter = (Encrypter)obj;
                 encrypter.Extend(() =>
                 {
-                    if (string.IsNullOrEmpty(Key))
-                    {
-                        throw new RuntimeException("Please set config [EncryptionProvider.Key]");
-                    }
-
                     return MakeEncrypter(Key, Cipher);
                 });
+                encrypter.Extend(() =>
+                {
+                    return new Curve25519Encrypter();
+                }, "dh");
                 return encrypter;
             }).Alias<IEncrypter>();
         }
@@ -73,7 +71,11 @@ namespace CatLib.Encryption
         /// <param name="cipher">加密方式</param>
         private AesEncrypter MakeEncrypter(string key , string cipher)
         {
-            return new AesEncrypter(cipher == "AES-128-CBC" ? 128 : 256).SetKey(key);
+            if (string.IsNullOrEmpty(Key))
+            {
+                throw new RuntimeException("Please set config [EncryptionProvider.Key]");
+            }
+            return new AesEncrypter(key, cipher == "AES-128-CBC" ? 128 : 256);
         }
     }
 }
