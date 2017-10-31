@@ -136,7 +136,8 @@ namespace CatLib.Tests.Encryption
             var app = MakeEnv();
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Make<IEncrypter>();
+                var encrypter = app.Make<IEncrypter>();
+                encrypter.Encrypt(Encoding.Default.GetBytes("hello world"));
             });
         }
 
@@ -150,7 +151,8 @@ namespace CatLib.Tests.Encryption
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Make<IEncrypter>();
+                var encrypter = app.Make<IEncrypter>();
+                encrypter.Encrypt(Encoding.Default.GetBytes("hello world"));
             });
         }
 

@@ -53,7 +53,6 @@ namespace CatLib.Encryption
             App.Singleton<Encrypter>().OnResolving((_,obj) =>
             {
                 var encrypter = (Encrypter)obj;
-
                 encrypter.Extend(() =>
                 {
                     if (string.IsNullOrEmpty(Key))
@@ -63,7 +62,6 @@ namespace CatLib.Encryption
 
                     return MakeEncrypter(Key, Cipher);
                 });
-
                 return encrypter;
             }).Alias<IEncrypter>();
         }
@@ -71,6 +69,7 @@ namespace CatLib.Encryption
         /// <summary>
         /// 根据加密方式生成加密器
         /// </summary>
+        /// <param name="key">使用的key</param>
         /// <param name="cipher">加密方式</param>
         private AesEncrypter MakeEncrypter(string key , string cipher)
         {

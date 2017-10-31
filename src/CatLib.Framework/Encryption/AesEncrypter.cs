@@ -63,6 +63,7 @@ namespace CatLib.Encryption
         /// </summary>
         public AesEncrypter SetKey(string key)
         {
+            Guard.Requires<ArgumentNullException>(key != null);
             this.key = Encoding.Default.GetBytes(key);
             if (!Supported(this.key))
             {
@@ -72,23 +73,13 @@ namespace CatLib.Encryption
         }
 
         /// <summary>
-        /// 是否支持
-        /// </summary>
-        /// <param name="key">密钥</param>
-        /// <returns>是否支持</returns>
-        public bool Supported(byte[] key)
-        {
-            return (rijndaelManaged.KeySize == 128 && key.Length == 16) ||
-                   (rijndaelManaged.KeySize == 256 && key.Length == 32);
-        }
-
-        /// <summary>
         /// 加密
         /// </summary>
         /// <param name="content">加密数据</param>
         /// <returns>加密后的数据</returns>
         public string Encrypt(byte[] content)
         {
+            Guard.Requires<ArgumentNullException>(content != null);
             return Encrypt(content, key);
         }
 
@@ -99,6 +90,7 @@ namespace CatLib.Encryption
         /// <returns>解密内容</returns>
         public byte[] Decrypt(string payload)
         {
+            Guard.Requires<ArgumentNullException>(payload != null);
             return Decrypt(payload, key);
         }
 
@@ -110,6 +102,9 @@ namespace CatLib.Encryption
         /// <returns></returns>
         public string Encrypt(byte[] content, byte[] key)
         {
+            Guard.Requires<ArgumentNullException>(content != null);
+            Guard.Requires<ArgumentNullException>(key != null);
+
             rijndaelManaged.GenerateIV();
 
             var aesEncrypt = rijndaelManaged.CreateEncryptor(key, rijndaelManaged.IV);
@@ -129,6 +124,9 @@ namespace CatLib.Encryption
         /// <returns>解密后的值</returns>
         public byte[] Decrypt(string str, byte[] key)
         {
+            Guard.Requires<ArgumentNullException>(str != null);
+            Guard.Requires<ArgumentNullException>(key != null);
+
             string iv, value, hmac;
             Decode(str, out iv, out value, out hmac);
 
@@ -210,6 +208,17 @@ namespace CatLib.Encryption
             {
                 throw new EncryptionException("Invalid encrypted data");
             }
+        }
+
+        /// <summary>
+        /// 是否支持
+        /// </summary>
+        /// <param name="key">密钥</param>
+        /// <returns>是否支持</returns>
+        private bool Supported(byte[] key)
+        {
+            return (rijndaelManaged.KeySize == 128 && key.Length == 16) ||
+                   (rijndaelManaged.KeySize == 256 && key.Length == 32);
         }
     }
 }
