@@ -51,6 +51,7 @@
     <Compile Include="..\CatLib.Framework.API\Debugger\LogLevels.cs" Link="Debugger\LogLevels.cs" />
     <Compile Include="..\CatLib.Framework.API\Encryption\EncryptionException.cs" Link="Encryption\EncryptionException.cs" />
     <Compile Include="..\CatLib.Framework.API\Encryption\IEncrypter.cs" Link="Encryption\IEncrypter.cs" />
+    <Compile Include="..\CatLib.Framework.API\Encryption\IEncryptionManager.cs" Link="Encryption\IEncryptionManager.cs" />
     <Compile Include="..\CatLib.Framework.API\FileSystem\IFileSystemManager.cs" Link="FileSystem\IFileSystemManager.cs" />
     <Compile Include="..\CatLib.Framework.API\FileSystem\Internal\IDirectory.cs" Link="FileSystem\Internal\IDirectory.cs" />
     <Compile Include="..\CatLib.Framework.API\FileSystem\Internal\IFile.cs" Link="FileSystem\Internal\IFile.cs" />

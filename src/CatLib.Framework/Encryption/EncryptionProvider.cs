@@ -49,7 +49,7 @@ namespace CatLib.Encryption
         /// </summary>
         public void Register()
         {
-            App.Singleton<Encrypter>().OnResolving((_,obj) =>
+            App.Singleton<Encrypter>().OnResolving((_, obj) =>
             {
                 var encrypter = (Encrypter)obj;
                 encrypter.Extend(() =>
@@ -61,7 +61,7 @@ namespace CatLib.Encryption
                     return new Curve25519Encrypter();
                 }, "dh");
                 return encrypter;
-            }).Alias<IEncrypter>();
+            }).Alias<IEncrypter>().Alias<IEncryptionManager>();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace CatLib.Encryption
         /// </summary>
         /// <param name="key">使用的key</param>
         /// <param name="cipher">加密方式</param>
-        private AesEncrypter MakeEncrypter(string key , string cipher)
+        private AesEncrypter MakeEncrypter(string key, string cipher)
         {
             if (string.IsNullOrEmpty(Key))
             {

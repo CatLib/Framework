@@ -46,13 +46,34 @@ namespace CatLib.Encryption
         /// </summary>
         /// <param name="content">加密数据</param>
         /// <returns>加密后的数据</returns>
-        public string Encrypt(byte[] content)
+        public byte[] Encode(byte[] content)
         {
-            if(content != null && content.Length == 32)
+            if (content != null && content.Length == 32)
             {
                 GenKey(content);
             }
-            return Convert.ToBase64String(publicKey);
+            return publicKey;
+        }
+
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="payload">被加密的内容</param>
+        /// <returns>解密内容</returns>
+        public byte[] Decode(byte[] payload)
+        {
+            Guard.Requires<ArgumentNullException>(payload != null);
+            return Curve25519.GetSharedSecret(privateKey, payload);
+        }
+
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="content">加密数据</param>
+        /// <returns>加密后的数据</returns>
+        public string Encrypt(byte[] content)
+        {
+            return Convert.ToBase64String(Encode(content));
         }
 
         /// <summary>
@@ -62,8 +83,8 @@ namespace CatLib.Encryption
         /// <returns>解密内容</returns>
         public byte[] Decrypt(string payload)
         {
-            var data = Convert.FromBase64String(payload);
-            return Curve25519.GetSharedSecret(privateKey, data);
+            Guard.NotEmptyOrNull(payload, "payload");
+            return Decode(Convert.FromBase64String(payload));
         }
 
         /// <summary>

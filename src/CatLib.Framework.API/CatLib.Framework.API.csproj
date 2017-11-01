@@ -45,6 +45,7 @@
     <Compile Include="Compress\ICompressManager.cs" />
     <Compile Include="Encryption\EncryptionException.cs" />
     <Compile Include="Encryption\IEncrypter.cs" />
+    <Compile Include="Encryption\IEncryptionManager.cs" />
     <Compile Include="Hashing\Checksums.cs" />
     <Compile Include="Hashing\Hashes.cs" />
     <Compile Include="Hashing\IHashing.cs" />

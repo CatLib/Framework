@@ -37,7 +37,7 @@ namespace CatLib.Encryption
         /// </summary>
         /// <param name="defaultKey">默认的密钥</param>
         /// <param name="rijndaelManaged">RijndaelManaged</param>
-        public AesEncrypter(string defaultKey , RijndaelManaged rijndaelManaged)
+        public AesEncrypter(string defaultKey, RijndaelManaged rijndaelManaged)
         {
             this.rijndaelManaged = rijndaelManaged;
             SetKey(defaultKey);
@@ -60,6 +60,27 @@ namespace CatLib.Encryption
                 Mode = mode,
             };
             SetKey(defaultKey);
+        }
+
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="content">加密数据</param>
+        /// <returns>加密后的数据</returns>
+        public byte[] Encode(byte[] content)
+        {
+            return Encoding.Default.GetBytes(Encrypt(content));
+        }
+
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="payload">被加密的内容</param>
+        /// <returns>解密内容</returns>
+        public byte[] Decode(byte[] payload)
+        {
+            Guard.Requires<ArgumentNullException>(payload != null);
+            return Decrypt(Encoding.Default.GetString(payload));
         }
 
         /// <summary>
