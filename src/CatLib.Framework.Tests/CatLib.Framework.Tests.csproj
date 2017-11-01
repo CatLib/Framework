@@ -62,7 +62,6 @@
     <Compile Include="Debugger\WebLog\LogStoreTests.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\SizeMonitorHandlerTests.cs" />
     <Compile Include="Debugger\WebMonitor\MonitorStoreTests.cs" />
-    <Compile Include="Encryption\Curve25519EncrypterTests.cs" />
     <Compile Include="Encryption\EncryptionProviderTests.cs" />
     <Compile Include="Hashing\HashingProviderTests.cs" />
     <Compile Include="Network\NetworkChannelTests.cs" />

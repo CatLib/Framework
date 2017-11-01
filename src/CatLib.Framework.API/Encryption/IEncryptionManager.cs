@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+
 namespace CatLib.API.Encryption
 {
     /// <summary>
@@ -17,19 +19,10 @@ namespace CatLib.API.Encryption
     public interface IEncryptionManager : ISingleManager<IEncrypter> , IEncrypter
     {
         /// <summary>
-        /// 生成交换密钥算法
+        /// 交换密钥
         /// </summary>
-        /// <param name="name">私钥存储名字</param>
-        /// <param name="randValue">随机值</param>
-        /// <returns>私钥</returns>
-        byte[] GenDiffieHellman(string name, byte[] randValue = null);
-        
-        /// <summary>
-        /// 生成密钥
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="publicKey"></param>
-        /// <returns></returns>
-        byte[] MakeSharedSecret(string name, byte[] publicKey);
+        /// <param name="exchange">交换流程(输入值是我方公钥，返回值是对端公钥)</param>
+        /// <returns>密钥</returns>
+        byte[] ExchangeSecret(Func<byte[], byte[]> exchange);
     }
 }

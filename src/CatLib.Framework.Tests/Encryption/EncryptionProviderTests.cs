@@ -204,5 +204,33 @@ namespace CatLib.Tests.Encryption
             var code = encrypter.Encrypt(new byte[] { });
             Assert.AreEqual(0, encrypter.Decrypt(code).Length);
         }
+
+        [TestMethod]
+        public void TestDHExchange()
+        {
+            var app = MakeEnv((cls) =>
+            {
+                cls.Key = "0123456789123456";
+            });
+
+            var encrypter = app.Make<IEncryptionManager>();
+
+            byte[] a, b = null;
+            a = encrypter.ExchangeSecret((publicKey) =>
+            {
+                var key = new byte[]{};
+                b = encrypter.ExchangeSecret((pubKey) =>
+                {
+                    key = pubKey;
+                    return publicKey;
+                });
+                return key;
+            });
+
+            var aKey = Encoding.Default.GetString(a);
+            var bKey = Encoding.Default.GetString(b);
+
+            Assert.AreEqual(aKey, bKey);
+        }
     }
 }

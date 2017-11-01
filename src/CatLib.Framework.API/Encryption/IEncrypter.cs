@@ -29,19 +29,5 @@ namespace CatLib.API.Encryption
         /// <param name="payload">被加密的内容</param>
         /// <returns>解密内容</returns>
         byte[] Decrypt(string payload);
-
-        /// <summary>
-        /// 加密
-        /// </summary>
-        /// <param name="content">加密的数据</param>
-        /// <returns>加密后的数据</returns>
-        byte[] Encode(byte[] content);
-
-        /// <summary>
-        /// 解密
-        /// </summary>
-        /// <param name="payload">被加密的内容</param>
-        /// <returns>解密内容</returns>
-        byte[] Decode(byte[] payload);
     }
 }

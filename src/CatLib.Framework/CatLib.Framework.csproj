@@ -125,7 +125,6 @@
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
     <Compile Include="Encryption\3rd\Curve25519.cs" />
     <Compile Include="Encryption\AesEncrypter.cs" />
-    <Compile Include="Encryption\Curve25519Encrypter.cs" />
     <Compile Include="Encryption\Encrypter.cs" />
     <Compile Include="Encryption\EncryptionProvider.cs" />
     <Compile Include="Facade\Compress.cs" />

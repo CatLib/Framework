@@ -67,27 +67,6 @@ namespace CatLib.Encryption
         /// </summary>
         /// <param name="content">加密数据</param>
         /// <returns>加密后的数据</returns>
-        public byte[] Encode(byte[] content)
-        {
-            return Encoding.Default.GetBytes(Encrypt(content));
-        }
-
-        /// <summary>
-        /// 解密
-        /// </summary>
-        /// <param name="payload">被加密的内容</param>
-        /// <returns>解密内容</returns>
-        public byte[] Decode(byte[] payload)
-        {
-            Guard.Requires<ArgumentNullException>(payload != null);
-            return Decrypt(Encoding.Default.GetString(payload));
-        }
-
-        /// <summary>
-        /// 加密
-        /// </summary>
-        /// <param name="content">加密数据</param>
-        /// <returns>加密后的数据</returns>
         public string Encrypt(byte[] content)
         {
             Guard.Requires<ArgumentNullException>(content != null);

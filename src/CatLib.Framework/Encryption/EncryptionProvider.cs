@@ -56,10 +56,6 @@ namespace CatLib.Encryption
                 {
                     return MakeEncrypter(Key, Cipher);
                 });
-                encrypter.Extend(() =>
-                {
-                    return new Curve25519Encrypter();
-                }, "dh");
                 return encrypter;
             }).Alias<IEncrypter>().Alias<IEncryptionManager>();
         }

@@ -9,7 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using System;
+using System.Security.Cryptography;
 using CatLib.API.Encryption;
+using Elliptic;
 
 namespace CatLib.Encryption
 {
@@ -39,23 +42,18 @@ namespace CatLib.Encryption
         }
 
         /// <summary>
-        /// 加密
+        /// 交换密钥
         /// </summary>
-        /// <param name="content">加密数据</param>
-        /// <returns>加密后的数据</returns>
-        public byte[] Encode(byte[] content)
+        /// <param name="exchange">交换流程(输入值是我方公钥，返回值是对端公钥)</param>
+        /// <returns>密钥</returns>
+        public byte[] ExchangeSecret(Func<byte[], byte[]> exchange)
         {
-            return Default.Encode(content);
-        }
-
-        /// <summary>
-        /// 解密
-        /// </summary>
-        /// <param name="payload">被加密的内容</param>
-        /// <returns>解密内容</returns>
-        public byte[] Decode(byte[] payload)
-        {
-            return Default.Decode(payload);
+            Guard.Requires<ArgumentNullException>(exchange != null);
+            var randBytes = new byte[32];
+            RandomNumberGenerator.Create().GetBytes(randBytes);
+            var privateKey = Curve25519.ClampPrivateKey(randBytes);
+            var publicKey = Curve25519.GetPublicKey(privateKey);
+            return Curve25519.GetSharedSecret(privateKey, exchange.Invoke(publicKey));
         }
     }
 }
