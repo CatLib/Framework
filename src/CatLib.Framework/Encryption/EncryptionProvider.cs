@@ -52,10 +52,7 @@ namespace CatLib.Encryption
             App.Singleton<Encrypter>().OnResolving((_, obj) =>
             {
                 var encrypter = (Encrypter)obj;
-                encrypter.Extend(() =>
-                {
-                    return MakeEncrypter(Key, Cipher);
-                });
+                encrypter.Extend(() => MakeEncrypter(Key, Cipher));
                 return encrypter;
             }).Alias<IEncrypter>().Alias<IEncryptionManager>();
         }
