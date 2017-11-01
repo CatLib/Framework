@@ -17,7 +17,7 @@ namespace CatLib.API.Encryption
     public interface IEncrypter
     {
         /// <summary>
-        /// 加密
+        /// 加密(以Base64返回)
         /// </summary>
         /// <param name="content">加密数据</param>
         /// <returns>加密后的数据</returns>

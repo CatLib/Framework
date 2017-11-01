@@ -11,16 +11,7 @@
 
 using CatLib.API.Hashing;
 using CatLib.Hashing;
-
-#if UNITY_EDITOR || NUNIT
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-using TestInitialize = NUnit.Framework.SetUpAttribute;
-using TestCleanup = NUnit.Framework.TearDownAttribute;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Hashing
 {
@@ -53,6 +44,37 @@ namespace CatLib.Tests.Hashing
             Assert.AreNotEqual(code2 , code3);
             Assert.AreEqual(2286445522, code4);
             Assert.AreEqual(2286445522, code5);
+        }
+
+        [TestMethod]
+        public void TestMultHash()
+        {
+            var app = MakeEnv();
+            var hash = app.Make<IHashing>();
+
+            var data = new byte[][] {
+                new byte[]{ 1,2,3 },
+                new byte[]{ 4,5,6,7 },
+                new byte[]{ 8,9,10 },
+            };
+
+            var code0 = hash.Checksum(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+            var code1 = hash.Checksum((checksum) =>
+            {
+                checksum(data[0], 0, data[0].Length);
+                checksum(data[1], 0, data[1].Length);
+                checksum(data[2], 0, data[2].Length);
+            }, Checksums.Crc32);
+
+            var code2 = hash.Checksum((checksum) =>
+            {
+                checksum(data[0], 0, data[0].Length);
+                checksum(data[1], 2, data[1].Length - 2);
+                checksum(data[2], 0, data[2].Length);
+            }, Checksums.Crc32);
+
+            Assert.AreEqual(code0, code1);
+            Assert.AreNotEqual(code1, code2);
         }
 
         [TestMethod]
@@ -104,11 +126,11 @@ namespace CatLib.Tests.Hashing
             var app = MakeEnv();
             var hash = app.Make<IHashing>();
 
-            var hash0 = hash.HashString("helloworld");
-            var hash1 = hash.HashString("helloworld", Hashes.MurmurHash);
-            var hash2 = hash.HashString("helloworld", Hashes.MurmurHash);
-            var hash3 = hash.HashString("helloworl", Hashes.MurmurHash);
-            var hash4 = hash.HashByte(System.Text.Encoding.Default.GetBytes("helloworl"));
+            var hash0 = hash.Checksum("helloworld",Checksums.Murmur32);
+            var hash1 = hash.Checksum("helloworld", Checksums.Murmur32);
+            var hash2 = hash.Checksum("helloworld", Checksums.Murmur32);
+            var hash3 = hash.Checksum("helloworl", Checksums.Murmur32);
+            var hash4 = hash.Checksum(System.Text.Encoding.Default.GetBytes("helloworl"), Checksums.Murmur32);
 
             Assert.AreEqual(hash1, hash0);
             Assert.AreEqual(hash1, hash2);
@@ -122,24 +144,12 @@ namespace CatLib.Tests.Hashing
             var app = MakeEnv();
             var hash = app.Make<IHashing>();
 
-            var hash1 = hash.HashString("helloworld", Hashes.Djb);
-            var hash2 = hash.HashString("helloworld", Hashes.Djb);
-            var hash3 = hash.HashString("helloworl", Hashes.Djb);
+            var hash1 = hash.Checksum("helloworld", Checksums.Djb);
+            var hash2 = hash.Checksum("helloworld", Checksums.Djb);
+            var hash3 = hash.Checksum("helloworl", Checksums.Djb);
 
             Assert.AreEqual(hash1, hash2);
             Assert.AreNotEqual(hash2, hash3);
-        }
-
-        [TestMethod]
-        public void TestUndefiendHashes()
-        {
-            var app = MakeEnv();
-            var hash = app.Make<IHashing>();
-
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
-                hash.HashString("helloworld", (Hashes.Djb + 9999));
-            });
         }
     }
 }

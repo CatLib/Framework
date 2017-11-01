@@ -10,7 +10,6 @@
  */
 
 #if CATLIB
-using System.Text;
 using CatLib.API.Encryption;
 
 namespace CatLib.Encryption
@@ -29,11 +28,6 @@ namespace CatLib.Encryption
         /// 加密类型
         /// </summary>
         public string Cipher { get; set; }
-
-        /// <summary>
-        /// 密钥编码
-        /// </summary>
-        public Encoding Encoding = Encoding.Default;
 
         /// <summary>
         /// 加解密服务
@@ -55,16 +49,26 @@ namespace CatLib.Encryption
         /// </summary>
         public void Register()
         {
-            App.Singleton<Encrypter>((_, __) =>
+            App.Singleton<Encrypter>().OnResolving((_, obj) =>
             {
-                if (string.IsNullOrEmpty(Key))
-                {
-                    throw new RuntimeException("Please set config [EncryptionProvider.Key]");
-                }
+                var encrypter = (Encrypter)obj;
+                encrypter.Extend(() => MakeEncrypter(Key, Cipher));
+                return encrypter;
+            }).Alias<IEncrypter>().Alias<IEncryptionManager>();
+        }
 
-                Encoding = Encoding ?? Encoding.Default;
-                return new Encrypter(Encoding.GetBytes(Key), Cipher);
-            }).Alias<IEncrypter>();
+        /// <summary>
+        /// 根据加密方式生成加密器
+        /// </summary>
+        /// <param name="key">使用的key</param>
+        /// <param name="cipher">加密方式</param>
+        private AesEncrypter MakeEncrypter(string key, string cipher)
+        {
+            if (string.IsNullOrEmpty(Key))
+            {
+                throw new RuntimeException("Please set config [EncryptionProvider.Key]");
+            }
+            return new AesEncrypter(key, cipher == "AES-128-CBC" ? 128 : 256);
         }
     }
 }

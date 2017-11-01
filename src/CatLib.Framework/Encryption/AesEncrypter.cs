@@ -13,13 +13,14 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using CatLib.API.Encryption;
+using System.Text;
 
 namespace CatLib.Encryption
 {
     /// <summary>
     /// Aes加解密
     /// </summary>
-    public sealed class AesEncrypter
+    public sealed class AesEncrypter : IEncrypter
     {
         /// <summary>
         /// RijndaelManaged
@@ -27,21 +28,29 @@ namespace CatLib.Encryption
         private readonly RijndaelManaged rijndaelManaged;
 
         /// <summary>
+        /// 默认的Key
+        /// </summary>
+        private byte[] key;
+
+        /// <summary>
         /// Aes加解密
         /// </summary>
+        /// <param name="defaultKey">默认的密钥</param>
         /// <param name="rijndaelManaged">RijndaelManaged</param>
-        public AesEncrypter(RijndaelManaged rijndaelManaged)
+        public AesEncrypter(string defaultKey, RijndaelManaged rijndaelManaged)
         {
             this.rijndaelManaged = rijndaelManaged;
+            SetKey(defaultKey);
         }
 
         /// <summary>
         /// Aes加解密
         /// </summary>
+        /// <param name="defaultKey">默认的密钥</param>
         /// <param name="size">密钥长度</param>
         /// <param name="mode">密码模式</param>
         /// <param name="padding">填充模式</param>
-        public AesEncrypter(int size = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
+        public AesEncrypter(string defaultKey, int size = 128, CipherMode mode = CipherMode.CBC, PaddingMode padding = PaddingMode.PKCS7)
         {
             rijndaelManaged = new RijndaelManaged
             {
@@ -50,6 +59,29 @@ namespace CatLib.Encryption
                 Padding = padding,
                 Mode = mode,
             };
+            SetKey(defaultKey);
+        }
+
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="content">加密数据</param>
+        /// <returns>加密后的数据</returns>
+        public string Encrypt(byte[] content)
+        {
+            Guard.Requires<ArgumentNullException>(content != null);
+            return Encrypt(content, key);
+        }
+
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="payload">被加密的内容</param>
+        /// <returns>解密内容</returns>
+        public byte[] Decrypt(string payload)
+        {
+            Guard.NotEmptyOrNull(payload, "payload");
+            return Decrypt(payload, key);
         }
 
         /// <summary>
@@ -60,6 +92,9 @@ namespace CatLib.Encryption
         /// <returns></returns>
         public string Encrypt(byte[] content, byte[] key)
         {
+            Guard.Requires<ArgumentNullException>(content != null);
+            Guard.Requires<ArgumentNullException>(key != null);
+
             rijndaelManaged.GenerateIV();
 
             var aesEncrypt = rijndaelManaged.CreateEncryptor(key, rijndaelManaged.IV);
@@ -79,12 +114,15 @@ namespace CatLib.Encryption
         /// <returns>解密后的值</returns>
         public byte[] Decrypt(string str, byte[] key)
         {
+            Guard.Requires<ArgumentNullException>(str != null);
+            Guard.Requires<ArgumentNullException>(key != null);
+
             string iv, value, hmac;
             Decode(str, out iv, out value, out hmac);
 
             var aesBuffer = Convert.FromBase64String(value);
             var ivBuffer = Convert.FromBase64String(iv);
-            var ivAesBuffer = Arr.Merge(rijndaelManaged.IV, aesBuffer);
+            var ivAesBuffer = Arr.Merge(ivBuffer, aesBuffer);
 
             if (Convert.ToBase64String(HMac(ivAesBuffer, key)) != hmac)
             {
@@ -160,6 +198,32 @@ namespace CatLib.Encryption
             {
                 throw new EncryptionException("Invalid encrypted data");
             }
+        }
+
+        /// <summary>
+        /// 是否支持
+        /// </summary>
+        /// <param name="key">密钥</param>
+        /// <returns>是否支持</returns>
+        private bool Supported(byte[] key)
+        {
+            return (rijndaelManaged.KeySize == 128 && key.Length == 16) ||
+                   (rijndaelManaged.KeySize == 256 && key.Length == 32);
+        }
+
+
+        /// <summary>
+        /// 密钥
+        /// </summary>
+        private AesEncrypter SetKey(string key)
+        {
+            Guard.Requires<ArgumentNullException>(key != null);
+            this.key = Encoding.Default.GetBytes(key);
+            if (!Supported(this.key))
+            {
+                throw new RuntimeException("The only supported ciphers are AES-128 and AES-256 with the correct key lengths.");
+            }
+            return this;
         }
     }
 }

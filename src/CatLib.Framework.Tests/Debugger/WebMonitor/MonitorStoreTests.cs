@@ -11,15 +11,11 @@
 
 using System.Collections.Generic;
 using System.Net;
+using CatLib.API.Debugger;
 using CatLib.Debugger;
 using CatLib.Debugger.WebConsole;
 using CatLib.Debugger.WebMonitor;
 using CatLib.Debugger.WebMonitor.Handler;
-#if UNITY_EDITOR || NUNIT
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CatLib.Tests.Debugger.WebMonitor
@@ -87,4 +83,3 @@ namespace CatLib.Tests.Debugger.WebMonitor
         }
     }
 }
-#endif

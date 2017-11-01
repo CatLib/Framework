@@ -13,14 +13,8 @@ using System;
 using System.Text;
 using CatLib.API.Encryption;
 using CatLib.Encryption;
-
-#if UNITY_EDITOR || NUNIT
-using NUnit.Framework;
-using TestClass = NUnit.Framework.TestFixtureAttribute;
-using TestMethod = NUnit.Framework.TestAttribute;
-#else
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests.Encryption
 {
@@ -55,6 +49,38 @@ namespace CatLib.Tests.Encryption
             var code = encrypter.Encrypt(Encoding.Default.GetBytes("helloworld"));
             Assert.AreNotEqual("helloworld", code);
             Assert.AreEqual("helloworld", Encoding.Default.GetString(encrypter.Decrypt(code)));
+        }
+
+        [TestMethod]
+        public void TestWithFile()
+        {
+            var app = MakeEnv((cls) =>
+            {
+                cls.Key = "01234567891234560123456789123456";
+                cls.Cipher = "AES-256-CBC";
+            });
+
+            var encrypter = App.Make<IEncrypter>();
+
+            if (File.Exists("hello.txt"))
+            {
+                File.Delete("hello.txt");
+            }
+            if (File.Exists("enhello.txt"))
+            {
+                File.Delete("enhello.txt");
+            }
+
+            File.WriteAllText("hello.txt", "helloworld", Encoding.ASCII);
+            var datastr = File.ReadAllText("hello.txt", Encoding.ASCII);
+            var data = Encoding.ASCII.GetBytes(datastr);
+            var endata = encrypter.Encrypt(data);
+            File.WriteAllText("enhello.txt", endata, Encoding.ASCII);
+
+            var endatastr = File.ReadAllText("enhello.txt", Encoding.ASCII);
+            data = encrypter.Decrypt(endatastr);
+
+            Assert.AreEqual("helloworld", Encoding.ASCII.GetString(data));
         }
 
         [TestMethod]
@@ -110,7 +136,8 @@ namespace CatLib.Tests.Encryption
             var app = MakeEnv();
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Make<IEncrypter>();
+                var encrypter = app.Make<IEncrypter>();
+                encrypter.Encrypt(Encoding.Default.GetBytes("hello world"));
             });
         }
 
@@ -124,7 +151,8 @@ namespace CatLib.Tests.Encryption
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                app.Make<IEncrypter>();
+                var encrypter = app.Make<IEncrypter>();
+                encrypter.Encrypt(Encoding.Default.GetBytes("hello world"));
             });
         }
 
@@ -175,6 +203,34 @@ namespace CatLib.Tests.Encryption
 
             var code = encrypter.Encrypt(new byte[] { });
             Assert.AreEqual(0, encrypter.Decrypt(code).Length);
+        }
+
+        [TestMethod]
+        public void TestDHExchange()
+        {
+            var app = MakeEnv((cls) =>
+            {
+                cls.Key = "0123456789123456";
+            });
+
+            var encrypter = app.Make<IEncryptionManager>();
+
+            byte[] a, b = null;
+            a = encrypter.ExchangeSecret((publicKey) =>
+            {
+                var key = new byte[]{};
+                b = encrypter.ExchangeSecret((pubKey) =>
+                {
+                    key = pubKey;
+                    return publicKey;
+                });
+                return key;
+            });
+
+            var aKey = Encoding.Default.GetString(a);
+            var bKey = Encoding.Default.GetString(b);
+
+            Assert.AreEqual(aKey, bKey);
         }
     }
 }

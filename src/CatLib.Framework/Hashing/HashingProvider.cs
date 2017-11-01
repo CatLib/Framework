@@ -10,10 +10,9 @@
  */
 
 #if CATLIB
+using System.Text;
 using CatLib.API.Hashing;
 using CatLib.Hashing.Checksum;
-using CatLib.Hashing.HashString;
-using Murmur;
 
 namespace CatLib.Hashing
 {
@@ -28,9 +27,9 @@ namespace CatLib.Hashing
         public string DefaultChecksum { get; set; }
 
         /// <summary>
-        /// 默认的哈希类
+        /// 默认的编码
         /// </summary>
-        public string DefaultHash { get; set; }
+        public Encoding DefaultEncoding { get; set; }
 
         /// <summary>
         /// 哈希服务提供者
@@ -38,7 +37,7 @@ namespace CatLib.Hashing
         public HashingProvider()
         {
             DefaultChecksum = Checksums.Crc32;
-            DefaultHash = Hashes.MurmurHash;
+            DefaultEncoding = Encoding.Default;
         }
 
         /// <summary>
@@ -53,17 +52,15 @@ namespace CatLib.Hashing
         /// </summary>
         public void Register()
         {
-            App.Singleton<Hashing>((_, __) => new Hashing(DefaultChecksum, DefaultHash))
+            App.Singleton<Hashing>((_, __) => new Hashing(DefaultChecksum, DefaultEncoding))
                 .Alias<IHashing>().OnResolving((_, obj) =>
             {
                 var hashing = (Hashing)obj;
 
-                hashing.RegisterChecksum(Checksums.Crc32, () => new Crc32());
-                hashing.RegisterChecksum(Checksums.Adler32, () => new Adler32());
-
-                hashing.RegisterHash(Hashes.MurmurHash, () => new Murmur32ManagedX86());
-                hashing.RegisterHash(Hashes.Djb, () => new DjbHash());
-
+                hashing.Extend(Checksums.Crc32, () => new Crc32());
+                hashing.Extend(Checksums.Adler32, () => new Adler32());
+                hashing.Extend(Checksums.Djb, () => new Djb());
+                hashing.Extend(Checksums.Murmur32, () => new Murmur32());
                 return obj;
             });
         }

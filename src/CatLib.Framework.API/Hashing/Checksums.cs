@@ -27,6 +27,16 @@ namespace CatLib.API.Hashing
         public static readonly Checksums Crc32 = new Checksums("Crc32");
 
         /// <summary>
+        /// Djb
+        /// </summary>
+        public static readonly Checksums Djb = new Checksums("Djb");
+
+        /// <summary>
+        /// Murmur32
+        /// </summary>
+        public static readonly Checksums Murmur32 = new Checksums("Murmur32");
+
+        /// <summary>
         /// 哈希算法类型
         /// </summary>
         /// <param name="name">哈希算法名字</param>

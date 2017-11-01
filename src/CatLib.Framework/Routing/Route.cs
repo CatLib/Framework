@@ -269,8 +269,6 @@ namespace CatLib.Routing
             CompileRoute();
             GetValidators();
 
-            //UnityEngine.Debug.Log(Compiled.ToString());
-
             for (var i = 0; i < validators.Length; i++)
             {
                 if (!validators[i].Matches(this, request))

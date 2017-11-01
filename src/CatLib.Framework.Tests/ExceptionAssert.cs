@@ -10,11 +10,7 @@
  */
 
 using System;
-#if UNITY_EDITOR || NUNIT
-using NUnit.Framework;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace CatLib.Tests
 {

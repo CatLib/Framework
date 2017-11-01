@@ -29,18 +29,18 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\build\</OutputPath>
+    <OutputPath>..\..\build\Net35\</OutputPath>
     <DefineConstants>TRACE;CATLIB</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\..\build\CatLib.Framework.xml</DocumentationFile>
+    <DocumentationFile>..\..\build\Net35\CatLib.Framework.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>CS1591;CS0414;CS0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CatLib.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CatLib.Core.1.1.0\lib\CatLib.Core.dll</HintPath>
+    <Reference Include="CatLib.Core, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.1.1\lib\CatLib.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -123,6 +123,7 @@
     <Compile Include="Debugger\WebConsole\Protocol\GetGuid.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitor.cs" />
     <Compile Include="Debugger\WebMonitor\IMonitorHandler.cs" />
+    <Compile Include="Encryption\3rd\Curve25519.cs" />
     <Compile Include="Encryption\AesEncrypter.cs" />
     <Compile Include="Encryption\Encrypter.cs" />
     <Compile Include="Encryption\EncryptionProvider.cs" />
@@ -153,8 +154,10 @@
     <Compile Include="Debugger\WebLog\LogStore.cs" />
     <Compile Include="Debugger\WebLog\LogHandler\WebLogHandler.cs" />
     <Compile Include="Facade\FileSystem.cs" />
+    <Compile Include="Facade\Network.cs" />
     <Compile Include="Facade\Random.cs" />
     <Compile Include="Facade\Router.cs" />
+    <Compile Include="Facade\Socket.cs" />
     <Compile Include="FileSystem\Adapter\Local.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="FileSystem\File.cs" />
@@ -169,11 +172,13 @@
     <Compile Include="Hashing\3rd\MurmurHash\Murmur32.cs" />
     <Compile Include="Hashing\3rd\MurmurHash\Murmur32ManagedX86.cs" />
     <Compile Include="Hashing\Checksum\Adler32.cs" />
+    <Compile Include="Hashing\Checksum\Murmur32.cs" />
+    <Compile Include="Hashing\HashingGuard.cs" />
     <Compile Include="Hashing\Checksum\Crc32.cs" />
     <Compile Include="Hashing\Checksum\IChecksum.cs" />
     <Compile Include="Hashing\Hashing.cs" />
     <Compile Include="Hashing\HashingProvider.cs" />
-    <Compile Include="Hashing\HashString\DjbHash.cs" />
+    <Compile Include="Hashing\Checksum\Djb.cs" />
     <Compile Include="Json\3rd\SimpleJson.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
