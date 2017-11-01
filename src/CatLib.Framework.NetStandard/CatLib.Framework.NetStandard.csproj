@@ -146,7 +146,6 @@
     <Compile Include="..\CatLib.Framework\Debugger\WebMonitor\Protocol\GetMonitors.cs" Link="Debugger\WebMonitor\Protocol\GetMonitors.cs" />
     <Compile Include="..\CatLib.Framework\Encryption\3rd\Curve25519.cs" Link="Encryption\3rd\Curve25519.cs" />
     <Compile Include="..\CatLib.Framework\Encryption\AesEncrypter.cs" Link="Encryption\AesEncrypter.cs" />
-    <Compile Include="..\CatLib.Framework\Encryption\Curve25519Encrypter.cs" Link="Encryption\Curve25519Encrypter.cs" />
     <Compile Include="..\CatLib.Framework\Encryption\Encrypter.cs" Link="Encryption\Encrypter.cs" />
     <Compile Include="..\CatLib.Framework\Encryption\EncryptionProvider.cs" Link="Encryption\EncryptionProvider.cs" />
     <Compile Include="..\CatLib.Framework\Facade\Compress.cs" Link="Facade\Compress.cs" />
