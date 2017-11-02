@@ -9,6 +9,11 @@
             CatLib实例
             </summary>
         </member>
+        <member name="E:CatLib.App.OnNewApplication">
+            <summary>
+            当新建Application时
+            </summary>
+        </member>
         <member name="F:CatLib.App.instance">
             <summary>
             CatLib实例
@@ -3635,6 +3640,31 @@
             </summary>
             <returns>随机的层数</returns>
         </member>
+        <member name="T:CatLib.IManaged`1">
+            <summary>
+            管理器模版 - 扩展内容不对外可见
+            </summary>
+            <typeparam name="TInterface">拓展接口</typeparam>
+        </member>
+        <member name="M:CatLib.IManaged`1.Extend(System.Func{`0},System.String)">
+            <summary>
+            自定义解决方案
+            </summary>
+            <param name="resolve">解决方案实现</param>
+            <param name="name">解决方案名</param>
+        </member>
+        <member name="M:CatLib.IManaged`1.ReleaseExtend(System.String)">
+            <summary>
+            释放扩展
+            </summary>
+            <param name="name">名字</param>
+        </member>
+        <member name="M:CatLib.IManaged`1.ContainsExtend(System.String)">
+            <summary>
+            是否包含指定拓展
+            </summary>
+            <param name="name">名字</param>
+        </member>
         <member name="T:CatLib.IManager`1">
             <summary>
             管理器
@@ -3654,54 +3684,107 @@
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
         </member>
-        <member name="M:CatLib.IManager`1.Extend(System.Func{`0},System.String)">
+        <member name="T:CatLib.ISingleManaged`1">
             <summary>
-            自定义解决方案
+            管理器模版（拓展解决方案为单例）- 扩展内容不对外可见
             </summary>
-            <param name="resolve">解决方案实现</param>
+        </member>
+        <member name="M:CatLib.ISingleManaged`1.Release(System.String)">
+            <summary>
+            释放解决方案单例
+            </summary>
             <param name="name">解决方案名</param>
-        </member>
-        <member name="M:CatLib.IManager`1.ReleaseExtend(System.String)">
-            <summary>
-            释放扩展
-            </summary>
-            <param name="name">名字</param>
-        </member>
-        <member name="M:CatLib.IManager`1.ContainsExtend(System.String)">
-            <summary>
-            是否包含指定拓展
-            </summary>
-            <param name="name">名字</param>
         </member>
         <member name="T:CatLib.ISingleManager`1">
             <summary>
-            管理器
+            管理器（拓展解决方案为单例）
             </summary>
+        </member>
+        <member name="M:CatLib.ISingleManager`1.Get(System.String)">
+            <summary>
+            获取解决方案
+            </summary>
+            <param name="name">解决方案名</param>
+            <returns>解决方案</returns>
+        </member>
+        <member name="P:CatLib.ISingleManager`1.Item(System.String)">
+            <summary>
+            获取解决方案
+            </summary>
+            <param name="name">解决方案名</param>
+            <returns>解决方案</returns>
         </member>
         <member name="P:CatLib.ISingleManager`1.Default">
             <summary>
             获取默认的解决方案
             </summary>
         </member>
-        <member name="M:CatLib.ISingleManager`1.Release(System.String)">
+        <member name="T:CatLib.Managed`1">
             <summary>
-            释放解决方案
+            管理器模版 - 不可被外部访问到的拓展
             </summary>
-            <param name="name">解决方案名</param>
+            <typeparam name="TInterface">拓展接口</typeparam>
         </member>
-        <member name="T:CatLib.Manager`1">
-            <summary>
-            管理器模版
-            </summary>
-        </member>
-        <member name="F:CatLib.Manager`1.customResolve">
+        <member name="F:CatLib.Managed`1.resolve">
             <summary>
             自定义解决器
             </summary>
         </member>
-        <member name="F:CatLib.Manager`1.defaultName">
+        <member name="M:CatLib.Managed`1.Extend(System.Func{`0},System.String)">
             <summary>
-            默认名字
+            自定义解决方案
+            </summary>
+            <param name="resolve">解决方案</param>
+            <param name="name">名字</param>
+        </member>
+        <member name="M:CatLib.Managed`1.ReleaseExtend(System.String)">
+            <summary>
+            释放扩展解决器
+            </summary>
+            <param name="name">名字</param>
+        </member>
+        <member name="M:CatLib.Managed`1.ContainsExtend(System.String)">
+            <summary>
+            是否包含指定拓展
+            </summary>
+            <param name="name">名字</param>
+        </member>
+        <member name="M:CatLib.Managed`1.GetResolve(System.String)">
+            <summary>
+            获取解决方案
+            </summary>
+            <param name="name">名字</param>
+            <returns>拓展</returns>
+        </member>
+        <member name="M:CatLib.Managed`1.GetExtend(System.String)">
+            <summary>
+            获取解决方案拓展
+            </summary>
+            <param name="name">名字</param>
+            <returns>拓展</returns>
+        </member>
+        <member name="M:CatLib.Managed`1.MakeExtend(System.String)">
+            <summary>
+            生成解决的扩展方案
+            </summary>
+            <param name="name">名字</param>
+            <returns>解决方案</returns>
+        </member>
+        <member name="M:CatLib.Managed`1.GetDefaultName">
+            <summary>
+            获取默认名字
+            </summary>
+            <returns>默认名字</returns>
+        </member>
+        <member name="M:CatLib.Managed`1.StandardName(System.String@)">
+            <summary>
+            标准化名字
+            </summary>
+            <param name="name">名字</param>
+        </member>
+        <member name="T:CatLib.Manager`1">
+            <summary>
+            管理器模版
             </summary>
         </member>
         <member name="M:CatLib.Manager`1.Get(System.String)">
@@ -3718,53 +3801,32 @@
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
         </member>
-        <member name="M:CatLib.Manager`1.Extend(System.Func{`0},System.String)">
+        <member name="T:CatLib.SingleManaged`1">
             <summary>
-            自定义解决方案
+            管理器模版（拓展解决方案为单例）- 扩展内容不对外可见
             </summary>
-            <param name="resolve">解决方案</param>
-            <param name="name">名字</param>
         </member>
-        <member name="M:CatLib.Manager`1.ReleaseExtend(System.String)">
+        <member name="F:CatLib.SingleManaged`1.instances">
             <summary>
-            释放扩展
+            解决方案字典
             </summary>
-            <param name="name">名字</param>
         </member>
-        <member name="M:CatLib.Manager`1.ContainsExtend(System.String)">
+        <member name="M:CatLib.SingleManaged`1.Release(System.String)">
             <summary>
-            是否包含指定拓展
-            </summary>
-            <param name="name">名字</param>
-        </member>
-        <member name="M:CatLib.Manager`1.GetDefaultName">
-            <summary>
-            获取默认名字
-            </summary>
-            <returns>默认名字</returns>
-        </member>
-        <member name="M:CatLib.Manager`1.GetResolve(System.String)">
-            <summary>
-            获取解决方案
-            </summary>
-            <param name="name">名字</param>
-            <returns></returns>
-        </member>
-        <member name="M:CatLib.Manager`1.Resolve(System.String)">
-            <summary>
-            生成所需求的解决方案
+            释放解决方案
             </summary>
             <param name="name">解决方案名</param>
-            <returns>解决方案</returns>
+        </member>
+        <member name="M:CatLib.SingleManaged`1.MakeExtend(System.String)">
+            <summary>
+            生成解决方案
+            </summary>
+            <param name="name">解决方案名</param>
+            <returns>解决方案实现</returns>
         </member>
         <member name="T:CatLib.SingleManager`1">
             <summary>
             管理器模版（拓展解决方案为单例）
-            </summary>
-        </member>
-        <member name="F:CatLib.SingleManager`1.elements">
-            <summary>
-            解决方案字典
             </summary>
         </member>
         <member name="M:CatLib.SingleManager`1.Get(System.String)">
@@ -3785,26 +3847,6 @@
             </summary>
             <param name="name">解决方案名</param>
             <returns>解决方案</returns>
-        </member>
-        <member name="M:CatLib.SingleManager`1.Release(System.String)">
-            <summary>
-            释放解决方案
-            </summary>
-            <param name="name">解决方案名</param>
-        </member>
-        <member name="M:CatLib.SingleManager`1.Make(System.String)">
-            <summary>
-            生成解决方案
-            </summary>
-            <param name="name">解决方案名</param>
-            <returns>解决方案实现</returns>
-        </member>
-        <member name="M:CatLib.SingleManager`1.NormalName(System.String)">
-            <summary>
-            标准化名字
-            </summary>
-            <param name="name">名字</param>
-            <returns>标准化后的名字</returns>
         </member>
         <member name="T:CatLib.Arr">
             <summary>
@@ -3982,10 +4024,19 @@
             <summary>
             从数组中检索指定的值并返回所在的下标，如果返回-1则代表没有出现
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="source">数组源</param>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="source">规定数组</param>
             <param name="match">要匹配的值，如果有多个，只有全部的匹配才算匹配</param>
             <returns>如果要检索的值没有出现，则该方法返回 -1</returns>
+        </member>
+        <member name="M:CatLib.Arr.Difference``1(``0[],``0[])">
+            <summary>
+            排除掉数组中的指定值
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="source">需要过滤的数组</param>
+            <param name="match">数组需要排除掉的值</param>
+            <returns>过滤后的数组</returns>
         </member>
         <member name="T:CatLib.Enum">
             <summary>
@@ -4296,6 +4347,17 @@
             <param name="length">字符串长度</param>
             <param name="seed">种子</param>
             <returns>随机的字符串</returns>
+        </member>
+        <member name="M:CatLib.Str.Truncate(System.String,System.Int32,System.Object,System.String)">
+            <summary>
+            如果长度超过给定的最大字符串长度，则截断字符串。 截断的字符串的最后一个字符将替换为缺省字符串
+            <para>eg: Str.Truncate("hello world , the sun is shine",15," ") => hello world...</para>
+            </summary>
+            <param name="str">要截断的字符串</param>
+            <param name="length">截断长度(含缺省字符长度)</param>
+            <param name="separator">临近的分隔符，如果设定则截断长度为截断长度最近的分隔符位置,如果传入的是一个正则表达式那么使用正则匹配。</param>
+            <param name="mission">缺省字符</param>
+            <returns>截断后的字符串</returns>
         </member>
         <member name="T:CatLib.SystemTime">
             <summary>
