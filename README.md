@@ -39,10 +39,6 @@ CatLib提供了项目所必备的基础组件 , 您可以通过接口简单的�
 Install-Package CatLib.Framework -Version 1.1.0
 ```
 
-**直接下载发布版本**
-
-下载[最新版本](https://github.com/CatLib/Framework/releases)。
-
 ## 学习CatLib
 
 我们已经准备了各个组件的教程，您只需要进入 [中文文档](http://catlib.io) / [English Document](http://en.catlib.io) 就可以看到她们。
