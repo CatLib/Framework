@@ -39,8 +39,8 @@
     <NoWarn>CS1591;CS0414;CS0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CatLib.Core, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CatLib.Core.1.1.3\lib\CatLib.Core.dll</HintPath>
+    <Reference Include="CatLib.Core, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.1.4\lib\net35\CatLib.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -240,9 +240,6 @@
       <Project>{5bf5d9dc-26f3-46ae-a735-fe37b0d4fe2e}</Project>
       <Name>CatLib.Framework.API</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CatLib.Core.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
