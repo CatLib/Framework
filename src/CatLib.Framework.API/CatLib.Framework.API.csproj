@@ -35,8 +35,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CatLib.Core, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CatLib.Core.1.1.3\lib\CatLib.Core.dll</HintPath>
+    <Reference Include="CatLib.Core, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.1.4\lib\net35\CatLib.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -84,9 +84,6 @@
     <Compile Include="Translation\Features\ITranslateResources.cs" />
     <Compile Include="Translation\ITranslator.cs" />
     <Compile Include="Translation\Languages.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CatLib.Core.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

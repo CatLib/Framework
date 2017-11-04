@@ -107,7 +107,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CatLib.Core.NetStandard" Version="1.1.3" />
+    <PackageReference Include="CatLib.Core" Version="1.1.4" />
   </ItemGroup>
 
 </Project>
