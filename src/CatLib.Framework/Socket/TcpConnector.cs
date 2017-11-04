@@ -274,7 +274,7 @@ namespace CatLib.Socket
                 NoDelay = true
             };
 
-            client.Client.IOControl(IOControlCode.KeepAliveValues, KeepAlive(1, 15000, 5000), null);
+            //client.Client.IOControl(IOControlCode.KeepAliveValues, KeepAlive(1, 15000, 5000), null);
 
             return client;
         }
