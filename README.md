@@ -31,6 +31,18 @@ CatLib提供了项目所必备的基础组件 , 您可以通过接口简单的�
 
 无论您是一个新的项目还是一个正在被开发的项目，您都可以轻松的嵌入CatLib。绝大多数的CatLib的组件都可以被单独使用和无感知替换的，我们也欢迎其他的框架开发者来使用这些组件。
 
+## 安装CatLib
+
+**使用Nuget安装**
+
+```PM
+Install-Package CatLib.Framework -Version 1.1.0
+```
+
+**直接下载发布版本**
+
+下载[最新版本](https://github.com/CatLib/Framework/releases)。
+
 ## 学习CatLib
 
 我们已经准备了各个组件的教程，您只需要进入 [中文文档](http://catlib.io) / [English Document](http://en.catlib.io) 就可以看到她们。
