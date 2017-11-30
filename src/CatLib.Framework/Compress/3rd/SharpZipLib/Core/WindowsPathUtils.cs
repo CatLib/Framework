@@ -1,4 +1,4 @@
-namespace ICSharpCode.SharpZipLib.Core
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Core
 {
 	/// <summary>
 	/// WindowsPathUtils provides simple utilities for handling windows paths.

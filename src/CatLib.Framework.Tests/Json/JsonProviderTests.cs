@@ -13,8 +13,8 @@ using System;
 using System.Collections.Generic;
 using CatLib.API.Json;
 using CatLib.Json;
-using SimpleJson;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SimpleJson;
 
 namespace CatLib.Tests.Json
 {

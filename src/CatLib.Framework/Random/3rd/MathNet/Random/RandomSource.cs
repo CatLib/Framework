@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.Random
+namespace CatLib._3rd.MathNet.Numerics.Random
 {
     /// <summary>
     /// Base class for random number generators. This class introduces a layer between <see cref="System.Random"/>

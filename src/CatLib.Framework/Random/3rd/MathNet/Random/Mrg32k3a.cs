@@ -35,7 +35,7 @@ using System.Runtime.Serialization;
 using System.Runtime;
 #endif
 
-namespace MathNet.Numerics.Random
+namespace CatLib._3rd.MathNet.Numerics.Random
 {
     /// <summary>
     /// A 32-bit combined multiple recursive generator with 2 components of order 3.

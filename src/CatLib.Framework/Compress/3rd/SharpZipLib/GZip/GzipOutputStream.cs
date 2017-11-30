@@ -1,10 +1,10 @@
 using System;
 using System.IO;
-using ICSharpCode.SharpZipLib.Checksum;
-using ICSharpCode.SharpZipLib.Zip.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Checksum;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
-namespace ICSharpCode.SharpZipLib.GZip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.GZip
 {
 	/// <summary>
 	/// This filter stream is used to compress a stream into a "GZIP" stream.

@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpZipLib.Zip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip
 {
 	/// <summary>
 	/// ZipException represents exceptions specific to Zip classes and code.

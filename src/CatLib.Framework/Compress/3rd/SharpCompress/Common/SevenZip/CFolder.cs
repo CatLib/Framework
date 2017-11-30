@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using SharpCompress.Compressors.LZMA;
+using CatLib._3rd.SharpCompress.Compressors.LZMA;
 
-namespace SharpCompress.Common.SevenZip
+namespace CatLib._3rd.SharpCompress.Common.SevenZip
 {
     internal class CFolder
     {

@@ -14,8 +14,8 @@ using System.Net;
 using CatLib.API.Debugger;
 using CatLib.API.Json;
 using CatLib.Debugger.WebConsole;
-using SimpleJson;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SimpleJson;
 
 namespace CatLib.Tests.Debugger.WebLog.Controller
 {

@@ -11,7 +11,7 @@
 
 #if CATLIB
 using CatLib.API.Random;
-using MathNet.Numerics.Random;
+using CatLib._3rd.MathNet.Numerics.Random;
 
 namespace CatLib.Random
 {

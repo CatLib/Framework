@@ -1,4 +1,4 @@
-﻿namespace SharpCompress.Compressors.LZMA.Utilites
+﻿namespace CatLib._3rd.SharpCompress.Compressors.LZMA.Utilites
 {
     internal interface IPasswordProvider
     {

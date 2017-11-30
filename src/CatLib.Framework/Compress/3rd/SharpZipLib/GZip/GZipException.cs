@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpZipLib.GZip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.GZip
 {
 	/// <summary>
 	/// GZipException represents exceptions specific to GZip classes and code.

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     /// <summary>
     /// The exception that is thrown when an error in input stream occurs during decoding.

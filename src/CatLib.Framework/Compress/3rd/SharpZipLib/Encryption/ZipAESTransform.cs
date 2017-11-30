@@ -41,7 +41,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace ICSharpCode.SharpZipLib.Encryption
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Encryption
 {
 
     /// <summary>

@@ -36,7 +36,7 @@ using System.Collections.Generic;
 using System.Numerics;
 #endif
 
-namespace MathNet.Numerics
+namespace CatLib._3rd.MathNet.Numerics
 {
     /// <summary>
     /// Integer number theory functions.

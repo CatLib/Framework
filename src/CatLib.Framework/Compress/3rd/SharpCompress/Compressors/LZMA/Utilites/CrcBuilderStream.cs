@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace SharpCompress.Compressors.LZMA.Utilites
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA.Utilites
 {
     internal class CrcBuilderStream : Stream
     {

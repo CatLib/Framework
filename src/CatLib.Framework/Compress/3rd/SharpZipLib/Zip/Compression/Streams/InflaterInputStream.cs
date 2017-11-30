@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression.Streams
 {
 	/// <summary>
 	/// An input buffer customised for use by <see cref="InflaterInputStream"/>

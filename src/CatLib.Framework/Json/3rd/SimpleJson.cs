@@ -84,7 +84,7 @@ namespace SimpleJson
 #else
     public
 #endif
- class JsonArray : List<object>
+        class JsonArray : List<object>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonArray"/> class. 
@@ -118,11 +118,11 @@ namespace SimpleJson
 #else
     public
 #endif
- class JsonObject :
+        class JsonObject :
 #if SIMPLE_JSON_DYNAMIC
  DynamicObject,
 #endif
- IDictionary<string, object>
+            IDictionary<string, object>
     {
         /// <summary>
         /// The internal member dictionary.
@@ -346,14 +346,14 @@ namespace SimpleJson
         }
 
 #if SIMPLE_JSON_DYNAMIC
-        /// <summary>
-        /// Provides implementation for type conversion operations. Classes derived from the <see cref="T:System.Dynamic.DynamicObject"/> class can override this method to specify dynamic behavior for operations that convert an object from one type to another.
-        /// </summary>
-        /// <param name="binder">Provides information about the conversion operation. The binder.Type property provides the type to which the object must be converted. For example, for the statement (String)sampleObject in C# (CType(sampleObject, Type) in Visual Basic), where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, binder.Type returns the <see cref="T:System.String"/> type. The binder.Explicit property provides information about the kind of conversion that occurs. It returns true for explicit conversion and false for implicit conversion.</param>
-        /// <param name="result">The result of the type conversion operation.</param>
-        /// <returns>
-        /// Alwasy returns true.
-        /// </returns>
+/// <summary>
+/// Provides implementation for type conversion operations. Classes derived from the <see cref="T:System.Dynamic.DynamicObject"/> class can override this method to specify dynamic behavior for operations that convert an object from one type to another.
+/// </summary>
+/// <param name="binder">Provides information about the conversion operation. The binder.Type property provides the type to which the object must be converted. For example, for the statement (String)sampleObject in C# (CType(sampleObject, Type) in Visual Basic), where sampleObject is an instance of the class derived from the <see cref="T:System.Dynamic.DynamicObject"/> class, binder.Type returns the <see cref="T:System.String"/> type. The binder.Explicit property provides information about the kind of conversion that occurs. It returns true for explicit conversion and false for implicit conversion.</param>
+/// <param name="result">The result of the type conversion operation.</param>
+/// <returns>
+/// Alwasy returns true.
+/// </returns>
         public override bool TryConvert(ConvertBinder binder, out object result)
         {
             // <pex>
@@ -499,7 +499,7 @@ namespace SimpleJson
 #else
     public
 #endif
- static class SimpleJson
+        static class SimpleJson
     {
         private const int TOKEN_NONE = 0;
         private const int TOKEN_CURLY_OPEN = 1;
@@ -522,7 +522,7 @@ namespace SimpleJson
         static SimpleJson()
         {
             EscapeTable = new char[93];
-            EscapeTable['"']  = '"';
+            EscapeTable['"'] = '"';
             EscapeTable['\\'] = '\\';
             EscapeTable['\b'] = 'b';
             EscapeTable['\f'] = 'f';
@@ -556,7 +556,7 @@ namespace SimpleJson
         /// <returns>
         /// Returns true if successfull otherwise false.
         /// </returns>
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Need to support .NET 2")]
         public static bool TryDeserializeObject(string json, out object obj)
         {
             bool success = true;
@@ -576,8 +576,8 @@ namespace SimpleJson
         {
             object jsonObject = DeserializeObject(json);
             return type == null || jsonObject != null && ReflectionUtils.IsAssignableFrom(jsonObject.GetType(), type)
-                       ? jsonObject
-                       : (jsonSerializerStrategy ?? CurrentJsonSerializerStrategy).DeserializeObject(jsonObject, type);
+                ? jsonObject
+                : (jsonSerializerStrategy ?? CurrentJsonSerializerStrategy).DeserializeObject(jsonObject, type);
         }
 
         public static object DeserializeObject(string json, Type type)
@@ -621,7 +621,7 @@ namespace SimpleJson
             StringBuilder sb = new StringBuilder();
             char c;
 
-            for (int i = 0; i < jsonString.Length; )
+            for (int i = 0; i < jsonString.Length;)
             {
                 c = jsonString[i++];
 
@@ -1064,7 +1064,7 @@ namespace SimpleJson
                 if (stringKey != null)
                     SerializeString(stringKey, builder);
                 else
-                    if (!SerializeValue(jsonSerializerStrategy, value, builder)) return false;
+                if (!SerializeValue(jsonSerializerStrategy, value, builder)) return false;
                 builder.Append(":");
                 if (!SerializeValue(jsonSerializerStrategy, value, builder))
                     return false;
@@ -1184,13 +1184,13 @@ namespace SimpleJson
             get
             {
                 return _currentJsonSerializerStrategy ??
-                    (_currentJsonSerializerStrategy =
+                       (_currentJsonSerializerStrategy =
 #if SIMPLE_JSON_DATACONTRACT
  DataContractJsonSerializerStrategy
 #else
- PocoJsonSerializerStrategy
+                               PocoJsonSerializerStrategy
 #endif
-);
+                       );
             }
             set
             {
@@ -1222,16 +1222,16 @@ namespace SimpleJson
 
 #endif
     }
-    
+
     [GeneratedCode("simple-json", "1.0.0")]
 #if SIMPLE_JSON_INTERNAL
     internal
 #else
     public
 #endif
- interface IJsonSerializerStrategy
+        interface IJsonSerializerStrategy
     {
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Need to support .NET 2")]
         bool TrySerializeNonPrimitiveObject(object input, out object output);
         object DeserializeObject(object value, Type type);
     }
@@ -1242,7 +1242,7 @@ namespace SimpleJson
 #else
     public
 #endif
- class PocoJsonSerializerStrategy : IJsonSerializerStrategy
+        class PocoJsonSerializerStrategy : IJsonSerializerStrategy
     {
         internal IDictionary<Type, ReflectionUtils.ConstructorDelegate> ConstructorCache;
         internal IDictionary<Type, IDictionary<string, ReflectionUtils.GetDelegate>> GetCache;
@@ -1252,11 +1252,11 @@ namespace SimpleJson
         internal static readonly Type[] ArrayConstructorParameterTypes = new Type[] { typeof(int) };
 
         private static readonly string[] Iso8601Format = new string[]
-                                                             {
-                                                                 @"yyyy-MM-dd\THH:mm:ss.FFFFFFF\Z",
-                                                                 @"yyyy-MM-dd\THH:mm:ss\Z",
-                                                                 @"yyyy-MM-dd\THH:mm:ssK"
-                                                             };
+        {
+            @"yyyy-MM-dd\THH:mm:ss.FFFFFFF\Z",
+            @"yyyy-MM-dd\THH:mm:ss\Z",
+            @"yyyy-MM-dd\THH:mm:ssK"
+        };
 
         public PocoJsonSerializerStrategy()
         {
@@ -1330,12 +1330,12 @@ namespace SimpleJson
             if (type == null) throw new ArgumentNullException("type");
             string str = value as string;
 
-            if (type == typeof (Guid) && string.IsNullOrEmpty(str))
+            if (type == typeof(Guid) && string.IsNullOrEmpty(str))
                 return default(Guid);
 
             if (value == null)
                 return null;
-            
+
             object obj = null;
 
             if (str != null)
@@ -1350,19 +1350,19 @@ namespace SimpleJson
                         return new Guid(str);
                     if (type == typeof(Uri))
                     {
-                        bool isValid =  Uri.IsWellFormedUriString(str, UriKind.RelativeOrAbsolute);
+                        bool isValid = Uri.IsWellFormedUriString(str, UriKind.RelativeOrAbsolute);
 
                         Uri result;
                         if (isValid && Uri.TryCreate(str, UriKind.RelativeOrAbsolute, out result))
                             return result;
 
-												return null;
+                        return null;
                     }
-                  
-									if (type == typeof(string))  
-										return str;
 
-									return Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
+                    if (type == typeof(string))
+                        return str;
+
+                    return Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
                 }
                 else
                 {
@@ -1379,7 +1379,7 @@ namespace SimpleJson
             }
             else if (value is bool)
                 return value;
-            
+
             bool valueIsLong = value is long;
             bool valueIsDouble = value is double;
             if ((valueIsLong && type == typeof(long)) || (valueIsDouble && type == typeof(double)))
@@ -1387,8 +1387,8 @@ namespace SimpleJson
             if ((valueIsDouble && type != typeof(double)) || (valueIsLong && type != typeof(long)))
             {
                 obj = type == typeof(int) || type == typeof(long) || type == typeof(double) || type == typeof(float) || type == typeof(bool) || type == typeof(decimal) || type == typeof(byte) || type == typeof(short)
-                            ? Convert.ChangeType(value, type, CultureInfo.InvariantCulture)
-                            : value;
+                    ? Convert.ChangeType(value, type, CultureInfo.InvariantCulture)
+                    : value;
             }
             else
             {
@@ -1469,7 +1469,7 @@ namespace SimpleJson
             return Convert.ToDouble(p, CultureInfo.InvariantCulture);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Need to support .NET 2")]
         protected virtual bool TrySerializeKnownTypes(object input, out object output)
         {
             bool returnValue = true;
@@ -1494,7 +1494,7 @@ namespace SimpleJson
             }
             return returnValue;
         }
-        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification="Need to support .NET 2")]
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Need to support .NET 2")]
         protected virtual bool TrySerializeUnknownTypes(object input, out object output)
         {
             if (input == null) throw new ArgumentNullException("input");
@@ -1596,14 +1596,14 @@ namespace SimpleJson
     namespace Reflection
     {
         // This class is meant to be copied into other libraries. So we want to exclude it from Code Analysis rules
- 	    // that might be in place in the target project.
+        // that might be in place in the target project.
         [GeneratedCode("reflection-utils", "1.0.0")]
 #if SIMPLE_JSON_REFLECTION_UTILS_PUBLIC
         public
 #else
         internal
 #endif
- class ReflectionUtils
+            class ReflectionUtils
         {
             private static readonly object[] EmptyObjects = new object[] { };
 
@@ -1649,7 +1649,7 @@ namespace SimpleJson
                 foreach (Type implementedInterface in interfaces)
                 {
                     if (IsTypeGeneric(implementedInterface) &&
-                        implementedInterface.GetGenericTypeDefinition() == typeof (IList<>))
+                        implementedInterface.GetGenericTypeDefinition() == typeof(IList<>))
                     {
                         return GetGenericTypeArguments(implementedInterface)[0];
                     }
@@ -1693,13 +1693,13 @@ namespace SimpleJson
                 Type genericDefinition = type.GetGenericTypeDefinition();
 
                 return (genericDefinition == typeof(IList<>)
-                    || genericDefinition == typeof(ICollection<>)
-                    || genericDefinition == typeof(IEnumerable<>)
+                        || genericDefinition == typeof(ICollection<>)
+                        || genericDefinition == typeof(IEnumerable<>)
 #if SIMPLE_JSON_READONLY_COLLECTIONS
                     || genericDefinition == typeof(IReadOnlyCollection<>)
                     || genericDefinition == typeof(IReadOnlyList<>)
 #endif
-                    );
+                );
             }
 
             public static bool IsAssignableFrom(Type type1, Type type2)
@@ -1832,7 +1832,7 @@ namespace SimpleJson
 
             public static ConstructorDelegate GetConstructorByReflection(ConstructorInfo constructorInfo)
             {
-                return delegate(object[] args) { return constructorInfo.Invoke(args); };
+                return delegate (object[] args) { return constructorInfo.Invoke(args); };
             }
 
             public static ConstructorDelegate GetConstructorByReflection(Type type, params Type[] argsType)
@@ -1891,12 +1891,12 @@ namespace SimpleJson
             public static GetDelegate GetGetMethodByReflection(PropertyInfo propertyInfo)
             {
                 MethodInfo methodInfo = GetGetterMethodInfo(propertyInfo);
-                return delegate(object source) { return methodInfo.Invoke(source, EmptyObjects); };
+                return delegate (object source) { return methodInfo.Invoke(source, EmptyObjects); };
             }
 
             public static GetDelegate GetGetMethodByReflection(FieldInfo fieldInfo)
             {
-                return delegate(object source) { return fieldInfo.GetValue(source); };
+                return delegate (object source) { return fieldInfo.GetValue(source); };
             }
 
 #if !SIMPLE_JSON_NO_LINQ_EXPRESSION
@@ -1941,12 +1941,12 @@ namespace SimpleJson
             public static SetDelegate GetSetMethodByReflection(PropertyInfo propertyInfo)
             {
                 MethodInfo methodInfo = GetSetterMethodInfo(propertyInfo);
-                return delegate(object source, object value) { methodInfo.Invoke(source, new object[] { value }); };
+                return delegate (object source, object value) { methodInfo.Invoke(source, new object[] { value }); };
             }
 
             public static SetDelegate GetSetMethodByReflection(FieldInfo fieldInfo)
             {
-                return delegate(object source, object value) { fieldInfo.SetValue(source, value); };
+                return delegate (object source, object value) { fieldInfo.SetValue(source, value); };
             }
 
 #if !SIMPLE_JSON_NO_LINQ_EXPRESSION

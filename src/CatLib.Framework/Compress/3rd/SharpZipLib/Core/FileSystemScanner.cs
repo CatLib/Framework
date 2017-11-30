@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpZipLib.Core
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Core
 {
 	#region EventArgs
 	/// <summary>

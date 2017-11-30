@@ -76,7 +76,7 @@ using System.Threading;
 #endif
 
 
-namespace MathNet.Numerics.Random
+namespace CatLib._3rd.MathNet.Numerics.Random
 {
     /// <summary>
     /// Random number generator using Mersenne Twister 19937 algorithm.

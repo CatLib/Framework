@@ -1,4 +1,4 @@
-namespace SharpCompress.Compressors.LZMA.LZ
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA.LZ
 {
     internal class CRC
     {

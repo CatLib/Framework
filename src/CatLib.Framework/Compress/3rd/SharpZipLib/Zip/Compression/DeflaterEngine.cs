@@ -1,7 +1,7 @@
 using System;
-using ICSharpCode.SharpZipLib.Checksum;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Checksum;
 
-namespace ICSharpCode.SharpZipLib.Zip.Compression
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression
 {
 	/// <summary>
 	/// Strategies for deflater

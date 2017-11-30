@@ -11,7 +11,7 @@
 
 using System.IO;
 using CatLib.API.Compress;
-using ICSharpCode.SharpZipLib.GZip;
+using CatLib._3rd.ICSharpCode.SharpZipLib.GZip;
 
 namespace CatLib.Compress
 {

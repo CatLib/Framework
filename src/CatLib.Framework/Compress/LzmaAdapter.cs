@@ -10,8 +10,8 @@
  */
 
 using CatLib.API.Compress;
-using SharpCompress.Compressors;
-using SharpCompress.Compressors.LZMA;
+using CatLib._3rd.SharpCompress.Compressors;
+using CatLib._3rd.SharpCompress.Compressors.LZMA;
 using System.IO;
 
 namespace CatLib.Compress

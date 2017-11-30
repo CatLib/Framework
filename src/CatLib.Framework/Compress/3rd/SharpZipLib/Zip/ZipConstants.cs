@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 
-namespace ICSharpCode.SharpZipLib.Zip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip
 {
 	#region Enumerations
 

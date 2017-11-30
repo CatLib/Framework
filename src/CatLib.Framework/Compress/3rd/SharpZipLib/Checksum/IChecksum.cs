@@ -1,4 +1,4 @@
-namespace ICSharpCode.SharpZipLib.Checksum
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Checksum
 {
 	/// <summary>
 	/// Interface to compute a data checksum used by checked input/output streams.

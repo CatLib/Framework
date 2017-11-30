@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using SharpCompress.Common.SevenZip;
-using SharpCompress.Compressors.LZMA.Utilites;
+using CatLib._3rd.SharpCompress.Common.SevenZip;
+using CatLib._3rd.SharpCompress.Compressors.LZMA.Utilites;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     internal static class DecoderRegistry
     {

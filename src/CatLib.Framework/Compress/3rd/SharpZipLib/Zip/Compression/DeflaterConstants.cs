@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpZipLib.Zip.Compression
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression
 {
 	/// <summary>
 	/// This class contains constants used for deflation.

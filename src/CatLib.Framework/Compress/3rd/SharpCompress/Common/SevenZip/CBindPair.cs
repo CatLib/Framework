@@ -1,4 +1,4 @@
-﻿namespace SharpCompress.Common.SevenZip
+﻿namespace CatLib._3rd.SharpCompress.Common.SevenZip
 {
     internal class CBindPair
     {

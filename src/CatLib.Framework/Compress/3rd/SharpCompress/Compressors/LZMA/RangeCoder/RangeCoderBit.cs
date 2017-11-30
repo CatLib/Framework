@@ -1,6 +1,6 @@
 using System;
 
-namespace SharpCompress.Compressors.LZMA.RangeCoder
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA.RangeCoder
 {
     internal struct BitEncoder
     {
