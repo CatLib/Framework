@@ -31,29 +31,6 @@ namespace SharpCompress.Compressors.LZMA.Utilites
                 {
                     mClosed = true;
                     mCurrentCRC = CRC.Finish(mCurrentCRC);
-#if DEBUG
-                    if (mCurrentCRC == mExpectedCRC)
-                    {
-                        Debug.WriteLine("CRC ok: " + mExpectedCRC.ToString("x8"));
-                    }
-                    else
-                    {
-                        Debugger.Break();
-                        Debug.WriteLine("bad CRC");
-                    }
-
-                    double lengthInv = 1.0 / mLength;
-                    double entropy = 0;
-                    for (int i = 0; i < 256; i++)
-                    {
-                        if (mBytes[i] != 0)
-                        {
-                            double p = lengthInv * mBytes[i];
-                            entropy -= p * Math.Log(p, 256);
-                        }
-                    }
-                    Debug.WriteLine("entropy: " + (int)(entropy * 100) + "%");
-#endif
                 }
             }
             finally
