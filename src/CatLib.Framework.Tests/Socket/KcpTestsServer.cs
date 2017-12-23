@@ -80,14 +80,21 @@ namespace CatLib.Socket.Tests
 
         public void KcpListen()
         {
-            while (!exitFlag)
+            try
             {
-                var data = new byte[1024];
-                var recv = server.ReceiveFrom(data, ref remote);
+                while (!exitFlag)
+                {
+                    var data = new byte[1024];
+                    var recv = server.ReceiveFrom(data, ref remote);
 
-                var callbackBuff = new byte[recv];
-                Buffer.BlockCopy(data, 0, callbackBuff, 0, recv);
-                receiveQueue.Push(callbackBuff);
+                    var callbackBuff = new byte[recv];
+                    Buffer.BlockCopy(data, 0, callbackBuff, 0, recv);
+                    receiveQueue.Push(callbackBuff);
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
 

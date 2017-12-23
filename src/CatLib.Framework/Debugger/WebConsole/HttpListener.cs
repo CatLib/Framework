@@ -31,6 +31,11 @@ namespace CatLib.Debugger.WebConsole
         public event Action<HttpListenerContext> OnRequest;
 
         /// <summary>
+        /// 当关闭时
+        /// </summary>
+        public event Action OnClosed;
+
+        /// <summary>
         /// Http监听器
         /// </summary>
         /// <param name="host">监听host</param>
@@ -48,8 +53,11 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         public void Dispose()
         {
-            listener.Stop();
-            listener = null;
+            if (listener != null)
+            {
+                listener.Stop();
+                listener = null;
+            }
         }
 
         /// <summary>
@@ -57,16 +65,26 @@ namespace CatLib.Debugger.WebConsole
         /// </summary>
         private void ListenedRequest(IAsyncResult result)
         {
-            var context = listener.EndGetContext(result);
-            if (OnRequest != null)
+            try
             {
-                try
+                var context = listener.EndGetContext(result);
+                if (OnRequest != null)
                 {
-                    OnRequest.Invoke(context);
+                    try
+                    {
+                        OnRequest.Invoke(context);
+                    }
+                    catch { }
                 }
-                catch { }
+                listener.BeginGetContext(ListenedRequest, null);
             }
-            listener.BeginGetContext(ListenedRequest, null);
+            catch (Exception)
+            {
+                if(OnClosed != null)
+                {
+                    OnClosed.Invoke();
+                }
+            }
         }
     }
 }
