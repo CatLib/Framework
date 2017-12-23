@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using CatLib.API.Socket;
+using CatLib._3rd.Kcp;
 
 namespace CatLib.Socket
 {
@@ -448,9 +449,8 @@ namespace CatLib.Socket
                 receiveQueue.Push(receiveBytes);
                 client.BeginReceive(OnReceiveCallBack, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Trigger(SocketEvents.Error, ex);
                 Dispose();
             }
         }

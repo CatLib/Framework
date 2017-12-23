@@ -45,8 +45,23 @@ namespace CatLib.Json
         /// <returns>反序列化的类型</returns>
         public T Decode<T>(string json)
         {
+            Guard.Requires<ArgumentNullException>(json != null);
             GuardHandler();
             return handler.Decode<T>(json);
+        }
+
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="json">json数据</param>
+        /// <param name="type">反序列化的类型</param>
+        /// <returns>反序列化的结果</returns>
+        public object Decode(string json, Type type)
+        {
+            Guard.Requires<ArgumentNullException>(json != null);
+            Guard.Requires<ArgumentNullException>(type != null);
+            GuardHandler();
+            return handler.Decode(json, type);
         }
 
         /// <summary>

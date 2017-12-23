@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using ICSharpCode.SharpZipLib.Encryption;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Encryption;
 
-namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression.Streams
 {
 	/// <summary>
 	/// A special stream deflating or compressing the bytes that are

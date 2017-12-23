@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpZipLib.Zip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip
 {
 	// TODO: Sort out wether tagged data is useful and what a good implementation might look like.
 	// Its just a sketch of an idea at the moment.

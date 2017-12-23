@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using SharpCompress.Compressors.LZMA.Utilites;
+using CatLib._3rd.SharpCompress.Compressors.LZMA.Utilites;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     internal class AesDecoderStream : DecoderStream2
     {

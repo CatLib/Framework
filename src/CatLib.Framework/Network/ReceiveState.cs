@@ -12,6 +12,7 @@
 using System;
 using System.IO;
 using CatLib.API.Network;
+using System.Collections.Generic;
 
 namespace CatLib.Network
 {
@@ -36,10 +37,16 @@ namespace CatLib.Network
         private readonly IPacker packer;
 
         /// <summary>
+        /// 接受到的数据包
+        /// </summary>
+        private readonly Queue<object> packet;
+
+        /// <summary>
         /// 接收状态
         /// </summary>
         public ReceiveState(IPacker packer)
         {
+            packet = new Queue<object>(32);
             stream = new MemoryStream(1024 * 64);
             packetLength = 0;
             this.packer = packer;
@@ -51,8 +58,9 @@ namespace CatLib.Network
         /// <param name="data">数据</param>
         /// <param name="ex">异常</param>
         /// <returns>解包后的数据，如果返回null则代表没有解包</returns>
-        public object Input(byte[] data, out Exception ex)
+        public object[] Input(byte[] data, out Exception ex)
         {
+            packet.Clear();
             ex = null;
 
             if (stream.Position != stream.Length)
@@ -60,21 +68,34 @@ namespace CatLib.Network
                 stream.Seek(stream.Length, SeekOrigin.Begin);
             }
 
-            stream.Write(data, 0, data.Length);
-
-            if (packetLength <= 0)
+            if (data != null && data.Length > 0)
             {
-                var receiveData = new byte[stream.Length];
-                stream.Seek(0, SeekOrigin.Begin);
-                stream.Read(receiveData, 0, receiveData.Length);
-                packetLength = Math.Max(packer.Input(receiveData, out ex), 0);
-                if (ex != null)
-                {
-                    return null;
-                }
+                stream.Write(data, 0, data.Length);
             }
 
-            return packetLength < stream.Length ? null : Decode(out ex);
+            while (stream.Length > 0)
+            {
+                if (packetLength <= 0)
+                {
+                    var receiveData = new byte[stream.Length];
+                    stream.Seek(0, SeekOrigin.Begin);
+                    stream.Read(receiveData, 0, receiveData.Length);
+                    packetLength = Math.Max(packer.Input(receiveData, out ex), 0);
+                    if (packetLength <= 0 || ex != null)
+                    {
+                        break;
+                    }
+                }
+
+                if(packetLength > stream.Length)
+                {
+                    break;
+                }
+
+                packet.Enqueue(Decode(out ex));
+            }
+
+            return packet.Count > 0 ? packet.ToArray() : null;
         }
 
         /// <summary>
@@ -97,9 +118,9 @@ namespace CatLib.Network
             stream.Seek(0, SeekOrigin.Begin);
             var read = stream.Read(data, 0, data.Length);
 
-            if (read < data.Length)
+            if (read < stream.Length)
             {
-                var migrateData = new byte[data.Length - read];
+                var migrateData = new byte[stream.Length - read];
                 stream.Read(migrateData, 0, migrateData.Length);
                 Reset();
                 stream.Write(migrateData, 0, migrateData.Length);

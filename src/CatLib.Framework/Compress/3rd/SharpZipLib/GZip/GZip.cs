@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ICSharpCode.SharpZipLib.GZip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.GZip
 {
 	/// <summary>
 	/// An example class to demonstrate compression and decompression of GZip streams.

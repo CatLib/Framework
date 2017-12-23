@@ -274,7 +274,7 @@ namespace CatLib.Socket
                 NoDelay = true
             };
 
-            client.Client.IOControl(IOControlCode.KeepAliveValues, KeepAlive(1, 15000, 5000), null);
+            //client.Client.IOControl(IOControlCode.KeepAliveValues, KeepAlive(1, 15000, 5000), null);
 
             return client;
         }
@@ -308,7 +308,7 @@ namespace CatLib.Socket
 
                 networkStream = client.GetStream();
                 receiveBuffer = new byte[client.ReceiveBufferSize];
-                networkStream.BeginRead(receiveBuffer, 0, receiveBuffer.Length, OnReceiveCallBack, receiveBuffer);
+                networkStream.BeginRead(receiveBuffer, 0, receiveBuffer.Length, OnReceiveCallBack, payload);
 
                 status = Status.Establish;
                 payload.Result = true;
@@ -327,19 +327,30 @@ namespace CatLib.Socket
         /// <param name="result">异步执行结果</param>
         private void OnReceiveCallBack(IAsyncResult result)
         {
-            var read = networkStream.EndRead(result);
-            if (read <= 0)
+            var payload = (InternalRuntime)result.AsyncState;
+            try
             {
-                Dispose();
-                return;
+                var read = networkStream.EndRead(result);
+                if (read <= 0)
+                {
+                    Dispose();
+                    return;
+                }
+
+                var callbackBuff = new byte[read];
+                Buffer.BlockCopy(receiveBuffer, 0, callbackBuff, 0, read);
+                Trigger(SocketEvents.Message, callbackBuff);
+
+                Array.Clear(receiveBuffer, 0, read);
+                networkStream.BeginRead(receiveBuffer, 0, receiveBuffer.Length, OnReceiveCallBack, payload);
             }
-
-            var callbackBuff = new byte[read];
-            Buffer.BlockCopy(receiveBuffer, 0, callbackBuff, 0, read);
-            Trigger(SocketEvents.Message, callbackBuff);
-
-            Array.Clear(receiveBuffer, 0, read);
-            networkStream.BeginRead(receiveBuffer, 0, receiveBuffer.Length, OnReceiveCallBack, receiveBuffer);
+            catch (Exception)
+            {
+                if (Connected)
+                {
+                    Dispose();
+                }
+            }
         }
 
         /// <summary>

@@ -15,7 +15,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace Murmur
+namespace CatLib._3rd.Murmur
 {
     /// <summary>
     /// 

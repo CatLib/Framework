@@ -12,7 +12,7 @@
 using System;
 using System.Security.Cryptography;
 using CatLib.API.Encryption;
-using Elliptic;
+using CatLib._3rd.Elliptic;
 
 namespace CatLib.Encryption
 {

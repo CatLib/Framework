@@ -51,9 +51,9 @@ namespace CatLib.Socket.Tests
                         callback.Invoke(callbackBuff);
                     }
                 }
-                catch (Exception exp)
+                catch (Exception)
                 {
-                    Console.WriteLine(exp.ToString());
+                    //Console.WriteLine(exp.ToString());
                 }
                 client.Close();
             }

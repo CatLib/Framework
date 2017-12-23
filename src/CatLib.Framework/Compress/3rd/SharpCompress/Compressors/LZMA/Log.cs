@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     internal static class Log
     {

@@ -9,6 +9,8 @@
  * Document: http://catlib.io/
  */
 
+using System;
+
 namespace CatLib.API.Json
 {
     /// <summary>
@@ -19,10 +21,18 @@ namespace CatLib.API.Json
         /// <summary>
         /// 反序列化
         /// </summary>
-        /// <typeparam name="T">类型</typeparam>
+        /// <typeparam name="T">反序列化的类型</typeparam>
         /// <param name="json">json数据</param>
-        /// <returns>反序列化的类型</returns>
+        /// <returns>反序列化的结果</returns>
         T Decode<T>(string json);
+
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="json">json数据</param>
+        /// <param name="type">反序列化的类型</param>
+        /// <returns>反序列化的结果</returns>
+        object Decode(string json, Type type);
 
         /// <summary>
         /// 序列化

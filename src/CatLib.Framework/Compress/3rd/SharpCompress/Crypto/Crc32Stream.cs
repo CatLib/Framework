@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace SharpCompress.Crypto
+namespace CatLib._3rd.SharpCompress.Crypto
 {
     internal sealed class Crc32Stream : Stream
     {

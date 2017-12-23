@@ -1,9 +1,9 @@
 using System;
 using System.IO;
-using SharpCompress.Compressors.LZMA.LZ;
-using SharpCompress.Compressors.LZMA.RangeCoder;
+using CatLib._3rd.SharpCompress.Compressors.LZMA.LZ;
+using CatLib._3rd.SharpCompress.Compressors.LZMA.RangeCoder;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     internal class Decoder : ICoder, ISetDecoderProperties // ,System.IO.Stream
     {

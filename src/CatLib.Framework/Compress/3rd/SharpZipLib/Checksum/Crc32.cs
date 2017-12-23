@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpZipLib.Checksum
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Checksum
 {
 	/// <summary>
 	/// CRC-32 with reversed data and unreversed output

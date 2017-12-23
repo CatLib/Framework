@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace SharpCompress.Compressors.LZMA.RangeCoder
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA.RangeCoder
 {
     internal class Encoder
     {

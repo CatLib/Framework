@@ -10,7 +10,7 @@
  */
 
 using System;
-using Murmur;
+using CatLib._3rd.Murmur;
 
 namespace CatLib.Hashing.Checksum
 {

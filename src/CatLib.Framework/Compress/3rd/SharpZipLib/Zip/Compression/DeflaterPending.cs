@@ -1,4 +1,4 @@
-namespace ICSharpCode.SharpZipLib.Zip.Compression
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression
 {
 	/// <summary>
 	/// This class stores the pending output of the Deflater.

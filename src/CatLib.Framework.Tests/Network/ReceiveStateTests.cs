@@ -28,11 +28,15 @@ namespace CatLib.Tests.Network
             var result = state.Input(Encoding.Default.GetBytes("hello"), out ex);
             Assert.AreEqual(null, result);
             result = state.Input(Encoding.Default.GetBytes("world\n"), out ex);
-            Assert.AreEqual("helloworld", Encoding.Default.GetString((byte[])result));
+            Assert.AreEqual("helloworld", Encoding.Default.GetString((byte[])result[0]));
             result = state.Input(Encoding.Default.GetBytes("hello"), out ex);
             Assert.AreEqual(null, result);
             result = state.Input(Encoding.Default.GetBytes("shanghai\n"), out ex);
-            Assert.AreEqual("helloshanghai", Encoding.Default.GetString((byte[])result));
+            Assert.AreEqual("helloshanghai", Encoding.Default.GetString((byte[])result[0]));
+
+            result = state.Input(Encoding.Default.GetBytes("shanghai\nchina\n"), out ex);
+            Assert.AreEqual("shanghai", Encoding.Default.GetString((byte[])result[0]));
+            Assert.AreEqual("china", Encoding.Default.GetString((byte[])result[1]));
         }
     }
 }

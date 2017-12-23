@@ -1,4 +1,4 @@
-namespace ICSharpCode.SharpZipLib.GZip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.GZip
 {
 	/// <summary>
 	/// This class contains constants used for gzip.

@@ -145,7 +145,6 @@ namespace CatLib.Tests.Debugger.WebConsole
             ExceptionAssert.Throws<WebException>(() =>
             {
                 var statu = HttpHelper.Get("http://localhost:9478/", out ret);
-                Console.WriteLine(statu);
             });
         }
 

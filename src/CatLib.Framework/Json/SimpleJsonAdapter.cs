@@ -9,6 +9,7 @@
  * Document: http://catlib.io/
  */
 
+using System;
 using CatLib.API.Json;
 
 namespace CatLib.Json
@@ -26,7 +27,18 @@ namespace CatLib.Json
         /// <returns>反序列化的类型</returns>
         public T Decode<T>(string json)
         {
-            return SimpleJson.SimpleJson.DeserializeObject<T>(json);
+            return (T)Decode(json, typeof(T));
+        }
+
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="json">json数据</param>
+        /// <param name="type">反序列化的类型</param>
+        /// <returns>反序列化的结果</returns>
+        public object Decode(string json, Type type)
+        {
+            return SimpleJson.SimpleJson.DeserializeObject(json, type);
         }
 
         /// <summary>

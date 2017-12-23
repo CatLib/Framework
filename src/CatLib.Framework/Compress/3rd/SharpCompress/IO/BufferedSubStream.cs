@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace SharpCompress.IO
+namespace CatLib._3rd.SharpCompress.IO
 {
     internal class BufferedSubStream : Stream
     {

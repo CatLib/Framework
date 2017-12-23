@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace SharpCompress.Compressors.LZMA.Utilites
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA.Utilites
 {
     internal enum BlockType : byte
     {
@@ -45,9 +45,9 @@ namespace SharpCompress.Compressors.LZMA.Utilites
         {
             if (!expression)
             {
-                if (Debugger.IsAttached)
+                if (System.Diagnostics.Debugger.IsAttached)
                 {
-                    Debugger.Break();
+                    System.Diagnostics.Debugger.Break();
                 }
 
                 throw new Exception("Assertion failed.");

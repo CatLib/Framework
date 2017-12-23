@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using SharpCompress.Converters;
-using SharpCompress.Crypto;
-using SharpCompress.IO;
+using CatLib._3rd.SharpCompress.Converters;
+using CatLib._3rd.SharpCompress.Crypto;
+using CatLib._3rd.SharpCompress.IO;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     // TODO:
     // - Write as well as read

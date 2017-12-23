@@ -1,61 +1,74 @@
 using System;
 using System.Collections;
 
-public class Utility {
+namespace CatLib._3rd.Kcp
+{
+    public class Utility
+    {
 
-	public static void Swap< QT >( ref QT t1, ref QT t2 ) {
-		
-		QT temp = t1;
-		t1 = t2;
-		t2 = temp;
-	}
-}
+        public static void Swap<QT>(ref QT t1, ref QT t2)
+        {
 
-public class SwitchQueue<T> where T : class {
-
-    private Queue mConsumeQueue;
-    private Queue mProduceQueue;
-
-    public SwitchQueue() {
-        mConsumeQueue = new Queue(16);
-        mProduceQueue = new Queue(16);
+            QT temp = t1;
+            t1 = t2;
+            t2 = temp;
+        }
     }
 
-	public SwitchQueue(int capcity) {
-        mConsumeQueue = new Queue(capcity);
-        mProduceQueue = new Queue(capcity);
-	}
+    public class SwitchQueue<T> where T : class
+    {
 
-	// producer
-	public void Push( T obj ) {
-		lock (mProduceQueue) 
-		{
-			mProduceQueue.Enqueue( obj );
-		}
-	}
+        private Queue mConsumeQueue;
+        private Queue mProduceQueue;
 
-	// consumer.
-	public T Pop() {
+        public SwitchQueue()
+        {
+            mConsumeQueue = new Queue(16);
+            mProduceQueue = new Queue(16);
+        }
 
-		return (T)mConsumeQueue.Dequeue();
-	}
+        public SwitchQueue(int capcity)
+        {
+            mConsumeQueue = new Queue(capcity);
+            mProduceQueue = new Queue(capcity);
+        }
 
-	public bool Empty() {
-		return 0 == mConsumeQueue.Count;
-	}
+        // producer
+        public void Push(T obj)
+        {
+            lock (mProduceQueue)
+            {
+                mProduceQueue.Enqueue(obj);
+            }
+        }
 
-	public void Switch() {
-		lock (mProduceQueue) 
-		{
-			Utility.Swap ( ref mConsumeQueue, ref mProduceQueue );
-		}
-	}
+        // consumer.
+        public T Pop()
+        {
 
-	public void Clear() {
-		lock (mProduceQueue) 
-		{
-			mConsumeQueue.Clear();
-			mProduceQueue.Clear();
-		}
-	}
+            return (T) mConsumeQueue.Dequeue();
+        }
+
+        public bool Empty()
+        {
+            return 0 == mConsumeQueue.Count;
+        }
+
+        public void Switch()
+        {
+            lock (mProduceQueue)
+            {
+                Utility.Swap(ref mConsumeQueue, ref mProduceQueue);
+            }
+        }
+
+        public void Clear()
+        {
+            lock (mProduceQueue)
+            {
+                mConsumeQueue.Clear();
+                mProduceQueue.Clear();
+            }
+        }
+    }
 }

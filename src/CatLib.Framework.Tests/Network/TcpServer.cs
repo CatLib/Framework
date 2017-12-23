@@ -73,19 +73,24 @@ namespace CatLib.Tests.Network
                 var bytes = new byte[4096];
                 var i = 0;
 
-                while ((i = client.Receive(bytes)) != 0)
+                try
                 {
-                    if (i < 0)
+                    while ((i = client.Receive(bytes)) != 0)
                     {
-                        break;
+                        if (i < 0)
+                        {
+                            break;
+                        }
+                        var callbackBuff = new byte[i];
+                        Buffer.BlockCopy(bytes, 0, callbackBuff, 0, i);
+                        client.Send(callbackBuff);
+                        callback.Invoke(callbackBuff);
                     }
-                    var callbackBuff = new byte[i];
-                    Buffer.BlockCopy(bytes, 0, callbackBuff, 0, i);
-                    client.Send(callbackBuff);
-                    callback.Invoke(callbackBuff);
                 }
-
-                client.Close();
+                finally
+                {
+                    client.Close();
+                }
             }
         }
     }
