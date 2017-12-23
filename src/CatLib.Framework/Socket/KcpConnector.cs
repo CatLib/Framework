@@ -449,9 +449,8 @@ namespace CatLib.Socket
                 receiveQueue.Push(receiveBytes);
                 client.BeginReceive(OnReceiveCallBack, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Trigger(SocketEvents.Error, ex);
                 Dispose();
             }
         }

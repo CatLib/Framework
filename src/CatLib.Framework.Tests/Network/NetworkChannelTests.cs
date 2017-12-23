@@ -54,7 +54,13 @@ namespace CatLib.Tests.Network
             public int Input(byte[] source, out Exception ex)
             {
                 ex = (errorType & ErrorType.Input) > 0 ? new RuntimeException("exception input") : null;
-                return source.Length + 4;
+
+                if(source.Length >= 4)
+                {
+                    return BitConverter.ToInt32(source, 0);
+                }
+
+                return 0;
             }
 
             /// <summary>
@@ -124,10 +130,13 @@ namespace CatLib.Tests.Network
                 }
                 try
                 {
-                    var err = new Exception();
+                    string err = string.Empty;
                     channel.OnError += (c, ex) =>
                     {
-                        err = ex;
+                        if (err == string.Empty)
+                        {
+                            err = ex.ToString();
+                        }
                     };
 
                     channel.Send(Encoding.Default.GetBytes("helloworld"));
@@ -138,7 +147,7 @@ namespace CatLib.Tests.Network
                     }
 
                     Assert.AreEqual(false, channel.Socket.Connected);
-                    Assert.AreEqual("CatLib.RuntimeException: exception decode", err.ToString());
+                    Assert.AreEqual("CatLib.RuntimeException: exception decode", err);
                 }
                 finally
                 {
