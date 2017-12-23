@@ -141,14 +141,12 @@ namespace CatLib.Debugger.WebConsole
             {
                 DispatchToRouted(context);
             }
-            catch (NotFoundRouteException ex)
+            catch (NotFoundRouteException)
             {
-                Console.WriteLine(ex);
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 

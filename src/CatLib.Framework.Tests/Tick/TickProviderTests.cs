@@ -51,7 +51,6 @@ namespace CatLib.Tests.Tick
             public void Tick(int elapseMillisecond)
             {
                 isTick = true;
-                Console.WriteLine(elapseMillisecond);
             }
         }
 

@@ -195,7 +195,6 @@ namespace CatLib.Tests.Network
         }
 
         [TestMethod]
-        [Timeout(3000)]
         public void HeatBeatDisconnectTests()
         {
             lock (syncRoot)

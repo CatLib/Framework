@@ -40,7 +40,6 @@ namespace CatLib.Tests.Debugger.WebConsole
         {
             context.Response.StatusCode = (int)HttpStatusCode.OK;
             context.Response.OutputStream.Close();
-            Console.WriteLine(context.Request.Url.AbsolutePath);
             wait.Set();
         }
     }
