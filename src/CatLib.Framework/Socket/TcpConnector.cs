@@ -223,7 +223,8 @@ namespace CatLib.Socket
             if (status == Status.Closed)
             {
                 return;
-            }            
+            }
+            
             status = Status.Closed;
             
             if (networkStream != null)
