@@ -36,7 +36,7 @@ CatLib提供了项目所必备的基础组件 , 您可以通过接口简单的�
 **使用Nuget安装**
 
 ```PM
-Install-Package CatLib.Framework -Version 1.1.0
+Install-Package CatLib.Framework -Version 1.1.1
 ```
 
 ## 学习CatLib
