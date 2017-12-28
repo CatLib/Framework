@@ -224,7 +224,9 @@ namespace CatLib.Socket
             {
                 return;
             }
-
+            
+            status = Status.Closed;
+            
             if (networkStream != null)
             {
                 networkStream.Close();
@@ -234,8 +236,7 @@ namespace CatLib.Socket
             {
                 client.Close();
             }
-
-            status = Status.Closed;
+            
             Trigger(SocketEvents.Closed, this);
         }
 
