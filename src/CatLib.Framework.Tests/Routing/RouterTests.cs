@@ -32,7 +32,7 @@ namespace CatLib.Tests.Routing
             
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
            
-            app.On(RouterEvents.OnBeforeRouterAttrCompiler, (payload) =>
+            app.On(RouterEvents.OnBeforeRouterAttrCompiler, () =>
             {
                 var internalRouter = App.Make<IRouter>();
                 internalRouter.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
@@ -53,9 +53,8 @@ namespace CatLib.Tests.Routing
                 internalRouter.Group("DefaultGroup2").Defaults("str", "TestUseGroupAndLocalDefaults");
             });
 
-            app.On(RouterEvents.OnDispatcher, (payload) =>
+            app.On(RouterEvents.OnDispatcher, (DispatchEventArgs arg) =>
             {
-                var arg = payload as DispatchEventArgs;
                 Assert.AreNotEqual(null, arg.Request);
                 Assert.AreNotEqual(null, arg.Route);
                 Assert.AreNotEqual(string.Empty, (arg.Route as Route).Compiled.ToString());

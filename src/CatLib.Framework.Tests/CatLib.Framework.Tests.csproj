@@ -38,8 +38,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CatLib.Core, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CatLib.Core.1.1.1\lib\CatLib.Core.dll</HintPath>
+    <Reference Include="CatLib.Core, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.2.1\lib\net35\CatLib.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -119,9 +119,6 @@
       <Project>{BBB2DAE2-638B-4419-9591-3CECCA312E4E}</Project>
       <Name>CatLib.Framework</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CatLib.Core.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

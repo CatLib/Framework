@@ -91,7 +91,7 @@ namespace CatLib.Tick
         /// </summary>
         /// <param name="fps">每秒的帧率(0-1000)</param>
         /// <param name="container">容器</param>
-        public TimeTicker(int fps, [Inject(Required = true)]IContainer container)
+        public TimeTicker(int fps, IContainer container)
         {
             Guard.Requires<ArgumentNullException>(container != null);
             Guard.Requires<ArgumentOutOfRangeException>(fps >= 1);

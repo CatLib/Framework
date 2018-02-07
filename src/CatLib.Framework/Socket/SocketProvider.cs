@@ -62,7 +62,7 @@ namespace CatLib.Socket
             {
                 var factory = (SocketManager)obj;
                 ExtendSocketMaker(factory);
-                App.MakeWith<TickBridge>(factory);
+                App.Make<TickBridge>(factory);
                 return factory;
             }).OnRelease((_, __) =>
             {

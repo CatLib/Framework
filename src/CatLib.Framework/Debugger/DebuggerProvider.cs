@@ -93,7 +93,7 @@ namespace CatLib.Debugger
                 return;
             }
 
-            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, () =>
             {
                 App.Make<HttpDebuggerConsole>();
             });

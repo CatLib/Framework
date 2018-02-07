@@ -35,7 +35,7 @@ namespace CatLib.Tick
         [Priority(5)]
         public void Init()
         {
-            App.MakeWith<TimeTicker>(Fps);
+            App.Make<TimeTicker>(Fps);
         }
 
         /// <summary>

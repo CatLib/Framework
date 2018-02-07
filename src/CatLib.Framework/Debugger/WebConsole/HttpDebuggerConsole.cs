@@ -62,9 +62,7 @@ namespace CatLib.Debugger.WebConsole
         /// <param name="logger">日志记录器</param>
         /// <param name="router">路由器</param>
         /// <param name="json">json解析器</param>
-        public HttpDebuggerConsole([Inject(Required = true)]ILogger logger,
-                                    [Inject(Required = true)]IRouter router,
-                                     [Inject(Required = true)]IJson json)
+        public HttpDebuggerConsole(ILogger logger, IRouter router, IJson json)
         {
             Guard.Requires<AssertException>(logger != null);
             Guard.Requires<AssertException>(router != null);
@@ -92,7 +90,7 @@ namespace CatLib.Debugger.WebConsole
         [Routed("get-guid")]
         public void GetGuid(IResponse response)
         {
-            response.SetContext(new GetGuid(new Dictionary <string,string>
+            response.SetContext(new GetGuid(new Dictionary<string, string>
             {
                 { "guid" , guid }
             }));

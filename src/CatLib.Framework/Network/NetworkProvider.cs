@@ -66,7 +66,7 @@ namespace CatLib.Network
                 var factory = (NetworkManager)obj;
                 ExtendNetworkMaker(factory);
                 BindSocketFactory(factory);
-                App.MakeWith<TickBridge>(factory);
+                App.Make<TickBridge>(factory);
                 return factory;
             }).OnRelease((_, obj) =>
             {
