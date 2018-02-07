@@ -11,13 +11,14 @@
 
 using System;
 using CatLib.API.Json;
+using LitJson;
 
 namespace CatLib.Json
 {
     /// <summary>
     /// Facebook Simple Json 适配器
     /// </summary>
-    internal sealed class SimpleJsonAdapter : IJson
+    internal sealed class LitJsonAdapter : IJson
     {
         /// <summary>
         /// 反序列化
@@ -38,7 +39,7 @@ namespace CatLib.Json
         /// <returns>反序列化的结果</returns>
         public object Decode(string json, Type type)
         {
-            return SimpleJson.SimpleJson.DeserializeObject(json, type);
+            return JsonMapper.ToObject(json, type);
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace CatLib.Json
         /// <returns>json数据</returns>
         public string Encode(object item)
         {
-            return SimpleJson.SimpleJson.SerializeObject(item);
+            return JsonMapper.ToJson(item);
         }
     }
 }

@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using CatLib.API.Json;
 using CatLib.Json;
-using SimpleJson;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CatLib.Tests.Json
@@ -74,11 +73,6 @@ namespace CatLib.Tests.Json
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                jsonUnility.Decode<JsonObject>(string.Empty);
-            });
-
-            ExceptionAssert.Throws<RuntimeException>(() =>
-            {
                 jsonUnility.Decode<DemoClass>(string.Empty);
             });
         }
@@ -88,7 +82,7 @@ namespace CatLib.Tests.Json
         {
             var app = MakeApplication();
             var json = app.Make<IJson>();
-            var demoClass = new DemoClass()
+            var demoClass = new DemoClass
             {
                 Name = "helloworld",
                 Dict = new Dictionary<string, string>()
@@ -103,7 +97,7 @@ namespace CatLib.Tests.Json
             Assert.AreEqual("helloworld", decodeClass.Name);
             Assert.AreEqual("18", decodeClass.Dict["key"]);
 
-            var decodeClassWithObject = json.Decode<JsonObject>(jsonStr);
+            var decodeClassWithObject = json.Decode<DemoClass>(jsonStr);
 
             Assert.AreNotEqual(null, decodeClassWithObject);
         }
