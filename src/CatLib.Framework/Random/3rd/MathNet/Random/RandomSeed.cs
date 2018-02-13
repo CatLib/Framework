@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathNet.Numerics.Random
+namespace CatLib._3rd.MathNet.Numerics.Random
 {
     /// <summary>
     /// Random seed

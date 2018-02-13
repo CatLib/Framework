@@ -36,7 +36,7 @@ using System.Collections.Generic;
 using System.Runtime;
 #endif
 
-namespace MathNet.Numerics.Random
+namespace CatLib._3rd.MathNet.Numerics.Random
 {
     /// <summary>
     /// Implements a multiply-with-carry Xorshift pseudo random number generator (RNG) specified in Marsaglia, George. (2003). Xorshift RNGs.

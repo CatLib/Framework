@@ -41,7 +41,7 @@ using System;
 
 #pragma warning disable 3021
 
-namespace SharpCompress.Converters
+namespace CatLib._3rd.SharpCompress.Converters
 {
 #if MONO_DATACONVERTER_PUBLIC
 	public

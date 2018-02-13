@@ -1,8 +1,8 @@
 using System;
 using System.Security.Cryptography;
-using ICSharpCode.SharpZipLib.Checksum;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Checksum;
 
-namespace ICSharpCode.SharpZipLib.Encryption
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Encryption
 {
 	/// <summary>
 	/// PkzipClassic embodies the classic or original encryption facilities used in Pkzip archives.
@@ -406,7 +406,7 @@ namespace ICSharpCode.SharpZipLib.Encryption
 		public override void GenerateKey()
 		{
 			key_ = new byte[12];
-			var rnd = new Random();
+			var rnd = new System.Random();
 			rnd.NextBytes(key_);
 		}
 

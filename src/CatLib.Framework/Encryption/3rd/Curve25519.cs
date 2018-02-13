@@ -14,7 +14,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace Elliptic
+namespace CatLib._3rd.Elliptic
 {
     public class Curve25519
     {

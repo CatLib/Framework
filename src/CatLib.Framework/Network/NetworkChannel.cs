@@ -329,6 +329,10 @@ namespace CatLib.Network
         /// <param name="obj">socket对象</param>
         private void OnSocketClosed(object obj)
         {
+            lock (heartBeatState)
+            {
+                heartBeatState.Reset();
+            }
             receiveState.Reset();
             if (OnClosed != null)
             {
@@ -343,9 +347,9 @@ namespace CatLib.Network
         private void OnSocketMessage(object obj)
         {
             var data = (byte[])obj;
-
             Exception ex;
-            var packet = receiveState.Input(data, out ex);
+
+            var packets = receiveState.Input(data, out ex);
 
             if (ex != null)
             {
@@ -354,7 +358,7 @@ namespace CatLib.Network
                 return;
             }
 
-            if (packet == null)
+            if (packets == null)
             {
                 return;
             }
@@ -366,7 +370,10 @@ namespace CatLib.Network
 
             if (OnMessage != null)
             {
-                OnMessage.Invoke(this, packet);
+                foreach (var packet in packets)
+                {
+                    OnMessage.Invoke(this, packet);
+                }
             }
         }
     }

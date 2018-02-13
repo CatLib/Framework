@@ -15,7 +15,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Murmur
+namespace CatLib._3rd.Murmur
 {
     internal class Murmur32ManagedX86 : Murmur32
     {

@@ -1,4 +1,4 @@
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     internal abstract class Base
     {

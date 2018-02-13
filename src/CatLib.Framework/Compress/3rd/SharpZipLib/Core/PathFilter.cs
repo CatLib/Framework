@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpZipLib.Core
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Core
 {
 	/// <summary>
 	/// PathFilter filters directories and files using a form of <see cref="System.Text.RegularExpressions.Regex">regular expressions</see>

@@ -25,10 +25,19 @@ CatLib 是一套`渐进式`的`服务提供者框架`，我们通过集成常见
 - [哈希](http://catlib.io/v1/guide/hashing.html)，[加解密](http://catlib.io/v1/guide/encryption.html)，[Json](http://catlib.io/v1/guide/json.html).
 - [国际化](http://catlib.io/v1/guide/translation.html)
 - 基于Web的[远程调试控制台](http://catlib.io/v1/guide/console.html)
+- 支持Tcp,Kcp的[网络组件](http://catlib.io/v1/guide/network.html)
 
 CatLib提供了项目所必备的基础组件 , 您可以通过接口简单的调用就可以访问这些组件的特性. 您也可以根据业务需求自由组合搭配这些组件，来构建一个完整的项目。
 
 无论您是一个新的项目还是一个正在被开发的项目，您都可以轻松的嵌入CatLib。绝大多数的CatLib的组件都可以被单独使用和无感知替换的，我们也欢迎其他的框架开发者来使用这些组件。
+
+## 安装CatLib
+
+**使用Nuget安装**
+
+```PM
+Install-Package CatLib.Framework -Version 1.1.1
+```
 
 ## 学习CatLib
 

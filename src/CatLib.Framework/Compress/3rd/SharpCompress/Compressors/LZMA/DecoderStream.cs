@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using SharpCompress.Common.SevenZip;
-using SharpCompress.Compressors.LZMA.Utilites;
-using SharpCompress.IO;
+using CatLib._3rd.SharpCompress.Common.SevenZip;
+using CatLib._3rd.SharpCompress.Compressors.LZMA.Utilites;
+using CatLib._3rd.SharpCompress.IO;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     internal abstract class DecoderStream2 : Stream
     {

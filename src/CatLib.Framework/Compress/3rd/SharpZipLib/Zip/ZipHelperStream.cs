@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace ICSharpCode.SharpZipLib.Zip
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip
 {
 	/// <summary>
 	/// Holds data pertinent to a data descriptor.

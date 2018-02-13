@@ -14,6 +14,7 @@ using CatLib.Hashing.Checksum;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CatLib._3rd.BCrypt.Net;
 
 namespace CatLib.Hashing
 {
@@ -182,7 +183,7 @@ namespace CatLib.Hashing
         public string HashPassword(string input, int factor = 10)
         {
             Guard.Requires<ArgumentNullException>(input != null);
-            return BCrypt.Net.BCrypt.HashPassword(input, factor);
+            return BCrypt.HashPassword(input, factor);
         }
 
         /// <summary>
@@ -195,7 +196,7 @@ namespace CatLib.Hashing
         {
             Guard.Requires<ArgumentNullException>(input != null);
             Guard.Requires<ArgumentNullException>(hash != null);
-            return BCrypt.Net.BCrypt.Verify(input, hash);
+            return BCrypt.Verify(input, hash);
         }
 
         /// <summary>

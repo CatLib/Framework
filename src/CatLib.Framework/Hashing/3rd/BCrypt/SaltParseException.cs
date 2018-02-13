@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace BCrypt.Net
+namespace CatLib._3rd.BCrypt.Net
 {
     /// <summary>Exception for signalling parse errors. </summary>
     public class SaltParseException : ApplicationException

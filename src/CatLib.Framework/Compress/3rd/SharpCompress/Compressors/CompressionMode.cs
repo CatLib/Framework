@@ -1,4 +1,4 @@
-﻿namespace SharpCompress.Compressors
+﻿namespace CatLib._3rd.SharpCompress.Compressors
 {
     /// <summary>
     /// 

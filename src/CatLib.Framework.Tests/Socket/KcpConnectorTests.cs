@@ -75,8 +75,6 @@ namespace CatLib.Socket.Tests
                 server.Dispose();
                 connector.Disconnect();
 
-                Console.WriteLine(System.Text.Encoding.Default.GetString(data));
-                Console.WriteLine(System.Text.Encoding.Default.GetString(reData));
                 Assert.AreEqual("hello world", System.Text.Encoding.Default.GetString(data));
                 Assert.AreEqual("hello world", System.Text.Encoding.Default.GetString(reData));
             }

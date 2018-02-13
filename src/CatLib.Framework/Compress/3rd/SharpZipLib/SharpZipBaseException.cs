@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpZipLib
+namespace CatLib._3rd.ICSharpCode.SharpZipLib
 {
     /// <summary>
     /// SharpZipBaseException is the base exception class for SharpZipLib.

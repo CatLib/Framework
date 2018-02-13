@@ -1,4 +1,4 @@
-namespace ICSharpCode.SharpZipLib.Core
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Core
 {
 	/// <summary>
 	/// INameTransform defines how file system names are transformed for use with archives, or vice versa.

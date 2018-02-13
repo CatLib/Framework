@@ -20,7 +20,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 // namespace: BCrypt.Net
-namespace BCrypt.Net
+namespace CatLib._3rd.BCrypt.Net
 {
     /// <summary>BCrypt implementation.</summary>
     /// <remarks>

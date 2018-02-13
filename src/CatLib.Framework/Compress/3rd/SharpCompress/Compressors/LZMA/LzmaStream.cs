@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using SharpCompress.Compressors.LZMA.LZ;
-using SharpCompress.Converters;
+using CatLib._3rd.SharpCompress.Compressors.LZMA.LZ;
+using CatLib._3rd.SharpCompress.Converters;
 
-namespace SharpCompress.Compressors.LZMA
+namespace CatLib._3rd.SharpCompress.Compressors.LZMA
 {
     /// <summary>
     /// 

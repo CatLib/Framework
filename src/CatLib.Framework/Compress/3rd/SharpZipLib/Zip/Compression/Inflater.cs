@@ -1,8 +1,8 @@
 using System;
-using ICSharpCode.SharpZipLib.Checksum;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Checksum;
+using CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
-namespace ICSharpCode.SharpZipLib.Zip.Compression
+namespace CatLib._3rd.ICSharpCode.SharpZipLib.Zip.Compression
 {
 	/// <summary>
 	/// Inflater is used to decompress data that has been compressed according

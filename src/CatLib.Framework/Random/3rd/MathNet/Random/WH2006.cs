@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.Random
+namespace CatLib._3rd.MathNet.Numerics.Random
 {
     /// <summary>
     /// Wichmann-Hill’s 2006 combined multiplicative congruential generator.
