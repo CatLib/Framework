@@ -39,8 +39,8 @@
     <NoWarn>CS1591;CS0414;CS0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CatLib.Core, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CatLib.Core.1.2.2\lib\net35\CatLib.Core.dll</HintPath>
+    <Reference Include="CatLib.Core, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.2.3\lib\net35\CatLib.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
