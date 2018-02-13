@@ -24,6 +24,11 @@
             CatLib实例
             </summary>
         </member>
+        <member name="M:CatLib.App.Terminate">
+            <summary>
+            终止CatLib框架
+            </summary>
+        </member>
         <member name="M:CatLib.App.Register(CatLib.IServiceProvider)">
             <summary>
             注册服务提供者
@@ -699,6 +704,13 @@
             </summary>
             <typeparam name="TService">解除绑定的服务</typeparam>
         </member>
+        <member name="M:CatLib.App.Tag``1(System.String)">
+            <summary>
+            为一个服务定义一个标记
+            </summary>
+            <typeparam name="TService">服务</typeparam>
+            <param name="tag">标记名</param>
+        </member>
         <member name="M:CatLib.App.Instance``1(System.Object)">
             <summary>
             静态化一个服务,实例值会经过解决修饰器
@@ -711,6 +723,13 @@
             释放服务
             </summary>
             <typeparam name="TService">服务名</typeparam>
+        </member>
+        <member name="M:CatLib.App.Release(System.Object[])">
+            <summary>
+            根据实例对象释放静态化实例
+            </summary>
+            <param name="instances">需要释放静态化实例对象</param>
+            <returns>只要有一个没有释放成功那么返回false</returns>
         </member>
         <member name="M:CatLib.App.Call(System.Object,System.String,System.Object[])">
             <summary>
@@ -799,6 +818,20 @@
             </summary>
             <typeparam name="TService">服务名</typeparam>
             <returns>回调方案</returns>
+        </member>
+        <member name="M:CatLib.App.OnRelease(System.Action{System.Object})">
+            <summary>
+            当静态服务被释放时
+            </summary>
+            <param name="callback">处理释放时的回调</param>
+            <returns>当前容器实例</returns>
+        </member>
+        <member name="M:CatLib.App.OnResolving(System.Action{System.Object})">
+            <summary>
+            当服务被解决时，生成的服务会经过注册的回调函数
+            </summary>
+            <param name="callback">回调函数</param>
+            <returns>当前容器对象</returns>
         </member>
         <member name="M:CatLib.App.Watch(System.String,System.Object,System.String)">
             <summary>
@@ -889,6 +922,16 @@
             初始化完成
             </summary>
         </member>
+        <member name="F:CatLib.Application.StartProcess.Terminate">
+            <summary>
+            框架终止之前
+            </summary>
+        </member>
+        <member name="F:CatLib.Application.StartProcess.Terminated">
+            <summary>
+            框架终止之后
+            </summary>
+        </member>
         <member name="F:CatLib.Application.serviceProviders">
             <summary>
             服务提供者
@@ -947,6 +990,11 @@
         <member name="M:CatLib.Application.#ctor">
             <summary>
             构建一个CatLib实例
+            </summary>
+        </member>
+        <member name="M:CatLib.Application.Terminate">
+            <summary>
+            终止CatLib框架
             </summary>
         </member>
         <member name="M:CatLib.Application.Bootstrap(CatLib.IBootstrap[])">
@@ -1107,6 +1155,16 @@
             当程序启动完成
             </summary>
         </member>
+        <member name="F:CatLib.ApplicationEvents.OnTerminate">
+            <summary>
+            当程序终止之前
+            </summary>
+        </member>
+        <member name="F:CatLib.ApplicationEvents.OnTerminated">
+            <summary>
+            当程序终止之后
+            </summary>
+        </member>
         <member name="T:CatLib.DebugLevels">
             <summary>
             调试等级
@@ -1165,6 +1223,13 @@
         <member name="P:CatLib.Facade`1.Instance">
             <summary>
             门面实例
+            </summary>
+        </member>
+        <member name="P:CatLib.Facade`1.HasInstance">
+            <summary>
+            是否拥有门面实例
+            <para>如果为非静态绑定那么永远返回<code>false</code></para>
+            <para>门面实例判断不能代替:<code>Container.HasInstance</code></para>
             </summary>
         </member>
         <member name="M:CatLib.Facade`1.Make(System.Object[])">
@@ -1273,6 +1338,11 @@
         <member name="P:CatLib.IApplication.DebugLevel">
             <summary>
             调试等级
+            </summary>
+        </member>
+        <member name="M:CatLib.IApplication.Terminate">
+            <summary>
+            终止CatLib框架
             </summary>
         </member>
         <member name="T:CatLib.IBootstrap">
@@ -1509,6 +1579,35 @@
             执行服务释放处理器
             </summary>
             <param name="obj">服务实例</param>
+        </member>
+        <member name="T:CatLib.BindDataExtend">
+            <summary>
+             绑定数据拓展
+             </summary>
+        </member>
+        <member name="M:CatLib.BindDataExtend.OnResolving(CatLib.IBindData,System.Action{System.Object})">
+            <summary>
+            解决服务时触发的回调
+            </summary>
+            <param name="bindData">绑定数据</param>
+            <param name="action">解决事件</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.BindDataExtend.OnRelease(CatLib.IBindData,System.Action{System.Object})">
+            <summary>
+            当静态服务被释放时
+            </summary>
+            <param name="bindData">绑定数据</param>
+            <param name="action">处理事件</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.BindDataExtend.OnRelease(CatLib.IBindData,System.Action)">
+            <summary>
+            当静态服务被释放时
+            </summary>
+            <param name="bindData">绑定数据</param>
+            <param name="action">处理事件</param>
+            <returns>服务绑定数据</returns>
         </member>
         <member name="T:CatLib.Container">
             <summary>
@@ -2524,6 +2623,14 @@
             <typeparam name="TService">解除绑定的服务</typeparam>
             <param name="container">服务容器</param>
         </member>
+        <member name="M:CatLib.ContainerExtend.Tag``1(CatLib.IContainer,System.String)">
+            <summary>
+            为一个服务定义一个标记
+            </summary>
+            <typeparam name="TService">服务</typeparam>
+            <param name="container">服务容器</param>
+            <param name="tag">标记名</param>
+        </member>
         <member name="M:CatLib.ContainerExtend.Instance``1(CatLib.IContainer,System.Object)">
             <summary>
             静态化一个服务,实例值会经过解决修饰器
@@ -2538,6 +2645,14 @@
             </summary>
             <typeparam name="TService">服务名</typeparam>
             <param name="container">服务容器</param>
+        </member>
+        <member name="M:CatLib.ContainerExtend.Release(CatLib.IContainer,System.Object[])">
+            <summary>
+            根据实例对象释放静态化实例
+            </summary>
+            <param name="container">服务容器</param>
+            <param name="instances">需要释放静态化实例对象</param>
+            <returns>只要有一个没有释放成功那么返回false</returns>
         </member>
         <member name="M:CatLib.ContainerExtend.Call``1(CatLib.IContainer,System.Action{``0})">
             <summary>
@@ -2640,6 +2755,22 @@
             <param name="container">服务容器</param>
             <param name="userParams">用户传入的参数</param>
             <returns>回调方案</returns>
+        </member>
+        <member name="M:CatLib.ContainerExtend.OnRelease(CatLib.IContainer,System.Action{System.Object})">
+            <summary>
+            当静态服务被释放时
+            </summary>
+            <param name="container">服务容器</param>
+            <param name="callback">处理释放时的回调</param>
+            <returns>当前容器实例</returns>
+        </member>
+        <member name="M:CatLib.ContainerExtend.OnResolving(CatLib.IContainer,System.Action{System.Object})">
+            <summary>
+            当服务被解决时，生成的服务会经过注册的回调函数
+            </summary>
+            <param name="container">服务容器</param>
+            <param name="callback">回调函数</param>
+            <returns>当前容器对象</returns>
         </member>
         <member name="M:CatLib.ContainerExtend.Watch(CatLib.IContainer,System.String,System.Object,System.String)">
             <summary>
