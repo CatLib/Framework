@@ -50,15 +50,13 @@ namespace CatLib.Translation
         /// </summary>
         public void Register()
         {
-            App.Singleton<Translator>().Alias<ITranslator>().OnResolving((bind, obj) =>
+            App.Singleton<Translator>().Alias<ITranslator>().OnResolving(instance =>
             {
-                var tran = (Translator)obj;
+                var tran = (Translator)instance;
                 tran.SetSelector(new Selector());
 
                 tran.SetLocale(DefaultLanguage);
                 tran.SetFallback(FallbackLanguage);
-
-                return obj;
             });
         }
     }

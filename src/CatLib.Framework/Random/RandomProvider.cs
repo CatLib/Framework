@@ -46,11 +46,10 @@ namespace CatLib.Random
         public void Register()
         {
             App.Singleton<RandomFactory>((_, __) => new RandomFactory(DefaultRandomType))
-                .Alias<IRandomFactory>().Alias<IRandom>().OnResolving((_, obj) =>
+                .Alias<IRandomFactory>().Alias<IRandom>().OnResolving(instance =>
             {
-                var math = (RandomFactory) obj;
+                var math = (RandomFactory)instance;
                 InitedRandom(math);
-                return obj;
             });
         }
 

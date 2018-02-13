@@ -53,15 +53,14 @@ namespace CatLib.Hashing
         public void Register()
         {
             App.Singleton<Hashing>((_, __) => new Hashing(DefaultChecksum, DefaultEncoding))
-                .Alias<IHashing>().OnResolving((_, obj) =>
+                .Alias<IHashing>().OnResolving(instance =>
             {
-                var hashing = (Hashing)obj;
+                var hashing = (Hashing)instance;
 
                 hashing.Extend(Checksums.Crc32, () => new Crc32());
                 hashing.Extend(Checksums.Adler32, () => new Adler32());
                 hashing.Extend(Checksums.Djb, () => new Djb());
                 hashing.Extend(Checksums.Murmur32, () => new Murmur32());
-                return obj;
             });
         }
     }

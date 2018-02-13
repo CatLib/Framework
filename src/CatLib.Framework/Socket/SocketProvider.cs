@@ -58,12 +58,11 @@ namespace CatLib.Socket
         /// </summary>
         public void Register()
         {
-            App.Singleton<SocketManager>().Alias<ISocketManager>().OnResolving((_, obj) =>
+            App.Singleton<SocketManager>().Alias<ISocketManager>().OnResolving(instance =>
             {
-                var factory = (SocketManager)obj;
+                var factory = (SocketManager)instance;
                 ExtendSocketMaker(factory);
                 App.Make<TickBridge>(factory);
-                return factory;
             }).OnRelease((_, __) =>
             {
                 App.Release<TickBridge>();

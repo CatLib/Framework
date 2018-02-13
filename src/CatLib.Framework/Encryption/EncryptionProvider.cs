@@ -49,11 +49,10 @@ namespace CatLib.Encryption
         /// </summary>
         public void Register()
         {
-            App.Singleton<Encrypter>().OnResolving((_, obj) =>
+            App.Singleton<Encrypter>().OnResolving(instance =>
             {
-                var encrypter = (Encrypter)obj;
+                var encrypter = (Encrypter)instance;
                 encrypter.Extend(() => MakeEncrypter(Key, Cipher));
-                return encrypter;
             }).Alias<IEncrypter>().Alias<IEncryptionManager>();
         }
 

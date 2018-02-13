@@ -43,9 +43,9 @@ namespace CatLib.Tick
         /// </summary>
         public void Register()
         {
-            App.Singleton<TimeTicker>().OnRelease((_, obj) =>
+            App.Singleton<TimeTicker>().OnRelease(instance =>
             {
-                var ticker = (TimeTicker) obj;
+                var ticker = (TimeTicker)instance;
                 ticker.Dispose();
             });
         }

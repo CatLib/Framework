@@ -61,13 +61,12 @@ namespace CatLib.Network
         /// </summary>
         public void Register()
         {
-            App.Singleton<NetworkManager>().Alias<INetworkManager>().OnResolving((_, obj) =>
+            App.Singleton<NetworkManager>().Alias<INetworkManager>().OnResolving(instance =>
             {
-                var factory = (NetworkManager)obj;
+                var factory = (NetworkManager)instance;
                 ExtendNetworkMaker(factory);
                 BindSocketFactory(factory);
                 App.Make<TickBridge>(factory);
-                return factory;
             }).OnRelease((_, obj) =>
             {
                 App.Release<TickBridge>();
