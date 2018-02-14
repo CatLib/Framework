@@ -38,8 +38,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CatLib.Core, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CatLib.Core.1.1.4\lib\net35\CatLib.Core.dll</HintPath>
+    <Reference Include="CatLib.Core, Version=1.2.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.2.5\lib\net35\CatLib.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -59,6 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Compress\CompressProviderTests.cs" />
+    <Compile Include="Debugger\Log\LoggerTests.cs" />
     <Compile Include="Debugger\WebLog\LogStoreTests.cs" />
     <Compile Include="Debugger\WebMonitor\Handler\SizeMonitorHandlerTests.cs" />
     <Compile Include="Debugger\WebMonitor\MonitorStoreTests.cs" />
@@ -78,9 +79,7 @@
     <Compile Include="Socket\TcpTestsServer.cs" />
     <Compile Include="Socket\Util.cs" />
     <Compile Include="Debugger\DebuggerHelper.cs" />
-    <Compile Include="Debugger\Log\LoggerTests.cs" />
     <Compile Include="Debugger\WebConsole\HttpDebuggerConsoleTests.cs" />
-    <Compile Include="Debugger\WebLog\Controller\LogTests.cs" />
     <Compile Include="Debugger\WebLog\Controller\UtilTests.cs" />
     <Compile Include="Debugger\WebMonitor\Controller\MonitorTests.cs" />
     <Compile Include="HttpHelper.cs" />

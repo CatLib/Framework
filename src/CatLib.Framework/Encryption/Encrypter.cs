@@ -9,10 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using CatLib._3rd.Elliptic;
+using CatLib.API.Encryption;
 using System;
 using System.Security.Cryptography;
-using CatLib.API.Encryption;
-using CatLib._3rd.Elliptic;
 
 namespace CatLib.Encryption
 {

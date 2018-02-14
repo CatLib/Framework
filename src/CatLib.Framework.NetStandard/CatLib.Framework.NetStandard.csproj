@@ -180,10 +180,19 @@
     <Compile Include="..\CatLib.Framework\Hashing\Hashing.cs" Link="Hashing\Hashing.cs" />
     <Compile Include="..\CatLib.Framework\Hashing\HashingGuard.cs" Link="Hashing\HashingGuard.cs" />
     <Compile Include="..\CatLib.Framework\Hashing\HashingProvider.cs" Link="Hashing\HashingProvider.cs" />
-    <Compile Include="..\CatLib.Framework\Json\3rd\SimpleJson.cs" Link="Json\3rd\SimpleJson.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\IJsonWrapper.cs" Link="Json\3rd\LitJson\IJsonWrapper.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\JsonData.cs" Link="Json\3rd\LitJson\JsonData.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\JsonException.cs" Link="Json\3rd\LitJson\JsonException.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\JsonMapper.cs" Link="Json\3rd\LitJson\JsonMapper.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\JsonMockWrapper.cs" Link="Json\3rd\LitJson\JsonMockWrapper.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\JsonReader.cs" Link="Json\3rd\LitJson\JsonReader.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\JsonWriter.cs" Link="Json\3rd\LitJson\JsonWriter.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\Lexer.cs" Link="Json\3rd\LitJson\Lexer.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\Netstandard15Polyfill.cs" Link="Json\3rd\LitJson\Netstandard15Polyfill.cs" />
+    <Compile Include="..\CatLib.Framework\Json\3rd\LitJson\ParserToken.cs" Link="Json\3rd\LitJson\ParserToken.cs" />
     <Compile Include="..\CatLib.Framework\Json\JsonProvider.cs" Link="Json\JsonProvider.cs" />
     <Compile Include="..\CatLib.Framework\Json\JsonUtility.cs" Link="Json\JsonUtility.cs" />
-    <Compile Include="..\CatLib.Framework\Json\SimpleJsonAdapter.cs" Link="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="..\CatLib.Framework\Json\LitJsonAdapter.cs" Link="Json\LitJsonAdapter.cs" />
     <Compile Include="..\CatLib.Framework\Network\HeartBeatState.cs" Link="Network\HeartBeatState.cs" />
     <Compile Include="..\CatLib.Framework\Network\NetworkChannel.cs" Link="Network\NetworkChannel.cs" />
     <Compile Include="..\CatLib.Framework\Network\NetworkManager.cs" Link="Network\NetworkManager.cs" />
@@ -264,7 +273,7 @@
     <Folder Include="Hashing\3rd\BCrypt\" />
     <Folder Include="Hashing\3rd\MurmurHash\" />
     <Folder Include="Hashing\Checksum\" />
-    <Folder Include="Json\3rd\" />
+    <Folder Include="Json\3rd\LitJson\" />
     <Folder Include="Network\Packer\" />
     <Folder Include="Random\3rd\MathNet\Random\" />
     <Folder Include="Routing\Validators\" />
@@ -274,7 +283,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CatLib.Core" Version="1.1.4" />
+    <PackageReference Include="CatLib.Core" Version="1.2.5" />
   </ItemGroup>
 
   <ItemGroup>

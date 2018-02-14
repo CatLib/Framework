@@ -44,13 +44,12 @@ namespace CatLib.Compress
         /// </summary>
         public void Register()
         {
-            App.Singleton<CompressManager>().Alias<ICompressManager>().OnResolving((_, obj) =>
+            App.Singleton<CompressManager>().Alias<ICompressManager>().OnResolving(instance =>
             {
-                var manager = (CompressManager)obj;
+                var manager = (CompressManager)instance;
                 manager.Extend(() => new GZipAdapter(DefaultLevel));
                 manager.Extend(() => new LzmaAdapter(), "lzma");
                 manager.Extend(() => manager.Get(), "gzip");
-                return obj;
             });
 
             App.Singleton<ICompress>((_, __) => App.Make<ICompressManager>().Default);

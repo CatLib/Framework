@@ -9,10 +9,10 @@
  * Document: http://catlib.io/
  */
 
+using CatLib.API.Encryption;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using CatLib.API.Encryption;
 using System.Text;
 
 namespace CatLib.Encryption

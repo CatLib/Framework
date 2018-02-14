@@ -39,8 +39,8 @@
     <NoWarn>CS1591;CS0414;CS0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CatLib.Core, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CatLib.Core.1.1.4\lib\net35\CatLib.Core.dll</HintPath>
+    <Reference Include="CatLib.Core, Version=1.2.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CatLib.Core.1.2.5\lib\net35\CatLib.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -179,10 +179,19 @@
     <Compile Include="Hashing\Hashing.cs" />
     <Compile Include="Hashing\HashingProvider.cs" />
     <Compile Include="Hashing\Checksum\Djb.cs" />
-    <Compile Include="Json\3rd\SimpleJson.cs" />
+    <Compile Include="Json\3rd\LitJson\IJsonWrapper.cs" />
+    <Compile Include="Json\3rd\LitJson\JsonData.cs" />
+    <Compile Include="Json\3rd\LitJson\JsonException.cs" />
+    <Compile Include="Json\3rd\LitJson\JsonMapper.cs" />
+    <Compile Include="Json\3rd\LitJson\JsonMockWrapper.cs" />
+    <Compile Include="Json\3rd\LitJson\JsonReader.cs" />
+    <Compile Include="Json\3rd\LitJson\JsonWriter.cs" />
+    <Compile Include="Json\3rd\LitJson\Lexer.cs" />
+    <Compile Include="Json\3rd\LitJson\Netstandard15Polyfill.cs" />
+    <Compile Include="Json\3rd\LitJson\ParserToken.cs" />
     <Compile Include="Json\JsonProvider.cs" />
     <Compile Include="Json\JsonUtility.cs" />
-    <Compile Include="Json\SimpleJsonAdapter.cs" />
+    <Compile Include="Json\LitJsonAdapter.cs" />
     <Compile Include="Network\HeartBeatState.cs" />
     <Compile Include="Network\NetworkChannel.cs" />
     <Compile Include="Network\NetworkManager.cs" />
