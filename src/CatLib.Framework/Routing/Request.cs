@@ -18,7 +18,7 @@ namespace CatLib.Routing
     /// <summary>
     /// 请求
     /// </summary>
-    internal sealed class Request : IRequest
+    internal sealed class Request : IRequest , IParams
     {
         /// <summary>
         /// 统一资源标识符
@@ -245,6 +245,20 @@ namespace CatLib.Routing
         {
             bool result;
             return bool.TryParse(Get(key), out result) ? result : defaultValue;
+        }
+
+        /// <summary>
+        /// 获取一个参数
+        /// </summary>
+        /// <param name="key">参数名</param>
+        /// <param name="value">参数值</param>
+        /// <returns>是否成功获取</returns>
+        public bool TryGetValue(string key, out object value)
+        {
+            string data;
+            var result = parameters.TryGetValue(key, out data);
+            value = data;
+            return result;
         }
 
         /// <summary>

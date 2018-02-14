@@ -2174,7 +2174,7 @@
         </member>
         <member name="M:CatLib.Container.GetParamsMatcher(System.Object[]@)">
             <summary>
-            获取参数(<see cref="T:CatLib.Params"/>)匹配器
+            获取参数(<see cref="T:CatLib.IParams"/>)匹配器
             <para>开发者重写后可以实现自己的匹配器</para>
             <para>如果调用获取到的匹配器后返回结果为null则表示没有匹配到参数</para>
             </summary>
@@ -2308,14 +2308,14 @@
         </member>
         <member name="M:CatLib.Container.GetParamsTypeInUserParams(System.Object[]@)">
             <summary>
-            从<paramref name="userParams"/>中获取<see cref="T:CatLib.Params"/>类型的变量
+            从<paramref name="userParams"/>中获取<see cref="T:CatLib.IParams"/>类型的变量
             </summary>
             <param name="userParams">用户传入参数</param>
             <returns>获取到的参数</returns>
         </member>
-        <member name="M:CatLib.Container.MakeParamsMatcher(CatLib.Params[])">
+        <member name="M:CatLib.Container.MakeParamsMatcher(CatLib.IParams[])">
             <summary>
-            生成一个默认的参数<see cref="T:CatLib.Params" />匹配器
+            生成一个默认的参数<see cref="T:CatLib.IParams" />匹配器
             </summary>
             <param name="tables">参数表</param>
             <returns>匹配器</returns>
@@ -3249,6 +3249,19 @@
             声明注入
             </summary>
         </member>
+        <member name="T:CatLib.IParams">
+            <summary>
+            参数名注入表
+            </summary>
+        </member>
+        <member name="M:CatLib.IParams.TryGetValue(System.String,System.Object@)">
+            <summary>
+            获取一个参数
+            </summary>
+            <param name="key">参数名</param>
+            <param name="value">参数值</param>
+            <returns>是否成功获取</returns>
+        </member>
         <member name="T:CatLib.IVariant">
             <summary>
             可转变的
@@ -3401,9 +3414,20 @@
         </member>
         <member name="M:CatLib.Params.System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#GetEnumerator">
             <summary>
-            
+            迭代器
             </summary>
-            <returns></returns>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.Params.#ctor">
+            <summary>
+            参数名注入表
+            </summary>
+        </member>
+        <member name="M:CatLib.Params.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            参数名注入表
+            </summary>
+            <param name="args">参数表</param>
         </member>
         <member name="P:CatLib.Params.Item(System.String)">
             <summary>

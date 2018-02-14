@@ -12,6 +12,7 @@
 using CatLib.API.Routing;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace CatLib.Routing
 {
@@ -135,16 +136,81 @@ namespace CatLib.Routing
         /// <param name="uris">统一资源标识符</param>
         /// <param name="action">行为</param>
         /// <returns>当前实例</returns>
-        public IRoute Reg(string uris, Action<IRequest, IResponse> action)
+        public IRoute Reg(string uris, Action action)
+        {
+            Guard.Requires<ArgumentNullException>(action != null);
+            return Reg(uris, action.Target, action.Method);
+        }
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uris">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        public IRoute Reg<T>(string uris, Action<T> action)
+        {
+            Guard.Requires<ArgumentNullException>(action != null);
+            return Reg(uris, action.Target, action.Method);
+        }
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uris">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        public IRoute Reg<T1, T2>(string uris, Action<T1, T2> action)
+        {
+            Guard.Requires<ArgumentNullException>(action != null);
+            return Reg(uris, action.Target, action.Method);
+        }
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uris">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        public IRoute Reg<T1, T2, T3>(string uris, Action<T1, T2, T3> action)
+        {
+            Guard.Requires<ArgumentNullException>(action != null);
+            return Reg(uris, action.Target, action.Method);
+        }
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uris">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        public IRoute Reg<T1, T2, T3, T4>(string uris, Action<T1, T2, T3, T4> action)
+        {
+            Guard.Requires<ArgumentNullException>(action != null);
+            return Reg(uris, action.Target, action.Method);
+        }
+
+        /// <summary>
+        /// 根据
+        /// </summary>
+        /// <param name="uris">统一资源标识符</param>
+        /// <param name="target">行为调度目标</param>
+        /// <param name="methodInfo">调度方法</param>
+        public IRoute Reg(string uris, object target, MethodInfo methodInfo)
         {
             Guard.NotEmptyOrNull(uris, "uris");
-            Guard.Requires<ArgumentNullException>(action != null);
+            if (!methodInfo.IsStatic)
+            {
+                Guard.Requires<ArgumentNullException>(target != null);
+            }
+
             lock (syncRoot)
             {
                 return RegisterRoute(uris, new RouteAction
                 {
                     Type = RouteAction.RouteTypes.CallBack,
-                    Action = action,
+                    Target = target,
+                    MethodInfo = methodInfo
                 });
             }
         }
@@ -154,20 +220,20 @@ namespace CatLib.Routing
         /// </summary>
         /// <param name="uris">uri</param>
         /// <param name="controller">控制器类型</param>
-        /// <param name="func">调用的方法名</param>
+        /// <param name="method">调用的方法名</param>
         /// <returns>当前实例</returns>
-        public IRoute Reg(string uris, Type controller, string func)
+        public IRoute Reg(string uris, Type controller, string method)
         {
             Guard.NotEmptyOrNull(uris, "uris");
             Guard.Requires<ArgumentNullException>(controller != null);
-            Guard.NotEmptyOrNull(func, "func");
+            Guard.NotEmptyOrNull(method, "method");
             lock (syncRoot)
             {
                 return RegisterRoute(uris, new RouteAction
                 {
                     Type = RouteAction.RouteTypes.ControllerCall,
                     Controller = controller,
-                    Func = func
+                    Method = method
                 });
             }
         }

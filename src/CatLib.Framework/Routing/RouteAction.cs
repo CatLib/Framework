@@ -9,8 +9,8 @@
  * Document: http://catlib.io/
  */
 
-using CatLib.API.Routing;
 using System;
+using System.Reflection;
 
 namespace CatLib.Routing
 {
@@ -41,9 +41,14 @@ namespace CatLib.Routing
         public RouteTypes Type { get; set; }
 
         /// <summary>
-        /// 回调行为
+        /// 调用目标
         /// </summary>
-        public Action<IRequest, IResponse> Action { get; set; }
+        public object Target { get; set; }
+
+        /// <summary>
+        /// 调用方法
+        /// </summary>
+        public MethodInfo MethodInfo { get; set; }
 
         /// <summary>
         /// 控制器
@@ -53,6 +58,6 @@ namespace CatLib.Routing
         /// <summary>
         /// 调度函数名
         /// </summary>
-        public string Func { get; set; }
+        public string Method { get; set; }
     }
 }

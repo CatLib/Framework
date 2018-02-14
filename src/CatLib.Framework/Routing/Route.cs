@@ -310,17 +310,33 @@ namespace CatLib.Routing
         /// <param name="callback">完成中间件的回调</param>
         private void ThroughRouteMiddleware(Request request, Response response, object context, Action<Request, Response, object> callback)
         {
-            var middleware = GatherMiddleware();
-            if (middleware != null)
+            try
             {
-                middleware.Do(request, response, (req, res) =>
+                var middleware = GatherMiddleware();
+                if (middleware != null)
+                {
+                    middleware.Do(request, response, (req, res) =>
+                    {
+                        callback.Invoke(request, response, context);
+                    });
+                }
+                else
                 {
                     callback.Invoke(request, response, context);
-                });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                callback.Invoke(request, response, context);
+                var count = 0;
+                while (count++ < 255)
+                {
+                    ex = ex.InnerException ?? throw ex;
+                }
+
+                if (count >= 255)
+                {
+                    throw new RuntimeException("Route Error stack overflow. There may be an infinite loop. url: [" + request.Uri + "]");
+                }
             }
         }
 
@@ -332,7 +348,11 @@ namespace CatLib.Routing
         /// <param name="context">上下文</param>
         private void ActionCall(Request request, Response response, object context)
         {
-            action.Action.Invoke(request, response);
+            var result = container.Call(action.Target, action.MethodInfo, request, response);
+            if (result != null)
+            {
+                response.SetContext(result);
+            }
         }
 
         /// <summary>
@@ -343,7 +363,7 @@ namespace CatLib.Routing
         /// <param name="callback">回调</param>
         private void ThroughControllerMiddleware(Request request, Response response, Action<Request, Response, object> callback)
         {
-            var controller = container.Make(container.Type2Service(action.Controller));
+            var controller = container.Make(action.Controller);
 
             if (controller == null)
             {
@@ -388,7 +408,11 @@ namespace CatLib.Routing
         /// <param name="context">上下文</param>
         private void ControllerCall(Request request, Response response, object context)
         {
-            container.Call(context, action.Func);
+            var result = container.Call(context, action.Method, request, response);
+            if (result != null)
+            {
+                response.SetContext(result);
+            }
         }
 
         /// <summary>

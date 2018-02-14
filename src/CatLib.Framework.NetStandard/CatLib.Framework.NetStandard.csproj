@@ -283,7 +283,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CatLib.Core" Version="1.2.3" />
+    <PackageReference Include="CatLib.Core" Version="1.2.4" />
   </ItemGroup>
 
   <ItemGroup>

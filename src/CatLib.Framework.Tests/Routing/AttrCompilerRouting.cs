@@ -10,6 +10,7 @@
  */
 
 using CatLib.API.Routing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CatLib.Tests.Routing
 {
@@ -26,6 +27,23 @@ namespace CatLib.Tests.Routing
         public void UseGroupAndLocalDefaults(IRequest request, IResponse response)
         {
             response.SetContext(request["str"]);
+        }
+
+        // 可变类型测试
+        public class VariantType : IVariant
+        {
+            public string Value;
+            public VariantType(int data)
+            {
+                Value = data < 100 ? "less 100" : "bigger 100";
+            }
+        }
+
+        [Routed("routed://autoinject/{key}/{value}")]
+        public string TestAutoInject(string key, VariantType value)
+        {
+            Assert.AreEqual("hello", key);
+            return value.Value;
         }
     }
 }

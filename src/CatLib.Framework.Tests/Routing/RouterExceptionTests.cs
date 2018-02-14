@@ -85,7 +85,7 @@ namespace CatLib.Tests.Routing
         {
             var router = MakeRouter();
 
-            router.Reg("ui://helloworld/call", (req, res) =>
+            router.Reg("ui://helloworld/call", (IRequest req, IResponse res) =>
             {
                 router.Dispatch("catlib://helloworld/call");
             });
@@ -109,7 +109,7 @@ namespace CatLib.Tests.Routing
         {
             var router = MakeRouter();
 
-            router.Reg("ui://helloworld/call", (req, res) =>
+            router.Reg("ui://helloworld/call", (IRequest req, IResponse res) =>
             {
                 router.Dispatch("catlib://helloworld/call");
             });
@@ -134,7 +134,7 @@ namespace CatLib.Tests.Routing
         {
             var router = MakeRouter();
 
-            router.Reg("ui://helloworld/call", (req, res) =>
+            router.Reg("ui://helloworld/call", (IRequest req, IResponse res) =>
             {
                 throw new ArgumentNullException("hello");
             });
@@ -169,12 +169,12 @@ namespace CatLib.Tests.Routing
             var router = MakeRouter();
             var throwNotFound = 0; var throwError = 0;
 
-            router.Reg("ui://helloworld/call", (req, res) =>
+            router.Reg("ui://helloworld/call", (IRequest req, IResponse res) =>
             {
                 router.Dispatch("ui://helloworld/call2");
             });
 
-            router.Reg("ui://helloworld/call2", (req, res) =>
+            router.Reg("ui://helloworld/call2", (IRequest req, IResponse res) =>
             {
                 router.Dispatch("ui://helloworld/call3");
             }).OnError((req, res, ex, next) =>
@@ -186,7 +186,7 @@ namespace CatLib.Tests.Routing
                 next(req, res, ex);
             });
 
-            router.Reg("ui://helloworld/call3", (req, res) =>
+            router.Reg("ui://helloworld/call3", (IRequest req, IResponse res) =>
             {
                 throw new ArgumentNullException("hello");
             });
@@ -219,12 +219,12 @@ namespace CatLib.Tests.Routing
             var router = MakeRouter();
             var throwNotFound = 0; var throwError = 0;
 
-            router.Reg("ui://helloworld/call", (req, res) =>
+            router.Reg("ui://helloworld/call", (IRequest req, IResponse res) =>
             {
                 router.Dispatch("ui://helloworld/call2");
             });
 
-            router.Reg("ui://helloworld/call2", (req, res) =>
+            router.Reg("ui://helloworld/call2", (IRequest req, IResponse res) =>
             {
                 router.Dispatch("ui://helloworld/call3");
             }).OnError((req, res, ex, next) =>
@@ -235,7 +235,7 @@ namespace CatLib.Tests.Routing
                 }
             });
 
-            router.Reg("ui://helloworld/call3", (req, res) =>
+            router.Reg("ui://helloworld/call3", (IRequest req, IResponse res) =>
             {
                 throw new ArgumentNullException("hello");
             });
@@ -267,7 +267,7 @@ namespace CatLib.Tests.Routing
         {
             var router = MakeRouter();
 
-            router.Reg("ui://helloworld/call", (req, res) =>
+            router.Reg("ui://helloworld/call", (IRequest req,IResponse res) =>
             {
                 router.Dispatch("ui://helloworld/call2");
             });
@@ -283,7 +283,7 @@ namespace CatLib.Tests.Routing
         {
             var router = MakeRouter();
 
-            router.Reg("ui://helloworld/call", (req, res) =>
+            router.Reg("ui://helloworld/call", (IRequest req, IResponse res) =>
             {
                 ExceptionAssert.Throws<NotFoundRouteException>(() =>
                 {
@@ -292,7 +292,7 @@ namespace CatLib.Tests.Routing
                 res.SetContext("helloworld");
             });
 
-            router.Reg("ui://helloworld/call2", (req, res) =>
+            router.Reg("ui://helloworld/call2", (IRequest req, IResponse res) =>
             {
                 router.Dispatch("ui://helloworld/call3");
             });
