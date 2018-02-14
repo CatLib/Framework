@@ -170,7 +170,7 @@
             <param name="method">事件处理方法</param>
             <returns>事件对象</returns>
         </member>
-        <member name="M:CatLib.App.Listen(System.String,System.Func{System.Object})">
+        <member name="M:CatLib.App.Listen``1(System.String,System.Func{``0})">
             <summary>
             注册一个事件监听器
             </summary>
@@ -178,7 +178,7 @@
             <param name="method">事件处理方法</param>
             <returns>事件对象</returns>
         </member>
-        <member name="M:CatLib.App.Listen``1(System.String,System.Func{``0,System.Object})">
+        <member name="M:CatLib.App.Listen``2(System.String,System.Func{``0,``1})">
             <summary>
             注册一个事件监听器
             </summary>
@@ -186,7 +186,7 @@
             <param name="method">事件处理方法</param>
             <returns>事件对象</returns>
         </member>
-        <member name="M:CatLib.App.Listen``2(System.String,System.Func{``0,``1,System.Object})">
+        <member name="M:CatLib.App.Listen``3(System.String,System.Func{``0,``1,``2})">
             <summary>
             注册一个事件监听器
             </summary>
@@ -194,7 +194,7 @@
             <param name="method">事件处理方法</param>
             <returns>事件对象</returns>
         </member>
-        <member name="M:CatLib.App.Listen``3(System.String,System.Func{``0,``1,``2,System.Object})">
+        <member name="M:CatLib.App.Listen``4(System.String,System.Func{``0,``1,``2,``3})">
             <summary>
             注册一个事件监听器
             </summary>
@@ -202,7 +202,7 @@
             <param name="method">事件处理方法</param>
             <returns>事件对象</returns>
         </member>
-        <member name="M:CatLib.App.Listen``4(System.String,System.Func{``0,``1,``2,``3,System.Object})">
+        <member name="M:CatLib.App.Listen``5(System.String,System.Func{``0,``1,``2,``3,``4})">
             <summary>
             注册一个事件监听器
             </summary>
@@ -740,29 +740,33 @@
             <param name="userParams">用户传入的参数</param>
             <returns>方法返回值</returns>
         </member>
-        <member name="M:CatLib.App.Call``1(System.Action{``0})">
+        <member name="M:CatLib.App.Call``1(System.Action{``0},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="method">方法</param>
+            <param name="userParams">用户传入的参数</param>
         </member>
-        <member name="M:CatLib.App.Call``2(System.Action{``0,``1})">
+        <member name="M:CatLib.App.Call``2(System.Action{``0,``1},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="method">方法</param>
+            <param name="userParams">用户传入的参数</param>
         </member>
-        <member name="M:CatLib.App.Call``3(System.Action{``0,``1,``2})">
+        <member name="M:CatLib.App.Call``3(System.Action{``0,``1,``2},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="method">方法</param>
+            <param name="userParams">用户传入的参数</param>
         </member>
-        <member name="M:CatLib.App.Call``4(System.Action{``0,``1,``2,``3})">
+        <member name="M:CatLib.App.Call``4(System.Action{``0,``1,``2,``3},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="method">方法</param>
+            <param name="userParams">用户传入的参数</param>
         </member>
         <member name="M:CatLib.App.Wrap``1(System.Action{``0},System.Object[])">
             <summary>
@@ -1380,6 +1384,27 @@
             提供者基础类型
             </summary>
         </member>
+        <member name="T:CatLib.ExcludeFromCodeCoverageAttribute">
+            <summary>
+            标记的类，函数，属性不再进行覆盖率分析
+            </summary>
+        </member>
+        <member name="T:CatLib.PriorityAttribute">
+            <summary>
+            执行优先级
+            </summary>
+        </member>
+        <member name="P:CatLib.PriorityAttribute.Priorities">
+            <summary>
+            优先级
+            </summary>
+        </member>
+        <member name="M:CatLib.PriorityAttribute.#ctor(System.Int32)">
+            <summary>
+            优先级(0最高)
+            </summary>
+            <param name="priority">优先级(0为最优先)</param>
+        </member>
         <member name="T:CatLib.Bindable">
             <summary>
             可绑定对象
@@ -1479,513 +1504,6 @@
             <typeparam name="T">服务类型</typeparam>
             <returns>绑定关系临时数据</returns>
         </member>
-        <member name="T:CatLib.BindDataExtend">
-            <summary>
-             绑定数据拓展
-             </summary>
-        </member>
-        <member name="M:CatLib.BindDataExtend.OnResolving(CatLib.IBindData,System.Action{System.Object})">
-            <summary>
-            解决服务时触发的回调
-            </summary>
-            <param name="bindData">绑定数据</param>
-            <param name="action">解决事件</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.BindDataExtend.OnRelease(CatLib.IBindData,System.Action{System.Object})">
-            <summary>
-            当静态服务被释放时
-            </summary>
-            <param name="bindData">绑定数据</param>
-            <param name="action">处理事件</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.BindDataExtend.OnRelease(CatLib.IBindData,System.Action)">
-            <summary>
-            当静态服务被释放时
-            </summary>
-            <param name="bindData">绑定数据</param>
-            <param name="action">处理事件</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="T:CatLib.IBindable">
-            <summary>
-            被绑定对象
-            </summary>
-        </member>
-        <member name="P:CatLib.IBindable.Service">
-            <summary>
-            当前绑定的名字
-            </summary>
-        </member>
-        <member name="M:CatLib.IBindable.Unbind">
-            <summary>
-            移除绑定
-            <para>如果进行的是服务绑定 , 那么在解除绑定时如果是静态化物体将会触发释放</para>
-            </summary>
-        </member>
-        <member name="T:CatLib.IBindable`1">
-            <summary>
-            被绑定对象
-            </summary>
-        </member>
-        <member name="M:CatLib.IBindable`1.Needs(System.String)">
-            <summary>
-            当需求某个服务                                                                                                                                                                                                                                                                                                                                                                                  
-            </summary>
-            <param name="service">服务名</param>
-            <returns>绑定关系临时数据</returns>
-        </member>
-        <member name="M:CatLib.IBindable`1.Needs``1">
-            <summary>
-            当需求某个服务
-            </summary>
-            <typeparam name="T">服务类型</typeparam>
-            <returns>绑定关系临时数据</returns>
-        </member>
-        <member name="T:CatLib.IMethodBind">
-            <summary>
-            方法绑定数据
-            </summary>
-        </member>
-        <member name="T:CatLib.IParams">
-            <summary>
-            参数名注入表
-            </summary>
-        </member>
-        <member name="M:CatLib.IParams.TryGetValue(System.String,System.Object@)">
-            <summary>
-            获取一个参数
-            </summary>
-            <param name="key">参数名</param>
-            <param name="value">参数值</param>
-            <returns>是否成功获取</returns>
-        </member>
-        <member name="T:CatLib.IVariant">
-            <summary>
-            可转变的
-            <para>实现该接口的类，允许依赖注入容器将用户传入的基本类型(包含string)转变为目标类</para>
-            </summary>
-        </member>
-        <member name="T:CatLib.MethodBind">
-            <summary>
-            方法绑定数据
-            </summary>
-        </member>
-        <member name="P:CatLib.MethodBind.MethodInfo">
-            <summary>
-            方法信息
-            </summary>
-        </member>
-        <member name="P:CatLib.MethodBind.Target">
-            <summary>
-            调用目标
-            </summary>
-        </member>
-        <member name="P:CatLib.MethodBind.ParameterInfos">
-            <summary>
-            参数表
-            </summary>
-        </member>
-        <member name="F:CatLib.MethodBind.methodContainer">
-            <summary>
-            方法容器
-            </summary>
-        </member>
-        <member name="M:CatLib.MethodBind.#ctor(CatLib.MethodContainer,CatLib.Container,System.String,System.Object,System.Reflection.MethodInfo)">
-            <summary>
-            构建一个绑定数据
-            </summary>
-            <param name="methodContainer">方法容器</param>
-            <param name="container">依赖注入容器</param>
-            <param name="service">服务名</param>
-            <param name="target">调用目标</param>
-            <param name="call">调用方法</param>
-        </member>
-        <member name="M:CatLib.MethodBind.ReleaseBind">
-            <summary>
-            解除绑定
-            </summary>
-        </member>
-        <member name="T:CatLib.MethodContainer">
-            <summary>
-            方法容器
-            </summary>
-        </member>
-        <member name="F:CatLib.MethodContainer.targetToMethodsMappings">
-            <summary>
-            调用方法目标 映射到 方法名字
-            </summary>
-        </member>
-        <member name="F:CatLib.MethodContainer.methodMappings">
-            <summary>
-            绑定数据
-            </summary>
-        </member>
-        <member name="F:CatLib.MethodContainer.container">
-            <summary>
-            依赖注入容器
-            </summary>
-        </member>
-        <member name="F:CatLib.MethodContainer.dependenciesResolved">
-            <summary>
-            依赖解决器
-            </summary>
-        </member>
-        <member name="F:CatLib.MethodContainer.syncRoot">
-            <summary>
-            同步锁
-            </summary>
-        </member>
-        <member name="M:CatLib.MethodContainer.#ctor(CatLib.Container,System.Func{CatLib.Bindable,System.Reflection.ParameterInfo[],System.Object[],System.Object[]})">
-            <summary>
-            构建一个新的方法容器
-            </summary>
-            <param name="container"></param>
-            <param name="dependenciesResolved">依赖解决器</param>
-        </member>
-        <member name="M:CatLib.MethodContainer.Bind(System.String,System.Object,System.Reflection.MethodInfo)">
-            <summary>
-            绑定一个方法
-            </summary>
-            <param name="method">通过这个名字可以调用方法</param>
-            <param name="target">方法调用目标</param>
-            <param name="methodInfo">在方法调用目标中被调用的方法</param>
-            <returns></returns>
-        </member>
-        <member name="M:CatLib.MethodContainer.Invoke(System.String,System.Object[])">
-            <summary>
-            调用方法
-            </summary>
-            <param name="method">方法名</param>
-            <param name="userParams">用户传入的参数</param>
-            <returns>方法调用结果</returns>
-        </member>
-        <member name="M:CatLib.MethodContainer.Unbind(System.Object)">
-            <summary>
-            解除绑定
-            </summary>
-            <param name="target">
-            解除目标
-            <para>如果为字符串则作为调用方法名</para>
-            <para>如果为<code>IMethodBind</code>则作为指定方法</para>
-            <para>如果为其他对象则作为调用目标做全体解除</para>
-            </param>
-        </member>
-        <member name="M:CatLib.MethodContainer.Unbind(CatLib.MethodBind)">
-            <summary>
-            解除绑定
-            </summary>
-            <param name="methodBind">方法绑定</param>
-        </member>
-        <member name="M:CatLib.MethodContainer.UnbindWithObject(System.Object)">
-            <summary>
-            根据对象绑定移除为该对象绑定的所有方法
-            </summary>
-            <param name="target">对象信息</param>
-        </member>
-        <member name="M:CatLib.MethodContainer.Flush">
-            <summary>
-            清空容器的所有实例，绑定，别名，标签，解决器
-            </summary>
-        </member>
-        <member name="M:CatLib.MethodContainer.MakeMethodNotFoundException(System.String)">
-            <summary>
-            生成一个方法没有找到异常
-            </summary>
-            <param name="method"></param>
-        </member>
-        <member name="T:CatLib.Params">
-            <summary>
-            参数名注入表
-            </summary>
-        </member>
-        <member name="F:CatLib.Params.table">
-            <summary>
-            参数表
-            </summary>
-        </member>
-        <member name="M:CatLib.Params.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            迭代器
-            </summary>
-            <returns>迭代器</returns>
-        </member>
-        <member name="M:CatLib.Params.System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#GetEnumerator">
-            <summary>
-            迭代器
-            </summary>
-            <returns>迭代器</returns>
-        </member>
-        <member name="M:CatLib.Params.#ctor">
-            <summary>
-            参数名注入表
-            </summary>
-        </member>
-        <member name="M:CatLib.Params.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            参数名注入表
-            </summary>
-            <param name="args">参数表</param>
-        </member>
-        <member name="P:CatLib.Params.Item(System.String)">
-            <summary>
-            获取或者设定一个参数
-            </summary>
-            <param name="key">参数名</param>
-            <returns>参数值</returns>
-        </member>
-        <member name="M:CatLib.Params.Add(System.String,System.Object)">
-            <summary>
-            增加一个参数
-            </summary>
-            <param name="key">参数名</param>
-            <param name="value">参数值</param>
-        </member>
-        <member name="M:CatLib.Params.Remove(System.String)">
-            <summary>
-            移除参数
-            </summary>
-            <param name="key">参数名</param>
-            <returns></returns>
-        </member>
-        <member name="M:CatLib.Params.TryGetValue(System.String,System.Object@)">
-            <summary>
-            获取一个参数
-            </summary>
-            <param name="key">参数名</param>
-            <param name="value">参数值</param>
-            <returns>是否成功获取</returns>
-        </member>
-        <member name="T:CatLib.UnresolvableException">
-            <summary>
-            未能解决异常
-            </summary>
-        </member>
-        <member name="M:CatLib.UnresolvableException.#ctor">
-            <summary>
-            未能解决异常
-            </summary>
-        </member>
-        <member name="M:CatLib.UnresolvableException.#ctor(System.String)">
-            <summary>
-            未能解决异常
-            </summary>
-            <param name="message">异常消息</param>
-        </member>
-        <member name="M:CatLib.UnresolvableException.#ctor(System.String,System.Exception)">
-            <summary>
-            未能解决异常
-            </summary>
-            <param name="message">异常消息</param>
-            <param name="innerException">内部异常</param>
-        </member>
-        <member name="T:CatLib.DispatcherExtend">
-            <summary>
-            事件调度器扩展方法
-            </summary>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.On(CatLib.IDispatcher,System.String,System.Object,System.String)">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="target">事件调用目标</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.On(CatLib.IDispatcher,System.String,System.Action)">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.On``1(CatLib.IDispatcher,System.String,System.Action{``0})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.On``2(CatLib.IDispatcher,System.String,System.Action{``0,``1})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.On``3(CatLib.IDispatcher,System.String,System.Action{``0,``1,``2})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.On``4(CatLib.IDispatcher,System.String,System.Action{``0,``1,``2,``3})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.Listen(CatLib.IDispatcher,System.String,System.Func{System.Object})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.Listen``1(CatLib.IDispatcher,System.String,System.Func{``0,System.Object})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.Listen``2(CatLib.IDispatcher,System.String,System.Func{``0,``1,System.Object})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.Listen``3(CatLib.IDispatcher,System.String,System.Func{``0,``1,``2,System.Object})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.DispatcherExtend.Listen``4(CatLib.IDispatcher,System.String,System.Func{``0,``1,``2,``3,System.Object})">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="dispatcher">事件调度器</param>
-            <param name="eventName">事件名称</param>
-            <param name="method">事件处理方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="T:CatLib.IDispatcher">
-            <summary>
-            事件调度器
-            </summary>
-        </member>
-        <member name="M:CatLib.IDispatcher.HasListeners(System.String,System.Boolean)">
-            <summary>
-            判断给定事件是否存在事件监听器
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="strict">
-            严格模式
-            <para>启用严格模式则不使用正则来进行匹配事件监听器</para>
-            </param>
-            <returns>是否存在事件监听器</returns>
-        </member>
-        <member name="M:CatLib.IDispatcher.Trigger(System.String,System.Object[])">
-            <summary>
-            触发一个事件,并获取事件监听器的返回结果
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="payloads">载荷</param>
-            <returns>事件结果</returns>
-        </member>
-        <member name="M:CatLib.IDispatcher.TriggerHalt(System.String,System.Object[])">
-            <summary>
-            触发一个事件,遇到第一个事件存在处理结果后终止,并获取事件监听器的返回结果
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="payloads">载荷</param>
-            <returns>事件结果</returns>
-        </member>
-        <member name="M:CatLib.IDispatcher.On(System.String,System.Object,System.Reflection.MethodInfo)">
-            <summary>
-            注册一个事件监听器
-            </summary>
-            <param name="eventName">事件名称</param>
-            <param name="target">调用目标</param>
-            <param name="method">调用方法</param>
-            <returns>事件对象</returns>
-        </member>
-        <member name="M:CatLib.IDispatcher.Off(System.Object)">
-            <summary>
-            解除注册的事件监听器
-            </summary>
-            <param name="target">
-            事件解除目标
-            <para>如果传入的是字符串(<code>string</code>)将会解除对应事件名的所有事件</para>
-            <para>如果传入的是事件对象(<code>IEvent</code>)那么解除对应事件</para>
-            <para>如果传入的是其他实例(<code>object</code>)会解除该实例下的所有事件</para>
-            </param>
-        </member>
-        <member name="T:CatLib.IEvent">
-            <summary>
-            事件对象
-            </summary>
-        </member>
-        <member name="P:CatLib.IEvent.EventName">
-            <summary>
-            事件名
-            </summary>
-        </member>
-        <member name="P:CatLib.IEvent.Target">
-            <summary>
-            事件目标
-            </summary>
-        </member>
-        <member name="P:CatLib.IEvent.Method">
-            <summary>
-            方法信息
-            </summary>
-        </member>
-        <member name="M:CatLib.IEvent.Call(System.String,System.Object[])">
-            <summary>
-            调用事件
-            </summary>
-            <param name="eventName">事件名</param>
-            <param name="payloads">载荷</param>
-            <returns>事件结果</returns>
-        </member>
-        <member name="T:CatLib.ExcludeFromCodeCoverageAttribute">
-            <summary>
-            标记的类，函数，属性不再进行覆盖率分析
-            </summary>
-        </member>
-        <member name="T:CatLib.PriorityAttribute">
-            <summary>
-            执行优先级
-            </summary>
-        </member>
-        <member name="P:CatLib.PriorityAttribute.Priorities">
-            <summary>
-            优先级
-            </summary>
-        </member>
-        <member name="M:CatLib.PriorityAttribute.#ctor(System.Int32)">
-            <summary>
-            优先级(0最高)
-            </summary>
-            <param name="priority">优先级(0为最优先)</param>
-        </member>
         <member name="T:CatLib.BindData">
             <summary>
             服务绑定数据
@@ -2065,6 +1583,35 @@
             执行服务释放处理器
             </summary>
             <param name="obj">服务实例</param>
+        </member>
+        <member name="T:CatLib.BindDataExtend">
+            <summary>
+             绑定数据拓展
+             </summary>
+        </member>
+        <member name="M:CatLib.BindDataExtend.OnResolving(CatLib.IBindData,System.Action{System.Object})">
+            <summary>
+            解决服务时触发的回调
+            </summary>
+            <param name="bindData">绑定数据</param>
+            <param name="action">解决事件</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.BindDataExtend.OnRelease(CatLib.IBindData,System.Action{System.Object})">
+            <summary>
+            当静态服务被释放时
+            </summary>
+            <param name="bindData">绑定数据</param>
+            <param name="action">处理事件</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.BindDataExtend.OnRelease(CatLib.IBindData,System.Action)">
+            <summary>
+            当静态服务被释放时
+            </summary>
+            <param name="bindData">绑定数据</param>
+            <param name="action">处理事件</param>
+            <returns>服务绑定数据</returns>
         </member>
         <member name="T:CatLib.Container">
             <summary>
@@ -3111,33 +2658,37 @@
             <param name="instances">需要释放静态化实例对象</param>
             <returns>只要有一个没有释放成功那么返回false</returns>
         </member>
-        <member name="M:CatLib.ContainerExtend.Call``1(CatLib.IContainer,System.Action{``0})">
+        <member name="M:CatLib.ContainerExtend.Call``1(CatLib.IContainer,System.Action{``0},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="container">服务容器</param>
             <param name="method">方法</param>
+            <param name="userParams">用户参数</param>
         </member>
-        <member name="M:CatLib.ContainerExtend.Call``2(CatLib.IContainer,System.Action{``0,``1})">
+        <member name="M:CatLib.ContainerExtend.Call``2(CatLib.IContainer,System.Action{``0,``1},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="container">服务容器</param>
             <param name="method">方法</param>
+            <param name="userParams">用户参数</param>
         </member>
-        <member name="M:CatLib.ContainerExtend.Call``3(CatLib.IContainer,System.Action{``0,``1,``2})">
+        <member name="M:CatLib.ContainerExtend.Call``3(CatLib.IContainer,System.Action{``0,``1,``2},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="container">服务容器</param>
             <param name="method">方法</param>
+            <param name="userParams">用户参数</param>
         </member>
-        <member name="M:CatLib.ContainerExtend.Call``4(CatLib.IContainer,System.Action{``0,``1,``2,``3})">
+        <member name="M:CatLib.ContainerExtend.Call``4(CatLib.IContainer,System.Action{``0,``1,``2,``3},System.Object[])">
             <summary>
             以依赖注入的形式调用一个方法
             </summary>
             <param name="container">服务容器</param>
             <param name="method">方法</param>
+            <param name="userParams">用户参数</param>
         </member>
         <member name="M:CatLib.ContainerExtend.Call(CatLib.IContainer,System.Object,System.String,System.Object[])">
             <summary>
@@ -3330,6 +2881,84 @@
             给与什么服务
             </summary>
             <typeparam name="T">给与的服务名或别名</typeparam>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="T:CatLib.IBindable">
+            <summary>
+            被绑定对象
+            </summary>
+        </member>
+        <member name="P:CatLib.IBindable.Service">
+            <summary>
+            当前绑定的名字
+            </summary>
+        </member>
+        <member name="M:CatLib.IBindable.Unbind">
+            <summary>
+            移除绑定
+            <para>如果进行的是服务绑定 , 那么在解除绑定时如果是静态化物体将会触发释放</para>
+            </summary>
+        </member>
+        <member name="T:CatLib.IBindable`1">
+            <summary>
+            被绑定对象
+            </summary>
+        </member>
+        <member name="M:CatLib.IBindable`1.Needs(System.String)">
+            <summary>
+            当需求某个服务                                                                                                                                                                                                                                                                                                                                                                                  
+            </summary>
+            <param name="service">服务名</param>
+            <returns>绑定关系临时数据</returns>
+        </member>
+        <member name="M:CatLib.IBindable`1.Needs``1">
+            <summary>
+            当需求某个服务
+            </summary>
+            <typeparam name="T">服务类型</typeparam>
+            <returns>绑定关系临时数据</returns>
+        </member>
+        <member name="T:CatLib.IBindData">
+            <summary>
+            服务绑定数据
+            </summary>
+        </member>
+        <member name="P:CatLib.IBindData.Concrete">
+            <summary>
+            服务实现
+            </summary>
+        </member>
+        <member name="P:CatLib.IBindData.IsStatic">
+            <summary>
+            是否是静态服务
+            </summary>
+        </member>
+        <member name="M:CatLib.IBindData.Alias``1">
+            <summary>
+            为服务设定一个别名
+            </summary>
+            <typeparam name="T">别名</typeparam>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.IBindData.Alias(System.String)">
+            <summary>
+            为服务设定一个别名
+            </summary>
+            <param name="alias">别名</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.IBindData.OnResolving(System.Func{CatLib.IBindData,System.Object,System.Object})">
+            <summary>
+            解决服务时触发的回调
+            </summary>
+            <param name="func">解决事件</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.IBindData.OnRelease(System.Action{CatLib.IBindData,System.Object})">
+            <summary>
+            当服务被释放时
+            </summary>
+            <param name="action">处理事件</param>
             <returns>服务绑定数据</returns>
         </member>
         <member name="T:CatLib.IContainer">
@@ -3583,6 +3212,30 @@
             <param name="type">类型</param>
             <returns>转换后的服务名</returns>
         </member>
+        <member name="T:CatLib.IGivenData`1">
+            <summary>
+            绑定关系临时数据,用于支持链式调用
+            </summary>
+        </member>
+        <member name="M:CatLib.IGivenData`1.Given(System.String)">
+            <summary>
+            给与什么服务
+            </summary>
+            <param name="service">给与的服务名或别名</param>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="M:CatLib.IGivenData`1.Given``1">
+            <summary>
+            给与什么服务
+            </summary>
+            <typeparam name="T">给与的服务名或别名</typeparam>
+            <returns>服务绑定数据</returns>
+        </member>
+        <member name="T:CatLib.IMethodBind">
+            <summary>
+            方法绑定数据
+            </summary>
+        </member>
         <member name="T:CatLib.InjectAttribute">
             <summary>
             注入标记
@@ -3604,67 +3257,237 @@
             声明注入
             </summary>
         </member>
-        <member name="T:CatLib.IBindData">
+        <member name="T:CatLib.IParams">
             <summary>
-            服务绑定数据
+            参数名注入表
             </summary>
         </member>
-        <member name="P:CatLib.IBindData.Concrete">
+        <member name="M:CatLib.IParams.TryGetValue(System.String,System.Object@)">
             <summary>
-            服务实现
+            获取一个参数
+            </summary>
+            <param name="key">参数名</param>
+            <param name="value">参数值</param>
+            <returns>是否成功获取</returns>
+        </member>
+        <member name="T:CatLib.IVariant">
+            <summary>
+            可转变的
+            <para>实现该接口的类，允许依赖注入容器将用户传入的基本类型(包含string)转变为目标类</para>
             </summary>
         </member>
-        <member name="P:CatLib.IBindData.IsStatic">
+        <member name="T:CatLib.MethodBind">
             <summary>
-            是否是静态服务
+            方法绑定数据
             </summary>
         </member>
-        <member name="M:CatLib.IBindData.Alias``1">
+        <member name="P:CatLib.MethodBind.MethodInfo">
             <summary>
-            为服务设定一个别名
-            </summary>
-            <typeparam name="T">别名</typeparam>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.IBindData.Alias(System.String)">
-            <summary>
-            为服务设定一个别名
-            </summary>
-            <param name="alias">别名</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.IBindData.OnResolving(System.Func{CatLib.IBindData,System.Object,System.Object})">
-            <summary>
-            解决服务时触发的回调
-            </summary>
-            <param name="func">解决事件</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="M:CatLib.IBindData.OnRelease(System.Action{CatLib.IBindData,System.Object})">
-            <summary>
-            当服务被释放时
-            </summary>
-            <param name="action">处理事件</param>
-            <returns>服务绑定数据</returns>
-        </member>
-        <member name="T:CatLib.IGivenData`1">
-            <summary>
-            绑定关系临时数据,用于支持链式调用
+            方法信息
             </summary>
         </member>
-        <member name="M:CatLib.IGivenData`1.Given(System.String)">
+        <member name="P:CatLib.MethodBind.Target">
             <summary>
-            给与什么服务
+            调用目标
             </summary>
-            <param name="service">给与的服务名或别名</param>
-            <returns>服务绑定数据</returns>
         </member>
-        <member name="M:CatLib.IGivenData`1.Given``1">
+        <member name="P:CatLib.MethodBind.ParameterInfos">
             <summary>
-            给与什么服务
+            参数表
             </summary>
-            <typeparam name="T">给与的服务名或别名</typeparam>
-            <returns>服务绑定数据</returns>
+        </member>
+        <member name="F:CatLib.MethodBind.methodContainer">
+            <summary>
+            方法容器
+            </summary>
+        </member>
+        <member name="M:CatLib.MethodBind.#ctor(CatLib.MethodContainer,CatLib.Container,System.String,System.Object,System.Reflection.MethodInfo)">
+            <summary>
+            构建一个绑定数据
+            </summary>
+            <param name="methodContainer">方法容器</param>
+            <param name="container">依赖注入容器</param>
+            <param name="service">服务名</param>
+            <param name="target">调用目标</param>
+            <param name="call">调用方法</param>
+        </member>
+        <member name="M:CatLib.MethodBind.ReleaseBind">
+            <summary>
+            解除绑定
+            </summary>
+        </member>
+        <member name="T:CatLib.MethodContainer">
+            <summary>
+            方法容器
+            </summary>
+        </member>
+        <member name="F:CatLib.MethodContainer.targetToMethodsMappings">
+            <summary>
+            调用方法目标 映射到 方法名字
+            </summary>
+        </member>
+        <member name="F:CatLib.MethodContainer.methodMappings">
+            <summary>
+            绑定数据
+            </summary>
+        </member>
+        <member name="F:CatLib.MethodContainer.container">
+            <summary>
+            依赖注入容器
+            </summary>
+        </member>
+        <member name="F:CatLib.MethodContainer.dependenciesResolved">
+            <summary>
+            依赖解决器
+            </summary>
+        </member>
+        <member name="F:CatLib.MethodContainer.syncRoot">
+            <summary>
+            同步锁
+            </summary>
+        </member>
+        <member name="M:CatLib.MethodContainer.#ctor(CatLib.Container,System.Func{CatLib.Bindable,System.Reflection.ParameterInfo[],System.Object[],System.Object[]})">
+            <summary>
+            构建一个新的方法容器
+            </summary>
+            <param name="container"></param>
+            <param name="dependenciesResolved">依赖解决器</param>
+        </member>
+        <member name="M:CatLib.MethodContainer.Bind(System.String,System.Object,System.Reflection.MethodInfo)">
+            <summary>
+            绑定一个方法
+            </summary>
+            <param name="method">通过这个名字可以调用方法</param>
+            <param name="target">方法调用目标</param>
+            <param name="methodInfo">在方法调用目标中被调用的方法</param>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.MethodContainer.Invoke(System.String,System.Object[])">
+            <summary>
+            调用方法
+            </summary>
+            <param name="method">方法名</param>
+            <param name="userParams">用户传入的参数</param>
+            <returns>方法调用结果</returns>
+        </member>
+        <member name="M:CatLib.MethodContainer.Unbind(System.Object)">
+            <summary>
+            解除绑定
+            </summary>
+            <param name="target">
+            解除目标
+            <para>如果为字符串则作为调用方法名</para>
+            <para>如果为<code>IMethodBind</code>则作为指定方法</para>
+            <para>如果为其他对象则作为调用目标做全体解除</para>
+            </param>
+        </member>
+        <member name="M:CatLib.MethodContainer.Unbind(CatLib.MethodBind)">
+            <summary>
+            解除绑定
+            </summary>
+            <param name="methodBind">方法绑定</param>
+        </member>
+        <member name="M:CatLib.MethodContainer.UnbindWithObject(System.Object)">
+            <summary>
+            根据对象绑定移除为该对象绑定的所有方法
+            </summary>
+            <param name="target">对象信息</param>
+        </member>
+        <member name="M:CatLib.MethodContainer.Flush">
+            <summary>
+            清空容器的所有实例，绑定，别名，标签，解决器
+            </summary>
+        </member>
+        <member name="M:CatLib.MethodContainer.MakeMethodNotFoundException(System.String)">
+            <summary>
+            生成一个方法没有找到异常
+            </summary>
+            <param name="method"></param>
+        </member>
+        <member name="T:CatLib.Params">
+            <summary>
+            参数名注入表
+            </summary>
+        </member>
+        <member name="F:CatLib.Params.table">
+            <summary>
+            参数表
+            </summary>
+        </member>
+        <member name="M:CatLib.Params.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            迭代器
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.Params.System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{System#String,System#Object}}#GetEnumerator">
+            <summary>
+            迭代器
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:CatLib.Params.#ctor">
+            <summary>
+            参数名注入表
+            </summary>
+        </member>
+        <member name="M:CatLib.Params.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            参数名注入表
+            </summary>
+            <param name="args">参数表</param>
+        </member>
+        <member name="P:CatLib.Params.Item(System.String)">
+            <summary>
+            获取或者设定一个参数
+            </summary>
+            <param name="key">参数名</param>
+            <returns>参数值</returns>
+        </member>
+        <member name="M:CatLib.Params.Add(System.String,System.Object)">
+            <summary>
+            增加一个参数
+            </summary>
+            <param name="key">参数名</param>
+            <param name="value">参数值</param>
+        </member>
+        <member name="M:CatLib.Params.Remove(System.String)">
+            <summary>
+            移除参数
+            </summary>
+            <param name="key">参数名</param>
+            <returns></returns>
+        </member>
+        <member name="M:CatLib.Params.TryGetValue(System.String,System.Object@)">
+            <summary>
+            获取一个参数
+            </summary>
+            <param name="key">参数名</param>
+            <param name="value">参数值</param>
+            <returns>是否成功获取</returns>
+        </member>
+        <member name="T:CatLib.UnresolvableException">
+            <summary>
+            未能解决异常
+            </summary>
+        </member>
+        <member name="M:CatLib.UnresolvableException.#ctor">
+            <summary>
+            未能解决异常
+            </summary>
+        </member>
+        <member name="M:CatLib.UnresolvableException.#ctor(System.String)">
+            <summary>
+            未能解决异常
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="M:CatLib.UnresolvableException.#ctor(System.String,System.Exception)">
+            <summary>
+            未能解决异常
+            </summary>
+            <param name="message">异常消息</param>
+            <param name="innerException">内部异常</param>
         </member>
         <member name="T:CatLib.Dispatcher">
             <summary>
@@ -3861,6 +3684,111 @@
             <param name="eventName">事件名</param>
             <returns>是否是通配符事件</returns>
         </member>
+        <member name="T:CatLib.DispatcherExtend">
+            <summary>
+            事件调度器扩展方法
+            </summary>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.On(CatLib.IDispatcher,System.String,System.Object,System.String)">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="target">事件调用目标</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.On(CatLib.IDispatcher,System.String,System.Action)">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.On``1(CatLib.IDispatcher,System.String,System.Action{``0})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.On``2(CatLib.IDispatcher,System.String,System.Action{``0,``1})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.On``3(CatLib.IDispatcher,System.String,System.Action{``0,``1,``2})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.On``4(CatLib.IDispatcher,System.String,System.Action{``0,``1,``2,``3})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.Listen``1(CatLib.IDispatcher,System.String,System.Func{``0})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.Listen``2(CatLib.IDispatcher,System.String,System.Func{``0,``1})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.Listen``3(CatLib.IDispatcher,System.String,System.Func{``0,``1,``2})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.Listen``4(CatLib.IDispatcher,System.String,System.Func{``0,``1,``2,``3})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.DispatcherExtend.Listen``5(CatLib.IDispatcher,System.String,System.Func{``0,``1,``2,``3,``4})">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="dispatcher">事件调度器</param>
+            <param name="eventName">事件名称</param>
+            <param name="method">事件处理方法</param>
+            <returns>事件对象</returns>
+        </member>
         <member name="T:CatLib.Event">
             <summary>
             事件对象
@@ -3901,6 +3829,86 @@
             </summary>
             <param name="eventName">事件名</param>
             <param name="payloads">载荷</param>
+        </member>
+        <member name="T:CatLib.IDispatcher">
+            <summary>
+            事件调度器
+            </summary>
+        </member>
+        <member name="M:CatLib.IDispatcher.HasListeners(System.String,System.Boolean)">
+            <summary>
+            判断给定事件是否存在事件监听器
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="strict">
+            严格模式
+            <para>启用严格模式则不使用正则来进行匹配事件监听器</para>
+            </param>
+            <returns>是否存在事件监听器</returns>
+        </member>
+        <member name="M:CatLib.IDispatcher.Trigger(System.String,System.Object[])">
+            <summary>
+            触发一个事件,并获取事件监听器的返回结果
+            </summary>
+            <param name="eventName">事件名称</param>
+            <param name="payloads">载荷</param>
+            <returns>事件结果</returns>
+        </member>
+        <member name="M:CatLib.IDispatcher.TriggerHalt(System.String,System.Object[])">
+            <summary>
+            触发一个事件,遇到第一个事件存在处理结果后终止,并获取事件监听器的返回结果
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="payloads">载荷</param>
+            <returns>事件结果</returns>
+        </member>
+        <member name="M:CatLib.IDispatcher.On(System.String,System.Object,System.Reflection.MethodInfo)">
+            <summary>
+            注册一个事件监听器
+            </summary>
+            <param name="eventName">事件名称</param>
+            <param name="target">调用目标</param>
+            <param name="method">调用方法</param>
+            <returns>事件对象</returns>
+        </member>
+        <member name="M:CatLib.IDispatcher.Off(System.Object)">
+            <summary>
+            解除注册的事件监听器
+            </summary>
+            <param name="target">
+            事件解除目标
+            <para>如果传入的是字符串(<code>string</code>)将会解除对应事件名的所有事件</para>
+            <para>如果传入的是事件对象(<code>IEvent</code>)那么解除对应事件</para>
+            <para>如果传入的是其他实例(<code>object</code>)会解除该实例下的所有事件</para>
+            </param>
+        </member>
+        <member name="T:CatLib.IEvent">
+            <summary>
+            事件对象
+            </summary>
+        </member>
+        <member name="P:CatLib.IEvent.EventName">
+            <summary>
+            事件名
+            </summary>
+        </member>
+        <member name="P:CatLib.IEvent.Target">
+            <summary>
+            事件目标
+            </summary>
+        </member>
+        <member name="P:CatLib.IEvent.Method">
+            <summary>
+            方法信息
+            </summary>
+        </member>
+        <member name="M:CatLib.IEvent.Call(System.String,System.Object[])">
+            <summary>
+            调用事件
+            </summary>
+            <param name="eventName">事件名</param>
+            <param name="payloads">载荷</param>
+            <returns>事件结果</returns>
         </member>
         <member name="T:CatLib.AssertException">
             <summary>
@@ -4802,125 +4810,6 @@
             </summary>
             <param name="node">结点</param>
             <returns>是否可以插入</returns>
-        </member>
-        <member name="T:CatLib.Dict">
-            <summary>
-            字典
-            </summary>
-        </member>
-        <member name="M:CatLib.Dict.Filter``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,System.Boolean})">
-            <summary>
-            将输入字典中的每个值传给回调函数,如果回调函数返回 true，则把输入字典中的当前键值对加入结果字典中
-            </summary>
-            <typeparam name="TKey">字典键类型</typeparam>
-            <typeparam name="TValue">字典值类型</typeparam>
-            <param name="source">规定字典</param>
-            <param name="predicate">回调函数</param>
-            <returns>需求字典</returns>
-        </member>
-        <member name="M:CatLib.Dict.Remove``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,System.Boolean})">
-            <summary>
-            将输入字典中的每个值传给回调函数，如果回调函数返回 true，则移除字典中对应的元素，并返回被移除的元素
-            </summary>
-            <typeparam name="TKey">字典键类型</typeparam>
-            <typeparam name="TValue">字典值类型</typeparam>
-            <param name="source">规定字典</param>
-            <param name="predicate">回调函数</param>
-            <return>被移除的元素</return>
-        </member>
-        <member name="M:CatLib.Dict.Modify``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,``1})">
-            <summary>
-            将输入字典中的每个值传给回调函数，回调函数的返回值用于修改元素的值
-            </summary>
-            <typeparam name="TKey">字典键类型</typeparam>
-            <typeparam name="TValue">字典值类型</typeparam>
-            <param name="source">规定字典</param>
-            <param name="callback">回调函数</param>
-        </member>
-        <member name="M:CatLib.Dict.AddRange``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.IDictionary{``0,``1},System.Boolean)">
-            <summary>
-            将元素批量添加到字典
-            </summary>
-            <typeparam name="TKey">字典键</typeparam>
-            <typeparam name="TValue">字典值</typeparam>
-            <param name="source">目标字典</param>
-            <param name="added">增加的内容</param>
-            <param name="replaced">遇到重复是否替换，如果不进行替换遇到重复将会抛出一个异常</param>
-        </member>
-        <member name="M:CatLib.Dict.Map``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,``1})">
-            <summary>
-            将字典值传入用户自定义函数，自定义函数返回的值作为新的字典值
-            </summary>
-            <typeparam name="TKey">字典键类型</typeparam>
-            <typeparam name="TValue">字典值类型</typeparam>
-            <param name="source">规定字典</param>
-            <param name="callback">自定义函数</param>
-            <returns>处理后的字典</returns>
-        </member>
-        <member name="M:CatLib.Dict.Keys``2(System.Collections.Generic.IDictionary{``0,``1})">
-            <summary>
-            获取字典的键数组
-            </summary>
-            <typeparam name="TKey">字典键类型</typeparam>
-            <typeparam name="TValue">字典值类型</typeparam>
-            <param name="source">规定字典</param>
-            <returns>字典的键数组</returns>
-        </member>
-        <member name="M:CatLib.Dict.Values``2(System.Collections.Generic.IDictionary{``0,``1})">
-            <summary>
-            获取字典的值数组
-            </summary>
-            <typeparam name="TKey">字典键类型</typeparam>
-            <typeparam name="TValue">字典值类型</typeparam>
-            <param name="source">规定字典</param>
-            <returns>字典的值数组</returns>
-        </member>
-        <member name="M:CatLib.Dict.Get(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
-            <summary>
-            使用点（.）来访问深度字典
-            </summary>
-            <param name="dict">规定字典</param>
-            <param name="key">键，支持使用点（.）来进行深度访问</param>
-            <param name="def">默认值</param>
-            <returns>字典值</returns>
-        </member>
-        <member name="M:CatLib.Dict.Set(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
-            <summary>
-            使用点（.）来访问深度字典，并为其指定位置设定一个值
-            </summary>
-            <param name="dict">规定字典</param>
-            <param name="key">键，支持使用点（.）来进行深度访问</param>
-            <param name="val">设定的值</param>
-        </member>
-        <member name="M:CatLib.Dict.Remove(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
-            <summary>
-            使用点（.）来访问深度字典，并移除其中指定的值
-            </summary>
-            <param name="dict">规定字典</param>
-            <param name="key">键，支持使用点（.）来进行深度访问</param>
-        </member>
-        <member name="M:CatLib.Dict.GetValueByDepthArray(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[]@)">
-            <summary>
-            通过深度数组来访问字典
-            </summary>
-            <param name="dict">规定字典</param>
-            <param name="keys">深度数组（深度数组以倒序传入）</param>
-            <returns>字典值</returns>
-        </member>
-        <member name="M:CatLib.Dict.SetValueByDepthArray(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[]@,System.Object)">
-            <summary>
-            通过深度数组来访问字典，并为其指定位置设定一个值
-            </summary>
-            <param name="dict">规定字典</param>
-            <param name="keys">深度数组（深度数组以倒序传入）</param>
-            <param name="value">设定值</param>
-        </member>
-        <member name="M:CatLib.Dict.RemoveValueByDepthArray(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[]@)">
-            <summary>
-            通过深度数组来移除数组中的一个值
-            </summary>
-            <param name="dict">规定字典</param>
-            <param name="keys">深度数组（深度数组以倒序传入）</param>
         </member>
         <member name="T:CatLib.ISortSet`2">
             <summary>
@@ -5880,6 +5769,125 @@
             <param name="process">顺序回调</param>
             <param name="completed">所有回调完成后</param>
             <param name="rollback">回滚回调</param>
+        </member>
+        <member name="T:CatLib.Dict">
+            <summary>
+            字典
+            </summary>
+        </member>
+        <member name="M:CatLib.Dict.Filter``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,System.Boolean})">
+            <summary>
+            将输入字典中的每个值传给回调函数,如果回调函数返回 true，则把输入字典中的当前键值对加入结果字典中
+            </summary>
+            <typeparam name="TKey">字典键类型</typeparam>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="source">规定字典</param>
+            <param name="predicate">回调函数</param>
+            <returns>需求字典</returns>
+        </member>
+        <member name="M:CatLib.Dict.Remove``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,System.Boolean})">
+            <summary>
+            将输入字典中的每个值传给回调函数，如果回调函数返回 true，则移除字典中对应的元素，并返回被移除的元素
+            </summary>
+            <typeparam name="TKey">字典键类型</typeparam>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="source">规定字典</param>
+            <param name="predicate">回调函数</param>
+            <return>被移除的元素</return>
+        </member>
+        <member name="M:CatLib.Dict.Modify``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,``1})">
+            <summary>
+            将输入字典中的每个值传给回调函数，回调函数的返回值用于修改元素的值
+            </summary>
+            <typeparam name="TKey">字典键类型</typeparam>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="source">规定字典</param>
+            <param name="callback">回调函数</param>
+        </member>
+        <member name="M:CatLib.Dict.AddRange``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.IDictionary{``0,``1},System.Boolean)">
+            <summary>
+            将元素批量添加到字典
+            </summary>
+            <typeparam name="TKey">字典键</typeparam>
+            <typeparam name="TValue">字典值</typeparam>
+            <param name="source">目标字典</param>
+            <param name="added">增加的内容</param>
+            <param name="replaced">遇到重复是否替换，如果不进行替换遇到重复将会抛出一个异常</param>
+        </member>
+        <member name="M:CatLib.Dict.Map``2(System.Collections.Generic.IDictionary{``0,``1},System.Func{``0,``1,``1})">
+            <summary>
+            将字典值传入用户自定义函数，自定义函数返回的值作为新的字典值
+            </summary>
+            <typeparam name="TKey">字典键类型</typeparam>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="source">规定字典</param>
+            <param name="callback">自定义函数</param>
+            <returns>处理后的字典</returns>
+        </member>
+        <member name="M:CatLib.Dict.Keys``2(System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            获取字典的键数组
+            </summary>
+            <typeparam name="TKey">字典键类型</typeparam>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="source">规定字典</param>
+            <returns>字典的键数组</returns>
+        </member>
+        <member name="M:CatLib.Dict.Values``2(System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            获取字典的值数组
+            </summary>
+            <typeparam name="TKey">字典键类型</typeparam>
+            <typeparam name="TValue">字典值类型</typeparam>
+            <param name="source">规定字典</param>
+            <returns>字典的值数组</returns>
+        </member>
+        <member name="M:CatLib.Dict.Get(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            使用点（.）来访问深度字典
+            </summary>
+            <param name="dict">规定字典</param>
+            <param name="key">键，支持使用点（.）来进行深度访问</param>
+            <param name="def">默认值</param>
+            <returns>字典值</returns>
+        </member>
+        <member name="M:CatLib.Dict.Set(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            使用点（.）来访问深度字典，并为其指定位置设定一个值
+            </summary>
+            <param name="dict">规定字典</param>
+            <param name="key">键，支持使用点（.）来进行深度访问</param>
+            <param name="val">设定的值</param>
+        </member>
+        <member name="M:CatLib.Dict.Remove(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
+            <summary>
+            使用点（.）来访问深度字典，并移除其中指定的值
+            </summary>
+            <param name="dict">规定字典</param>
+            <param name="key">键，支持使用点（.）来进行深度访问</param>
+        </member>
+        <member name="M:CatLib.Dict.GetValueByDepthArray(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[]@)">
+            <summary>
+            通过深度数组来访问字典
+            </summary>
+            <param name="dict">规定字典</param>
+            <param name="keys">深度数组（深度数组以倒序传入）</param>
+            <returns>字典值</returns>
+        </member>
+        <member name="M:CatLib.Dict.SetValueByDepthArray(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[]@,System.Object)">
+            <summary>
+            通过深度数组来访问字典，并为其指定位置设定一个值
+            </summary>
+            <param name="dict">规定字典</param>
+            <param name="keys">深度数组（深度数组以倒序传入）</param>
+            <param name="value">设定值</param>
+        </member>
+        <member name="M:CatLib.Dict.RemoveValueByDepthArray(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[]@)">
+            <summary>
+            通过深度数组来移除数组中的一个值
+            </summary>
+            <param name="dict">规定字典</param>
+            <param name="keys">深度数组（深度数组以倒序传入）</param>
         </member>
         <member name="T:CatLib.Enum">
             <summary>
