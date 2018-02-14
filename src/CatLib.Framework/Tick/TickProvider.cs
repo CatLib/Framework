@@ -35,7 +35,7 @@ namespace CatLib.Tick
         [Priority(5)]
         public void Init()
         {
-            App.MakeWith<TimeTicker>(Fps);
+            App.Make<TimeTicker>(Fps);
         }
 
         /// <summary>
@@ -43,9 +43,9 @@ namespace CatLib.Tick
         /// </summary>
         public void Register()
         {
-            App.Singleton<TimeTicker>().OnRelease((_, obj) =>
+            App.Singleton<TimeTicker>().OnRelease(instance =>
             {
-                var ticker = (TimeTicker) obj;
+                var ticker = (TimeTicker)instance;
                 ticker.Dispose();
             });
         }

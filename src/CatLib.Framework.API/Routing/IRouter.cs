@@ -10,6 +10,7 @@
  */
 
 using System;
+using System.Reflection;
 
 namespace CatLib.API.Routing
 {
@@ -24,16 +25,56 @@ namespace CatLib.API.Routing
         /// <param name="uri">统一资源标识符</param>
         /// <param name="action">行为</param>
         /// <returns>当前实例</returns>
-        IRoute Reg(string uri, Action<IRequest, IResponse> action);
+        IRoute Reg(string uri, Action action);
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uri">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        IRoute Reg<T>(string uri, Action<T> action);
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uri">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        IRoute Reg<T1, T2>(string uri, Action<T1, T2> action);
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uri">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        IRoute Reg<T1, T2, T3>(string uri, Action<T1, T2, T3> action);
+
+        /// <summary>
+        /// 根据回调行为注册一个路由
+        /// </summary>
+        /// <param name="uri">统一资源标识符</param>
+        /// <param name="action">行为</param>
+        /// <returns>当前实例</returns>
+        IRoute Reg<T1, T2, T3, T4>(string uri, Action<T1, T2, T3, T4> action);
+
+        /// <summary>
+        /// 根据
+        /// </summary>
+        /// <param name="uris">统一资源标识符</param>
+        /// <param name="target">行为调度目标</param>
+        /// <param name="methodInfo">调度方法</param>
+        IRoute Reg(string uris, object target, MethodInfo methodInfo);
 
         /// <summary>
         /// 根据控制器的type和调用的方法名字注册一个路由
         /// </summary>
         /// <param name="uri">uri</param>
         /// <param name="controller">控制器类型</param>
-        /// <param name="func">调用的方法名</param>
+        /// <param name="method">调用的方法名</param>
         /// <returns>当前实例</returns>
-        IRoute Reg(string uri, Type controller, string func);
+        IRoute Reg(string uri, Type controller, string method);
 
         /// <summary>
         /// 设定默认的scheme

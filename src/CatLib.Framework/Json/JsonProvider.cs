@@ -31,11 +31,10 @@ namespace CatLib.Json
         /// </summary>
         public void Register()
         {
-            App.Singleton<JsonUtility>().OnResolving((binder, obj) =>
+            App.Singleton<JsonUtility>().OnResolving(instance =>
             {
-                var jsonUtility = (JsonUtility)obj;
-                jsonUtility.SetJson(new SimpleJsonAdapter());
-                return jsonUtility;
+                var jsonUtility = (JsonUtility)instance;
+                jsonUtility.SetJson(new LitJsonAdapter());
             }).Alias<IJson>().Alias<IJsonAware>();
         }
     }

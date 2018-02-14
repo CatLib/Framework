@@ -93,7 +93,7 @@ namespace CatLib.Debugger
                 return;
             }
 
-            App.On(ApplicationEvents.OnStartCompleted, (payload) =>
+            App.On(ApplicationEvents.OnStartCompleted, () =>
             {
                 App.Make<HttpDebuggerConsole>();
             });
@@ -141,9 +141,9 @@ namespace CatLib.Debugger
         private void RegisterLogger()
         {
             App.Bind<StdOutLogHandler>();
-            App.Singleton<Logger>().Alias<ILogger>().OnResolving((binder, obj) =>
+            App.Singleton<Logger>().Alias<ILogger>().OnResolving(instance =>
             {
-                var logger = (Logger)obj;
+                var logger = (Logger)instance;
 
                 foreach (var handler in GetLogHandlers())
                 {
@@ -152,14 +152,12 @@ namespace CatLib.Debugger
                         continue;
                     }
 
-                    var logHandler = App.Make<ILogHandler>(App.Type2Service(handler.Value.Key));
+                    var logHandler = (ILogHandler)App.Make(handler.Value.Key);
                     if (logHandler != null)
                     {
                         logger.AddLogHandler(logHandler);
                     }
                 }
-
-                return obj;
             });
         }
 
@@ -168,14 +166,13 @@ namespace CatLib.Debugger
         /// </summary>
         private void RegisterWebConsole()
         {
-            App.Singleton<HttpDebuggerConsole>().OnResolving((binder, obj) =>
+            App.Singleton<HttpDebuggerConsole>().OnResolving(instance =>
             {
-                var httpDebuggerConsole = (HttpDebuggerConsole) obj;
+                var httpDebuggerConsole = (HttpDebuggerConsole)instance;
                 httpDebuggerConsole.Start(WebConsoleHost, WebConsolePort);
-                return obj;
-            }).OnRelease((_, obj) =>
+            }).OnRelease(instance =>
             {
-                var httpDebuggerConsole = (HttpDebuggerConsole)obj;
+                var httpDebuggerConsole = (HttpDebuggerConsole)instance;
                 httpDebuggerConsole.Stop();
             });
         }

@@ -39,7 +39,7 @@ namespace CatLib.Debugger.WebLog
         /// <summary>
         /// 构造一个Web调试服务
         /// </summary>
-        public LogStore([Inject(Required = true)]Logger logger)
+        public LogStore(Logger logger)
         {
             Guard.Requires<ArgumentNullException>(logger != null);
             logger.AddLogHandler(new WebLogHandler(this));

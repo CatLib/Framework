@@ -62,11 +62,10 @@ namespace CatLib.FileSystem
         /// </summary>
         private void RegisterManager()
         {
-            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>().OnResolving((_, obj) =>
+            App.Singleton<FileSystemManager>().Alias<IFileSystemManager>().OnResolving(instance =>
             {
-                var manager = (FileSystemManager) obj;
+                var manager = (FileSystemManager)instance;
                 manager.SetDefaultDevice(DefaultDevice);
-                return obj;
             });
         }
 

@@ -88,9 +88,9 @@ namespace CatLib.Routing
         /// </summary>
         private void RegisterAttrRouteCompiler()
         {
-            App.Singleton<AttrRouteCompiler>().OnResolving((_, obj) =>
+            App.Singleton<AttrRouteCompiler>().OnResolving(instance =>
             {
-                var compiler = (AttrRouteCompiler)obj;
+                var compiler = (AttrRouteCompiler)instance;
 
                 var containList = new List<string>(CompilerAssembly ?? new List<string>())
                 {
@@ -102,8 +102,6 @@ namespace CatLib.Routing
                 };
 
                 compiler.OnStripping(assembly => !containList.Contains(assembly.GetName().Name));
-
-                return obj;
             });
         }
     }

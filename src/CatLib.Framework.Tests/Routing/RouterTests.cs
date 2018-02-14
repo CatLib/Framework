@@ -32,7 +32,7 @@ namespace CatLib.Tests.Routing
             
             //由于熟悉框架流程所以这么写，项目中使用请接受指定事件再生成路由服务
            
-            app.On(RouterEvents.OnBeforeRouterAttrCompiler, (payload) =>
+            app.On(RouterEvents.OnBeforeRouterAttrCompiler, () =>
             {
                 var internalRouter = App.Make<IRouter>();
                 internalRouter.Group("default-group").Where("sex", "[0-1]").Defaults("str", "group-str").Middleware(
@@ -53,9 +53,8 @@ namespace CatLib.Tests.Routing
                 internalRouter.Group("DefaultGroup2").Defaults("str", "TestUseGroupAndLocalDefaults");
             });
 
-            app.On(RouterEvents.OnDispatcher, (payload) =>
+            app.On(RouterEvents.OnDispatcher, (DispatchEventArgs arg) =>
             {
-                var arg = payload as DispatchEventArgs;
                 Assert.AreNotEqual(null, arg.Request);
                 Assert.AreNotEqual(null, arg.Route);
                 Assert.AreNotEqual(string.Empty, (arg.Route as Route).Compiled.ToString());
@@ -187,7 +186,7 @@ namespace CatLib.Tests.Routing
         {
             var router = App.Make<IRouter>();
 
-            router.Reg("lambda://call/lambda-call", (req, res) =>
+            router.Reg("lambda://call/lambda-call", (IRequest req,IResponse res) =>
             {
                 res.SetContext("RouterTests.LambdaCall");
             });
@@ -204,7 +203,7 @@ namespace CatLib.Tests.Routing
         {
             var router = App.Make<IRouter>();
 
-            router.Reg("lambda://call/throw-error-lambda-call", (req, res) =>
+            router.Reg("lambda://call/throw-error-lambda-call", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.ThrowErrorLambdaCall");
                 throw new Exception("Unit test exception.");
@@ -235,7 +234,7 @@ namespace CatLib.Tests.Routing
         public void ThrowNotFoundExceptionCallInScheme()
         {
             var router = App.Make<IRouter>();
-            router.Reg("lambda://call/throw-not-found-exception", (req, res) =>
+            router.Reg("lambda://call/throw-not-found-exception", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.ThrowNotFoundExceptionCallInScheme");
                 throw new Exception("Unit test exception.");
@@ -254,7 +253,7 @@ namespace CatLib.Tests.Routing
         public void RouteMiddleware()
         {
             var router = App.Make<IRouter>();
-            router.Reg("lambda://call/route-middleware", (req, res) =>
+            router.Reg("lambda://call/route-middleware", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.RouteMiddleware");
             }).Middleware((req, res, next) =>
@@ -275,7 +274,7 @@ namespace CatLib.Tests.Routing
         {
             var router = App.Make<IRouter>();
             bool isException = false;
-            router.Reg("lambda://call/route-exception", (req, res) =>
+            router.Reg("lambda://call/route-exception", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.RouteException");
                 throw new Exception("Unit test exception.");
@@ -304,16 +303,16 @@ namespace CatLib.Tests.Routing
             bool isError = false;
             router.Group(() =>
             {
-                router.Reg("lambda://call/more-1/{age}/{default?}", (req, res) =>
+                router.Reg("lambda://call/more-1/{age}/{default?}", (IRequest req, IResponse res) =>
                 {
                     res.SetContext("RouterTests.MoreRouteWithGroupTest-1." + req["age"] + "." + req["default"]);
                 });
-                router.Reg("lambda://call/more-2/{age}/{default?}", (req, res) =>
+                router.Reg("lambda://call/more-2/{age}/{default?}", (IRequest req, IResponse res) =>
                 {
                     res.SetContext("RouterTests.MoreRouteWithGroupTest-2." + req["age"] + "." + req["default"]);
                 });
 
-                router.Reg("lambda://call/more-error/{age}/{default?}", (req, res) =>
+                router.Reg("lambda://call/more-error/{age}/{default?}", (IRequest req, IResponse res) =>
                 {
                     res.SetContext("RouterTests.MoreRouteWithGroupTest-3." + req["age"] + "." + req["default"]);
                     throw new Exception("unit test error!");
@@ -346,7 +345,7 @@ namespace CatLib.Tests.Routing
         public void QueryParamsBind()
         {
             var router = App.Make<IRouter>();
-            router.Reg("lambda://call/query-params-bind/{age}/{default?}", (req, res) =>
+            router.Reg("lambda://call/query-params-bind/{age}/{default?}", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.QueryParamsBind." + req["age"] + "." + req["default"] + req["default2"]);
             });
@@ -362,7 +361,7 @@ namespace CatLib.Tests.Routing
         public void OptionsParams()
         {
             var router = App.Make<IRouter>();
-            router.Reg("lambda://call/OptionsParams/{age}/{default?}", (req, res) =>
+            router.Reg("lambda://call/OptionsParams/{age}/{default?}", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.OptionsParams." + req["age"] + "." + req["default"]);
             });
@@ -384,14 +383,14 @@ namespace CatLib.Tests.Routing
         public void RoutingRecursiveCall()
         {
             var router = App.Make<IRouter>();
-            router.Reg("lambda://call/RoutingRecursiveCall-1", (req, res) =>
+            router.Reg("lambda://call/RoutingRecursiveCall-1", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.RoutingRecursiveCall1");
                 var re = router.Dispatch("lambda://call/RoutingRecursiveCall-2");
                 Assert.AreEqual("RouterTests.RoutingRecursiveCall2[global middleware]", re.GetContext().ToString());
             });
 
-            router.Reg("lambda://call/RoutingRecursiveCall-2", (req, res) =>
+            router.Reg("lambda://call/RoutingRecursiveCall-2", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.RoutingRecursiveCall2");
             });
@@ -411,7 +410,7 @@ namespace CatLib.Tests.Routing
 
             router.SetDefaultScheme("catlib");
 
-            router.Reg("lambda://call/RoutingCircularDependencyCall-1", (req, res) =>
+            router.Reg("lambda://call/RoutingCircularDependencyCall-1", (IRequest req, IResponse res) =>
             {
                 res.SetContext("RouterTests.RoutingCircularDependencyCall1");
                 var re = router.Dispatch("lambda://call/RoutingCircularDependencyCall-1");
@@ -504,7 +503,7 @@ namespace CatLib.Tests.Routing
 
             //变量含有特殊字符将会被降级为字符串
             bool tf = false;
-            router.Reg("wrong://hellworld/nihao/{miaomiao*&^$}", (req, res) =>
+            router.Reg("wrong://hellworld/nihao/{miaomiao*&^$}", (IRequest req, IResponse res) =>
             {
                 tf = true;
             });
@@ -565,13 +564,71 @@ namespace CatLib.Tests.Routing
         public void TestParamsNameHasString()
         {
             var router = App.Make<IRouter>();
-            router.Reg("catlib://test-params-name-has-string/hello{param}/{param2?}", (req, res) =>
+            router.Reg("catlib://test-params-name-has-string/hello{param}/{param2?}", (IRequest req, IResponse res) =>
             {
                 res.SetContext(req.Get("param") + "_" + req.Get("param2"));
             });
 
             var result = router.Dispatch("catlib://test-params-name-has-string/helloworld/123");
             Assert.AreEqual("world_123[global middleware]", result.GetContext());
+        }
+
+        [TestMethod]
+        public void TestAutoNameInject()
+        {
+            var router = App.Make<IRouter>();
+
+            var isCall = false;
+            router.Reg("catlib://test-auto-inject/{key}/{value}", (string key, string value) =>
+            {
+                Assert.AreEqual("catlib", key);
+                Assert.AreEqual("catlib-value", value);
+                isCall = true;
+            });
+
+            router.Dispatch("catlib://test-auto-inject/catlib/catlib-value");
+            Assert.AreEqual(true, isCall);
+        }
+
+        [TestMethod]
+        public void TestAutoNameInjectOptional()
+        {
+            var router = App.Make<IRouter>();
+
+            var isCall = false;
+            router.Reg("catlib://test-auto-inject-optional/{key}/{value?}", (int key) =>
+            {
+                Assert.AreEqual(100, key);
+                isCall = true;
+            });
+
+            router.Dispatch("catlib://test-auto-inject-optional/100");
+            Assert.AreEqual(true, isCall);
+        }
+
+        [TestMethod]
+        public void TestReturnContext()
+        {
+            var app = new Application();
+            var router = new Router(app, app);
+            router.Reg("catlib://test-return-context/{key}", typeof(RouterTests), "TestReturnContextFunction");
+            var result = router.Dispatch("catlib://test-return-context/100");
+            Assert.AreEqual(10086, result.GetContext());
+        }
+
+        [TestMethod]
+        public void TestAutoInjectWithAttrCompilerRouting()
+        {
+            var router = App.Make<IRouter>();
+            var response = router.Dispatch("routed://autoinject/hello/200");
+
+            Assert.AreEqual("bigger 100[global middleware]", response.GetContext());
+        }
+
+        public int TestReturnContextFunction(int key)
+        {
+            Assert.AreEqual(100, key);
+            return 10086;
         }
     }
 }
