@@ -330,7 +330,11 @@ namespace CatLib.Routing
                 var count = 0;
                 while (count++ < 255)
                 {
-                    ex = ex.InnerException ?? throw ex;
+                    if (ex.InnerException == null)
+                    {
+                        throw ex;
+                    }
+                    ex = ex.InnerException;
                 }
 
                 if (count >= 255)
