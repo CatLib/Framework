@@ -152,7 +152,7 @@ namespace CatLib.Debugger
                         continue;
                     }
 
-                    var logHandler = App.Make<ILogHandler>(App.Type2Service(handler.Value.Key));
+                    var logHandler = (ILogHandler)App.Make(handler.Value.Key);
                     if (logHandler != null)
                     {
                         logger.AddLogHandler(logHandler);
