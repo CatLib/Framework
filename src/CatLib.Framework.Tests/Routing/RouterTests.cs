@@ -419,7 +419,18 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<RuntimeException>(() =>
             {
-                router.Dispatch("lambda://call/RoutingCircularDependencyCall-1");
+                try
+                {
+                    router.Dispatch("lambda://call/RoutingCircularDependencyCall-1");
+                }
+                catch (Exception ex)
+                {
+                    while (ex.InnerException != null)
+                    {
+                        ex = ex.InnerException;
+                    }
+                    throw ex;
+                }
             });
         }
 

@@ -310,37 +310,17 @@ namespace CatLib.Routing
         /// <param name="callback">完成中间件的回调</param>
         private void ThroughRouteMiddleware(Request request, Response response, object context, Action<Request, Response, object> callback)
         {
-            try
+            var middleware = GatherMiddleware();
+            if (middleware != null)
             {
-                var middleware = GatherMiddleware();
-                if (middleware != null)
-                {
-                    middleware.Do(request, response, (req, res) =>
-                    {
-                        callback.Invoke(request, response, context);
-                    });
-                }
-                else
+                middleware.Do(request, response, (req, res) =>
                 {
                     callback.Invoke(request, response, context);
-                }
+                });
             }
-            catch (Exception ex)
+            else
             {
-                var count = 0;
-                while (count++ < 255)
-                {
-                    if (ex.InnerException == null)
-                    {
-                        throw ex;
-                    }
-                    ex = ex.InnerException;
-                }
-
-                if (count >= 255)
-                {
-                    throw new RuntimeException("Route Error stack overflow. There may be an infinite loop. url: [" + request.Uri + "]");
-                }
+                callback.Invoke(request, response, context);
             }
         }
 
