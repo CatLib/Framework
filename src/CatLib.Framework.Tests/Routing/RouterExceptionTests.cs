@@ -123,7 +123,18 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<NotFoundRouteException>(() =>
             {
-                router.Dispatch("ui://helloworld/call");
+                try
+                {
+                    router.Dispatch("ui://helloworld/call");
+                }
+                catch (Exception ex)
+                {
+                    while (ex.InnerException != null)
+                    {
+                        ex = ex.InnerException;
+                    }
+                    throw ex;
+                }
             });
 
             Assert.AreEqual(1, throwNotFound);
@@ -155,7 +166,18 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                router.Dispatch("ui://helloworld/call");
+                try
+                {
+                    router.Dispatch("ui://helloworld/call");
+                }
+                catch (Exception ex)
+                {
+                    while (ex.InnerException != null)
+                    {
+                        ex = ex.InnerException;
+                    }
+                    throw ex;
+                }
             });
 
             Assert.AreEqual(1, throwError);
@@ -206,7 +228,18 @@ namespace CatLib.Tests.Routing
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>
             {
-                router.Dispatch("ui://helloworld/call");
+                try
+                {
+                    router.Dispatch("ui://helloworld/call");
+                }
+                catch (Exception ex)
+                {
+                    while (ex.InnerException != null)
+                    {
+                        ex = ex.InnerException;
+                    }
+                    throw ex;
+                }
             });
 
             Assert.AreEqual(12, throwError);
@@ -287,7 +320,18 @@ namespace CatLib.Tests.Routing
             {
                 ExceptionAssert.Throws<NotFoundRouteException>(() =>
                 {
-                    router.Dispatch("ui://helloworld/call2");
+                    try
+                    {
+                        router.Dispatch("ui://helloworld/call2");
+                    }
+                    catch (Exception ex)
+                    {
+                        while (ex.InnerException != null)
+                        {
+                            ex = ex.InnerException;
+                        }
+                        throw ex;
+                    }
                 });
                 res.SetContext("helloworld");
             });
