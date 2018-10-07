@@ -72,6 +72,7 @@
     <Compile Include="Network\ReceiveStateTests.cs" />
     <Compile Include="Network\TcpServer.cs" />
     <Compile Include="Random\RandomProviderTests.cs" />
+    <Compile Include="Routing\TestMiddlewareException.cs" />
     <Compile Include="Socket\KcpConnectorTests.cs" />
     <Compile Include="Socket\KcpTestsServer.cs" />
     <Compile Include="Socket\SocketProviderTests.cs" />
